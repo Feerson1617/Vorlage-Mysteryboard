@@ -1,0 +1,1320 @@
+{
+  "id": "mysteryboard-test-large",
+  "version": "1.0.0",
+  "title": "Karten gemeinsam ordnen",
+  "cards": [
+    {
+      "id": 1,
+      "title": "Beobachtung 1",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 2,
+      "title": "Beobachtung 2",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 3,
+      "title": "Beobachtung 3",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 4,
+      "title": "Beobachtung 4",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 5,
+      "title": "Beobachtung 5",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 6,
+      "title": "Beobachtung 6",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 7,
+      "title": "Beobachtung 7",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iMTMxIiB3aWR0aD0iNDUiIGhlaWdodD0iMzQiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIxNTAiIHk9IjEwOCIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjU3IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMjM1IiB5PSI4NSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjgwIiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSI2MiIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjEwMyIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iMzkiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMjYiIGZpbGw9IiM3ZDlhODgiLz48L3N2Zz4=",
+      "imageAlt": "Testdiagramm zu Beobachtung 7: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 8,
+      "title": "Beobachtung 8",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 9,
+      "title": "Beobachtung 9",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 10,
+      "title": "Beobachtung 10",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 11,
+      "title": "Beobachtung 11",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 12,
+      "title": "Beobachtung 12",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 13,
+      "title": "Beobachtung 13",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 14,
+      "title": "Beobachtung 14",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iMTIyIiB3aWR0aD0iNDUiIGhlaWdodD0iNDMiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIxNTAiIHk9Ijk5IiB3aWR0aD0iNDUiIGhlaWdodD0iNjYiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9Ijc2IiB3aWR0aD0iNDUiIGhlaWdodD0iODkiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIzMjAiIHk9IjUzIiB3aWR0aD0iNDUiIGhlaWdodD0iMTEyIiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iNDA1IiB5PSIxNDAiIHdpZHRoPSI0NSIgaGVpZ2h0PSIyNSIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 14: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 15,
+      "title": "Beobachtung 15",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 16,
+      "title": "Beobachtung 16",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 17,
+      "title": "Beobachtung 17",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 18,
+      "title": "Beobachtung 18",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 19,
+      "title": "Beobachtung 19",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 20,
+      "title": "Beobachtung 20",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 21,
+      "title": "Beobachtung 21",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iMTEzIiB3aWR0aD0iNDUiIGhlaWdodD0iNTIiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIxNTAiIHk9IjkwIiB3aWR0aD0iNDUiIGhlaWdodD0iNzUiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9IjY3IiB3aWR0aD0iNDUiIGhlaWdodD0iOTgiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIzMjAiIHk9IjQ0IiB3aWR0aD0iNDUiIGhlaWdodD0iMTIxIiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iNDA1IiB5PSIxMzEiIHdpZHRoPSI0NSIgaGVpZ2h0PSIzNCIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 21: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 22,
+      "title": "Beobachtung 22",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 23,
+      "title": "Beobachtung 23",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 24,
+      "title": "Beobachtung 24",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 25,
+      "title": "Beobachtung 25",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 26,
+      "title": "Beobachtung 26",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 27,
+      "title": "Beobachtung 27",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 28,
+      "title": "Beobachtung 28",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iMTA0IiB3aWR0aD0iNDUiIGhlaWdodD0iNjEiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIxNTAiIHk9IjgxIiB3aWR0aD0iNDUiIGhlaWdodD0iODQiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9IjU4IiB3aWR0aD0iNDUiIGhlaWdodD0iMTA3IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSIzNSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjEzMCIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iMTIyIiB3aWR0aD0iNDUiIGhlaWdodD0iNDMiIGZpbGw9IiM3ZDlhODgiLz48L3N2Zz4=",
+      "imageAlt": "Testdiagramm zu Beobachtung 28: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 29,
+      "title": "Beobachtung 29",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 30,
+      "title": "Beobachtung 30",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 31,
+      "title": "Beobachtung 31",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 32,
+      "title": "Beobachtung 32",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 33,
+      "title": "Beobachtung 33",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 34,
+      "title": "Beobachtung 34",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 35,
+      "title": "Beobachtung 35",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iOTUiIHdpZHRoPSI0NSIgaGVpZ2h0PSI3MCIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjE1MCIgeT0iNzIiIHdpZHRoPSI0NSIgaGVpZ2h0PSI5MyIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjIzNSIgeT0iNDkiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMTYiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIzMjAiIHk9IjEzNiIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjI5IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iNDA1IiB5PSIxMTMiIHdpZHRoPSI0NSIgaGVpZ2h0PSI1MiIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 35: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 36,
+      "title": "Beobachtung 36",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 37,
+      "title": "Beobachtung 37",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 38,
+      "title": "Beobachtung 38",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 39,
+      "title": "Beobachtung 39",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 40,
+      "title": "Beobachtung 40",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 41,
+      "title": "Beobachtung 41",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 42,
+      "title": "Beobachtung 42",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iODYiIHdpZHRoPSI0NSIgaGVpZ2h0PSI3OSIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjE1MCIgeT0iNjMiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMDIiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9IjQwIiB3aWR0aD0iNDUiIGhlaWdodD0iMTI1IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSIxMjciIHdpZHRoPSI0NSIgaGVpZ2h0PSIzOCIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iMTA0IiB3aWR0aD0iNDUiIGhlaWdodD0iNjEiIGZpbGw9IiM3ZDlhODgiLz48L3N2Zz4=",
+      "imageAlt": "Testdiagramm zu Beobachtung 42: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 43,
+      "title": "Beobachtung 43",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 44,
+      "title": "Beobachtung 44",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 45,
+      "title": "Beobachtung 45",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 46,
+      "title": "Beobachtung 46",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 47,
+      "title": "Beobachtung 47",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 48,
+      "title": "Beobachtung 48",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 49,
+      "title": "Beobachtung 49",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iNzciIHdpZHRoPSI0NSIgaGVpZ2h0PSI4OCIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjE1MCIgeT0iNTQiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMTEiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9IjMxIiB3aWR0aD0iNDUiIGhlaWdodD0iMTM0IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSIxMTgiIHdpZHRoPSI0NSIgaGVpZ2h0PSI0NyIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iOTUiIHdpZHRoPSI0NSIgaGVpZ2h0PSI3MCIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 49: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 50,
+      "title": "Beobachtung 50",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 51,
+      "title": "Beobachtung 51",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 52,
+      "title": "Beobachtung 52",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 53,
+      "title": "Beobachtung 53",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 54,
+      "title": "Beobachtung 54",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 55,
+      "title": "Beobachtung 55",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 56,
+      "title": "Beobachtung 56",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iNjgiIHdpZHRoPSI0NSIgaGVpZ2h0PSI5NyIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjE1MCIgeT0iNDUiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMjAiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIyMzUiIHk9IjEzMiIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjMzIiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSIxMDkiIHdpZHRoPSI0NSIgaGVpZ2h0PSI1NiIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iODYiIHdpZHRoPSI0NSIgaGVpZ2h0PSI3OSIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 56: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 57,
+      "title": "Beobachtung 57",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 58,
+      "title": "Beobachtung 58",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 59,
+      "title": "Beobachtung 59",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 60,
+      "title": "Beobachtung 60",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    }
+  ],
+  "initial": {
+    "cards": [
+      {
+        "id": 1,
+        "x": 0,
+        "y": 0,
+        "color": 1
+      },
+      {
+        "id": 2,
+        "x": 530,
+        "y": 0,
+        "color": 2
+      },
+      {
+        "id": 3,
+        "x": 1060,
+        "y": 0,
+        "color": 3
+      },
+      {
+        "id": 4,
+        "x": 1590,
+        "y": 0,
+        "color": 4
+      },
+      {
+        "id": 5,
+        "x": 2120,
+        "y": 0,
+        "color": 5
+      },
+      {
+        "id": 6,
+        "x": 2650,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 7,
+        "x": 3180,
+        "y": 0,
+        "color": 1
+      },
+      {
+        "id": 8,
+        "x": 3710,
+        "y": 0,
+        "color": 2
+      },
+      {
+        "id": 9,
+        "x": 4240,
+        "y": 0,
+        "color": 3
+      },
+      {
+        "id": 10,
+        "x": 4770,
+        "y": 0,
+        "color": 4
+      },
+      {
+        "id": 11,
+        "x": 0,
+        "y": 570,
+        "color": 5
+      },
+      {
+        "id": 12,
+        "x": 530,
+        "y": 570,
+        "color": 0
+      },
+      {
+        "id": 13,
+        "x": 1060,
+        "y": 570,
+        "color": 1
+      },
+      {
+        "id": 14,
+        "x": 1590,
+        "y": 570,
+        "color": 2
+      },
+      {
+        "id": 15,
+        "x": 2120,
+        "y": 570,
+        "color": 3
+      },
+      {
+        "id": 16,
+        "x": 2650,
+        "y": 570,
+        "color": 4
+      },
+      {
+        "id": 17,
+        "x": 3180,
+        "y": 570,
+        "color": 5
+      },
+      {
+        "id": 18,
+        "x": 3710,
+        "y": 570,
+        "color": 0
+      },
+      {
+        "id": 19,
+        "x": 4240,
+        "y": 570,
+        "color": 1
+      },
+      {
+        "id": 20,
+        "x": 4770,
+        "y": 570,
+        "color": 2
+      },
+      {
+        "id": 21,
+        "x": 0,
+        "y": 1140,
+        "color": 3
+      },
+      {
+        "id": 22,
+        "x": 530,
+        "y": 1140,
+        "color": 4
+      },
+      {
+        "id": 23,
+        "x": 1060,
+        "y": 1140,
+        "color": 5
+      },
+      {
+        "id": 24,
+        "x": 1590,
+        "y": 1140,
+        "color": 0
+      },
+      {
+        "id": 25,
+        "x": 2120,
+        "y": 1140,
+        "color": 1
+      },
+      {
+        "id": 26,
+        "x": 2650,
+        "y": 1140,
+        "color": 2
+      },
+      {
+        "id": 27,
+        "x": 3180,
+        "y": 1140,
+        "color": 3
+      },
+      {
+        "id": 28,
+        "x": 3710,
+        "y": 1140,
+        "color": 4
+      },
+      {
+        "id": 29,
+        "x": 4240,
+        "y": 1140,
+        "color": 5
+      },
+      {
+        "id": 30,
+        "x": 4770,
+        "y": 1140,
+        "color": 0
+      },
+      {
+        "id": 31,
+        "x": 0,
+        "y": 1710,
+        "color": 1
+      },
+      {
+        "id": 32,
+        "x": 530,
+        "y": 1710,
+        "color": 2
+      },
+      {
+        "id": 33,
+        "x": 1060,
+        "y": 1710,
+        "color": 3
+      },
+      {
+        "id": 34,
+        "x": 1590,
+        "y": 1710,
+        "color": 4
+      },
+      {
+        "id": 35,
+        "x": 2120,
+        "y": 1710,
+        "color": 5
+      },
+      {
+        "id": 36,
+        "x": 2650,
+        "y": 1710,
+        "color": 0
+      },
+      {
+        "id": 37,
+        "x": 3180,
+        "y": 1710,
+        "color": 1
+      },
+      {
+        "id": 38,
+        "x": 3710,
+        "y": 1710,
+        "color": 2
+      },
+      {
+        "id": 39,
+        "x": 4240,
+        "y": 1710,
+        "color": 3
+      },
+      {
+        "id": 40,
+        "x": 4770,
+        "y": 1710,
+        "color": 4
+      },
+      {
+        "id": 41,
+        "x": 0,
+        "y": 2280,
+        "color": 5
+      },
+      {
+        "id": 42,
+        "x": 530,
+        "y": 2280,
+        "color": 0
+      },
+      {
+        "id": 43,
+        "x": 1060,
+        "y": 2280,
+        "color": 1
+      },
+      {
+        "id": 44,
+        "x": 1590,
+        "y": 2280,
+        "color": 2
+      },
+      {
+        "id": 45,
+        "x": 2120,
+        "y": 2280,
+        "color": 3
+      },
+      {
+        "id": 46,
+        "x": 2650,
+        "y": 2280,
+        "color": 4
+      },
+      {
+        "id": 47,
+        "x": 3180,
+        "y": 2280,
+        "color": 5
+      },
+      {
+        "id": 48,
+        "x": 3710,
+        "y": 2280,
+        "color": 0
+      },
+      {
+        "id": 49,
+        "x": 4240,
+        "y": 2280,
+        "color": 1
+      },
+      {
+        "id": 50,
+        "x": 4770,
+        "y": 2280,
+        "color": 2
+      },
+      {
+        "id": 51,
+        "x": 0,
+        "y": 2850,
+        "color": 3
+      },
+      {
+        "id": 52,
+        "x": 530,
+        "y": 2850,
+        "color": 4
+      },
+      {
+        "id": 53,
+        "x": 1060,
+        "y": 2850,
+        "color": 5
+      },
+      {
+        "id": 54,
+        "x": 1590,
+        "y": 2850,
+        "color": 0
+      },
+      {
+        "id": 55,
+        "x": 2120,
+        "y": 2850,
+        "color": 1
+      },
+      {
+        "id": 56,
+        "x": 2650,
+        "y": 2850,
+        "color": 2
+      },
+      {
+        "id": 57,
+        "x": 3180,
+        "y": 2850,
+        "color": 3
+      },
+      {
+        "id": 58,
+        "x": 3710,
+        "y": 2850,
+        "color": 4
+      },
+      {
+        "id": 59,
+        "x": 4240,
+        "y": 2850,
+        "color": 5
+      },
+      {
+        "id": 60,
+        "x": 4770,
+        "y": 2850,
+        "color": 0
+      }
+    ],
+    "edges": [
+      {
+        "id": 1,
+        "from": 1,
+        "to": 2,
+        "direction": 1,
+        "label": "Vergleich 1: abweichend Zusammenhang Ergänzung ähnlich größer zusätzlich Maßstab zeitlich Frage offen unsicher – Wert 465 ± 1 %"
+      },
+      {
+        "id": 2,
+        "from": 1,
+        "to": 11,
+        "direction": 2,
+        "label": "Vergleich 2: zusätzlich Beobachtung offen größer Frage kleiner Zusammenhang abwägen unsicher unabhängig Maßstab – Wert 4582 ± 2 %"
+      },
+      {
+        "id": 3,
+        "from": 2,
+        "to": 3,
+        "direction": 0,
+        "label": "Vergleich 3: Zusammenhang Befund kleiner Ergänzung abweichend unabhängig möglicherweise ähnlich unsicher Gegensatz Frage – Wert 9025 ± 3 %"
+      },
+      {
+        "id": 4,
+        "from": 2,
+        "to": 12,
+        "direction": 1,
+        "label": "Vergleich 4: prüfen zeitlich unsicher Maßstab Änderung Zusammenhang Beobachtung kleiner räumlich Überprüfung größer – Wert 9053 ± 4 %"
+      },
+      {
+        "id": 5,
+        "from": 3,
+        "to": 4,
+        "direction": 2,
+        "label": "Vergleich 5: möglicherweise Befund Ergänzung größer prüfen zeitlich kleiner unabhängig Überprüfung abweichend Zusammenhang – Wert 7379 ± 5 %"
+      },
+      {
+        "id": 6,
+        "from": 3,
+        "to": 13,
+        "direction": 0,
+        "label": "Vergleich 6: Zusammenhang Änderung abwägen unsicher Ergänzung Überprüfung offen räumlich abweichend unabhängig größer – Wert 77 ± 6 %"
+      },
+      {
+        "id": 7,
+        "from": 4,
+        "to": 5,
+        "direction": 1,
+        "label": "Vergleich 7: unabhängig Befund abweichend Änderung kleiner zeitlich unsicher möglicherweise Gegensatz zusätzlich Frage – Wert 7832 ± 7 %"
+      },
+      {
+        "id": 8,
+        "from": 4,
+        "to": 14,
+        "direction": 2,
+        "label": "Vergleich 8: Änderung Frage abwägen möglicherweise Maßstab Befund offen Gegensatz Beobachtung größer unsicher – Wert 7719 ± 8 %"
+      },
+      {
+        "id": 9,
+        "from": 5,
+        "to": 6,
+        "direction": 0,
+        "label": "Vergleich 9: prüfen Gegensatz zusätzlich Ergänzung Änderung Befund größer Maßstab kleiner Hinweis zeitlich – Wert 3819 ± 9 %"
+      },
+      {
+        "id": 10,
+        "from": 5,
+        "to": 15,
+        "direction": 1,
+        "label": "Vergleich 10: abweichend abwägen Ergänzung Änderung zusätzlich möglicherweise prüfen räumlich Maßstab größer unabhängig – Wert 1130 ± 10 %"
+      },
+      {
+        "id": 11,
+        "from": 6,
+        "to": 7,
+        "direction": 2,
+        "label": "Vergleich 11: Hinweis Befund Zusammenhang Überprüfung abwägen abweichend räumlich größer Gegensatz Frage Änderung – Wert 7169 ± 11 %"
+      },
+      {
+        "id": 12,
+        "from": 6,
+        "to": 16,
+        "direction": 0,
+        "label": "Vergleich 12: Frage möglicherweise Zusammenhang ähnlich Beobachtung prüfen Gegensatz Ergänzung zusätzlich abweichend Hinweis – Wert 2395 ± 12 %"
+      },
+      {
+        "id": 13,
+        "from": 7,
+        "to": 8,
+        "direction": 1,
+        "label": "Vergleich 13: Beobachtung zeitlich Ergänzung räumlich zusätzlich Maßstab abweichend möglicherweise unabhängig prüfen Zusammenhang – Wert 8661 ± 13 %"
+      },
+      {
+        "id": 14,
+        "from": 7,
+        "to": 17,
+        "direction": 2,
+        "label": "Vergleich 14: Änderung unabhängig Ergänzung offen ähnlich prüfen Zusammenhang Gegensatz abweichend zeitlich Befund – Wert 1688 ± 14 %"
+      },
+      {
+        "id": 15,
+        "from": 8,
+        "to": 9,
+        "direction": 0,
+        "label": "Vergleich 15: kleiner zeitlich Maßstab zusätzlich abwägen unabhängig räumlich Befund Zusammenhang Hinweis Beobachtung – Wert 356 ± 15 %"
+      },
+      {
+        "id": 16,
+        "from": 8,
+        "to": 18,
+        "direction": 1,
+        "label": "Vergleich 16: Zusammenhang ähnlich Änderung Maßstab offen Überprüfung Befund räumlich Beobachtung möglicherweise kleiner – Wert 1189 ± 16 %"
+      },
+      {
+        "id": 17,
+        "from": 9,
+        "to": 10,
+        "direction": 2,
+        "label": "Vergleich 17: Beobachtung abweichend Hinweis Ergänzung abwägen Zusammenhang Gegensatz Frage ähnlich zeitlich zusätzlich – Wert 7558 ± 17 %"
+      },
+      {
+        "id": 18,
+        "from": 9,
+        "to": 19,
+        "direction": 0,
+        "label": "Vergleich 18: Änderung ähnlich unsicher abweichend Frage abwägen Gegensatz unabhängig Maßstab prüfen offen – Wert 4748 ± 18 %"
+      },
+      {
+        "id": 19,
+        "from": 10,
+        "to": 20,
+        "direction": 1,
+        "label": "Vergleich 19: unabhängig Frage ähnlich Befund Zusammenhang Ergänzung kleiner Gegensatz Beobachtung abwägen Überprüfung – Wert 5546 ± 19 %"
+      },
+      {
+        "id": 20,
+        "from": 11,
+        "to": 12,
+        "direction": 2,
+        "label": "Vergleich 20: unabhängig abweichend kleiner Beobachtung offen unsicher Frage Gegensatz Überprüfung Ergänzung abwägen – Wert 3025 ± 20 %"
+      },
+      {
+        "id": 21,
+        "from": 11,
+        "to": 21,
+        "direction": 0,
+        "label": "Vergleich 21: unabhängig abwägen Frage ähnlich kleiner unsicher größer möglicherweise räumlich Überprüfung Zusammenhang – Wert 8250 ± 21 %"
+      },
+      {
+        "id": 22,
+        "from": 12,
+        "to": 13,
+        "direction": 1,
+        "label": "Vergleich 22: Hinweis zeitlich möglicherweise abweichend Überprüfung Frage ähnlich Maßstab prüfen Beobachtung zusätzlich – Wert 6140 ± 22 %"
+      },
+      {
+        "id": 23,
+        "from": 12,
+        "to": 22,
+        "direction": 2,
+        "label": "Vergleich 23: Hinweis räumlich Überprüfung abweichend möglicherweise größer Änderung offen unabhängig Maßstab abwägen – Wert 3684 ± 23 %"
+      },
+      {
+        "id": 24,
+        "from": 13,
+        "to": 14,
+        "direction": 0,
+        "label": "Vergleich 24: Frage unsicher Maßstab prüfen zeitlich abweichend Änderung ähnlich zusätzlich räumlich Zusammenhang – Wert 3509 ± 24 %"
+      },
+      {
+        "id": 25,
+        "from": 13,
+        "to": 23,
+        "direction": 1,
+        "label": "Vergleich 25: Änderung unabhängig prüfen räumlich Überprüfung Gegensatz möglicherweise Zusammenhang Hinweis Beobachtung zeitlich – Wert 6537 ± 25 %"
+      },
+      {
+        "id": 26,
+        "from": 14,
+        "to": 15,
+        "direction": 2,
+        "label": "Vergleich 26: unabhängig Frage größer offen prüfen kleiner Ergänzung Beobachtung Maßstab Gegensatz räumlich – Wert 5019 ± 26 %"
+      },
+      {
+        "id": 27,
+        "from": 14,
+        "to": 24,
+        "direction": 0,
+        "label": "Vergleich 27: prüfen zusätzlich Änderung ähnlich Befund Zusammenhang zeitlich größer Überprüfung Hinweis Beobachtung – Wert 1170 ± 27 %"
+      },
+      {
+        "id": 28,
+        "from": 15,
+        "to": 16,
+        "direction": 1,
+        "label": "Vergleich 28: Überprüfung Beobachtung Änderung unsicher abwägen Maßstab Befund Ergänzung Hinweis offen Gegensatz – Wert 5260 ± 28 %"
+      },
+      {
+        "id": 29,
+        "from": 15,
+        "to": 25,
+        "direction": 2,
+        "label": "Vergleich 29: unabhängig größer Hinweis prüfen Beobachtung Maßstab möglicherweise räumlich Änderung zeitlich ähnlich – Wert 7718 ± 29 %"
+      },
+      {
+        "id": 30,
+        "from": 16,
+        "to": 17,
+        "direction": 0,
+        "label": "Vergleich 30: Frage Beobachtung ähnlich Ergänzung abwägen abweichend Gegensatz unsicher kleiner offen zeitlich – Wert 2181 ± 30 %"
+      },
+      {
+        "id": 31,
+        "from": 16,
+        "to": 26,
+        "direction": 1,
+        "label": "Vergleich 31: kleiner Beobachtung ähnlich Frage größer Überprüfung zeitlich zusätzlich prüfen abweichend räumlich – Wert 6251 ± 31 %"
+      },
+      {
+        "id": 32,
+        "from": 17,
+        "to": 18,
+        "direction": 2,
+        "label": "Vergleich 32: größer Änderung Ergänzung kleiner Frage unsicher unabhängig ähnlich räumlich Maßstab zusätzlich – Wert 4657 ± 32 %"
+      },
+      {
+        "id": 33,
+        "from": 17,
+        "to": 27,
+        "direction": 0,
+        "label": "Vergleich 33: abwägen Befund Ergänzung Gegensatz größer räumlich unabhängig Frage möglicherweise Maßstab unsicher – Wert 4339 ± 33 %"
+      },
+      {
+        "id": 34,
+        "from": 18,
+        "to": 19,
+        "direction": 1,
+        "label": "Vergleich 34: zusätzlich Ergänzung Gegensatz abweichend Befund zeitlich möglicherweise Hinweis Überprüfung unsicher abwägen – Wert 6018 ± 34 %"
+      },
+      {
+        "id": 35,
+        "from": 18,
+        "to": 28,
+        "direction": 2,
+        "label": "Vergleich 35: ähnlich Überprüfung unabhängig abwägen Beobachtung zeitlich Zusammenhang möglicherweise prüfen Befund Maßstab – Wert 977 ± 35 %"
+      },
+      {
+        "id": 36,
+        "from": 19,
+        "to": 20,
+        "direction": 0,
+        "label": "Vergleich 36: Hinweis offen Beobachtung räumlich ähnlich zeitlich unsicher möglicherweise größer abwägen Gegensatz – Wert 3579 ± 36 %"
+      },
+      {
+        "id": 37,
+        "from": 19,
+        "to": 29,
+        "direction": 1,
+        "label": "Vergleich 37: ähnlich Zusammenhang zusätzlich größer unsicher Befund Gegensatz prüfen Änderung unabhängig abweichend – Wert 483 ± 37 %"
+      },
+      {
+        "id": 38,
+        "from": 20,
+        "to": 30,
+        "direction": 2,
+        "label": "Vergleich 38: unsicher ähnlich Hinweis Frage Zusammenhang Befund abwägen Ergänzung zeitlich zusätzlich prüfen – Wert 6501 ± 38 %"
+      },
+      {
+        "id": 39,
+        "from": 21,
+        "to": 22,
+        "direction": 0,
+        "label": "Vergleich 39: zusätzlich offen kleiner unabhängig Beobachtung Hinweis Änderung ähnlich Befund räumlich Maßstab – Wert 8702 ± 39 %"
+      },
+      {
+        "id": 40,
+        "from": 21,
+        "to": 31,
+        "direction": 1,
+        "label": "Vergleich 40: kleiner Frage prüfen unsicher zusätzlich Hinweis räumlich möglicherweise abwägen Beobachtung Zusammenhang – Wert 7402 ± 40 %"
+      },
+      {
+        "id": 41,
+        "from": 22,
+        "to": 23,
+        "direction": 2,
+        "label": "Vergleich 41: Maßstab unabhängig größer Überprüfung ähnlich Ergänzung Hinweis prüfen unsicher abweichend Beobachtung – Wert 7994 ± 41 %"
+      },
+      {
+        "id": 42,
+        "from": 22,
+        "to": 32,
+        "direction": 0,
+        "label": "Vergleich 42: Beobachtung Hinweis Frage Ergänzung Befund kleiner prüfen unsicher größer möglicherweise abweichend – Wert 5247 ± 42 %"
+      },
+      {
+        "id": 43,
+        "from": 23,
+        "to": 24,
+        "direction": 1,
+        "label": "Vergleich 43: abwägen unabhängig Frage Gegensatz ähnlich unsicher Zusammenhang Änderung Ergänzung Hinweis prüfen – Wert 7411 ± 43 %"
+      },
+      {
+        "id": 44,
+        "from": 23,
+        "to": 33,
+        "direction": 2,
+        "label": "Vergleich 44: Befund prüfen Hinweis zusätzlich offen Maßstab abwägen Änderung möglicherweise unabhängig Zusammenhang – Wert 5782 ± 44 %"
+      },
+      {
+        "id": 45,
+        "from": 24,
+        "to": 25,
+        "direction": 0,
+        "label": "Vergleich 45: Überprüfung unabhängig Befund Änderung Beobachtung ähnlich zeitlich offen Frage Gegensatz Hinweis – Wert 4670 ± 45 %"
+      },
+      {
+        "id": 46,
+        "from": 24,
+        "to": 34,
+        "direction": 1,
+        "label": "Vergleich 46: Maßstab größer unabhängig Befund Frage Änderung prüfen abweichend zusätzlich Beobachtung offen – Wert 6492 ± 46 %"
+      },
+      {
+        "id": 47,
+        "from": 25,
+        "to": 26,
+        "direction": 2,
+        "label": "Vergleich 47: kleiner abwägen Gegensatz zeitlich unabhängig zusätzlich abweichend Frage Maßstab Hinweis Befund – Wert 9048 ± 47 %"
+      },
+      {
+        "id": 48,
+        "from": 25,
+        "to": 35,
+        "direction": 0,
+        "label": "Vergleich 48: möglicherweise unsicher Ergänzung Beobachtung kleiner größer räumlich Befund ähnlich unabhängig Frage – Wert 1085 ± 48 %"
+      },
+      {
+        "id": 49,
+        "from": 26,
+        "to": 27,
+        "direction": 1,
+        "label": "Vergleich 49: Ergänzung unabhängig Überprüfung offen Beobachtung Zusammenhang abwägen zusätzlich ähnlich Änderung Gegensatz – Wert 860 ± 49 %"
+      },
+      {
+        "id": 50,
+        "from": 26,
+        "to": 36,
+        "direction": 2,
+        "label": "Vergleich 50: Beobachtung Befund offen größer Gegensatz abwägen Überprüfung zusätzlich möglicherweise unabhängig Änderung – Wert 4688 ± 50 %"
+      },
+      {
+        "id": 51,
+        "from": 27,
+        "to": 28,
+        "direction": 0,
+        "label": "Vergleich 51: Maßstab offen kleiner Zusammenhang ähnlich Frage Überprüfung unabhängig abwägen größer abweichend – Wert 5443 ± 51 %"
+      },
+      {
+        "id": 52,
+        "from": 27,
+        "to": 37,
+        "direction": 1,
+        "label": "Vergleich 52: offen Befund zusätzlich Änderung abwägen prüfen größer unabhängig Hinweis Ergänzung Frage – Wert 3593 ± 52 %"
+      },
+      {
+        "id": 53,
+        "from": 28,
+        "to": 29,
+        "direction": 2,
+        "label": "Vergleich 53: unsicher Befund Maßstab Überprüfung Zusammenhang unabhängig Beobachtung abweichend abwägen Änderung Ergänzung – Wert 3609 ± 53 %"
+      },
+      {
+        "id": 54,
+        "from": 28,
+        "to": 38,
+        "direction": 0,
+        "label": "Vergleich 54: Hinweis Überprüfung unsicher größer räumlich kleiner Ergänzung Beobachtung Zusammenhang unabhängig Befund – Wert 7731 ± 54 %"
+      },
+      {
+        "id": 55,
+        "from": 29,
+        "to": 30,
+        "direction": 1,
+        "label": "Vergleich 55: Ergänzung Überprüfung Zusammenhang kleiner Änderung Maßstab unsicher Befund Beobachtung möglicherweise räumlich – Wert 1154 ± 55 %"
+      },
+      {
+        "id": 56,
+        "from": 29,
+        "to": 39,
+        "direction": 2,
+        "label": "Vergleich 56: zusätzlich Ergänzung Gegensatz möglicherweise offen prüfen Hinweis abwägen Maßstab größer unsicher – Wert 4511 ± 56 %"
+      },
+      {
+        "id": 57,
+        "from": 30,
+        "to": 40,
+        "direction": 0,
+        "label": "Vergleich 57: räumlich prüfen Beobachtung unsicher Überprüfung Frage Maßstab Gegensatz zeitlich unabhängig kleiner – Wert 518 ± 57 %"
+      },
+      {
+        "id": 58,
+        "from": 31,
+        "to": 32,
+        "direction": 1,
+        "label": "Vergleich 58: größer ähnlich unabhängig zusätzlich Ergänzung kleiner Hinweis abweichend räumlich möglicherweise Änderung – Wert 6258 ± 58 %"
+      },
+      {
+        "id": 59,
+        "from": 31,
+        "to": 41,
+        "direction": 2,
+        "label": "Vergleich 59: räumlich größer zusätzlich Ergänzung Beobachtung unabhängig unsicher möglicherweise kleiner Zusammenhang ähnlich – Wert 1228 ± 59 %"
+      },
+      {
+        "id": 60,
+        "from": 32,
+        "to": 33,
+        "direction": 0,
+        "label": "Vergleich 60: abwägen ähnlich unsicher Gegensatz Überprüfung Beobachtung räumlich Befund Hinweis Maßstab Änderung – Wert 7905 ± 60 %"
+      },
+      {
+        "id": 61,
+        "from": 32,
+        "to": 42,
+        "direction": 1,
+        "label": "Vergleich 61: ähnlich abweichend Überprüfung räumlich offen zeitlich Zusammenhang Befund abwägen Hinweis Gegensatz – Wert 4654 ± 61 %"
+      },
+      {
+        "id": 62,
+        "from": 33,
+        "to": 34,
+        "direction": 2,
+        "label": "Vergleich 62: offen Befund Änderung abweichend zeitlich Hinweis Gegensatz möglicherweise unabhängig unsicher Maßstab – Wert 8156 ± 62 %"
+      },
+      {
+        "id": 63,
+        "from": 33,
+        "to": 43,
+        "direction": 0,
+        "label": "Vergleich 63: größer zeitlich Überprüfung Frage zusätzlich möglicherweise prüfen Ergänzung Änderung Hinweis Maßstab – Wert 7728 ± 63 %"
+      },
+      {
+        "id": 64,
+        "from": 34,
+        "to": 35,
+        "direction": 1,
+        "label": "Vergleich 64: möglicherweise Hinweis offen Ergänzung größer kleiner unsicher zeitlich Zusammenhang zusätzlich Gegensatz – Wert 471 ± 64 %"
+      },
+      {
+        "id": 65,
+        "from": 34,
+        "to": 44,
+        "direction": 2,
+        "label": "Vergleich 65: ähnlich Zusammenhang Überprüfung unsicher größer zusätzlich Frage Ergänzung Befund Änderung prüfen – Wert 535 ± 65 %"
+      },
+      {
+        "id": 66,
+        "from": 35,
+        "to": 36,
+        "direction": 0,
+        "label": "Vergleich 66: offen Ergänzung größer Maßstab Gegensatz kleiner zusätzlich Beobachtung abweichend unsicher prüfen – Wert 3340 ± 66 %"
+      },
+      {
+        "id": 67,
+        "from": 35,
+        "to": 45,
+        "direction": 1,
+        "label": "Vergleich 67: Maßstab zeitlich Änderung zusätzlich Frage Befund abwägen unsicher Ergänzung Hinweis prüfen – Wert 5987 ± 67 %"
+      },
+      {
+        "id": 68,
+        "from": 36,
+        "to": 37,
+        "direction": 2,
+        "label": "Vergleich 68: Ergänzung Hinweis größer räumlich möglicherweise Änderung zeitlich Überprüfung offen unsicher Frage – Wert 4186 ± 68 %"
+      },
+      {
+        "id": 69,
+        "from": 36,
+        "to": 46,
+        "direction": 0,
+        "label": "Vergleich 69: Maßstab Frage Änderung Überprüfung Gegensatz Zusammenhang kleiner räumlich offen größer prüfen – Wert 2600 ± 69 %"
+      },
+      {
+        "id": 70,
+        "from": 37,
+        "to": 38,
+        "direction": 1,
+        "label": "Vergleich 70: Zusammenhang Ergänzung ähnlich abwägen offen zusätzlich Hinweis Gegensatz Maßstab zeitlich Beobachtung – Wert 8027 ± 70 %"
+      },
+      {
+        "id": 71,
+        "from": 37,
+        "to": 47,
+        "direction": 2,
+        "label": "Vergleich 71: Maßstab möglicherweise zeitlich kleiner offen Frage ähnlich Ergänzung abweichend Überprüfung größer – Wert 6037 ± 71 %"
+      },
+      {
+        "id": 72,
+        "from": 38,
+        "to": 39,
+        "direction": 0,
+        "label": "Vergleich 72: Überprüfung Zusammenhang unabhängig Änderung Ergänzung kleiner Frage abwägen zusätzlich größer möglicherweise – Wert 6060 ± 72 %"
+      },
+      {
+        "id": 73,
+        "from": 38,
+        "to": 48,
+        "direction": 1,
+        "label": "Vergleich 73: größer Ergänzung zusätzlich räumlich Änderung abweichend Beobachtung möglicherweise Hinweis unsicher Überprüfung – Wert 6474 ± 73 %"
+      },
+      {
+        "id": 74,
+        "from": 39,
+        "to": 40,
+        "direction": 2,
+        "label": "Vergleich 74: prüfen Ergänzung Frage Gegensatz zeitlich unabhängig abwägen ähnlich kleiner Überprüfung möglicherweise – Wert 9277 ± 74 %"
+      },
+      {
+        "id": 75,
+        "from": 39,
+        "to": 49,
+        "direction": 0,
+        "label": "Vergleich 75: größer Überprüfung Änderung abweichend zeitlich kleiner Befund Hinweis möglicherweise offen Zusammenhang – Wert 1523 ± 75 %"
+      },
+      {
+        "id": 76,
+        "from": 40,
+        "to": 50,
+        "direction": 1,
+        "label": "Vergleich 76: zeitlich unsicher abwägen Frage Änderung Überprüfung Hinweis ähnlich Zusammenhang Gegensatz abweichend – Wert 6342 ± 76 %"
+      },
+      {
+        "id": 77,
+        "from": 41,
+        "to": 42,
+        "direction": 2,
+        "label": "Vergleich 77: zeitlich kleiner abweichend Ergänzung größer Zusammenhang unabhängig Gegensatz Maßstab Frage prüfen – Wert 3818 ± 77 %"
+      },
+      {
+        "id": 78,
+        "from": 41,
+        "to": 51,
+        "direction": 0,
+        "label": "Vergleich 78: Zusammenhang möglicherweise abweichend abwägen offen Maßstab kleiner Überprüfung unabhängig unsicher zeitlich – Wert 2695 ± 78 %"
+      },
+      {
+        "id": 79,
+        "from": 42,
+        "to": 43,
+        "direction": 1,
+        "label": "Vergleich 79: zeitlich unsicher abwägen Beobachtung Frage unabhängig Zusammenhang Befund Hinweis offen Gegensatz – Wert 5616 ± 79 %"
+      },
+      {
+        "id": 80,
+        "from": 42,
+        "to": 52,
+        "direction": 2,
+        "label": "Vergleich 80: Maßstab Befund offen zusätzlich prüfen räumlich unabhängig zeitlich Überprüfung Beobachtung Frage – Wert 7508 ± 80 %"
+      },
+      {
+        "id": 81,
+        "from": 43,
+        "to": 44,
+        "direction": 0,
+        "label": "Vergleich 81: zeitlich Frage größer prüfen Gegensatz Hinweis zusätzlich offen Änderung Maßstab abweichend – Wert 3331 ± 81 %"
+      },
+      {
+        "id": 82,
+        "from": 43,
+        "to": 53,
+        "direction": 1,
+        "label": "Vergleich 82: Überprüfung abweichend zusätzlich Zusammenhang unabhängig Befund möglicherweise Beobachtung größer Gegensatz Hinweis – Wert 5808 ± 82 %"
+      },
+      {
+        "id": 83,
+        "from": 44,
+        "to": 45,
+        "direction": 2,
+        "label": "Vergleich 83: Beobachtung möglicherweise unabhängig Frage kleiner größer unsicher abwägen prüfen Ergänzung Zusammenhang – Wert 5547 ± 83 %"
+      },
+      {
+        "id": 84,
+        "from": 44,
+        "to": 54,
+        "direction": 0,
+        "label": "Vergleich 84: Frage zusätzlich Befund Änderung unabhängig größer möglicherweise abwägen Zusammenhang abweichend Ergänzung – Wert 713 ± 84 %"
+      },
+      {
+        "id": 85,
+        "from": 45,
+        "to": 46,
+        "direction": 1,
+        "label": "Vergleich 85: größer Gegensatz Überprüfung abwägen Maßstab Ergänzung Beobachtung Hinweis kleiner unabhängig ähnlich – Wert 9334 ± 85 %"
+      },
+      {
+        "id": 86,
+        "from": 45,
+        "to": 55,
+        "direction": 2,
+        "label": "Vergleich 86: größer Frage offen Änderung Gegensatz Überprüfung Ergänzung räumlich zeitlich abwägen unabhängig – Wert 1103 ± 86 %"
+      },
+      {
+        "id": 87,
+        "from": 46,
+        "to": 47,
+        "direction": 0,
+        "label": "Vergleich 87: offen Frage Beobachtung Befund Hinweis Ergänzung unabhängig unsicher abwägen größer Zusammenhang – Wert 4819 ± 87 %"
+      },
+      {
+        "id": 88,
+        "from": 46,
+        "to": 56,
+        "direction": 1,
+        "label": "Vergleich 88: unsicher Änderung kleiner größer möglicherweise Befund offen abweichend Gegensatz Zusammenhang Ergänzung – Wert 3462 ± 88 %"
+      },
+      {
+        "id": 89,
+        "from": 47,
+        "to": 48,
+        "direction": 2,
+        "label": "Vergleich 89: prüfen größer unsicher Befund Frage zusätzlich ähnlich zeitlich Zusammenhang abweichend möglicherweise – Wert 3215 ± 89 %"
+      },
+      {
+        "id": 90,
+        "from": 47,
+        "to": 57,
+        "direction": 0,
+        "label": "Vergleich 90: Maßstab ähnlich prüfen Zusammenhang Befund möglicherweise räumlich zeitlich abweichend Ergänzung Hinweis – Wert 3458 ± 90 %"
+      }
+    ],
+    "categories": ["", "", "", "", "", ""]
+  }
+}
