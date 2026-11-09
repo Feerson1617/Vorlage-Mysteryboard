@@ -1,0 +1,48 @@
+[WebServer] (node:51755) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:51768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:03] "GET / HTTP/1.1" 200 -
+
+Running 14 tests using 1 worker
+
+(node:51806) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:05] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:11] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   1 tests/browser/review.spec.ts:34:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung (8.6s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:14] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   2 tests/browser/review.spec.ts:85:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) (2.6s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:17] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   3 tests/browser/review.spec.ts:85:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) (2.1s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:19] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:26] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   4 tests/browser/review.spec.ts:125:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (10.9s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:30] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:37] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   5 tests/browser/review.spec.ts:125:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (11.8s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:42] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:47] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   6 tests/browser/review.spec.ts:234:1 › Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar (12.0s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:54] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   7 tests/browser/review.spec.ts:262:1 › Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf (5.3s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:24:59] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   8 tests/browser/review.spec.ts:305:5 › Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (2.5s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:25:02] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   9 tests/browser/review.spec.ts:305:5 › Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (2.4s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:25:04] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  10 tests/browser/review.spec.ts:305:5 › Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (3.5s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:25:08] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  11 tests/browser/review.spec.ts:305:5 › Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (3.6s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:25:11] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  12 tests/browser/review.spec.ts:425:1 › 220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert (6.6s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:25:18] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  13 tests/browser/review.spec.ts:475:1 › Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas (3.4s)
+  ✓  14 tests/browser/review.spec.ts:540:1 › Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder (2.1s)
+
+  14 passed (1.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

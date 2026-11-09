@@ -46,6 +46,13 @@ export const COLOR_NAMES = [
 ];
 export const MAX_EDGES = 300;
 export const MAX_LABEL = 500;
+// At most MAX_EDGES IDs are occupied, so a gap exists within 1..MAX_EDGES+1.
+export function nextEdgeId(edges: Edge[]): number {
+  const used = new Set(edges.map((edge) => edge.id));
+  let id = 1;
+  while (used.has(id)) id++;
+  return id;
+}
 export const initialWork = (m: Mystery): Work =>
   structuredClone({
     schema: 1,

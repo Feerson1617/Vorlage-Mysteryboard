@@ -1,0 +1,6120 @@
+{
+  "baseline": "2518a530e3faf75cee999259a583b07f7175cb5a",
+  "branch": "feat/mysteryboard-prototype",
+  "command": "npm run check",
+  "exit_code": 0,
+  "unit_tests": {
+    "passed": 31,
+    "failed": 0,
+    "skipped": 0
+  },
+  "chromium": {
+    "total": 33,
+    "expected": 33,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "duration_browser_ms": 142465.971,
+  "webkit": "not run: official downloads denied by network proxy (403 Domain forbidden)",
+  "html": {
+    "MysteryBoard-klein.html": {
+      "bytes": 450263,
+      "sha256": "087166f21d0f834f95aaa6d129e8897865465d98a8edffd94a6abebc9efe4602"
+    },
+    "MysteryBoard-umfangreich.html": {
+      "bytes": 483149,
+      "sha256": "beb1af104ad773a8fd7b18d061794f087ada79d5066ce2bc628f5dd5115b4be4"
+    }
+  },
+  "tests": [
+    {
+      "title": "mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück",
+      "status": "expected",
+      "duration_ms": 3856
+    },
+    {
+      "title": "erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage",
+      "status": "expected",
+      "duration_ms": 3598
+    },
+    {
+      "title": "PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung",
+      "status": "expected",
+      "duration_ms": 3940
+    },
+    {
+      "title": "PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download",
+      "status": "expected",
+      "duration_ms": 4258
+    },
+    {
+      "title": "quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen",
+      "status": "expected",
+      "duration_ms": 9139
+    },
+    {
+      "title": "quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen",
+      "status": "expected",
+      "duration_ms": 7329
+    },
+    {
+      "title": "Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar",
+      "status": "expected",
+      "duration_ms": 1696
+    },
+    {
+      "title": "eigenständiges HTML läuft offline; keine externen Anfragen",
+      "status": "expected",
+      "duration_ms": 3316
+    },
+    {
+      "title": "Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig",
+      "status": "expected",
+      "duration_ms": 2928
+    },
+    {
+      "title": "kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten",
+      "status": "expected",
+      "duration_ms": 9200
+    },
+    {
+      "title": "60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import",
+      "status": "expected",
+      "duration_ms": 6276
+    },
+    {
+      "title": "abgebrochener Import verändert den geöffneten Stand nicht",
+      "status": "expected",
+      "duration_ms": 3774
+    },
+    {
+      "title": "Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar",
+      "status": "expected",
+      "duration_ms": 1517
+    },
+    {
+      "title": "Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick",
+      "status": "expected",
+      "duration_ms": 1460
+    },
+    {
+      "title": "gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export",
+      "status": "expected",
+      "duration_ms": 4791
+    },
+    {
+      "title": "kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas",
+      "status": "expected",
+      "duration_ms": 3368
+    },
+    {
+      "title": "vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen",
+      "status": "expected",
+      "duration_ms": 2109
+    },
+    {
+      "title": "Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende",
+      "status": "expected",
+      "duration_ms": 3456
+    },
+    {
+      "title": "QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar",
+      "status": "expected",
+      "duration_ms": 2435
+    },
+    {
+      "title": "M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung",
+      "status": "expected",
+      "duration_ms": 9328
+    },
+    {
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Maus)",
+      "status": "expected",
+      "duration_ms": 2395
+    },
+    {
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Touch)",
+      "status": "expected",
+      "duration_ms": 2240
+    },
+    {
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)",
+      "status": "expected",
+      "duration_ms": 11169
+    },
+    {
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)",
+      "status": "expected",
+      "duration_ms": 8108
+    },
+    {
+      "title": "Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar",
+      "status": "expected",
+      "duration_ms": 4368
+    },
+    {
+      "title": "Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf",
+      "status": "expected",
+      "duration_ms": 2985
+    },
+    {
+      "title": "Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "status": "expected",
+      "duration_ms": 1411
+    },
+    {
+      "title": "Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "status": "expected",
+      "duration_ms": 1399
+    },
+    {
+      "title": "Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "status": "expected",
+      "duration_ms": 2776
+    },
+    {
+      "title": "Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "status": "expected",
+      "duration_ms": 2320
+    },
+    {
+      "title": "220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert",
+      "status": "expected",
+      "duration_ms": 4178
+    },
+    {
+      "title": "Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas",
+      "status": "expected",
+      "duration_ms": 2106
+    },
+    {
+      "title": "Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder",
+      "status": "expected",
+      "duration_ms": 1084
+    }
+  ],
+  "measurements": {
+    "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)": {
+      "visible": 160,
+      "crossings": 146,
+      "targets": [
+        {
+          "id": 1,
+          "x": 188.5143051147461,
+          "y": 285.03079986572266,
+          "actual": 1,
+          "crossing": true
+        },
+        {
+          "id": 3,
+          "x": 287.15464782714844,
+          "y": 154.06299591064453,
+          "actual": 3,
+          "crossing": false
+        },
+        {
+          "id": 4,
+          "x": 234.64032745361328,
+          "y": 233.32990264892578,
+          "actual": 4,
+          "crossing": true
+        },
+        {
+          "id": 5,
+          "x": 392.18328857421875,
+          "y": 148.6134033203125,
+          "actual": 5,
+          "crossing": true
+        },
+        {
+          "id": 6,
+          "x": 339.66896057128906,
+          "y": 215.89118194580078,
+          "actual": 6,
+          "crossing": true
+        },
+        {
+          "id": 7,
+          "x": 497.2119445800781,
+          "y": 149.30699157714844,
+          "actual": 7,
+          "crossing": false
+        },
+        {
+          "id": 8,
+          "x": 444.6976013183594,
+          "y": 222.43070220947266,
+          "actual": 8,
+          "crossing": true
+        },
+        {
+          "id": 9,
+          "x": 602.2405700683594,
+          "y": 140.58763122558594,
+          "actual": 9,
+          "crossing": false
+        },
+        {
+          "id": 10,
+          "x": 549.7262573242188,
+          "y": 213.71134185791016,
+          "actual": 10,
+          "crossing": true
+        },
+        {
+          "id": 11,
+          "x": 707.2692260742188,
+          "y": 149.30699157714844,
+          "actual": 11,
+          "crossing": false
+        },
+        {
+          "id": 12,
+          "x": 654.7548828125,
+          "y": 204.99198150634766,
+          "actual": 12,
+          "crossing": true
+        },
+        {
+          "id": 13,
+          "x": 812.2978820800781,
+          "y": 151.8831558227539,
+          "actual": 13,
+          "crossing": false
+        },
+        {
+          "id": 14,
+          "x": 759.7835388183594,
+          "y": 231.15006256103516,
+          "actual": 14,
+          "crossing": true
+        },
+        {
+          "id": 15,
+          "x": 917.3265075683594,
+          "y": 140.58763122558594,
+          "actual": 15,
+          "crossing": false
+        },
+        {
+          "id": 16,
+          "x": 864.8121643066406,
+          "y": 213.71134185791016,
+          "actual": 16,
+          "crossing": false
+        },
+        {
+          "id": 17,
+          "x": 1022.3551635742188,
+          "y": 139.49771118164062,
+          "actual": 17,
+          "crossing": false
+        },
+        {
+          "id": 18,
+          "x": 969.8408203125,
+          "y": 204.99198150634766,
+          "actual": 18,
+          "crossing": false
+        },
+        {
+          "id": 19,
+          "x": 1074.8694458007812,
+          "y": 211.53150177001953,
+          "actual": 19,
+          "crossing": false
+        },
+        {
+          "id": 20,
+          "x": 182.12600708007812,
+          "y": 253.54296112060547,
+          "actual": 20,
+          "crossing": true
+        },
+        {
+          "id": 22,
+          "x": 287.15464782714844,
+          "y": 252.45303344726562,
+          "actual": 22,
+          "crossing": true
+        },
+        {
+          "id": 23,
+          "x": 234.64032745361328,
+          "y": 317.9473114013672,
+          "actual": 23,
+          "crossing": true
+        },
+        {
+          "id": 24,
+          "x": 392.18328857421875,
+          "y": 264.83849334716797,
+          "actual": 24,
+          "crossing": true
+        },
+        {
+          "id": 25,
+          "x": 339.66896057128906,
+          "y": 324.4868469238281,
+          "actual": 25,
+          "crossing": true
+        },
+        {
+          "id": 27,
+          "x": 444.6976013183594,
+          "y": 346.2852325439453,
+          "actual": 27,
+          "crossing": true
+        },
+        {
+          "id": 28,
+          "x": 602.2405700683594,
+          "y": 252.45303344726562,
+          "actual": 28,
+          "crossing": true
+        },
+        {
+          "id": 29,
+          "x": 549.7262573242188,
+          "y": 317.9473114013672,
+          "actual": 29,
+          "crossing": true
+        },
+        {
+          "id": 30,
+          "x": 707.2692260742188,
+          "y": 256.8127136230469,
+          "actual": 30,
+          "crossing": true
+        },
+        {
+          "id": 31,
+          "x": 654.7548828125,
+          "y": 324.4868469238281,
+          "actual": 31,
+          "crossing": true
+        },
+        {
+          "id": 32,
+          "x": 812.2978515625,
+          "y": 253.54296112060547,
+          "actual": 32,
+          "crossing": true
+        },
+        {
+          "id": 33,
+          "x": 759.7835388183594,
+          "y": 326.6666717529297,
+          "actual": 33,
+          "crossing": true
+        },
+        {
+          "id": 34,
+          "x": 917.3264770507812,
+          "y": 250.6695327758789,
+          "actual": 34,
+          "crossing": true
+        },
+        {
+          "id": 35,
+          "x": 864.8121643066406,
+          "y": 317.9473114013672,
+          "actual": 35,
+          "crossing": true
+        },
+        {
+          "id": 36,
+          "x": 1022.3551330566406,
+          "y": 256.8127136230469,
+          "actual": 36,
+          "crossing": true
+        },
+        {
+          "id": 37,
+          "x": 969.8408203125,
+          "y": 324.4868469238281,
+          "actual": 37,
+          "crossing": true
+        },
+        {
+          "id": 38,
+          "x": 1074.8694458007812,
+          "y": 326.6666717529297,
+          "actual": 38,
+          "crossing": false
+        },
+        {
+          "id": 39,
+          "x": 182.12600708007812,
+          "y": 375.2176513671875,
+          "actual": 39,
+          "crossing": true
+        },
+        {
+          "id": 41,
+          "x": 287.15464782714844,
+          "y": 369.76805114746094,
+          "actual": 41,
+          "crossing": true
+        },
+        {
+          "id": 42,
+          "x": 234.64032745361328,
+          "y": 437.4421691894531,
+          "actual": 42,
+          "crossing": true
+        },
+        {
+          "id": 43,
+          "x": 392.18328857421875,
+          "y": 366.498291015625,
+          "actual": 43,
+          "crossing": true
+        },
+        {
+          "id": 45,
+          "x": 497.21192932128906,
+          "y": 365.4083709716797,
+          "actual": 45,
+          "crossing": true
+        },
+        {
+          "id": 46,
+          "x": 444.6976013183594,
+          "y": 430.90264892578125,
+          "actual": 46,
+          "crossing": true
+        },
+        {
+          "id": 47,
+          "x": 602.2405700683594,
+          "y": 369.76805114746094,
+          "actual": 47,
+          "crossing": true
+        },
+        {
+          "id": 48,
+          "x": 549.7262573242188,
+          "y": 437.4421691894531,
+          "actual": 48,
+          "crossing": true
+        },
+        {
+          "id": 49,
+          "x": 707.2692260742188,
+          "y": 364.71478271484375,
+          "actual": 49,
+          "crossing": true
+        },
+        {
+          "id": 50,
+          "x": 654.7549133300781,
+          "y": 439.62200927734375,
+          "actual": 50,
+          "crossing": true
+        },
+        {
+          "id": 51,
+          "x": 812.2978515625,
+          "y": 375.2176513671875,
+          "actual": 51,
+          "crossing": true
+        },
+        {
+          "id": 52,
+          "x": 759.7835388183594,
+          "y": 430.90264892578125,
+          "actual": 52,
+          "crossing": true
+        },
+        {
+          "id": 53,
+          "x": 917.3264770507812,
+          "y": 377.7938232421875,
+          "actual": 53,
+          "crossing": true
+        },
+        {
+          "id": 54,
+          "x": 864.8121948242188,
+          "y": 457.06072998046875,
+          "actual": 54,
+          "crossing": true
+        },
+        {
+          "id": 55,
+          "x": 1022.3551330566406,
+          "y": 364.71478271484375,
+          "actual": 55,
+          "crossing": true
+        },
+        {
+          "id": 56,
+          "x": 969.8408203125,
+          "y": 439.62200927734375,
+          "actual": 56,
+          "crossing": true
+        },
+        {
+          "id": 57,
+          "x": 1074.8695068359375,
+          "y": 430.90264892578125,
+          "actual": 57,
+          "crossing": false
+        },
+        {
+          "id": 58,
+          "x": 182.1259994506836,
+          "y": 480.93988037109375,
+          "actual": 58,
+          "crossing": true
+        },
+        {
+          "id": 60,
+          "x": 287.15464782714844,
+          "y": 479.45362854003906,
+          "actual": 60,
+          "crossing": true
+        },
+        {
+          "id": 61,
+          "x": 234.64031982421875,
+          "y": 552.5773315429688,
+          "actual": 61,
+          "crossing": true
+        },
+        {
+          "id": 62,
+          "x": 392.18328857421875,
+          "y": 476.5802001953125,
+          "actual": 62,
+          "crossing": true
+        },
+        {
+          "id": 63,
+          "x": 339.6689758300781,
+          "y": 543.8579711914062,
+          "actual": 63,
+          "crossing": true
+        },
+        {
+          "id": 64,
+          "x": 497.2119445800781,
+          "y": 492.5326690673828,
+          "actual": 64,
+          "crossing": true
+        },
+        {
+          "id": 65,
+          "x": 444.69761657714844,
+          "y": 550.3975219726562,
+          "actual": 65,
+          "crossing": true
+        },
+        {
+          "id": 66,
+          "x": 602.2405700683594,
+          "y": 489.2629089355469,
+          "actual": 66,
+          "crossing": true
+        },
+        {
+          "id": 67,
+          "x": 549.7262573242188,
+          "y": 572.1958923339844,
+          "actual": 67,
+          "crossing": true
+        },
+        {
+          "id": 68,
+          "x": 707.2691955566406,
+          "y": 478.36370849609375,
+          "actual": 68,
+          "crossing": true
+        },
+        {
+          "id": 69,
+          "x": 654.7549133300781,
+          "y": 543.8579711914062,
+          "actual": 69,
+          "crossing": true
+        },
+        {
+          "id": 70,
+          "x": 812.2978515625,
+          "y": 482.723388671875,
+          "actual": 70,
+          "crossing": true
+        },
+        {
+          "id": 71,
+          "x": 759.7835388183594,
+          "y": 550.3975219726562,
+          "actual": 71,
+          "crossing": true
+        },
+        {
+          "id": 72,
+          "x": 917.3265075683594,
+          "y": 477.6701202392578,
+          "actual": 72,
+          "crossing": true
+        },
+        {
+          "id": 73,
+          "x": 864.8121948242188,
+          "y": 552.5773315429688,
+          "actual": 73,
+          "crossing": true
+        },
+        {
+          "id": 74,
+          "x": 1022.3551635742188,
+          "y": 476.5802001953125,
+          "actual": 74,
+          "crossing": true
+        },
+        {
+          "id": 75,
+          "x": 969.8408203125,
+          "y": 543.8579711914062,
+          "actual": 75,
+          "crossing": true
+        },
+        {
+          "id": 76,
+          "x": 1074.8695068359375,
+          "y": 550.3975219726562,
+          "actual": 76,
+          "crossing": false
+        },
+        {
+          "id": 79,
+          "x": 287.15464782714844,
+          "y": 601.1283264160156,
+          "actual": 79,
+          "crossing": false
+        },
+        {
+          "id": 80,
+          "x": 234.64032745361328,
+          "y": 676.4318542480469,
+          "actual": 80,
+          "crossing": true
+        },
+        {
+          "id": 81,
+          "x": 392.18328857421875,
+          "y": 595.6787414550781,
+          "actual": 81,
+          "crossing": true
+        },
+        {
+          "id": 82,
+          "x": 339.6689758300781,
+          "y": 663.3528137207031,
+          "actual": 82,
+          "crossing": true
+        },
+        {
+          "id": 83,
+          "x": 497.21192932128906,
+          "y": 590.6254577636719,
+          "actual": 83,
+          "crossing": true
+        },
+        {
+          "id": 84,
+          "x": 444.6976013183594,
+          "y": 665.5326843261719,
+          "actual": 84,
+          "crossing": true
+        },
+        {
+          "id": 85,
+          "x": 602.2405700683594,
+          "y": 591.3190307617188,
+          "actual": 85,
+          "crossing": true
+        },
+        {
+          "id": 86,
+          "x": 549.7262268066406,
+          "y": 656.8133239746094,
+          "actual": 86,
+          "crossing": true
+        },
+        {
+          "id": 87,
+          "x": 707.2691955566406,
+          "y": 595.6787414550781,
+          "actual": 87,
+          "crossing": true
+        },
+        {
+          "id": 88,
+          "x": 654.7549133300781,
+          "y": 663.3528137207031,
+          "actual": 88,
+          "crossing": true
+        },
+        {
+          "id": 89,
+          "x": 812.2978820800781,
+          "y": 592.4089660644531,
+          "actual": 89,
+          "crossing": true
+        },
+        {
+          "id": 90,
+          "x": 759.7835388183594,
+          "y": 665.5326843261719,
+          "actual": 90,
+          "crossing": true
+        },
+        {
+          "id": 92,
+          "x": 549.7262573242188,
+          "y": 567.4398803710938,
+          "actual": 92,
+          "crossing": true
+        },
+        {
+          "id": 94,
+          "x": 444.69761657714844,
+          "y": 563.0802307128906,
+          "actual": 94,
+          "crossing": true
+        },
+        {
+          "id": 96,
+          "x": 340.2109832763672,
+          "y": 566.7327270507812,
+          "actual": 96,
+          "crossing": true
+        },
+        {
+          "id": 98,
+          "x": 241.97802734375,
+          "y": 583.0311584472656,
+          "actual": 98,
+          "crossing": true
+        },
+        {
+          "id": 99,
+          "x": 193.92860412597656,
+          "y": 604.839111328125,
+          "actual": 99,
+          "crossing": true
+        },
+        {
+          "id": 101,
+          "x": 602.2405700683594,
+          "y": 510.96221923828125,
+          "actual": 101,
+          "crossing": true
+        },
+        {
+          "id": 103,
+          "x": 497.21192932128906,
+          "y": 506.6025390625,
+          "actual": 103,
+          "crossing": true
+        },
+        {
+          "id": 105,
+          "x": 392.18328857421875,
+          "y": 509.8722839355469,
+          "actual": 105,
+          "crossing": true
+        },
+        {
+          "id": 106,
+          "x": 339.66896057128906,
+          "y": 506.6025390625,
+          "actual": 106,
+          "crossing": true
+        },
+        {
+          "id": 107,
+          "x": 287.15464782714844,
+          "y": 510.96221923828125,
+          "actual": 107,
+          "crossing": true
+        },
+        {
+          "id": 109,
+          "x": 188.53311157226562,
+          "y": 533.5684204101562,
+          "actual": 109,
+          "crossing": true
+        },
+        {
+          "id": 112,
+          "x": 549.7262573242188,
+          "y": 450.12486267089844,
+          "actual": 112,
+          "crossing": true
+        },
+        {
+          "id": 114,
+          "x": 444.69761657714844,
+          "y": 453.39463806152344,
+          "actual": 114,
+          "crossing": true
+        },
+        {
+          "id": 116,
+          "x": 339.66896057128906,
+          "y": 464.29383850097656,
+          "actual": 116,
+          "crossing": true
+        },
+        {
+          "id": 118,
+          "x": 234.64032745361328,
+          "y": 450.12486267089844,
+          "actual": 118,
+          "crossing": true
+        },
+        {
+          "id": 121,
+          "x": 602.2405700683594,
+          "y": 393.64720153808594,
+          "actual": 121,
+          "crossing": true
+        },
+        {
+          "id": 123,
+          "x": 497.21192932128906,
+          "y": 406.7262420654297,
+          "actual": 123,
+          "crossing": true
+        },
+        {
+          "id": 124,
+          "x": 444.69761657714844,
+          "y": 393.64720153808594,
+          "actual": 124,
+          "crossing": true
+        },
+        {
+          "id": 125,
+          "x": 392.18328857421875,
+          "y": 398.0068817138672,
+          "actual": 125,
+          "crossing": true
+        },
+        {
+          "id": 127,
+          "x": 287.15464782714844,
+          "y": 393.64720153808594,
+          "actual": 127,
+          "crossing": true
+        },
+        {
+          "id": 129,
+          "x": 182.12600708007812,
+          "y": 396.91697692871094,
+          "actual": 129,
+          "crossing": true
+        },
+        {
+          "id": 132,
+          "x": 549.7262573242188,
+          "y": 340.4393005371094,
+          "actual": 132,
+          "crossing": true
+        },
+        {
+          "id": 134,
+          "x": 658.8265686035156,
+          "y": 442.51878356933594,
+          "actual": 134,
+          "crossing": true
+        },
+        {
+          "id": 136,
+          "x": 552.9779052734375,
+          "y": 445.9907684326172,
+          "actual": 136,
+          "crossing": true
+        },
+        {
+          "id": 138,
+          "x": 444.69761657714844,
+          "y": 459.2405700683594,
+          "actual": 138,
+          "crossing": true
+        },
+        {
+          "id": 140,
+          "x": 345.2172088623047,
+          "y": 459.2405700683594,
+          "actual": 140,
+          "crossing": true
+        },
+        {
+          "id": 142,
+          "x": 234.64032745361328,
+          "y": 459.2405700683594,
+          "actual": 142,
+          "crossing": true
+        },
+        {
+          "id": 145,
+          "x": 602.2405700683594,
+          "y": 396.5206298828125,
+          "actual": 145,
+          "crossing": true
+        },
+        {
+          "id": 147,
+          "x": 498.56199645996094,
+          "y": 388.9123840332031,
+          "actual": 147,
+          "crossing": true
+        },
+        {
+          "id": 148,
+          "x": 449.8960723876953,
+          "y": 397.1847686767578,
+          "actual": 148,
+          "crossing": true
+        },
+        {
+          "id": 149,
+          "x": 402.2840118408203,
+          "y": 402.1695861816406,
+          "actual": 149,
+          "crossing": true
+        },
+        {
+          "id": 151,
+          "x": 289.81666564941406,
+          "y": 402.7628936767578,
+          "actual": 151,
+          "crossing": true
+        },
+        {
+          "id": 152,
+          "x": 234.64032745361328,
+          "y": 402.7628936767578,
+          "actual": 152,
+          "crossing": true
+        },
+        {
+          "id": 153,
+          "x": 179.74227142333984,
+          "y": 402.7628936767578,
+          "actual": 153,
+          "crossing": true
+        },
+        {
+          "id": 154,
+          "x": 654.7548828125,
+          "y": 330.2336883544922,
+          "actual": 154,
+          "crossing": true
+        },
+        {
+          "id": 155,
+          "x": 602.2405700683594,
+          "y": 326.96392822265625,
+          "actual": 155,
+          "crossing": true
+        },
+        {
+          "id": 156,
+          "x": 549.7262573242188,
+          "y": 331.3236083984375,
+          "actual": 156,
+          "crossing": true
+        },
+        {
+          "id": 160,
+          "x": 346.8896942138672,
+          "y": 346.2852325439453,
+          "actual": 160,
+          "crossing": true
+        },
+        {
+          "id": 162,
+          "x": 234.64032745361328,
+          "y": 346.2852325439453,
+          "actual": 162,
+          "crossing": true
+        },
+        {
+          "id": 166,
+          "x": 549.7262573242188,
+          "y": 283.5653076171875,
+          "actual": 166,
+          "crossing": true
+        },
+        {
+          "id": 167,
+          "x": 497.21192932128906,
+          "y": 270.48626708984375,
+          "actual": 167,
+          "crossing": true
+        },
+        {
+          "id": 171,
+          "x": 292.14878845214844,
+          "y": 289.8075714111328,
+          "actual": 171,
+          "crossing": true
+        },
+        {
+          "id": 172,
+          "x": 234.64032745361328,
+          "y": 289.8075714111328,
+          "actual": 172,
+          "crossing": true
+        },
+        {
+          "id": 173,
+          "x": 180.01776885986328,
+          "y": 289.8075714111328,
+          "actual": 173,
+          "crossing": true
+        },
+        {
+          "id": 174,
+          "x": 654.7548828125,
+          "y": 218.36827850341797,
+          "actual": 174,
+          "crossing": true
+        },
+        {
+          "id": 175,
+          "x": 602.2405700683594,
+          "y": 217.27835845947266,
+          "actual": 175,
+          "crossing": true
+        },
+        {
+          "id": 176,
+          "x": 713.0928039550781,
+          "y": 435.5872344970703,
+          "actual": 176,
+          "crossing": true
+        },
+        {
+          "id": 177,
+          "x": 655.9757385253906,
+          "y": 436.6494903564453,
+          "actual": 177,
+          "crossing": true
+        },
+        {
+          "id": 178,
+          "x": 604.283203125,
+          "y": 441.8018493652344,
+          "actual": 178,
+          "crossing": true
+        },
+        {
+          "id": 179,
+          "x": 553.8597412109375,
+          "y": 441.8018493652344,
+          "actual": 179,
+          "crossing": true
+        },
+        {
+          "id": 180,
+          "x": 492.49314880371094,
+          "y": 441.8018493652344,
+          "actual": 180,
+          "crossing": true
+        },
+        {
+          "id": 181,
+          "x": 445.51466369628906,
+          "y": 441.8018493652344,
+          "actual": 181,
+          "crossing": true
+        },
+        {
+          "id": 182,
+          "x": 393.21669006347656,
+          "y": 441.8018493652344,
+          "actual": 182,
+          "crossing": true
+        },
+        {
+          "id": 183,
+          "x": 339.66896057128906,
+          "y": 441.8018493652344,
+          "actual": 183,
+          "crossing": true
+        },
+        {
+          "id": 184,
+          "x": 286.74610900878906,
+          "y": 441.8018493652344,
+          "actual": 184,
+          "crossing": true
+        },
+        {
+          "id": 185,
+          "x": 232.57357788085938,
+          "y": 441.8018493652344,
+          "actual": 185,
+          "crossing": true
+        },
+        {
+          "id": 186,
+          "x": 707.2692260742188,
+          "y": 379.08192443847656,
+          "actual": 186,
+          "crossing": true
+        },
+        {
+          "id": 188,
+          "x": 608.7311401367188,
+          "y": 380.1718292236328,
+          "actual": 188,
+          "crossing": true
+        },
+        {
+          "id": 190,
+          "x": 498.7469024658203,
+          "y": 385.3241729736328,
+          "actual": 190,
+          "crossing": true
+        },
+        {
+          "id": 192,
+          "x": 392.43788146972656,
+          "y": 385.3241729736328,
+          "actual": 192,
+          "crossing": true
+        },
+        {
+          "id": 194,
+          "x": 288.1488952636719,
+          "y": 385.3241729736328,
+          "actual": 194,
+          "crossing": true
+        },
+        {
+          "id": 196,
+          "x": 707.2692260742188,
+          "y": 321.5143280029297,
+          "actual": 196,
+          "crossing": true
+        },
+        {
+          "id": 197,
+          "x": 656.2225646972656,
+          "y": 319.0084228515625,
+          "actual": 197,
+          "crossing": true
+        },
+        {
+          "id": 198,
+          "x": 602.2405700683594,
+          "y": 322.604248046875,
+          "actual": 198,
+          "crossing": true
+        },
+        {
+          "id": 199,
+          "x": 551.9671630859375,
+          "y": 323.298583984375,
+          "actual": 199,
+          "crossing": true
+        },
+        {
+          "id": 200,
+          "x": 502.447509765625,
+          "y": 328.8465118408203,
+          "actual": 200,
+          "crossing": true
+        },
+        {
+          "id": 202,
+          "x": 392.8677062988281,
+          "y": 328.8465118408203,
+          "actual": 202,
+          "crossing": true
+        },
+        {
+          "id": 203,
+          "x": 339.66896057128906,
+          "y": 328.8465118408203,
+          "actual": 203,
+          "crossing": true
+        },
+        {
+          "id": 204,
+          "x": 286.8146514892578,
+          "y": 328.8465118408203,
+          "actual": 204,
+          "crossing": true
+        },
+        {
+          "id": 205,
+          "x": 233.27146911621094,
+          "y": 328.8465118408203,
+          "actual": 205,
+          "crossing": true
+        },
+        {
+          "id": 206,
+          "x": 707.2692260742188,
+          "y": 261.76690673828125,
+          "actual": 206,
+          "crossing": true
+        },
+        {
+          "id": 208,
+          "x": 602.2405700683594,
+          "y": 274.845947265625,
+          "actual": 208,
+          "crossing": true
+        },
+        {
+          "id": 210,
+          "x": 497.21192932128906,
+          "y": 266.1265869140625,
+          "actual": 210,
+          "crossing": true
+        },
+        {
+          "id": 212,
+          "x": 394.84532165527344,
+          "y": 272.3688507080078,
+          "actual": 212,
+          "crossing": true
+        },
+        {
+          "id": 214,
+          "x": 286.1212615966797,
+          "y": 272.3688507080078,
+          "actual": 214,
+          "crossing": true
+        },
+        {
+          "id": 216,
+          "x": 707.2692260742188,
+          "y": 209.64891815185547,
+          "actual": 216,
+          "crossing": true
+        },
+        {
+          "id": 217,
+          "x": 766.8978271484375,
+          "y": 440.64878845214844,
+          "actual": 217,
+          "crossing": true
+        },
+        {
+          "id": 219,
+          "x": 658.8883972167969,
+          "y": 448.34136962890625,
+          "actual": 219,
+          "crossing": true
+        }
+      ]
+    },
+    "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)": {
+      "visible": 160,
+      "crossings": 146,
+      "targets": [
+        {
+          "id": 1,
+          "x": 188.5143051147461,
+          "y": 285.03079986572266,
+          "actual": 1,
+          "crossing": true
+        },
+        {
+          "id": 3,
+          "x": 287.15464782714844,
+          "y": 154.06299591064453,
+          "actual": 3,
+          "crossing": false
+        },
+        {
+          "id": 4,
+          "x": 234.64032745361328,
+          "y": 233.32990264892578,
+          "actual": 4,
+          "crossing": true
+        },
+        {
+          "id": 5,
+          "x": 392.18328857421875,
+          "y": 148.6134033203125,
+          "actual": 5,
+          "crossing": true
+        },
+        {
+          "id": 6,
+          "x": 339.66896057128906,
+          "y": 215.89118194580078,
+          "actual": 6,
+          "crossing": true
+        },
+        {
+          "id": 7,
+          "x": 497.2119445800781,
+          "y": 149.30699157714844,
+          "actual": 7,
+          "crossing": false
+        },
+        {
+          "id": 8,
+          "x": 444.6976013183594,
+          "y": 222.43070220947266,
+          "actual": 8,
+          "crossing": true
+        },
+        {
+          "id": 9,
+          "x": 602.2405700683594,
+          "y": 140.58763122558594,
+          "actual": 9,
+          "crossing": false
+        },
+        {
+          "id": 10,
+          "x": 549.7262573242188,
+          "y": 213.71134185791016,
+          "actual": 10,
+          "crossing": true
+        },
+        {
+          "id": 11,
+          "x": 707.2692260742188,
+          "y": 149.30699157714844,
+          "actual": 11,
+          "crossing": false
+        },
+        {
+          "id": 12,
+          "x": 654.7548828125,
+          "y": 204.99198150634766,
+          "actual": 12,
+          "crossing": true
+        },
+        {
+          "id": 13,
+          "x": 812.2978820800781,
+          "y": 151.8831558227539,
+          "actual": 13,
+          "crossing": false
+        },
+        {
+          "id": 14,
+          "x": 759.7835388183594,
+          "y": 231.15006256103516,
+          "actual": 14,
+          "crossing": true
+        },
+        {
+          "id": 15,
+          "x": 917.3265075683594,
+          "y": 140.58763122558594,
+          "actual": 15,
+          "crossing": false
+        },
+        {
+          "id": 16,
+          "x": 864.8121643066406,
+          "y": 213.71134185791016,
+          "actual": 16,
+          "crossing": false
+        },
+        {
+          "id": 17,
+          "x": 1022.3551635742188,
+          "y": 139.49771118164062,
+          "actual": 17,
+          "crossing": false
+        },
+        {
+          "id": 18,
+          "x": 969.8408203125,
+          "y": 204.99198150634766,
+          "actual": 18,
+          "crossing": false
+        },
+        {
+          "id": 19,
+          "x": 1074.8694458007812,
+          "y": 211.53150177001953,
+          "actual": 19,
+          "crossing": false
+        },
+        {
+          "id": 20,
+          "x": 182.12600708007812,
+          "y": 253.54296112060547,
+          "actual": 20,
+          "crossing": true
+        },
+        {
+          "id": 22,
+          "x": 287.15464782714844,
+          "y": 252.45303344726562,
+          "actual": 22,
+          "crossing": true
+        },
+        {
+          "id": 23,
+          "x": 234.64032745361328,
+          "y": 317.9473114013672,
+          "actual": 23,
+          "crossing": true
+        },
+        {
+          "id": 24,
+          "x": 392.18328857421875,
+          "y": 264.83849334716797,
+          "actual": 24,
+          "crossing": true
+        },
+        {
+          "id": 25,
+          "x": 339.66896057128906,
+          "y": 324.4868469238281,
+          "actual": 25,
+          "crossing": true
+        },
+        {
+          "id": 27,
+          "x": 444.6976013183594,
+          "y": 346.2852325439453,
+          "actual": 27,
+          "crossing": true
+        },
+        {
+          "id": 28,
+          "x": 602.2405700683594,
+          "y": 252.45303344726562,
+          "actual": 28,
+          "crossing": true
+        },
+        {
+          "id": 29,
+          "x": 549.7262573242188,
+          "y": 317.9473114013672,
+          "actual": 29,
+          "crossing": true
+        },
+        {
+          "id": 30,
+          "x": 707.2692260742188,
+          "y": 256.8127136230469,
+          "actual": 30,
+          "crossing": true
+        },
+        {
+          "id": 31,
+          "x": 654.7548828125,
+          "y": 324.4868469238281,
+          "actual": 31,
+          "crossing": true
+        },
+        {
+          "id": 32,
+          "x": 812.2978515625,
+          "y": 253.54296112060547,
+          "actual": 32,
+          "crossing": true
+        },
+        {
+          "id": 33,
+          "x": 759.7835388183594,
+          "y": 326.6666717529297,
+          "actual": 33,
+          "crossing": true
+        },
+        {
+          "id": 34,
+          "x": 917.3264770507812,
+          "y": 250.6695327758789,
+          "actual": 34,
+          "crossing": true
+        },
+        {
+          "id": 35,
+          "x": 864.8121643066406,
+          "y": 317.9473114013672,
+          "actual": 35,
+          "crossing": true
+        },
+        {
+          "id": 36,
+          "x": 1022.3551330566406,
+          "y": 256.8127136230469,
+          "actual": 36,
+          "crossing": true
+        },
+        {
+          "id": 37,
+          "x": 969.8408203125,
+          "y": 324.4868469238281,
+          "actual": 37,
+          "crossing": true
+        },
+        {
+          "id": 38,
+          "x": 1074.8694458007812,
+          "y": 326.6666717529297,
+          "actual": 38,
+          "crossing": false
+        },
+        {
+          "id": 39,
+          "x": 182.12600708007812,
+          "y": 375.2176513671875,
+          "actual": 39,
+          "crossing": true
+        },
+        {
+          "id": 41,
+          "x": 287.15464782714844,
+          "y": 369.76805114746094,
+          "actual": 41,
+          "crossing": true
+        },
+        {
+          "id": 42,
+          "x": 234.64032745361328,
+          "y": 437.4421691894531,
+          "actual": 42,
+          "crossing": true
+        },
+        {
+          "id": 43,
+          "x": 392.18328857421875,
+          "y": 366.498291015625,
+          "actual": 43,
+          "crossing": true
+        },
+        {
+          "id": 45,
+          "x": 497.21192932128906,
+          "y": 365.4083709716797,
+          "actual": 45,
+          "crossing": true
+        },
+        {
+          "id": 46,
+          "x": 444.6976013183594,
+          "y": 430.90264892578125,
+          "actual": 46,
+          "crossing": true
+        },
+        {
+          "id": 47,
+          "x": 602.2405700683594,
+          "y": 369.76805114746094,
+          "actual": 47,
+          "crossing": true
+        },
+        {
+          "id": 48,
+          "x": 549.7262573242188,
+          "y": 437.4421691894531,
+          "actual": 48,
+          "crossing": true
+        },
+        {
+          "id": 49,
+          "x": 707.2692260742188,
+          "y": 364.71478271484375,
+          "actual": 49,
+          "crossing": true
+        },
+        {
+          "id": 50,
+          "x": 654.7549133300781,
+          "y": 439.62200927734375,
+          "actual": 50,
+          "crossing": true
+        },
+        {
+          "id": 51,
+          "x": 812.2978515625,
+          "y": 375.2176513671875,
+          "actual": 51,
+          "crossing": true
+        },
+        {
+          "id": 52,
+          "x": 759.7835388183594,
+          "y": 430.90264892578125,
+          "actual": 52,
+          "crossing": true
+        },
+        {
+          "id": 53,
+          "x": 917.3264770507812,
+          "y": 377.7938232421875,
+          "actual": 53,
+          "crossing": true
+        },
+        {
+          "id": 54,
+          "x": 864.8121948242188,
+          "y": 457.06072998046875,
+          "actual": 54,
+          "crossing": true
+        },
+        {
+          "id": 55,
+          "x": 1022.3551330566406,
+          "y": 364.71478271484375,
+          "actual": 55,
+          "crossing": true
+        },
+        {
+          "id": 56,
+          "x": 969.8408203125,
+          "y": 439.62200927734375,
+          "actual": 56,
+          "crossing": true
+        },
+        {
+          "id": 57,
+          "x": 1074.8695068359375,
+          "y": 430.90264892578125,
+          "actual": 57,
+          "crossing": false
+        },
+        {
+          "id": 58,
+          "x": 182.1259994506836,
+          "y": 480.93988037109375,
+          "actual": 58,
+          "crossing": true
+        },
+        {
+          "id": 60,
+          "x": 287.15464782714844,
+          "y": 479.45362854003906,
+          "actual": 60,
+          "crossing": true
+        },
+        {
+          "id": 61,
+          "x": 234.64031982421875,
+          "y": 552.5773315429688,
+          "actual": 61,
+          "crossing": true
+        },
+        {
+          "id": 62,
+          "x": 392.18328857421875,
+          "y": 476.5802001953125,
+          "actual": 62,
+          "crossing": true
+        },
+        {
+          "id": 63,
+          "x": 339.6689758300781,
+          "y": 543.8579711914062,
+          "actual": 63,
+          "crossing": true
+        },
+        {
+          "id": 64,
+          "x": 497.2119445800781,
+          "y": 492.5326690673828,
+          "actual": 64,
+          "crossing": true
+        },
+        {
+          "id": 65,
+          "x": 444.69761657714844,
+          "y": 550.3975219726562,
+          "actual": 65,
+          "crossing": true
+        },
+        {
+          "id": 66,
+          "x": 602.2405700683594,
+          "y": 489.2629089355469,
+          "actual": 66,
+          "crossing": true
+        },
+        {
+          "id": 67,
+          "x": 549.7262573242188,
+          "y": 572.1958923339844,
+          "actual": 67,
+          "crossing": true
+        },
+        {
+          "id": 68,
+          "x": 707.2691955566406,
+          "y": 478.36370849609375,
+          "actual": 68,
+          "crossing": true
+        },
+        {
+          "id": 69,
+          "x": 654.7549133300781,
+          "y": 543.8579711914062,
+          "actual": 69,
+          "crossing": true
+        },
+        {
+          "id": 70,
+          "x": 812.2978515625,
+          "y": 482.723388671875,
+          "actual": 70,
+          "crossing": true
+        },
+        {
+          "id": 71,
+          "x": 759.7835388183594,
+          "y": 550.3975219726562,
+          "actual": 71,
+          "crossing": true
+        },
+        {
+          "id": 72,
+          "x": 917.3265075683594,
+          "y": 477.6701202392578,
+          "actual": 72,
+          "crossing": true
+        },
+        {
+          "id": 73,
+          "x": 864.8121948242188,
+          "y": 552.5773315429688,
+          "actual": 73,
+          "crossing": true
+        },
+        {
+          "id": 74,
+          "x": 1022.3551635742188,
+          "y": 476.5802001953125,
+          "actual": 74,
+          "crossing": true
+        },
+        {
+          "id": 75,
+          "x": 969.8408203125,
+          "y": 543.8579711914062,
+          "actual": 75,
+          "crossing": true
+        },
+        {
+          "id": 76,
+          "x": 1074.8695068359375,
+          "y": 550.3975219726562,
+          "actual": 76,
+          "crossing": false
+        },
+        {
+          "id": 79,
+          "x": 287.15464782714844,
+          "y": 601.1283264160156,
+          "actual": 79,
+          "crossing": false
+        },
+        {
+          "id": 80,
+          "x": 234.64032745361328,
+          "y": 676.4318542480469,
+          "actual": 80,
+          "crossing": true
+        },
+        {
+          "id": 81,
+          "x": 392.18328857421875,
+          "y": 595.6787414550781,
+          "actual": 81,
+          "crossing": true
+        },
+        {
+          "id": 82,
+          "x": 339.6689758300781,
+          "y": 663.3528137207031,
+          "actual": 82,
+          "crossing": true
+        },
+        {
+          "id": 83,
+          "x": 497.21192932128906,
+          "y": 590.6254577636719,
+          "actual": 83,
+          "crossing": true
+        },
+        {
+          "id": 84,
+          "x": 444.6976013183594,
+          "y": 665.5326843261719,
+          "actual": 84,
+          "crossing": true
+        },
+        {
+          "id": 85,
+          "x": 602.2405700683594,
+          "y": 591.3190307617188,
+          "actual": 85,
+          "crossing": true
+        },
+        {
+          "id": 86,
+          "x": 549.7262268066406,
+          "y": 656.8133239746094,
+          "actual": 86,
+          "crossing": true
+        },
+        {
+          "id": 87,
+          "x": 707.2691955566406,
+          "y": 595.6787414550781,
+          "actual": 87,
+          "crossing": true
+        },
+        {
+          "id": 88,
+          "x": 654.7549133300781,
+          "y": 663.3528137207031,
+          "actual": 88,
+          "crossing": true
+        },
+        {
+          "id": 89,
+          "x": 812.2978820800781,
+          "y": 592.4089660644531,
+          "actual": 89,
+          "crossing": true
+        },
+        {
+          "id": 90,
+          "x": 759.7835388183594,
+          "y": 665.5326843261719,
+          "actual": 90,
+          "crossing": true
+        },
+        {
+          "id": 92,
+          "x": 549.7262573242188,
+          "y": 567.4398803710938,
+          "actual": 92,
+          "crossing": true
+        },
+        {
+          "id": 94,
+          "x": 444.69761657714844,
+          "y": 563.0802307128906,
+          "actual": 94,
+          "crossing": true
+        },
+        {
+          "id": 96,
+          "x": 340.2109832763672,
+          "y": 566.7327270507812,
+          "actual": 96,
+          "crossing": true
+        },
+        {
+          "id": 98,
+          "x": 241.97802734375,
+          "y": 583.0311584472656,
+          "actual": 98,
+          "crossing": true
+        },
+        {
+          "id": 99,
+          "x": 193.92860412597656,
+          "y": 604.839111328125,
+          "actual": 99,
+          "crossing": true
+        },
+        {
+          "id": 101,
+          "x": 602.2405700683594,
+          "y": 510.96221923828125,
+          "actual": 101,
+          "crossing": true
+        },
+        {
+          "id": 103,
+          "x": 497.21192932128906,
+          "y": 506.6025390625,
+          "actual": 103,
+          "crossing": true
+        },
+        {
+          "id": 105,
+          "x": 392.18328857421875,
+          "y": 509.8722839355469,
+          "actual": 105,
+          "crossing": true
+        },
+        {
+          "id": 106,
+          "x": 339.66896057128906,
+          "y": 506.6025390625,
+          "actual": 106,
+          "crossing": true
+        },
+        {
+          "id": 107,
+          "x": 287.15464782714844,
+          "y": 510.96221923828125,
+          "actual": 107,
+          "crossing": true
+        },
+        {
+          "id": 109,
+          "x": 188.53311157226562,
+          "y": 533.5684204101562,
+          "actual": 109,
+          "crossing": true
+        },
+        {
+          "id": 112,
+          "x": 549.7262573242188,
+          "y": 450.12486267089844,
+          "actual": 112,
+          "crossing": true
+        },
+        {
+          "id": 114,
+          "x": 444.69761657714844,
+          "y": 453.39463806152344,
+          "actual": 114,
+          "crossing": true
+        },
+        {
+          "id": 116,
+          "x": 339.66896057128906,
+          "y": 464.29383850097656,
+          "actual": 116,
+          "crossing": true
+        },
+        {
+          "id": 118,
+          "x": 234.64032745361328,
+          "y": 450.12486267089844,
+          "actual": 118,
+          "crossing": true
+        },
+        {
+          "id": 121,
+          "x": 602.2405700683594,
+          "y": 393.64720153808594,
+          "actual": 121,
+          "crossing": true
+        },
+        {
+          "id": 123,
+          "x": 497.21192932128906,
+          "y": 406.7262420654297,
+          "actual": 123,
+          "crossing": true
+        },
+        {
+          "id": 124,
+          "x": 444.69761657714844,
+          "y": 393.64720153808594,
+          "actual": 124,
+          "crossing": true
+        },
+        {
+          "id": 125,
+          "x": 392.18328857421875,
+          "y": 398.0068817138672,
+          "actual": 125,
+          "crossing": true
+        },
+        {
+          "id": 127,
+          "x": 287.15464782714844,
+          "y": 393.64720153808594,
+          "actual": 127,
+          "crossing": true
+        },
+        {
+          "id": 129,
+          "x": 182.12600708007812,
+          "y": 396.91697692871094,
+          "actual": 129,
+          "crossing": true
+        },
+        {
+          "id": 132,
+          "x": 549.7262573242188,
+          "y": 340.4393005371094,
+          "actual": 132,
+          "crossing": true
+        },
+        {
+          "id": 134,
+          "x": 658.8265686035156,
+          "y": 442.51878356933594,
+          "actual": 134,
+          "crossing": true
+        },
+        {
+          "id": 136,
+          "x": 552.9779052734375,
+          "y": 445.9907684326172,
+          "actual": 136,
+          "crossing": true
+        },
+        {
+          "id": 138,
+          "x": 444.69761657714844,
+          "y": 459.2405700683594,
+          "actual": 138,
+          "crossing": true
+        },
+        {
+          "id": 140,
+          "x": 345.2172088623047,
+          "y": 459.2405700683594,
+          "actual": 140,
+          "crossing": true
+        },
+        {
+          "id": 142,
+          "x": 234.64032745361328,
+          "y": 459.2405700683594,
+          "actual": 142,
+          "crossing": true
+        },
+        {
+          "id": 145,
+          "x": 602.2405700683594,
+          "y": 396.5206298828125,
+          "actual": 145,
+          "crossing": true
+        },
+        {
+          "id": 147,
+          "x": 498.56199645996094,
+          "y": 388.9123840332031,
+          "actual": 147,
+          "crossing": true
+        },
+        {
+          "id": 148,
+          "x": 449.8960723876953,
+          "y": 397.1847686767578,
+          "actual": 148,
+          "crossing": true
+        },
+        {
+          "id": 149,
+          "x": 402.2840118408203,
+          "y": 402.1695861816406,
+          "actual": 149,
+          "crossing": true
+        },
+        {
+          "id": 151,
+          "x": 289.81666564941406,
+          "y": 402.7628936767578,
+          "actual": 151,
+          "crossing": true
+        },
+        {
+          "id": 152,
+          "x": 234.64032745361328,
+          "y": 402.7628936767578,
+          "actual": 152,
+          "crossing": true
+        },
+        {
+          "id": 153,
+          "x": 179.74227142333984,
+          "y": 402.7628936767578,
+          "actual": 153,
+          "crossing": true
+        },
+        {
+          "id": 154,
+          "x": 654.7548828125,
+          "y": 330.2336883544922,
+          "actual": 154,
+          "crossing": true
+        },
+        {
+          "id": 155,
+          "x": 602.2405700683594,
+          "y": 326.96392822265625,
+          "actual": 155,
+          "crossing": true
+        },
+        {
+          "id": 156,
+          "x": 549.7262573242188,
+          "y": 331.3236083984375,
+          "actual": 156,
+          "crossing": true
+        },
+        {
+          "id": 160,
+          "x": 346.8896942138672,
+          "y": 346.2852325439453,
+          "actual": 160,
+          "crossing": true
+        },
+        {
+          "id": 162,
+          "x": 234.64032745361328,
+          "y": 346.2852325439453,
+          "actual": 162,
+          "crossing": true
+        },
+        {
+          "id": 166,
+          "x": 549.7262573242188,
+          "y": 283.5653076171875,
+          "actual": 166,
+          "crossing": true
+        },
+        {
+          "id": 167,
+          "x": 497.21192932128906,
+          "y": 270.48626708984375,
+          "actual": 167,
+          "crossing": true
+        },
+        {
+          "id": 171,
+          "x": 292.14878845214844,
+          "y": 289.8075714111328,
+          "actual": 171,
+          "crossing": true
+        },
+        {
+          "id": 172,
+          "x": 234.64032745361328,
+          "y": 289.8075714111328,
+          "actual": 172,
+          "crossing": true
+        },
+        {
+          "id": 173,
+          "x": 180.01776885986328,
+          "y": 289.8075714111328,
+          "actual": 173,
+          "crossing": true
+        },
+        {
+          "id": 174,
+          "x": 654.7548828125,
+          "y": 218.36827850341797,
+          "actual": 174,
+          "crossing": true
+        },
+        {
+          "id": 175,
+          "x": 602.2405700683594,
+          "y": 217.27835845947266,
+          "actual": 175,
+          "crossing": true
+        },
+        {
+          "id": 176,
+          "x": 713.0928039550781,
+          "y": 435.5872344970703,
+          "actual": 176,
+          "crossing": true
+        },
+        {
+          "id": 177,
+          "x": 655.9757385253906,
+          "y": 436.6494903564453,
+          "actual": 177,
+          "crossing": true
+        },
+        {
+          "id": 178,
+          "x": 604.283203125,
+          "y": 441.8018493652344,
+          "actual": 178,
+          "crossing": true
+        },
+        {
+          "id": 179,
+          "x": 553.8597412109375,
+          "y": 441.8018493652344,
+          "actual": 179,
+          "crossing": true
+        },
+        {
+          "id": 180,
+          "x": 492.49314880371094,
+          "y": 441.8018493652344,
+          "actual": 180,
+          "crossing": true
+        },
+        {
+          "id": 181,
+          "x": 445.51466369628906,
+          "y": 441.8018493652344,
+          "actual": 181,
+          "crossing": true
+        },
+        {
+          "id": 182,
+          "x": 393.21669006347656,
+          "y": 441.8018493652344,
+          "actual": 182,
+          "crossing": true
+        },
+        {
+          "id": 183,
+          "x": 339.66896057128906,
+          "y": 441.8018493652344,
+          "actual": 183,
+          "crossing": true
+        },
+        {
+          "id": 184,
+          "x": 286.74610900878906,
+          "y": 441.8018493652344,
+          "actual": 184,
+          "crossing": true
+        },
+        {
+          "id": 185,
+          "x": 232.57357788085938,
+          "y": 441.8018493652344,
+          "actual": 185,
+          "crossing": true
+        },
+        {
+          "id": 186,
+          "x": 707.2692260742188,
+          "y": 379.08192443847656,
+          "actual": 186,
+          "crossing": true
+        },
+        {
+          "id": 188,
+          "x": 608.7311401367188,
+          "y": 380.1718292236328,
+          "actual": 188,
+          "crossing": true
+        },
+        {
+          "id": 190,
+          "x": 498.7469024658203,
+          "y": 385.3241729736328,
+          "actual": 190,
+          "crossing": true
+        },
+        {
+          "id": 192,
+          "x": 392.43788146972656,
+          "y": 385.3241729736328,
+          "actual": 192,
+          "crossing": true
+        },
+        {
+          "id": 194,
+          "x": 288.1488952636719,
+          "y": 385.3241729736328,
+          "actual": 194,
+          "crossing": true
+        },
+        {
+          "id": 196,
+          "x": 707.2692260742188,
+          "y": 321.5143280029297,
+          "actual": 196,
+          "crossing": true
+        },
+        {
+          "id": 197,
+          "x": 656.2225646972656,
+          "y": 319.0084228515625,
+          "actual": 197,
+          "crossing": true
+        },
+        {
+          "id": 198,
+          "x": 602.2405700683594,
+          "y": 322.604248046875,
+          "actual": 198,
+          "crossing": true
+        },
+        {
+          "id": 199,
+          "x": 551.9671630859375,
+          "y": 323.298583984375,
+          "actual": 199,
+          "crossing": true
+        },
+        {
+          "id": 200,
+          "x": 502.447509765625,
+          "y": 328.8465118408203,
+          "actual": 200,
+          "crossing": true
+        },
+        {
+          "id": 202,
+          "x": 392.8677062988281,
+          "y": 328.8465118408203,
+          "actual": 202,
+          "crossing": true
+        },
+        {
+          "id": 203,
+          "x": 339.66896057128906,
+          "y": 328.8465118408203,
+          "actual": 203,
+          "crossing": true
+        },
+        {
+          "id": 204,
+          "x": 286.8146514892578,
+          "y": 328.8465118408203,
+          "actual": 204,
+          "crossing": true
+        },
+        {
+          "id": 205,
+          "x": 233.27146911621094,
+          "y": 328.8465118408203,
+          "actual": 205,
+          "crossing": true
+        },
+        {
+          "id": 206,
+          "x": 707.2692260742188,
+          "y": 261.76690673828125,
+          "actual": 206,
+          "crossing": true
+        },
+        {
+          "id": 208,
+          "x": 602.2405700683594,
+          "y": 274.845947265625,
+          "actual": 208,
+          "crossing": true
+        },
+        {
+          "id": 210,
+          "x": 497.21192932128906,
+          "y": 266.1265869140625,
+          "actual": 210,
+          "crossing": true
+        },
+        {
+          "id": 212,
+          "x": 394.84532165527344,
+          "y": 272.3688507080078,
+          "actual": 212,
+          "crossing": true
+        },
+        {
+          "id": 214,
+          "x": 286.1212615966797,
+          "y": 272.3688507080078,
+          "actual": 214,
+          "crossing": true
+        },
+        {
+          "id": 216,
+          "x": 707.2692260742188,
+          "y": 209.64891815185547,
+          "actual": 216,
+          "crossing": true
+        },
+        {
+          "id": 217,
+          "x": 766.8978271484375,
+          "y": 440.64878845214844,
+          "actual": 217,
+          "crossing": true
+        },
+        {
+          "id": 219,
+          "x": 658.8883972167969,
+          "y": 448.34136962890625,
+          "actual": 219,
+          "crossing": true
+        }
+      ]
+    },
+    "Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt": {
+      "normal": [
+        {
+          "id": 1,
+          "font": 16.000001365562966,
+          "left": 83.63661193847656,
+          "top": 106.88888549804688,
+          "right": 110.30327606201172,
+          "bottom": 133.55555725097656,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 16.000001365562966,
+          "left": 313.0067138671875,
+          "top": 106.88888549804688,
+          "right": 339.6733703613281,
+          "bottom": 133.55555725097656,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 16.000001365562966,
+          "left": 542.3768310546875,
+          "top": 106.88888549804688,
+          "right": 569.0435180664062,
+          "bottom": 133.55555725097656,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 16.000001365562966,
+          "left": 771.7469482421875,
+          "top": 106.88888549804688,
+          "right": 798.4136352539062,
+          "bottom": 133.55555725097656,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 16.000001365562966,
+          "left": 83.63661193847656,
+          "top": 353.5699462890625,
+          "right": 110.30327606201172,
+          "bottom": 380.2366027832031,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 16.000001365562966,
+          "left": 313.0067138671875,
+          "top": 353.5699462890625,
+          "right": 339.6733703613281,
+          "bottom": 380.2366027832031,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 16.000001365562966,
+          "left": 542.3768310546875,
+          "top": 353.5699462890625,
+          "right": 569.0435180664062,
+          "bottom": 380.2366027832031,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 16.000001365562966,
+          "left": 771.7469482421875,
+          "top": 353.5699462890625,
+          "right": 798.4136352539062,
+          "bottom": 380.2366027832031,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 16.000001365562966,
+          "left": 83.63661193847656,
+          "top": 600.2509765625,
+          "right": 110.30327606201172,
+          "bottom": 626.9176635742188,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 16.000001365562966,
+          "left": 313.0067138671875,
+          "top": 600.2509765625,
+          "right": 339.6733703613281,
+          "bottom": 626.9176635742188,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 16.000001365562966,
+          "left": 542.3768310546875,
+          "top": 600.2509765625,
+          "right": 569.0435180664062,
+          "bottom": 626.9176635742188,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 16.000001365562966,
+          "left": 771.7469482421875,
+          "top": 600.2509765625,
+          "right": 798.4136352539062,
+          "bottom": 626.9176635742188,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ],
+      "distant": [
+        {
+          "id": 1,
+          "font": 9.01366800069809,
+          "left": 430.2233581542969,
+          "top": 327.2251892089844,
+          "right": 445.24615478515625,
+          "bottom": 342.24798583984375,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 9.01366800069809,
+          "left": 468.13800048828125,
+          "top": 327.2251892089844,
+          "right": 483.1607666015625,
+          "bottom": 342.24798583984375,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 9.01366800069809,
+          "left": 506.0526428222656,
+          "top": 327.2251892089844,
+          "right": 521.075439453125,
+          "bottom": 342.24798583984375,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 9.01366800069809,
+          "left": 543.96728515625,
+          "top": 327.2251892089844,
+          "right": 558.9900512695312,
+          "bottom": 342.24798583984375,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 9.01366800069809,
+          "left": 430.2233581542969,
+          "top": 368.0013122558594,
+          "right": 445.24615478515625,
+          "bottom": 383.0240783691406,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 9.01366800069809,
+          "left": 468.13800048828125,
+          "top": 368.0013122558594,
+          "right": 483.1607666015625,
+          "bottom": 383.0240783691406,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 9.01366800069809,
+          "left": 506.0526428222656,
+          "top": 368.0013122558594,
+          "right": 521.075439453125,
+          "bottom": 383.0240783691406,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 9.01366800069809,
+          "left": 543.96728515625,
+          "top": 368.0013122558594,
+          "right": 558.9900512695312,
+          "bottom": 383.0240783691406,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 9.01366800069809,
+          "left": 430.2233581542969,
+          "top": 408.7774353027344,
+          "right": 445.24615478515625,
+          "bottom": 423.8002014160156,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 9.01366800069809,
+          "left": 468.13800048828125,
+          "top": 408.7774353027344,
+          "right": 483.1607666015625,
+          "bottom": 423.8002014160156,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 9.01366800069809,
+          "left": 506.0526428222656,
+          "top": 408.7774353027344,
+          "right": 521.075439453125,
+          "bottom": 423.8002014160156,
+          "width": 15.022796630859375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 9.01366800069809,
+          "left": 543.96728515625,
+          "top": 408.7774353027344,
+          "right": 558.9900512695312,
+          "bottom": 423.8002014160156,
+          "width": 15.02276611328125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ]
+    },
+    "Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt": {
+      "normal": [
+        {
+          "id": 1,
+          "font": 15.999998857083142,
+          "left": 32.888893127441406,
+          "top": 290.8746337890625,
+          "right": 59.55555725097656,
+          "bottom": 317.54132080078125,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 15.999998857083142,
+          "left": 219.56483459472656,
+          "top": 290.8746337890625,
+          "right": 246.2314910888672,
+          "bottom": 317.54132080078125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 15.999998857083142,
+          "left": 406.24078369140625,
+          "top": 290.8746337890625,
+          "right": 432.9074401855469,
+          "bottom": 317.54132080078125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 15.999998857083142,
+          "left": 592.9166870117188,
+          "top": 290.8746337890625,
+          "right": 619.5833740234375,
+          "bottom": 317.54132080078125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 15.999998857083142,
+          "left": 32.888893127441406,
+          "top": 491.6393127441406,
+          "right": 59.55555725097656,
+          "bottom": 518.3060302734375,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 15.999998857083142,
+          "left": 219.56483459472656,
+          "top": 491.6393127441406,
+          "right": 246.2314910888672,
+          "bottom": 518.3060302734375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 15.999998857083142,
+          "left": 406.24078369140625,
+          "top": 491.6393127441406,
+          "right": 432.9074401855469,
+          "bottom": 518.3060302734375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 15.999998857083142,
+          "left": 592.9166870117188,
+          "top": 491.6393127441406,
+          "right": 619.5833740234375,
+          "bottom": 518.3060302734375,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 15.999998857083142,
+          "left": 32.888893127441406,
+          "top": 692.4039916992188,
+          "right": 59.55555725097656,
+          "bottom": 719.0706787109375,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 15.999998857083142,
+          "left": 219.56483459472656,
+          "top": 692.4039916992188,
+          "right": 246.2314910888672,
+          "bottom": 719.0706787109375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 15.999998857083142,
+          "left": 406.24078369140625,
+          "top": 692.4039916992188,
+          "right": 432.9074401855469,
+          "bottom": 719.0706787109375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 15.999998857083142,
+          "left": 592.9166870117188,
+          "top": 692.4039916992188,
+          "right": 619.5833740234375,
+          "bottom": 719.0706787109375,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ],
+      "distant": [
+        {
+          "id": 1,
+          "font": 7.335893087089062,
+          "left": 317.8825988769531,
+          "top": 467.3691101074219,
+          "right": 330.10906982421875,
+          "bottom": 479.5955810546875,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 7.335893087089062,
+          "left": 348.73992919921875,
+          "top": 467.3691101074219,
+          "right": 360.9664001464844,
+          "bottom": 479.5955810546875,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 7.335893087089062,
+          "left": 379.59722900390625,
+          "top": 467.3691101074219,
+          "right": 391.82373046875,
+          "bottom": 479.5955810546875,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 7.335893087089062,
+          "left": 410.4545593261719,
+          "top": 467.3691101074219,
+          "right": 422.6810607910156,
+          "bottom": 479.5955810546875,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 7.335893087089062,
+          "left": 317.8825988769531,
+          "top": 500.5552673339844,
+          "right": 330.10906982421875,
+          "bottom": 512.78173828125,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 7.335893087089062,
+          "left": 348.73992919921875,
+          "top": 500.5552673339844,
+          "right": 360.9664001464844,
+          "bottom": 512.78173828125,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 7.335893087089062,
+          "left": 379.59722900390625,
+          "top": 500.5552673339844,
+          "right": 391.82373046875,
+          "bottom": 512.78173828125,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 7.335893087089062,
+          "left": 410.4545593261719,
+          "top": 500.5552673339844,
+          "right": 422.6810607910156,
+          "bottom": 512.78173828125,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 7.335893087089062,
+          "left": 317.8825988769531,
+          "top": 533.741455078125,
+          "right": 330.10906982421875,
+          "bottom": 545.9679565429688,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 7.335893087089062,
+          "left": 348.73992919921875,
+          "top": 533.741455078125,
+          "right": 360.9664001464844,
+          "bottom": 545.9679565429688,
+          "width": 12.226470947265625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 7.335893087089062,
+          "left": 379.59722900390625,
+          "top": 533.741455078125,
+          "right": 391.82373046875,
+          "bottom": 545.9679565429688,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 7.335893087089062,
+          "left": 410.4545593261719,
+          "top": 533.741455078125,
+          "right": 422.6810607910156,
+          "bottom": 545.9679565429688,
+          "width": 12.22650146484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ]
+    },
+    "Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt": {
+      "normal": [
+        {
+          "id": 1,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 106.88888549804688,
+          "right": 60.39545822143555,
+          "bottom": 133.55555725097656,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 106.88888549804688,
+          "right": 157.06752014160156,
+          "bottom": 133.55555725097656,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 106.88888549804688,
+          "right": 253.73959350585938,
+          "bottom": 133.55555725097656,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 106.88888549804688,
+          "right": 350.4116516113281,
+          "bottom": 133.55555725097656,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 106.88888549804688,
+          "right": 447.0837097167969,
+          "bottom": 133.55555725097656,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 106.88888549804688,
+          "right": 543.7557983398438,
+          "bottom": 133.55555725097656,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 106.88888549804688,
+          "right": 640.4278564453125,
+          "bottom": 133.55555725097656,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 106.88888549804688,
+          "right": 737.0999145507812,
+          "bottom": 133.55555725097656,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 106.88888549804688,
+          "right": 833.7720336914062,
+          "bottom": 133.55555725097656,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 106.88888549804688,
+          "right": 930.444091796875,
+          "bottom": 133.55555725097656,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 210.85696411132812,
+          "right": 60.39545822143555,
+          "bottom": 237.52362060546875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 210.85696411132812,
+          "right": 157.06752014160156,
+          "bottom": 237.52362060546875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 13,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 210.85696411132812,
+          "right": 253.73959350585938,
+          "bottom": 237.52362060546875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 14,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 210.85696411132812,
+          "right": 350.4116516113281,
+          "bottom": 237.52362060546875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 15,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 210.85696411132812,
+          "right": 447.0837097167969,
+          "bottom": 237.52362060546875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 16,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 210.85696411132812,
+          "right": 543.7557983398438,
+          "bottom": 237.52362060546875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 17,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 210.85696411132812,
+          "right": 640.4278564453125,
+          "bottom": 237.52362060546875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 18,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 210.85696411132812,
+          "right": 737.0999145507812,
+          "bottom": 237.52362060546875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 19,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 210.85696411132812,
+          "right": 833.7720336914062,
+          "bottom": 237.52362060546875,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 20,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 210.85696411132812,
+          "right": 930.444091796875,
+          "bottom": 237.52362060546875,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 21,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 314.82501220703125,
+          "right": 60.39545822143555,
+          "bottom": 341.49169921875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 22,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 314.82501220703125,
+          "right": 157.06752014160156,
+          "bottom": 341.49169921875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 23,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 314.82501220703125,
+          "right": 253.73959350585938,
+          "bottom": 341.49169921875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 24,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 314.82501220703125,
+          "right": 350.4116516113281,
+          "bottom": 341.49169921875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 25,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 314.82501220703125,
+          "right": 447.0837097167969,
+          "bottom": 341.49169921875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 26,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 314.82501220703125,
+          "right": 543.7557983398438,
+          "bottom": 341.49169921875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 27,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 314.82501220703125,
+          "right": 640.4278564453125,
+          "bottom": 341.49169921875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 28,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 314.82501220703125,
+          "right": 737.0999145507812,
+          "bottom": 341.49169921875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 29,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 314.82501220703125,
+          "right": 833.7720336914062,
+          "bottom": 341.49169921875,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 30,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 314.82501220703125,
+          "right": 930.444091796875,
+          "bottom": 341.49169921875,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 31,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 418.7930908203125,
+          "right": 60.39545822143555,
+          "bottom": 445.45977783203125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 32,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 418.7930908203125,
+          "right": 157.06752014160156,
+          "bottom": 445.45977783203125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 33,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 418.7930908203125,
+          "right": 253.73959350585938,
+          "bottom": 445.45977783203125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 34,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 418.7930908203125,
+          "right": 350.4116516113281,
+          "bottom": 445.45977783203125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 35,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 418.7930908203125,
+          "right": 447.0837097167969,
+          "bottom": 445.45977783203125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 36,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 418.7930908203125,
+          "right": 543.7557983398438,
+          "bottom": 445.45977783203125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 37,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 418.7930908203125,
+          "right": 640.4278564453125,
+          "bottom": 445.45977783203125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 38,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 418.7930908203125,
+          "right": 737.0999145507812,
+          "bottom": 445.45977783203125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 39,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 418.7930908203125,
+          "right": 833.7720336914062,
+          "bottom": 445.45977783203125,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 40,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 418.7930908203125,
+          "right": 930.444091796875,
+          "bottom": 445.45977783203125,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 41,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 522.7611694335938,
+          "right": 60.39545822143555,
+          "bottom": 549.4278564453125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 42,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 522.7611694335938,
+          "right": 157.06752014160156,
+          "bottom": 549.4278564453125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 43,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 522.7611694335938,
+          "right": 253.73959350585938,
+          "bottom": 549.4278564453125,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 44,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 522.7611694335938,
+          "right": 350.4116516113281,
+          "bottom": 549.4278564453125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 45,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 522.7611694335938,
+          "right": 447.0837097167969,
+          "bottom": 549.4278564453125,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 46,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 522.7611694335938,
+          "right": 543.7557983398438,
+          "bottom": 549.4278564453125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 47,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 522.7611694335938,
+          "right": 640.4278564453125,
+          "bottom": 549.4278564453125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 48,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 522.7611694335938,
+          "right": 737.0999145507812,
+          "bottom": 549.4278564453125,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 49,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 522.7611694335938,
+          "right": 833.7720336914062,
+          "bottom": 549.4278564453125,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 50,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 522.7611694335938,
+          "right": 930.444091796875,
+          "bottom": 549.4278564453125,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 51,
+          "font": 16.000001354790143,
+          "left": 33.72878646850586,
+          "top": 626.729248046875,
+          "right": 60.39545822143555,
+          "bottom": 653.3959350585938,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 52,
+          "font": 16.000001354790143,
+          "left": 130.40084838867188,
+          "top": 626.729248046875,
+          "right": 157.06752014160156,
+          "bottom": 653.3959350585938,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 53,
+          "font": 16.000001354790143,
+          "left": 227.0729217529297,
+          "top": 626.729248046875,
+          "right": 253.73959350585938,
+          "bottom": 653.3959350585938,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 54,
+          "font": 16.000001354790143,
+          "left": 323.7449951171875,
+          "top": 626.729248046875,
+          "right": 350.4116516113281,
+          "bottom": 653.3959350585938,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 55,
+          "font": 16.000001354790143,
+          "left": 420.41705322265625,
+          "top": 626.729248046875,
+          "right": 447.0837097167969,
+          "bottom": 653.3959350585938,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 56,
+          "font": 16.000001354790143,
+          "left": 517.089111328125,
+          "top": 626.729248046875,
+          "right": 543.7557983398438,
+          "bottom": 653.3959350585938,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 57,
+          "font": 16.000001354790143,
+          "left": 613.7611694335938,
+          "top": 626.729248046875,
+          "right": 640.4278564453125,
+          "bottom": 653.3959350585938,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 58,
+          "font": 16.000001354790143,
+          "left": 710.4332275390625,
+          "top": 626.729248046875,
+          "right": 737.0999145507812,
+          "bottom": 653.3959350585938,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 59,
+          "font": 16.000001354790143,
+          "left": 807.1052856445312,
+          "top": 626.729248046875,
+          "right": 833.7720336914062,
+          "bottom": 653.3959350585938,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 60,
+          "font": 16.000001354790143,
+          "left": 903.77734375,
+          "top": 626.729248046875,
+          "right": 930.444091796875,
+          "bottom": 653.3959350585938,
+          "width": 26.666748046875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ],
+      "distant": [
+        {
+          "id": 1,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 336.2060852050781,
+          "right": 437.2861328125,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 336.2060852050781,
+          "right": 453.26593017578125,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 336.2060852050781,
+          "right": 469.2456970214844,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 336.2060852050781,
+          "right": 485.2254943847656,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 336.2060852050781,
+          "right": 501.2052917480469,
+          "bottom": 342.5376892089844,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 336.2060852050781,
+          "right": 517.18505859375,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 336.2060852050781,
+          "right": 533.1648559570312,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 336.2060852050781,
+          "right": 549.1446533203125,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 336.2060852050781,
+          "right": 565.1243896484375,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 336.2060852050781,
+          "right": 581.1041870117188,
+          "bottom": 342.5376892089844,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 353.3918762207031,
+          "right": 437.2861328125,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 353.3918762207031,
+          "right": 453.26593017578125,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 13,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 353.3918762207031,
+          "right": 469.2456970214844,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 14,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 353.3918762207031,
+          "right": 485.2254943847656,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 15,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 353.3918762207031,
+          "right": 501.2052917480469,
+          "bottom": 359.7235107421875,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 16,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 353.3918762207031,
+          "right": 517.18505859375,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 17,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 353.3918762207031,
+          "right": 533.1648559570312,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 18,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 353.3918762207031,
+          "right": 549.1446533203125,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 19,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 353.3918762207031,
+          "right": 565.1243896484375,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 20,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 353.3918762207031,
+          "right": 581.1041870117188,
+          "bottom": 359.7235107421875,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 21,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 370.57769775390625,
+          "right": 437.2861328125,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 22,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 370.57769775390625,
+          "right": 453.26593017578125,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 23,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 370.57769775390625,
+          "right": 469.2456970214844,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 24,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 370.57769775390625,
+          "right": 485.2254943847656,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 25,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 370.57769775390625,
+          "right": 501.2052917480469,
+          "bottom": 376.9093017578125,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 26,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 370.57769775390625,
+          "right": 517.18505859375,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 27,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 370.57769775390625,
+          "right": 533.1648559570312,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 28,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 370.57769775390625,
+          "right": 549.1446533203125,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 29,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 370.57769775390625,
+          "right": 565.1243896484375,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 30,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 370.57769775390625,
+          "right": 581.1041870117188,
+          "bottom": 376.9093017578125,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 31,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 387.76348876953125,
+          "right": 437.2861328125,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 32,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 387.76348876953125,
+          "right": 453.26593017578125,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 33,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 387.76348876953125,
+          "right": 469.2456970214844,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 34,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 387.76348876953125,
+          "right": 485.2254943847656,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 35,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 387.76348876953125,
+          "right": 501.2052917480469,
+          "bottom": 394.0951232910156,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 36,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 387.76348876953125,
+          "right": 517.18505859375,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 37,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 387.76348876953125,
+          "right": 533.1648559570312,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 38,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 387.76348876953125,
+          "right": 549.1446533203125,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 39,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 387.76348876953125,
+          "right": 565.1243896484375,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 40,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 387.76348876953125,
+          "right": 581.1041870117188,
+          "bottom": 394.0951232910156,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 41,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 404.9493103027344,
+          "right": 437.2861328125,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 42,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 404.9493103027344,
+          "right": 453.26593017578125,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 43,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 404.9493103027344,
+          "right": 469.2456970214844,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 44,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 404.9493103027344,
+          "right": 485.2254943847656,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 45,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 404.9493103027344,
+          "right": 501.2052917480469,
+          "bottom": 411.2809143066406,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 46,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 404.9493103027344,
+          "right": 517.18505859375,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 47,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 404.9493103027344,
+          "right": 533.1648559570312,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 48,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 404.9493103027344,
+          "right": 549.1446533203125,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 49,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 404.9493103027344,
+          "right": 565.1243896484375,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 50,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 404.9493103027344,
+          "right": 581.1041870117188,
+          "bottom": 411.2809143066406,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 51,
+          "font": 3.798967592418194,
+          "left": 430.95452880859375,
+          "top": 422.1351013183594,
+          "right": 437.2861328125,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 52,
+          "font": 3.798967592418194,
+          "left": 446.934326171875,
+          "top": 422.1351013183594,
+          "right": 453.26593017578125,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 53,
+          "font": 3.798967592418194,
+          "left": 462.9140930175781,
+          "top": 422.1351013183594,
+          "right": 469.2456970214844,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 54,
+          "font": 3.798967592418194,
+          "left": 478.8938903808594,
+          "top": 422.1351013183594,
+          "right": 485.2254943847656,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 55,
+          "font": 3.798967592418194,
+          "left": 494.8736572265625,
+          "top": 422.1351013183594,
+          "right": 501.2052917480469,
+          "bottom": 428.46673583984375,
+          "width": 6.331634521484375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 56,
+          "font": 3.798967592418194,
+          "left": 510.85345458984375,
+          "top": 422.1351013183594,
+          "right": 517.18505859375,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 57,
+          "font": 3.798967592418194,
+          "left": 526.833251953125,
+          "top": 422.1351013183594,
+          "right": 533.1648559570312,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 58,
+          "font": 3.798967592418194,
+          "left": 542.8130493164062,
+          "top": 422.1351013183594,
+          "right": 549.1446533203125,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 59,
+          "font": 3.798967592418194,
+          "left": 558.7927856445312,
+          "top": 422.1351013183594,
+          "right": 565.1243896484375,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 60,
+          "font": 3.798967592418194,
+          "left": 574.7725830078125,
+          "top": 422.1351013183594,
+          "right": 581.1041870117188,
+          "bottom": 428.46673583984375,
+          "width": 6.33160400390625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ]
+    },
+    "Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt": {
+      "normal": [
+        {
+          "id": 1,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 317.1513671875,
+          "right": 59.5555534362793,
+          "bottom": 343.8180236816406,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 317.1513671875,
+          "right": 129.7878875732422,
+          "bottom": 343.8180236816406,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 317.1513671875,
+          "right": 200.0202178955078,
+          "bottom": 343.8180236816406,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 317.1513671875,
+          "right": 270.2525634765625,
+          "bottom": 343.8180236816406,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 317.1513671875,
+          "right": 340.48486328125,
+          "bottom": 343.8180236816406,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 317.1513671875,
+          "right": 410.7171936035156,
+          "bottom": 343.8180236816406,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 317.1513671875,
+          "right": 480.94952392578125,
+          "bottom": 343.8180236816406,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 317.1513671875,
+          "right": 551.181884765625,
+          "bottom": 343.8180236816406,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 317.1513671875,
+          "right": 621.4141845703125,
+          "bottom": 343.8180236816406,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 317.1513671875,
+          "right": 691.6465454101562,
+          "bottom": 343.8180236816406,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 392.6842346191406,
+          "right": 59.5555534362793,
+          "bottom": 419.3509216308594,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 392.6842346191406,
+          "right": 129.7878875732422,
+          "bottom": 419.3509216308594,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 13,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 392.6842346191406,
+          "right": 200.0202178955078,
+          "bottom": 419.3509216308594,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 14,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 392.6842346191406,
+          "right": 270.2525634765625,
+          "bottom": 419.3509216308594,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 15,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 392.6842346191406,
+          "right": 340.48486328125,
+          "bottom": 419.3509216308594,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 16,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 392.6842346191406,
+          "right": 410.7171936035156,
+          "bottom": 419.3509216308594,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 17,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 392.6842346191406,
+          "right": 480.94952392578125,
+          "bottom": 419.3509216308594,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 18,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 392.6842346191406,
+          "right": 551.181884765625,
+          "bottom": 419.3509216308594,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 19,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 392.6842346191406,
+          "right": 621.4141845703125,
+          "bottom": 419.3509216308594,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 20,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 392.6842346191406,
+          "right": 691.6465454101562,
+          "bottom": 419.3509216308594,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 21,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 468.2171325683594,
+          "right": 59.5555534362793,
+          "bottom": 494.8837890625,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 22,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 468.2171325683594,
+          "right": 129.7878875732422,
+          "bottom": 494.8837890625,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 23,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 468.2171325683594,
+          "right": 200.0202178955078,
+          "bottom": 494.8837890625,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 24,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 468.2171325683594,
+          "right": 270.2525634765625,
+          "bottom": 494.8837890625,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 25,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 468.2171325683594,
+          "right": 340.48486328125,
+          "bottom": 494.8837890625,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 26,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 468.2171325683594,
+          "right": 410.7171936035156,
+          "bottom": 494.8837890625,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 27,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 468.2171325683594,
+          "right": 480.94952392578125,
+          "bottom": 494.8837890625,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 28,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 468.2171325683594,
+          "right": 551.181884765625,
+          "bottom": 494.8837890625,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 29,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 468.2171325683594,
+          "right": 621.4141845703125,
+          "bottom": 494.8837890625,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 30,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 468.2171325683594,
+          "right": 691.6465454101562,
+          "bottom": 494.8837890625,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 31,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 543.75,
+          "right": 59.5555534362793,
+          "bottom": 570.4166870117188,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 32,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 543.75,
+          "right": 129.7878875732422,
+          "bottom": 570.4166870117188,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 33,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 543.75,
+          "right": 200.0202178955078,
+          "bottom": 570.4166870117188,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 34,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 543.75,
+          "right": 270.2525634765625,
+          "bottom": 570.4166870117188,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 35,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 543.75,
+          "right": 340.48486328125,
+          "bottom": 570.4166870117188,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 36,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 543.75,
+          "right": 410.7171936035156,
+          "bottom": 570.4166870117188,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 37,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 543.75,
+          "right": 480.94952392578125,
+          "bottom": 570.4166870117188,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 38,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 543.75,
+          "right": 551.181884765625,
+          "bottom": 570.4166870117188,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 39,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 543.75,
+          "right": 621.4141845703125,
+          "bottom": 570.4166870117188,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 40,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 543.75,
+          "right": 691.6465454101562,
+          "bottom": 570.4166870117188,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 41,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 619.2828979492188,
+          "right": 59.5555534362793,
+          "bottom": 645.9495849609375,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 42,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 619.2828979492188,
+          "right": 129.7878875732422,
+          "bottom": 645.9495849609375,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 43,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 619.2828979492188,
+          "right": 200.0202178955078,
+          "bottom": 645.9495849609375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 44,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 619.2828979492188,
+          "right": 270.2525634765625,
+          "bottom": 645.9495849609375,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 45,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 619.2828979492188,
+          "right": 340.48486328125,
+          "bottom": 645.9495849609375,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 46,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 619.2828979492188,
+          "right": 410.7171936035156,
+          "bottom": 645.9495849609375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 47,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 619.2828979492188,
+          "right": 480.94952392578125,
+          "bottom": 645.9495849609375,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 48,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 619.2828979492188,
+          "right": 551.181884765625,
+          "bottom": 645.9495849609375,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 49,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 619.2828979492188,
+          "right": 621.4141845703125,
+          "bottom": 645.9495849609375,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 50,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 619.2828979492188,
+          "right": 691.6465454101562,
+          "bottom": 645.9495849609375,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 51,
+          "font": 15.999999693940126,
+          "left": 32.88888931274414,
+          "top": 694.8157958984375,
+          "right": 59.5555534362793,
+          "bottom": 721.482421875,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 52,
+          "font": 15.999999693940126,
+          "left": 103.12122344970703,
+          "top": 694.8157958984375,
+          "right": 129.7878875732422,
+          "bottom": 721.482421875,
+          "width": 26.666664123535156,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 53,
+          "font": 15.999999693940126,
+          "left": 173.3535614013672,
+          "top": 694.8157958984375,
+          "right": 200.0202178955078,
+          "bottom": 721.482421875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 54,
+          "font": 15.999999693940126,
+          "left": 243.5858917236328,
+          "top": 694.8157958984375,
+          "right": 270.2525634765625,
+          "bottom": 721.482421875,
+          "width": 26.666671752929688,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 55,
+          "font": 15.999999693940126,
+          "left": 313.8182373046875,
+          "top": 694.8157958984375,
+          "right": 340.48486328125,
+          "bottom": 721.482421875,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 56,
+          "font": 15.999999693940126,
+          "left": 384.050537109375,
+          "top": 694.8157958984375,
+          "right": 410.7171936035156,
+          "bottom": 721.482421875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 57,
+          "font": 15.999999693940126,
+          "left": 454.2828674316406,
+          "top": 694.8157958984375,
+          "right": 480.94952392578125,
+          "bottom": 721.482421875,
+          "width": 26.666656494140625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 58,
+          "font": 15.999999693940126,
+          "left": 524.5151977539062,
+          "top": 694.8157958984375,
+          "right": 551.181884765625,
+          "bottom": 721.482421875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 59,
+          "font": 15.999999693940126,
+          "left": 594.74755859375,
+          "top": 694.8157958984375,
+          "right": 621.4141845703125,
+          "bottom": 721.482421875,
+          "width": 26.6666259765625,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 60,
+          "font": 15.999999693940126,
+          "left": 664.9798583984375,
+          "top": 694.8157958984375,
+          "right": 691.6465454101562,
+          "bottom": 721.482421875,
+          "width": 26.66668701171875,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ],
+      "distant": [
+        {
+          "id": 1,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 479.5933837890625,
+          "right": 330.3633117675781,
+          "bottom": 484.1933288574219,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 2,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 479.5933837890625,
+          "right": 341.9726257324219,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 3,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 479.5933837890625,
+          "right": 353.5819396972656,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 4,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 479.5933837890625,
+          "right": 365.1912841796875,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 5,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 479.5933837890625,
+          "right": 376.80059814453125,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 6,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 479.5933837890625,
+          "right": 388.4099426269531,
+          "bottom": 484.1933288574219,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 7,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 479.5933837890625,
+          "right": 400.0192565917969,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 8,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 479.5933837890625,
+          "right": 411.62860107421875,
+          "bottom": 484.1933288574219,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 9,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 479.5933837890625,
+          "right": 423.2379150390625,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 10,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 479.5933837890625,
+          "right": 434.84722900390625,
+          "bottom": 484.1933288574219,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 11,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 492.0788879394531,
+          "right": 330.3633117675781,
+          "bottom": 496.6788330078125,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 12,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 492.0788879394531,
+          "right": 341.9726257324219,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 13,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 492.0788879394531,
+          "right": 353.5819396972656,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 14,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 492.0788879394531,
+          "right": 365.1912841796875,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 15,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 492.0788879394531,
+          "right": 376.80059814453125,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 16,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 492.0788879394531,
+          "right": 388.4099426269531,
+          "bottom": 496.6788330078125,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 17,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 492.0788879394531,
+          "right": 400.0192565917969,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 18,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 492.0788879394531,
+          "right": 411.62860107421875,
+          "bottom": 496.6788330078125,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 19,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 492.0788879394531,
+          "right": 423.2379150390625,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 20,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 492.0788879394531,
+          "right": 434.84722900390625,
+          "bottom": 496.6788330078125,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 21,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 504.56439208984375,
+          "right": 330.3633117675781,
+          "bottom": 509.164306640625,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 22,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 504.56439208984375,
+          "right": 341.9726257324219,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 23,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 504.56439208984375,
+          "right": 353.5819396972656,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 24,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 504.56439208984375,
+          "right": 365.1912841796875,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 25,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 504.56439208984375,
+          "right": 376.80059814453125,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 26,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 504.56439208984375,
+          "right": 388.4099426269531,
+          "bottom": 509.164306640625,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 27,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 504.56439208984375,
+          "right": 400.0192565917969,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 28,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 504.56439208984375,
+          "right": 411.62860107421875,
+          "bottom": 509.164306640625,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 29,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 504.56439208984375,
+          "right": 423.2379150390625,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 30,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 504.56439208984375,
+          "right": 434.84722900390625,
+          "bottom": 509.164306640625,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 31,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 517.0499267578125,
+          "right": 330.3633117675781,
+          "bottom": 521.6497802734375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 32,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 517.0499267578125,
+          "right": 341.9726257324219,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 33,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 517.0499267578125,
+          "right": 353.5819396972656,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 34,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 517.0499267578125,
+          "right": 365.1912841796875,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 35,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 517.0499267578125,
+          "right": 376.80059814453125,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 36,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 517.0499267578125,
+          "right": 388.4099426269531,
+          "bottom": 521.6497802734375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 37,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 517.0499267578125,
+          "right": 400.0192565917969,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 38,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 517.0499267578125,
+          "right": 411.62860107421875,
+          "bottom": 521.6497802734375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 39,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 517.0499267578125,
+          "right": 423.2379150390625,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 40,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 517.0499267578125,
+          "right": 434.84722900390625,
+          "bottom": 521.6497802734375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 41,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 529.535400390625,
+          "right": 330.3633117675781,
+          "bottom": 534.1353149414062,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 42,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 529.535400390625,
+          "right": 341.9726257324219,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 43,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 529.535400390625,
+          "right": 353.5819396972656,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 44,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 529.535400390625,
+          "right": 365.1912841796875,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 45,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 529.535400390625,
+          "right": 376.80059814453125,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 46,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 529.535400390625,
+          "right": 388.4099426269531,
+          "bottom": 534.1353149414062,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 47,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 529.535400390625,
+          "right": 400.0192565917969,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 48,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 529.535400390625,
+          "right": 411.62860107421875,
+          "bottom": 534.1353149414062,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 49,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 529.535400390625,
+          "right": 423.2379150390625,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 50,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 529.535400390625,
+          "right": 434.84722900390625,
+          "bottom": 534.1353149414062,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 51,
+          "font": 2.7599531784653664,
+          "left": 325.76336669921875,
+          "top": 542.0208740234375,
+          "right": 330.3633117675781,
+          "bottom": 546.620849609375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 52,
+          "font": 2.7599531784653664,
+          "left": 337.3727111816406,
+          "top": 542.0208740234375,
+          "right": 341.9726257324219,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 53,
+          "font": 2.7599531784653664,
+          "left": 348.9820251464844,
+          "top": 542.0208740234375,
+          "right": 353.5819396972656,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 54,
+          "font": 2.7599531784653664,
+          "left": 360.59136962890625,
+          "top": 542.0208740234375,
+          "right": 365.1912841796875,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 55,
+          "font": 2.7599531784653664,
+          "left": 372.20068359375,
+          "top": 542.0208740234375,
+          "right": 376.80059814453125,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 56,
+          "font": 2.7599531784653664,
+          "left": 383.80999755859375,
+          "top": 542.0208740234375,
+          "right": 388.4099426269531,
+          "bottom": 546.620849609375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 57,
+          "font": 2.7599531784653664,
+          "left": 395.4193420410156,
+          "top": 542.0208740234375,
+          "right": 400.0192565917969,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 58,
+          "font": 2.7599531784653664,
+          "left": 407.0286560058594,
+          "top": 542.0208740234375,
+          "right": 411.62860107421875,
+          "bottom": 546.620849609375,
+          "width": 4.599945068359375,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 59,
+          "font": 2.7599531784653664,
+          "left": 418.63800048828125,
+          "top": 542.0208740234375,
+          "right": 423.2379150390625,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        },
+        {
+          "id": 60,
+          "font": 2.7599531784653664,
+          "left": 430.247314453125,
+          "top": 542.0208740234375,
+          "right": 434.84722900390625,
+          "bottom": 546.620849609375,
+          "width": 4.59991455078125,
+          "fullyVisible": true,
+          "outside": true,
+          "overlaps": false
+        }
+      ]
+    },
+    "220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert": [
+      {
+        "viewport": 320,
+        "alt": "Fotografie coffee.png",
+        "naturalWidth": 240,
+        "naturalHeight": 600,
+        "boxWidth": 246,
+        "boxHeight": 230,
+        "source16px": 6.133333333333334
+      },
+      {
+        "viewport": 320,
+        "alt": "Fotografie rocket.jpg",
+        "naturalWidth": 800,
+        "naturalHeight": 200,
+        "boxWidth": 246,
+        "boxHeight": 62,
+        "source16px": 4.92
+      },
+      {
+        "viewport": 320,
+        "alt": "Prüfkarte mit 20 Messstellen und Legende",
+        "naturalWidth": 1000,
+        "naturalHeight": 800,
+        "boxWidth": 246,
+        "boxHeight": 197,
+        "source16px": 3.936
+      },
+      {
+        "viewport": 320,
+        "alt": "Vier Datenreihen mit Achsen und Legende",
+        "naturalWidth": 1200,
+        "naturalHeight": 520,
+        "boxWidth": 246,
+        "boxHeight": 107,
+        "source16px": 3.28
+      },
+      {
+        "viewport": 768,
+        "alt": "Fotografie coffee.png",
+        "naturalWidth": 240,
+        "naturalHeight": 600,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 6.133333333333334
+      },
+      {
+        "viewport": 768,
+        "alt": "Fotografie rocket.jpg",
+        "naturalWidth": 800,
+        "naturalHeight": 200,
+        "boxWidth": 550,
+        "boxHeight": 138,
+        "source16px": 11
+      },
+      {
+        "viewport": 768,
+        "alt": "Prüfkarte mit 20 Messstellen und Legende",
+        "naturalWidth": 1000,
+        "naturalHeight": 800,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 4.6
+      },
+      {
+        "viewport": 768,
+        "alt": "Vier Datenreihen mit Achsen und Legende",
+        "naturalWidth": 1200,
+        "naturalHeight": 520,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 7.076923076923077
+      },
+      {
+        "viewport": 1024,
+        "alt": "Fotografie coffee.png",
+        "naturalWidth": 240,
+        "naturalHeight": 600,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 6.133333333333334
+      },
+      {
+        "viewport": 1024,
+        "alt": "Fotografie rocket.jpg",
+        "naturalWidth": 800,
+        "naturalHeight": 200,
+        "boxWidth": 550,
+        "boxHeight": 138,
+        "source16px": 11
+      },
+      {
+        "viewport": 1024,
+        "alt": "Prüfkarte mit 20 Messstellen und Legende",
+        "naturalWidth": 1000,
+        "naturalHeight": 800,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 4.6
+      },
+      {
+        "viewport": 1024,
+        "alt": "Vier Datenreihen mit Achsen und Legende",
+        "naturalWidth": 1200,
+        "naturalHeight": 520,
+        "boxWidth": 550,
+        "boxHeight": 230,
+        "source16px": 7.076923076923077
+      }
+    ],
+    "corrections-quadratische-h-3f02c-PNG-identische-Proportionen": {
+      "screen": [
+        {
+          "width": 103,
+          "height": 102,
+          "ratio": 1.0098039215686274
+        },
+        {
+          "width": 41,
+          "height": 103,
+          "ratio": 0.39805825242718446
+        },
+        {
+          "width": 278,
+          "height": 69,
+          "ratio": 4.028985507246377
+        }
+      ],
+      "exported": [
+        {
+          "width": 163,
+          "height": 162,
+          "ratio": 1.0061728395061729
+        },
+        {
+          "width": 65,
+          "height": 162,
+          "ratio": 0.4012345679012346
+        },
+        {
+          "width": 438,
+          "height": 109,
+          "ratio": 4.018348623853211
+        }
+      ]
+    },
+    "corrections-quadratische-h-46f0a-PNG-identische-Proportionen": {
+      "screen": [
+        {
+          "width": 103,
+          "height": 102,
+          "ratio": 1.0098039215686274
+        },
+        {
+          "width": 41,
+          "height": 103,
+          "ratio": 0.39805825242718446
+        },
+        {
+          "width": 278,
+          "height": 69,
+          "ratio": 4.028985507246377
+        }
+      ],
+      "exported": [
+        {
+          "width": 161,
+          "height": 162,
+          "ratio": 0.9938271604938271
+        },
+        {
+          "width": 64,
+          "height": 162,
+          "ratio": 0.3950617283950617
+        },
+        {
+          "width": 437,
+          "height": 109,
+          "ratio": 4.009174311926605
+        }
+      ]
+    }
+  },
+  "overview_repeats": {
+    "command": "npx playwright test tests/browser/prototype.spec.ts --grep 'Lesen, Ziehen' --repeat-each=5",
+    "passed": 5,
+    "failed": 0,
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,35 @@
+[WebServer] (node:61600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:61613) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:12] "GET / HTTP/1.1" 200 -
+
+Running 5 tests using 1 worker
+
+(node:61652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:14] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (2.5s)
+(node:61915) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:18] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (2.1s)
+(node:62123) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:21] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (2.3s)
+(node:62295) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  4 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (1.9s)
+(node:62441) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:48:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  5 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (2.0s)
+
+  5 passed (19.6s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

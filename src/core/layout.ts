@@ -55,16 +55,32 @@ export function layoutCard(card: CardContent): Layout {
     height: Math.max(130, imageY + (card.image ? 110 : 0) + 18),
   };
 }
-export function boardBounds(work: Work, layouts: Map<number, Layout>): Bounds {
+export function numberBadge(zoom = 1) {
+  // 16 CSS-px digits in ordinary overviews; cap world size at deep zoom-out.
+  const scale = Math.max(1, Math.min(7, 16 / (18 * zoom)));
+  return {
+    scale,
+    radius: 15,
+    fontSize: 18,
+    offset: -(16 * scale + 4),
+    extent: 32 * scale + 4,
+  };
+}
+export function boardBounds(
+  work: Work,
+  layouts: Map<number, Layout>,
+  zoom = 1,
+): Bounds {
+  const badge = numberBadge(zoom);
   const labels = work.edges
     .filter((e) => e.label)
     .map((e) => edgeGeometry(e, work.cards, layouts));
   const left = Math.min(
-    ...work.cards.map((c) => c.x - 32),
+    ...work.cards.map((c) => c.x - badge.extent),
     ...labels.map((g) => g.labelCenter.x - g.labelWidth / 2 - 8),
   );
   const top = Math.min(
-    ...work.cards.map((c) => c.y - 32),
+    ...work.cards.map((c) => c.y - badge.extent),
     ...labels.map((g) => g.labelCenter.y - g.labelHeight / 2 - 8),
   );
   const right = Math.max(
@@ -76,6 +92,28 @@ export function boardBounds(work: Work, layouts: Map<number, Layout>): Bounds {
     ...labels.map((g) => g.labelCenter.y + g.labelHeight / 2 + 8),
   );
   return { x: left, y: top, width: right - left, height: bottom - top };
+}
+export function overview(
+  work: Work,
+  layouts: Map<number, Layout>,
+  width: number,
+  height: number,
+) {
+  // Badge size depends on zoom. Solve the fit with its actual outer bounds.
+  let low = 0.001,
+    high = 1.2;
+  for (let i = 0; i < 32; i++) {
+    const z = (low + high) / 2;
+    const b = boardBounds(work, layouts, z);
+    if (b.width * z <= width - 64 && b.height * z <= height - 64) low = z;
+    else high = z;
+  }
+  const b = boardBounds(work, layouts, low);
+  return {
+    x: (width - b.width * low) / 2 - b.x * low,
+    y: (height - b.height * low) / 2 - b.y * low,
+    z: low,
+  };
 }
 export function makeLayouts(m: Mystery) {
   return new Map(m.cards.map((c) => [c.id, layoutCard(c)]));

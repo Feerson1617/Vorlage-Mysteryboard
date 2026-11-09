@@ -6,6 +6,7 @@ import {
   MAX_EDGES,
   MAX_LABEL,
   initialWork,
+  nextEdgeId,
   validateMystery,
   type Edge,
   type Work,
@@ -34,7 +35,7 @@ export default function App() {
     [saved, setSaved] = useState<Saved | null>(null);
   const input = useRef<HTMLInputElement>(null),
     operation = useRef(0),
-    exportRunning = useRef(false);
+    exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
   const close = () => {
     operation.current++;
@@ -106,22 +107,37 @@ export default function App() {
     }
   };
   const save = async (mode: ExportMode = "a3") => {
-    if (!work || exportRunning.current) return;
-    exportRunning.current = true;
+    if (!work) return;
     const id = ++operation.current;
     setModal("save");
     setSaved(null);
     setBusy(true);
     setMessage("Das Sicherungsbild wird vorbereitet …");
+    // A canceled Canvas encoding cannot be interrupted. Wait for its release;
+    // only the most recent still-open request may render the next snapshot.
+    if (exportRunning.current) {
+      setMessage(
+        "Der vorherige Bildvorgang wird beendet. Danach wird euer aktuelles Sicherungsbild erstellt …",
+      );
+      await exportRunning.current;
+      if (id !== operation.current) return;
+      setMessage("Das Sicherungsbild wird vorbereitet …");
+    }
+    let finishExport!: () => void;
+    exportRunning.current = new Promise<void>((resolve) => {
+      finishExport = resolve;
+    });
     // Give the browser a frame to paint the progress message before rendering.
     await new Promise<void>((r) =>
       requestAnimationFrame(() => requestAnimationFrame(() => r())),
     );
     try {
+      if (id !== operation.current) return;
       let result;
       try {
         result = await exportBoard(work, mystery, mode);
       } catch (e) {
+        if (id !== operation.current) return;
         if (mode === "compact") throw e;
         result = await exportBoard(work, mystery, "compact");
       }
@@ -148,7 +164,8 @@ export default function App() {
           `Es konnte kein Sicherungsbild erstellt werden. ${(e as Error).message} Euer geöffneter Arbeitsstand bleibt erhalten. Versucht es erneut oder verwendet ein anderes Gerät.`,
         );
     } finally {
-      exportRunning.current = false;
+      exportRunning.current = null;
+      finishExport();
       if (id === operation.current) setBusy(false);
     }
   };
@@ -176,7 +193,7 @@ export default function App() {
         return;
       }
       setEdge({
-        id: Math.max(0, ...work.edges.map((e) => e.id)) + 1,
+        id: nextEdgeId(work.edges),
         from: connecting,
         to: id,
         direction: 0,
@@ -188,7 +205,7 @@ export default function App() {
   const cardContent = mystery.cards.find((c) => c.id === card),
     cardState = work?.cards.find((c) => c.id === card);
   return (
-    <main>
+    <main className={work ? "workspace" : undefined}>
       <input
         ref={input}
         type="file"

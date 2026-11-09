@@ -17,6 +17,7 @@ import largeData from "../src/content/large.json";
 import { paddedPng } from "./fixtures/png";
 const small = validateMystery(smallData),
   large = validateMystery(largeData);
+// Several complete 30 MB CRC passes are CPU-bound; keep timing separate from byte-limit assertions.
 describe("fertige Sicherungen an der PNG-Grenze", () => {
   it("weist eine gültige Eingangs-PNG knapp unter dem Limit zurück, wenn der Zustandsblock nicht mehr passt", () => {
     const png = paddedPng(MAX_PNG_BYTES - 1);
@@ -24,7 +25,7 @@ describe("fertige Sicherungen an der PNG-Grenze", () => {
     expect(() => embedWork(png, initialWork(small))).toThrow(
       /einschließlich Arbeitsstand größer als 30 MB/,
     );
-  });
+  }, 20_000);
   for (const mystery of [small, large])
     it(`${mystery.cards.length} Karten: exakt am Limit wiederherstellbar, bestehender Block wird ersetzt`, () => {
       const work = initialWork(mystery),
@@ -35,7 +36,7 @@ describe("fertige Sicherungen an der PNG-Grenze", () => {
       const replaced = embedWork(result, work);
       expect(replaced.length).toBe(MAX_PNG_BYTES);
       expect(restorePng(replaced, mystery)).toEqual(work);
-    });
+    }, 20_000);
 });
 it("HTML-Build verweigert die verbindliche Grenze von 10.000.000 Bytes", () => {
   const dir = mkdtempSync(join(tmpdir(), "mysteryboard-build-limit-"));

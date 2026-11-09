@@ -97,6 +97,12 @@ test("Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig", asy
     )
     .toBeGreaterThan(zoom);
   await page.getByRole("button", { name: "Übersicht", exact: true }).click();
+  // Undo restored the original geometry; wait for that exact overview before
+  // using it as the reference for the color-only edit below (Q1).
+  await expect(page.locator(".board>g")).toHaveAttribute(
+    "transform",
+    transform!,
+  );
   const view = await page.locator(".board>g").getAttribute("transform");
   await card(page).click();
   await expect(page.getByRole("dialog", { name: "Karte 1" })).toBeVisible();
@@ -175,7 +181,7 @@ test("kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeite
   await fresh.getByLabel("Beschriftung").fill("Nach dem Import bearbeitet");
   await fresh.getByLabel("Richtung").selectOption("2");
   await fresh.getByRole("button", { name: "Übernehmen" }).click();
-  await expect(fresh.locator('[data-edge="1"]')).toContainText(
+  await expect(fresh.locator('[data-edge-label="1"]')).toContainText(
     "Nach dem Import bearbeitet",
   );
   await fresh.close();
@@ -197,7 +203,8 @@ test("60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und besch
   await resume(page, path);
   expect(await position(page)).toEqual(before);
   await expect(page.locator("[data-edge]")).toHaveCount(90);
-  await card(page, 60).click();
+  // The group also includes the exterior number; click the painted card body.
+  await card(page, 60).locator("rect").first().click();
   await page.getByRole("button", { name: "Gelb", exact: true }).click();
   await page.getByRole("button", { name: "Schließen", exact: true }).click();
   await page.getByRole("button", { name: "Menü", exact: true }).click();
@@ -405,18 +412,18 @@ test("vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig ma
   page,
 }) => {
   await start(page);
-  const line = page.locator('[data-edge="1"] rect');
+  const line = page.locator('[data-edge-label="1"]');
   await line.click();
   await page.getByLabel("Beschriftung").fill("Direkt ausgewählt");
   await page.getByRole("button", { name: "Übernehmen" }).click();
-  await expect(page.locator('[data-edge="1"]')).toContainText(
+  await expect(page.locator('[data-edge-label="1"]')).toContainText(
     "Direkt ausgewählt",
   );
-  await page.locator('[data-edge="1"] rect').click();
+  await page.locator('[data-edge-label="1"]').click();
   await page.getByRole("button", { name: "Verbindung löschen" }).click();
   await expect(page.locator("[data-edge]")).toHaveCount(8);
   await page.getByRole("button", { name: "Rückgängig" }).click();
-  await expect(page.locator('[data-edge="1"]')).toContainText(
+  await expect(page.locator('[data-edge-label="1"]')).toContainText(
     "Direkt ausgewählt",
   );
 });

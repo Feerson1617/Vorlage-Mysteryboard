@@ -25,7 +25,7 @@ npm run build
 npm run test:e2e
 ```
 
-`npm run check` führt die drei Prüfungen zusammen aus. Browserprüfungen benötigen Python 3 und Chromium; `CHROMIUM_PATH` kann den Browserpfad überschreiben (Standard `/usr/bin/chromium`). Die Testserver auf 5173/5174 werden durch Playwright gestartet und beendet. Der statische Server dient nur der Prüfung des unveränderten HTML-Artefakts. Auf anderen Systemen den npm-Cachepfad bei Bedarf weglassen.
+`npm run check` führt die drei Prüfungen zusammen aus. Die Browserprüfung baut zusätzlich die getrennte 220-Verbindungen-Prüffassung aus den gelieferten QA-Daten (`npm run build:review`); sie gehört nicht zu den Schülerpaketen. Browserprüfungen benötigen Python 3 und Chromium; `CHROMIUM_PATH` kann den Browserpfad überschreiben (Standard `/usr/bin/chromium`). Die Testserver auf 5173/5174 werden durch Playwright gestartet und beendet. Der statische Server dient nur der Prüfung des unveränderten HTML-Artefakts. Auf anderen Systemen den npm-Cachepfad bei Bedarf weglassen.
 
 Der Build erstellt beide Varianten und prüft die harte Grenze **< 10.000.000 Bytes**. Er scheitert bei Überschreitung. Die zusätzliche Zielgröße liegt bei < 6 MB.
 
@@ -51,7 +51,8 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 ## Grenzen und weitere Dokumente
 
 - [Speicherformat und technische Grenzen](docs/FORMAT.md)
-- [Aktueller Prüfbericht zur technischen Nachbesserung](docs/NACHBESSERUNG.md)
+- [Aktueller Prüfbericht zur Zweitkorrektur ab 2518a53](docs/KORREKTUR-2518a53.md)
+- [Erster Nachbesserungsbericht zu f02b411](docs/NACHBESSERUNG.md)
 - [Ursprünglicher Testbericht zu f02b411](docs/TESTBERICHT.md)
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)

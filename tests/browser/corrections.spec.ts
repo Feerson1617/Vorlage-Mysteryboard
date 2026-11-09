@@ -22,7 +22,9 @@ async function snapshot(page: Page) {
     ]),
     edges: [...document.querySelectorAll("[data-edge]")].map((e) => [
       e.getAttribute("data-edge"),
-      e.textContent,
+      document.querySelector(
+        `[data-edge-label="${e.getAttribute("data-edge")}"]`,
+      )?.textContent ?? "",
       e.querySelectorAll("line")[1].getAttribute("marker-start"),
       e.querySelectorAll("line")[1].getAttribute("marker-end"),
     ]),
@@ -363,7 +365,9 @@ for (const format of ["svg", "png"])
           screen: await bounds(
             new Blob([new Uint8Array(pixels)], { type: "image/png" }),
           ),
-          exported: await bounds((await exportBoard(work, m, "compact")).blob),
+          // At A3 the narrow color probe has >60 pixels: a single edge pixel
+          // cannot dominate the unchanged 2% ratio assertion.
+          exported: await bounds((await exportBoard(work, m, "a3")).blob),
         };
       },
       { content: data, pixels: [...screen] },

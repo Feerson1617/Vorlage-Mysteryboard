@@ -8,7 +8,9 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@mystery": fileURLToPath(
         new URL(
-          `./src/content/${mode === "large" ? "large" : "small"}.json`,
+          mode === "review"
+            ? "./tests/fixtures/review/stress-220.json"
+            : `./src/content/${mode === "large" ? "large" : "small"}.json`,
           import.meta.url,
         ),
       ),

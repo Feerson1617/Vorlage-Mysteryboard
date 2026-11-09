@@ -1,11 +1,18 @@
 import QRCode from "qrcode";
-import { COLORS, type Mystery, type Work } from "./model";
+import {
+  COLORS,
+  COLOR_NAMES,
+  validateWork,
+  type Mystery,
+  type Work,
+} from "./model";
 import {
   boardBounds,
   CARD_WIDTH,
   edgeGeometry,
   makeLayouts,
   fitImage,
+  numberBadge,
 } from "./layout";
 import { packWork, toQr } from "./codec";
 import { embedWork } from "./png";
@@ -37,6 +44,8 @@ export async function exportBoard(
   m: Mystery,
   mode: ExportMode = "a3",
 ) {
+  // Never offer a backup that fails our own state validator.
+  work = validateWork(work, m);
   const { width, height } = EXPORT_MODES[mode],
     canvas = document.createElement("canvas");
   canvas.width = width;
@@ -75,14 +84,7 @@ export async function exportBoard(
       ctx.restore();
     };
     for (const e of work.edges) {
-      const {
-        start,
-        end,
-        labelCenter: middle,
-        labelLines,
-        labelWidth,
-        labelHeight,
-      } = edgeGeometry(e, work.cards, layouts);
+      const { start, end } = edgeGeometry(e, work.cards, layouts);
       ctx.strokeStyle = "#68766e";
       ctx.fillStyle = "#68766e";
       ctx.lineWidth = 2;
@@ -93,6 +95,15 @@ export async function exportBoard(
       const angle = Math.atan2(end.y - start.y, end.x - start.x);
       if (e.direction === 1) arrow(end.x, end.y, angle);
       if (e.direction === 2) arrow(start.x, start.y, angle + Math.PI);
+    }
+    // Match the Board: draw all labels above the lines.
+    for (const e of work.edges) {
+      const {
+        labelCenter: middle,
+        labelLines,
+        labelWidth,
+        labelHeight,
+      } = edgeGeometry(e, work.cards, layouts);
       if (e.label) {
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(
@@ -144,13 +155,20 @@ export async function exportBoard(
       }
       ctx.fillStyle = "#334f40";
       ctx.beginPath();
-      ctx.arc(c.x - 5, c.y - 5, 19, 0, Math.PI * 2);
+      const badge = numberBadge();
+      ctx.arc(
+        c.x + badge.offset,
+        c.y + badge.offset,
+        badge.radius,
+        0,
+        Math.PI * 2,
+      );
       ctx.fill();
-      ctx.font = "bold 20px Arial";
+      ctx.font = `bold ${badge.fontSize}px Arial`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffff";
-      ctx.fillText(String(c.id), c.x - 5, c.y - 5);
+      ctx.fillText(String(c.id), c.x + badge.offset, c.y + badge.offset);
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
     }
@@ -173,15 +191,20 @@ export async function exportBoard(
     lines.forEach((t, i) =>
       ctx.fillText(t, margin, footerY + (100 + i * 31) * unit),
     );
-    const categoryText = work.categories
-      .map((c, i) => (c ? `${i + 1}: ${c}` : ""))
-      .filter(Boolean)
-      .join(" · ");
-    // Categories are fully retained in state; names in footer are clipped to the reserved text area only.
-    if (categoryText) {
-      ctx.font = `${16 * unit}px Arial`;
-      ctx.fillText(categoryText, margin, footerY + 220 * unit, width * 0.7);
-    }
+    work.categories
+      .map((name, color) => ({ name, color }))
+      .filter(({ name }) => name)
+      .forEach(({ name, color }, row) => {
+        const y = footerY + (220 + row * 28) * unit;
+        ctx.fillStyle = COLORS[color];
+        ctx.strokeStyle = "#68766e";
+        ctx.lineWidth = unit;
+        ctx.fillRect(margin, y - 15 * unit, 18 * unit, 18 * unit);
+        ctx.strokeRect(margin, y - 15 * unit, 18 * unit, 18 * unit);
+        ctx.fillStyle = "#273c30";
+        ctx.font = `${16 * unit}px Arial`;
+        ctx.fillText(`${COLOR_NAMES[color]} – ${name}`, margin + 28 * unit, y);
+      });
     let qrBounds: { x: number; y: number; size: number } | null = null;
     if (qr) {
       const modules = QRCode.create(qr, { errorCorrectionLevel: "M" }).modules

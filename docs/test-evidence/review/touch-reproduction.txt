@@ -1,0 +1,50 @@
+[WebServer] (node:58303) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:58316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:38:55] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:58342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:38:58] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (13.8s)
+
+
+  1) tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('dialog')
+    Expected: visible
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('dialog') with timeout 8000ms
+      - waiting for getByRole('dialog')
+
+
+      257 |     await tapChosen();
+      258 |     await info.attach('chosen-touch.json',{body:JSON.stringify({chosen,events:await page.evaluate(()=>(window as any).reviewTouches),board:await page.evaluate(()=>(window as any).boardDebug)},null,2),contentType:'application/json'});
+    > 259 |     await expect(page.getByRole('dialog')).toBeVisible();
+          |                                            ^
+      260 |     await page.getByLabel("Beschriftung").fill("Geprüft");
+      261 |     await btn(page, "Übernehmen").click();
+      262 |     await tapChosen();
+        at /workspace/Vorlage-Mysteryboard/tests/browser/review.spec.ts:259:44
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-M1-220-Original-Ver-0e6a0-bare-Kreuzungslabels-Touch-/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-M1-220-Original-Ver-0e6a0-bare-Kreuzungslabels-Touch-/error-context.md
+
+  1 failed
+    tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

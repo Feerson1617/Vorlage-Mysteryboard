@@ -9,7 +9,8 @@ import type { Mystery, Work } from "../core/model";
 import { COLORS } from "../core/model";
 import { CardImage } from "./CardImage";
 import {
-  boardBounds,
+  overview,
+  numberBadge,
   CARD_WIDTH,
   edgeGeometry,
   makeLayouts,
@@ -45,7 +46,8 @@ export function Board({
 }) {
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
-    gesture = useRef<Gesture | null>(null);
+    gesture = useRef<Gesture | null>(null),
+    tap = useRef<{ kind: "card" | "edge"; id: number } | null>(null);
   const [view, setView] = useState<View>({ x: 40, y: 40, z: 0.5 }),
     [preview, setPreview] = useState<Work | null>(null);
   const current = useRef(work),
@@ -61,17 +63,7 @@ export function Board({
   const fit = () => {
     const rect = svg.current?.getBoundingClientRect();
     if (!rect) return;
-    const b = boardBounds(current.current, layouts);
-    const z = Math.min(
-      1.2,
-      (rect.width - 64) / b.width,
-      (rect.height - 64) / b.height,
-    );
-    setView({
-      x: (rect.width - b.width * z) / 2 - b.x * z,
-      y: (rect.height - b.height * z) / 2 - b.y * z,
-      z: Math.max(0.001, z),
-    });
+    setView(overview(current.current, layouts, rect.width, rect.height));
   };
   useEffect(() => {
     fit();
@@ -122,6 +114,7 @@ export function Board({
   const down = (e: ReactPointerEvent<SVGSVGElement>) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     e.preventDefault();
+    tap.current = null;
     svg.current!.setPointerCapture(e.pointerId);
     const p = local(e);
     points.current.set(e.pointerId, p);
@@ -208,14 +201,20 @@ export function Board({
     }
     if (g.kind === "card") {
       if (g.moved && preview) onChange(preview);
-      else if (!g.moved) onCard(g.id!);
+      else if (!g.moved) tap.current = { kind: "card", id: g.id! };
     } else if (!g.moved) {
       const p = local(e),
         target = document
           .elementFromPoint(e.clientX, e.clientY)
-          ?.closest("[data-edge]");
+          ?.closest("[data-edge-label], [data-edge]");
       if (target && Math.hypot(p.x - g.start.x, p.y - g.start.y) < 8)
-        onEdge(Number(target.getAttribute("data-edge")));
+        tap.current = {
+          kind: "edge",
+          id: Number(
+            target.getAttribute("data-edge-label") ??
+              target.getAttribute("data-edge"),
+          ),
+        };
     }
     setPreview(null);
   };
@@ -226,6 +225,16 @@ export function Board({
       role="group"
       aria-label="Arbeitsfläche"
       data-zoom={view.z}
+      onClick={(e) => {
+        // Opening on pointerup lets the following native touch click hit a
+        // newly mounted dialog button. Activate only after that click arrives.
+        e.preventDefault();
+        e.stopPropagation();
+        const selected = tap.current;
+        tap.current = null;
+        if (selected?.kind === "card") onCard(selected.id);
+        else if (selected?.kind === "edge") onEdge(selected.id);
+      }}
       onPointerDown={down}
       onPointerMove={move}
       onPointerUp={(e) => finish(e)}
@@ -283,38 +292,47 @@ export function Board({
                 markerEnd={e.direction === 1 ? "url(#arrow)" : undefined}
                 markerStart={e.direction === 2 ? "url(#arrow)" : undefined}
               />
-              {e.label && (
-                <g
-                  transform={`translate(${g.labelCenter.x} ${g.labelCenter.y})`}
-                >
-                  <rect
-                    x={-g.labelWidth / 2}
-                    y={-g.labelHeight / 2}
-                    width={g.labelWidth}
-                    height={g.labelHeight}
-                    rx="5"
-                    fill="#f7f8f7"
-                  />
-                  <text textAnchor="middle" fontSize="14" fill="#4e5e53">
-                    {g.labelLines.map((s, i) => (
-                      <tspan
-                        key={i}
-                        x="0"
-                        y={-g.labelLines.length * 9 + 14 + i * 18}
-                      >
-                        {s}
-                      </tspan>
-                    ))}
-                  </text>
-                </g>
-              )}
             </g>
           );
         })}
+        {/* Visible labels are above every transparent line target. */}
+        {drawn.edges
+          .filter((e) => e.label)
+          .map((e) => {
+            const g = edgeGeometry(e, drawn.cards, layouts);
+            return (
+              <g
+                key={e.id}
+                data-edge-label={e.id}
+                className="edge"
+                transform={`translate(${g.labelCenter.x} ${g.labelCenter.y})`}
+              >
+                <rect
+                  x={-g.labelWidth / 2}
+                  y={-g.labelHeight / 2}
+                  width={g.labelWidth}
+                  height={g.labelHeight}
+                  rx="5"
+                  fill="#f7f8f7"
+                />
+                <text textAnchor="middle" fontSize="14" fill="#4e5e53">
+                  {g.labelLines.map((s, i) => (
+                    <tspan
+                      key={i}
+                      x="0"
+                      y={-g.labelLines.length * 9 + 14 + i * 18}
+                    >
+                      {s}
+                    </tspan>
+                  ))}
+                </text>
+              </g>
+            );
+          })}
         {drawn.cards.map((c) => {
           const card = content.get(c.id)!,
             l = layouts.get(c.id)!,
-            badge = Math.max(1, Math.min(6, 1 / view.z));
+            badge = numberBadge(view.z);
           return (
             <g
               key={c.id}
@@ -368,9 +386,12 @@ export function Board({
               {card.image && (
                 <CardImage src={card.image} alt={card.imageAlt} y={l.imageY} />
               )}
-              <g transform={`translate(-5 -5) scale(${badge})`}>
+              <g
+                data-number={c.id}
+                transform={`translate(${badge.offset} ${badge.offset}) scale(${badge.scale})`}
+              >
                 <circle
-                  r="17"
+                  r={badge.radius}
                   fill="#334f40"
                   stroke="#f7f8f7"
                   strokeWidth="2"
@@ -378,7 +399,7 @@ export function Board({
                 <text
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fontSize="18"
+                  fontSize={badge.fontSize}
                   fontWeight="bold"
                   fill="white"
                 >
