@@ -37,11 +37,7 @@ test("eigenständiges HTML läuft offline; keine externen Anfragen", async ({
 }, info) => {
   const requests: string[] = [];
   page.on("request", (r) => {
-    if (
-      /^https?:/.test(r.url()) &&
-      r.url() !== artifact() &&
-      !r.url().endsWith("/favicon.ico")
-    )
+    if (/^https?:/.test(r.url()) && r.url() !== artifact())
       requests.push(r.url());
   });
   await page.goto(artifact());
@@ -56,6 +52,10 @@ test("eigenständiges HTML läuft offline; keine externen Anfragen", async ({
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Schließen", exact: true }).click();
+  const offlinePng = await download(page);
+  await page.getByRole("button", { name: "Schließen", exact: true }).click();
+  await page.getByRole("button", { name: "Menü", exact: true }).click();
+  await resume(page, offlinePng);
   expect(requests).toEqual([]);
   await expect(page.getByLabel("Sicherungsbild", { exact: true })).toBeHidden();
   expect(

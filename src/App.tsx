@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import dataset from "@mystery";
 import {
   COLOR_NAMES,
@@ -11,36 +11,31 @@ import {
   type Work,
 } from "./core/model";
 import { fromQr } from "./core/codec";
-import { restorePng } from "./core/png";
+import { MAX_PNG_BYTES, restorePng } from "./core/png";
 import { exportBoard, type ExportMode } from "./core/export";
 import { Board } from "./components/Board";
 import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
+import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 const mystery = validateMystery(dataset);
 type Modal = "resume" | "camera" | "save" | "help" | "menu" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
 export default function App() {
-  const [work, setWork] = useState<Work | null>(null),
-    [history, setHistory] = useState<Work[]>([]),
-    [modal, setModal] = useState<Modal>(null);
+  const [history, dispatch] = useReducer(historyReducer, emptyHistory);
+  const work = history.present,
+    dirty = hasChanges(history);
+  const [modal, setModal] = useState<Modal>(null);
   const [card, setCard] = useState<number | null>(null),
     [edge, setEdge] = useState<Edge | null>(null),
     [connecting, setConnecting] = useState<number | null>(null);
   const [fitTick, setFitTick] = useState(0),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false),
-    [saved, setSaved] = useState<Saved | null>(null),
-    [dirty, setDirty] = useState(false);
+    [saved, setSaved] = useState<Saved | null>(null);
   const input = useRef<HTMLInputElement>(null),
     operation = useRef(0),
     exportRunning = useRef(false);
-  const commit = (next: Work) => {
-    if (work && JSON.stringify(next) !== JSON.stringify(work)) {
-      setHistory((h) => [...h.slice(-39), work]);
-      setWork(next);
-      setDirty(true);
-    }
-  };
+  const commit = (next: Work) => dispatch({ type: "edit", work: next });
   const close = () => {
     operation.current++;
     setModal(null);
@@ -66,10 +61,8 @@ export default function App() {
     [saved],
   );
   const accept = (next: Work) => {
-    setWork(next);
-    setHistory([]);
+    dispatch({ type: "load", work: next });
     setConnecting(null);
-    setDirty(false);
     setFitTick((t) => t + 1);
     close();
   };
@@ -82,9 +75,9 @@ export default function App() {
     setBusy(true);
     setMessage("Das Sicherungsbild wird gelesen …");
     try {
-      if (file.size > 30_000_000)
+      if (file.size > MAX_PNG_BYTES)
         throw new Error(
-          "Dieses Bild ist zu groß. Wähle eine Original-Sicherungsdatei unter 30 MB.",
+          "Dieses Bild ist zu groß. Wähle eine Original-Sicherungsdatei mit höchstens 30 MB.",
         );
       const next = restorePng(
         new Uint8Array(await file.arrayBuffer()),
@@ -152,7 +145,7 @@ export default function App() {
     } catch (e) {
       if (id === operation.current)
         setMessage(
-          `Das Sichern hat nicht geklappt. ${(e as Error).message} Versuche die kleinere Bildgröße.`,
+          `Es konnte kein Sicherungsbild erstellt werden. ${(e as Error).message} Euer geöffneter Arbeitsstand bleibt erhalten. Versucht es erneut oder verwendet ein anderes Gerät.`,
         );
     } finally {
       exportRunning.current = false;
@@ -216,14 +209,24 @@ export default function App() {
                 Übersicht
               </button>
               <button
-                disabled={!history.length}
-                onClick={() => {
-                  setWork(history.at(-1)!);
-                  setHistory((h) => h.slice(0, -1));
-                  setDirty(true);
-                }}
+                aria-label="Rückgängig"
+                disabled={!history.past.length}
+                onClick={() => dispatch({ type: "undo" })}
               >
-                Rückgängig
+                <span className="history-label">Rückgängig</span>
+                <span className="history-symbol" aria-hidden="true">
+                  ↶
+                </span>
+              </button>
+              <button
+                aria-label="Wiederholen"
+                disabled={!history.future.length}
+                onClick={() => dispatch({ type: "redo" })}
+              >
+                <span className="history-label">Wiederholen</span>
+                <span className="history-symbol" aria-hidden="true">
+                  ↷
+                </span>
               </button>
               <button className="primary" onClick={() => void save()}>
                 Sichern
@@ -444,9 +447,7 @@ export default function App() {
                     "Zur Startansicht gehen? Nicht gesicherte Änderungen gehen verloren.",
                   )
                 ) {
-                  setWork(null);
-                  setHistory([]);
-                  setDirty(false);
+                  dispatch({ type: "load", work: null });
                   setConnecting(null);
                   close();
                 }
@@ -529,7 +530,9 @@ export default function App() {
             <>
               <p>
                 Speichere die <strong>Originaldatei in „Dateien“</strong> und
-                lasse sie unverändert. Ein Bildschirmfoto genügt nicht.
+                lasse sie unverändert. Die Anwendung kann nicht prüfen, ob die
+                Datei dort tatsächlich abgelegt wurde. Ein Bildschirmfoto genügt
+                nicht.
               </p>
               <a
                 className="button primary full"

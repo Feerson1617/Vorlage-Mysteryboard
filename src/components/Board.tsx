@@ -7,6 +7,7 @@ import {
 } from "react";
 import type { Mystery, Work } from "../core/model";
 import { COLORS } from "../core/model";
+import { CardImage } from "./CardImage";
 import {
   boardBounds,
   CARD_WIDTH,
@@ -365,15 +366,7 @@ export function Board({
                 ))}
               </text>
               {card.image && (
-                <image
-                  href={card.image}
-                  x="18"
-                  y={l.imageY}
-                  width="264"
-                  height="98"
-                >
-                  <title>{card.imageAlt}</title>
-                </image>
+                <CardImage src={card.image} alt={card.imageAlt} y={l.imageY} />
               )}
               <g transform={`translate(-5 -5) scale(${badge})`}>
                 <circle

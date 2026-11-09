@@ -1,5 +1,7 @@
 # Testbericht · MysteryBoard-Prototyp
 
+Dieser Bericht dokumentiert den ursprünglichen Stand `f02b411`. Die spätere Korrekturprüfung steht in [NACHBESSERUNG.md](NACHBESSERUNG.md).
+
 Stand: 9. November 2026. Ausgeführt in der bestehenden Codex-Cloud-Umgebung unter Linux, Chromium 156.0.8078.79, Node.js 24.22.1, npm 11.9.0, Playwright 1.65.0. **Keine echte Schul-iPad- oder Canva-Abnahme.**
 
 ## Ergebnis

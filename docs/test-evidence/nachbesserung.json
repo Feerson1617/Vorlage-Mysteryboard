@@ -1,0 +1,100 @@
+{
+  "baseline": "f02b411a20d49f5dbed5d6886c8d816e6411ad13",
+  "command": "npm run check",
+  "exit_code": 0,
+  "unit_tests": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "chromium_tests": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "webkit": "not run: official browser download blocked by proxy HTTP 403 Domain forbidden",
+  "html": {
+    "MysteryBoard-klein.html": {
+      "bytes": 448935,
+      "sha256": "645105a45324735c01e18ba1133424b7296d7a6975bcb2a6ddd0c97b68a79a87"
+    },
+    "MysteryBoard-umfangreich.html": {
+      "bytes": 481821,
+      "sha256": "600addc8a65384a96f1ad9a487e39f9fb9fb9f2a49db0272511fde58a9be0505"
+    }
+  },
+  "image_measurements": {
+    "corrections-quadratische-h-3f02c-PNG-identische-Proportionen": {
+      "screen": [
+        {
+          "width": 103,
+          "height": 103,
+          "ratio": 1
+        },
+        {
+          "width": 41,
+          "height": 103,
+          "ratio": 0.39805825242718446
+        },
+        {
+          "width": 278,
+          "height": 69,
+          "ratio": 4.028985507246377
+        }
+      ],
+      "exported": [
+        {
+          "width": 81,
+          "height": 82,
+          "ratio": 0.9878048780487805
+        },
+        {
+          "width": 32,
+          "height": 81,
+          "ratio": 0.3950617283950617
+        },
+        {
+          "width": 219,
+          "height": 55,
+          "ratio": 3.981818181818182
+        }
+      ]
+    },
+    "corrections-quadratische-h-46f0a-PNG-identische-Proportionen": {
+      "screen": [
+        {
+          "width": 103,
+          "height": 103,
+          "ratio": 1
+        },
+        {
+          "width": 41,
+          "height": 103,
+          "ratio": 0.39805825242718446
+        },
+        {
+          "width": 278,
+          "height": 69,
+          "ratio": 4.028985507246377
+        }
+      ],
+      "exported": [
+        {
+          "width": 81,
+          "height": 80,
+          "ratio": 1.0125
+        },
+        {
+          "width": 32,
+          "height": 81,
+          "ratio": 0.3950617283950617
+        },
+        {
+          "width": 219,
+          "height": 54,
+          "ratio": 4.055555555555555
+        }
+      ]
+    }
+  }
+}

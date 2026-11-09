@@ -46,12 +46,13 @@ Der Build erstellt beide Varianten und prüft die harte Grenze **< 10.000.000 By
 
 Neue Inhalte werden als JSON beschrieben. Im Prototyp bezeichnet `small`/`large` die Build-Auswahl; im Schülerbereich gibt es keine Plattform oder Mystery-Auswahl. Ein Datensatz kann ohne Änderung des Anwendungskerns ersetzt werden. Änderungen an Kartentexten, IDs oder Bildern müssen eine neue Inhaltsversion erhalten. IDs sind fortlaufende Ganzzahlen ab 1. Bilder müssen eingebettete Daten-URIs sein. Keine Daten aus fremden URLs laden.
 
-Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im Zustand ist zugleich Zeichenreihenfolge; Ziehen hebt eine Karte nach vorn. Rückgängig hält höchstens 40 Änderungen im Arbeitsspeicher. Die Ansicht selbst ist kein Bestandteil des gespeicherten fachlichen Arbeitsstands; nach dem Import wird die Übersicht eingestellt.
+Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im Zustand ist zugleich Zeichenreihenfolge; Ziehen hebt eine Karte nach vorn. Rückgängig und Wiederholen teilen sich eine auf 40 Schritte begrenzte Historie im Arbeitsspeicher. Eine neue Bearbeitung verwirft die Wiederholen-Schritte; Laden eines Arbeitsstands setzt beide Historien zurück. Die Ansicht selbst ist kein Bestandteil des gespeicherten fachlichen Arbeitsstands; nach dem Import wird die Übersicht eingestellt.
 
 ## Grenzen und weitere Dokumente
 
 - [Speicherformat und technische Grenzen](docs/FORMAT.md)
-- [Tatsächlich ausgeführte Tests und offene Praxisabnahme](docs/TESTBERICHT.md)
+- [Aktueller Prüfbericht zur technischen Nachbesserung](docs/NACHBESSERUNG.md)
+- [Ursprünglicher Testbericht zu f02b411](docs/TESTBERICHT.md)
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 

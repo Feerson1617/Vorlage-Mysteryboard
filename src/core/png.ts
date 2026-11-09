@@ -2,7 +2,7 @@ import { packWork, unpackWork } from "./codec";
 import type { Mystery, Work } from "./model";
 const SIGNATURE = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
 const CHUNK = "mySt"; // private, ancillary, safe-to-copy PNG chunk
-const MAX_PNG = 30_000_000;
+export const MAX_PNG_BYTES = 30_000_000;
 const table = Uint32Array.from({ length: 256 }, (_, n) => {
   let c = n;
   for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
@@ -28,7 +28,7 @@ function parse(bytes: Uint8Array) {
   };
   if (
     bytes.length < 45 ||
-    bytes.length > MAX_PNG ||
+    bytes.length > MAX_PNG_BYTES ||
     !SIGNATURE.every((b, i) => bytes[i] === b)
   )
     return bad();
@@ -71,9 +71,16 @@ function parse(bytes: Uint8Array) {
 export function embedWork(png: Uint8Array, work: Work): Uint8Array {
   const parts = parse(png).filter((p) => p.type !== CHUNK);
   const extra = chunk(CHUNK, packWork(work));
-  const out = new Uint8Array(
-    8 + parts.reduce((s, p) => s + p.end - p.start, 0) + extra.length,
-  );
+  // A replacement removes the old block before counting the new one. Reject
+  // before allocation so every offered result obeys the importer's own limit.
+  const finalSize =
+    8 + parts.reduce((s, p) => s + p.end - p.start, 0) + extra.length;
+  if (finalSize > MAX_PNG_BYTES) {
+    throw new Error(
+      "Das Sicherungsbild ist einschließlich Arbeitsstand größer als 30 MB.",
+    );
+  }
+  const out = new Uint8Array(finalSize);
   out.set(SIGNATURE);
   let offset = 8;
   for (const p of parts) {

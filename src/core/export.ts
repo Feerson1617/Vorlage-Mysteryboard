@@ -1,6 +1,12 @@
 import QRCode from "qrcode";
 import { COLORS, type Mystery, type Work } from "./model";
-import { boardBounds, CARD_WIDTH, edgeGeometry, makeLayouts } from "./layout";
+import {
+  boardBounds,
+  CARD_WIDTH,
+  edgeGeometry,
+  makeLayouts,
+  fitImage,
+} from "./layout";
 import { packWork, toQr } from "./codec";
 import { embedWork } from "./png";
 export const EXPORT_MODES = {
@@ -126,14 +132,16 @@ export async function exportBoard(
       l.text.forEach((t, i) =>
         ctx.fillText(t, c.x + 18, c.y + 24 + l.title.length * 24 + 26 + i * 22),
       );
-      if (content.image)
-        ctx.drawImage(
-          await image(content.image),
-          c.x + 18,
-          c.y + l.imageY,
-          264,
-          98,
-        );
+      if (content.image) {
+        const loaded = await image(content.image);
+        const box = fitImage(loaded.naturalWidth, loaded.naturalHeight, {
+          x: c.x + 18,
+          y: c.y + l.imageY,
+          width: 264,
+          height: 98,
+        });
+        ctx.drawImage(loaded, box.x, box.y, box.width, box.height);
+      }
       ctx.fillStyle = "#334f40";
       ctx.beginPath();
       ctx.arc(c.x - 5, c.y - 5, 19, 0, Math.PI * 2);

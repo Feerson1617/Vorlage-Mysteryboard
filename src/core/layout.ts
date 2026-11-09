@@ -130,3 +130,19 @@ export function edgeGeometry(
   };
   return { start, end, middle, labelCenter, ...label };
 }
+
+// Shared contain geometry for SVG cards and Canvas exports, including SVGs
+// without a viewBox. Both renderers use the image's intrinsic proportions.
+export function fitImage(width: number, height: number, box: Bounds): Bounds {
+  if (width <= 0 || height <= 0)
+    throw new Error("Ein eingebettetes Bild hat keine gültigen Abmessungen.");
+  const scale = Math.min(box.width / width, box.height / height);
+  const fittedWidth = width * scale,
+    fittedHeight = height * scale;
+  return {
+    x: box.x + (box.width - fittedWidth) / 2,
+    y: box.y + (box.height - fittedHeight) / 2,
+    width: fittedWidth,
+    height: fittedHeight,
+  };
+}
