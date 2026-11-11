@@ -1,0 +1,439 @@
+{
+  "engine": "chromium",
+  "version": "156.0.8078.79",
+  "mode": "native",
+  "expected": 10,
+  "correct": 10,
+  "trials": [
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-klein.html",
+      "selector": "[data-card=\"1\"] > rect",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-klein.html",
+      "selector": "[data-card=\"12\"] circle",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-klein.html",
+      "selector": "[data-edge-label=\"1\"], [data-edge=\"1\"] rect",
+      "expected": "Verbindung 1 und 2",
+      "correct": true,
+      "opens": [
+        "Verbindung 1 und 2"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Verbindung 1 und 2"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-klein.html",
+      "selector": "[data-card=\"12\"] > rect",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-klein.html",
+      "selector": "[data-card=\"1\"] circle",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"1\"] > rect",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 2,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"12\"] circle",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 3,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-umfangreich.html",
+      "selector": "[data-edge-label=\"1\"], [data-edge=\"1\"] rect",
+      "expected": "Verbindung 1 und 2",
+      "correct": true,
+      "opens": [
+        "Verbindung 1 und 2"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 4,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Verbindung 1 und 2"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"60\"] > rect",
+      "expected": "Karte 60",
+      "correct": true,
+      "opens": [
+        "Karte 60"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 5,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 60"
+    },
+    {
+      "url": "http://127.0.0.1:5175/Vorlage-Mysteryboard/artifacts/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"1\"] circle",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchstart",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "touchend",
+          "detail": 0,
+          "trusted": true
+        },
+        {
+          "type": "click",
+          "pointerId": 6,
+          "pointerType": "touch",
+          "detail": 1,
+          "trusted": true
+        }
+      ],
+      "title": "Karte 1"
+    }
+  ]
+}

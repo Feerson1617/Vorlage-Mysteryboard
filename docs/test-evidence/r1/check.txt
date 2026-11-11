@@ -1,0 +1,187 @@
+
+> mysteryboard-prototype@0.1.0 check
+> npm test && npm run build && npm run test:e2e
+
+
+> mysteryboard-prototype@0.1.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/Vorlage-Mysteryboard
+
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  05:44:10
+   Duration  5.70s (tests 96%, import 3%, transform 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && vite build --mode small --outDir dist/small && vite build --mode large --outDir dist/large && node scripts/check-build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-Cr8N22q5.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/small/index.html  432.50 kB │ gzip: 147.84 kB
+
+✓ built in 211ms
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-CNYQkAzd.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/large/index.html  465.39 kB │ gzip: 152.46 kB
+
+✓ built in 275ms
+small: 451.262 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 484.148 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 test:e2e
+> npm run build:review && playwright test
+
+
+> mysteryboard-prototype@0.1.0 build:review
+> vite build --mode review --outDir dist/review
+
+vite v8.3.6 building client environment for review...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-5SCxd6Dw.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/review/index.html  973.10 kB │ gzip: 523.48 kB
+
+✓ built in 438ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+[WebServer] (node:114040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:114053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:23] "GET / HTTP/1.1" 200 -
+
+Running 43 tests using 1 worker
+
+(node:114079) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   1 tests/browser/corrections.spec.ts:51:1 › mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück (3.0s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   2 tests/browser/corrections.spec.ts:124:1 › erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage (2.3s)
+  ✓   3 tests/browser/corrections.spec.ts:219:3 › PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung (3.2s)
+  ✓   4 tests/browser/corrections.spec.ts:219:3 › PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download (3.8s)
+  ✓   5 tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen (5.7s)
+  ✓   6 tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen (4.8s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:47] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   7 tests/browser/corrections.spec.ts:390:1 › Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar (587ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:48] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   8 tests/browser/prototype.spec.ts:34:1 › eigenständiges HTML läuft offline; keine externen Anfragen (1.5s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:50] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   9 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (1.5s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:54] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  10 tests/browser/prototype.spec.ts:132:1 › kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten (5.3s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:44:57] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  11 tests/browser/prototype.spec.ts:189:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import (3.3s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:00] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  12 tests/browser/prototype.spec.ts:227:1 › abgebrochener Import verändert den geöffneten Stand nicht (2.4s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:02] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  13 tests/browser/prototype.spec.ts:253:1 › Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar (544ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:03] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  14 tests/browser/prototype.spec.ts:275:1 › Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick (1.1s)
+  ✓  15 tests/browser/prototype.spec.ts:333:1 › gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export (1.9s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  16 tests/browser/prototype.spec.ts:387:1 › kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas (1.3s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:07] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  17 tests/browser/prototype.spec.ts:411:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen (853ms)
+  ✓  18 tests/browser/prototype.spec.ts:430:1 › Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende (1.3s)
+  ✓  19 tests/browser/prototype.spec.ts:477:1 › QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar (875ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:10] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  20 tests/browser/r1.spec.ts:131:3 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal (1.0s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:11] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  21 tests/browser/r1.spec.ts:131:3 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal (1.4s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:13] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  22 tests/browser/r1.spec.ts:163:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten (2.0s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:15] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  23 tests/browser/r1.spec.ts:163:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten (3.0s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:18] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  24 tests/browser/r1.spec.ts:252:3 › R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (1.2s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:19] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  25 tests/browser/r1.spec.ts:252:3 › R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (1.2s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:20] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  26 tests/browser/r1.spec.ts:323:1 › R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam (911ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:21] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  27 tests/browser/r1.spec.ts:383:1 › R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog (962ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:22] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  28 tests/browser/r1.spec.ts:451:1 › R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte (916ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:23] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  29 tests/browser/r1.spec.ts:488:1 › R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar (1.2s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:24] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:27] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  30 tests/browser/review.spec.ts:34:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung (5.0s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:29] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  31 tests/browser/review.spec.ts:85:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) (982ms)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:30] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  32 tests/browser/review.spec.ts:85:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) (1.1s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:32] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:35] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  33 tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (5.6s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:37] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:41] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  34 tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (5.6s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:43] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:44] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  35 tests/browser/review.spec.ts:299:1 › Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar (4.5s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:47] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  36 tests/browser/review.spec.ts:327:1 › Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf (2.5s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:50] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  37 tests/browser/review.spec.ts:370:5 › Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.3s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  38 tests/browser/review.spec.ts:370:5 › Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.4s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:53] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  39 tests/browser/review.spec.ts:370:5 › Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (2.1s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:55] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  40 tests/browser/review.spec.ts:370:5 › Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.9s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:45:57] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  41 tests/browser/review.spec.ts:490:1 › 220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert (3.3s)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:46:00] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  42 tests/browser/review.spec.ts:540:1 › Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas (8.6s)
+  ✓  43 tests/browser/review.spec.ts:605:1 › Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder (3.7s)
+
+  43 passed (1.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

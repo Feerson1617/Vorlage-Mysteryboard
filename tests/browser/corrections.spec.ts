@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
+import { fillTeam } from "./team-helpers";
 import smallData from "../../src/content/small.json" with { type: "json" };
 import { initialWork, validateMystery } from "../../src/core/model";
 import { embedWork } from "../../src/core/png";
@@ -10,6 +11,7 @@ const close = (page: Page) =>
   page.getByRole("button", { name: "Schließen", exact: true }).click();
 async function begin(page: Page, url = artifact) {
   await page.goto(url);
+  await fillTeam(page);
   await page.getByRole("button", { name: "Beginnen", exact: true }).click();
 }
 async function snapshot(page: Page) {
@@ -83,14 +85,15 @@ test("mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import set
   await card(page, 12).click();
   await page.getByRole("button", { name: "Verbindung löschen" }).click();
   const afterDelete = await snapshot(page);
-  for (let i = 0; i < 6; i++)
+  // Six board edits plus the explicitly entered start name are undoable.
+  for (let i = 0; i < 7; i++)
     await page.getByRole("button", { name: "Rückgängig", exact: true }).click();
   expect(await snapshot(page)).toEqual(baseline);
   await expect(
     page.getByRole("button", { name: "Rückgängig", exact: true }),
   ).toBeDisabled();
   expect(await warnsOnLeave(page)).toBe(false);
-  for (let i = 0; i < 5; i++)
+  for (let i = 0; i < 6; i++)
     await page
       .getByRole("button", { name: "Wiederholen", exact: true })
       .click();
@@ -135,7 +138,8 @@ test("erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen best�
     });
   });
   await begin(page);
-  expect(await warnsOnLeave(page)).toBe(false);
+  // A newly supplied team name is already unsaved work.
+  expect(await warnsOnLeave(page)).toBe(true);
   await card(page).click();
   await page.getByRole("button", { name: "Rot", exact: true }).click();
   await close(page);
@@ -173,7 +177,12 @@ test("erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen best�
   expect(page.isClosed()).toBe(false);
   await close(page);
   await page.getByRole("button", { name: "Rückgängig", exact: true }).click();
+  // Undoing the color alone still leaves the new team name unsaved.
+  expect(await warnsOnLeave(page)).toBe(true);
+  await page.getByRole("button", { name: "Rückgängig", exact: true }).click();
   expect(await warnsOnLeave(page)).toBe(false);
+  await page.getByRole("button", { name: "Wiederholen", exact: true }).click();
+  expect(await warnsOnLeave(page)).toBe(true);
   await page.getByRole("button", { name: "Wiederholen", exact: true }).click();
   expect(await warnsOnLeave(page)).toBe(true);
   await loadInitial(page);

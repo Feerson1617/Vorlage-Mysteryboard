@@ -82,7 +82,7 @@ select:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   flex-shrink: 0;
   gap: 12px;
   padding: 12px max(16px, env(safe-area-inset-right)) 12px
@@ -96,10 +96,45 @@ select:focus-visible {
   letter-spacing: -0.5px;
   font-size: 19px;
 }
-nav {
+.toolbar .brand {
+  flex: 0 0 auto;
+}
+.team-summary {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-left: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.menu-team {
+  overflow-wrap: anywhere;
+  margin-bottom: 12px;
+}
+.team-input {
+  width: min(100%, 420px);
+  font-size: 16px;
+  text-align: left;
+}
+.card-group {
+  margin-bottom: 12px;
+}
+.toolbar nav {
   display: flex;
-  flex-wrap: wrap;
+  flex: 0 0 auto;
+  flex-wrap: nowrap;
   gap: 8px;
+}
+.toolbar nav button {
+  white-space: nowrap;
+}
+.toolbar nav .icon-button {
+  padding: 5px;
+  font-size: 28px;
 }
 .board {
   display: block;
@@ -351,15 +386,10 @@ textarea {
     padding: 10px 8px;
     min-height: 70px;
   }
-  .brand {
-    display: none;
-  }
-  nav {
-    width: 100%;
-    justify-content: space-between;
+  .toolbar nav {
     gap: 5px;
   }
-  nav button {
+  .toolbar nav button {
     padding: 10px 12px;
   }
   .dialog-body {
@@ -383,14 +413,14 @@ textarea {
 
 .history-symbol {
   display: none;
+  line-height: 1;
 }
-@media (max-width: 480px) {
-  nav {
-    gap: 4px;
+@media (max-width: 900px) {
+  .toolbar .brand {
+    display: none;
   }
-  nav button {
-    padding: 8px;
-    font-size: 14px;
+  .toolbar nav button {
+    padding: 10px 12px;
   }
   .history-label {
     display: none;
@@ -398,5 +428,27 @@ textarea {
   .history-symbol {
     display: inline;
     font-size: 24px;
+  }
+}
+@media (max-width: 480px) {
+  .toolbar nav {
+    gap: 4px;
+  }
+  .toolbar nav button {
+    padding: 8px 6px;
+    font-size: 14px;
+  }
+  .team-summary {
+    font-size: 14px;
+  }
+}
+@media (max-width: 420px) {
+  /* Keep every existing touch tool accessible; the menu shows the full team. */
+  .toolbar .team-summary {
+    display: none;
+  }
+  .toolbar nav {
+    flex: 1 1 auto;
+    justify-content: space-between;
   }
 }

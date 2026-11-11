@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc --noEmit && vite build --mode small --outDir dist/small && vite build --mode large --outDir dist/large && node scripts/check-build.mjs",
+    "build": "tsc --noEmit && node scripts/build.mjs",
     "test": "vitest run",
-    "test:e2e": "npm run build:review && playwright test",
+    "test:e2e": "node scripts/build.mjs --tests && playwright test",
     "check": "npm test && npm run build && npm run test:e2e",
-    "build:review": "vite build --mode review --outDir dist/review"
+    "build:review": "node scripts/build.mjs review",
+    "build:example": "node scripts/build.mjs reuse-example"
   },
   "dependencies": {
     "@noble/hashes": "2.4.0",

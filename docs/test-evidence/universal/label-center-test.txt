@@ -1,0 +1,94 @@
+[WebServer] (node:12113) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:12126) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:36] "GET / HTTP/1.1" 200 -
+
+Running 9 tests using 1 worker
+
+(node:12153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:38] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:40] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/universal.spec.ts:237:3 › Universelle Vorlage small: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (4.8s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:43] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:45] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/universal.spec.ts:237:3 › Universelle Vorlage large: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (5.5s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:48] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:50] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/universal.spec.ts:237:3 › Universelle Vorlage boden: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (4.4s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:53] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:55] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  4 tests/browser/universal.spec.ts:237:3 › Universelle Vorlage neutral: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (5.5s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:35:59] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✘  5 tests/browser/universal.spec.ts:369:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (2.0m)
+(node:12654) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:00] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  6 tests/browser/universal.spec.ts:369:3 › Boden 768×1024: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (5.7s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:05] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:09] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:13] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:16] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  7 tests/browser/universal.spec.ts:481:1 › Alle Varianten laden kompatible schema1-Sicherungen ohne Team und erlauben danach einen Teamnamen (13.6s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:38:20] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  8 tests/browser/universal.spec.ts:542:1 › Boden übernimmt weder fremdes Mystery noch Inhaltsversion 1.0.0 und behält den geöffneten Teamstand (3.1s)
+  ✓  9 tests/browser/universal.spec.ts:572:1 › Export-Kopfzeile: lange untrennbare Titel und Teamangaben passen ohne Überlagerung in beide Bildgrößen (2.3s)
+
+
+  1) tests/browser/universal.spec.ts:369:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport
+
+    Test timeout of 120000ms exceeded.
+
+    Error: locator.tap: Test timeout of 120000ms exceeded.
+    Call log:
+      - waiting for locator('[data-edge-label="1"]')
+        - locator resolved to <g class="edge" data-edge-label="1" transform="translate(1664.5563853511462 370.63)">…</g>
+      - attempting tap action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <circle fill="#334f40" r="21.013671875" stroke="#f7f8f7" stroke-width="2"></circle> from <g data-y="430" class="card" tabindex="0" data-x="1680" role="button" data-card="13" data-group="extension" aria-label="Karte V13 öffnen" transform="translate(1680 430)">…</g> subtree intercepts pointer events
+        - retrying tap action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <circle fill="#334f40" r="21.013671875" stroke="#f7f8f7" stroke-width="2"></circle> from <g data-y="430" class="card" tabindex="0" data-x="1680" role="button" data-card="13" data-group="extension" aria-label="Karte V13 öffnen" transform="translate(1680 430)">…</g> subtree intercepts pointer events
+        - retrying tap action
+          - waiting 100ms
+        221 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <circle fill="#334f40" r="21.013671875" stroke="#f7f8f7" stroke-width="2"></circle> from <g data-y="430" class="card" tabindex="0" data-x="1680" role="button" data-card="13" data-group="extension" aria-label="Karte V13 öffnen" transform="translate(1680 430)">…</g> subtree intercepts pointer events
+          - retrying tap action
+            - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      433 |     await page.getByLabel("Richtung").selectOption("1");
+      434 |     await button(page, "Übernehmen").tap();
+    > 435 |     await page.locator('[data-edge-label="1"]').tap();
+          |                                                 ^
+      436 |     await expect(page.getByRole("dialog")).toHaveAccessibleName(
+      437 |       "Verbindung 1 und V13",
+      438 |     );
+        at /workspace/Vorlage-Mysteryboard/tests/browser/universal.spec.ts:435:49
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/universal-Boden-1024×768-P-6d993-e-Verbindung-und-Teamexport/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/universal-Boden-1024×768-P-6d993-e-Verbindung-und-Teamexport/error-context.md
+
+  1 failed
+    tests/browser/universal.spec.ts:369:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport
+  8 passed (2.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

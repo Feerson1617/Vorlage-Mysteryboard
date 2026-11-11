@@ -1,9 +1,15 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFile } from "node:fs/promises";
+import { fillTeam, completeExportTeam, TEST_TEAM } from "./team-helpers";
 import smallData from "../../src/content/small.json" with { type: "json" };
 import largeData from "../../src/content/large.json" with { type: "json" };
 import stressData from "../fixtures/review/stress-220.json" with { type: "json" };
-import { validateMystery, initialWork, type Work } from "../../src/core/model";
+import {
+  validateMystery,
+  initialWork,
+  withTeam,
+  type Work,
+} from "../../src/core/model";
 import { restorePng } from "../../src/core/png";
 const url = (large = false) =>
   `http://localhost:5174/artifacts/MysteryBoard-${large ? "umfangreich" : "klein"}.html`;
@@ -24,6 +30,7 @@ async function connect(p: Page, from = 1, to = 12) {
 }
 async function savedBytes(p: Page) {
   await btn(p, "Sichern").click();
+  await completeExportTeam(p);
   const link = p.getByRole("link", { name: "Sicherungsbild herunterladen" });
   await expect(link).toBeVisible({ timeout: 45000 });
   const download = p.waitForEvent("download");
@@ -59,6 +66,7 @@ test("M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische 
   await expect(page.locator("[data-edge]")).toHaveCount(10);
   const { file, bytes } = await savedBytes(page);
   const result = restorePng(new Uint8Array(bytes), mystery);
+  expect(result.team).toBe(TEST_TEAM);
   expect(result.cards).toEqual(original.cards);
   expect(result.categories).toEqual(original.categories);
   expect(result.edges).toEqual(expect.arrayContaining(original.edges));
@@ -91,6 +99,7 @@ for (const touch of [false, true]) {
     });
     const page = await context.newPage();
     await page.goto(url());
+    await fillTeam(page);
     await btn(page, "Beginnen").click();
     await connect(page, 1, 3);
     await btn(page, "Übernehmen").click();
@@ -175,6 +184,7 @@ for (const touch of [false, true])
     });
     await page.goto(stressUrl);
     await context.setOffline(true);
+    await fillTeam(page);
     await btn(page, "Beginnen").click();
     await expect(page.locator("[data-edge]")).toHaveCount(220);
     const targets = await page.evaluate(() => {
@@ -268,7 +278,7 @@ for (const touch of [false, true])
     const mystery = validateMystery(stressData);
     const { bytes, file } = await savedBytes(page);
     expect(restorePng(new Uint8Array(bytes), mystery)).toEqual(
-      initialWork(mystery),
+      withTeam(initialWork(mystery), TEST_TEAM),
     );
     await info.attach("stress-220-output.png", {
       body: bytes,
@@ -282,7 +292,7 @@ for (const touch of [false, true])
     await expect(fresh.locator("[data-edge]")).toHaveCount(220);
     expect(
       restorePng(new Uint8Array((await savedBytes(fresh)).bytes), mystery),
-    ).toEqual(initialWork(mystery));
+    ).toEqual(withTeam(initialWork(mystery), TEST_TEAM));
     expect(external).toEqual([]);
     await info.attach("label-hits.json", {
       body: JSON.stringify(
@@ -307,8 +317,14 @@ test("Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext be
   );
   await page.goto(url(true));
   await load(page, fixture("60-90-Gruppenstand.png"));
+  // The legacy fixture itself stays teamless; only the new UI export asks for
+  // the explicit name. Every original card/edge/category must remain exact.
+  expect(expected.schema).toBe(1);
+  expect(expected.team).toBeUndefined();
   const { file, bytes } = await savedBytes(page);
-  expect(restorePng(new Uint8Array(bytes), mystery)).toEqual(expected);
+  expect(restorePng(new Uint8Array(bytes), mystery)).toEqual(
+    withTeam(expected, TEST_TEAM),
+  );
   const context = await browser.newContext();
   const fresh = await context.newPage();
   await fresh.goto(url(true));
@@ -320,7 +336,7 @@ test("Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext be
   await close(fresh);
   expect(
     restorePng(new Uint8Array((await savedBytes(fresh)).bytes), mystery),
-  ).toEqual(expected);
+  ).toEqual(withTeam(expected, TEST_TEAM));
   await context.close();
 });
 
@@ -328,6 +344,7 @@ test("Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchfl
   page,
 }) => {
   await page.goto(url());
+  await fillTeam(page);
   await btn(page, "Beginnen").click();
   for (const width of [
     320, 375, 480, 481, 550, 600, 601, 610, 620, 640, 704, 705, 768, 1024,
@@ -375,6 +392,7 @@ for (const large of [false, true])
         : { width: 1024, height: 768 };
       await page.setViewportSize(viewport);
       await page.goto(url(large));
+      await fillTeam(page);
       await btn(page, "Beginnen").click();
       const inspect = () =>
         page.evaluate(() => {
@@ -491,6 +509,7 @@ test("220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokume
   page,
 }, info) => {
   await page.goto(stressUrl);
+  await fillTeam(page);
   await btn(page, "Beginnen").click();
   const media = [];
   for (const width of [320, 768, 1024]) {
@@ -564,6 +583,7 @@ test("Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar,
     };
   });
   await page.goto(url());
+  await fillTeam(page);
   await btn(page, "Beginnen").click();
   await btn(page, "Sichern").click();
   await expect

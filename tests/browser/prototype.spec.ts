@@ -1,10 +1,12 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
+import { fillTeam } from "./team-helpers";
 const artifact = (mode = "klein") =>
   `http://localhost:5174/artifacts/MysteryBoard-${mode}.html`;
 const card = (page: Page, id = 1) => page.locator(`[data-card="${id}"]`);
 async function start(page: Page, mode = "klein") {
   await page.goto(artifact(mode));
+  await fillTeam(page);
   await page.getByRole("button", { name: "Beginnen", exact: true }).click();
   await expect(card(page)).toBeVisible();
 }
@@ -42,6 +44,7 @@ test("eigenständiges HTML läuft offline; keine externen Anfragen", async ({
   });
   await page.goto(artifact());
   await context.setOffline(true);
+  await fillTeam(page);
   await page.getByRole("button", { name: "Beginnen", exact: true }).click();
   await card(page, 3).click();
   await expect(page.getByRole("dialog", { name: "Karte 3" })).toBeVisible();
@@ -307,10 +310,13 @@ test("Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt k
   await touch("touchEnd", []);
   expect(await position(page)).toEqual(pos);
   await expect(page.getByRole("dialog")).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "Rückgängig" })).toBeDisabled();
   expect(
     Number(await page.locator(".board").getAttribute("data-zoom")),
   ).toBeGreaterThan(zoom);
+  // The required start name is one history entry. The canceled gesture adds
+  // none: one undo removes that name and must exhaust the history.
+  await page.getByRole("button", { name: "Rückgängig" }).click();
+  await expect(page.getByRole("button", { name: "Rückgängig" })).toBeDisabled();
   await page.getByRole("button", { name: "Übersicht", exact: true }).click();
   await card(page).tap();
   await page.getByRole("button", { name: "Mit einer Karte verbinden" }).click();

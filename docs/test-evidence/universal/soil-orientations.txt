@@ -1,0 +1,21 @@
+[WebServer] (node:13501) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:13514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:42:11] "GET / HTTP/1.1" 200 -
+
+Running 2 tests using 1 worker
+
+(node:13541) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:42:14] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/universal.spec.ts:396:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (6.3s)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 11:42:20] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/universal.spec.ts:396:3 › Boden 768×1024: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (4.0s)
+
+  2 passed (15.4s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

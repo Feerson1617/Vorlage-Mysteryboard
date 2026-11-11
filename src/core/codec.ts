@@ -1,12 +1,20 @@
 import { zlibSync, unzlibSync } from "fflate";
 import { sha256 } from "@noble/hashes/sha2.js";
-import { validateWork, type Mystery, type Work } from "./model";
+import { validateWork, validTeamName, type Mystery, type Work } from "./model";
 export const QR_LIMIT = 500; // ASCII bytes including prefix; EC M, at most version 17.
 const MAX_RAW = 1_000_000,
   MAX_PACKED = 500_000;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf-8", { fatal: true });
 export function packWork(work: Work): Uint8Array {
+  if (
+    (work.schema !== 1 && work.schema !== 2) ||
+    (work.schema === 1 && work.team !== undefined) ||
+    (work.schema === 2 && !validTeamName(work.team))
+  )
+    throw new Error(
+      "Der Arbeitsstand enthält einen ungültigen Teamnamen oder ein unpassendes Speicherformat.",
+    );
   const compact = [
     work.schema,
     work.mystery,
@@ -14,12 +22,15 @@ export function packWork(work: Work): Uint8Array {
     work.cards.map((c) => [c.id, c.x, c.y, c.color]),
     work.edges.map((e) => [e.id, e.from, e.to, e.direction, e.label]),
     work.categories,
+    ...(work.schema === 2 ? [work.team] : []),
   ];
   const raw = encoder.encode(JSON.stringify(compact));
   if (raw.length > MAX_RAW) throw new Error("Dieser Arbeitsstand ist zu groß.");
   const compressed = zlibSync(raw, { level: 9 });
   const result = new Uint8Array(40 + compressed.length);
-  result.set([77, 66, 83, 1]);
+  // Format 1 remains byte-identical for unnamed legacy work. Older readers
+  // reject format 2 instead of silently losing a saved team name.
+  result.set([77, 66, 83, work.schema]);
   new DataView(result.buffer).setUint32(4, raw.length);
   result.set(sha256(raw), 8);
   result.set(compressed, 40);
@@ -33,7 +44,7 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
       bytes[0] !== 77 ||
       bytes[1] !== 66 ||
       bytes[2] !== 83 ||
-      bytes[3] !== 1
+      (bytes[3] !== 1 && bytes[3] !== 2)
     )
       throw new Error();
     const size = new DataView(
@@ -50,7 +61,8 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
     const c: unknown = JSON.parse(decoder.decode(raw));
     if (
       !Array.isArray(c) ||
-      c.length !== 6 ||
+      c[0] !== bytes[3] ||
+      c.length !== (bytes[3] === 2 ? 7 : 6) ||
       !Array.isArray(c[3]) ||
       !Array.isArray(c[4]) ||
       !c[3].every((x: unknown) => Array.isArray(x) && x.length === 4) ||
@@ -76,6 +88,7 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
           label: x[4],
         })),
         categories: c[5],
+        ...(bytes[3] === 2 ? { team: c[6] } : {}),
       },
       mystery,
     );
@@ -89,15 +102,17 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
   }
 }
 export function toQr(bytes: Uint8Array): string | null {
+  if (bytes[3] !== 1 && bytes[3] !== 2)
+    throw new Error("Dieses Speicherformat wird nicht unterstützt.");
   let binary = "";
   for (const b of bytes) binary += String.fromCharCode(b);
   const text =
-    "MB1:" +
+    `MB${bytes[3]}:` +
     btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
   return text.length <= QR_LIMIT ? text : null;
 }
 export function fromQr(text: string, mystery: Mystery): Work {
-  if (text.length > QR_LIMIT || !/^MB1:[A-Za-z0-9_-]+$/.test(text))
+  if (text.length > QR_LIMIT || !/^MB[12]:[A-Za-z0-9_-]+$/.test(text))
     throw new Error(
       "Dieser Code ist keine vollständige MysteryBoard-Sicherung.",
     );
@@ -110,5 +125,7 @@ export function fromQr(text: string, mystery: Mystery): Work {
   } catch {
     throw new Error("Der Code ist beschädigt oder unvollständig.");
   }
+  if (bytes[3] !== Number(text[2]))
+    throw new Error("Der Code enthält ein widersprüchliches Speicherformat.");
   return unpackWork(bytes, mystery);
 }

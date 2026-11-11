@@ -1,0 +1,5 @@
+chromium: 156.0.8078.79; output /workspace/mysteryboard-work-acceptance/chromium
+FAIL MysteryBoard-klein.html: Connection 10 label has no usable visible touch point
+FAIL MysteryBoard-umfangreich.html: Connection 91 label has no usable visible touch point
+PASS MysteryBoard-Boden-Klasse11.html
+Report: /workspace/mysteryboard-work-acceptance/chromium/result.json

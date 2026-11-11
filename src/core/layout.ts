@@ -1,10 +1,12 @@
 import type { CardContent, CardState, Edge, Work, Mystery } from "./model";
+import { cardNumber } from "./model";
 export const CARD_WIDTH = 300;
 export type Layout = {
   title: string[];
   text: string[];
   height: number;
   imageY: number;
+  numberLabel: string;
 };
 export type Bounds = { x: number; y: number; width: number; height: number };
 let context: CanvasRenderingContext2D | null;
@@ -44,26 +46,31 @@ export function wrap(
   }
   return lines;
 }
-export function layoutCard(card: CardContent): Layout {
+export function layoutCard(
+  card: CardContent,
+  numberLabel = String(card.id),
+): Layout {
   const title = wrap(card.title, 264, "bold 18px Arial"),
     text = wrap(card.text, 264);
   const imageY = 24 + title.length * 24 + 12 + text.length * 22 + 12;
   return {
     title,
     text,
+    numberLabel,
     imageY,
     height: Math.max(130, imageY + (card.image ? 110 : 0) + 18),
   };
 }
-export function numberBadge(zoom = 1) {
+export function numberBadge(zoom = 1, label = "") {
   // 16 CSS-px digits in ordinary overviews; cap world size at deep zoom-out.
   const scale = Math.max(1, Math.min(7, 16 / (18 * zoom)));
+  const radius = Math.max(15, measure(label, "bold 18px Arial") / 2 + 5);
   return {
     scale,
-    radius: 15,
+    radius,
     fontSize: 18,
-    offset: -(16 * scale + 4),
-    extent: 32 * scale + 4,
+    offset: -((radius + 1) * scale + 4),
+    extent: (2 * radius + 2) * scale + 4,
   };
 }
 export function boardBounds(
@@ -71,16 +78,17 @@ export function boardBounds(
   layouts: Map<number, Layout>,
   zoom = 1,
 ): Bounds {
-  const badge = numberBadge(zoom);
+  const extent = (c: CardState) =>
+    numberBadge(zoom, layouts.get(c.id)!.numberLabel).extent;
   const labels = work.edges
     .filter((e) => e.label)
     .map((e) => edgeGeometry(e, work.cards, layouts));
   const left = Math.min(
-    ...work.cards.map((c) => c.x - badge.extent),
+    ...work.cards.map((c) => c.x - extent(c)),
     ...labels.map((g) => g.labelCenter.x - g.labelWidth / 2 - 8),
   );
   const top = Math.min(
-    ...work.cards.map((c) => c.y - badge.extent),
+    ...work.cards.map((c) => c.y - extent(c)),
     ...labels.map((g) => g.labelCenter.y - g.labelHeight / 2 - 8),
   );
   const right = Math.max(
@@ -116,7 +124,9 @@ export function overview(
   };
 }
 export function makeLayouts(m: Mystery) {
-  return new Map(m.cards.map((c) => [c.id, layoutCard(c)]));
+  return new Map(
+    m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id))]),
+  );
 }
 const labelCache = new Map<
   string,

@@ -5,9 +5,13 @@ import {
   COLORS,
   MAX_EDGES,
   MAX_LABEL,
+  MAX_TEAM_NAME,
+  cardNumber,
   initialWork,
   nextEdgeId,
   validateMystery,
+  teamName,
+  withTeam,
   type Edge,
   type Work,
 } from "./core/model";
@@ -19,13 +23,22 @@ import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
 import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 const mystery = validateMystery(dataset);
-type Modal = "resume" | "camera" | "save" | "help" | "menu" | null;
+type Modal = "resume" | "camera" | "save" | "help" | "menu" | "team" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
+const requireTeam = (work: Work, name: string): Work => {
+  const named = withTeam(work, name);
+  if (!teamName(named))
+    throw new Error("Bitte gebt eine Teambezeichnung oder Vornamen ein.");
+  return named;
+};
 export default function App() {
   const [history, dispatch] = useReducer(historyReducer, emptyHistory);
   const work = history.present,
     dirty = hasChanges(history);
   const [modal, setModal] = useState<Modal>(null);
+  const [startTeam, setStartTeam] = useState(""),
+    [teamDraft, setTeamDraft] = useState(""),
+    [teamError, setTeamError] = useState("");
   const [card, setCard] = useState<number | null>(null),
     [edge, setEdge] = useState<Edge | null>(null),
     [connecting, setConnecting] = useState<number | null>(null);
@@ -34,17 +47,26 @@ export default function App() {
     [busy, setBusy] = useState(false),
     [saved, setSaved] = useState<Saved | null>(null);
   const input = useRef<HTMLInputElement>(null),
+    startTeamInput = useRef<HTMLInputElement>(null),
+    teamInput = useRef<HTMLInputElement>(null),
+    pendingExport = useRef<ExportMode | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
   const close = () => {
     operation.current++;
+    pendingExport.current = null;
     setModal(null);
     setCard(null);
     setEdge(null);
     setMessage("");
+    setTeamError("");
+    setSaved(null);
     setBusy(false);
   };
+  useEffect(() => {
+    if (modal === "team") teamInput.current?.focus();
+  }, [modal]);
   useEffect(() => {
     const f = (e: BeforeUnloadEvent) => {
       if (dirty) {
@@ -106,11 +128,27 @@ export default function App() {
       return false;
     }
   };
-  const save = async (mode: ExportMode = "a3") => {
-    if (!work) return;
+  const save = async (mode: ExportMode = "a3", snapshot = work) => {
+    if (!snapshot) return;
     const id = ++operation.current;
-    setModal("save");
     setSaved(null);
+    setTeamError("");
+    // All student export paths pass this gate, including legacy loads and undo.
+    // The low-level codec continues to accept valid teamless legacy states.
+    try {
+      requireTeam(snapshot, teamName(snapshot));
+    } catch {
+      pendingExport.current = mode;
+      setTeamDraft(teamName(snapshot));
+      setMessage(
+        "Ergänzt vor dem Sichern eure Teambezeichnung oder Vornamen. Eine Gruppenbezeichnung genügt.",
+      );
+      setBusy(false);
+      setModal("team");
+      return;
+    }
+    pendingExport.current = null;
+    setModal("save");
     setBusy(true);
     setMessage("Das Sicherungsbild wird vorbereitet …");
     // A canceled Canvas encoding cannot be interrupted. Wait for its release;
@@ -135,16 +173,16 @@ export default function App() {
       if (id !== operation.current) return;
       let result;
       try {
-        result = await exportBoard(work, mystery, mode);
+        result = await exportBoard(snapshot, mystery, mode);
       } catch (e) {
         if (id !== operation.current) return;
         if (mode === "compact") throw e;
-        result = await exportBoard(work, mystery, "compact");
+        result = await exportBoard(snapshot, mystery, "compact");
       }
       if (id !== operation.current) return;
       const file = new File(
         [result.blob],
-        `MysteryBoard-${mystery.id.endsWith("large") ? "60" : "12"}-${new Date().toISOString().slice(0, 10)}.png`,
+        `MysteryBoard-${mystery.id.replace(/[^\p{L}\p{N}._-]/gu, "-")}-${new Date().toISOString().slice(0, 10)}.png`,
         { type: "image/png" },
       );
       setSaved({
@@ -256,6 +294,14 @@ export default function App() {
                 ⋯
               </button>
             </nav>
+            {teamName(work) && (
+              <span
+                className="team-summary"
+                aria-label={`Team: ${teamName(work)}`}
+              >
+                {teamName(work)}
+              </span>
+            )}
           </header>
           <Board
             work={work}
@@ -271,7 +317,8 @@ export default function App() {
           />
           {connecting !== null && (
             <div className="connection-prompt" role="status">
-              Mit {connecting} verbinden: Tippe eine zweite Karte an.
+              Mit {cardNumber(mystery, connecting)} verbinden: Tippe eine zweite
+              Karte an.
               <button onClick={() => setConnecting(null)}>Abbrechen</button>
             </div>
           )}
@@ -293,15 +340,53 @@ export default function App() {
             <br className="wide-only" /> und haltet euren gemeinsamen Stand
             fest.
           </p>
+          <label className="team-input">
+            Teamname oder Vornamen
+            <input
+              ref={startTeamInput}
+              value={startTeam}
+              onChange={(e) => {
+                setStartTeam(e.target.value);
+                setTeamError("");
+              }}
+              aria-required="true"
+              aria-invalid={!!teamError}
+              aria-describedby={teamError ? "start-team-error" : undefined}
+              maxLength={MAX_TEAM_NAME}
+              autoComplete="off"
+              placeholder="Eine Gruppenbezeichnung genügt"
+            />
+          </label>
+          {teamError && (
+            <p id="start-team-error" className="status" role="alert">
+              {teamError}
+            </p>
+          )}
           <div className="actions">
             <button
               className="primary"
-              onClick={() => accept(initialWork(mystery))}
+              onClick={() => {
+                const initial = initialWork(mystery);
+                try {
+                  const named = requireTeam(initial, startTeam);
+                  accept(initial);
+                  // A newly entered team is unsaved work, unlike a loaded PNG.
+                  commit(named);
+                } catch (error) {
+                  setTeamError((error as Error).message);
+                  startTeamInput.current?.focus();
+                }
+              }}
             >
               Beginnen
             </button>
             <button onClick={() => setModal("resume")}>Fortsetzen</button>
           </div>
+          {message && (
+            <p className="status" role="alert">
+              {message}
+            </p>
+          )}
           <p className="small">
             Euer Arbeitsstand bleibt bei euch.
             <br />
@@ -310,7 +395,12 @@ export default function App() {
         </section>
       )}
       {cardContent && cardState && work && (
-        <Dialog title={`Karte ${card}`} onClose={close}>
+        <Dialog title={`Karte ${cardNumber(mystery, card!)}`} onClose={close}>
+          {cardContent.group && (
+            <p className="small card-group">
+              {mystery.cardGroups![cardContent.group].label}
+            </p>
+          )}
           <article className="reading">
             <h3>{cardContent.title}</h3>
             <p>{cardContent.text}</p>
@@ -374,7 +464,7 @@ export default function App() {
       )}
       {edge && work && (
         <Dialog
-          title={`Verbindung ${edge.from} und ${edge.to}`}
+          title={`Verbindung ${cardNumber(mystery, edge.from)} und ${cardNumber(mystery, edge.to)}`}
           onClose={close}
         >
           <form
@@ -412,10 +502,12 @@ export default function App() {
               >
                 <option value="0">Ohne Pfeil</option>
                 <option value="1">
-                  {edge.from} → {edge.to}
+                  {cardNumber(mystery, edge.from)} →{" "}
+                  {cardNumber(mystery, edge.to)}
                 </option>
                 <option value="2">
-                  {edge.to} → {edge.from}
+                  {cardNumber(mystery, edge.to)} →{" "}
+                  {cardNumber(mystery, edge.from)}
                 </option>
               </select>
             </label>
@@ -444,7 +536,21 @@ export default function App() {
       )}
       {modal === "menu" && (
         <Dialog title="Menü" onClose={close}>
+          {teamName(work) && (
+            <p className="menu-team">Team: {teamName(work)}</p>
+          )}
           <div className="menu-list">
+            <button
+              onClick={() => {
+                setTeamDraft(teamName(work!));
+                setMessage("");
+                setTeamError("");
+                pendingExport.current = null;
+                setModal("team");
+              }}
+            >
+              Teamname ändern
+            </button>
             <button
               onClick={() => {
                 setMessage("");
@@ -465,6 +571,7 @@ export default function App() {
                   )
                 ) {
                   dispatch({ type: "load", work: null });
+                  setStartTeam("");
                   setConnecting(null);
                   close();
                 }
@@ -473,6 +580,52 @@ export default function App() {
               Zur Startansicht
             </button>
           </div>
+        </Dialog>
+      )}
+      {modal === "team" && work && (
+        <Dialog title="Teamname ändern" onClose={close}>
+          {message && <p>{message}</p>}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              try {
+                const named = requireTeam(work, teamDraft);
+                const mode = pendingExport.current;
+                commit(named);
+                close();
+                // Use the newly named snapshot, not the preceding render's work.
+                if (mode) void save(mode, named);
+              } catch (error) {
+                setTeamError((error as Error).message);
+                teamInput.current?.focus();
+              }
+            }}
+          >
+            <label>
+              Teamname oder Vornamen
+              <input
+                ref={teamInput}
+                value={teamDraft}
+                onChange={(e) => {
+                  setTeamDraft(e.target.value);
+                  setTeamError("");
+                }}
+                aria-required="true"
+                aria-invalid={!!teamError}
+                aria-describedby={teamError ? "team-error" : undefined}
+                maxLength={MAX_TEAM_NAME}
+                autoComplete="off"
+              />
+            </label>
+            {teamError && (
+              <p id="team-error" className="status" role="alert">
+                {teamError}
+              </p>
+            )}
+            <button className="primary" type="submit">
+              Übernehmen
+            </button>
+          </form>
         </Dialog>
       )}
       {modal === "help" && (

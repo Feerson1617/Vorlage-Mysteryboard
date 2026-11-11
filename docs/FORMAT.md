@@ -1,8 +1,20 @@
-# Speicherformat 1
+# Inhalts- und Speicherformate
+
+## Inhaltsmetadaten
+
+Jedes Mystery ist eine eigene Inhaltsdatei mit `id`, `version`, `title`, `cards` und `initial`. `initial` legt Positionen, Farben, Verbindungen und die sechs Kategorien fest. Inhalte werden beim Build gebündelt und nicht aus einer Sicherung übernommen.
+
+Optional definiert `cardGroups` benannte Gruppen als `{label, prefix}`; jede Karte verweist mit `group` ausdrücklich auf einen solchen Schlüssel. Beispiel: `cardGroups: {required: {label: "Pflicht", prefix: ""}, extension: {label: "Vertiefung", prefix: "V"}}`. Die sichtbare Kennung ist Präfix plus numerische Karten-ID. Es gibt keine Kartennummerngrenze für Vertiefungskarten. Ohne Gruppen bleibt die bisherige Nummerierung unverändert.
+
+Gruppenschlüssel sind 1–40 Zeichen lang, beginnen mit einem ASCII-Buchstaben und enthalten anschließend nur Buchstaben, Ziffern, `_` oder `-`; reservierte Prototypnamen sind ausgeschlossen. Gruppenlabels enthalten 1–80 Zeichen, Präfixe höchstens drei UTF-16-Codeeinheiten ohne Leerraum oder Steuerzeichen. Unbekannte Gruppen und kollidierende sichtbare Kennungen werden abgelehnt. Gruppenzuordnung, Titel, Texte und Bilder gehören zur Inhaltsversion; gespeichert werden weiterhin numerische IDs.
 
 ## Zustandsmodell
 
-`Work` enthält `schema: 1`, `mystery`, `version`, `cards`, `edges`, `categories`. Die Inhalte stehen getrennt in der HTML-Datei. Identische Mystery-ID und Inhaltsversion sind erforderlich. Kartentexte und Bilder werden nicht in den Speichercode dupliziert.
+`Work` enthält `schema`, `mystery`, `version`, `cards`, `edges`, `categories` sowie bei Schema 2 `team`. `schema` bezeichnet das universelle Speicherformat; `version` bezeichnet ausschließlich die konkrete Mystery-Inhaltsversion. Für beide Schemas sind identische Mystery-ID, Inhaltsversion und Kartenmenge erforderlich. Eine andere Inhaltsversion wird nicht durch einen Formatwechsel kompatibel. Kartentexte, Gruppenmetadaten und Bilder werden nicht in den Speichercode dupliziert.
+
+Schema 1 enthält keinen Teamnamen und bleibt einschließlich Binärhülle und QR-Kodierung bytekompatibel. Schema 2 verlangt einen nichtleeren Teamnamen mit höchstens 80 UTF-16-Codeeinheiten ohne C0-/C1-Steuerzeichen. Der Modellhelfer entfernt äußeren Leerraum und kann einen leeren Wert weiterhin als teamlose Schema-1-Darstellung abbilden; das erhält die technische Legacy-Kompatibilität. Schema 1 mit Teamfeld und Schema 2 ohne gültiges Teamfeld werden abgelehnt. Ältere Leser erkennen Format 2 als nicht unterstützt, statt die Teamangabe stillschweigend zu verlieren.
+
+Die Schüleroberfläche verlangt unabhängig davon einen gültigen, nichtleeren Namen beim Beginn und bei einer Namensänderung. Eine zentrale Prüfung vor allen Schülerexporten verlangt ihn auch nach einem teamlosen Legacy-Import oder Rückgängig. Der Import selbst bleibt unverändert möglich. Die Namensnachfrage verändert den Arbeitsstand erst nach gültiger Übernahme und setzt dann den angefragten Export mit diesem vollständigen neuen Zustand fort. Abbruch verwirft die Exportabsicht und bietet kein vorheriges Sicherungsbild an. Es gibt keine erfundenen Ersatznamen.
 
 Karten sind `{id, x, y, color}`. Die Reihenfolge im Array bestimmt die Überlagerung. Verbindungen sind `{id, from, to, direction, label}`; Richtung 0 = ohne, 1 = von `from` nach `to`, 2 = umgekehrt. Sechs festgelegte neutrale Farbtöne einschließlich Weiß; sechs frei benennbare Kategorien. Beschriftungen werden als Text dargestellt, nie als HTML.
 
@@ -13,7 +25,15 @@ Vor der Komprimierung wird folgende kompakte UTF-8-JSON-Struktur verwendet:
  [[cardId, x, y, colorIndex], ...],
  [[edgeId, fromId, toId, direction, label], ...],
  [categoryName0, ..., categoryName5]]
+
+[2, mysteryId, mysteryVersion,
+ [[cardId, x, y, colorIndex], ...],
+ [[edgeId, fromId, toId, direction, label], ...],
+ [categoryName0, ..., categoryName5],
+ team]
 ```
+
+Schema 1 hat genau sechs, Schema 2 genau sieben Arrayelemente. Die Schema-Nummer muss mit der Version der Binärhülle übereinstimmen.
 
 Koordinaten bleiben als JSON-Zahlen ohne verlustbehaftete Komprimierung erhalten. Die Bedienung setzt neue Positionen auf 0,01 Arbeitsflächeneinheiten. Der Serializer verändert vorhandene Positionen nicht.
 
@@ -21,7 +41,7 @@ Koordinaten bleiben als JSON-Zahlen ohne verlustbehaftete Komprimierung erhalten
 
 | Offset | Länge    | Inhalt                                 |
 | ------ | -------- | -------------------------------------- |
-| 0      | 4        | `4d 42 53 01` (MBS, Version 1)         |
+| 0      | 4        | `4d 42 53 01` (MBS1) oder `4d 42 53 02` (MBS2), entsprechend `schema` |
 | 4      | 4        | unkomprimierte UTF-8-Länge, Big Endian |
 | 8      | 32       | SHA-256 der unkomprimierten JSON-Bytes |
 | 40     | variabel | Zlib/Deflate-Komprimierung, Stufe 9    |
@@ -40,9 +60,11 @@ Der Dateiaustausch ist atomar auf Anwendungsebene: Lesen, Integritätsprüfung, 
 
 ## QR
 
-`MB1:` + Base64url der identischen Binärhülle, ohne `=`-Padding. Höchstens **500 ASCII-Zeichen einschließlich Präfix**, Fehlerkorrektur M, Ruhezone vier Module. Die Ausgabe verwendet ein ganzzahliges Raster mit mindestens vier Bildpunkten pro Modul; der Code wird danach nicht skaliert. Darüber wird **kein** Code erzeugt. Der Grenze liegt eine bewusst begrenzte Symboldichte zugrunde, keine Zusage für jede Kamera oder Druckgröße. Der gesamte Zustand wird kodiert; keine URL, kein Verweis und keine gekürzte Sicherung.
+`MB1:` für Schema/MBS1 beziehungsweise `MB2:` für Schema/MBS2, jeweils gefolgt von Base64url der identischen Binärhülle ohne `=`-Padding. Präfix und Binärversion müssen übereinstimmen. Höchstens **500 ASCII-Zeichen einschließlich Präfix**, Fehlerkorrektur M, Ruhezone vier Module. Die Ausgabe verwendet ein ganzzahliges Raster mit mindestens vier Bildpunkten pro Modul; der Code wird danach nicht skaliert. Darüber wird **kein** Code erzeugt. Der Grenze liegt eine bewusst begrenzte Symboldichte zugrunde, keine Zusage für jede Kamera oder Druckgröße. Der gesamte Zustand einschließlich vorhandener Teamangabe wird kodiert; keine URL, kein Verweis und keine gekürzte Sicherung.
 
 PNG-Export reserviert einen eigenen unteren Bereich für Hinweise und QR. Auf kleinen Ausgaben müssen Codegröße, Druckqualität und Entfernung praktisch geprüft werden. Wenn der Code zu dicht oder nicht lesbar ist, bleibt die Originaldatei maßgeblich.
+
+Oberhalb der Karten stehen Mystery-Titel links und Teamangabe rechts in einer gemeinsamen Kopfzeile. Beide erhalten getrennte Bereiche und umbrechen bei Bedarf. Die sichtbaren Kartenkennungen verwenden dieselben Inhaltsmetadaten wie Board, Lesefenster und Verbindungsreferenzen.
 
 ## Export und Speicherbudget
 

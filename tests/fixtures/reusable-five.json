@@ -1,0 +1,83 @@
+{
+  "id": "mysteryboard-reuse-five",
+  "version": "1.0.0",
+  "title": "Ein anderes Mystery mit fünf Karten",
+  "cardGroups": {
+    "required": {
+      "label": "Pflicht",
+      "prefix": ""
+    },
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "Z"
+    }
+  },
+  "cards": [
+    {
+      "id": 1,
+      "title": "Eine Beobachtung",
+      "text": "Neutrale Testkarte 1. Diese Angaben prüfen ausschließlich die wiederverwendbare Vorlage.",
+      "group": "required"
+    },
+    {
+      "id": 2,
+      "title": "Eine zusätzliche Spur",
+      "text": "Neutrale Testkarte 2. Diese Angaben prüfen ausschließlich die wiederverwendbare Vorlage.",
+      "group": "extension"
+    },
+    {
+      "id": 3,
+      "title": "Ein weiterer Hinweis",
+      "text": "Neutrale Testkarte 3. Diese Angaben prüfen ausschließlich die wiederverwendbare Vorlage.",
+      "group": "required"
+    },
+    {
+      "id": 4,
+      "title": "Eine offene Frage",
+      "text": "Neutrale Testkarte 4. Diese Angaben prüfen ausschließlich die wiederverwendbare Vorlage.",
+      "group": "required"
+    },
+    {
+      "id": 5,
+      "title": "Eine weitere Perspektive",
+      "text": "Neutrale Testkarte 5. Diese Angaben prüfen ausschließlich die wiederverwendbare Vorlage.",
+      "group": "extension"
+    }
+  ],
+  "initial": {
+    "cards": [
+      {
+        "id": 3,
+        "x": 0,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 1,
+        "x": 420,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 5,
+        "x": 840,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 2,
+        "x": 210,
+        "y": 380,
+        "color": 0
+      },
+      {
+        "id": 4,
+        "x": 630,
+        "y": 380,
+        "color": 0
+      }
+    ],
+    "edges": [],
+    "categories": ["", "", "", "", "", ""]
+  }
+}

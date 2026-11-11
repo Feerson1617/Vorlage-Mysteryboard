@@ -1,0 +1,19 @@
+[WebServer] (node:46110) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:46140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 06:25:39] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:46242) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 06:25:41] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/r1b.spec.ts:643:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp (1.5s)
+
+  1 passed (5.5s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

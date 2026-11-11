@@ -1,0 +1,24 @@
+{
+  "small": {
+    "content": "src/content/small.json",
+    "output": "MysteryBoard-klein.html"
+  },
+  "large": {
+    "content": "src/content/large.json",
+    "output": "MysteryBoard-umfangreich.html"
+  },
+  "boden-klasse11": {
+    "content": "src/content/boden-klasse11.json",
+    "output": "MysteryBoard-Boden-Klasse11.html"
+  },
+  "review": {
+    "content": "tests/fixtures/review/stress-220.json",
+    "output": "MysteryBoard-Pruefung-220.html",
+    "testOnly": true
+  },
+  "reuse-example": {
+    "content": "tests/fixtures/reusable-five.json",
+    "output": "MysteryBoard-Test-5.html",
+    "testOnly": true
+  }
+}

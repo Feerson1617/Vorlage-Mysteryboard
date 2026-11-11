@@ -1,0 +1,239 @@
+{
+  "id": "geo11-boden-ploen-2026",
+  "version": "2.0.0",
+  "title": "Volle Ernten, verlorene Böden – welchen Preis zahlen wir für unsere Ernährung?",
+  "cards": [
+    {
+      "id": 1,
+      "title": "Spuren am Graben",
+      "text": "Fallbeobachtung (fiktiv): Nach einem kräftigen Herbstregen ziehen sich kleine Rillen vom abgeernteten Acker hangabwärts. Am unteren Feldrand liegt abgelagerte Erde. Der angrenzende Graben führt braunes Wasser.",
+      "group": "required"
+    },
+    {
+      "id": 2,
+      "title": "Zwischen den Körnern",
+      "text": "Bodenporen sind Hohlräume zwischen Bodenteilchen. Große, verbundene Poren leiten Wasser und ermöglichen Luftaustausch. Kleinere Poren halten Wasser; ein Teil ist für Pflanzen verfügbar. Wurzeln benötigen Wasser und Sauerstoff aus der Bodenluft.",
+      "group": "required"
+    },
+    {
+      "id": 3,
+      "title": "Der vereinbarte Termin",
+      "text": "Betriebsperspektive (fiktiv): Nele will den mit der Zuckerfabrik vereinbarten Liefertermin einhalten. Die leistungsfähige Erntemaschine schafft viel Fläche in kurzer Zeit. Ein späterer Maschineneinsatz wäre für ihren Betrieb teurer.",
+      "group": "required"
+    },
+    {
+      "id": 4,
+      "title": "Wenn viel Regen fällt",
+      "text": "Kann der Boden Regenwasser nicht schnell genug aufnehmen, kann es sich an der Oberfläche sammeln. Fließt es hangabwärts, heißt das Oberflächenabfluss. Auch ein unverdichteter, bereits weitgehend wassergesättigter Boden kann Oberflächenabfluss entwickeln.",
+      "group": "required"
+    },
+    {
+      "id": 5,
+      "title": "Der Erntetag",
+      "text": "Fallbeobachtung (fiktiv): Neles Rüben sind erntereif. Nach mehreren Regentagen ist ihr lehmiger Acker noch sehr feucht. Sie lässt die große Erntemaschine fahren. Die geerntete Menge ist hoch; die vereinbarte Lieferung gelingt.",
+      "group": "required"
+    },
+    {
+      "id": 6,
+      "title": "Eine schützende Decke",
+      "text": "Pflanzen und Pflanzenreste auf der Bodenoberfläche dämpfen den Aufprall von Regentropfen. Wurzeln halten Bodenteilchen zusammen. Eine dichte Bedeckung erschwert deshalb das Ablösen und Abschwemmen von Bodenmaterial.",
+      "group": "required"
+    },
+    {
+      "id": 7,
+      "title": "Der Schauplatz",
+      "text": "Fallraum (fiktiver Acker): Neles Feld liegt bei Plön im Östlichen Hügelland Schleswig-Holsteins, südöstlich von Kiel. Es fällt zu einem Graben ab. Sein Lehmboden enthält eine Mischung aus Sand, Schluff und Ton.",
+      "group": "required"
+    },
+    {
+      "id": 8,
+      "title": "Unter den Rädern",
+      "text": "Übersteigt die Fahrzeugbelastung die Tragfähigkeit, also die Belastbarkeit des Bodens, rücken Bodenteilchen dichter zusammen. Dabei verändert sich die Porenstruktur: Verdichtung entsteht. Feuchter Lehmboden ist besonders empfindlich; Radlast, Reifen und Überfahrten beeinflussen das Risiko.",
+      "group": "required"
+    },
+    {
+      "id": 9,
+      "title": "Boden auf Wanderschaft",
+      "text": "Wassererosion bedeutet: Regentropfen und fließendes Wasser lösen Bodenteilchen ab. Oberflächenabfluss transportiert sie; bei nachlassender Strömung lagern sie sich andernorts ab. Mit dem Oberboden können Humus und Nährstoffe verloren gehen.",
+      "group": "required"
+    },
+    {
+      "id": 10,
+      "title": "Seit der Rübenernte",
+      "text": "Fallbeobachtung (fiktiv): Seit der späten Rübenernte ist Neles Acker überwiegend unbedeckt – auch während des beschriebenen Herbstregens. Sommergerste wird erst im folgenden Frühjahr gesät. Eine Zwischenfrucht wächst in diesem Zeitraum nicht.",
+      "group": "required"
+    },
+    {
+      "id": 11,
+      "title": "Dichte Schichten",
+      "text": "Bei schädlicher Verdichtung werden durchgängige Grobporen weniger. Wasser kann langsamer versickern; Luftaustausch und Wurzelwachstum werden erschwert. Verdichtungen im Unterboden können lange bestehen bleiben und werden durch gewöhnliches Pflügen nicht behoben.",
+      "group": "required"
+    },
+    {
+      "id": 12,
+      "title": "Im nächsten Frühjahr",
+      "text": "Fallbeobachtung (fiktiv): Im folgenden Frühjahr steht nach Regen Wasser in einigen früheren Fahrspuren. Die junge Sommergerste wächst dort lückiger als daneben. Bodenmessungen gibt es für diese Stellen bisher nicht.",
+      "group": "required"
+    },
+    {
+      "id": 13,
+      "title": "Humus über längere Zeit",
+      "text": "Humus ist abgestorbene organische Substanz im Boden. Er fördert stabile Bodenkrümel und die Speicherung von Wasser und Nährstoffen. Aus Pflanzenresten kann neuer Humus entstehen. Sein Vorrat sinkt langfristig, wenn Neubildung die Verluste durch Abbau und Abtrag nicht ausgleicht.",
+      "group": "extension"
+    },
+    {
+      "id": 14,
+      "title": "Boden kann mehr",
+      "text": "Bodenfruchtbarkeit ist die Fähigkeit eines Bodens, Pflanzenwachstum zu ermöglichen. Dazu gehören Wasser, Luft, Nährstoffe und Wurzelraum. Boden ist außerdem Lebensraum, kann Stoffe filtern und speichert Kohlenstoff.",
+      "group": "extension"
+    },
+    {
+      "id": 15,
+      "title": "Anders fahren",
+      "text": "Weniger Last je Rad und angepasste Reifen können den Boden beim Befahren entlasten. Entscheidend bleibt, ob er ausreichend trocken und tragfähig ist. Breite Reifen allein verhindern Schäden im tieferen Boden nicht zuverlässig.",
+      "group": "extension"
+    },
+    {
+      "id": 16,
+      "title": "Grün zwischen zwei Ernten",
+      "text": "Zwischenfrüchte wachsen zwischen zwei Hauptkulturen. Sie bedecken den Boden und liefern Pflanzenreste. Für genügend Wachstum brauchen sie passende Saattermine. Nach einer sehr späten Ernte gelingt eine dichte Bedeckung oft nicht mehr.",
+      "group": "extension"
+    },
+    {
+      "id": 17,
+      "title": "Jans Zufahrt",
+      "text": "Anwohnerperspektive (fiktiv): Der Graben führt vom Feld an Jans tiefer gelegener Zufahrt vorbei. Beim Herbstregen läuft schlammiges Grabenwasser über den Rand und lagert dort Erde ab. Jan fordert Bodenschutz; Neles Ernteplanung kennt er nicht.",
+      "group": "extension"
+    },
+    {
+      "id": 18,
+      "title": "Ein Streifen quer zum Hang",
+      "text": "Dauerhaft begrünte Streifen quer zum Hang können Oberflächenabfluss bremsen und mitgeführtes Bodenmaterial zurückhalten. Auf ihrer Fläche wird dann keine Hauptkultur angebaut. Lage, Breite und Pflege beeinflussen ihre Schutzwirkung.",
+      "group": "extension"
+    }
+  ],
+  "initial": {
+    "cards": [
+      {
+        "id": 7,
+        "x": 0,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 3,
+        "x": 420,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 11,
+        "x": 840,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 1,
+        "x": 1260,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 6,
+        "x": 0,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 12,
+        "x": 420,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 5,
+        "x": 840,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 2,
+        "x": 1260,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 10,
+        "x": 0,
+        "y": 860,
+        "color": 0
+      },
+      {
+        "id": 8,
+        "x": 420,
+        "y": 860,
+        "color": 0
+      },
+      {
+        "id": 4,
+        "x": 840,
+        "y": 860,
+        "color": 0
+      },
+      {
+        "id": 9,
+        "x": 1260,
+        "y": 860,
+        "color": 0
+      },
+      {
+        "id": 16,
+        "x": 1680,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 14,
+        "x": 2100,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 18,
+        "x": 2520,
+        "y": 0,
+        "color": 0
+      },
+      {
+        "id": 13,
+        "x": 1680,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 17,
+        "x": 2100,
+        "y": 430,
+        "color": 0
+      },
+      {
+        "id": 15,
+        "x": 2520,
+        "y": 430,
+        "color": 0
+      }
+    ],
+    "edges": [],
+    "categories": ["", "", "", "", "", ""]
+  },
+  "cardGroups": {
+    "required": {
+      "label": "Pflicht",
+      "prefix": ""
+    },
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "V"
+    }
+  }
+}

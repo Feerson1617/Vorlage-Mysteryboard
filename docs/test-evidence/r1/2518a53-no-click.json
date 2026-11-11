@@ -1,0 +1,269 @@
+{
+  "engine": "chromium",
+  "version": "156.0.8078.79",
+  "mode": "pointer-only",
+  "expected": 10,
+  "correct": 10,
+  "trials": [
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-klein.html",
+      "selector": "[data-card=\"1\"] > rect",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 101,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 101,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-klein.html",
+      "selector": "[data-card=\"12\"] circle",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 102,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 102,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-klein.html",
+      "selector": "[data-edge-label=\"1\"], [data-edge=\"1\"] rect",
+      "expected": "Verbindung 1 und 2",
+      "correct": true,
+      "opens": [
+        "Verbindung 1 und 2"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 103,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 103,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Verbindung 1 und 2"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-klein.html",
+      "selector": "[data-card=\"12\"] > rect",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 104,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 104,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-klein.html",
+      "selector": "[data-card=\"1\"] circle",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 105,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 105,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"1\"] > rect",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 101,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 101,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 1"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"12\"] circle",
+      "expected": "Karte 12",
+      "correct": true,
+      "opens": [
+        "Karte 12"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 102,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 102,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 12"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-umfangreich.html",
+      "selector": "[data-edge-label=\"1\"], [data-edge=\"1\"] rect",
+      "expected": "Verbindung 1 und 2",
+      "correct": true,
+      "opens": [
+        "Verbindung 1 und 2"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 103,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 103,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Verbindung 1 und 2"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"60\"] > rect",
+      "expected": "Karte 60",
+      "correct": true,
+      "opens": [
+        "Karte 60"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 104,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 104,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 60"
+    },
+    {
+      "url": "http://127.0.0.1:5175/r1-baselines/2518a53/MysteryBoard-umfangreich.html",
+      "selector": "[data-card=\"1\"] circle",
+      "expected": "Karte 1",
+      "correct": true,
+      "opens": [
+        "Karte 1"
+      ],
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerId": 105,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        },
+        {
+          "type": "pointerup",
+          "pointerId": 105,
+          "pointerType": "touch",
+          "detail": 0,
+          "trusted": false
+        }
+      ],
+      "title": "Karte 1"
+    }
+  ]
+}

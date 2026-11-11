@@ -6,7 +6,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import type { Mystery, Work } from "../core/model";
-import { COLORS } from "../core/model";
+import { COLORS, cardNumber } from "../core/model";
 import { CardImage } from "./CardImage";
 import {
   overview,
@@ -23,6 +23,7 @@ type Gesture = {
   view: View;
   before: Work;
   id?: number;
+  edge?: number;
   moved: boolean;
   distance?: number;
   world?: Point;
@@ -46,8 +47,7 @@ export function Board({
 }) {
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
-    gesture = useRef<Gesture | null>(null),
-    tap = useRef<{ kind: "card" | "edge"; id: number } | null>(null);
+    gesture = useRef<Gesture | null>(null);
   const [view, setView] = useState<View>({ x: 40, y: 40, z: 0.5 }),
     [preview, setPreview] = useState<Work | null>(null);
   const current = useRef(work),
@@ -60,6 +60,130 @@ export function Board({
       [mystery],
     );
   const drawn = preview ?? work;
+  useEffect(() => {
+    // Board gestures finish at pointerup. Only a fresh, completed gesture on
+    // the same live control may authorize a following pointer click. WebKit
+    // can synthesize that click as a different pointer type AND pointer ID.
+    const active = new Set<number>(),
+      boardPointers = new Set<string>();
+    const key = (e: PointerEvent) => `${e.pointerType}:${e.pointerId}`;
+    const control = (target: EventTarget | null) =>
+      target instanceof Element
+        ? (target.closest(
+            "button, a, input, select, textarea, label, [role=button]",
+          ) ?? target)
+        : null;
+    let sequence: {
+      id: number;
+      type: string;
+      target: Element;
+      start: Point;
+      released: boolean;
+    } | null = null;
+    const down = (e: PointerEvent) => {
+      const idle = active.size === 0;
+      active.add(e.pointerId);
+      if (e.target instanceof Element && svg.current?.contains(e.target)) {
+        if (idle) boardPointers.clear();
+        boardPointers.add(key(e));
+        sequence = null;
+      } else {
+        const target = control(e.target);
+        sequence =
+          idle && e.button === 0 && target
+            ? {
+                id: e.pointerId,
+                type: e.pointerType,
+                target,
+                start: { x: e.clientX, y: e.clientY },
+                released: false,
+              }
+            : null;
+      }
+    };
+    const displaced = (e: PointerEvent) =>
+      sequence &&
+      Math.hypot(e.clientX - sequence.start.x, e.clientY - sequence.start.y) >=
+        8;
+    const move = (e: PointerEvent) => {
+      if (sequence?.id === e.pointerId && displaced(e)) sequence = null;
+    };
+    const up = (e: PointerEvent) => {
+      active.delete(e.pointerId);
+      if (sequence?.id === e.pointerId) {
+        if (
+          active.size ||
+          displaced(e) ||
+          control(e.target) !== sequence.target
+        )
+          sequence = null;
+        else sequence.released = true;
+      }
+    };
+    const cancel = (e: PointerEvent) => {
+      if (active.delete(e.pointerId) || sequence?.id === e.pointerId)
+        sequence = null;
+    };
+    const lost = (e: PointerEvent) => {
+      // Normal implicit capture loss AFTER pointerup must keep its click valid.
+      // Capture loss does not lift the finger: keep it active until up/cancel.
+      if (active.has(e.pointerId)) sequence = null;
+    };
+    const touchCancel = (e: TouchEvent) => {
+      sequence = null;
+      if (!e.touches.length) active.clear();
+      if (e.target instanceof Element && svg.current?.contains(e.target)) {
+        gesture.current = null;
+        if (!e.touches.length) points.current.clear();
+        setPreview(null);
+      }
+    };
+    const click = (e: MouseEvent) => {
+      const target = control(e.target);
+      // Scope the guard to this application, not other document controls.
+      if (
+        !boardPointers.size ||
+        !target ||
+        !svg.current?.closest("main")?.contains(target)
+      )
+        return;
+      const pointer = e as PointerEvent;
+      // Keyboard/assistive activation and fileInput.click have no pointer type.
+      if (e.detail === 0 && !pointer.pointerType) return;
+      const oldBoardClick =
+        sequence &&
+        pointer.pointerType === sequence.type &&
+        pointer.pointerId !== sequence.id &&
+        boardPointers.has(key(pointer));
+      if (
+        sequence?.released &&
+        sequence.target.isConnected &&
+        target === sequence.target &&
+        !oldBoardClick
+      ) {
+        sequence = null;
+        return;
+      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    };
+    document.addEventListener("pointerdown", down, true);
+    document.addEventListener("pointermove", move, true);
+    document.addEventListener("pointerup", up, true);
+    document.addEventListener("pointercancel", cancel, true);
+    document.addEventListener("lostpointercapture", lost, true);
+    document.addEventListener("touchcancel", touchCancel, true);
+    document.addEventListener("click", click, true);
+    return () => {
+      document.removeEventListener("pointerdown", down, true);
+      document.removeEventListener("pointermove", move, true);
+      document.removeEventListener("pointerup", up, true);
+      document.removeEventListener("pointercancel", cancel, true);
+      document.removeEventListener("lostpointercapture", lost, true);
+      document.removeEventListener("touchcancel", touchCancel, true);
+      document.removeEventListener("click", click, true);
+    };
+  }, []);
   const fit = () => {
     const rect = svg.current?.getBoundingClientRect();
     if (!rect) return;
@@ -114,7 +238,6 @@ export function Board({
   const down = (e: ReactPointerEvent<SVGSVGElement>) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     e.preventDefault();
-    tap.current = null;
     svg.current!.setPointerCapture(e.pointerId);
     const p = local(e);
     points.current.set(e.pointerId, p);
@@ -125,8 +248,17 @@ export function Board({
     const card = (e.target as Element)
       .closest("[data-card]")
       ?.getAttribute("data-card");
+    const edge = (e.target as Element).closest(
+      "[data-edge-label], [data-edge]",
+    );
     gesture.current = {
       kind: card ? "card" : "pan",
+      edge: edge
+        ? Number(
+            edge.getAttribute("data-edge-label") ??
+              edge.getAttribute("data-edge"),
+          )
+        : undefined,
       start: p,
       view: v.current,
       before: current.current,
@@ -199,22 +331,24 @@ export function Board({
       setPreview(null);
       return;
     }
+    const p = local(e);
+    // Some engines deliver a displaced release without a final pointermove.
+    const moved = g.moved || Math.hypot(p.x - g.start.x, p.y - g.start.y) >= 8;
+    const target = document.elementFromPoint(e.clientX, e.clientY);
     if (g.kind === "card") {
-      if (g.moved && preview) onChange(preview);
-      else if (!g.moved) tap.current = { kind: "card", id: g.id! };
-    } else if (!g.moved) {
-      const p = local(e),
-        target = document
-          .elementFromPoint(e.clientX, e.clientY)
-          ?.closest("[data-edge-label], [data-edge]");
-      if (target && Math.hypot(p.x - g.start.x, p.y - g.start.y) < 8)
-        tap.current = {
-          kind: "edge",
-          id: Number(
-            target.getAttribute("data-edge-label") ??
-              target.getAttribute("data-edge"),
-          ),
-        };
+      if (moved && preview) onChange(preview);
+      else if (
+        !moved &&
+        Number(target?.closest("[data-card]")?.getAttribute("data-card")) ===
+          g.id
+      )
+        onCard(g.id!);
+    } else if (!moved && g.edge !== undefined) {
+      const hit = target?.closest("[data-edge-label], [data-edge]");
+      const id = Number(
+        hit?.getAttribute("data-edge-label") ?? hit?.getAttribute("data-edge"),
+      );
+      if (id === g.edge) onEdge(id);
     }
     setPreview(null);
   };
@@ -225,16 +359,6 @@ export function Board({
       role="group"
       aria-label="Arbeitsfläche"
       data-zoom={view.z}
-      onClick={(e) => {
-        // Opening on pointerup lets the following native touch click hit a
-        // newly mounted dialog button. Activate only after that click arrives.
-        e.preventDefault();
-        e.stopPropagation();
-        const selected = tap.current;
-        tap.current = null;
-        if (selected?.kind === "card") onCard(selected.id);
-        else if (selected?.kind === "edge") onEdge(selected.id);
-      }}
       onPointerDown={down}
       onPointerMove={move}
       onPointerUp={(e) => finish(e)}
@@ -266,7 +390,7 @@ export function Board({
               className="edge"
               role="button"
               tabIndex={0}
-              aria-label={`Verbindung ${e.from} zu ${e.to}${e.label ? ": " + e.label : ""}`}
+              aria-label={`Verbindung ${cardNumber(mystery, e.from)} zu ${cardNumber(mystery, e.to)}${e.label ? ": " + e.label : ""}`}
               onKeyDown={(ev) => {
                 if (ev.key === "Enter" || ev.key === " ") {
                   ev.preventDefault();
@@ -332,18 +456,19 @@ export function Board({
         {drawn.cards.map((c) => {
           const card = content.get(c.id)!,
             l = layouts.get(c.id)!,
-            badge = numberBadge(view.z);
+            badge = numberBadge(view.z, l.numberLabel);
           return (
             <g
               key={c.id}
               transform={`translate(${c.x} ${c.y})`}
               data-card={c.id}
+              data-group={card.group}
               data-x={c.x}
               data-y={c.y}
               className="card"
               role="button"
               tabIndex={0}
-              aria-label={`Karte ${c.id} öffnen`}
+              aria-label={`Karte ${l.numberLabel} öffnen`}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -403,7 +528,7 @@ export function Board({
                   fontWeight="bold"
                   fill="white"
                 >
-                  {c.id}
+                  {l.numberLabel}
                 </text>
               </g>
             </g>

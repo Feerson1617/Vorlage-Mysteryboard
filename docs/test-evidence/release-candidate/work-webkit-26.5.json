@@ -1,0 +1,22 @@
+{
+  "startedAt": "2026-11-11T14:15:05.385Z",
+  "status": "failed",
+  "engine": "webkit",
+  "expectedVersion": "26.5",
+  "browserVersion": null,
+  "playwrightModule": "playwright",
+  "executable": null,
+  "suppliedSourceCommit": null,
+  "sourceCommitNote": "Supplied provenance; artifact hashes identify the actual tested bytes. This script does not attest a build-to-commit mapping.",
+  "scriptSha256": "b755f1bfe3691f9d19cd75b7cf916b9cc51adf8c3eecb863adfe61a28bf0d56c",
+  "htmlDir": "/workspace/Vorlage-Mysteryboard/artifacts",
+  "variants": [],
+  "limitations": [
+    "Browser automation is not a managed school iPad or Canva acceptance.",
+    "Native taps use the selected engine. Delayed-click fault injection uses untrusted DOM events and is identified separately.",
+    "Only the exact local HTML document is fetched; all interaction and fresh-session import run offline.",
+    "The focused test does not replace the full regression suite or physical pinch/pan testing."
+  ],
+  "failure": "browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/webkit-2388/pw_run.sh\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝\n    at /workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:330:26",
+  "finishedAt": "2026-11-11T14:15:06.463Z"
+}

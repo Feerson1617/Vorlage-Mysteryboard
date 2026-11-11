@@ -4,6 +4,7 @@ export type CardContent = {
   text: string;
   image?: string;
   imageAlt?: string;
+  group?: string;
 };
 export type CardState = { id: number; x: number; y: number; color: number };
 export type Edge = {
@@ -14,18 +15,20 @@ export type Edge = {
   label: string;
 };
 export type Work = {
-  schema: 1;
+  schema: 1 | 2;
   mystery: string;
   version: string;
   cards: CardState[];
   edges: Edge[];
   categories: string[];
+  team?: string;
 };
 export type Mystery = {
   id: string;
   version: string;
   title: string;
   cards: CardContent[];
+  cardGroups?: Record<string, { label: string; prefix: string }>;
   initial: { cards: CardState[]; edges: Edge[]; categories: string[] };
 };
 export const COLORS = [
@@ -46,6 +49,29 @@ export const COLOR_NAMES = [
 ];
 export const MAX_EDGES = 300;
 export const MAX_LABEL = 500;
+export const MAX_TEAM_NAME = 80;
+// Display metadata belongs to the content; numeric IDs remain stable in saves.
+export function cardNumber(m: Mystery, id: number): string {
+  const group = m.cards.find((card) => card.id === id)?.group;
+  const prefix =
+    group && m.cardGroups && Object.hasOwn(m.cardGroups, group)
+      ? m.cardGroups[group].prefix
+      : "";
+  return prefix + id;
+}
+export const teamName = (work: Work | null): string => work?.team ?? "";
+export function withTeam(work: Work, name: string): Work {
+  if (typeof name !== "string")
+    throw new Error("Der Teamname muss Text enthalten.");
+  const team = name.trim();
+  if (team && !validTeamName(team))
+    throw new Error(
+      `Der Teamname darf höchstens ${MAX_TEAM_NAME} Zeichen und keine Steuerzeichen enthalten.`,
+    );
+  const { team: _oldTeam, ...rest } = work;
+  // Clearing the name returns the unchanged legacy representation and QR size.
+  return team ? { ...rest, schema: 2, team } : { ...rest, schema: 1 };
+}
 // At most MAX_EDGES IDs are occupied, so a gap exists within 1..MAX_EDGES+1.
 export function nextEdgeId(edges: Edge[]): number {
   const used = new Set(edges.map((edge) => edge.id));
@@ -66,9 +92,20 @@ const integer = (v: unknown, min: number, max: number): v is number =>
   typeof v === "number" && Number.isInteger(v) && v >= min && v <= max;
 const string = (v: unknown, max: number): v is string =>
   typeof v === "string" && v.length <= max;
+export const validTeamName = (value: unknown): value is string =>
+  string(value, MAX_TEAM_NAME) &&
+  value.trim().length > 0 &&
+  !/[\u0000-\u001f\u007f-\u009f]/.test(value);
 export function validateWork(value: unknown, m: Mystery): Work {
-  if (!object(value) || value.schema !== 1)
+  if (!object(value) || (value.schema !== 1 && value.schema !== 2))
     throw new Error("Dieses Speicherformat wird nicht unterstützt.");
+  if (
+    (value.schema === 1 && value.team !== undefined) ||
+    (value.schema === 2 && !validTeamName(value.team))
+  )
+    throw new Error(
+      "Der Arbeitsstand enthält einen ungültigen Teamnamen oder ein unpassendes Speicherformat.",
+    );
   if (value.mystery !== m.id)
     throw new Error("Dieses Sicherungsbild gehört zu einem anderen Mystery.");
   if (value.version !== m.version)
@@ -133,7 +170,7 @@ export function validateWork(value: unknown, m: Mystery): Work {
   }
   // Only known fields are admitted; imported objects never become app configuration.
   return {
-    schema: 1,
+    schema: value.schema,
     mystery: m.id,
     version: m.version,
     cards: cards.map((c) => ({ id: c.id, x: c.x, y: c.y, color: c.color })),
@@ -145,6 +182,7 @@ export function validateWork(value: unknown, m: Mystery): Work {
       label: e.label,
     })),
     categories: [...categories],
+    ...(value.schema === 2 ? { team: value.team as string } : {}),
   };
 }
 export function validateMystery(value: unknown): Mystery {
@@ -161,7 +199,25 @@ export function validateMystery(value: unknown): Mystery {
     !object(value.initial)
   )
     throw new Error("Ungültige Mystery-Inhalte.");
-  const ids = new Set<number>();
+  const groups = value.cardGroups;
+  if (groups !== undefined) {
+    if (!object(groups) || Object.keys(groups).length > 100)
+      throw new Error("Ungültige Kartengruppen.");
+    for (const [key, group] of Object.entries(groups)) {
+      if (
+        !/^[A-Za-z][A-Za-z0-9_-]{0,39}$/.test(key) ||
+        ["constructor", "prototype", "__proto__"].includes(key) ||
+        !object(group) ||
+        !string(group.label, 80) ||
+        !group.label.trim() ||
+        !string(group.prefix, 3) ||
+        /[\s\p{Cc}\p{Cf}]/u.test(group.prefix)
+      )
+        throw new Error("Ungültige Kartengruppe oder Kennzeichnung.");
+    }
+  }
+  const ids = new Set<number>(),
+    displays = new Set<string>();
   for (const c of value.cards) {
     if (
       !object(c) ||
@@ -174,10 +230,23 @@ export function validateMystery(value: unknown): Mystery {
           !/^data:image\/(svg\+xml|png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(
             c.image,
           ))) ||
-      (c.imageAlt !== undefined && !string(c.imageAlt, 300))
+      (c.imageAlt !== undefined && !string(c.imageAlt, 300)) ||
+      (c.group !== undefined &&
+        (!string(c.group, 40) ||
+          !object(groups) ||
+          !Object.hasOwn(groups, c.group)))
     )
       throw new Error("Ungültige Karte oder nicht eingebettetes Bild.");
     ids.add(c.id);
+    const prefix =
+      c.group === undefined
+        ? ""
+        : (groups as Record<string, { prefix: string }>)[c.group as string]
+            .prefix;
+    const display = prefix + c.id;
+    if (displays.has(display))
+      throw new Error("Die Kartenkennzeichnungen sind nicht eindeutig.");
+    displays.add(display);
   }
   const m = value as unknown as Mystery;
   validateWork(

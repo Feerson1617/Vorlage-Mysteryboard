@@ -3,6 +3,7 @@ import {
   COLORS,
   COLOR_NAMES,
   validateWork,
+  teamName,
   type Mystery,
   type Work,
 } from "./model";
@@ -13,6 +14,7 @@ import {
   makeLayouts,
   fitImage,
   numberBadge,
+  wrap,
 } from "./layout";
 import { packWork, toQr } from "./codec";
 import { embedWork } from "./png";
@@ -21,6 +23,69 @@ export const EXPORT_MODES = {
   compact: { width: 2480, height: 1754 },
 } as const;
 export type ExportMode = keyof typeof EXPORT_MODES;
+export type ExportHeaderRegion = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  lines: string[];
+  font: string;
+  fontSize: number;
+  lineHeight: number;
+  align: "left" | "right";
+};
+// Both columns begin on the same row. Their actual wrapped line counts reserve
+// only the necessary header height; the footer/QR area remains unchanged.
+export function layoutExportHeader(title: string, team: string, width: number) {
+  if (!Number.isFinite(width) || width <= 0)
+    throw new Error("Ungültige Breite für die Export-Kopfzeile.");
+  const unit = width / 2480,
+    margin = width * 0.024,
+    contentWidth = width - 2 * margin,
+    gap = team ? 32 * unit : 0,
+    teamWidth = team ? (contentWidth - gap) * 0.32 : 0,
+    titleWidth = contentWidth - gap - teamWidth,
+    top = 40 * unit,
+    lineHeight = 34 * unit;
+  const region = (
+    text: string,
+    x: number,
+    regionWidth: number,
+    fontSize: number,
+    align: "left" | "right",
+  ): ExportHeaderRegion => {
+    const font = `${align === "left" ? "bold " : ""}${fontSize}px Arial`,
+      visibleText = text.replace(/\s+/g, " ").trim(),
+      lines = visibleText ? wrap(visibleText, regionWidth, font) : [];
+    return {
+      x,
+      y: top,
+      width: regionWidth,
+      height: lines.length * lineHeight,
+      lines,
+      font,
+      fontSize,
+      lineHeight,
+      align,
+    };
+  };
+  const titleRegion = region(title, margin, titleWidth, 28 * unit, "left"),
+    teamRegion = region(
+      team,
+      width - margin - teamWidth,
+      teamWidth,
+      26 * unit,
+      "right",
+    ),
+    height = Math.max(titleRegion.height, teamRegion.height);
+  return {
+    height,
+    gap,
+    boardTop: Math.max(margin, top + height + (height ? 16 * unit : 0)),
+    title: titleRegion,
+    team: teamRegion,
+  };
+}
 const image = (src: string) =>
   new Promise<HTMLImageElement>((resolve, reject) => {
     const i = new Image();
@@ -57,17 +122,34 @@ export async function exportBoard(
       bounds = boardBounds(work, layouts);
     const qr = toQr(packWork(work));
     const margin = width * 0.024,
-      footer = height * 0.26;
+      footer = height * 0.26,
+      headerBounds = layoutExportHeader(m.title, teamName(work), width),
+      boardHeight = height - footer - margin - headerBounds.boardTop;
     const scale = Math.min(
       (width - 2 * margin) / bounds.width,
-      (height - footer - 2 * margin) / bounds.height,
+      boardHeight / bounds.height,
     );
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, width, height);
     ctx.save();
+    ctx.fillStyle = "#273c30";
+    ctx.textBaseline = "top";
+    for (const region of [headerBounds.title, headerBounds.team]) {
+      ctx.font = region.font;
+      ctx.textAlign = region.align;
+      region.lines.forEach((line, row) =>
+        ctx.fillText(
+          line,
+          region.align === "right" ? region.x + region.width : region.x,
+          region.y + row * region.lineHeight,
+        ),
+      );
+    }
+    ctx.restore();
+    ctx.save();
     ctx.translate(
       margin + (width - 2 * margin - bounds.width * scale) / 2,
-      margin + (height - footer - 2 * margin - bounds.height * scale) / 2,
+      headerBounds.boardTop + (boardHeight - bounds.height * scale) / 2,
     );
     ctx.scale(scale, scale);
     ctx.translate(-bounds.x, -bounds.y);
@@ -155,7 +237,7 @@ export async function exportBoard(
       }
       ctx.fillStyle = "#334f40";
       ctx.beginPath();
-      const badge = numberBadge();
+      const badge = numberBadge(1, l.numberLabel);
       ctx.arc(
         c.x + badge.offset,
         c.y + badge.offset,
@@ -168,7 +250,7 @@ export async function exportBoard(
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "#ffffff";
-      ctx.fillText(String(c.id), c.x + badge.offset, c.y + badge.offset);
+      ctx.fillText(l.numberLabel, c.x + badge.offset, c.y + badge.offset);
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
     }
@@ -235,6 +317,7 @@ export async function exportBoard(
       blob: new Blob([bytes as BlobPart], { type: "image/png" }),
       qr,
       qrBounds,
+      headerBounds,
       mode,
       width,
       height,

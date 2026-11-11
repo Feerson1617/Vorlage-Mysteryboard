@@ -1,0 +1,43 @@
+[WebServer] (node:41771) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:41828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 06:20:28] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:41873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [11/Nov/2026 06:20:30] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/r1b.spec.ts:643:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp (1.2s)
+
+
+  1) tests/browser/r1b.spec.ts:643:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      651 |   await replay(green, "pointerdown", 92);
+      652 |   await replay(green, "pointerup", 92);
+    > 653 |   expect((await replay(green, "click", 1, "mouse")).defaultPrevented).toBe(true);
+          |                                                                       ^
+      654 |   await expect(green).toHaveAttribute("aria-pressed", "false");
+      655 |   await replay(close, "pointerup", 91);
+      656 |   await close.tap();
+        at /workspace/Vorlage-Mysteryboard/tests/browser/r1b.spec.ts:653:71
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/r1b-R1b-Capture-Verlust-be-6cf19-ch-sperrt-keinen-neuen-Tipp/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/r1b-R1b-Capture-Verlust-be-6cf19-ch-sperrt-keinen-neuen-Tipp/error-context.md
+
+  1 failed
+    tests/browser/r1b.spec.ts:643:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

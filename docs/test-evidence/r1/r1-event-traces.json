@@ -1,0 +1,2652 @@
+[
+  {
+    "test": "R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal",
+    "name": "no-click-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 101,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 101,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 102,
+          "x": 886.68603515625,
+          "y": 656.2318115234375,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 102,
+          "x": 886.68603515625,
+          "y": 656.2318115234375,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 103,
+          "x": 350.3229522705078,
+          "y": 173.70480346679688,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 103,
+          "x": 350.3229522705078,
+          "y": 173.70480346679688,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 104,
+          "x": 973.3165893554688,
+          "y": 703.8371276855469,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 12 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 104,
+          "x": 973.3165893554688,
+          "y": 703.8371276855469,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 105,
+          "x": 139.09368133544922,
+          "y": 120.22222137451172,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 105,
+          "x": 139.09368133544922,
+          "y": 120.22222137451172,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        }
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 12",
+        "Karte 1"
+      ]
+    }
+  },
+  {
+    "test": "R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal",
+    "name": "no-click-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 101,
+          "x": 129.6116828918457,
+          "y": 155.05384063720703,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 101,
+          "x": 129.6116828918457,
+          "y": 155.05384063720703,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 102,
+          "x": 189.90035247802734,
+          "y": 233.17755889892578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 102,
+          "x": 189.90035247802734,
+          "y": 233.17755889892578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 103,
+          "x": 182.12600708007812,
+          "y": 143.85739135742188,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 103,
+          "x": 182.12600708007812,
+          "y": 143.85739135742188,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 104,
+          "x": 1074.8695068359375,
+          "y": 713.2909851074219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 60 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 104,
+          "x": 1074.8695068359375,
+          "y": 713.2909851074219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 60"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 105,
+          "x": 84.8717041015625,
+          "y": 120.22222137451172,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 105,
+          "x": 84.8717041015625,
+          "y": 120.22222137451172,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        }
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 60",
+        "Karte 1"
+      ]
+    }
+  },
+  {
+    "test": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten",
+    "name": "native-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 225.72422790527344,
+          "y": 183.34356689453125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 225.72422790527344,
+          "y": 183.34356689453125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 225.72422790527344,
+          "y": 183.34356689453125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 226,
+          "y": 183,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 886.68603515625,
+          "y": 656.2318115234375,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 886.68603515625,
+          "y": 656.2318115234375,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 886.68603515625,
+          "y": 656.2318115234375,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 887,
+          "y": 656,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 350.32293701171875,
+          "y": 173.70480346679688,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 350.32293701171875,
+          "y": 173.70480346679688,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 350.32293701171875,
+          "y": 173.70480346679688,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 350,
+          "y": 174,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 973.3165893554688,
+          "y": 703.837158203125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 12 öffnen"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 12 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 973.3165893554688,
+          "y": 703.837158203125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 973.3165893554688,
+          "y": 703.837158203125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 12 öffnen"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 973,
+          "y": 704,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 139.09368896484375,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 139.09368896484375,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 139.09368896484375,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 139,
+          "y": 120,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        }
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 12",
+        "Karte 1"
+      ]
+    }
+  },
+  {
+    "test": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten",
+    "name": "native-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 129.61167907714844,
+          "y": 155.0538330078125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 129.61167907714844,
+          "y": 155.0538330078125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 129.61167907714844,
+          "y": 155.0538330078125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 130,
+          "y": 155,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 189.90036010742188,
+          "y": 233.17755126953125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 189.90036010742188,
+          "y": 233.17755126953125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 189.90036010742188,
+          "y": 233.17755126953125,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "x": 190,
+          "y": 233,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 182.12600708007812,
+          "y": 143.85739135742188,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 182.12600708007812,
+          "y": 143.85739135742188,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 182.12600708007812,
+          "y": 143.85739135742188,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "x": 182,
+          "y": 144,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 1074.8695068359375,
+          "y": 713.291015625,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 60 öffnen"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 60 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 1074.8695068359375,
+          "y": 713.291015625,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 60"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 1074.8695068359375,
+          "y": 713.291015625,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "Karte 60 öffnen"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "x": 1075,
+          "y": 713,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257.3399963378906,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 257,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 84.8717041015625,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "text"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 84.8717041015625,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 84.8717041015625,
+          "y": 120.22222137451172,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "text"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "x": 85,
+          "y": 120,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "DIALOG"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176.5399932861328,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 176,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        }
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 60",
+        "Karte 1"
+      ]
+    }
+  },
+  {
+    "test": "R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+    "name": "delayed-click-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 8,
+          "y": 810,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 215.9270477294922,
+          "y": 1206.7951965332031,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 215.9270477294922,
+          "y": 1206.7951965332031,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558.25,
+          "y": 570.4999694824219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558.25,
+          "y": 570.4999694824219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558,
+          "y": 571,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        }
+      ],
+      "opened": [
+        "Verbindung 1 und 2",
+        "Verbindung 1 und 2"
+      ]
+    }
+  },
+  {
+    "test": "R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+    "name": "delayed-click-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 843,
+          "y": 239,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Schließen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 8,
+          "y": 810,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 215.9270477294922,
+          "y": 1206.7951965332031,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 90,
+          "x": 215.9270477294922,
+          "y": 1206.7951965332031,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558.25,
+          "y": 570.4999694824219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "tspan"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 111,
+          "x": 558.25,
+          "y": 570.4999694824219,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "dialog-open",
+          "title": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "MouseEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "MouseEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "touchstart",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558.25,
+          "y": 570.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "touchend",
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "TouchEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 2,
+          "x": 558,
+          "y": 571,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "x": 558,
+          "y": 570,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "MouseEvent",
+          "target": "svg"
+        }
+      ],
+      "opened": [
+        "Verbindung 1 und 2",
+        "Verbindung 1 und 2"
+      ]
+    }
+  },
+  {
+    "test": "R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog",
+    "name": "negative-gesture-trace.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 301,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 301,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 301,
+          "x": 225,
+          "y": 183,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointercancel",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225,
+          "y": 183,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "lostpointercapture",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 302,
+          "x": 225,
+          "y": 183,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 303,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 303,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 303,
+          "x": 265.72422790527344,
+          "y": 208.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 303,
+          "x": 265,
+          "y": 208,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 796.6500244140625,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Rückgängig"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 796.6500244140625,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Rückgängig"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 796.6500244140625,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Rückgängig"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 796,
+          "y": 36,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Rückgängig"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 304,
+          "x": 8,
+          "y": 810,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 304,
+          "x": 38,
+          "y": 780,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 304,
+          "x": 38,
+          "y": 780,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 667.969970703125,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 667.969970703125,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 667.969970703125,
+          "y": 36.5,
+          "trusted": true,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "click",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "x": 667,
+          "y": 36,
+          "trusted": true,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "BUTTON"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 305,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 306,
+          "x": 325.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "line"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 306,
+          "x": 385.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 305,
+          "x": 225.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerdown",
+          "pointerType": "touch",
+          "pointerId": 307,
+          "x": 195.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 306,
+          "x": 385.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointermove",
+          "pointerType": "touch",
+          "pointerId": 307,
+          "x": 165.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "pointerup",
+          "pointerType": "touch",
+          "pointerId": 307,
+          "x": 165.72422790527344,
+          "y": 183.34357452392578,
+          "trusted": false,
+          "detail": 0,
+          "eventClass": "PointerEvent",
+          "target": "svg"
+        },
+        {
+          "type": "click",
+          "pointerType": "touch",
+          "pointerId": 307,
+          "x": 225,
+          "y": 183,
+          "trusted": false,
+          "detail": 1,
+          "eventClass": "PointerEvent",
+          "target": "Karte 1 öffnen"
+        }
+      ],
+      "opened": []
+    }
+  }
+]

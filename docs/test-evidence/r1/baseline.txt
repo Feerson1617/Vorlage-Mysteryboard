@@ -1,0 +1,84 @@
+[WebServer] (node:110799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:110823) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:33:41] "GET / HTTP/1.1" 200 -
+
+Running 2 tests using 1 worker
+
+(node:110874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:33:43] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal (9.0s)
+(node:111023) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [10/Nov/2026 05:33:53] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✘  2 tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal (9.1s)
+
+
+  1) tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator: getByRole('dialog')
+    Expected: "Karte 1"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAccessibleName" getByRole('dialog') with timeout 8000ms
+      - waiting for getByRole('dialog')
+
+
+      56 |   for(const [i,t] of referenceTips(large).entries()) {
+      57 |     await noClickTap(page,t.selector,101+i);
+    > 58 |     await expect(page.getByRole('dialog')).toHaveAccessibleName(t.dialog);
+         |                                            ^
+      59 |     expect(await page.evaluate(()=>(window as any).r1.opened.length)).toBe(i+1);
+      60 |     await close(page);
+      61 |   }
+        at /workspace/Vorlage-Mysteryboard/tests/browser/r1.spec.ts:58:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/r1-R1-ohne-click-fünf-Refe-1b357--Karten-öffnen-genau-einmal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/r1-R1-ohne-click-fünf-Refe-1b357--Karten-öffnen-genau-einmal/error-context.md
+
+  2) tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator: getByRole('dialog')
+    Expected: "Karte 1"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAccessibleName" getByRole('dialog') with timeout 8000ms
+      - waiting for getByRole('dialog')
+
+
+      56 |   for(const [i,t] of referenceTips(large).entries()) {
+      57 |     await noClickTap(page,t.selector,101+i);
+    > 58 |     await expect(page.getByRole('dialog')).toHaveAccessibleName(t.dialog);
+         |                                            ^
+      59 |     expect(await page.evaluate(()=>(window as any).r1.opened.length)).toBe(i+1);
+      60 |     await close(page);
+      61 |   }
+        at /workspace/Vorlage-Mysteryboard/tests/browser/r1.spec.ts:58:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/r1-R1-ohne-click-fünf-Refe-d1993--Karten-öffnen-genau-einmal/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/r1-R1-ohne-click-fünf-Refe-d1993--Karten-öffnen-genau-einmal/error-context.md
+
+  2 failed
+    tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal
+    tests/browser/r1.spec.ts:54:34 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
