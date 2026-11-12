@@ -1,0 +1,31 @@
+{
+  "timingInjection": "600 ms for existing 0-ms yields only while print iframe is visible; disabled before final preparation",
+  "switches": [
+    "a4",
+    "a3",
+    "a4",
+    "a3"
+  ],
+  "delayedYields": 4,
+  "canceledDuringPreparation": true,
+  "orphanIframes": 0,
+  "finalPaper": "a4",
+  "cards": 60,
+  "edges": 90,
+  "exactStateAndPackedBytesPreserved": true,
+  "beforeHistory": {
+    "undo": true,
+    "redo": true,
+    "dirty": true
+  },
+  "afterHistory": {
+    "undo": true,
+    "redo": true,
+    "dirty": true
+  },
+  "observation": {
+    "requests": [],
+    "errors": [],
+    "nativeDialogs": []
+  }
+}

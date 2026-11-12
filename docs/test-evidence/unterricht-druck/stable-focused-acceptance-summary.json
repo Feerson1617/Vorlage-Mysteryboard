@@ -1,0 +1,128 @@
+{
+  "recordedAt": "2026-11-12T14:48:25.338362+00:00",
+  "sourceCommit": "240d5fcfcac7e5924efe169493c9f7525ba5ed74",
+  "engine": "chromium",
+  "browserVersion": "156.0.8078.79",
+  "serialStatus": "passed",
+  "serialVariants": [
+    {
+      "key": "small",
+      "status": "passed",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 384267,
+          "sha256": "acf8741d8113ee74ae9c5313c9bc02d2d83c5ad542b86780dac6cb44d6d6aab0"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 391392,
+          "sha256": "61cba04d3df751ac6bd143ee6ab82256708946e727f26f0f657cc7451a6768ae"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 391392,
+          "sha256": "61cba04d3df751ac6bd143ee6ab82256708946e727f26f0f657cc7451a6768ae"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 397846,
+          "sha256": "1dfe44cb3701ebe84ed576100017c9c542df558ed73115ea127505a27fc0bb7c"
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": []
+    },
+    {
+      "key": "large",
+      "status": "passed",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 805316,
+          "sha256": "9b3212baf6d1e79cef00a138bb2b69aff89693be5bc5c08688d9c83b04d9c8ce"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 811804,
+          "sha256": "546b1e20e742d2edb2bac7639817996193db32858ea915b2c1381b02fbd45d3f"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 811804,
+          "sha256": "546b1e20e742d2edb2bac7639817996193db32858ea915b2c1381b02fbd45d3f"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 812195,
+          "sha256": "fdec41250035c0f65bd65aef7b5d7bab840b176a8b3631f687a9fa96ae12bfd5"
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": []
+    },
+    {
+      "key": "boden",
+      "status": "passed",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 496410,
+          "sha256": "7278a7e35b34d5e4689f0e6042c6a81e51b9e55ad330bb4622405346f824688d"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 522267,
+          "sha256": "e894effcf01c82d322e6b04833aa2169a129b8b8c1ed5973208d4f5046816807"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 522267,
+          "sha256": "e894effcf01c82d322e6b04833aa2169a129b8b8c1ed5973208d4f5046816807"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 523232,
+          "sha256": "d482d252412c068ebd76694d2bb461b8cc87f8de1d4e63cf73f83c13846e4b4c"
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": []
+    }
+  ],
+  "firstRunStatus": "failed",
+  "firstRunFailure": "small: native Beginnen tap timed out after 15000 ms; stage=start; source code and tests unchanged",
+  "firstRunInterpretation": "Failure retained. Serial unchanged repetition passed. Parallel browser activity observed, causal explanation not established.",
+  "webkit": {
+    "26.5": {
+      "status": "failed",
+      "expectedVersion": "26.5",
+      "actualVersion": null,
+      "failure": "browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/webkit-2388/pw_run.sh\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝\n    at /workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:330:26",
+      "executedVariants": 0
+    },
+    "27.2": {
+      "status": "failed",
+      "expectedVersion": "27.2",
+      "actualVersion": null,
+      "failure": "browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/webkit-2388/pw_run.sh\n╔════════════════════════════════════════════════════════════╗\n║ Looks like Playwright was just installed or updated.       ║\n║ Please run the following command to download new browsers: ║\n║                                                            ║\n║     npx playwright install                                 ║\n║                                                            ║\n║ <3 Playwright Team                                         ║\n╚════════════════════════════════════════════════════════════╝\n    at /workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:330:26",
+      "executedVariants": 0
+    }
+  },
+  "repositoryChanges": false
+}

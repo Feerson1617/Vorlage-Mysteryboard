@@ -1,0 +1,61 @@
+
+> mysteryboard-prototype@0.1.0 check
+> npm test && npm run build && npm run test:e2e
+
+
+> mysteryboard-prototype@0.1.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/Mysteryboard-print
+
+ ❯ tests/limits.test.ts (4 tests | 1 failed) 29549ms
+   × HTML-Build verweigert die verbindliche Grenze von 10.000.000 Bytes 853ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/limits.test.ts > HTML-Build verweigert die verbindliche Grenze von 10.000.000 Bytes
+AssertionError: expected 'file:///workspace/Mysteryboard-print/…' to contain 'Erlaubt sind weniger als 10.000.000 B…'
+
+- Expected
++ Received
+
+- Erlaubt sind weniger als 10.000.000 Bytes
++ file:///workspace/Mysteryboard-print/scripts/check-build.mjs:20
++     throw new Error("Das erzeugte HTML hat keinen abschließenden Dokumenttag.");
++           ^
++
++ Error: Das erzeugte HTML hat keinen abschließenden Dokumenttag.
++     at appendLicenseNotices (file:///workspace/Mysteryboard-print/scripts/check-build.mjs:20:11)
++     at checkBuilds (file:///workspace/Mysteryboard-print/scripts/check-build.mjs:37:18)
++     at async file:///workspace/Mysteryboard-print/scripts/check-build.mjs:61:3
++
++ Node.js v24.22.1
++
+
+ ❯ tests/limits.test.ts:56:24
+     54|     );
+     55|     expect(run.status).toBe(1);
+     56|     expect(run.stderr).toContain("Erlaubt sind weniger als 10.000.000 …
+       |                        ^
+     57|   } finally {
+     58|     rmSync(dir, { recursive: true, force: true });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  1 failed | 51 passed (52)
+   Start at  15:04:07
+   Duration  30.48s (tests 96%, transform 2%, import 2%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

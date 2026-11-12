@@ -12,6 +12,24 @@ const licenses = [
   ["@noble/hashes", "LICENSE"],
   ["dijkstrajs", "LICENSE.md"],
 ];
+export function appendLicenseNotices(source, notices) {
+  // A bundled print template can itself contain </html>. Only the document's
+  // final closing tag is a safe insertion point; never modify JavaScript text.
+  const ending = /<\/html>(\s*)$/i;
+  if (!ending.test(source))
+    throw new Error("Das erzeugte HTML hat keinen abschließenden Dokumenttag.");
+  return source.replace(
+    ending,
+    (_, whitespace) =>
+      `<!--\n${notices.replaceAll("--", "- -")}\n-->\n</html>${whitespace}`,
+  );
+}
+function checkSize(bytes, mode) {
+  if (bytes >= 10_000_000)
+    throw new Error(
+      `Die HTML-Datei (${mode}) ist mit ${bytes} Bytes zu groß. Erlaubt sind weniger als 10.000.000 Bytes.`,
+    );
+}
 export async function checkBuilds(targets = selectBuildTargets()) {
   let notices = "Third-party notices\n";
   for (const [pkg, file] of licenses) {
@@ -22,15 +40,12 @@ export async function checkBuilds(targets = selectBuildTargets()) {
   }
   for (const { key: mode, output, testOnly } of targets) {
     const source = await readFile(`dist/${mode}/index.html`, "utf8");
-    const text = source.replace(
-      "</html>",
-      `<!--\n${notices.replaceAll("--", "- -")}\n-->\n</html>`,
-    );
+    // Reject oversized inputs before parsing or copying them. The final size
+    // is checked again after adding the notices.
+    checkSize(Buffer.byteLength(source), mode);
+    const text = appendLicenseNotices(source, notices);
     const html = Buffer.from(text);
-    if (html.length >= 10_000_000)
-      throw new Error(
-        `Die HTML-Datei (${mode}) ist mit ${html.length} Bytes zu groß. Erlaubt sind weniger als 10.000.000 Bytes.`,
-      );
+    checkSize(html.length, mode);
     if (
       /<(?:script|link|img)\b[^>]*(?:src|href)=["'](?:https?:|\/|\.\/)/i.test(
         text,

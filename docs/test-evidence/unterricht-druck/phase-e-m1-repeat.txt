@@ -1,0 +1,31 @@
+[WebServer] (node:173965) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:173978) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:11] "GET / HTTP/1.1" 200 -
+
+Running 4 tests using 1 worker
+
+(node:174005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:15] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:26] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (17.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:32] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:41] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (17.0s)
+(node:174352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:22:51] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:23:11] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (26.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:23:18] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:23:29] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  4 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (20.0s)
+
+  4 passed (1.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

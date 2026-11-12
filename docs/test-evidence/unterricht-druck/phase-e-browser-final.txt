@@ -1,0 +1,251 @@
+[WebServer] (node:174999) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:175026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:24:05] "GET / HTTP/1.1" 200 -
+
+Running 106 tests using 1 worker
+
+(node:175053) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:24:08] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓    1 tests/browser/corrections.spec.ts:53:1 › mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück (4.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:24:12] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓    2 tests/browser/corrections.spec.ts:127:1 › erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage (3.1s)
+  ✓    3 tests/browser/corrections.spec.ts:228:3 › PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung (6.3s)
+  ✓    4 tests/browser/corrections.spec.ts:228:3 › PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download (7.1s)
+  ✓    5 tests/browser/corrections.spec.ts:280:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen (19.7s)
+  ✓    6 tests/browser/corrections.spec.ts:280:3 › quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen (9.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:24:58] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓    7 tests/browser/corrections.spec.ts:399:1 › Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar (2.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:25:01] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓    8 tests/browser/print-lifecycle.spec.ts:57:1 › Druck-Lebenszyklus: Touch-Abbruch während A4/A3-Vorbereitung, neuer A4-Auftrag und unveränderte PNG/History (17.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:25:19] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[print 12] original PNG verified; preparing print
+[print 12] preview ready after 920 ms; checking all details
+[print 12] 6 pages checked; exercising native cross-reference
+  ✓    9 tests/browser/print.spec.ts:523:3 › Druck 12: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (9.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:25:28] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[print 18] original PNG verified; preparing print
+[print 18] preview ready after 536 ms; checking all details
+[print 18] 5 pages checked; exercising native cross-reference
+  ✓   10 tests/browser/print.spec.ts:523:3 › Druck 18: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (7.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:25:35] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[print 60] original PNG verified; preparing print
+[print 60] preview ready after 3058 ms; checking all details
+[print 60] 34 pages checked; exercising native cross-reference
+  ✓   11 tests/browser/print.spec.ts:523:3 › Druck 60: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (37.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:26:13] "GET /artifacts/tests/MysteryBoard-Pruefung-220.html HTTP/1.1" 200 -
+[print 220] original PNG verified; preparing print
+[print 220] preview ready after 12791 ms; checking all details
+[print 220] 56 pages checked; exercising native cross-reference
+  ✓   12 tests/browser/print.spec.ts:523:3 › Druck 220: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (1.8m)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:27:58] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+[print 5] original PNG verified; preparing print
+[print 5] preview ready after 460 ms; checking all details
+[print 5] 3 pages checked; exercising native cross-reference
+  ✓   13 tests/browser/print.spec.ts:523:3 › Druck 5: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (5.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:28:03] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   14 tests/browser/print.spec.ts:601:1 › Druck A3 und Zoom: fertige Produktions-HTML erzeugt bei anderem Bildschirmzoom dieselben Druckseiten (10.7s)
+  ✓   15 tests/browser/print.spec.ts:636:3 › Druck Extremtext a4: 4000 Zeichen, ungetrenntes Wort, 100 Zeichen Titel und 500 Zeichen Beschriftung (10.1s)
+  ✓   16 tests/browser/print.spec.ts:636:3 › Druck Extremtext a3: 4000 Zeichen, ungetrenntes Wort, 100 Zeichen Titel und 500 Zeichen Beschriftung (6.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:28:32] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   17 tests/browser/print.spec.ts:725:1 › Druck-Namenspflicht: Legacy bleibt unverändert, Abbruch startet nichts und Namensnachtrag setzt bewusst fort (9.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:28:40] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   18 tests/browser/prototype.spec.ts:36:1 › eigenständiges HTML läuft offline; keine externen Anfragen (11.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:28:52] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   19 tests/browser/prototype.spec.ts:69:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (4.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:28:56] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   20 tests/browser/prototype.spec.ts:135:1 › kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten (13.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:10] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   21 tests/browser/prototype.spec.ts:192:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import (8.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:19] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   22 tests/browser/prototype.spec.ts:230:1 › abgebrochener Import verändert den geöffneten Stand nicht (4.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:23] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   23 tests/browser/prototype.spec.ts:256:1 › Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar (1.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:24] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   24 tests/browser/prototype.spec.ts:278:1 › Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick (2.2s)
+  ✓   25 tests/browser/prototype.spec.ts:339:1 › gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export (4.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:31] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   26 tests/browser/prototype.spec.ts:393:1 › kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas (4.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:36] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   27 tests/browser/prototype.spec.ts:417:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen (6.4s)
+  ✓   28 tests/browser/prototype.spec.ts:436:1 › Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende (4.6s)
+  ✓   29 tests/browser/prototype.spec.ts:483:1 › QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar (3.0s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   30 tests/browser/r1.spec.ts:135:3 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal (2.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:29:53] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   31 tests/browser/r1.spec.ts:135:3 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal (5.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:00] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   32 tests/browser/r1.spec.ts:167:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten (6.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:06] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   33 tests/browser/r1.spec.ts:167:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten (7.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:14] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   34 tests/browser/r1.spec.ts:257:3 › R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (2.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:16] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   35 tests/browser/r1.spec.ts:257:3 › R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (2.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:19] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   36 tests/browser/r1.spec.ts:328:1 › R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam (1.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:20] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   37 tests/browser/r1.spec.ts:388:1 › R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog (2.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:23] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   38 tests/browser/r1.spec.ts:456:1 › R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte (2.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:26] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   39 tests/browser/r1.spec.ts:493:1 › R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar (4.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:31] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   40 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal (4.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:34] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   41 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal (2.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:38] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   42 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal (2.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:40] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   43 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal (3.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:43] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   44 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal (3.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:46] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   45 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal (3.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   46 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal (4.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:55] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   47 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal (3.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:30:58] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   48 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal (4.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:03] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   49 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal (3.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   50 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal (2.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:08] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   51 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal (4.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:13] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   52 tests/browser/r1b.spec.ts:198:3 › R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger (4.0s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:17] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   53 tests/browser/r1b.spec.ts:198:3 › R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger (6.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:23] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   54 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos (5.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:29] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   55 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos (3.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:32] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   56 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos (3.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:36] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   57 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos (4.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:40] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   58 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos (3.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:43] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   59 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos (2.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:46] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   60 tests/browser/r1b.spec.ts:276:1 › R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert (6.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:52] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   61 tests/browser/r1b.spec.ts:328:1 › R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal (3.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:57] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   62 tests/browser/r1b.spec.ts:361:1 › R1b Schutz bleibt auf die Anwendung begrenzt und erlaubt keine ersetzten Dialogbuttons (2.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:31:59] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:04] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   63 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung (8.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:08] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:13] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   64 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung (9.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:17] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   65 tests/browser/r1b.spec.ts:559:1 › R1b Original-ID-Grenzstand importiert unverändert und bleibt nach Teamnachtrag per Finger sicherbar (3.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:21] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   66 tests/browser/r1b.spec.ts:581:1 › R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger (6.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   67 tests/browser/r1b.spec.ts:665:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp (2.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:30] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:35] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   68 tests/browser/review.spec.ts:41:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung (9.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:39] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   69 tests/browser/review.spec.ts:93:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) (3.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:43] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   70 tests/browser/review.spec.ts:93:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) (2.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:45] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:53] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   71 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (13.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:32:58] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:08] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   72 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (15.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:14] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:19] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   73 tests/browser/review.spec.ts:309:1 › Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar (10.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   74 tests/browser/review.spec.ts:343:1 › Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf (10.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:35] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   75 tests/browser/review.spec.ts:387:5 › Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (3.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:39] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   76 tests/browser/review.spec.ts:387:5 › Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:42] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   77 tests/browser/review.spec.ts:387:5 › Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (5.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:47] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   78 tests/browser/review.spec.ts:387:5 › Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (5.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:33:52] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓   79 tests/browser/review.spec.ts:508:1 › 220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert (9.2s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:01] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   80 tests/browser/review.spec.ts:559:1 › Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas (3.3s)
+  ✓   81 tests/browser/review.spec.ts:625:1 › Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder (1.7s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   82 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 small: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (4.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:11] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   83 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 large: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (4.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:15] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   84 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 boden: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (3.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:19] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓   85 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 neutral: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (4.6s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:23] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:28] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   86 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export a3: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (9.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:32] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:38] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   87 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export menu: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (7.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:41] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:45] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   88 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export preview-compact: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (7.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:34:49] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   89 tests/browser/team-requirements.spec.ts:286:1 › UNI-01 Undo/Redo, Abbruch und alte Vorschau können die Namensprüfung nicht umgehen (10.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:00] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:03] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   90 tests/browser/team-requirements.spec.ts:448:1 › UNI-01/02: 80 Zeichen und Umlaute bleiben in Bild, PNG-Daten und frischer Wiederherstellung vollständig (5.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:05] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   91 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 320×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (3.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:08] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   92 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 480×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (3.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:11] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   93 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 600×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (3.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:15] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   94 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 601×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (3.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:19] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   95 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 640×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (4.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:23] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   96 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 768×1024: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (3.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:27] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   97 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 1024×768: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (5.4s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:32] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:36] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   98 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage small: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (7.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:40] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:45] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   99 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage large: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (11.3s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:52] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:55] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  100 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage boden: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (7.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:35:58] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:00] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  101 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage neutral: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (4.5s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:03] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  102 tests/browser/universal.spec.ts:399:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (4.1s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:07] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  103 tests/browser/universal.spec.ts:399:3 › Boden 768×1024: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (6.9s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:14] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:25] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:36] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:41] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  104 tests/browser/universal.spec.ts:519:1 › Alle Varianten importieren schema1 unverändert; Export verlangt Team, ungültiges Löschen erhält den Namen (32.8s)
+[WebServer] 127.0.0.1 - - [12/Nov/2026 15:36:47] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  105 tests/browser/universal.spec.ts:655:1 › Boden übernimmt weder fremdes Mystery noch Inhaltsversion 1.0.0 und behält den geöffneten Teamstand (3.4s)
+  ✓  106 tests/browser/universal.spec.ts:685:1 › Export-Kopfzeile: lange untrennbare Titel und Teamangaben passen ohne Überlagerung in beide Bildgrößen (2.7s)
+
+  106 passed (12.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

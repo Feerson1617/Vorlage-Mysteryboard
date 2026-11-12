@@ -2,6 +2,10 @@
 
 Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Ohne Backend, Benutzerkonten, externe Laufzeitressourcen oder automatische Browserspeicherung. React + TypeScript + Vite; eigene SVG-/Pointer-Steuerung, separater Canvas-Export.
 
+Die Unterrichtsversion für den 13. November 2026 bleibt unter dem festen Tag `unterricht-2026-11-13-rc1` auf Commit `240d5fcfcac7e5924efe169493c9f7525ba5ed74` erhalten. Dieser Branch `feat/mysteryboard-print-pdf` entwickelt die universelle Druckfunktion unabhängig davon weiter. Seine HTMLs ersetzen die eingefrorenen Unterrichtsdateien nicht. [Unterrichtsdatei und vorbereiteter Pages-Weg](docs/UNTERRICHT-2026-11-13.md).
+
+[Abnahmebericht A–F](docs/PHASEN-A-F-ABNAHME.md): Änderungen, Prüfungen, Artefaktprüfsummen und noch offene Praxistests.
+
 ## Direkt ausprobieren
 
 - `artifacts/MysteryBoard-klein.html`: 12 Karten, 9 Verbindungen, 2 Testdiagramme.
@@ -14,9 +18,11 @@ Die HTML-Dateien enthalten Programm, Inhaltsdaten, Bilder, Styles und QR-Bibliot
 
 **Arbeitsstand sichern:** „Sichern“ → Original-PNG herunterladen → unverändert in „Dateien“ aufbewahren. In einer neuen Sitzung „Fortsetzen“ → Originaldatei auswählen. Große Arbeitsstände benötigen die Originaldatei; nur ausreichend kleine bekommen zusätzlich einen vollständigen QR-Code. Screenshots und Bildoptimierungen können die eingebetteten Daten entfernen.
 
+**Druckfassung:** Im Menü „Druckfassung / PDF“ öffnen, A4 oder A3 quer wählen, fertige Vorschau prüfen und bewusst „Drucken / PDF speichern“ betätigen. Die Ausgabe enthält eine Übersicht, lesbare Karten und vollständige Beziehungen mit Seitenverweisen. Sie verändert den Arbeitsstand nicht und ersetzt keine PNG-Sicherung. [Aufbau, Bedienung und Grenzen](docs/DRUCKFASSUNG.md).
+
 ## Entwicklung
 
-Node.js 24 und npm 11 wurden verwendet. Im vorhandenen Checkout arbeiten; für Cloud-Aufgaben ist kein weiterer Worktree nötig.
+Node.js 24 und npm 11 wurden verwendet. Die Unterrichtsversion und die neue Druckentwicklung liegen auf getrennten Branches desselben Repositories. Separate Worktrees halten ihre Tests und Artefakte auseinander; kein zweites Repository ist erforderlich.
 
 ```sh
 npm ci --cache /tmp/mysteryboard-npm
@@ -43,6 +49,7 @@ Der Build erstellt alle Produktionsvarianten aus `mysteries.json` und prüft die
 | `src/core/png.ts`           | PNG-Chunk-Parser, CRC-Prüfung, Einbetten und Wiederherstellen |
 | `src/core/layout.ts`        | Gemeinsame Karten- und Verbindungsgeometrie                   |
 | `src/core/export.ts`        | Eigenständiger, zoomunabhängiger Canvas-Renderer              |
+| `src/core/print.ts`         | Universelle, lokal paginierte HTML-/SVG-Druckfassung          |
 | `src/components/Board.tsx`  | SVG-Ansicht und Pointer-Gesten                                |
 | `src/components/Camera.tsx` | Lokale Kameraerkennung mit sauberem Stream-Abbau              |
 | `src/App.tsx`               | Sitzungszustand, Rückgängig, kontextbezogene Dialoge          |
@@ -54,6 +61,9 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 
 ## Grenzen und weitere Dokumente
 
+- [Eingefrorene Unterrichtsversion und einfacher Pages-Veröffentlichungsweg](docs/UNTERRICHT-2026-11-13.md)
+- [Druckfassung/PDF: Bedienung und technische Grenzen](docs/DRUCKFASSUNG.md)
+- [Nächste Funktionen: Bildvergrößerung, QR-Bildimport und SCORM-Bewertung](docs/NAECHSTE-FUNKTIONEN.md)
 - [Release-Kandidat: Herkunft, Sicherung und aktuelle Prüfungen](docs/RELEASE-KANDIDAT.md)
 - [Manuellen HTTPS-/GitHub-Pages-Weg vorbereiten](docs/PAGES.md)
 - [Gezielte Work-Kompatibilitätsprüfung für WebKit](docs/WORK-KOMPATIBILITAET.md)
@@ -68,4 +78,4 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 
-Dies ist ein technischer Prototyp. Eine reale Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Es gibt keine SCORM-Implementierung; ein späterer Adapter kann validierte `Work`-Daten übernehmen, ohne Inhaltsdaten oder Board-Steuerung zu verändern.
+Dies ist ein technischer Prototyp. Eine reale Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Es gibt keine SCORM-Implementierung; eine spätere Verpackung darf keine Teamangaben, Antworten oder Arbeitsstände über die Lernplattform speichern.

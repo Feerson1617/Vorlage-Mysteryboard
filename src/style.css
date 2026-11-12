@@ -415,6 +415,30 @@ textarea {
   display: none;
   line-height: 1;
 }
+
+dialog:has(.print-preview) {
+  width: min(1100px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+}
+.print-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  margin-top: 16px;
+}
+.print-controls label {
+  margin: 0;
+}
+.print-preview iframe {
+  width: 100%;
+  height: 52dvh;
+  min-height: 220px;
+  border: 1px solid #b9c4bc;
+  background: #e9ecea;
+  display: block;
+  margin-top: 12px;
+}
 @media (max-width: 900px) {
   .toolbar .brand {
     display: none;

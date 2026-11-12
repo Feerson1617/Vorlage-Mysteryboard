@@ -1,0 +1,169 @@
+[
+  {
+    "key": "12",
+    "pdf": "MysteryBoard-Druck-12.pdf",
+    "bytes": 76730,
+    "sha256": "9bb1e1e0c7a72afb7eb460c3746f3ac500ac050481d83bd66ce6bcfd06736df7",
+    "pages": 6,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": 1121,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/12-page-1.png",
+      "pdf-rendered/12-page-2.png",
+      "pdf-rendered/12-page-4.png",
+      "pdf-rendered/12-page-6.png"
+    ]
+  },
+  {
+    "key": "18-A3",
+    "pdf": "MysteryBoard-Druck-18-A3.pdf",
+    "bytes": 75475,
+    "sha256": "fec8c8d29fb400388dc643b80cad13175055ae6bee7f74322e08288291f18032",
+    "pages": 4,
+    "paperPoints": [
+      1191.1199951171875,
+      841.9199829101562
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": null,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/18-A3-page-1.png",
+      "pdf-rendered/18-A3-page-2.png",
+      "pdf-rendered/18-A3-page-4.png"
+    ]
+  },
+  {
+    "key": "18",
+    "pdf": "MysteryBoard-Druck-18.pdf",
+    "bytes": 76857,
+    "sha256": "1c2e8e2545eec4530ddac5f9fe0e53d444e154a8b7771760df986543876a6c7a",
+    "pages": 5,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": 624,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/18-page-1.png",
+      "pdf-rendered/18-page-2.png",
+      "pdf-rendered/18-page-5.png"
+    ]
+  },
+  {
+    "key": "220",
+    "pdf": "MysteryBoard-Druck-220.pdf",
+    "bytes": 1192277,
+    "sha256": "f13d68ac79a7a6600abba40199b38c1fe8b5311b0998282a49afaadfaae4942d",
+    "pages": 56,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": 21228,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/220-page-1.png",
+      "pdf-rendered/220-page-2.png",
+      "pdf-rendered/220-page-23.png",
+      "pdf-rendered/220-page-35.png",
+      "pdf-rendered/220-page-56.png"
+    ]
+  },
+  {
+    "key": "5",
+    "pdf": "MysteryBoard-Druck-5.pdf",
+    "bytes": 41552,
+    "sha256": "67d4064c976de7e13e6ccf09905324d2978c2e71c9f850d13abd30a1859ab1b3",
+    "pages": 3,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": 453,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/5-page-1.png",
+      "pdf-rendered/5-page-2.png",
+      "pdf-rendered/5-page-3.png"
+    ]
+  },
+  {
+    "key": "60",
+    "pdf": "MysteryBoard-Druck-60.pdf",
+    "bytes": 388871,
+    "sha256": "ef895962d75e832bbbcbd6525503f22594e8fa23e71ff62345a970a1eb3c2c0e",
+    "pages": 34,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": 4859,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/60-page-1.png",
+      "pdf-rendered/60-page-2.png",
+      "pdf-rendered/60-page-15.png",
+      "pdf-rendered/60-page-23.png",
+      "pdf-rendered/60-page-34.png"
+    ]
+  },
+  {
+    "key": "extrem-a3",
+    "pdf": "MysteryBoard-Druck-extrem-a3.pdf",
+    "bytes": 65453,
+    "sha256": "5a639793bf0a98d1670c7738771ecb18991da80b2a21dbbe2506fb483ba20f2a",
+    "pages": 8,
+    "paperPoints": [
+      1191.1199951171875,
+      841.9199829101562
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": null,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/extrem-a3-page-1.png",
+      "pdf-rendered/extrem-a3-page-2.png",
+      "pdf-rendered/extrem-a3-page-5.png",
+      "pdf-rendered/extrem-a3-page-8.png"
+    ]
+  },
+  {
+    "key": "extrem-a4",
+    "pdf": "MysteryBoard-Druck-extrem-a4.pdf",
+    "bytes": 69682,
+    "sha256": "59e702ee8fcd2f2fc042c3a539758d939a316c3a3245cf5b1af1e20b80a10d1b",
+    "pages": 12,
+    "paperPoints": [
+      841.9199829101562,
+      594.9599609375
+    ],
+    "minimumDetailFontPt": 11.000025,
+    "previewReadyMilliseconds": null,
+    "externalPdfLinks": [],
+    "textOutsidePdfPage": [],
+    "renderedPages": [
+      "pdf-rendered/extrem-a4-page-1.png",
+      "pdf-rendered/extrem-a4-page-2.png",
+      "pdf-rendered/extrem-a4-page-9.png",
+      "pdf-rendered/extrem-a4-page-12.png"
+    ]
+  }
+]

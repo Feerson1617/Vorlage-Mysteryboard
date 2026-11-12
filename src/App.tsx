@@ -21,9 +21,11 @@ import { exportBoard, type ExportMode } from "./core/export";
 import { Board } from "./components/Board";
 import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
+import { PrintPreview } from "./components/PrintPreview";
 import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 const mystery = validateMystery(dataset);
-type Modal = "resume" | "camera" | "save" | "help" | "menu" | "team" | null;
+type Modal =
+  "resume" | "camera" | "save" | "help" | "menu" | "team" | "print" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
 const requireTeam = (work: Work, name: string): Work => {
   const named = withTeam(work, name);
@@ -49,7 +51,7 @@ export default function App() {
   const input = useRef<HTMLInputElement>(null),
     startTeamInput = useRef<HTMLInputElement>(null),
     teamInput = useRef<HTMLInputElement>(null),
-    pendingExport = useRef<ExportMode | null>(null),
+    pendingExport = useRef<ExportMode | "print" | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
@@ -239,6 +241,21 @@ export default function App() {
       });
       setConnecting(null);
     } else setCard(id);
+  };
+  const openPrint = () => {
+    if (!work) return;
+    if (!teamName(work)) {
+      pendingExport.current = "print";
+      setTeamDraft("");
+      setTeamError("");
+      setMessage(
+        "Ergänzt vor der Druckfassung eure Teambezeichnung oder Vornamen. Eine Gruppenbezeichnung genügt.",
+      );
+      setModal("team");
+      return;
+    }
+    setMessage("");
+    setModal("print");
   };
   const cardContent = mystery.cards.find((c) => c.id === card),
     cardState = work?.cards.find((c) => c.id === card);
@@ -562,6 +579,7 @@ export default function App() {
             <button onClick={() => void save("compact")}>
               Kleineres Sicherungsbild
             </button>
+            <button onClick={openPrint}>Druckfassung / PDF</button>
             <button onClick={() => setModal("help")}>Hinweise</button>
             <button
               onClick={() => {
@@ -594,7 +612,8 @@ export default function App() {
                 commit(named);
                 close();
                 // Use the newly named snapshot, not the preceding render's work.
-                if (mode) void save(mode, named);
+                if (mode === "print") setModal("print");
+                else if (mode) void save(mode, named);
               } catch (error) {
                 setTeamError((error as Error).message);
                 teamInput.current?.focus();
@@ -650,6 +669,11 @@ export default function App() {
             oder das Versenden als verkleinertes Bild kann die Sicherung
             verlieren.
           </p>
+        </Dialog>
+      )}
+      {modal === "print" && work && (
+        <Dialog title="Druckfassung / PDF" onClose={close}>
+          <PrintPreview work={work} mystery={mystery} />
         </Dialog>
       )}
       {(modal === "resume" || modal === "camera") && (

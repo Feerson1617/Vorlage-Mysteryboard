@@ -1,0 +1,193 @@
+{
+  "baseline": "240d5fcfcac7e5924efe169493c9f7525ba5ed74",
+  "developmentBranch": "feat/mysteryboard-print-pdf",
+  "originalCoreContentAndTestsUnchanged": [
+    {
+      "file": "src/core/model.ts",
+      "sha256": "906f3e80c2f62a875fbffd5c970cc33dd6078999a5401c79f4d334b16418b9a0",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/codec.ts",
+      "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/png.ts",
+      "sha256": "8089495fa7a5fda4be18618c7dfe80c099b081069df122aef6051426bb2a7151",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/history.ts",
+      "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/export.ts",
+      "sha256": "898eab8c793578a12990667e51464e710fbf702d063edd475df7620ac727d9b5",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/layout.ts",
+      "sha256": "b4ce01da70b7cac8c4f3f2cb99f7da354d46d9d732b793e7f32495a7630e0490",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Board.tsx",
+      "sha256": "558d387344c37c972e8279f690d33e30c61ca4518cceb86335b5242e0f020675",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Dialog.tsx",
+      "sha256": "da2f5058ae8edd6367b92d4c51525cb0aa5ee6a0cfce59a5adf08cdeae01bc8b",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Camera.tsx",
+      "sha256": "2e8b83dd17e42764f1cc7cdb987b60e7d7f5c0cb8c5b305b2480f3c83534d6ea",
+      "unchanged": true
+    },
+    {
+      "file": "mysteries.json",
+      "sha256": "34ec3fe4a237de5dfcab7f06c9095a8a5e28a5bb027de2b4294e7e50dcb82354",
+      "unchanged": true
+    },
+    {
+      "file": "package.json",
+      "sha256": "dfd0cf75fe29a13a8e26f6459456930c2d6c9406e7579371467a20738d4832aa",
+      "unchanged": true
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "ebcca5c3df79f147295194315fef72813871c23a58613f883351b7a31c0e8913",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/small.json",
+      "sha256": "703cf8019f87dcbbeef3bae93b786977661761f143c18df20a4177892f47ba9c",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/boden-klasse11.json",
+      "sha256": "c12150495c4b69ddf9185904aa3bf3aa123b59f9e42069d1fb1fed5442d877f4",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/large.json",
+      "sha256": "cd5ed7512ad20d90861df716021ed5c53b3a45b29d7810bd76a878474f5ed5f2",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/corrections.spec.ts",
+      "sha256": "f2414b29967338ee40712d5b81ad3e78171bdd22ec44bcbb2d81a1cfa0a12b3d",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/prototype.spec.ts",
+      "sha256": "3f811d749a71a84bd8aae2c5350576f778ea75a2d1f6645c39434343cc4c7791",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/r1.spec.ts",
+      "sha256": "b7d50795c77bf89b67b70e15ebf8e88d48ebf989656cb89841a4f4b1c004040e",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/r1b.spec.ts",
+      "sha256": "c62df30f2d2f82e4d42c6a6eda0ad72197ce61e35028422e5887538aa8eb121f",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/review.spec.ts",
+      "sha256": "2045ab3bdadc6e0f5716d6027756cca45569f5750073954009c2c5002ba03ef2",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/team-helpers.ts",
+      "sha256": "88710aea577df5160db7aa477caea3ce805eb21af131600e17def756be89d377",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/team-requirements.spec.ts",
+      "sha256": "011a317e2f486a83809fbe3b5304702db39a6935b94292a98be70ff43ba6d1c2",
+      "unchanged": true
+    },
+    {
+      "file": "tests/browser/universal.spec.ts",
+      "sha256": "d92103035d046318c649ab50958c272281a7386383831bc9d7a841904c6036c6",
+      "unchanged": true
+    },
+    {
+      "file": "tests/content-build.test.ts",
+      "sha256": "d07044a92e0afc53fa4087836c5acf2f863d9c3becd758bdffa32c48c7d1e727",
+      "unchanged": true
+    },
+    {
+      "file": "tests/edge-id.test.ts",
+      "sha256": "d8a1fbc3b8a7b6dcf6a5741f772d8c847eedb32e64fc765be0b69a08b4d0e18e",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/boden-source-fingerprint.json",
+      "sha256": "ddac539e810b54efcc2a5484701e6cb2596fa845cade73fb1f55e2ec43e9c461",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/png.ts",
+      "sha256": "86f2a3cf7c52c28b3e4920a8ea0094b92fec451455a5b9d49402f3fb4cbb242c",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/reusable-five.json",
+      "sha256": "6a2929903df4562960b4c1c0311c1baf1e4ed1e5c0b96f6cdd8b8e01148badd6",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/review/60-90-Gruppenstand.png",
+      "sha256": "5256a551a362d6372aff9781497aa27aa7a8aa329490c9038c5fb549e8c80b66",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/review/README.md",
+      "sha256": "9b8dda669e2fc183e73b5675c0e86c361faa1c4343a7a70fd64faa06d9030c2c",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/review/Start-ID-1000000.png",
+      "sha256": "1c75c56db6a4cf0603d0679c68c38fa3466f399f351de2ef8ce5dd6a5f27e289",
+      "unchanged": true
+    },
+    {
+      "file": "tests/fixtures/review/stress-220.json",
+      "sha256": "7c5847007655720054c7e2af80d3a751260b0235134054febb05faa0c83f6cc2",
+      "unchanged": true
+    },
+    {
+      "file": "tests/history.test.ts",
+      "sha256": "2b29f8faa1a449c9b61844028854fc0c5f142dbd1f6f92c7a1ac3455eb5fc707",
+      "unchanged": true
+    },
+    {
+      "file": "tests/limits.test.ts",
+      "sha256": "5a247960870d4e33e2c629b8ff557f4987323487a1e6cfd982cee251efa0030b",
+      "unchanged": true
+    },
+    {
+      "file": "tests/persistence.test.ts",
+      "sha256": "81170a1c6522b5116f9364c9c5c70c3cb6b9346f7afbc683f6a54113fe4daeea",
+      "unchanged": true
+    },
+    {
+      "file": "tests/universal-model.test.ts",
+      "sha256": "7c48e51895451ca0ccb1fade64791c85227b1466afb1903bb81e6898fd9a2f94",
+      "unchanged": true
+    }
+  ],
+  "runtimeChanges": [
+    "src/App.tsx",
+    "src/style.css",
+    "src/components/PrintPreview.tsx",
+    "src/core/print.ts"
+  ],
+  "buildFix": "scripts/check-build.mjs (terminal document close tag for license notices)"
+}
