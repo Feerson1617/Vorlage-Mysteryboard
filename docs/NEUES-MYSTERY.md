@@ -37,24 +37,44 @@ Eine kleine vollständige Vorlage:
       "group": "required"
     }
   ],
-  "initial": {
-    "cards": [
-      { "id": 3, "x": 0, "y": 0, "color": 0 },
-      { "id": 1, "x": 420, "y": 0, "color": 0 },
-      { "id": 2, "x": 840, "y": 0, "color": 0 }
-    ],
-    "edges": [],
-    "categories": ["", "", "", "", "", ""]
+  "help": {
+    "method": "Welche Information könnte eure Beobachtung erklären? Begründet eure Vermutung.",
+    "categories": [
+      { "id": "notes", "label": "Ausgangsangaben", "color": "#2166ac", "cardIds": [1] },
+      { "id": "observations", "label": "Beobachtungen", "color": "#f5a623", "cardIds": [3] }
+    ]
   }
 }
 ```
 
 - `title` ist der vollständige Mystery-Titel auf der Startseite und links in der PNG-Kopfzeile. Titel und Kartentitel dürfen höchstens 100 Zeichen, Kartentexte höchstens 4.000 Zeichen enthalten.
-- `cards` enthält 1–100 Karten. Die internen IDs bleiben numerisch; nutze eindeutige IDs von 1 bis zur Kartenanzahl. `initial.cards` muss jede ID genau einmal enthalten. `x`/`y` bestimmen die Startanordnung, `color: 0` ist Weiß. Abstände müssen zur tatsächlichen Kartenhöhe passen; die Übersicht abschließend prüfen.
+- `cards` enthält 1–100 Karten. Die internen IDs bleiben numerisch; nutze eindeutige IDs von 1 bis zur Kartenanzahl. Ohne `initial` erscheinen neue Karten automatisch in numerischer Ablageordnung. Präfixe beeinflussen diese Sortierung nicht. Die Spaltenzahl und Zeilenhöhen werden beim Beginnen anhand des Fensterformats und der Kartenmaße gewählt. Eine begonnene Arbeit wird bei späterem Zoom oder Fensterwechsel nicht neu geordnet.
 - `group` verweist ausdrücklich auf einen Eintrag in `cardGroups`. Im Beispiel sind 1 und 3 Pflichtkarten, nur 2 eine Vertiefung. Es gibt keine festgelegte numerische Grenze. `prefix: "V"` ergibt etwa `V2`; Präfix und Bezeichnung sind je Inhaltsdatei konfigurierbar. Alle Karten bleiben gleichzeitig sichtbar. Diese Metadaten sind keine fachliche Farbkategorie.
 - `cardGroups` und `group` sind optional. Bestehende Inhalte ohne diese Felder behalten ihre numerischen Anzeigen. Ein Gruppenpräfix darf leer oder bis zu drei Zeichen lang sein, ohne Leer-/Steuerzeichen. Gruppenbezeichnungen sind auf 80 Zeichen begrenzt.
-- Leere `edges` und sechs leere Kategorien liefern eine neutrale Ausgangslage. Keine Musterlösung, Lehrerhinweise oder vorgegebene Beziehungsnetze in das Schüler-JSON kopieren.
+- Die neue Standardablage startet ohne Pfeile, eigene Farben oder Kategorien. Keine Musterlösung, Lehrerhinweise oder vorgegebene Beziehungsnetze in das Schüler-JSON kopieren.
+- `help` ist freiwillig. Das Beispiel zeigt nur den Aufbau, keine geprüfte fachliche Klassifikation: Die konkreten Kartentexte und jede Zuordnung müssen für das jeweilige Mystery fachlich geprüft werden. Karte 2 bleibt hier bewusst unmarkiert. `method` kann entfallen; dann gilt ein allgemeiner Denkimpuls. `categories` kann ganz entfallen; dann wird keine zweite Stufe angeboten. Es gibt keine automatische Zuordnung nach Nummern oder Kartengruppen.
+- Je Hilfekategorie sind ein eindeutiger Schlüssel `id`, ein kurzes sichtbares `label`, eine sechsstellige Hexfarbe und explizite `cardIds` erforderlich. Höchstens sechs Kategorien, je Karte höchstens eine Zuordnung; unterschiedliche Gruppengrößen sind erlaubt. In der Legende stehen neben den Farben auch die zugehörigen Kartennummern. Grenzen und Fehlerfälle: [FORMAT.md](FORMAT.md).
+- Änderungen an individuellen Hilfemetadaten erfordern eine neue Inhaltsversion. Der Hilfezustand selbst bleibt flüchtig und gelangt weder in das PNG-/QR-Speicherformat noch in die eigenen Kartenfarben.
 - Optionale Bilder müssen bereits als unterstützte `data:image/...;base64,...`-Daten in `image` eingebettet sein; `imageAlt` beschreibt sie. Keine externen Bild-URLs verwenden. Komplexe Karten/Diagramme vorab auf dem tatsächlichen Gerät auf Lesbarkeit prüfen; die Vorlage stellt keine zusätzliche Bildvergrößerung bereit.
+
+### Ein bewusst anderes Startlayout
+
+Bestehende Dateien mit `initial` bleiben ohne Anpassung gültig und behalten ihre Anfangspositionen. Für besondere neue Layouts kann dies ausdrücklich so konfiguriert werden:
+
+```json
+"startLayout": { "mode": "explicit" },
+"initial": {
+  "cards": [
+    { "id": 3, "x": 0, "y": 0, "color": 0 },
+    { "id": 1, "x": 650, "y": 0, "color": 0 },
+    { "id": 2, "x": 1300, "y": 0, "color": 0 }
+  ],
+  "edges": [],
+  "categories": ["", "", "", "", "", ""]
+}
+```
+
+`initial.cards` enthält jede ID genau einmal. `x`/`y` und die Arrayreihenfolge bestimmen Position und Überlagerung; Kartehöhe und Nummern müssen beim Prüfen mit berücksichtigt werden. Für das geordnete Standardlayout genügt das Weglassen von `initial`. Optional macht `"startLayout": {"mode":"ordered"}` die Entscheidung ausdrücklich; `"columns":6` legt bei Bedarf die Spaltenzahl fest. Keine automatischen Farben oder Verbindungen sind für ein geordnetes Layout zulässig. Ein importierter Arbeitsstand behält immer seine eigenen Positionen.
 
 Teamname/Vornamen werden beim Start verbindlich eingegeben, über das Menü geändert und mit dem Arbeitsstand gesichert. Eine neutrale Gruppenbezeichnung genügt. Sie gehören nicht zur Inhaltsdatei. Die Teamfunktion gilt identisch für alle Mysterys. Technisch gültige teamlose Altsicherungen bleiben importierbar; vor jedem neuen Schülerexport wird eine fehlende Teamangabe nachgefragt, auch nach Rückgängig.
 
@@ -69,7 +89,7 @@ Ergänze `mysteries.json` um genau einen Eintrag:
 }
 ```
 
-Die Schlüssel `development`, `production` und `test` sind für die Werkzeug-Standardmodi reserviert. Der Schlüssel wählt den Build: Er beginnt mit einem kleinen ASCII-Buchstaben und enthält nur kleine Buchstaben, Ziffern und Bindestriche. Der HTML-Dateiname beginnt mit einem ASCII-Buchstaben oder einer Ziffer und enthält danach nur ASCII-Buchstaben, Ziffern, Unterstriche oder Bindestriche sowie die Endung `.html`. Inhaltsdateien liegen innerhalb des Projekts. Für reine Prüfdatensätze kann `"testOnly": true` gesetzt werden; deren HTMLs landen getrennt unter `artifacts/tests/`.
+Die Schlüssel `development`, `production` und `test` sind für die Werkzeug-Standardmodi reserviert. Der Schlüssel wählt den Build: Er beginnt mit einem kleinen ASCII-Buchstaben und enthält nur kleine Buchstaben, Ziffern und Bindestriche. Der HTML-Dateiname beginnt mit einem ASCII-Buchstaben oder einer Ziffer und enthält danach nur ASCII-Buchstaben, Ziffern, Unterstriche oder Bindestriche sowie die Endung `.html`. Inhaltsdateien liegen innerhalb des Projekts. Für reine Prüfdatensätze kann `"testOnly": true` gesetzt werden; deren HTMLs landen getrennt unter `artifacts/tests/`. `"previewOnly": true` schreibt stattdessen nach `artifacts/previews/` und schützt so eine unter dem bisherigen Dateinamen eingefrorene Lieferung. Beide Flags dürfen nicht gleichzeitig wahr sein.
 
 ## 3. Eine eigenständige Schüler-HTML bauen
 
@@ -91,7 +111,9 @@ npm run check
 
 Die neue Datei liegt unter `artifacts/MysteryBoard-Wald-Klasse8.html`. Sie enthält Anwendung, Inhalte und benötigte Ressourcen. Der Build validiert die komplette Registry auf gültige Inhalte und doppelte Kombinationen aus Mystery-ID und Inhaltsversion, auch bei einem Einzelbuild. Er verwendet den gemeinsamen Inhaltsvalidator, lehnt unbekannte Build-Namen ab und prüft jede fertige HTML auf die Grenze **unter 10.000.000 Bytes** und externe Laufzeitressourcen.
 
-Die bisherigen Produktionsdateien bleiben `MysteryBoard-klein.html` und `MysteryBoard-umfangreich.html`; das Boden-Mystery wird als `MysteryBoard-Boden-Klasse11.html` gebaut. `reuse-example` ist ein bewusst anderes Prüf-Mystery mit fünf Karten und Vertiefungen `Z2`/`Z5`. Es verwendet denselben Anwendungskern und wird mit `npm run build:example` gebaut. Der 220-Verbindungen-Prüfstand bleibt unter `review` bzw. `npm run build:review` verfügbar.
+Die bisherigen Produktionsdateien bleiben `MysteryBoard-klein.html` und `MysteryBoard-umfangreich.html`; das abgeschlossene Boden-Mystery RC2 bleibt unverändert erhalten. Auf diesem Vorlagenbranch wird ein aktueller technischer Boden-Vergleich nur nach `artifacts/previews/MysteryBoard-Boden-Klasse11.html` gebaut. Das ist kein neues Unterrichts-Release; die RC2-HTML und SCORM-ZIP werden nicht ersetzt. `reuse-example` ist ein bewusst anderes Prüf-Mystery mit fünf Karten und Vertiefungen `Z2`/`Z5`. Es verwendet denselben Anwendungskern und wird mit `npm run build:example` gebaut. Der 220-Verbindungen-Prüfstand bleibt unter `review` bzw. `npm run build:review` verfügbar.
+
+Die neuen neutralen Prüfvarianten `ordered-5`, `ordered-12`, `ordered-18` und `ordered-60` zeigen die Ablage für unterschiedliche Mengen. `npm run build -- ordered-5` erstellt `artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html` mit konfiguriertem Denkimpuls und drei expliziten Hilfekategorien. Die übrigen Mengen verwenden nur die allgemeine Stufe 1. Alle entstehen aus demselben Kern; die neutralen technischen Notizen sind kein fachlich freigegebenes Unterrichts-Mystery.
 
 ## 4. Vor dem Unterricht prüfen
 
@@ -100,6 +122,7 @@ Die bisherigen Produktionsdateien bleiben `MysteryBoard-klein.html` und `Mystery
 3. **Team und Sicherung:** Teamname setzen und ändern, PNG herunterladen und tatsächlich in „Dateien“ ablegen. Titel links und Team rechts im PNG visuell auf vollständige, überlappungsfreie Darstellung prüfen.
 4. **Neue Sitzung:** Anwendung vollständig schließen, dieselbe Mystery-HTML erneut öffnen, die Original-PNG auswählen und den vollständigen Zustand einschließlich Teamname überprüfen. Danach weiterarbeiten und erneut sichern. Eine erzeugte PNG allein bestätigt keine dauerhafte Ablage.
 5. **Kompatibilität:** Eine Sicherung eines anderen Mysterys oder einer inkompatiblen Inhaltsversion muss verständlich abgewiesen werden. Alte technisch gültige Sicherungen derselben ID/Inhaltsversion ohne Teamname bleiben importierbar.
-6. **Einsatzort:** Veröffentlichung und Schülerlink erst nach Freigabe tatsächlich testen; anschließend auf verwalteten Schul-iPads prüfen. Browseremulation ersetzt keine Geräteabnahme. Ohne tatsächlichen Canva-Test keine Canva-Kompatibilität behaupten.
+6. **Hilfen:** Zunächst ausgeschaltet; Stufe 1 öffnen, Stufe 2 bewusst einschalten, Nummern und Textlegende vergleichen. Prüfen, ob die Kategorien tatsächlich Denkprozesse unterstützen und keine lineare Musterlösung nahelegen. Ausblenden, weiterarbeiten, PNG mit und ohne Hilfe vergleichen. Die Kartenflächen und eigenen Farben müssen unverändert bleiben. Tastatur und alle vier Ansichten 1024×768, 768×1024, 600×800, 320×700 prüfen.
+7. **Einsatzort:** Veröffentlichung und Schülerlink erst nach Freigabe tatsächlich testen; anschließend auf verwalteten Schul-iPads prüfen. Browseremulation ersetzt keine Geräteabnahme. Ohne tatsächlichen Canva-Test keine Canva-Kompatibilität behaupten.
 
 Die HTML kann unverändert von einem statischen HTTPS-Host ausgeliefert werden. Für einen freigegebenen GitHub-Pages-Weg genügt beispielsweise eine Kopie als `index.html`; weder Datenbank noch externe Skripte sind erforderlich. Der Build veröffentlicht nichts. Die ursprüngliche HTML mit Bytegröße, SHA-256 und zugehörigem Quellstand aufbewahren, bevor eine Freigabe erfolgt.

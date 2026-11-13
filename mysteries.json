@@ -9,7 +9,8 @@
   },
   "boden-klasse11": {
     "content": "src/content/boden-klasse11.json",
-    "output": "MysteryBoard-Boden-Klasse11.html"
+    "output": "MysteryBoard-Boden-Klasse11.html",
+    "previewOnly": true
   },
   "review": {
     "content": "tests/fixtures/review/stress-220.json",
@@ -19,6 +20,26 @@
   "reuse-example": {
     "content": "tests/fixtures/reusable-five.json",
     "output": "MysteryBoard-Test-5.html",
+    "testOnly": true
+  },
+  "ordered-5": {
+    "content": "tests/fixtures/ordered-5.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-5.html",
+    "testOnly": true
+  },
+  "ordered-12": {
+    "content": "tests/fixtures/ordered-12.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-12.html",
+    "testOnly": true
+  },
+  "ordered-18": {
+    "content": "tests/fixtures/ordered-18.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-18.html",
+    "testOnly": true
+  },
+  "ordered-60": {
+    "content": "tests/fixtures/ordered-60.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-60.html",
     "testOnly": true
   }
 }

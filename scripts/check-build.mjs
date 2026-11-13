@@ -20,7 +20,7 @@ export async function checkBuilds(targets = selectBuildTargets()) {
     );
     notices += `\n${pkg} ${metadata.version}\n${await readFile(`node_modules/${pkg}/${file}`, "utf8")}\n`;
   }
-  for (const { key: mode, output, testOnly } of targets) {
+  for (const { key: mode, output, testOnly, previewOnly } of targets) {
     const source = await readFile(`dist/${mode}/index.html`, "utf8");
     const text = source.replace(
       "</html>",
@@ -37,7 +37,11 @@ export async function checkBuilds(targets = selectBuildTargets()) {
       )
     )
       throw new Error("Die HTML-Datei enthält externe Laufzeitressourcen.");
-    const directory = testOnly ? "artifacts/tests" : "artifacts";
+    const directory = testOnly
+      ? "artifacts/tests"
+      : previewOnly
+        ? "artifacts/previews"
+        : "artifacts";
     await mkdir(directory, { recursive: true });
     await writeFile(`${directory}/${output}`, html);
     console.log(

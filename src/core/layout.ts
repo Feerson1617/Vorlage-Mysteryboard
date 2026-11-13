@@ -1,5 +1,6 @@
 import type { CardContent, CardState, Edge, Work, Mystery } from "./model";
-import { cardNumber } from "./model";
+import { cardNumber, initialWork } from "./model";
+import { orderedPositions } from "./start-layout";
 export const CARD_WIDTH = 300;
 export type Layout = {
   title: string[];
@@ -127,6 +128,28 @@ export function makeLayouts(m: Mystery) {
   return new Map(
     m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id))]),
   );
+}
+export function initialBoardWork(
+  m: Mystery,
+  viewport: { width: number; height: number },
+): Work {
+  const work = initialWork(m);
+  if (m.startLayout?.mode !== "ordered") return work;
+  const layouts = makeLayouts(m);
+  // Reserve the largest capped number badge as well as a free connection gap.
+  // This protects both multi-digit IDs and configurable prefixes at overview.
+  const gap =
+    Math.max(
+      ...[...layouts.values()].map((l) => numberBadge(0, l.numberLabel).extent),
+    ) + 64;
+  work.cards = orderedPositions(
+    work.cards,
+    new Map([...layouts].map(([id, l]) => [id, l.height])),
+    viewport,
+    gap,
+    m.startLayout.columns,
+  );
+  return work;
 }
 const labelCache = new Map<
   string,

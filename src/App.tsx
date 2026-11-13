@@ -7,7 +7,6 @@ import {
   MAX_LABEL,
   MAX_TEAM_NAME,
   cardNumber,
-  initialWork,
   nextEdgeId,
   validateMystery,
   teamName,
@@ -22,6 +21,8 @@ import { Board } from "./components/Board";
 import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
 import { emptyHistory, hasChanges, historyReducer } from "./core/history";
+import { initialBoardWork } from "./core/layout";
+import { LearningHelp } from "./components/LearningHelp";
 const mystery = validateMystery(dataset);
 type Modal = "resume" | "camera" | "save" | "help" | "menu" | "team" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
@@ -36,6 +37,11 @@ export default function App() {
   const work = history.present,
     dirty = hasChanges(history);
   const [modal, setModal] = useState<Modal>(null);
+  const [helpOpen, setHelpOpen] = useState(false),
+    [orientation, setOrientation] = useState(false),
+    [wideToolbar, setWideToolbar] = useState(
+      () => matchMedia("(min-width: 1100px)").matches,
+    );
   const [startTeam, setStartTeam] = useState(""),
     [teamDraft, setTeamDraft] = useState(""),
     [teamError, setTeamError] = useState("");
@@ -63,7 +69,22 @@ export default function App() {
     setTeamError("");
     setSaved(null);
     setBusy(false);
+    setHelpOpen(false);
   };
+  const openHelp = () => {
+    close();
+    setConnecting(null);
+    setHelpOpen(true);
+  };
+  useEffect(() => {
+    const media = matchMedia("(min-width: 1100px)");
+    const update = () => setWideToolbar(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    if (modal || card !== null || edge !== null) setHelpOpen(false);
+  }, [modal, card, edge]);
   useEffect(() => {
     if (modal === "team") teamInput.current?.focus();
   }, [modal]);
@@ -84,6 +105,7 @@ export default function App() {
     [saved],
   );
   const accept = (next: Work) => {
+    setOrientation(false);
     dispatch({ type: "load", work: next });
     setConnecting(null);
     setFitTick((t) => t + 1);
@@ -286,6 +308,17 @@ export default function App() {
               <button className="primary" onClick={() => void save()}>
                 Sichern
               </button>
+              {wideToolbar && (
+                <button
+                  className="icon-button"
+                  aria-label="Hilfe"
+                  aria-expanded={helpOpen}
+                  title="Hilfe"
+                  onClick={openHelp}
+                >
+                  ?
+                </button>
+              )}
               <button
                 className="icon-button"
                 aria-label="Menü"
@@ -314,7 +347,16 @@ export default function App() {
             }}
             fitTick={fitTick}
             connecting={connecting}
+            orientation={orientation}
           />
+          {helpOpen && (
+            <LearningHelp
+              mystery={mystery}
+              active={orientation}
+              onToggle={() => setOrientation((v) => !v)}
+              onClose={() => setHelpOpen(false)}
+            />
+          )}
           {connecting !== null && (
             <div className="connection-prompt" role="status">
               Mit {cardNumber(mystery, connecting)} verbinden: Tippe eine zweite
@@ -366,7 +408,10 @@ export default function App() {
             <button
               className="primary"
               onClick={() => {
-                const initial = initialWork(mystery);
+                const initial = initialBoardWork(mystery, {
+                  width: window.innerWidth,
+                  height: Math.max(1, window.innerHeight - 74),
+                });
                 try {
                   const named = requireTeam(initial, startTeam);
                   accept(initial);
@@ -540,6 +585,7 @@ export default function App() {
             <p className="menu-team">Team: {teamName(work)}</p>
           )}
           <div className="menu-list">
+            <button onClick={openHelp}>Hilfe</button>
             <button
               onClick={() => {
                 setTeamDraft(teamName(work!));
@@ -573,6 +619,7 @@ export default function App() {
                   dispatch({ type: "load", work: null });
                   setStartTeam("");
                   setConnecting(null);
+                  setOrientation(false);
                   close();
                 }
               }}

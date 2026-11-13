@@ -2,15 +2,19 @@
 
 Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Ohne Backend, Benutzerkonten, externe Laufzeitressourcen oder automatische Browserspeicherung. React + TypeScript + Vite; eigene SVG-/Pointer-Steuerung, separater Canvas-Export.
 
+Auf `feat/mysteryboard-template-ordered-help` wird die universelle Vorlage weiterentwickelt: neue Inhalte erhalten standardmäßig eine numerische Startablage und eine freiwillige zweistufige Lernhilfe. Explizite Bestandslayouts bleiben erhalten. Die abgeschlossene Boden-Unterrichtsversion RC2 einschließlich HTML, SCORM und Release-Tag bleibt unverändert. [Schema](docs/FORMAT.md) und [Anleitung für neue Mysterys](docs/NEUES-MYSTERY.md) beschreiben die Inhaltsmetadaten.
+
 ## Direkt ausprobieren
 
+- `artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html`: neutraler Funktionsnachweis mit Z-/V-Präfixen, eigenem Denkimpuls und optionaler Nummernorientierung.
+- `artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html`, `…-18.html`, `…-60.html`: zusätzliche neutrale Mengenprüfungen mit allgemeiner methodischer Hilfe.
 - `artifacts/MysteryBoard-klein.html`: 12 Karten, 9 Verbindungen, 2 Testdiagramme.
 - `artifacts/MysteryBoard-umfangreich.html`: 60 Karten, 90 Verbindungen, 8 Testdiagramme.
 - `artifacts/MysteryBoard-Boden-Klasse11.html`: 18 geprüfte Karten, Inhaltsversion 2.0.0, zwölf Pflichtkarten und sechs Vertiefungen V13–V18.
 - `artifacts/MysteryBoard-Boden-Klasse11-RC2.html`: derselbe Boden-Build mit neutral durchmischter Startanordnung, eindeutig als RC2 bezeichnet.
 - `artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip`: unmittelbar importierbares SCORM-1.2-Paket für den itslearning-Praxistest; enthält die RC2-HTML byteidentisch. [Anleitung und Grenzen](docs/RC2-SCORM.md).
 
-Alle Varianten verwenden denselben Anwendungskern. [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md) beschreibt Inhaltsdatei und Build-Konfiguration. Eine Teambezeichnung oder Vornamen sind beim Beginn einer neuen Arbeit und vor jedem Schülerexport erforderlich. Eine neutrale Gruppenbezeichnung genügt; sie ist im Menü änderbar und Bestandteil der PNG-/QR-Sicherung. Teamlose Altsicherungen bleiben importierbar und bearbeitbar; vor einem neuen Export wird die Teamangabe nachgefragt. Im PNG steht der Titel links und die Teamangabe rechts oben.
+Alle neu gebauten Varianten verwenden denselben Anwendungskern. Die eingefrorenen Boden-Dateien enthalten weiterhin exakt den RC2-Kern. [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md) beschreibt Inhaltsdatei und Build-Konfiguration. Eine Teambezeichnung oder Vornamen sind beim Beginn einer neuen Arbeit und vor jedem Schülerexport erforderlich. Eine neutrale Gruppenbezeichnung genügt; sie ist im Menü änderbar und Bestandteil der PNG-/QR-Sicherung. Teamlose Altsicherungen bleiben importierbar und bearbeitbar; vor einem neuen Export wird die Teamangabe nachgefragt. Im PNG steht der Titel links und die Teamangabe rechts oben.
 
 Die HTML-Dateien enthalten Programm, Inhaltsdaten, Bilder, Styles und QR-Bibliotheken. Sie können von einem statischen Host ausgeliefert werden; die Anwendung benötigt danach keine Netzwerkverbindung. Lokales Öffnen hängt vom Browser bzw. der Geräteverwaltung ab. iPad-Dateivorschau ist kein vollständiger Webbrowser. Kamera benötigt einen sicheren Kontext und eine passende Einbettungsfreigabe.
 
@@ -34,6 +38,8 @@ npm run test:e2e
 
 Der Build erstellt alle Produktionsvarianten aus `mysteries.json` und prüft die harte Grenze **< 10.000.000 Bytes**. Er scheitert bei Überschreitung. Die zusätzliche Zielgröße liegt bei < 6 MB. `npm run build -- boden-klasse11` baut eine ausgewählte Variante. Der zusätzliche Prüfdatensatz `reuse-example` mit fünf Karten und Vertiefungen Z2/Z5 wird von `npm run test:e2e` mitgebaut; einzeln ist er über `npm run build:example` verfügbar.
 
+Die Boden-Variante ist auf diesem Branch als `previewOnly` konfiguriert: neue technische Vergleichsbuilds landen ausschließlich unter `artifacts/previews/`, niemals über den RC2-Dateien. Diese Vorschauen sind vom Git-Tracking ausgeschlossen und keine Unterrichtslieferung. `release:rc2` ist auf dem neuen Entwicklungsstand gesperrt. Für den neutralen Nachweis genügt `npm run build -- ordered-5`.
+
 ## Struktur
 
 | Pfad                        | Zweck                                                         |
@@ -56,13 +62,14 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 
 ## Grenzen und weitere Dokumente
 
+- [Aktueller Vorlagen-Prüfbericht: geordnete Startablage und zweistufige Hilfe](docs/TEMPLATE-ORDERED-HELP-ABNAHME.md)
 - [RC2-Abnahme: neutrale Anordnung und SCORM 1.2](docs/RC2-ABNAHME.md)
 - [RC2: fachliche Voraussetzungen und unveränderte Karten](docs/RC2-FACHPRUEFUNG.md)
 - [RC1-Release-Kandidat: Herkunft, Sicherung und damalige Prüfungen](docs/RELEASE-KANDIDAT.md)
 - [Manuellen HTTPS-/GitHub-Pages-Weg vorbereiten](docs/PAGES.md)
 - [Gezielte Work-Kompatibilitätsprüfung für WebKit](docs/WORK-KOMPATIBILITAET.md)
 - [Speicherformat und technische Grenzen](docs/FORMAT.md)
-- [Aktueller Prüfbericht: verbindliche Teamzuordnung und kompakte Kopfzeile](docs/UNI-01-02-ABNAHME.md)
+- [Frühere Prüfung: verbindliche Teamzuordnung und kompakte Kopfzeile](docs/UNI-01-02-ABNAHME.md)
 - [Vorheriger Prüfbericht: universelle Vorlage und Boden 2.0.0](docs/UNIVERSELLE-VORLAGE-ABNAHME.md)
 - [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md)
 - [Unterrichtserprobung Boden-Mystery](docs/UNTERRICHTSERPROBUNG.md)
@@ -72,4 +79,4 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 
-Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 erhält eine eigene Referenz. Die Druckentwicklung bleibt separat.
+Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 bleibt unter `unterricht-2026-11-13-rc2` eingefroren. Die Druckentwicklung bleibt separat.

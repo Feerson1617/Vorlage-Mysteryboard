@@ -2,11 +2,53 @@
 
 ## Inhaltsmetadaten
 
-Jedes Mystery ist eine eigene Inhaltsdatei mit `id`, `version`, `title`, `cards` und `initial`. `initial` legt Positionen, Farben, Verbindungen und die sechs Kategorien fest. Inhalte werden beim Build gebündelt und nicht aus einer Sicherung übernommen.
+Jedes Mystery ist eine eigene Inhaltsdatei mit `id`, `version`, `title` und `cards`. Für neue Inhalte ist `initial` optional; ohne Anfangspositionen verwendet die Vorlage die nummerisch geordnete Startablage. Ein vorhandenes `initial` legt weiterhin Positionen, Farben, Verbindungen und die sechs Kategorien fest. Inhalte werden beim Build gebündelt und nicht aus einer Sicherung übernommen.
 
 Optional definiert `cardGroups` benannte Gruppen als `{label, prefix}`; jede Karte verweist mit `group` ausdrücklich auf einen solchen Schlüssel. Beispiel: `cardGroups: {required: {label: "Pflicht", prefix: ""}, extension: {label: "Vertiefung", prefix: "V"}}`. Die sichtbare Kennung ist Präfix plus numerische Karten-ID. Es gibt keine Kartennummerngrenze für Vertiefungskarten. Ohne Gruppen bleibt die bisherige Nummerierung unverändert.
 
 Gruppenschlüssel sind 1–40 Zeichen lang, beginnen mit einem ASCII-Buchstaben und enthalten anschließend nur Buchstaben, Ziffern, `_` oder `-`; reservierte Prototypnamen sind ausgeschlossen. Gruppenlabels enthalten 1–80 Zeichen, Präfixe höchstens drei UTF-16-Codeeinheiten ohne Leerraum oder Steuerzeichen. Unbekannte Gruppen und kollidierende sichtbare Kennungen werden abgelehnt. Gruppenzuordnung, Titel, Texte und Bilder gehören zur Inhaltsversion; gespeichert werden weiterhin numerische IDs.
+
+## Startablage
+
+| Inhaltskonfiguration | Verhalten beim Beginn |
+| --- | --- |
+| Kein `initial`, kein `startLayout` | Neuer Standard: numerisch geordnete, neutrale Ablage |
+| Vorhandenes `initial`, kein `startLayout` | Bestandslayout vollständig beibehalten |
+| `startLayout: {"mode":"explicit"}` mit `initial` | Explizites Layout vollständig beibehalten |
+| `startLayout: {"mode":"ordered"}` | Ausdrücklich gewählte nummerische Ablage; eventuell vorhandene Anfangskoordinaten werden nur beim Beginn neu berechnet |
+| `startLayout: {"mode":"ordered","columns":6}` | Optional feste Spaltenzahl statt automatischer Wahl |
+
+`mode` ist `ordered` oder `explicit`. Nur `ordered` erlaubt `columns`, eine ganze Zahl von 1 bis 12. Zusätzliche Layoutfelder, unbekannte Modi oder `explicit` ohne Anfangspositionen werden abgewiesen. Wird `ordered` zusammen mit einem `initial` verwendet, muss dieses ohne Verbindungen, Kartenfarben und Kategorien sein; ein fachlich vorbelegter Start darf nicht versehentlich zur neutralen Ablage erklärt werden.
+
+Geordnet wird nach der numerischen Karten-ID, niemals nach Anzeigetext, Präfix oder einer Hilfekategorie. Ohne feste Spaltenzahl wählt die Anwendung beim Beginnen ein zum aktuellen Fensterformat und zur Kartenanzahl passendes Raster. Zeilenhöhen berücksichtigen die tatsächlich gemessenen Karten einschließlich Bilder; Abstände reservieren Platz für die größtmögliche begrenzte Nummernmarkierung und freie Verbindungen. Eine neue Sitzung in anderem Fensterformat kann daher eine andere Spaltenzahl haben. `Übersicht`, Fensterwechsel, Zoom, Undo/Redo und Import sortieren eine begonnene Arbeit **nicht** neu.
+
+Intern normalisiert der Inhaltsvalidator fehlende Anfangsdaten zu einem gültigen neutralen Zustandskern. Die tatsächliche Bildschirmablage entsteht durch `initialBoardWork()` mit gemessenen Kartenhöhen genau beim Beginnen. Der reine Modellhelfer `initialWork()` benötigt weiterhin weder Browser noch Canvas. Beim Import werden ausschließlich gespeicherte Kartenpositionen verwendet.
+
+## Zweistufige Hilfe
+
+Optionales, fachlich zu prüfendes Inhaltsfeld:
+
+```json
+"help": {
+  "method": "Welche Information könnte eure Beobachtung erklären? Begründet eure Vermutung.",
+  "categories": [
+    { "id": "conditions", "label": "Bedingungen", "color": "#2166ac", "cardIds": [1, 4] },
+    { "id": "processes", "label": "Vorgänge", "color": "#f5a623", "cardIds": [2] }
+  ]
+}
+```
+
+Die Zahlen sind lediglich ein Schema-Beispiel, kein fachlicher Lösungsvorschlag. `method` ist optional, 1–500 UTF-16-Codeeinheiten, nicht leer und ohne Steuer-/Formatzeichen. Ohne individuellen Text wird ein allgemeiner methodischer Denkimpuls verwendet. Ohne `categories` gibt es keine zweite Stufe und keine Zuordnung nach Nummernblöcken.
+
+`categories` enthält, wenn angegeben, 1–6 Objekte mit genau `id`, `label`, `color` und `cardIds`. Kategorie-IDs beginnen mit einem ASCII-Buchstaben, sind 1–40 Zeichen lang und enthalten danach nur ASCII-Buchstaben, Zahlen, `_` oder `-`. Reservierte Prototypnamen sind ausgeschlossen. Labels umfassen 1–60 UTF-16-Codeeinheiten, sind nicht leer und enthalten keine Steuer-/Formatzeichen. Farben sind genau sechsstellige sRGB-Hexwerte `#RRGGBB`, ohne Alpha, Farbnamen oder URLs. IDs, Labels und Farben müssen je Hilfekonfiguration eindeutig sein. `cardIds` ist eine nichtleere Liste existierender numerischer IDs; jede Karte darf höchstens einmal zugeordnet sein, auch innerhalb derselben Kategorie. Karten dürfen unmarkiert bleiben. Unbekannte Felder und widersprüchliche Zuordnungen werden beim Build zurückgewiesen.
+
+Die Anwendung färbt ausschließlich Nummernmarkierungen. Schwarz oder Weiß als Nummerntext wird aus der relativen sRGB-Helligkeit so gewählt, dass mindestens 4,5:1 Kontrast entsteht. Die Legende nennt Kategorie und konkrete Kartenkennungen als Text; am Kartenbedienelement steht die Kategorie als Screenreader-Beschreibung. Die Anzahl oder Rolle der Gruppen ist nicht im Anwendungskern festgelegt.
+
+Die Hilfe ist zunächst geschlossen und die Orientierung ausgeschaltet. Auf breiten Ansichten ab 1100 CSS-Pixeln gibt es einen zusätzlichen `?`-Button, sonst den Eintrag „Hilfe“ im bestehenden Menü. Das nicht modale Hilfefenster verdeckt höchstens einen Teil der Arbeitsfläche und sperrt die Werkzeugleiste nicht. Stufe 2 muss mit „Weitere Hilfe anzeigen“ ausdrücklich eingeschaltet werden; der dann fest erreichbare Button „Orientierung ausblenden“ führt zurück zum Denkimpuls. Schließen lässt eine bewusst eingeschaltete Nummernorientierung zunächst bestehen; erneutes Öffnen zeigt ihre Legende. Import und Neubeginn schalten sie aus. Escape schließt die Hilfe und gibt den Fokus an den Auslöser zurück.
+
+Hilfemetadaten gehören zur **Inhaltsversion**, nicht zu `Work`. Neue individuelle Hilfetexte, veränderte Kategorien, Zuordnungen, Bedeutungen oder Hilfefarben erfordern für zukünftige Mysterys eine neue Inhaltsversion: So verwenden Gruppen mit derselben Versionskennung dieselbe fachliche Unterstützung. Eine rein geometrische Änderung der Startablage kann bei unveränderten IDs und fachlichen Daten dieselbe Inhaltsversion behalten; sie wird als eigener Build/Quellstand identifiziert und verändert keine importierten Positionen. Die allgemeine methodische Standardhilfe ist eine Funktion des Anwendungskerns.
+
+Der flüchtige Hilfezustand hat keinen Eintrag in History, `dirty`, PNG oder QR. Export erhält unverändert nur den fachlichen Arbeitsstand. Native Druck-CSS blendet das Hilfefenster aus und setzt Nummernfarben neutral; die separate Druckentwicklung wurde nicht übernommen. Eine tatsächliche Safari-Druckabnahme wird damit nicht behauptet.
 
 ## Zustandsmodell
 

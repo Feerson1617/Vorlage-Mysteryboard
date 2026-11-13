@@ -4,4 +4,5 @@ test-results/
 playwright-report/
 playwright-report-rc2/
 test-results-rc2/
+artifacts/previews/
 *.log

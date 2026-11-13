@@ -9,6 +9,7 @@ export type BuildTarget = {
   content: string;
   output: string;
   testOnly: boolean;
+  previewOnly?: boolean;
 };
 export function loadBuildTargets(
   path = resolve(projectRoot, "mysteries.json"),
@@ -31,7 +32,7 @@ export function loadBuildTargets(
     const value = raw as Record<string, unknown>;
     if (
       Object.keys(value).some(
-        (k) => !["content", "output", "testOnly"].includes(k),
+        (k) => !["content", "output", "testOnly", "previewOnly"].includes(k),
       ) ||
       typeof value.content !== "string" ||
       !value.content.endsWith(".json") ||
@@ -41,10 +42,13 @@ export function loadBuildTargets(
       ) ||
       typeof value.output !== "string" ||
       !/^[A-Za-z0-9][A-Za-z0-9_-]*\.html$/.test(value.output) ||
-      (value.testOnly !== undefined && typeof value.testOnly !== "boolean")
+      (value.testOnly !== undefined && typeof value.testOnly !== "boolean") ||
+      (value.previewOnly !== undefined &&
+        typeof value.previewOnly !== "boolean") ||
+      (value.previewOnly === true && value.testOnly === true)
     )
       throw new Error(`Ungültige Inhaltsdatei oder HTML-Ausgabe: ${key}.`);
-    const output = `${value.testOnly ? "tests/" : ""}${value.output}`;
+    const output = `${value.testOnly ? "tests/" : value.previewOnly ? "previews/" : ""}${value.output}`;
     if (outputs.has(output))
       throw new Error(`Doppelte HTML-Ausgabe: ${output}.`);
     outputs.add(output);
@@ -53,6 +57,7 @@ export function loadBuildTargets(
       content: value.content,
       output: value.output,
       testOnly: value.testOnly === true,
+      ...(value.previewOnly === true ? { previewOnly: true } : {}),
     };
   });
 }

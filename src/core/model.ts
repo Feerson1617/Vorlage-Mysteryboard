@@ -23,12 +23,23 @@ export type Work = {
   categories: string[];
   team?: string;
 };
+export type HelpCategory = {
+  id: string;
+  label: string;
+  color: string;
+  cardIds: number[];
+};
+export type HelpConfig = { method?: string; categories?: HelpCategory[] };
+export type StartLayout =
+  { mode: "ordered"; columns?: number } | { mode: "explicit" };
 export type Mystery = {
   id: string;
   version: string;
   title: string;
   cards: CardContent[];
   cardGroups?: Record<string, { label: string; prefix: string }>;
+  startLayout?: StartLayout;
+  help?: HelpConfig;
   initial: { cards: CardState[]; edges: Edge[]; categories: string[] };
 };
 export const COLORS = [
@@ -196,7 +207,7 @@ export function validateMystery(value: unknown): Mystery {
     !Array.isArray(value.cards) ||
     value.cards.length < 1 ||
     value.cards.length > 100 ||
-    !object(value.initial)
+    (value.initial !== undefined && !object(value.initial))
   )
     throw new Error("Ungültige Mystery-Inhalte.");
   const groups = value.cardGroups;
@@ -248,10 +259,106 @@ export function validateMystery(value: unknown): Mystery {
       throw new Error("Die Kartenkennzeichnungen sind nicht eindeutig.");
     displays.add(display);
   }
-  const m = value as unknown as Mystery;
+  const layout = value.startLayout;
+  if (
+    layout !== undefined &&
+    (!object(layout) ||
+      !["ordered", "explicit"].includes(String(layout.mode)) ||
+      Object.keys(layout).some((k) => !["mode", "columns"].includes(k)) ||
+      (layout.columns !== undefined &&
+        (layout.mode !== "ordered" || !integer(layout.columns, 1, 12))))
+  )
+    throw new Error("Ungültige Startablage.");
+  if (
+    object(layout) &&
+    layout.mode === "explicit" &&
+    value.initial === undefined
+  )
+    throw new Error("Eine explizite Startablage benötigt Anfangspositionen.");
+  const help = value.help;
+  const shortText = (v: unknown, max: number) =>
+    string(v, max) && v.trim().length > 0 && !/[\p{Cc}\p{Cf}]/u.test(v);
+  if (help !== undefined) {
+    if (
+      !object(help) ||
+      Object.keys(help).some((k) => !["method", "categories"].includes(k)) ||
+      (help.method !== undefined && !shortText(help.method, 500))
+    )
+      throw new Error("Ungültiger methodischer Hilfetext.");
+    if (help.categories !== undefined) {
+      if (
+        !Array.isArray(help.categories) ||
+        help.categories.length < 1 ||
+        help.categories.length > 6
+      )
+        throw new Error("Die Orientierungshilfe benötigt 1–6 Hilfekategorien.");
+      const categoryIds = new Set<string>(),
+        labels = new Set<string>(),
+        colors = new Set<string>(),
+        assigned = new Set<number>();
+      for (const category of help.categories) {
+        if (
+          !object(category) ||
+          Object.keys(category).some(
+            (k) => !["id", "label", "color", "cardIds"].includes(k),
+          ) ||
+          typeof category.id !== "string" ||
+          !/^[A-Za-z][A-Za-z0-9_-]{0,39}$/.test(category.id) ||
+          ["constructor", "prototype", "__proto__"].includes(category.id) ||
+          categoryIds.has(category.id) ||
+          !shortText(category.label, 60) ||
+          labels.has(category.label as string) ||
+          typeof category.color !== "string" ||
+          !/^#[0-9a-fA-F]{6}$/.test(category.color) ||
+          colors.has(category.color.toLowerCase()) ||
+          !Array.isArray(category.cardIds) ||
+          category.cardIds.length < 1 ||
+          category.cardIds.length > value.cards.length
+        )
+          throw new Error("Ungültige oder doppelte Hilfekategorie.");
+        categoryIds.add(category.id);
+        labels.add(category.label as string);
+        colors.add(category.color.toLowerCase());
+        for (const id of category.cardIds) {
+          if (typeof id !== "number" || !ids.has(id) || assigned.has(id))
+            throw new Error(
+              "Die Orientierungshilfe enthält unbekannte oder mehrfach zugeordnete Karten.",
+            );
+          assigned.add(id);
+        }
+      }
+    }
+  }
+  // Normalize new contents without initial positions to a neutral, valid Work
+  // seed. The UI lays it out once, using actual measured heights and viewport.
+  // Existing contents without new metadata remain explicitly positioned.
+  const m = {
+    ...value,
+    ...(value.initial === undefined
+      ? {
+          startLayout: layout ?? { mode: "ordered" },
+          initial: {
+            cards: [...ids]
+              .sort((a, b) => a - b)
+              .map((id, i) => ({ id, x: i * 480, y: 0, color: 0 })),
+            edges: [],
+            categories: Array(COLORS.length).fill(""),
+          },
+        }
+      : {}),
+  } as unknown as Mystery;
   validateWork(
     { schema: 1, mystery: m.id, version: m.version, ...m.initial },
     m,
   );
+  if (
+    m.startLayout?.mode === "ordered" &&
+    (m.initial.edges.length ||
+      m.initial.cards.some((c) => c.color !== 0) ||
+      m.initial.categories.some(Boolean))
+  )
+    throw new Error(
+      "Die nummerische Startablage muss ohne Pfeile, Farben und Kategorien beginnen.",
+    );
   return m;
 }

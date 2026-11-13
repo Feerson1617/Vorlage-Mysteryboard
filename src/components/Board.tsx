@@ -8,6 +8,7 @@ import {
 import type { Mystery, Work } from "../core/model";
 import { COLORS, cardNumber } from "../core/model";
 import { CardImage } from "./CardImage";
+import { helpForCard, numberTextColor } from "../core/help";
 import {
   overview,
   numberBadge,
@@ -36,6 +37,7 @@ export function Board({
   onEdge,
   fitTick,
   connecting,
+  orientation = false,
 }: {
   work: Work;
   mystery: Mystery;
@@ -44,6 +46,7 @@ export function Board({
   onEdge: (id: number) => void;
   fitTick: number;
   connecting: number | null;
+  orientation?: boolean;
 }) {
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
@@ -457,6 +460,7 @@ export function Board({
           const card = content.get(c.id)!,
             l = layouts.get(c.id)!,
             badge = numberBadge(view.z, l.numberLabel);
+          const hint = helpForCard(mystery, c.id, orientation);
           return (
             <g
               key={c.id}
@@ -469,6 +473,9 @@ export function Board({
               role="button"
               tabIndex={0}
               aria-label={`Karte ${l.numberLabel} öffnen`}
+              aria-description={
+                hint ? `Orientierung: ${hint.label}` : undefined
+              }
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
@@ -517,7 +524,7 @@ export function Board({
               >
                 <circle
                   r={badge.radius}
-                  fill="#334f40"
+                  fill={hint?.color ?? "#334f40"}
                   stroke="#f7f8f7"
                   strokeWidth="2"
                 />
@@ -526,7 +533,7 @@ export function Board({
                   dominantBaseline="central"
                   fontSize={badge.fontSize}
                   fontWeight="bold"
-                  fill="white"
+                  fill={hint ? numberTextColor(hint.color) : "white"}
                 >
                   {l.numberLabel}
                 </text>
