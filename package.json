@@ -10,7 +10,9 @@
     "test:e2e": "node scripts/build.mjs --tests && playwright test",
     "check": "npm test && npm run build && npm run test:e2e",
     "build:review": "node scripts/build.mjs review",
-    "build:example": "node scripts/build.mjs reuse-example"
+    "build:example": "node scripts/build.mjs reuse-example",
+    "release:rc2": "npm run build && node scripts/prepare-rc2.mjs && python scripts/validate-scorm.py artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+    "test:rc2": "playwright test --config playwright.rc2.config.ts"
   },
   "dependencies": {
     "@noble/hashes": "2.4.0",

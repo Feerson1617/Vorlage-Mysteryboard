@@ -1,0 +1,37 @@
+{
+  "manifestIdentifier": "MysteryBoard-Boden-Klasse11-2026-11-13-RC2",
+  "scormVersion": "1.2",
+  "html": {
+    "file": "MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  "zip": {
+    "file": "MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+    "bytes": 158755,
+    "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0"
+  },
+  "applicationByteIdentical": true,
+  "entries": [
+    {
+      "file": "imsmanifest.xml",
+      "bytes": 852,
+      "sha256": "a02797a9696a79bd97b5c9c76bf5d08f785f5055a1fdd63b6b9a31ecb447386c"
+    },
+    {
+      "file": "launch.html",
+      "bytes": 633,
+      "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+    },
+    {
+      "file": "session.js",
+      "bytes": 1190,
+      "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+    },
+    {
+      "file": "app.html",
+      "bytes": 459542,
+      "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+    }
+  ]
+}

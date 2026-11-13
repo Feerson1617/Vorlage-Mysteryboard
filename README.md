@@ -7,6 +7,8 @@ Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Oh
 - `artifacts/MysteryBoard-klein.html`: 12 Karten, 9 Verbindungen, 2 Testdiagramme.
 - `artifacts/MysteryBoard-umfangreich.html`: 60 Karten, 90 Verbindungen, 8 Testdiagramme.
 - `artifacts/MysteryBoard-Boden-Klasse11.html`: 18 geprüfte Karten, Inhaltsversion 2.0.0, zwölf Pflichtkarten und sechs Vertiefungen V13–V18.
+- `artifacts/MysteryBoard-Boden-Klasse11-RC2.html`: derselbe Boden-Build mit neutral durchmischter Startanordnung, eindeutig als RC2 bezeichnet.
+- `artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip`: unmittelbar importierbares SCORM-1.2-Paket für den itslearning-Praxistest; enthält die RC2-HTML byteidentisch. [Anleitung und Grenzen](docs/RC2-SCORM.md).
 
 Alle Varianten verwenden denselben Anwendungskern. [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md) beschreibt Inhaltsdatei und Build-Konfiguration. Eine Teambezeichnung oder Vornamen sind beim Beginn einer neuen Arbeit und vor jedem Schülerexport erforderlich. Eine neutrale Gruppenbezeichnung genügt; sie ist im Menü änderbar und Bestandteil der PNG-/QR-Sicherung. Teamlose Altsicherungen bleiben importierbar und bearbeitbar; vor einem neuen Export wird die Teamangabe nachgefragt. Im PNG steht der Titel links und die Teamangabe rechts oben.
 
@@ -54,7 +56,9 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 
 ## Grenzen und weitere Dokumente
 
-- [Release-Kandidat: Herkunft, Sicherung und aktuelle Prüfungen](docs/RELEASE-KANDIDAT.md)
+- [RC2-Abnahme: neutrale Anordnung und SCORM 1.2](docs/RC2-ABNAHME.md)
+- [RC2: fachliche Voraussetzungen und unveränderte Karten](docs/RC2-FACHPRUEFUNG.md)
+- [RC1-Release-Kandidat: Herkunft, Sicherung und damalige Prüfungen](docs/RELEASE-KANDIDAT.md)
 - [Manuellen HTTPS-/GitHub-Pages-Weg vorbereiten](docs/PAGES.md)
 - [Gezielte Work-Kompatibilitätsprüfung für WebKit](docs/WORK-KOMPATIBILITAET.md)
 - [Speicherformat und technische Grenzen](docs/FORMAT.md)
@@ -68,4 +72,4 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 
-Dies ist ein technischer Prototyp. Eine reale Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Es gibt keine SCORM-Implementierung; ein späterer Adapter kann validierte `Work`-Daten übernehmen, ohne Inhaltsdaten oder Board-Steuerung zu verändern.
+Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 erhält eine eigene Referenz. Die Druckentwicklung bleibt separat.

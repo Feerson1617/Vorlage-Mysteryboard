@@ -1,0 +1,23 @@
+{
+  "status": "reviewed",
+  "views": [
+    "direct 1024x768",
+    "direct 768x1024",
+    "SCORM 1024x768",
+    "SCORM 768x1024"
+  ],
+  "observations": [
+    "18 cards mixed without overlaps",
+    "2 V-cards per row, 1 per column; no separate start marker",
+    "numbers approximately 16 CSS px; all visible",
+    "all toolbar controls >=48x48 CSS px; no horizontal clipping",
+    "thumbnail texts small, especially portrait; use reader",
+    "mandatory card 8 and V13 reviewed in reader; complete text and visible controls"
+  ],
+  "notPerformed": [
+    "physical iPad",
+    "itslearning deployment",
+    "Safari",
+    "Canva publication"
+  ]
+}

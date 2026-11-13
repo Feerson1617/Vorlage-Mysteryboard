@@ -13,17 +13,31 @@ import { cardNumber, validateMystery } from "../src/core/model";
 import soilData from "../src/content/boden-klasse11.json";
 import reuseData from "./fixtures/reusable-five.json";
 import source from "./fixtures/boden-source-fingerprint.json";
+import rc1Initial from "./fixtures/release/rc1-initial.json";
 const digest = (value: unknown) =>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
 
 describe("Inhalte und wiederverwendbarer Build", () => {
-  it("übernimmt alle 18 geprüften Boden-Karten sowie die Startanordnung unverändert", () => {
+  it("erhält alle 18 geprüften Boden-Karten und die explizit versionierten Startanordnungen", () => {
     const mystery = validateMystery(soilData);
     const cardsWithoutNewMetadata = mystery.cards.map(
       ({ group: _group, ...card }) => card,
     );
     expect(digest(cardsWithoutNewMetadata)).toBe(source.canonicalCardsSha256);
-    expect(digest(mystery.initial)).toBe(source.canonicalInitialSha256);
+    // Preserve the original guarantee for the frozen RC1 fixture. RC2 changes
+    // only the explicitly authorized initial positions and drawing order.
+    expect(digest(rc1Initial)).toBe(source.canonicalInitialSha256);
+    expect(mystery.initial.cards.map((c) => c.id)).toEqual([
+      4, 16, 9, 2, 14, 5, 13, 7, 11, 18, 3, 10, 8, 1, 15, 6, 12, 17,
+    ]);
+    mystery.initial.cards.forEach((c, i) => {
+      expect(c).toEqual({
+        id: c.id,
+        x: (i % 6) * 480,
+        y: Math.floor(i / 6) * 500,
+        color: 0,
+      });
+    });
     expect({
       id: mystery.id,
       version: mystery.version,

@@ -1,0 +1,10 @@
+FAIL: browserType.launch: Executable doesn't exist at /home/agent/.cache/ms-playwright/webkit-2388/pw_run.sh
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     npx playwright install                                 ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+Report: /workspace/mysteryboard-rc2-2026-11-13/evidence/webkit-27.2/result.json
