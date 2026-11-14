@@ -10,7 +10,8 @@ import zipfile
 from pathlib import PurePosixPath, Path
 from lxml import etree
 
-archive, html = map(Path, sys.argv[1:])
+archive, html = map(Path, sys.argv[1:3])
+expected_identifier = sys.argv[3] if len(sys.argv) > 3 else "MysteryBoard-Boden-Klasse11-2026-11-13-RC2"
 ns = {"cp": "http://www.imsproject.org/xsd/imscp_rootv1p1p2",
       "adlcp": "http://www.adlnet.org/xsd/adlcp_rootv1p2"}
 with zipfile.ZipFile(archive) as z:
@@ -25,7 +26,7 @@ with zipfile.ZipFile(archive) as z:
     tree = etree.fromstring(z.read("imsmanifest.xml"), parser)
     assert tree.getroottree().docinfo.doctype == "", "Unexpected DTD"
     assert tree.tag == "{" + ns["cp"] + "}manifest"
-    assert tree.get("identifier") == "MysteryBoard-Boden-Klasse11-2026-11-13-RC2"
+    assert tree.get("identifier") == expected_identifier
     assert tree.findtext("cp:metadata/cp:schema", namespaces=ns) == "ADL SCORM"
     assert tree.findtext("cp:metadata/cp:schemaversion", namespaces=ns) == "1.2"
     identifiers = tree.xpath("//@identifier")

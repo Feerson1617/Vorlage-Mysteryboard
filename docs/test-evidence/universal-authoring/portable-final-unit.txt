@@ -1,0 +1,14 @@
+
+ RUN  v5.1.0 /workspace/Mysteryboard-authoring
+
+
+ Test Files  3 passed (3)
+      Tests  20 passed (20)
+   Start at  13:22:49
+   Duration  3.51s (tests 79%, import 14%, transform 7%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

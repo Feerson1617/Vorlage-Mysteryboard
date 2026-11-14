@@ -451,6 +451,13 @@ test("Allgemeiner Impuls ohne Hilfemetadaten, Tastatur und breite Werkzeugleiste
   await expect(page.getByRole("dialog")).toHaveCount(0);
   await expect(btn(page, "Hilfe")).toBeFocused();
   await page.setViewportSize({ width: 320, height: 700 });
+  // Wait for the responsive toolbar to settle before choosing its new entry.
+  // Otherwise the helper can select the old button just as React removes it.
+  await expect(
+    page
+      .locator(".toolbar")
+      .getByRole("button", { name: "Hilfe", exact: true }),
+  ).toHaveCount(0);
   await help(page, true);
   await page.keyboard.press("Escape");
   await expect(page.getByRole("dialog")).toHaveCount(0);

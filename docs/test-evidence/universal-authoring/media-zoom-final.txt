@@ -1,0 +1,35 @@
+[WebServer] (node:43859) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:43872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:32] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:43899) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:34] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:34] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:34] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:34] code 404, message File not found
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:34] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:35] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:36] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:36] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:40] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:40] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:40] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:45] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:45] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:33:45] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/app.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/authoring-classroom.spec.ts:429:1 › Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version exportieren und alte Schülerarbeit unvermischt öffnen (13.1s)
+
+  1 passed (17.4s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

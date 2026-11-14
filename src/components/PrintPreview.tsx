@@ -83,6 +83,17 @@ export function PrintPreview({
             ? "Die Druckseiten werden vorbereitet …"
             : `${pages} Seiten vorbereitet.`)}
       </p>
+      {pages !== null && pages >= 30 && (
+        <aside
+          className="print-warning"
+          role="note"
+          aria-label="Umfangreicher Druckauftrag"
+        >
+          <strong>Achtung: {pages} Druckseiten.</strong> Prüft den Umfang und
+          wählt im Druckdialog bei Bedarf einzelne Seiten oder speichert
+          zunächst eine PDF.
+        </aside>
+      )}
       <iframe key={paper} ref={frame} title="Druckvorschau" />
     </section>
   );

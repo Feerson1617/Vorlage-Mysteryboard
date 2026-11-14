@@ -52,7 +52,13 @@ export function layoutCard(
   numberLabel = String(card.id),
 ): Layout {
   const title = wrap(card.title, 264, "bold 18px Arial"),
-    text = wrap(card.text, 264);
+    text = wrap(
+      card.text +
+        (card.table
+          ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
+          : ""),
+      264,
+    );
   const imageY = 24 + title.length * 24 + 12 + text.length * 22 + 12;
   return {
     title,

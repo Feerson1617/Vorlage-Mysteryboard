@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef, useState } from "react";
-import dataset from "@mystery";
 import {
   COLOR_NAMES,
   COLORS,
@@ -8,11 +7,11 @@ import {
   MAX_TEAM_NAME,
   cardNumber,
   nextEdgeId,
-  validateMystery,
   teamName,
   withTeam,
   type Edge,
   type Work,
+  type Mystery,
 } from "./core/model";
 import { fromQr } from "./core/codec";
 import { MAX_PNG_BYTES, restorePng } from "./core/png";
@@ -24,7 +23,8 @@ import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 import { initialBoardWork } from "./core/layout";
 import { LearningHelp } from "./components/LearningHelp";
 import { PrintPreview } from "./components/PrintPreview";
-const mystery = validateMystery(dataset);
+import { MediaView } from "./components/MediaView";
+import { TableView } from "./components/TableView";
 type Modal =
   "resume" | "camera" | "save" | "help" | "menu" | "team" | "print" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
@@ -34,8 +34,29 @@ const requireTeam = (work: Work, name: string): Work => {
     throw new Error("Bitte gebt eine Teambezeichnung oder Vornamen ein.");
   return named;
 };
-export default function App() {
-  const [history, dispatch] = useReducer(historyReducer, emptyHistory);
+export default function App({
+  mystery,
+  loadedWork,
+  backupPayload,
+  onImport,
+  onHome,
+  onProjectSave,
+  onAuthor,
+}: {
+  mystery: Mystery & { subtitle?: string };
+  loadedWork?: Work;
+  backupPayload?: (work: Work) => Uint8Array;
+  onImport?: () => void;
+  onHome?: () => void;
+  onProjectSave?: (work: Work) => void;
+  onAuthor?: () => void;
+}) {
+  const [history, dispatch] = useReducer(
+    historyReducer,
+    loadedWork
+      ? historyReducer(emptyHistory, { type: "load", work: loadedWork })
+      : emptyHistory,
+  );
   const work = history.present,
     dirty = hasChanges(history);
   const [modal, setModal] = useState<Modal>(null);
@@ -57,7 +78,7 @@ export default function App() {
   const input = useRef<HTMLInputElement>(null),
     startTeamInput = useRef<HTMLInputElement>(null),
     teamInput = useRef<HTMLInputElement>(null),
-    pendingExport = useRef<ExportMode | "print" | null>(null),
+    pendingExport = useRef<ExportMode | "print" | "project" | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
@@ -197,11 +218,21 @@ export default function App() {
       if (id !== operation.current) return;
       let result;
       try {
-        result = await exportBoard(snapshot, mystery, mode);
+        result = await exportBoard(
+          snapshot,
+          mystery,
+          mode,
+          backupPayload?.(snapshot),
+        );
       } catch (e) {
         if (id !== operation.current) return;
         if (mode === "compact") throw e;
-        result = await exportBoard(snapshot, mystery, "compact");
+        result = await exportBoard(
+          snapshot,
+          mystery,
+          "compact",
+          backupPayload?.(snapshot),
+        );
       }
       if (id !== operation.current) return;
       const file = new File(
@@ -408,6 +439,7 @@ export default function App() {
             <span aria-hidden="true">▦</span> MysteryBoard
           </div>
           <h1>{mystery.title}</h1>
+          {mystery.subtitle && <p>{mystery.subtitle}</p>}
           <p>
             Verschiebt die Karten, verbindet eure Gedanken
             <br className="wide-only" /> und haltet euren gemeinsamen Stand
@@ -460,7 +492,19 @@ export default function App() {
             >
               Beginnen
             </button>
-            <button onClick={() => setModal("resume")}>Fortsetzen</button>
+            <button
+              onClick={() => (onImport ? onImport() : setModal("resume"))}
+            >
+              Fortsetzen
+            </button>
+            {onHome && (
+              <button onClick={onHome}>Zur universellen Startseite</button>
+            )}
+            {onAuthor && (
+              <button onClick={onAuthor}>
+                Lehrkräftemodus – Mystery bearbeiten
+              </button>
+            )}
           </div>
           {message && (
             <p className="status" role="alert">
@@ -484,8 +528,12 @@ export default function App() {
           <article className="reading">
             <h3>{cardContent.title}</h3>
             <p>{cardContent.text}</p>
+            {cardContent.table && <TableView table={cardContent.table} />}
             {cardContent.image && (
-              <img src={cardContent.image} alt={cardContent.imageAlt} />
+              <MediaView src={cardContent.image} alt={cardContent.imageAlt} />
+            )}
+            {cardContent.source && (
+              <p className="small">Quelle: {cardContent.source}</p>
             )}
           </article>
           <fieldset>
@@ -646,6 +694,11 @@ export default function App() {
             </button>
             <button
               onClick={() => {
+                if (onImport) {
+                  close();
+                  onImport();
+                  return;
+                }
                 setMessage("");
                 setModal("resume");
               }}
@@ -656,6 +709,42 @@ export default function App() {
               Kleineres Sicherungsbild
             </button>
             <button onClick={openPrint}>Druckfassung / PDF</button>
+            {onAuthor && (
+              <button
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Zum Lehrkräftemodus wechseln? Sichert zuerst eure Schülerarbeit. Es werden nur die Karteninhalte übernommen.",
+                    )
+                  ) {
+                    close();
+                    onAuthor();
+                  }
+                }}
+              >
+                Lehrkräftemodus – Mystery bearbeiten
+              </button>
+            )}
+            {onProjectSave && work && (
+              <button
+                onClick={() => {
+                  if (!teamName(work)) {
+                    pendingExport.current = "project";
+                    setTeamDraft("");
+                    setTeamError("");
+                    setMessage(
+                      "Ergänzt vor dem Sichern eure Teambezeichnung oder Vornamen.",
+                    );
+                    setModal("team");
+                    return;
+                  }
+                  close();
+                  onProjectSave(work);
+                }}
+              >
+                Projektdatei sichern
+              </button>
+            )}
             <button onClick={() => setModal("help")}>Hinweise</button>
             <button
               onClick={() => {
@@ -664,6 +753,10 @@ export default function App() {
                     "Zur Startansicht gehen? Nicht gesicherte Änderungen gehen verloren.",
                   )
                 ) {
+                  if (onHome) {
+                    onHome();
+                    return;
+                  }
                   dispatch({ type: "load", work: null });
                   setStartTeam("");
                   setConnecting(null);
@@ -690,6 +783,7 @@ export default function App() {
                 close();
                 // Use the newly named snapshot, not the preceding render's work.
                 if (mode === "print") setModal("print");
+                else if (mode === "project") onProjectSave?.(named);
                 else if (mode) void save(mode, named);
               } catch (error) {
                 setTeamError((error as Error).message);

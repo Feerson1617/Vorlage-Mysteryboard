@@ -16,6 +16,10 @@ export default defineConfig(({ mode }) => {
   // Apply the same validator in development, direct Vite builds and scripted builds.
   validateMystery(JSON.parse(readFileSync(content, "utf8")));
   return {
+    define: {
+      __UNIVERSAL__: JSON.stringify(target.key === "universal"),
+      __INITIAL_DOCUMENT__: "null",
+    },
     plugins: [react(), viteSingleFile()],
     resolve: { alias: { "@mystery": content } },
     build: { target: "es2022", assetsInlineLimit: 10000000, sourcemap: false },

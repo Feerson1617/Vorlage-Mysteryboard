@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+import { existsSync } from "node:fs";
 export default defineConfig({
   testDir: "tests/browser",
   fullyParallel: false,
@@ -11,7 +12,9 @@ export default defineConfig({
     headless: true,
     viewport: { width: 1180, height: 820 },
     launchOptions: {
-      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      executablePath:
+        process.env.CHROMIUM_PATH ||
+        (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined),
       args: ["--no-sandbox"],
     },
     screenshot: "only-on-failure",

@@ -1,3 +1,8 @@
+export type CardTable = {
+  caption?: string;
+  headers: string[];
+  rows: string[][];
+};
 export type CardContent = {
   id: number;
   title: string;
@@ -5,6 +10,8 @@ export type CardContent = {
   image?: string;
   imageAlt?: string;
   group?: string;
+  source?: string;
+  table?: CardTable;
 };
 export type CardState = { id: number; x: number; y: number; color: number };
 export type Edge = {
@@ -242,12 +249,39 @@ export function validateMystery(value: unknown): Mystery {
             c.image,
           ))) ||
       (c.imageAlt !== undefined && !string(c.imageAlt, 300)) ||
+      (c.source !== undefined && !string(c.source, 1000)) ||
       (c.group !== undefined &&
         (!string(c.group, 40) ||
           !object(groups) ||
           !Object.hasOwn(groups, c.group)))
     )
       throw new Error("Ungültige Karte oder nicht eingebettetes Bild.");
+    if (c.table !== undefined) {
+      const t = c.table;
+      if (
+        !object(t) ||
+        Object.keys(t).some(
+          (k) => !["caption", "headers", "rows"].includes(k),
+        ) ||
+        (t.caption !== undefined && !string(t.caption, 200)) ||
+        !Array.isArray(t.headers) ||
+        t.headers.length < 1 ||
+        t.headers.length > 6 ||
+        !t.headers.every((h) => string(h, 80) && h.trim()) ||
+        !Array.isArray(t.rows) ||
+        t.rows.length < 1 ||
+        t.rows.length > 20 ||
+        !t.rows.every(
+          (row) =>
+            Array.isArray(row) &&
+            row.length === (t.headers as unknown[]).length &&
+            row.every((cell) => string(cell, 120)),
+        )
+      )
+        throw new Error(
+          "Ungültige Tabelle: 1–6 beschriftete Spalten, 1–20 gleich breite Zeilen und Textwerte erforderlich.",
+        );
+    }
     ids.add(c.id);
     const prefix =
       c.group === undefined

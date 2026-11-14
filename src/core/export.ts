@@ -17,7 +17,8 @@ import {
   wrap,
 } from "./layout";
 import { packWork, toQr } from "./codec";
-import { embedWork } from "./png";
+import { embedWork, embedPayload } from "./png";
+import { documentQr } from "./document-qr";
 export const EXPORT_MODES = {
   a3: { width: 4961, height: 3508 },
   compact: { width: 2480, height: 1754 },
@@ -108,6 +109,7 @@ export async function exportBoard(
   work: Work,
   m: Mystery,
   mode: ExportMode = "a3",
+  backupPayload?: Uint8Array,
 ) {
   // Never offer a backup that fails our own state validator.
   work = validateWork(work, m);
@@ -120,7 +122,7 @@ export async function exportBoard(
     if (!ctx) throw new Error("Zu wenig Platz zum Erzeugen des Bildes.");
     const layouts = makeLayouts(m),
       bounds = boardBounds(work, layouts);
-    const qr = toQr(packWork(work));
+    const qr = backupPayload ? documentQr(backupPayload) : toQr(packWork(work));
     const margin = width * 0.024,
       footer = height * 0.26,
       headerBounds = layoutExportHeader(m.title, teamName(work), width),
@@ -312,7 +314,9 @@ export async function exportBoard(
       ctx.drawImage(qi, qrBounds.x, qrBounds.y);
     }
     const raw = new Uint8Array(await (await blob(canvas)).arrayBuffer());
-    const bytes = embedWork(raw, work);
+    const bytes = backupPayload
+      ? embedPayload(raw, backupPayload)
+      : embedWork(raw, work);
     return {
       blob: new Blob([bytes as BlobPart], { type: "image/png" }),
       qr,

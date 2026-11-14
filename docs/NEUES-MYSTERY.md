@@ -1,129 +1,49 @@
 # Neues Mystery mit der Vorlage erstellen
 
-Die Vorlage verwendet einen gemeinsamen Anwendungskern. Jede Schüler-HTML enthält genau die beim Build ausgewählte Inhaltsdatei. Für ein weiteres Mystery sind eine JSON-Datei und ein Eintrag in `mysteries.json` nötig; Änderungen an Oberfläche oder Anwendungskern sind nicht erforderlich.
+Neue Aufgaben benötigen keine erneute Programmierung. Der bevorzugte Weg ist eine portable Inhaltsdatei für die universelle HTML bzw. das einmal installierte universelle SCORM-Paket.
 
-## 1. Eine Inhaltsdatei anlegen
+## Ohne Programmierung
 
-Lege UTF-8-JSON unter `src/content/` ab, beispielsweise `src/content/wald-klasse8.json`. Verwende eine eigene, dauerhaft eindeutige `id` und eine explizite Inhaltsversion. Verschiedene Mysterys dürfen nicht dieselbe ID übernehmen. Bei inhaltlich inkompatiblen Änderungen, insbesondere neuen/umgeordneten Karten-IDs, erhöhe `version`; alte Sicherungen werden dann ausdrücklich abgewiesen. Das Speicherformat der Anwendung wird unabhängig von dieser Inhaltsversion verwaltet.
+**Eigenes Mystery erstellen** öffnen, Lehrkraftkürzel eingeben, Titel und Karten bearbeiten. Karten wählen ihre Pflicht-/Vertiefungsgruppe ausdrücklich; Nummern werden automatisch vergeben. Bilder, Quellen, Alternativtexte und strukturierte Tabellen bleiben bearbeitbar. **Entwurf sichern** für die eigene Weiterarbeit, **Mystery für Schülerinnen und Schüler bereitstellen → Neue Schülerversion exportieren** für den Kurs. Vollständige Anleitung: [LEHRKRAEFTE-ANLEITUNG](../LEHRKRAEFTE-ANLEITUNG.md).
 
-Eine kleine vollständige Vorlage:
+Eine bereits veröffentlichte Datei erneut öffnen und **Lehrkräftemodus – Mystery bearbeiten** wählen. Änderungen erhalten eine neue Inhaltsrevision; ältere Schüler-PNGs behalten ihren eigenen Inhalt. Das installierte SCORM wird nicht automatisch geändert.
 
-```json
-{
-  "id": "bio8-wald-beispiel",
-  "version": "1.0.0",
-  "title": "Ein eigenes Mystery",
-  "cardGroups": {
-    "required": { "label": "Pflicht", "prefix": "" },
-    "extension": { "label": "Vertiefung", "prefix": "V" }
-  },
-  "cards": [
-    {
-      "id": 1,
-      "title": "Erster Hinweis",
-      "text": "Hier steht der geprüfte Kartentext.",
-      "group": "required"
-    },
-    {
-      "id": 2,
-      "title": "Zusätzlicher Hinweis",
-      "text": "Hier steht eine Vertiefung.",
-      "group": "extension"
-    },
-    {
-      "id": 3,
-      "title": "Weitere Beobachtung",
-      "text": "Hier steht eine weitere Pflichtkarte.",
-      "group": "required"
-    }
-  ],
-  "help": {
-    "method": "Welche Information könnte eure Beobachtung erklären? Begründet eure Vermutung.",
-    "categories": [
-      { "id": "notes", "label": "Ausgangsangaben", "color": "#2166ac", "cardIds": [1] },
-      { "id": "observations", "label": "Beobachtungen", "color": "#f5a623", "cardIds": [3] }
-    ]
-  }
-}
-```
+## Mit einer KI oder JSON-Datei
 
-- `title` ist der vollständige Mystery-Titel auf der Startseite und links in der PNG-Kopfzeile. Titel und Kartentitel dürfen höchstens 100 Zeichen, Kartentexte höchstens 4.000 Zeichen enthalten.
-- `cards` enthält 1–100 Karten. Die internen IDs bleiben numerisch; nutze eindeutige IDs von 1 bis zur Kartenanzahl. Ohne `initial` erscheinen neue Karten automatisch in numerischer Ablageordnung. Präfixe beeinflussen diese Sortierung nicht. Die Spaltenzahl und Zeilenhöhen werden beim Beginnen anhand des Fensterformats und der Kartenmaße gewählt. Eine begonnene Arbeit wird bei späterem Zoom oder Fensterwechsel nicht neu geordnet.
-- `group` verweist ausdrücklich auf einen Eintrag in `cardGroups`. Im Beispiel sind 1 und 3 Pflichtkarten, nur 2 eine Vertiefung. Es gibt keine festgelegte numerische Grenze. `prefix: "V"` ergibt etwa `V2`; Präfix und Bezeichnung sind je Inhaltsdatei konfigurierbar. Alle Karten bleiben gleichzeitig sichtbar. Diese Metadaten sind keine fachliche Farbkategorie.
-- `cardGroups` und `group` sind optional. Bestehende Inhalte ohne diese Felder behalten ihre numerischen Anzeigen. Ein Gruppenpräfix darf leer oder bis zu drei Zeichen lang sein, ohne Leer-/Steuerzeichen. Gruppenbezeichnungen sind auf 80 Zeichen begrenzt.
-- Die neue Standardablage startet ohne Pfeile, eigene Farben oder Kategorien. Keine Musterlösung, Lehrerhinweise oder vorgegebene Beziehungsnetze in das Schüler-JSON kopieren.
-- `help` ist freiwillig. Das Beispiel zeigt nur den Aufbau, keine geprüfte fachliche Klassifikation: Die konkreten Kartentexte und jede Zuordnung müssen für das jeweilige Mystery fachlich geprüft werden. Karte 2 bleibt hier bewusst unmarkiert. `method` kann entfallen; dann gilt ein allgemeiner Denkimpuls. `categories` kann ganz entfallen; dann wird keine zweite Stufe angeboten. Es gibt keine automatische Zuordnung nach Nummern oder Kartengruppen.
-- Je Hilfekategorie sind ein eindeutiger Schlüssel `id`, ein kurzes sichtbares `label`, eine sechsstellige Hexfarbe und explizite `cardIds` erforderlich. Höchstens sechs Kategorien, je Karte höchstens eine Zuordnung; unterschiedliche Gruppengrößen sind erlaubt. In der Legende stehen neben den Farben auch die zugehörigen Kartennummern. Grenzen und Fehlerfälle: [FORMAT.md](FORMAT.md).
-- Änderungen an individuellen Hilfemetadaten erfordern eine neue Inhaltsversion. Der Hilfezustand selbst bleibt flüchtig und gelangt weder in das PNG-/QR-Speicherformat noch in die eigenen Kartenfarben.
-- Optionale Bilder müssen bereits als unterstützte `data:image/...;base64,...`-Daten in `image` eingebettet sein; `imageAlt` beschreibt sie. Keine externen Bild-URLs verwenden. Komplexe Karten/Diagramme vorab auf dem tatsächlichen Gerät auf Lesbarkeit prüfen; die Vorlage stellt keine zusätzliche Bildvergrößerung bereit.
+Die andere KI erhält diesen vollständigen Projektordner und [AI-ANLEITUNG.md](../AI-ANLEITUNG.md). Ein vorhandenes Foto/PDF/Word-Dokument muss zunächst sorgfältig in strukturierte Karten übertragen werden. Unlesbare Angaben nicht erfinden. Vollständiges Beispiel: `examples/universal/content.json`.
 
-### Ein bewusst anderes Startlayout
+Pflichtfelder: `id`, `version`, `title`, `cards`, `cardGroups`. Karten: `id`, `title`, `text`, `group`. IDs fortlaufend ab 1; `group` verweist auf Metadaten, z. B. `required` mit leerem Präfix und `extension` mit `V`. Keine fest codierte Pflichtkartenanzahl. PNG/JPEG/WebP als eingebettete Daten-URIs; Quelle und Alternativtext optional. Titel, alle Karten, Tabellen und Hilfen bleiben Daten und damit editierbar. Schema und Grenzen: [UNIVERSAL-FORMAT](UNIVERSAL-FORMAT.md).
 
-Bestehende Dateien mit `initial` bleiben ohne Anpassung gültig und behalten ihre Anfangspositionen. Für besondere neue Layouts kann dies ausdrücklich so konfiguriert werden:
-
-```json
-"startLayout": { "mode": "explicit" },
-"initial": {
-  "cards": [
-    { "id": 3, "x": 0, "y": 0, "color": 0 },
-    { "id": 1, "x": 650, "y": 0, "color": 0 },
-    { "id": 2, "x": 1300, "y": 0, "color": 0 }
-  ],
-  "edges": [],
-  "categories": ["", "", "", "", "", ""]
-}
-```
-
-`initial.cards` enthält jede ID genau einmal. `x`/`y` und die Arrayreihenfolge bestimmen Position und Überlagerung; Kartehöhe und Nummern müssen beim Prüfen mit berücksichtigt werden. Für das geordnete Standardlayout genügt das Weglassen von `initial`. Optional macht `"startLayout": {"mode":"ordered"}` die Entscheidung ausdrücklich; `"columns":6` legt bei Bedarf die Spaltenzahl fest. Keine automatischen Farben oder Verbindungen sind für ein geordnetes Layout zulässig. Ein importierter Arbeitsstand behält immer seine eigenen Positionen.
-
-Teamname/Vornamen werden beim Start verbindlich eingegeben, über das Menü geändert und mit dem Arbeitsstand gesichert. Eine neutrale Gruppenbezeichnung genügt. Sie gehören nicht zur Inhaltsdatei. Die Teamfunktion gilt identisch für alle Mysterys. Technisch gültige teamlose Altsicherungen bleiben importierbar; vor jedem neuen Schülerexport wird eine fehlende Teamangabe nachgefragt, auch nach Rückgängig.
-
-## 2. Den Build konfigurieren
-
-Ergänze `mysteries.json` um genau einen Eintrag:
-
-```json
-"wald-klasse8": {
-  "content": "src/content/wald-klasse8.json",
-  "output": "MysteryBoard-Wald-Klasse8.html"
-}
-```
-
-Die Schlüssel `development`, `production` und `test` sind für die Werkzeug-Standardmodi reserviert. Der Schlüssel wählt den Build: Er beginnt mit einem kleinen ASCII-Buchstaben und enthält nur kleine Buchstaben, Ziffern und Bindestriche. Der HTML-Dateiname beginnt mit einem ASCII-Buchstaben oder einer Ziffer und enthält danach nur ASCII-Buchstaben, Ziffern, Unterstriche oder Bindestriche sowie die Endung `.html`. Inhaltsdateien liegen innerhalb des Projekts. Für reine Prüfdatensätze kann `"testOnly": true` gesetzt werden; deren HTMLs landen getrennt unter `artifacts/tests/`. `"previewOnly": true` schreibt stattdessen nach `artifacts/previews/` und schützt so eine unter dem bisherigen Dateinamen eingefrorene Lieferung. Beide Flags dürfen nicht gleichzeitig wahr sein.
-
-## 3. Eine eigenständige Schüler-HTML bauen
-
-Voraussetzung: Node.js 24 und installierte Projektabhängigkeiten (`npm ci`). Im Repository:
+Ohne besondere Vorgabe `startLayout: {"mode":"ordered"}` verwenden. Optional legt `columns` die Spaltenzahl fest. Für eine ausdrückliche andere Anordnung `mode: "explicit"` und einen vollständigen neutralen `initial`-Zustand angeben. Keine vorgefertigten Pfeile, Schülernamen oder eigenen Farben in Aufgaben exportieren. Eine wiederhergestellte Arbeit behält immer ihre gespeicherten Positionen.
 
 ```sh
-# Nur das neue Mystery, inklusive Typprüfung und Inhaltsvalidierung:
-npm run build -- wald-klasse8
-
-# Alle Produktionsvarianten aus mysteries.json:
-npm run build
-
-# Vorschau eines bestimmten Inhalts während der Vorbereitung:
-npm run dev -- --mode wald-klasse8
-
-# Vollständige bestehende Regressionen und die zusätzlichen Testvarianten:
-npm run check
+npm ci
+npx playwright install chromium
+npm run validate:mystery -- src/content/mein-mystery.json
+npm run create:mystery -- src/content/mein-mystery.json ausgabe/Meine-Aufgabe.mysteryboard
+npm run validate:mystery -- ausgabe/Meine-Aufgabe.mysteryboard
 ```
 
-Die neue Datei liegt unter `artifacts/MysteryBoard-Wald-Klasse8.html`. Sie enthält Anwendung, Inhalte und benötigte Ressourcen. Der Build validiert die komplette Registry auf gültige Inhalte und doppelte Kombinationen aus Mystery-ID und Inhaltsversion, auch bei einem Einzelbuild. Er verwendet den gemeinsamen Inhaltsvalidator, lehnt unbekannte Build-Namen ab und prüft jede fertige HTML auf die Grenze **unter 10.000.000 Bytes** und externe Laufzeitressourcen.
+Die fertige Datei wird separat im Kurs bereitgestellt und in der universellen Anwendung importiert. Die CLI berechnet Normalisierung und Prüfsumme selbst. Bestehende Ausgaben werden nicht überschrieben; bei einer Revision einen neuen Dateinamen wählen.
 
-Die bisherigen Produktionsdateien bleiben `MysteryBoard-klein.html` und `MysteryBoard-umfangreich.html`; das abgeschlossene Boden-Mystery RC2 bleibt unverändert erhalten. Auf diesem Vorlagenbranch wird ein aktueller technischer Boden-Vergleich nur nach `artifacts/previews/MysteryBoard-Boden-Klasse11.html` gebaut. Das ist kein neues Unterrichts-Release; die RC2-HTML und SCORM-ZIP werden nicht ersetzt. `reuse-example` ist ein bewusst anderes Prüf-Mystery mit fünf Karten und Vertiefungen `Z2`/`Z5`. Es verwendet denselben Anwendungskern und wird mit `npm run build:example` gebaut. Der 220-Verbindungen-Prüfstand bleibt unter `review` bzw. `npm run build:review` verfügbar.
+## Bei Bedarf eine spezielle Schüler-HTML erzeugen
 
-Die neuen neutralen Prüfvarianten `ordered-5`, `ordered-12`, `ordered-18` und `ordered-60` zeigen die Ablage für unterschiedliche Mengen. `npm run build -- ordered-5` erstellt `artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html` mit konfiguriertem Denkimpuls und drei expliziten Hilfekategorien. Die übrigen Mengen verwenden nur die allgemeine Stufe 1. Alle entstehen aus demselben Kern; die neutralen technischen Notizen sind kein fachlich freigegebenes Unterrichts-Mystery.
+```sh
+npm run build:mystery -- ausgabe/Meine-Aufgabe.mysteryboard ausgabe/MysteryBoard-Meine-Aufgabe.html ausgabe/MysteryBoard-Meine-Aufgabe-SCORM.zip
+```
 
-## 4. Vor dem Unterricht prüfen
+Die ZIP ist optional. Beide Varianten verwenden denselben universellen Kern und denselben Lehrkräftemodus. Die fertige HTML muss unter 10.000.000 Bytes bleiben; Zielwert unter 6 MB. Ein großer portabler Bildbestand kann diese HTML-Grenze überschreiten: dann bei der universellen Anwendung plus Inhaltsdatei bleiben. Ein Build veröffentlicht nichts.
 
-1. **Fachlich:** Titel, vollständige Kartentexte, Quellen, Pflicht-/Vertiefungszuordnung und Startanordnung kontrollieren; keine Lehrer- oder Lösungsmaterialien im Schülerpaket.
-2. **Fertige Datei:** Die erzeugte HTML öffnen, vom Netz trennen und alle Karten/Nummern prüfen. Karte lesen, verschieben, verbinden, sichtbares Label ändern, Undo/Redo und Menüsteuerung per Touch testen. Hoch- und Querformat prüfen.
-3. **Team und Sicherung:** Teamname setzen und ändern, PNG herunterladen und tatsächlich in „Dateien“ ablegen. Titel links und Team rechts im PNG visuell auf vollständige, überlappungsfreie Darstellung prüfen.
-4. **Neue Sitzung:** Anwendung vollständig schließen, dieselbe Mystery-HTML erneut öffnen, die Original-PNG auswählen und den vollständigen Zustand einschließlich Teamname überprüfen. Danach weiterarbeiten und erneut sichern. Eine erzeugte PNG allein bestätigt keine dauerhafte Ablage.
-5. **Kompatibilität:** Eine Sicherung eines anderen Mysterys oder einer inkompatiblen Inhaltsversion muss verständlich abgewiesen werden. Alte technisch gültige Sicherungen derselben ID/Inhaltsversion ohne Teamname bleiben importierbar.
-6. **Hilfen:** Zunächst ausgeschaltet; Stufe 1 öffnen, Stufe 2 bewusst einschalten, Nummern und Textlegende vergleichen. Prüfen, ob die Kategorien tatsächlich Denkprozesse unterstützen und keine lineare Musterlösung nahelegen. Ausblenden, weiterarbeiten, PNG mit und ohne Hilfe vergleichen. Die Kartenflächen und eigenen Farben müssen unverändert bleiben. Tastatur und alle vier Ansichten 1024×768, 768×1024, 600×800, 320×700 prüfen.
-7. **Druck/PDF:** Im Menü A4 quer und A3 quer vorbereiten, bewusst als PDF speichern und die tatsächliche Datei öffnen. Titel, Team und Seitennummern auf jeder Seite, vollständige Kartentexte, Bilder, Beziehungen und Querverweise prüfen. Aktive Nummernhilfefarben dürfen nicht erscheinen; eigene Kartenfarben und Kategorien müssen erhalten bleiben. Anschließend weiterarbeiten und die PNG in einer neuen Sitzung wiederherstellen. Die PDF ist kein bearbeitbarer Sicherungsstand. [Druckanleitung](DRUCKFASSUNG.md).
-8. **Einsatzort:** Veröffentlichung und Schülerlink erst nach Freigabe tatsächlich testen; anschließend auf verwalteten Schul-iPads prüfen. Browseremulation ersetzt keine Geräteabnahme. Ohne tatsächlichen Canva-Test keine Canva-Kompatibilität behaupten.
+Die frühere Registry `mysteries.json` bleibt für bestehende feste Inhalte und Regressionen erhalten. `npm run build -- small`, `large`, `ordered-5` usw. bauen diese Varianten. Die Boden-Variante hat `previewOnly: true` und schreibt ausschließlich in `artifacts/previews/`; niemals RC2-Dateien ersetzen. Für neue **vollständig portable** spezifische Aufgaben den oben genannten `build:mystery`-Weg verwenden.
 
-Die HTML kann unverändert von einem statischen HTTPS-Host ausgeliefert werden. Für einen freigegebenen GitHub-Pages-Weg genügt beispielsweise eine Kopie als `index.html`; weder Datenbank noch externe Skripte sind erforderlich. Der Build veröffentlicht nichts. Die ursprüngliche HTML mit Bytegröße, SHA-256 und zugehörigem Quellstand aufbewahren, bevor eine Freigabe erfolgt.
+## Vor dem Unterricht prüfen
+
+1. Karten, Quellen, Medien, Gruppen und Hilfen fachlich mit dem Original vergleichen. Keine Musterlösungen oder vertraulichen Notizen mitliefern.
+2. In der tatsächlichen HTML/SCORM importieren, alle Karten lesen und Medienlegenden mit Vergrößerung prüfen. Hoch-/Querformat und kleinere Einbettung kontrollieren.
+3. Mit eigenem Team beginnen; Touch-Ziehen, Pinch/Pan, Verbindungen, Beschriftungen, Farben, Hilfe und Undo/Redo prüfen.
+4. A4/A3-Druckfassung kontrollieren und tatsächlich als PDF speichern. Die PDF ist kein Sicherungsformat.
+5. Original-PNG herunterladen und bewusst außerhalb des Browsers ablegen. Anwendung vollständig schließen; PNG in einer frischen universellen Anwendung öffnen. Inhalt, Team, Positionen, Farben und alle Beziehungen vergleichen und weiterarbeiten.
+6. Datei im Lehrkräftemodus erneut bearbeiten und eine neue Version erzeugen. Alte Schüler-PNG zusätzlich öffnen und prüfen, dass ihre ursprünglichen Inhalte erhalten bleiben.
+7. itslearning-Dateiauswahl, Download/Teilen, Touch und Safari-Druck auf dem tatsächlich verwalteten Schul-iPad prüfen. Canva bei geplanter Nutzung separat testen. Die lokalen automatisierten Tests sind keine schulische Freigabe.
+
+Vollständige Entwicklerregression: `CLASSROOM_SCORM=1 npm run check`, anschließend `npm run package:universal` und `npm run test:rc2`. Abhängigkeiten und Nachweisgrenzen: [README](../README.md), [Abnahmebericht](UNIVERSAL-ABNAHME.md).

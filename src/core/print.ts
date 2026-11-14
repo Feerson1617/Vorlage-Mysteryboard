@@ -533,6 +533,29 @@ export async function preparePrintFrame(
       "cardText",
       card.id,
     );
+    if (card.source)
+      article = await appendText(
+        `Quelle: ${card.source}`,
+        () => cardFragment(card, state, false),
+        "cardSource",
+        card.id,
+      );
+    if (card.table)
+      article = await appendText(
+        `${card.table.caption || "Tabelle"}\n` +
+          card.table.rows
+            .map(
+              (row, i) =>
+                `Zeile ${i + 1}: ` +
+                row
+                  .map((value, j) => `${card.table!.headers[j]}: ${value}`)
+                  .join(" | "),
+            )
+            .join("\n"),
+        () => cardFragment(card, state, false),
+        "cardTable",
+        card.id,
+      );
     const related = work.edges.filter(
       (e) => e.from === card.id || e.to === card.id,
     );

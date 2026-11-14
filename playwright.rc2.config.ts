@@ -1,4 +1,5 @@
 import { defineConfig } from "@playwright/test";
+import { existsSync } from "node:fs";
 export default defineConfig({
   testDir: "tests/release",
   workers: 1,
@@ -15,7 +16,9 @@ export default defineConfig({
     headless: true,
     hasTouch: true,
     launchOptions: {
-      executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+      executablePath:
+        process.env.CHROMIUM_PATH ||
+        (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined),
       args: ["--no-sandbox"],
     },
     acceptDownloads: true,

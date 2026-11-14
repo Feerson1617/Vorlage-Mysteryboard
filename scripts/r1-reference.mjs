@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 // Independent event comparison when the supplied Touch-Vergleich.cjs is absent.
 // Use a matching Playwright package/browser for each engine; never relabel an
 // installed engine. Serve the HTMLs locally, then pass their two URLs.
@@ -19,7 +20,9 @@ if (
 const browser = await (engine === "webkit" ? webkit : chromium).launch(
   engine === "chromium"
     ? {
-        executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+        executablePath:
+          process.env.CHROMIUM_PATH ||
+          (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined),
         args: ["--no-sandbox"],
       }
     : {},

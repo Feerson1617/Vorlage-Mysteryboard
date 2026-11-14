@@ -11,6 +11,11 @@ const licenses = [
   ["qrcode", "license"],
   ["@noble/hashes", "LICENSE"],
   ["dijkstrajs", "LICENSE.md"],
+  ["ajv", "LICENSE"],
+  ["fast-uri", "LICENSE"],
+  ["fast-deep-equal", "LICENSE"],
+  ["json-schema-traverse", "LICENSE"],
+  ["require-from-string", "license"],
 ];
 export function appendLicenseNotices(source, notices) {
   // A bundled print template can itself contain </html>. Only the document's

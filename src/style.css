@@ -602,3 +602,114 @@ dialog:has(.print-preview) {
   display: block;
   margin-top: 12px;
 }
+
+.author-editor {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.author-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #b9c4bc;
+}
+.author-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 16px;
+}
+.author-fields label {
+  margin: 0;
+}
+.author-card-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr));
+  gap: 12px;
+}
+.author-card-list li {
+  padding: 16px;
+  background: white;
+  border: 1px solid #b9c4bc;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.author-card-list li > span {
+  display: block;
+}
+.author-editor .actions {
+  flex-wrap: wrap;
+}
+.author-editor .actions button {
+  white-space: normal;
+}
+.author-board {
+  height: 500px;
+  position: relative;
+  border: 1px solid #b9c4bc;
+}
+.author-board .board {
+  height: 100%;
+  width: 100%;
+}
+.media-view > img {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+.media-view label {
+  display: block;
+}
+.media-scroll {
+  overflow: auto;
+  max-height: 60dvh;
+  border: 1px solid #b9c4bc;
+  touch-action: pan-x pan-y;
+}
+.media-scroll img {
+  display: block;
+  height: auto;
+}
+input[type="checkbox"] {
+  width: auto;
+  min-height: 24px;
+}
+.author-editor button,
+.universal-welcome button {
+  overflow-wrap: anywhere;
+}
+.print-warning {
+  padding: 12px;
+  border: 2px solid #996d16;
+  background: #fff7df;
+  color: #34280c;
+  margin: 12px 0;
+}
+.table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 12px 0;
+}
+.table-scroll table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.table-scroll th,
+.table-scroll td {
+  border: 1px solid #b9c4bc;
+  padding: 8px;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+.table-scroll caption {
+  text-align: left;
+  font-weight: bold;
+  padding: 8px 0;
+}
+.table-scroll input {
+  min-width: 120px;
+}

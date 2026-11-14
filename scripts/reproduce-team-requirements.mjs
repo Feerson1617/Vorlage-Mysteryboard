@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 // Independent pre-correction evidence against the already-built HTMLs only.
 // Does not build or modify the application. A private local server is stopped
 // in finally; no deployment or policy changes are performed.
@@ -10,7 +11,7 @@ import { inflateSync } from "node:zlib";
 // Optional third argument points at a preserved, unmodified baseline checkout.
 const root = resolve(process.argv[3] || resolve(import.meta.dirname, ".."));
 const destination =
-  process.argv[2] || "/workspace/mysteryboard-uni-fixes-evidence/before";
+  process.argv[2] || resolve(root, "artifacts/previews/team-reproduction");
 await mkdir(destination, { recursive: true });
 const server = spawn(
   "python3",
@@ -109,7 +110,9 @@ try {
     });
   }
   browser = await chromium.launch({
-    executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
+    executablePath:
+      process.env.CHROMIUM_PATH ||
+      (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined),
     args: ["--no-sandbox"],
   });
   result.browser = browser.version();

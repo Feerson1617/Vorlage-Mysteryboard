@@ -1,0 +1,37 @@
+{
+  "manifestIdentifier": "MysteryBoard-Universal-v3",
+  "scormVersion": "1.2",
+  "html": {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 801407,
+    "sha256": "5560645c76c618e0053f7e051f75f20dd740acc2f76d7522ca1ce333b7f491dc"
+  },
+  "zip": {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 263234,
+    "sha256": "886ffba940196146e07fcfec3be8373785b6ff1d17da2b8c7c145fc6fd8cbd71"
+  },
+  "applicationByteIdentical": true,
+  "entries": [
+    {
+      "file": "imsmanifest.xml",
+      "bytes": 883,
+      "sha256": "0aa1e503e3c83e449bafcacdaf477250663321658365e3e46c3f8b6e55cc1b7e"
+    },
+    {
+      "file": "launch.html",
+      "bytes": 633,
+      "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+    },
+    {
+      "file": "session.js",
+      "bytes": 1190,
+      "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+    },
+    {
+      "file": "app.html",
+      "bytes": 801407,
+      "sha256": "5560645c76c618e0053f7e051f75f20dd740acc2f76d7522ca1ce333b7f491dc"
+    }
+  ]
+}

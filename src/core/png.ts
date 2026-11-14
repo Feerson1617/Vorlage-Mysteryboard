@@ -1,6 +1,7 @@
 import { packWork, unpackWork } from "./codec";
 import type { Mystery, Work } from "./model";
 const SIGNATURE = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
+const MAX_PNG_CHUNKS = 10_000;
 const CHUNK = "mySt"; // private, ancillary, safe-to-copy PNG chunk
 export const MAX_PNG_BYTES = 30_000_000;
 const table = Uint32Array.from({ length: 256 }, (_, n) => {
@@ -22,7 +23,7 @@ function chunk(type: string, data: Uint8Array): Uint8Array {
   view.setUint32(out.length - 4, crc32(out.subarray(4, out.length - 4)));
   return out;
 }
-function parse(bytes: Uint8Array) {
+export function parsePng(bytes: Uint8Array) {
   const bad = () => {
     throw new Error("Das Bild ist keine vollständige, unveränderte PNG-Datei.");
   };
@@ -39,6 +40,7 @@ function parse(bytes: Uint8Array) {
     ended = false,
     hasData = false;
   while (pos < bytes.length) {
+    if (parts.length >= MAX_PNG_CHUNKS) return bad();
     if (pos + 12 > bytes.length) return bad();
     const len = view.getUint32(pos),
       end = pos + 12 + len;
@@ -69,8 +71,15 @@ function parse(bytes: Uint8Array) {
   return parts;
 }
 export function embedWork(png: Uint8Array, work: Work): Uint8Array {
-  const parts = parse(png).filter((p) => p.type !== CHUNK);
-  const extra = chunk(CHUNK, packWork(work));
+  return embedPayload(png, packWork(work));
+}
+export function embedPayload(png: Uint8Array, payload: Uint8Array): Uint8Array {
+  const parts = parsePng(png).filter((p) => p.type !== CHUNK);
+  if (parts.length + 1 > MAX_PNG_CHUNKS)
+    throw new Error(
+      "Das Bild enthält zu viele Datenblöcke für eine vollständige Sicherung.",
+    );
+  const extra = chunk(CHUNK, payload);
   // A replacement removes the old block before counting the new one. Reject
   // before allocation so every offered result obeys the importer's own limit.
   const finalSize =
@@ -94,12 +103,15 @@ export function embedWork(png: Uint8Array, work: Work): Uint8Array {
   return out;
 }
 export function restorePng(png: Uint8Array, mystery: Mystery): Work {
-  const parts = parse(png).filter((p) => p.type === CHUNK);
+  return unpackWork(extractPayload(png), mystery);
+}
+export function extractPayload(png: Uint8Array): Uint8Array {
+  const parts = parsePng(png).filter((p) => p.type === CHUNK);
   if (parts.length === 0)
     throw new Error(
       "Dieses Bild enthält keinen Arbeitsstand. Wähle die ursprüngliche Sicherungsdatei. Ein Bildschirmfoto reicht nicht aus; einen sichtbaren Code kannst du mit der Kamera scannen.",
     );
   if (parts.length !== 1)
     throw new Error("Das Bild enthält widersprüchliche Sicherungsdaten.");
-  return unpackWork(parts[0].data, mystery);
+  return parts[0].data;
 }

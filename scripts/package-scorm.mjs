@@ -16,6 +16,7 @@ export async function packageScorm(
   input,
   output,
   identifier = RC2_MANIFEST_ID,
+  title = "MysteryBoard – Boden Klasse 11 RC2",
 ) {
   assert(
     /^[A-Za-z][A-Za-z0-9._-]*$/.test(identifier),
@@ -37,9 +38,9 @@ export async function packageScorm(
   <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
   <organizations default="ORG">
     <organization identifier="ORG">
-      <title>MysteryBoard – Boden Klasse 11 RC2</title>
+      <title>${xml(title)}</title>
       <item identifier="ITEM" identifierref="SCO" isvisible="true">
-        <title>MysteryBoard – Boden Klasse 11 RC2</title>
+        <title>${xml(title)}</title>
       </item>
     </organization>
   </organizations>
