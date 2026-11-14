@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "applicationSha256": "712fca95bff6501839df4085d5beda43a04a3a1485af1e6227d66e6ad8bebbe5",
+  "checks": [
+    "Bestehenden Entwurf grafisch bearbeitet, drei Gruppen manuell zugeordnet, weitere Karten unmarkiert, Download und vollständiges Schließen.",
+    "Frisch geöffnet, Hilfen vollständig verglichen, echte Vorschau, neutrale Schülerversion exportiert.",
+    "Undo/Redo mit vollständigem Zustandsvergleich; echte Chromium-PDF-Dateien für A4 und A3. Kein Nachweis des Safari-Systemdruckdialogs.",
+    "Tatsächliche SCORM-ZIP, beide Hilfestufen und Farben/Legende, unveränderter Work-Zustand beim Hilfewechsel, Deaktivierung, Touch/Pinch, eigene Farbe/Kategorie, zwei beschriftete Verbindungen und echte PNG.",
+    "Neue SCORM-Sitzung: vollständiger Inhalts-/Arbeitsvergleich und Weiterbearbeitung.",
+    "Revision mit neuer/gelöschter Karte und angepassten Hilfen; alte Schülerarbeit danach unvermischt geöffnet."
+  ],
+  "screenshots": [
+    "lehrkraft-hilfe.png",
+    "schueler-hilfestufe-1.png",
+    "schueler-hilfestufe-2.png",
+    "wiederhergestellt-und-weiterbearbeitet.png"
+  ],
+  "scormCalls": [
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ]
+  ],
+  "browserVersion": "156.0.8078.79",
+  "pdfPaperDimensions": [
+    {
+      "paper": "a4",
+      "width": 841.91998,
+      "height": 594.95996
+    },
+    {
+      "paper": "a3",
+      "width": 1191.12,
+      "height": 841.91998
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { assertDistinctHelpNames } from "./help-authoring";
 import {
   contentHash,
   taskDocument,
@@ -99,6 +100,7 @@ export function publishDraft(draft: Draft) {
       .filter((c) => !checked.author.hiddenCards.includes(c.id))
       .map((c) => c.id),
   );
+  assertDistinctHelpNames(content.help?.categories);
   return taskDocument(content);
 }
 export function draftFromContent(content: Content, initials: string): Draft {

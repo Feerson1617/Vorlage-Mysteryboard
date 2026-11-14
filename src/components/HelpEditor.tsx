@@ -14,6 +14,7 @@ import {
 import { DEFAULT_METHOD_HELP, numberTextColor } from "../core/help";
 import {
   checkHelp,
+  ambiguousHelpNames,
   helpTemplate,
   HELP_PALETTE,
   METHOD_PRESETS,
@@ -88,6 +89,7 @@ export function HelpEditor({
   };
   const checked = () => {
     const result = checkHelp(content, method, enabled, groups);
+    if (enabled) result.issues.push(...ambiguousHelpNames(groups));
     setIssues(result.issues);
     if (result.issues.length)
       requestAnimationFrame(() =>

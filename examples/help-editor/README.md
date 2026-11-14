@@ -10,3 +10,5 @@ Diese Dateien wurden im tatsächlichen Browserablauf erzeugt. Die Aufgabe besteh
 - **Hilfe-Sechs-eigene-Gruppen.mysteryboard:** zusätzliches UI-Beispiel mit sechs selbst benannten Gruppen und jeweils einer manuell ausgewählten Karte.
 
 Öffnen: universelle HTML bzw. SCORM → „Mystery bearbeiten“ → Originaldatei wählen. Für die Redaktion einer Aufgaben-Datei „Lehrkräftemodus – Mystery bearbeiten“ und danach „Hilfetext festlegen“ wählen. Die Schüler-PNG benötigt keine separate Aufgaben-Datei.
+
+- **Hilfe-Ohne-farbige-Hilfe.mysteryboard:** im aktuellen Browserlauf bewusst ausgeschaltete zweite Hilfestufe. Der Denkimpuls bleibt erhalten.

@@ -11,13 +11,16 @@ try:
 except (FileNotFoundError,subprocess.CalledProcessError):
  version=json.loads((root/'PROJECT-VERSION.json').read_text());commit=version['sourceCommit'];branch=version['sourceBranch']
 items={}
-for source,target in [('artifacts/MysteryBoard-Universal.html','MysteryBoard-Universal.html'),('artifacts/MysteryBoard-Universal-SCORM-1.2.zip','MysteryBoard-Universal-SCORM-1.2.zip'),('docs/HELP-EDITOR-ABNAHME.md','HELP-EDITOR-ABNAHME.md'),('LEHRKRAEFTE-ANLEITUNG.md','LEHRKRAEFTE-ANLEITUNG.md'),('AI-ANLEITUNG.md','AI-ANLEITUNG.md')]:items[target]=(root/source).read_bytes()
+for source,target in [('artifacts/MysteryBoard-Universal.html','MysteryBoard-Universal.html'),('artifacts/MysteryBoard-Universal-SCORM-1.2.zip','MysteryBoard-Universal-SCORM-1.2.zip'),('docs/HELP-EDITOR-ABNAHME.md','HELP-EDITOR-ABNAHME.md'),('docs/HELP-EDITOR-ABSCHLUSS.md','AKTUELLER-PRUEFBERICHT.md'),('LEHRKRAEFTE-ANLEITUNG.md','LEHRKRAEFTE-ANLEITUNG.md'),('AI-ANLEITUNG.md','AI-ANLEITUNG.md'),('docs/HELP-EDITOR-ABSCHLUSS-PRUEFAUFTRAG.md','UNABHAENGIGER-PRUEFAUFTRAG.md')]:items[target]=(root/source).read_bytes()
 for folder,target in [('examples/help-editor','beispiele'),('docs/test-evidence/help-editor','pruefnachweise')]:
  for p in sorted((root/folder).rglob('*')):
   if p.is_file():items[target+'/'+p.relative_to(root/folder).as_posix()]=p.read_bytes()
-assert any(n.endswith('.mysteryboard') for n in items),'Beispieldateien fehlen'
+for name in ['Hilfe-Lehrkraftentwurf.mysteryboard','Hilfe-Ursachen.mysteryboard','Hilfe-Nutzungskonflikte.mysteryboard','Hilfe-Sechs-eigene-Gruppen.mysteryboard','Hilfe-Ohne-farbige-Hilfe.mysteryboard','Hilfe-Schuelerarbeitsstand.png','Hilfe-Ueberarbeitet.mysteryboard']:
+ assert 'beispiele/'+name in items, 'Benötigtes Beispiel fehlt: '+name
+for name in ['pruefen.mjs','package.json','package-lock.json']:
+ items['browserpruefung/'+name]=(root/'qa/help-review'/name).read_bytes()
 assert 'pruefnachweise/RESULTS.json' in items,'Abschließende Prüfergebnisse fehlen'
-items['QUELLSTAND.json']=(json.dumps({'repository':'Feerson1617/Vorlage-Mysteryboard','commit':commit,'branch':branch,'baseCommit':'5a6899a7a67465c932c340c60ccde56e989586b4','documentFormat':3},indent=2)+'\n').encode()
+items['QUELLSTAND.json']=(json.dumps({'repository':'Feerson1617/Vorlage-Mysteryboard','commit':commit,'branch':branch,'baseCommit':'5a6899a7a67465c932c340c60ccde56e989586b4','documentFormat':3,'reviewBaseCommit':'9aa16fd41f3ce9e5e35015bb1f4c7fe0911f8e89'},indent=2)+'\n').encode()
 items['START-HIER.md']='''# MysteryBoard – grafische Hilfen unabhängig prüfen
 
 Öffnet MysteryBoard-Universal.html in einem vollständigen Browser. Falls lokale Dateien gesperrt sind, im entpackten Ordner mit `python3 -m http.server 8765` lokal bereitstellen und danach vom Netz trennen. Dies ist keine öffentliche Veröffentlichung.
@@ -33,6 +36,19 @@ Unter `beispiele/` liegen die tatsächlichen Browser-Ausgaben: Ursachen- und Kon
 7. Neue Revision importieren und deren Hilfen vergleichen; anschließend die alte Schüler-PNG öffnen. Sie muss ihren ursprünglichen vollständigen Inhalt wiederherstellen.
 
 Die SHA-256-Liste mit `sha256sum -c SHA256SUMS.txt` bzw. macOS `shasum -a 256 -c SHA256SUMS.txt` prüfen. Die volle Quellvorlage wird separat geliefert; die üblichen Build-/Testbefehle und tatsächlichen Ergebnisse stehen im Prüfbericht.
+
+## Automatisierter unabhängiger Lauf
+
+Im vollständig entpackten Abnahmepaket:
+
+```sh
+cd browserpruefung
+npm ci
+npx playwright install chromium
+npm test
+```
+
+Node.js 24 und npm werden nur für diese technische Prüfung benötigt. Ist ein System-Chromium vorhanden, verwendet der Prüfcode ihn; alternativ `CHROMIUM_PATH` setzen oder Playwrights Browser installieren. Unter Linux werden passende Browser-Systembibliotheken benötigt. Der Code startet selbst einen lokalen Prüfserver, extrahiert die tatsächliche SCORM-ZIP und arbeitet danach offline. Er importiert keinen Anwendungscode. Die Original-PNG wird zusätzlich unabhängig mit Node-zlib und SHA-256 gelesen. Ergebnisse, echte Arbeitsdateien, PDFs und Screenshots landen unter `browserpruefung/ergebnisse/`. Die App selbst benötigt diese Prüfwerkzeuge nicht.
 
 Die grafische Funktion braucht weder JSON noch Programmcode. Der Lehrkräftemodus ist kein geschützter Zugang und speichert nicht automatisch. Safari, echte Schul-iPads, itslearning, Canva und nativer Safari-Druck benötigen weiterhin einen echten Praxistest. Keine schulische Freigabe aus der Browseremulation ableiten.
 '''.encode()

@@ -94,3 +94,6 @@ Höchstens sechs Gruppen sind möglich. Jede aktive Gruppe braucht einen eigenen
 Ein Vorlagenwechsel verwirft bestehende Zuordnungen nicht unbemerkt. Während der Bearbeitung können Sie zu den vorherigen Gruppen zurückkehren. Erst **Hilfe übernehmen** legt die aktuell ausgewählte Gruppierung für diese Fassung fest. Schalten Sie die farbige Hilfe aus und übernehmen, entfällt sie in dieser neuen Fassung. Vorher exportierte Dateien bleiben erhalten.
 
 Die Kategorien sind eine freiwillige Orientierung und keine Musterlösung. Wählen Sie bei mehrdeutigen Karten einen fachlich begründeten Schwerpunkt oder lassen Sie sie unmarkiert. Bei Schülerbeginn sind die Hilfen ausgeblendet. Die zweite Stufe färbt ausschließlich Nummern, ohne eigene Kartenfarben, Pfeile oder Arbeitsstände zu verändern.
+
+
+Gruppennamen müssen eindeutig sein. „Ursachen“, „ Ursachen “ und „ursachen“ zählen als derselbe Name. Bei solchen Doppelungen bleiben Ihre Eingaben erhalten; ändern Sie die betroffenen Namen vor dem Übernehmen oder Bereitstellen. Ältere Dateien werden unverändert geöffnet. Ihre Hilfegruppen lassen sich vor einer erneuten Veröffentlichung präzisieren.

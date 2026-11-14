@@ -1,0 +1,32 @@
+{
+  "baseCommit": "9aa16fd41f3ce9e5e35015bb1f4c7fe0911f8e89",
+  "unit": {
+    "passed": 105,
+    "failed": 0
+  },
+  "browser": {
+    "total": 161,
+    "expected": 161,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "rc2": {
+    "passed": 4,
+    "failed": 0
+  },
+  "independentBlackBoxPreflight": {
+    "status": "passed",
+    "applicationSha256": "712fca95bff6501839df4085d5beda43a04a3a1485af1e6227d66e6ad8bebbe5",
+    "applicationModulesImported": false,
+    "actualHtmlAndScormUsed": true,
+    "a4a3Pdf": true
+  },
+  "allFourViewportsPassed": true,
+  "existingTestsUnchanged": true,
+  "webkit26_5": "open: unavailable",
+  "webkit27_2": "open: host libraries missing",
+  "realSafariSchoolIpadItslearningCanva": "open",
+  "schoolApproval": false
+}

@@ -80,6 +80,8 @@ try {
       `Gültig: ${doc.kind}, ${doc.content.id}, Version ${doc.content.version}, ${doc.content.cards.length} Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.`,
     );
   else {
+    const help = await server.ssrLoadModule("/src/core/help-authoring.ts");
+    help.assertDistinctHelpNames(doc.content.help?.categories);
     if (doc.kind !== "task")
       throw new Error(
         "Erstellen/Build benötigt einen neutralen Aufgabeninhalt. Entwürfe zuerst im Lehrkräftemodus als Schülerversion exportieren.",

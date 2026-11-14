@@ -4,9 +4,9 @@ Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Oh
 
 Auf `feat/mysteryboard-author-help-editor` liegt die neue universelle Autoren- und Unterrichtsvorlage auf Basis von `5a6899a7a67465c932c340c60ccde56e989586b4`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
 
-Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung. [Aktueller Prüfbericht](docs/HELP-EDITOR-ABNAHME.md).
+Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung. [Aktueller Abschlussbericht](docs/HELP-EDITOR-ABSCHLUSS.md).
 
-**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/HELP-EDITOR-ABNAHME.md).
+**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/HELP-EDITOR-ABSCHLUSS.md).
 
 ## Direkt ausprobieren
 

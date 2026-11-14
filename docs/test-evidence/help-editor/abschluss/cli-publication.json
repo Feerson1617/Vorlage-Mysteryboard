@@ -1,0 +1,14 @@
+[
+  {
+    "command": "create",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "MysteryBoard: Einige Hilfegruppen haben gleichlautende Namen. Bitte \u00f6ffnet \u201aHilfetext festlegen\u2018 und gebt ihnen unterschiedliche Namen."
+  },
+  {
+    "command": "build",
+    "exitCode": 1,
+    "outputCreated": false,
+    "message": "MysteryBoard: Einige Hilfegruppen haben gleichlautende Namen. Bitte \u00f6ffnet \u201aHilfetext festlegen\u2018 und gebt ihnen unterschiedliche Namen."
+  }
+]

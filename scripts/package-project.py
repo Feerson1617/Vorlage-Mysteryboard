@@ -27,11 +27,11 @@ if not commit:
     except (subprocess.CalledProcessError, FileNotFoundError):
         version = root / 'PROJECT-VERSION.json'
         commit = json.loads(version.read_text())['sourceCommit'] if version.exists() else 'unversioned-local-copy'
-folders = ['src', 'scripts', 'tests', 'schemas', 'examples', 'docs', 'artifacts', 'scorm']
+folders = ['src', 'scripts', 'tests', 'schemas', 'examples', 'docs', 'artifacts', 'scorm', 'qa']
 files = [p for p in root.iterdir() if p.is_file() and p.suffix in ['.md', '.json', '.ts', '.html']]
 files += [root / '.gitignore']
 for folder in folders:
-    files += [p for p in (root / folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts
+    files += [p for p in (root / folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts and 'node_modules' not in p.relative_to(root).parts
               and not p.relative_to(root).as_posix().startswith('artifacts/previews/')
               and not p.relative_to(root).as_posix().startswith('artifacts/tests/')
               and 'Projektvorlage' not in p.name and 'Pruefnachweise.zip' not in p.name]

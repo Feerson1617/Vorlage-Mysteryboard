@@ -66,6 +66,41 @@ export type HelpIssue = {
   field: "label" | "color" | "cards" | "method" | "groups";
   message: string;
 };
+// Editorial publication rule, deliberately separate from legacy document validity.
+// Old files remain readable and byte-preserving; new published groups must be clear.
+export function ambiguousHelpNames(
+  groups: readonly HelpCategory[],
+): HelpIssue[] {
+  const seen = new Map<string, number>(),
+    duplicates = new Set<number>();
+  for (const [index, group] of groups.entries()) {
+    const key = group.label
+      .normalize("NFC")
+      .trim()
+      .replace(/\s+/gu, " ")
+      .toLocaleLowerCase("de");
+    const previous = seen.get(key);
+    if (key && previous !== undefined) {
+      duplicates.add(previous);
+      duplicates.add(index);
+    } else seen.set(key, index);
+  }
+  return [...duplicates]
+    .sort((a, b) => a - b)
+    .map((group) => ({
+      group,
+      field: "label",
+      message:
+        "Diese Gruppe heißt wie eine andere. Bitte wählt einen anderen Namen.",
+    }));
+}
+export function assertDistinctHelpNames(groups: readonly HelpCategory[] = []) {
+  if (ambiguousHelpNames(groups).length)
+    throw new Error(
+      "Einige Hilfegruppen haben gleichlautende Namen. Bitte öffnet ‚Hilfetext festlegen‘ und gebt ihnen unterschiedliche Namen.",
+    );
+}
+
 export function checkHelp(
   content: Content,
   method: string,
