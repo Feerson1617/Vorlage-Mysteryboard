@@ -33,22 +33,36 @@ files += [root / '.gitignore']
 for folder in folders:
     files += [p for p in (root / folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts
               and not p.relative_to(root).as_posix().startswith('artifacts/previews/')
+              and not p.relative_to(root).as_posix().startswith('artifacts/tests/')
               and 'Projektvorlage' not in p.name and 'Pruefnachweise.zip' not in p.name]
 files = sorted(set(files) - {output, root / 'PROJECT-VERSION.json'})
 entries = []
+payloads = {}
+redacted = []
 for p in files:
     data = p.read_bytes()
+    relative_path = p.relative_to(root).as_posix()
+    # Historical human-readable test logs can contain machine-specific paths.
+    # Neutralize those only in documentation, never in source or build artifacts.
+    if relative_path.startswith('docs/') and p.suffix.lower() in ('.md', '.txt', '.json', '.log', '.sh'):
+        original = data
+        for prefix in (b'/' + b'workspace/', b'/' + b'home/agent/', b'/' + b'opt/codex/', b'/' + b'tmp/'):
+            data = data.replace(prefix, b'[fruehere-testumgebung]/')
+        if data != original:
+            redacted.append(relative_path)
+    payloads[p] = data
     entries.append({'file': p.relative_to(root).as_posix(), 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
 version = {'sourceCommit': commit, 'sourceBranch': 'feat/mysteryboard-universal-authoring',
            'baseCommit': 'e14a09273be38c5501dc36ff3a7b819de298cd3a', 'documentFormatVersion': 3,
            'packagedAtUtc': datetime.now(timezone.utc).isoformat(), 'entries': entries,
-           'note': 'Quellcode-Lieferung. Keine Veröffentlichung, kein Merge, keine schulische Gerätefreigabe.'}
+           'redactedHistoricalDocuments': redacted,
+           'note': 'Quellcode und Produktionsartefakte unverändert. Historische Dokumenttexte ohne Cloud-Pfadpräfixe; regenerierbare Test-HTMLs nicht enthalten. Keine schulische Gerätefreigabe.'}
 version_bytes = (json.dumps(version, ensure_ascii=False, indent=2) + '\n').encode()
 output.parent.mkdir(parents=True, exist_ok=True)
 prefix = 'MysteryBoard-Universal-Projektvorlage/'
 with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     for p in files:
-        archive.write(p, prefix + p.relative_to(root).as_posix())
+        archive.writestr(prefix + p.relative_to(root).as_posix(), payloads[p])
     archive.writestr(prefix + 'PROJECT-VERSION.json', version_bytes)
     checksums = ''.join(f'{e["sha256"]}  {e["file"]}\n' for e in entries)
     checksums += hashlib.sha256(version_bytes).hexdigest() + '  PROJECT-VERSION.json\n'

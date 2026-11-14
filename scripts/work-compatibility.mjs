@@ -5,12 +5,13 @@ import { createHash } from "node:crypto";
 import { createServer } from "node:http";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, join, isAbsolute } from "node:path";
+import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { inflateSync } from "node:zlib";
 
 const usage = `node scripts/work-compatibility.mjs --engine chromium|webkit
   [--executable /path/to/browser] [--playwright-module /path/to/playwright/index.mjs]
-  [--expected-version 26.5] [--html-dir artifacts] [--output /tmp/work-result]
+  [--expected-version 26.5] [--html-dir artifacts] [--output OUTPUT_DIRECTORY]
   [--source-commit FULL_SHA] [--port 5177]
 The selected browser must already be installed. No fallback to another engine.
 --expected-version accepts the exact reported version or its dot-prefix.`;
@@ -44,7 +45,8 @@ if (
   );
 const htmlDir = resolve(options["html-dir"] || "artifacts");
 const output = resolve(
-  options.output || `/tmp/mysteryboard-work-${options.engine}-${Date.now()}`,
+  options.output ||
+    join(tmpdir(), `mysteryboard-work-${options.engine}-${Date.now()}`),
 );
 const port = Number(options.port || 5177);
 assert(

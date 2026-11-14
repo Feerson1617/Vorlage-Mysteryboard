@@ -1,0 +1,26 @@
+[WebServer] (node:73320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:73333) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:02] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:73360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:04] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:05] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:07] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:08] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:08] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:08] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:08] code 404, message File not found
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:08] "GET /favicon.ico HTTP/1.1" 404 -
+  ✓  1 tests/browser/acceptance-delivery.spec.ts:13:1 › Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächliche SCORM-Einbettung (6.7s)
+
+  1 passed (9.6s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
