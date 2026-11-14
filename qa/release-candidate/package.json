@@ -1,0 +1,12 @@
+{
+  "name": "mysteryboard-release-candidate-review",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node pruefen.mjs .."
+  },
+  "dependencies": {
+    "playwright": "1.65.0",
+    "fflate": "0.8.3"
+  }
+}

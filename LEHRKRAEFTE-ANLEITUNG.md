@@ -97,3 +97,5 @@ Die Kategorien sind eine freiwillige Orientierung und keine Musterlösung. Wähl
 
 
 Gruppennamen müssen eindeutig sein. „Ursachen“, „ Ursachen “ und „ursachen“ zählen als derselbe Name. Bei solchen Doppelungen bleiben Ihre Eingaben erhalten; ändern Sie die betroffenen Namen vor dem Übernehmen oder Bereitstellen. Ältere Dateien werden unverändert geöffnet. Ihre Hilfegruppen lassen sich vor einer erneuten Veröffentlichung präzisieren.
+
+Kurzer Einstieg: [START-HIER.md](START-HIER.md). Fertiger externer Übertragungsauftrag: [KI-PROMPT-ZUM-KOPIEREN.md](KI-PROMPT-ZUM-KOPIEREN.md). Die kontrollierte [Papierprobe](examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md) ist keine bereits bestandene Fremd-KI-Prüfung. Exportnamen nennen jetzt Entwurf, Aufgabe oder Arbeitsstand sowie den sichtbaren Titel und die Inhaltsversion; das Dateiformat bleibt unverändert.

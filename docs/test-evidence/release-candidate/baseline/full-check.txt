@@ -1,0 +1,780 @@
+
+> mysteryboard-prototype@0.1.0 check
+> npm test && npm run build && npm run test:e2e
+
+
+> mysteryboard-prototype@0.1.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/Mysteryboard-help-final
+
+
+ Test Files  16 passed (16)
+      Tests  107 passed (107)
+   Start at  21:25:10
+   Duration  10.58s (tests 84%, import 13%, transform 2%, worker 1%)
+
+    Isolate  16 workers spawned · ~254ms startup each (spawn + environment, per file)
+             at least ~1.10s faster with isolate: false — reuses workers across files instead of one per file
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && node scripts/build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-Cu4YqyAY.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/small/index.html  797.76 kB │ gzip: 257.45 kB
+
+✓ built in 473ms
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-CSICESG0.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/large/index.html  830.65 kB │ gzip: 262.70 kB
+
+✓ built in 427ms
+vite v8.3.6 building client environment for boden-klasse11...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-6WULEWRi.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/boden-klasse11/index.html  799.31 kB │ gzip: 258.65 kB
+
+✓ built in 404ms
+vite v8.3.6 building client environment for universal...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-jGmQW7oM.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/universal/index.html  793.10 kB │ gzip: 256.17 kB
+
+✓ built in 384ms
+small: 822.814 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 855.700 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+boden-klasse11: 824.366 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+universal: 818.147 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 test:e2e
+> node scripts/build.mjs --tests && node scripts/prepare-universal-tests.mjs && playwright test
+
+vite v8.3.6 building client environment for review...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-CB4ReKFL.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/review/index.html  1,338.36 kB │ gzip: 633.56 kB
+
+✓ built in 497ms
+vite v8.3.6 building client environment for reuse-example...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-B6p1Qp5z.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/reuse-example/index.html  794.21 kB │ gzip: 256.49 kB
+
+✓ built in 381ms
+vite v8.3.6 building client environment for ordered-5...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-B0COkRxF.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/ordered-5/index.html  794.69 kB │ gzip: 256.61 kB
+
+✓ built in 388ms
+vite v8.3.6 building client environment for ordered-12...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-4WKwbyA_.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/ordered-12/index.html  795.86 kB │ gzip: 256.51 kB
+
+✓ built in 359ms
+vite v8.3.6 building client environment for ordered-18...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-GH4rG5-0.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/ordered-18/index.html  797.15 kB │ gzip: 256.56 kB
+
+✓ built in 350ms
+vite v8.3.6 building client environment for ordered-60...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-DzUCx1H0.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/ordered-60/index.html  806.24 kB │ gzip: 256.96 kB
+
+✓ built in 411ms
+vite v8.3.6 building client environment for print-media...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-CDjkAqiH.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/print-media/index.html  800.83 kB │ gzip: 257.65 kB
+
+✓ built in 381ms
+review: 1.363.413 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+reuse-example: 819.264 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+ordered-5: 819.739 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+ordered-12: 820.908 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+ordered-18: 822.198 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+ordered-60: 831.289 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+print-media: 825.878 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+{
+  "manifestIdentifier": "MysteryBoard-Universal-v3",
+  "scormVersion": "1.2",
+  "html": {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 818147,
+    "sha256": "57bc035ce569fdfa84b07dd6a25c2fa47698819f5fefeb795e2d4420fccf9184"
+  },
+  "zip": {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 268174,
+    "sha256": "ad11f72e71aca3e020e78f57b3e5adf9d24a5b130f22538bcfddf6fe16dae303"
+  },
+  "applicationByteIdentical": true,
+  "entries": [
+    {
+      "file": "imsmanifest.xml",
+      "bytes": 883,
+      "sha256": "0aa1e503e3c83e449bafcacdaf477250663321658365e3e46c3f8b6e55cc1b7e"
+    },
+    {
+      "file": "launch.html",
+      "bytes": 633,
+      "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+    },
+    {
+      "file": "session.js",
+      "bytes": 1190,
+      "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+    },
+    {
+      "file": "app.html",
+      "bytes": 818147,
+      "sha256": "57bc035ce569fdfa84b07dd6a25c2fa47698819f5fefeb795e2d4420fccf9184"
+    }
+  ]
+}
+vite v8.3.6 building client environment for universal...
+transforming...
+✓ 151 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-DMdemxHM.js
+[plugin vite:singlefile] Inlining: style-k1ULFMPH.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/authored-content/index.html  1,093.63 kB │ gzip: 350.33 kB
+
+✓ built in 556ms
+authored-content: 1.118.677 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+Erstellt: /workspace/Mysteryboard-help-final/dist/authoring-test-tpXCFV/MysteryBoard-Editierbares-Beispiel.html und /workspace/Mysteryboard-help-final/dist/authoring-test-tpXCFV/MysteryBoard-Editierbares-Beispiel-SCORM.zip. Inhalte bleiben im Lehrkräftemodus bearbeitbar.
+[WebServer] (node:174268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:174281) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:36] "GET / HTTP/1.1" 200 -
+
+Running 169 tests using 1 worker
+
+(node:174308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:39] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:41] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:44] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:45] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:45] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:45] "GET /test-results/acceptance-delivery-Liefer-2eceb-ts%C3%A4chliche-SCORM-Einbettung/scorm/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:46] code 404, message File not found
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:46] "GET /favicon.ico HTTP/1.1" 404 -
+  ✓    1 tests/browser/acceptance-delivery.spec.ts:13:1 › Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächliche SCORM-Einbettung (10.4s)
+(node:174645) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:53] "GET /test-results/authoring-build-security-S-74797-alt-ausschlie%C3%9Flich-als-Text/MysteryBoard-Textpruefung.html HTTP/1.1" 200 -
+  ✓    2 tests/browser/authoring-build-security.spec.ts:7:1 › Spezifischer Build behandelt auch gemischte Script-Endtags im Inhalt ausschließlich als Text (4.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:54] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:54] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:54] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:59] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:59] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:25:59] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:00] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:00] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:00] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:06] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:06] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:06] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/session.js HTTP/1.1" 200 -
+  ✓    3 tests/browser/authoring-classroom.spec.ts:293:3 › Unterrichtskreislauf 1024x768: Autor → SCORM → Touch → PDF → selbsttragende PNG (15.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:09] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:09] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:09] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:14] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:14] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:14] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:15] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:15] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:15] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:22] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:22] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:22] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/session.js HTTP/1.1" 200 -
+  ✓    4 tests/browser/authoring-classroom.spec.ts:293:3 › Unterrichtskreislauf 768x1024: Autor → SCORM → Touch → PDF → selbsttragende PNG (15.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:25] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:25] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:25] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:27] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:27] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:27] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:30] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:30] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:30] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:33] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:33] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:33] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:38] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/app.html HTTP/1.1" 200 -
+  ✓    5 tests/browser/authoring-classroom.spec.ts:425:1 › Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version exportieren und alte Schülerarbeit unvermischt öffnen (17.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:42] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:44] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓    6 tests/browser/authoring-phase1.spec.ts:11:1 › Phase 1: echte Blanko-HTML öffnet Aufgabe, sichert vollständige PNG und stellt sie offline frisch wieder her (3.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:46] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:50] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓    7 tests/browser/authoring-phase2.spec.ts:10:1 › Phase 2: zwölf Karten mit drei Medien erstellen, Entwurf schließen und erneut bearbeiten (5.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:51] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓    8 tests/browser/authoring-safety.spec.ts:24:3 › Autorenoberfläche 320x700: Tabelle und Quelle bearbeiten, Medienfehler verlieren keine Karte (4.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:26:56] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓    9 tests/browser/authoring-safety.spec.ts:24:3 › Autorenoberfläche 600x800: Tabelle und Quelle bearbeiten, Medienfehler verlieren keine Karte (4.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:00] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   10 tests/browser/authoring-safety.spec.ts:184:1 › Fehlerhafte und abgebrochene Imports verändern einen geöffneten Entwurf nicht; HTML bleibt Text (13.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:13] "GET /artifacts/tests/MysteryBoard-Editierbares-Beispiel.html HTTP/1.1" 200 -
+  ✓   11 tests/browser/authoring-safety.spec.ts:262:3 › Neuer mysteryspezifischer HTML-Build bietet denselben vollständigen Lehrkräftemodus (1.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:15] "GET /test-results/authoring-safety-Neuer-mys-14aac-llst%C3%A4ndigen-Lehrkr%C3%A4ftemodus/specific-scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:15] "GET /test-results/authoring-safety-Neuer-mys-14aac-llst%C3%A4ndigen-Lehrkr%C3%A4ftemodus/specific-scorm/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:15] "GET /test-results/authoring-safety-Neuer-mys-14aac-llst%C3%A4ndigen-Lehrkr%C3%A4ftemodus/specific-scorm/app.html HTTP/1.1" 200 -
+  ✓   12 tests/browser/authoring-safety.spec.ts:262:3 › Neuer mysteryspezifischer SCORM-Build bietet denselben vollständigen Lehrkräftemodus (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:17] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   13 tests/browser/authoring-safety.spec.ts:319:1 › Original-Aufgaben-PNG und gedrehtes JPEG sind vollständig; Legacy-PNG wird verständlich erkannt (3.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:20] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   14 tests/browser/authoring-safety.spec.ts:392:1 › Fehler bei Projektdatei und Downloadvorbereitung bleiben verständlich und verlieren keinen Entwurf (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:22] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   15 tests/browser/corrections.spec.ts:53:1 › mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück (3.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   16 tests/browser/corrections.spec.ts:127:1 › erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage (2.7s)
+  ✓   17 tests/browser/corrections.spec.ts:228:3 › PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung (4.8s)
+  ✓   18 tests/browser/corrections.spec.ts:228:3 › PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download (5.6s)
+  ✓   19 tests/browser/corrections.spec.ts:280:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen (6.3s)
+  ✓   20 tests/browser/corrections.spec.ts:280:3 › quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen (6.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   21 tests/browser/corrections.spec.ts:399:1 › Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar (1.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:52] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:57] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:59] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:59] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:27:59] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓   22 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 1024x768: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (13.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:05] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:10] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:12] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:12] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:12] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:15] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:15] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:15] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓   23 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 768x1024: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (12.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:18] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:22] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:24] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:24] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:24] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:27] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:27] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:27] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓   24 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 600x800: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (12.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:30] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:34] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:36] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:36] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:36] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:41] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:41] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:41] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓   25 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 320x700: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (13.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:43] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:48] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:51] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:51] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:51] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:55] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:55] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:55] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓   26 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 1024x768: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (14.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:28:57] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:02] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:05] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:05] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:05] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:09] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:09] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:09] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓   27 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 768x1024: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (14.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:12] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:17] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:19] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:19] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:19] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:23] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:23] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:23] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓   28 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 600x800: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (13.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:26] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:30] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:31] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:32] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:32] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:34] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:35] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:35] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓   29 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 320x700: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (11.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:37] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:41] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:43] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/lernende/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:43] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/lernende/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:43] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/lernende/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:47] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:47] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:47] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/frisch/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:49] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/revision/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:49] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/revision/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:49] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/revision/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:51] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/alt-und-neu/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:51] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/alt-und-neu/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:51] "GET /test-results/help-editor-Grafischer-Hil-b1e2b-Vorschau-SCORM-PNG-Revision/alt-und-neu/session.js HTTP/1.1" 200 -
+  ✓   30 tests/browser/help-editor.spec.ts:188:3 › Grafischer Hilfe-Unterrichtskreislauf 1024: erstellen, echte Vorschau, SCORM, PNG, Revision (17.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:54] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:29:58] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:00] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/lernende/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:00] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/lernende/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:00] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/lernende/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:04] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:04] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:04] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/frisch/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:06] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/revision/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:06] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/revision/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:06] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/revision/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:08] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/alt-und-neu/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:08] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/alt-und-neu/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:08] "GET /test-results/help-editor-Grafischer-Hil-1aec0-Vorschau-SCORM-PNG-Revision/alt-und-neu/app.html HTTP/1.1" 200 -
+  ✓   31 tests/browser/help-editor.spec.ts:188:3 › Grafischer Hilfe-Unterrichtskreislauf 768: erstellen, echte Vorschau, SCORM, PNG, Revision (16.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:10] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   32 tests/browser/help-editor.spec.ts:452:1 › Lokale Hilfe: Fehler, Vorlagenwechsel, eigene Gruppen, Löschen, Tastatur und Abbruch erhalten Eingaben (3.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:14] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   33 tests/browser/help-editor.spec.ts:583:1 › Erstbedienung bei 320 Pixeln: sichtbare Funktionsnamen führen in 14 Handlungen bis zum Download (2.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:16] "GET /artifacts/tests/MysteryBoard-Editierbares-Beispiel.html HTTP/1.1" 200 -
+  ✓   34 tests/browser/help-editor.spec.ts:695:3 › Hilfekategorien bleiben im mysteriespezifischen HTML-Build grafisch bearbeitbar (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:18] "GET /test-results/help-editor-Hilfekategorie-870d4--Build-grafisch-bearbeitbar/specific/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:18] "GET /test-results/help-editor-Hilfekategorie-870d4--Build-grafisch-bearbeitbar/specific/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:18] "GET /test-results/help-editor-Hilfekategorie-870d4--Build-grafisch-bearbeitbar/specific/app.html HTTP/1.1" 200 -
+  ✓   35 tests/browser/help-editor.spec.ts:695:3 › Hilfekategorien bleiben im mysteriespezifischen SCORM-Build grafisch bearbeitbar (1.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:20] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   36 tests/browser/help-final.spec.ts:14:1 › gleich gemeinte Gruppennamen mit Großschreibung und Leerzeichen werden vor Übernahme und Veröffentlichung abgefangen (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:21] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:23] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:24] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:25] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:26] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:28] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:29] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:30] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:31] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:33] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   37 tests/browser/help-final.spec.ts:56:1 › alle fünf Denkimpulse bleiben nach eigener Änderung, Vorlagenwechsel und frischer Entwurfsöffnung erhalten (12.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:34] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   38 tests/browser/help-final.spec.ts:110:1 › alte Dateien mit gleichlautenden Hilfen bleiben lesbar, werden aber nicht erneut unverändert veröffentlicht (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:36] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:37] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:39] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:41] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓   39 tests/browser/help-final.spec.ts:146:1 › Hilfeeditor und echte Schülerhilfe bleiben in allen vier geforderten Ansichten per Touch erreichbar (6.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:42] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:49] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   40 tests/browser/integration.spec.ts:372:3 › Integration Schülergruppe 1024x768: Hilfe, A4/A3-PDF, Weiterarbeit und neue PNG-Sitzung (8.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:51] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:30:58] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   41 tests/browser/integration.spec.ts:372:3 › Integration Schülergruppe 768x1024: Hilfe, A4/A3-PDF, Weiterarbeit und neue PNG-Sitzung (8.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:00] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:07] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   42 tests/browser/integration.spec.ts:372:3 › Integration Schülergruppe 600x800: Hilfe, A4/A3-PDF, Weiterarbeit und neue PNG-Sitzung (8.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:08] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:15] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   43 tests/browser/integration.spec.ts:372:3 › Integration Schülergruppe 320x700: Hilfe, A4/A3-PDF, Weiterarbeit und neue PNG-Sitzung (8.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:17] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   44 tests/browser/integration.spec.ts:500:3 › Integration neutrale 12 Karten: geordnete Positionen bleiben in A4 und A3 erhalten (5.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:22] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html HTTP/1.1" 200 -
+  ✓   45 tests/browser/integration.spec.ts:500:3 › Integration neutrale 18 Karten: geordnete Positionen bleiben in A4 und A3 erhalten (5.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:27] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html HTTP/1.1" 200 -
+  ✓   46 tests/browser/integration.spec.ts:500:3 › Integration neutrale 60 Karten: geordnete Positionen bleiben in A4 und A3 erhalten (11.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:39] "GET /artifacts/tests/MysteryBoard-Vorlage-Medien.html HTTP/1.1" 200 -
+  ✓   47 tests/browser/integration.spec.ts:523:1 › Integration Medien: drei Seitenverhältnisse, langer Text, negative Positionen und 500 Zeichen Beziehung im echten PDF (6.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:46] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   48 tests/browser/integration.spec.ts:564:1 › Integration breite Werkzeugleiste: aktive Hilfe sichtbar und mit Tastatur beschrieben (1.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:48] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   49 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 5, 1024x768: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:51] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   50 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 5, 768x1024: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:53] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   51 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 5, 600x800: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:55] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   52 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 5, 320x700: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:31:57] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   53 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 12, 1024x768: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:00] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   54 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 12, 768x1024: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:02] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   55 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 12, 600x800: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:04] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   56 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 12, 320x700: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:06] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html HTTP/1.1" 200 -
+  ✓   57 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 18, 1024x768: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:08] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html HTTP/1.1" 200 -
+  ✓   58 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 18, 768x1024: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:10] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html HTTP/1.1" 200 -
+  ✓   59 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 18, 600x800: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:13] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html HTTP/1.1" 200 -
+  ✓   60 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 18, 320x700: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (2.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:15] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html HTTP/1.1" 200 -
+  ✓   61 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 60, 1024x768: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (6.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:21] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html HTTP/1.1" 200 -
+  ✓   62 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 60, 768x1024: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (5.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:27] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html HTTP/1.1" 200 -
+  ✓   63 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 60, 600x800: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (5.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:33] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html HTTP/1.1" 200 -
+  ✓   64 tests/browser/ordered-help.spec.ts:145:5 › Geordnete Ablage 60, 320x700: Zahlen, Präfixe, Abstände, unveränderte Bearbeitung (5.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:39] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:44] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   65 tests/browser/ordered-help.spec.ts:224:3 › Schülerablauf mit zweistufiger Hilfe 1024x768: eigenes Produkt, identische PNG, neue Sitzung (7.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:46] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:50] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   66 tests/browser/ordered-help.spec.ts:224:3 › Schülerablauf mit zweistufiger Hilfe 768x1024: eigenes Produkt, identische PNG, neue Sitzung (6.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:52] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:57] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   67 tests/browser/ordered-help.spec.ts:224:3 › Schülerablauf mit zweistufiger Hilfe 600x800: eigenes Produkt, identische PNG, neue Sitzung (6.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:32:58] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:03] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html HTTP/1.1" 200 -
+  ✓   68 tests/browser/ordered-help.spec.ts:224:3 › Schülerablauf mit zweistufiger Hilfe 320x700: eigenes Produkt, identische PNG, neue Sitzung (6.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:05] "GET /artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html HTTP/1.1" 200 -
+  ✓   69 tests/browser/ordered-help.spec.ts:431:1 › Allgemeiner Impuls ohne Hilfemetadaten, Tastatur und breite Werkzeugleiste (841ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:06] "GET /artifacts/previews/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   70 tests/browser/ordered-help.spec.ts:468:1 › Neuer Kern erhält explizites Boden-Layout und echte RC1-Positionen in einer getrennten technischen Vorschau (1.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:07] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   71 tests/browser/print-lifecycle.spec.ts:57:1 › Druck-Lebenszyklus: Touch-Abbruch während A4/A3-Vorbereitung, neuer A4-Auftrag und unveränderte PNG/History (8.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:16] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[print 12] original PNG verified; preparing print
+[print 12] preview ready after 357 ms; checking all details
+[print 12] 6 pages checked; exercising native cross-reference
+  ✓   72 tests/browser/print.spec.ts:527:3 › Druck 12: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (4.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:20] "GET /artifacts/previews/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[print 18] original PNG verified; preparing print
+[print 18] preview ready after 391 ms; checking all details
+[print 18] 5 pages checked; exercising native cross-reference
+  ✓   73 tests/browser/print.spec.ts:527:3 › Druck 18: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (4.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:24] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[print 60] original PNG verified; preparing print
+[print 60] preview ready after 1925 ms; checking all details
+[print 60] 34 pages checked; exercising native cross-reference
+  ✓   74 tests/browser/print.spec.ts:527:3 › Druck 60: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (20.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:33:45] "GET /artifacts/tests/MysteryBoard-Pruefung-220.html HTTP/1.1" 200 -
+[print 220] original PNG verified; preparing print
+[print 220] preview ready after 4205 ms; checking all details
+[print 220] 56 pages checked; exercising native cross-reference
+  ✓   75 tests/browser/print.spec.ts:527:3 › Druck 220: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (46.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:32] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+[print 5] original PNG verified; preparing print
+[print 5] preview ready after 205 ms; checking all details
+[print 5] 3 pages checked; exercising native cross-reference
+  ✓   76 tests/browser/print.spec.ts:527:3 › Druck 5: komplette Offline-Detailseiten, lesbare Texte, Querverweise und unveränderte PNG (3.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:35] "GET /artifacts/previews/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   77 tests/browser/print.spec.ts:605:1 › Druck A3 und Zoom: fertige Produktions-HTML erzeugt bei anderem Bildschirmzoom dieselben Druckseiten (4.9s)
+  ✓   78 tests/browser/print.spec.ts:640:3 › Druck Extremtext a4: 4000 Zeichen, ungetrenntes Wort, 100 Zeichen Titel und 500 Zeichen Beschriftung (2.7s)
+  ✓   79 tests/browser/print.spec.ts:640:3 › Druck Extremtext a3: 4000 Zeichen, ungetrenntes Wort, 100 Zeichen Titel und 500 Zeichen Beschriftung (2.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:45] "GET /artifacts/previews/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓   80 tests/browser/print.spec.ts:729:1 › Druck-Namenspflicht: Legacy bleibt unverändert, Abbruch startet nichts und Namensnachtrag setzt bewusst fort (2.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:48] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   81 tests/browser/prototype.spec.ts:36:1 › eigenständiges HTML läuft offline; keine externen Anfragen (1.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:50] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   82 tests/browser/prototype.spec.ts:69:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (1.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:54] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   83 tests/browser/prototype.spec.ts:135:1 › kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten (4.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:56] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   84 tests/browser/prototype.spec.ts:192:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import (2.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:34:58] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   85 tests/browser/prototype.spec.ts:230:1 › abgebrochener Import verändert den geöffneten Stand nicht (2.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:01] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   86 tests/browser/prototype.spec.ts:256:1 › Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar (720ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:02] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   87 tests/browser/prototype.spec.ts:278:1 › Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick (1.3s)
+  ✓   88 tests/browser/prototype.spec.ts:339:1 › gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export (1.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:04] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   89 tests/browser/prototype.spec.ts:393:1 › kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas (1.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   90 tests/browser/prototype.spec.ts:417:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen (1.0s)
+  ✓   91 tests/browser/prototype.spec.ts:436:1 › Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende (1.3s)
+  ✓   92 tests/browser/prototype.spec.ts:483:1 › QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar (1.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:09] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   93 tests/browser/r1.spec.ts:135:3 › R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal (1.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:11] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   94 tests/browser/r1.spec.ts:135:3 › R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:12] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   95 tests/browser/r1.spec.ts:167:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten (2.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:14] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓   96 tests/browser/r1.spec.ts:167:3 › R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten (3.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:17] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   97 tests/browser/r1.spec.ts:257:3 › R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (1.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:18] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   98 tests/browser/r1.spec.ts:257:3 › R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht (1.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:20] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   99 tests/browser/r1.spec.ts:328:1 › R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam (1.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:21] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  100 tests/browser/r1.spec.ts:388:1 › R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog (973ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:22] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  101 tests/browser/r1.spec.ts:456:1 › R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte (965ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:23] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  102 tests/browser/r1.spec.ts:493:1 › R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar (1.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:24] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  103 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal (854ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  104 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal (903ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:26] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  105 tests/browser/r1b.spec.ts:133:5 › R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal (1.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:27] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  106 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal (848ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  107 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal (807ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  108 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal (878ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:29] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  109 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal (880ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:30] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  110 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal (833ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:31] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  111 tests/browser/r1b.spec.ts:133:5 › R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal (990ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:32] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  112 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal (860ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:33] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  113 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal (891ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:34] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  114 tests/browser/r1b.spec.ts:133:5 › R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal (868ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:35] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  115 tests/browser/r1b.spec.ts:198:3 › R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger (1.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:36] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  116 tests/browser/r1b.spec.ts:198:3 › R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:38] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  117 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:39] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  118 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos (1.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:41] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  119 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos (1.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:42] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  120 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:43] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  121 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos (1.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:45] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  122 tests/browser/r1b.spec.ts:230:5 › R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos (1.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:46] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  123 tests/browser/r1b.spec.ts:276:1 › R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:48] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  124 tests/browser/r1b.spec.ts:328:1 › R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal (884ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:49] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  125 tests/browser/r1b.spec.ts:361:1 › R1b Schutz bleibt auf die Anwendung begrenzt und erlaubt keine ersetzten Dialogbuttons (1.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:50] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:53] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  126 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung (5.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:55] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:35:58] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  127 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung (5.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:01] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  128 tests/browser/r1b.spec.ts:559:1 › R1b Original-ID-Grenzstand importiert unverändert und bleibt nach Teamnachtrag per Finger sicherbar (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:02] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  129 tests/browser/r1b.spec.ts:581:1 › R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger (2.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:05] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  130 tests/browser/r1b.spec.ts:665:1 › R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp (1.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:06] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:09] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  131 tests/browser/review.spec.ts:41:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung (5.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:12] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  132 tests/browser/review.spec.ts:93:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:13] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  133 tests/browser/review.spec.ts:93:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:15] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:20] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  134 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (7.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:22] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:26] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  135 tests/browser/review.spec.ts:169:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (6.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:29] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:30] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  136 tests/browser/review.spec.ts:309:1 › Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar (4.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:33] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  137 tests/browser/review.spec.ts:343:1 › Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf (2.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:36] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  138 tests/browser/review.spec.ts:387:5 › Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:37] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  139 tests/browser/review.spec.ts:387:5 › Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:39] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  140 tests/browser/review.spec.ts:387:5 › Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:41] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  141 tests/browser/review.spec.ts:387:5 › Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt (2.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:43] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  142 tests/browser/review.spec.ts:508:1 › 220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert (4.1s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:47] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  143 tests/browser/review.spec.ts:559:1 › Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas (2.5s)
+  ✓  144 tests/browser/review.spec.ts:625:1 › Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder (904ms)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:51] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  145 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 small: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (2.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:53] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  146 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 large: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (2.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:56] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  147 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 boden: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:36:58] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  148 tests/browser/team-requirements.spec.ts:171:3 › UNI-01 neutral: Start benötigt Namen; leere Änderung erhält den bestehenden Namen (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:01] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:03] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  149 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export a3: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (4.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:05] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:07] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  150 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export menu: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (3.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:09] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:11] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  151 tests/browser/team-requirements.spec.ts:212:3 › UNI-01 Legacy und Export preview-compact: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf (3.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:12] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  152 tests/browser/team-requirements.spec.ts:286:1 › UNI-01 Undo/Redo, Abbruch und alte Vorschau können die Namensprüfung nicht umgehen (2.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:15] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:16] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  153 tests/browser/team-requirements.spec.ts:448:1 › UNI-01/02: 80 Zeichen und Umlaute bleiben in Bild, PNG-Daten und frischer Wiederherstellung vollständig (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:17] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  154 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 320×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:19] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  155 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 480×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:21] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  156 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 600×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:23] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  157 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 601×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:25] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  158 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 640×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:26] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  159 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 768×1024: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (1.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:28] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  160 tests/browser/team-requirements.spec.ts:499:3 › UNI-02 1024×768: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich (2.2s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:30] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:32] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  161 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage small: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (4.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:34] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:37] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  162 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage large: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (5.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:40] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:41] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  163 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage boden: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (3.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:43] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:45] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  164 tests/browser/universal.spec.ts:240:3 › Universelle Vorlage neutral: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf (3.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:47] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  165 tests/browser/universal.spec.ts:399:3 › Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (3.0s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:50] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  166 tests/browser/universal.spec.ts:399:3 › Boden 768×1024: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport (2.9s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:53] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:37:57] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:38:02] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:38:05] "GET /artifacts/tests/MysteryBoard-Test-5.html HTTP/1.1" 200 -
+  ✓  167 tests/browser/universal.spec.ts:519:1 › Alle Varianten importieren schema1 unverändert; Export verlangt Team, ungültiges Löschen erhält den Namen (16.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 21:38:09] "GET /artifacts/MysteryBoard-Boden-Klasse11.html HTTP/1.1" 200 -
+  ✓  168 tests/browser/universal.spec.ts:655:1 › Boden übernimmt weder fremdes Mystery noch Inhaltsversion 1.0.0 und behält den geöffneten Teamstand (2.0s)
+  ✓  169 tests/browser/universal.spec.ts:685:1 › Export-Kopfzeile: lange untrennbare Titel und Teamangaben passen ohne Überlagerung in beide Bildgrößen (1.3s)
+
+  169 passed (12.6m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

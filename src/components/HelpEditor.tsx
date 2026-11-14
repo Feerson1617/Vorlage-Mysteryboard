@@ -368,7 +368,7 @@ export function HelpEditor({
           <p className="small">{groups.length} von höchstens 6 Gruppen.</p>
           <h3>Karten zuordnen</h3>
           <p>
-            Ordne nur Karten zu, deren Funktion du fachlich begründen kannst.
+            Ordnet nur Karten zu, deren Funktion ihr fachlich begründen könnt.
             Eine Karte kann mehrere Zusammenhänge haben. Nicht alle Karten
             müssen markiert werden.
           </p>

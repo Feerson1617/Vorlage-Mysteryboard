@@ -1,0 +1,112 @@
+{
+  "status": "passed",
+  "applicationSha256": "46cf0aef945ce8398f4ee2b99f71a2f5e67d4ccd2feb0950a06c77b9222dc921",
+  "checks": [
+    "papier-1024x768: alle Originalfelder/Medien gelesen, Karte hinzugefügt/gelöscht, Text/Diagramm/Hilfen geändert, neuer Entwurf und Aufgabe, SCORM mit Touch/Pinch, echte PNG frisch restauriert, alte Fassung unvermischt.",
+    "papier-768x1024: alle Originalfelder/Medien gelesen, Karte hinzugefügt/gelöscht, Text/Diagramm/Hilfen geändert, neuer Entwurf und Aufgabe, SCORM mit Touch/Pinch, echte PNG frisch restauriert, alte Fassung unvermischt.",
+    "papier-600x800: alle Originalfelder/Medien gelesen, Karte hinzugefügt/gelöscht, Text/Diagramm/Hilfen geändert, neuer Entwurf und Aufgabe, SCORM mit Touch/Pinch, echte PNG frisch restauriert, alte Fassung unvermischt.",
+    "papier-320x700: alle Originalfelder/Medien gelesen, Karte hinzugefügt/gelöscht, Text/Diagramm/Hilfen geändert, neuer Entwurf und Aufgabe, SCORM mit Touch/Pinch, echte PNG frisch restauriert, alte Fassung unvermischt."
+  ],
+  "screenshots": [
+    "papier-1024x768-diagramm-lesefenster.png",
+    "papier-1024x768-diagramm-rechts-unten.png",
+    "papier-1024x768-hilfen.png",
+    "papier-1024x768-scorm-v2.png",
+    "papier-768x1024-diagramm-lesefenster.png",
+    "papier-768x1024-diagramm-rechts-unten.png",
+    "papier-768x1024-hilfen.png",
+    "papier-768x1024-scorm-v2.png",
+    "papier-600x800-diagramm-lesefenster.png",
+    "papier-600x800-diagramm-rechts-unten.png",
+    "papier-600x800-hilfen.png",
+    "papier-600x800-scorm-v2.png",
+    "papier-320x700-diagramm-lesefenster.png",
+    "papier-320x700-diagramm-rechts-unten.png",
+    "papier-320x700-hilfen.png",
+    "papier-320x700-scorm-v2.png"
+  ],
+  "scormCalls": [
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ],
+    [
+      [
+        "LMSInitialize",
+        ""
+      ],
+      [
+        "LMSFinish",
+        ""
+      ]
+    ]
+  ],
+  "browserVersion": "156.0.8078.79",
+  "foreignAiTrial": "OPEN — no independent external AI was run"
+}

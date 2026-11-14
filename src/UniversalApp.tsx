@@ -20,9 +20,18 @@ import { Camera } from "./components/Camera";
 import { readDocumentQr } from "./core/document-qr";
 
 export function documentFile(doc: MysteryDocument) {
+  const role = { draft: "Entwurf", task: "Aufgabe", student: "Arbeitsstand" }[
+    doc.kind
+  ];
+  const title =
+    doc.content.title
+      .normalize("NFC")
+      .replace(/[^\p{L}\p{N}-]+/gu, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 72) || "Mystery";
   return new File(
     [encodeDocument(doc) as BlobPart],
-    `MysteryBoard-${doc.kind}-${doc.content.id}-${doc.content.version}.mysteryboard`,
+    `MysteryBoard-${role}-${title}-v${doc.content.version}.mysteryboard`,
     { type: "application/json" },
   );
 }
@@ -200,8 +209,15 @@ export function UniversalApp({
               Eigenes Mystery erstellen
             </button>
           </div>
+          <p className="small">
+            Für Lehrkräfte: Erstellt eigene Karten über „Eigenes Mystery
+            erstellen“. Auch Dateien von einer KI öffnet ihr über „Mystery
+            bearbeiten“. Bei Aufgaben wählt ihr danach „Lehrkräftemodus –
+            Mystery bearbeiten“; Entwürfe öffnen direkt den Editor.
+          </p>
           <p>
-            Es wird nichts automatisch gespeichert oder an ein LMS übertragen.
+            Eure Inhalte werden nicht automatisch gespeichert oder an die
+            Lernplattform übertragen.
           </p>
         </main>
       )}

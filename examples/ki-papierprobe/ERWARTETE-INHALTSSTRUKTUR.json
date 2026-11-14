@@ -1,0 +1,132 @@
+{
+  "fixtureId": "parkteich-papierprobe",
+  "origin": "Controlled reference created from authored synthetic paper source; no external AI run",
+  "contentId": "mystery-parkteich-papierprobe",
+  "version": "1.0.0",
+  "contentHash": "19c271cf6291b761cee66886b07cd2f0bd9872dba4a0eccce19016b636c3d406",
+  "cards": [
+    {
+      "id": 1,
+      "displayNumber": "1",
+      "title": "Die Meldung am Morgen",
+      "text": "Am Montag um 07:15 Uhr meldet der Pflegedienst mehrere tote Fische am flachen Ufer. Das Wasser wirkt trüber als am Freitag. Fischart, Anzahl und genaue Fundorte wurden nicht protokolliert.",
+      "source": "Eigene synthetische Beobachtung A. Fehlende Angaben sind im Original ausdrücklich nicht dokumentiert.",
+      "group": "required"
+    },
+    {
+      "id": 2,
+      "displayNumber": "2",
+      "title": "Der Blick am Sonntag",
+      "text": "Am Sonntag um 16:00 Uhr beobachtet eine Spaziergängerin keine auffälligen Fische. An der Oberfläche sind grüne Schlieren zu sehen. Aus diesem einzelnen Besuch lässt sich nicht ableiten, wie es dem gesamten Teich während der Nacht ging.",
+      "source": "Eigene synthetische Beobachtung B.",
+      "group": "required"
+    },
+    {
+      "id": 3,
+      "displayNumber": "3",
+      "title": "Wetter und Zufluss",
+      "text": "Freitag und Samstag sind warm und sonnig. Am Sonntag um 18:30 Uhr fällt kräftiger Regen. Ein offener Graben verbindet die benachbarte Wiese mit dem Teich. Ob und wie viel Wasser durch den Graben floss, wurde nicht gemessen.",
+      "source": "Eigene synthetische Wetter- und Ortsnotizen.",
+      "group": "required"
+    },
+    {
+      "id": 4,
+      "displayNumber": "4",
+      "title": "Temperaturen am Messpunkt",
+      "text": "Die Tabelle zeigt die Wassertemperatur an einer Sonde, etwa 30 cm unter der Oberfläche. Es gibt keine Messwerte vom Teichgrund. Alle Werte sind synthetische Prüfdaten.",
+      "source": "Eigene synthetische Messreihe T; keine Aussage über den gesamten Wasserkörper.",
+      "group": "required",
+      "table": {
+        "caption": "Wassertemperatur an derselben Sonde",
+        "headers": [
+          "Zeitpunkt",
+          "Temperatur in °C"
+        ],
+        "rows": [
+          [
+            "So 16:00",
+            "25"
+          ],
+          [
+            "So 22:00",
+            "23"
+          ],
+          [
+            "Mo 04:00",
+            "21"
+          ],
+          [
+            "Mo 07:00",
+            "21"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "displayNumber": "5",
+      "title": "Sauerstoff über Nacht",
+      "text": "Das Diagramm zeigt gelösten Sauerstoff am selben oberflächennahen Messpunkt. Ein einzelner Messpunkt beschreibt nicht alle Bereiche des Teichs. Einheit: Milligramm Sauerstoff je Liter Wasser.",
+      "source": "Eigene synthetische Messreihe O; Diagramm selbst erstellt, CC0 1.0.",
+      "group": "required",
+      "imageSha256": "9bf18999d6f6da6e2c69b6b00d5fd1f392fb1fdd04887d08a1093ced18e66639",
+      "imageAlt": "Liniengrafik: So 16 Uhr 8,2 mg/L; So 22 Uhr 5,4 mg/L; Mo 4 Uhr 2,1 mg/L; Mo 7 Uhr 1,8 mg/L. Synthetische Messwerte."
+    },
+    {
+      "id": 6,
+      "displayNumber": "6",
+      "title": "Sauerstoff im Wasser",
+      "text": "Fische und viele andere Wasserorganismen benötigen gelösten Sauerstoff. Wie viel Sauerstoff erforderlich ist, hängt unter anderem von Art und Lebensstadium ab. Kaltes Wasser kann mehr Sauerstoff lösen als warmes Wasser.",
+      "source": "Eigene fachliche Zusammenfassung nach USGS Water Science School, Dissolved Oxygen and Water, https://www.usgs.gov/special-topics/water-science-school/science/dissolved-oxygen-and-water (abgerufen am 14.11.2026).",
+      "group": "required"
+    },
+    {
+      "id": 7,
+      "displayNumber": "7",
+      "title": "Pflanzen und Tageszeit",
+      "text": "Photosynthese kann tagsüber Sauerstoff in das Wasser eintragen. Ihre Stärke hängt unter anderem von Licht und Wassertrübung ab. Auch Pflanzen und Algen benötigen für ihre Zellatmung Sauerstoff; in der Dunkelheit entfällt die photosynthetische Sauerstoffproduktion.",
+      "source": "Eigene fachliche Zusammenfassung nach USGS Water Science School, Dissolved Oxygen and Water, https://www.usgs.gov/special-topics/water-science-school/science/dissolved-oxygen-and-water (abgerufen am 14.11.2026).",
+      "group": "required"
+    },
+    {
+      "id": 8,
+      "displayNumber": "8",
+      "title": "Abbau organischer Stoffe",
+      "text": "Mikroorganismen bauen organische Stoffe ab. Bei aeroben Abbauprozessen wird Sauerstoff verbraucht. Zusätzliche Nährstoffe können das Wachstum von Algen begünstigen; der Abbau abgestorbener Biomasse kann den Sauerstoffbedarf erhöhen.",
+      "source": "Eigene fachliche Zusammenfassung nach USGS Water Science School, Dissolved Oxygen and Water, https://www.usgs.gov/special-topics/water-science-school/science/dissolved-oxygen-and-water (abgerufen am 14.11.2026).",
+      "group": "required"
+    },
+    {
+      "id": 9,
+      "displayNumber": "9",
+      "title": "Die Pflege der Wiese",
+      "text": "Die Wiese wurde in der Vorwoche gedüngt. Menge und Produkt sind im verfügbaren Protokoll nicht angegeben. Es liegt keine Wasserprobe aus dem Graben vor. Ein Eintrag in den Teich ist damit eine zu prüfende Vermutung, keine nachgewiesene Tatsache.",
+      "source": "Eigene synthetische Pflegenotiz C. Fehlende Angaben nicht ergänzen.",
+      "group": "required"
+    },
+    {
+      "id": 10,
+      "displayNumber": "V10",
+      "title": "Was die Daten nicht zeigen",
+      "text": "Die Sonde erfasst nur einen Ort und eine Tiefe. Es fehlen unter anderem räumlich verteilte Sauerstoffwerte, Angaben zur Fischart sowie Untersuchungen weiterer möglicher Belastungen. Welche zusätzliche Untersuchung würde eure Erklärung besonders gut prüfen?",
+      "source": "Eigene methodische Vertiefung zur Begrenzung von Messdaten.",
+      "group": "extension"
+    }
+  ],
+  "diagramValues": {
+    "labels": [
+      "So 16:00",
+      "So 22:00",
+      "Mo 04:00",
+      "Mo 07:00"
+    ],
+    "values": [
+      8.2,
+      5.4,
+      2.1,
+      1.8
+    ],
+    "unit": "mg O₂/L"
+  },
+  "foreignAiTrial": "OPEN"
+}
