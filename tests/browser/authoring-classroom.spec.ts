@@ -306,11 +306,7 @@ for (const viewport of [
     const reopened = await classroom(browser, info, viewport, "reopened");
     await importMystery(reopened.ui, draft.bytes);
     await expect(reopened.ui.locator(".author-card-list li")).toHaveCount(12);
-    await button(
-      reopened.ui,
-      "Mystery für Schülerinnen und Schüler bereitstellen",
-    ).tap();
-    await button(reopened.ui, "Neue Schülerversion exportieren").tap();
+    await button(reopened.ui, "Schülerversion erstellen").tap();
     const exported = await getFile(
       reopened.ui,
       info,
@@ -438,11 +434,7 @@ test("Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version ex
   await first.ui.getByLabel("Lehrkraftkürzel", { exact: true }).fill("KI");
   await button(first.ui, "Lehrkräftemodus öffnen").tap();
   await expect(first.ui.locator(".author-card-list li")).toHaveCount(12);
-  await button(
-    first.ui,
-    "Mystery für Schülerinnen und Schüler bereitstellen",
-  ).tap();
-  await button(first.ui, "Neue Schülerversion exportieren").tap();
+  await button(first.ui, "Schülerversion erstellen").tap();
   const base = await getFile(
     first.ui,
     info,
@@ -467,7 +459,7 @@ test("Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version ex
   await edit.ui
     .getByLabel("Mystery-Titel", { exact: true })
     .fill("Überarbeitete zwölf Beobachtungen");
-  await button(edit.ui, "+ Karte hinzufügen").tap();
+  await button(edit.ui, "Karte hinzufügen").tap();
   await edit.ui
     .getByLabel("Kartenüberschrift", { exact: true })
     .fill("Neue Pflichtkarte");
@@ -505,11 +497,7 @@ test("Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version ex
     "ki-ueberarbeiteter-entwurf.mysteryboard",
   );
   await button(edit.ui, "Schließen").tap();
-  await button(
-    edit.ui,
-    "Mystery für Schülerinnen und Schüler bereitstellen",
-  ).tap();
-  await button(edit.ui, "Neue Schülerversion exportieren").tap();
+  await button(edit.ui, "Schülerversion erstellen").tap();
   const revised = await getFile(
     edit.ui,
     info,

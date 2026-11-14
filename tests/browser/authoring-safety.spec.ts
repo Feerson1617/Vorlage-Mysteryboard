@@ -33,7 +33,7 @@ for (const viewport of [
     await page
       .getByLabel("Mystery-Titel", { exact: true })
       .fill("Tabellenprüfung");
-    await button(page, "+ Karte hinzufügen").tap();
+    await button(page, "Karte hinzufügen").tap();
     await page
       .getByLabel("Kartenüberschrift", { exact: true })
       .fill("Messwerte");
@@ -127,11 +127,7 @@ for (const viewport of [
       path: info.outputPath("autorenansicht-" + viewport.width + ".png"),
       fullPage: true,
     });
-    await button(
-      page,
-      "Mystery für Schülerinnen und Schüler bereitstellen",
-    ).tap();
-    await button(page, "Neue Schülerversion exportieren").tap();
+    await button(page, "Schülerversion erstellen").tap();
     const task = await getFile(
       page,
       info,
@@ -342,10 +338,7 @@ test("Original-Aufgaben-PNG und gedrehtes JPEG sind vollständig; Legacy-PNG wir
       .evaluate((i: HTMLImageElement) => [i.naturalWidth, i.naturalHeight]),
   ).toEqual([900, 450]);
   await button(page, "Karte übernehmen").tap();
-  await button(
-    page,
-    "Mystery für Schülerinnen und Schüler bereitstellen",
-  ).tap();
+  await button(page, "Aufgabe als PNG").tap();
   await button(page, "Aufgabe als Original-PNG erzeugen").tap();
   const saved = await getFile(
     page,

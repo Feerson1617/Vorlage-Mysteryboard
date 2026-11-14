@@ -713,3 +713,112 @@ input[type="checkbox"] {
 .table-scroll input {
   min-width: 120px;
 }
+.author-help-entry {
+  border-block: 1px solid #c7d0ca;
+  padding: 12px 0;
+  margin: 20px 0;
+}
+.author-help-entry h2,
+.help-editor h2 {
+  font-size: 20px;
+  margin: 8px 0;
+}
+.help-editor h3 {
+  font-size: 18px;
+  margin: 24px 0 12px;
+}
+.help-editor {
+  max-width: 900px;
+}
+.help-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.help-groups fieldset {
+  min-width: 0;
+  border: 1px solid #c7d0ca;
+  border-radius: 8px;
+  padding: 12px;
+}
+.help-number-preview {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 8px 4px;
+}
+.help-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+}
+.help-toggle input {
+  min-width: 24px;
+  min-height: 24px;
+}
+.help-card-assignments {
+  list-style: none;
+  padding: 0;
+}
+.help-card-assignments li {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #c7d0ca;
+  padding: 8px 0;
+}
+.help-card-assignments label {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.help-card-assignments label > span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.help-confirm {
+  padding: 12px;
+  border: 1px solid #a8b8ae;
+  border-radius: 8px;
+  margin: 12px 0;
+}
+.help-confirm button {
+  margin: 4px;
+}
+.field-error {
+  color: #8b2323;
+}
+.help-editor [aria-invalid="true"] {
+  border: 2px solid #8b2323;
+}
+.help-editor .actions {
+  margin-top: 24px;
+  gap: 12px;
+}
+dialog:has(.student-help-preview) {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  border-radius: 0;
+}
+dialog:has(.student-help-preview) .dialog-body {
+  padding: 8px;
+  overflow: visible;
+}
+.student-help-preview {
+  position: relative;
+  margin-top: 8px;
+  height: calc(100dvh - 170px);
+  min-height: 250px;
+}
+.student-help-preview .workspace {
+  height: 100%;
+}

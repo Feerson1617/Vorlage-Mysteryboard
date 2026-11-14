@@ -42,6 +42,7 @@ export default function App({
   onHome,
   onProjectSave,
   onAuthor,
+  initialHelpOpen = false,
 }: {
   mystery: Mystery & { subtitle?: string };
   loadedWork?: Work;
@@ -50,6 +51,7 @@ export default function App({
   onHome?: () => void;
   onProjectSave?: (work: Work) => void;
   onAuthor?: () => void;
+  initialHelpOpen?: boolean;
 }) {
   const [history, dispatch] = useReducer(
     historyReducer,
@@ -60,7 +62,7 @@ export default function App({
   const work = history.present,
     dirty = hasChanges(history);
   const [modal, setModal] = useState<Modal>(null);
-  const [helpOpen, setHelpOpen] = useState(false),
+  const [helpOpen, setHelpOpen] = useState(initialHelpOpen),
     [orientation, setOrientation] = useState(false),
     [wideToolbar, setWideToolbar] = useState(
       () => matchMedia("(min-width: 1100px)").matches,

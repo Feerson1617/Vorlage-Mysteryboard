@@ -1,10 +1,16 @@
-import { expect, type Page, type Frame, type TestInfo } from "@playwright/test";
+import {
+  expect,
+  type Page,
+  type Frame,
+  type TestInfo,
+  type Locator,
+} from "@playwright/test";
 import { readFile, mkdir, copyFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { readDocument } from "../../src/core/documents";
 export type UI = Page | Frame;
 export const rootPage = (ui: UI): Page => ("page" in ui ? ui.page() : ui);
-export const button = (p: UI, name: string) =>
+export const button = (p: UI | Locator, name: string) =>
   p.getByRole("button", { name, exact: true });
 export async function openUniversal(page: Page) {
   page.setDefaultTimeout(15000);
@@ -20,13 +26,11 @@ export async function importMystery(
   name = "datei.mysteryboard",
 ) {
   await button(page, "Mystery bearbeiten").click();
-  await page
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles({
-      name,
-      mimeType: name.endsWith(".png") ? "image/png" : "application/json",
-      buffer,
-    });
+  await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
+    name,
+    mimeType: name.endsWith(".png") ? "image/png" : "application/json",
+    buffer,
+  });
 }
 export async function getFile(
   page: UI,
@@ -61,7 +65,7 @@ export async function createTwelve(page: UI) {
     .getByLabel("Untertitel (optional)", { exact: true })
     .fill("Technischer Unterrichtsablauf");
   for (let i = 1; i <= 12; i++) {
-    await button(page, "+ Karte hinzufügen").click();
+    await button(page, "Karte hinzufügen").click();
     await page
       .getByLabel("Kartenüberschrift", { exact: true })
       .fill(`Information ${i}`);

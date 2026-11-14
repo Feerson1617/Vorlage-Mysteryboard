@@ -92,7 +92,7 @@ Maximal sechs Spalten, zwanzig Zeilen; jeder Zeile genau ein Textwert je Spalte,
 }
 ```
 
-Höchstens sechs Kategorien; IDs, Bezeichnungen und Farben müssen eindeutig sein, alle Kartenreferenzen existieren, jede Karte höchstens einer Kategorie zugeordnet. Nicht jede Karte braucht eine Zuordnung. Keine Kategorien aus Kartennummern automatisch ableiten und keine Musterlösung erfinden. Die sichtbare Nummernorientierung ist flüchtig, verändert weder Kartenfarben noch gespeicherte Schülerarbeit. Der Editor bewahrt vorhandene Kategorien beim Bearbeiten; beim Löschen werden Referenzen gemeinsam neu nummeriert. Die vollständige grafische Kategorienverwaltung bleibt ein späterer Auftrag.
+Höchstens sechs Kategorien; IDs, Bezeichnungen und Farben müssen eindeutig sein, alle Kartenreferenzen existieren, jede Karte höchstens einer Kategorie zugeordnet. Nicht jede Karte braucht eine Zuordnung. Keine Kategorien aus Kartennummern automatisch ableiten und keine Musterlösung erfinden. Die sichtbare Nummernorientierung ist flüchtig, verändert weder Kartenfarben noch gespeicherte Schülerarbeit. Der Editor bewahrt vorhandene Kategorien beim Bearbeiten; beim Löschen werden Referenzen gemeinsam neu nummeriert. Die Gruppen sind im Lehrkräfteeditor über **Hilfetext festlegen** grafisch bearbeitbar.
 
 ## Validieren und transportierbare Aufgabe erzeugen
 
@@ -112,7 +112,7 @@ Das erzeugte Dokument ist `format: "MysteryBoard"`, `formatVersion: 3`, `kind: "
 
 Die Lehrkraft installiert die universelle SCORM-ZIP einmal, verteilt die `.mysteryboard`-Aufgabe separat und lässt sie über **Mystery bearbeiten / Fortsetzen → Mystery-Datei auswählen** öffnen. Schüler geben ihren eigenen Teamnamen an. Ein eigener KI-Weg im Schülerbereich existiert nicht.
 
-Zur Revision dieselbe Datei öffnen, **Lehrkräftemodus – Mystery bearbeiten** wählen, Kürzel eingeben, Inhalte bearbeiten, **Entwurf sichern**, anschließend **Neue Schülerversion exportieren**. Dies funktioniert auch im SCORM-Player. Es verändert keine installierte Ressource und keine bereits verteilte Datei automatisch.
+Zur Revision dieselbe Datei öffnen, **Lehrkräftemodus – Mystery bearbeiten** wählen, Kürzel eingeben, Inhalte bearbeiten, **Entwurf sichern**, anschließend **Schülerversion erstellen**. Dies funktioniert auch im SCORM-Player. Es verändert keine installierte Ressource und keine bereits verteilte Datei automatisch.
 
 Jede im Editor übernommene Inhaltsänderung erhöht die Patch-Version; direkt bearbeitete Titel können mehrere Zwischenrevisionen erzeugen. Beim externen Überarbeiten einer Roh-JSON muss die KI eine neue Inhaltsversion setzen. Die volle Inhaltsprüfsumme unterscheidet zusätzlich Änderungen; ein alter Schülerstand enthält und lädt seine eigene Fassung vollständig. Kein stilles Kombinieren alter Positionen mit neuen Texten. Eine komplett neue Aufgabe erhält eine neue Mystery-ID.
 
@@ -156,3 +156,6 @@ Einzelner verbindlicher Unterrichtskreislauf: `npm run test:universal`. Die CLI-
 - Keine QR-Kapazität als allgemeine Inhaltsgrenze verwenden; umfangreiche Dateien brauchen ihre unveränderte Original-PNG oder `.mysteryboard`.
 - Dateierzeugung nicht mit tatsächlicher Ablage gleichsetzen; PDF ist kein Sicherungsformat.
 - Kein behaupteter Safari-/iPad-/itslearning-/Canva-Nachweis ohne tatsächlichen Test. Emulation ist keine Gerätefreigabe.
+
+
+Die grafische Hilfe-Bearbeitung verwendet weiterhin exakt `help.method` und `help.categories`. Es gibt keine zusätzliche Speicherformatversion. Fünf Denkimpulse, zwei Gruppenvorlagen, eigene Gruppen und eine Kontrastpalette dienen nur der Redaktion. Vorlagen ordnen **keine** Karten automatisch zu. Leere, unfertige Gruppen bleiben bis zur Prüfung lokal im Formular; übernommen werden nur gültige Gruppen mit mindestens einer Karte. Beim Export wird genau die gewählte Gruppierung gespeichert, nicht der lokale Verlauf der Vorlagenwechsel. Vorhandene Hilfemetadaten werden vollständig übernommen. Tatsächliche Inhaltsänderungen erhöhen die bestehende Patch-Version; bloßes Öffnen und unverändertes Übernehmen erhöht sie nicht. Die Schüler-Vorschau verwendet dieselbe `App`, `LearningHelp` und `Board` wie die universelle Anwendung. Details und Nachweise: [Abnahme Hilfen](docs/HELP-EDITOR-ABNAHME.md).

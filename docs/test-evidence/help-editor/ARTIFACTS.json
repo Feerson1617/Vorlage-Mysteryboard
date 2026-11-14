@@ -1,0 +1,47 @@
+[
+  {
+    "file": "artifacts/MysteryBoard-Universal.html",
+    "bytes": 814647,
+    "sha256": "8902f2097e72a2040f5a66bc23612893729e4ccd46beb3eda8dd16503a310700"
+  },
+  {
+    "file": "artifacts/MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 267166,
+    "sha256": "32c2780d5178d3720690ed21433ca537d851d1b5a19e890a71eb5788bffba8e3"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Lehrkraftentwurf.mysteryboard",
+    "bytes": 48219,
+    "sha256": "37b072c1d03326922deecb65a77f950ae3e60a4779ab6291f4585b343ab41b64"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Nutzungskonflikte.mysteryboard",
+    "bytes": 48162,
+    "sha256": "450613aa2426fac015827072d35eca2a6ff40e0956676e5e875789d29df2c658"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Schuelerarbeitsstand.png",
+    "bytes": 299242,
+    "sha256": "c732b902f9f3db8820eff548c1857eed662d2633f16832140fedf09a6141bcb0"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Sechs-eigene-Gruppen.mysteryboard",
+    "bytes": 49336,
+    "sha256": "a9b112eb14877fddc25194195da5fc037d1dcbcc71eefdeeb4f704554ea685b4"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Ueberarbeitet.mysteryboard",
+    "bytes": 38326,
+    "sha256": "f94c99a09e3529d674d61b40553c17e3f0ad19f3f8d896213f6b85397fd1d2c1"
+  },
+  {
+    "file": "examples/help-editor/Hilfe-Ursachen.mysteryboard",
+    "bytes": 48151,
+    "sha256": "5764dba71aac983aa751c82a51c5852690243e37ebd4d9d8b078f5c2f4a53eb2"
+  },
+  {
+    "file": "examples/help-editor/README.md",
+    "bytes": 1806,
+    "sha256": "05f905b7fcd05f8798540b540dc9c7dbfce60d8fd575938c1c2eac149c778623"
+  }
+]

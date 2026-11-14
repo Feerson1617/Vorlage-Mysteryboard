@@ -8,7 +8,7 @@ Diese universelle Vorlage öffnet unterschiedliche Mysterys aus Dateien. Sie ent
 
 1. Wählen Sie **Eigenes Mystery erstellen**, geben Sie ein Lehrkraftkürzel ein und öffnen Sie den Lehrkräftemodus. Das Kürzel ist kein Schüler-Teamname.
 2. Tragen Sie Titel und optional Untertitel ein. Ein eigener methodischer Denkimpuls ist optional.
-3. Mit **+ Karte hinzufügen** legen Sie Karten an. Geben Sie Überschrift, Text und Kartengruppe an. **Karte übernehmen** übernimmt die Eingaben in den Entwurf.
+3. Mit **Karte hinzufügen** legen Sie Karten an. Geben Sie Überschrift, Text und Kartengruppe an. **Karte übernehmen** übernimmt die Eingaben in den Entwurf.
 4. Karten können nachträglich bearbeitet oder nach einer Sicherheitsabfrage gelöscht werden. IDs und Hilfereferenzen werden gemeinsam angepasst. `V` stammt aus den Gruppenmetadaten; es gibt keine fest programmierte Grenze zwischen Pflicht- und Vertiefungskarten.
 5. **Startablage** ist standardmäßig numerisch und passt sich dem Bildschirm an. Sie können eine feste Spaltenzahl wählen. Ein importiertes ausdrückliches Startlayout bleibt verfügbar. Bewegungen in der Autorenvorschau werden nicht als Schülerlösung exportiert.
 6. **Entwurf sichern** erzeugt eine `.mysteryboard`-Datei. Nutzen Sie im folgenden Dialog **Datei herunterladen** oder die angebotene Teilen-Funktion. Legen Sie die Datei bewusst außerhalb der Anwendung ab.
@@ -47,8 +47,8 @@ Bei einer übernommenen Inhaltsänderung erhöht die Anwendung die letzte Versio
 
 1. Installieren Sie nach dem Praxistest `MysteryBoard-Universal-SCORM-1.2.zip` einmal als SCORM-1.2-Lernressource in itslearning. Die ZIP enthält das Manifest unmittelbar auf oberster Ebene. Nicht zuerst entpacken und mit einem zusätzlichen Oberordner neu verpacken.
 2. Erstellen oder importieren Sie Ihr Mystery im Editor.
-3. Wählen Sie **Mystery für Schülerinnen und Schüler bereitstellen → Neue Schülerversion exportieren**.
-4. Laden Sie die erzeugte `.mysteryboard`-Datei bewusst herunter und stellen Sie sie **separat** als Kursdatei bereit. Alternativ kann im Bereitstellungsdialog eine vollständige **Aufgabe als Original-PNG** erzeugt werden.
+3. Wählen Sie **Schülerversion erstellen**.
+4. Laden Sie die erzeugte `.mysteryboard`-Datei bewusst herunter und stellen Sie sie **separat** als Kursdatei bereit. Alternativ öffnet **Aufgabe als PNG** die Erzeugung einer vollständigen Original-PNG.
 5. Die Lernenden laden die Aufgabe auf ihr Gerät und öffnen in derselben universellen Anwendung **Mystery bearbeiten** beziehungsweise **Menü → Fortsetzen → Mystery-Datei auswählen**.
 6. Nach vollständiger Prüfung erscheint die Aufgabe. Jede Gruppe gibt ihren eigenen Teamnamen oder Vornamen ein. Eine neutrale Gruppenbezeichnung genügt.
 
@@ -58,7 +58,7 @@ Das Bearbeiten im itslearning-Player verändert das dort installierte SCORM-Pake
 
 Karten lesen und verschieben, mit beschrifteten Pfeilen verbinden, Farben und eigene Kategorien vergeben: alles bleibt im gemeinsamen Board. Zwei Finger zoomen, ein Finger verschiebt Karten oder eine freie Stelle der Arbeitsfläche. Rückgängig/Wiederholen behalten die bisherigen 40 Schritte; nach einer neuen Bearbeitung entfällt die Wiederholen-Folge.
 
-Die Hilfe beginnt mit einem methodischen Impuls. Nur wenn geprüfte Kategorien hinterlegt sind, erscheint die freiwillige zweite Nummernorientierung. Sie färbt ausschließlich die Nummern, nicht die eigenen Kartenfarben. Vorhandene Hilfemetadaten bleiben beim Bearbeiten erhalten; das grafische Zuordnen der Hilfekategorien ist noch kein Bestandteil des Editors.
+Die Hilfe beginnt mit einem methodischen Impuls. Nur wenn geprüfte Kategorien hinterlegt sind, erscheint die freiwillige zweite Nummernorientierung. Sie färbt ausschließlich die Nummern, nicht die eigenen Kartenfarben. Vorhandene Hilfemetadaten bleiben beim Bearbeiten erhalten; Hilfetext, Gruppen, Farben und Zuordnungen lassen sich jetzt unter **Hilfetext festlegen** bearbeiten.
 
 **Sichern** erzeugt eine Original-PNG mit Inhalt, Bildern und vollständigem Schülerarbeitsstand. Bei Bedarf steht im Menü das kleinere Sicherungsbild zur Verfügung. **Projektdatei sichern** bietet dieselben vollständigen Daten als `.mysteryboard` an. Ein erzeugtes Bild ist noch keine dauerhaft abgelegte Datei. Laden Sie es herunter, kontrollieren Sie den Speicherort und bewahren Sie es unverändert auf. Screenshots, Bildoptimierer und manche Messenger können den unsichtbaren Sicherungsblock entfernen.
 
@@ -77,3 +77,20 @@ Die Lehrkraftfassung verwendet das Kürzel ausdrücklich als Lehrkraftangabe; di
 Prüfen Sie Karten und Quellen fachlich, lesen Sie die kleinsten Diagrammlegenden, testen Sie Hoch-/Querformat, Touch, Hilfe, Druck und vor allem eine **vollständige Sicherung und Wiederherstellung nach dem Schließen**. Testen Sie mit dem verwalteten Schul-iPad innerhalb des echten itslearning-Kurses. Eine lokale Chromium-Simulation ist keine schulische Freigabe. Canva-Einbettung, Kamera-/Downloadrechte und Safari müssen gesondert geprüft werden.
 
 Weitere Details: [KI-Anleitung](AI-ANLEITUNG.md), [Dateiformat](docs/UNIVERSAL-FORMAT.md), [Abnahmebericht](docs/UNIVERSAL-ABNAHME.md).
+
+## Hilfen für Lernende grafisch erstellen
+
+Öffnen Sie im Lehrkräfteeditor **Hilfetext festlegen**. Sie sehen jetzt nur die Hilfe-Einstellungen. Andere Änderungen am Mystery sind erst nach **Hilfe übernehmen** oder **Abbrechen** wieder möglich.
+
+1. **Denkimpuls auswählen:** fünf Vorlagen stehen zur Wahl. Der Text kann danach frei verändert werden. „Allgemeiner Denkimpuls“ verwendet die bisherige Standardhilfe; „Eigener Hilfetext“ erlaubt eine eigene Formulierung.
+2. **Kartennummern als Hilfe markieren** einschalten, wenn Sie die zweite Hilfestufe anbieten möchten. Sie ist für neue Mysterys standardmäßig ausgeschaltet.
+3. **Gruppen auswählen:** „Ursachen und Wirkungen“, „Nutzungskonflikte“ oder „Eigene Kategorien“. Namen und Farben sind bearbeitbar. Eine kleine Palette bietet gut lesbare Nummernfarben; bereits importierte andere Farben bleiben erhalten.
+4. **Karten zuordnen:** Wählen Sie je Karte eine Gruppe oder „Keine Zuordnung“. Es gibt keine automatische fachliche Zuordnung. Unterschiedliche Gruppengrößen und unmarkierte Karten sind ausdrücklich möglich.
+5. **Hilfe aus Schülersicht ansehen:** Die echte Schüleransicht zeigt zuerst den Denkimpuls. „Weitere Hilfe anzeigen“ aktiviert die farbigen Nummern und ihre Legende. Probieren Sie Karten und Verbindungen aus; diese Bewegungen werden nicht in die Aufgabe übernommen. **Zurück zu den Hilfen** bringt Sie zu Ihren Eingaben.
+6. **Hilfe übernehmen**, dann **Entwurf sichern** oder **Schülerversion erstellen**. Die erstellte Datei bewusst herunterladen.
+
+Höchstens sechs Gruppen sind möglich. Jede aktive Gruppe braucht einen eigenen Namen, eine andere Farbe und mindestens eine zugeordnete Karte. Fehler erscheinen direkt am betreffenden Feld; die Eingaben bleiben erhalten. Eine nicht benötigte Gruppe entfernen Sie mit „Gruppe … entfernen“. Sind Karten zugeordnet, fragt die Oberfläche vorher nach.
+
+Ein Vorlagenwechsel verwirft bestehende Zuordnungen nicht unbemerkt. Während der Bearbeitung können Sie zu den vorherigen Gruppen zurückkehren. Erst **Hilfe übernehmen** legt die aktuell ausgewählte Gruppierung für diese Fassung fest. Schalten Sie die farbige Hilfe aus und übernehmen, entfällt sie in dieser neuen Fassung. Vorher exportierte Dateien bleiben erhalten.
+
+Die Kategorien sind eine freiwillige Orientierung und keine Musterlösung. Wählen Sie bei mehrdeutigen Karten einen fachlich begründeten Schwerpunkt oder lassen Sie sie unmarkiert. Bei Schülerbeginn sind die Hilfen ausgeblendet. Die zweite Stufe färbt ausschließlich Nummern, ohne eigene Kartenfarben, Pfeile oder Arbeitsstände zu verändern.

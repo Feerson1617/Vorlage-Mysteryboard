@@ -52,8 +52,12 @@ for p in files:
             redacted.append(relative_path)
     payloads[p] = data
     entries.append({'file': p.relative_to(root).as_posix(), 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
-version = {'sourceCommit': commit, 'sourceBranch': 'feat/mysteryboard-universal-authoring',
-           'baseCommit': 'e14a09273be38c5501dc36ff3a7b819de298cd3a', 'documentFormatVersion': 3,
+try:
+    branch = subprocess.check_output(['git', '-C', str(root), 'branch', '--show-current'], text=True, stderr=subprocess.DEVNULL).strip()
+except (subprocess.CalledProcessError, FileNotFoundError):
+    branch = json.loads((root / 'PROJECT-VERSION.json').read_text()).get('sourceBranch', 'local-copy') if (root / 'PROJECT-VERSION.json').exists() else 'local-copy'
+version = {'sourceCommit': commit, 'sourceBranch': branch,
+           'baseCommit': '5a6899a7a67465c932c340c60ccde56e989586b4', 'documentFormatVersion': 3,
            'packagedAtUtc': datetime.now(timezone.utc).isoformat(), 'entries': entries,
            'redactedHistoricalDocuments': redacted,
            'note': 'Quellcode und Produktionsartefakte unverändert. Historische Dokumenttexte ohne Cloud-Pfadpräfixe; regenerierbare Test-HTMLs nicht enthalten. Keine schulische Gerätefreigabe.'}

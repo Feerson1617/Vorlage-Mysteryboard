@@ -1,0 +1,141 @@
+{
+  "count": 14,
+  "actions": [
+    "Hilfetext festlegen",
+    "Denkimpuls wählen",
+    "Text individuell ändern",
+    "Nummernhilfe einschalten",
+    "Ursachen und Wirkungen wählen",
+    "Karte 1 zuordnen",
+    "Karte 2 zuordnen",
+    "Karte 3 zuordnen",
+    "Schüleransicht ansehen",
+    "Zweite Hilfe aufrufen",
+    "Zu Hilfen zurückkehren",
+    "Hilfe übernehmen",
+    "Schülerversion erstellen",
+    "Datei herunterladen"
+  ],
+  "sizes": [
+    {
+      "label": "Allgemeiner DenkimpulsBeobachtung erklärenUrsache und WirkungZusammenhänge überprüfenPerspektiven vergleichenRäumliche Ebenen verbindenEigener Hilfetext",
+      "width": 288,
+      "height": 48
+    },
+    {
+      "label": "Ursachen und WirkungenNutzungskonflikteEigene Kategorien",
+      "width": 288,
+      "height": 48
+    },
+    {
+      "label": "Farbe Gruppe 1",
+      "width": 262,
+      "height": 48
+    },
+    {
+      "label": "Gruppe 1 entfernen",
+      "width": 185.59375,
+      "height": 48
+    },
+    {
+      "label": "Farbe Gruppe 2",
+      "width": 262,
+      "height": 48
+    },
+    {
+      "label": "Gruppe 2 entfernen",
+      "width": 185.59375,
+      "height": 48
+    },
+    {
+      "label": "Farbe Gruppe 3",
+      "width": 262,
+      "height": 48
+    },
+    {
+      "label": "Gruppe 3 entfernen",
+      "width": 185.59375,
+      "height": 48
+    },
+    {
+      "label": "Gruppe hinzufügen",
+      "width": 184.65625,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 1",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 2",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 3",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 4",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 5",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 6",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 7",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 8",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte 9",
+      "width": 232,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte V10",
+      "width": 227.53125,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte V11",
+      "width": 228.40625,
+      "height": 48
+    },
+    {
+      "label": "Hilfe für Karte V12",
+      "width": 227.53125,
+      "height": 48
+    },
+    {
+      "label": "Hilfe aus Schülersicht ansehen",
+      "width": 274.53125,
+      "height": 48
+    },
+    {
+      "label": "Hilfe übernehmen",
+      "width": 173.140625,
+      "height": 48
+    },
+    {
+      "label": "Abbrechen",
+      "width": 121.578125,
+      "height": 48
+    }
+  ]
+}

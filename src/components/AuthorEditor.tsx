@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Content, Draft, MysteryDocument } from "../core/documents";
-import { contentHash, packDocument, validateDocument } from "../core/documents";
+import { canonical, packDocument, validateDocument } from "../core/documents";
 import { publishDraft, retainCards, reviseDraft } from "../core/authoring";
 import { imageFromFile } from "../core/media";
 import { initialBoardWork } from "../core/layout";
@@ -11,6 +11,7 @@ import { Dialog } from "./Dialog";
 import { PrintPreview } from "./PrintPreview";
 import { MediaView } from "./MediaView";
 import { TableEditor } from "./TableEditor";
+import { HelpEditor } from "./HelpEditor";
 
 type Card = Content["cards"][number];
 export function AuthorEditor({
@@ -37,6 +38,12 @@ export function AuthorEditor({
       work: Work;
     } | null>(null),
     [png, setPng] = useState<{ url: string; name: string } | null>(null);
+  const [helpEditing, setHelpEditing] = useState(false);
+  const helpButton = useRef<HTMLButtonElement>(null);
+  const closeHelp = () => {
+    setHelpEditing(false);
+    requestAnimationFrame(() => helpButton.current?.focus());
+  };
   const operation = useRef(0);
   const content = draft.content;
   const initialPreview = useMemo(
@@ -55,14 +62,14 @@ export function AuthorEditor({
       : initialPreview;
   useEffect(() => {
     const before = (e: BeforeUnloadEvent) => {
-      if (dirty || card) {
+      if (dirty || card || helpEditing) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", before);
     return () => window.removeEventListener("beforeunload", before);
-  }, [dirty, card]);
+  }, [dirty, card, helpEditing]);
   useEffect(
     () => () => {
       operation.current++;
@@ -146,7 +153,7 @@ export function AuthorEditor({
   const remove = (id: number) => {
     if (
       !window.confirm(
-        `Karte ${cardNumber(content, id)} wirklich löschen? Die verbleibenden Karten werden neu nummeriert; es entsteht eine neue Inhaltsversion. Bereits verteilte Dateien bleiben unverändert.`,
+        `Karte ${cardNumber(content, id)} wirklich löschen? Die übrigen Karten werden neu nummeriert. Bereits verteilte Dateien bleiben erhalten.`,
       )
     )
       return;
@@ -169,9 +176,9 @@ export function AuthorEditor({
   };
   const preparePublication = () => {
     try {
-      publishDraft(draft);
+      const task = publishDraft(draft);
       setError("");
-      setPublication(true);
+      onFile(task);
     } catch (e) {
       setError((e as Error).message);
     }
@@ -210,12 +217,16 @@ export function AuthorEditor({
         <span>Kürzel: {draft.author.initials}</span>
         <button
           className="primary"
+          disabled={helpEditing}
           onClick={() => onFile(validateDocument(draft))}
         >
           Entwurf sichern
         </button>
-        <button onClick={onImport}>Entwurf öffnen</button>
+        <button disabled={helpEditing} onClick={onImport}>
+          Entwurf öffnen
+        </button>
         <button
+          disabled={helpEditing}
           onClick={() => {
             if (
               !dirty ||
@@ -233,145 +244,177 @@ export function AuthorEditor({
         Autorenwerkzeug ohne Anmeldung. Es wird nichts automatisch gespeichert.
         Das Kürzel ist kein Schüler-Teamname.
       </p>
-      <div className="author-fields">
-        <label>
-          Mystery-Titel
-          <input
-            maxLength={100}
-            value={content.title}
-            onChange={(e) => change({ ...content, title: e.target.value })}
-          />
-        </label>
-        <label>
-          Untertitel (optional)
-          <input
-            maxLength={300}
-            value={content.subtitle ?? ""}
-            onChange={(e) => change({ ...content, subtitle: e.target.value })}
-          />
-        </label>
-        <label>
-          Methodischer Denkimpuls (optional)
-          <textarea
-            maxLength={500}
-            value={content.help?.method ?? ""}
-            onChange={(e) => {
-              const help = {
-                ...(content.help?.categories
-                  ? { categories: content.help.categories }
-                  : {}),
-                ...(e.target.value ? { method: e.target.value } : {}),
-              };
-              const next = { ...content };
-              if (Object.keys(help).length) next.help = help;
-              else delete next.help;
-              change(next);
-            }}
-          />
-        </label>
-        <label>
-          Startablage
-          <select
-            value={
-              content.startLayout?.mode === "explicit"
-                ? "explicit"
-                : (content.startLayout?.columns ?? "auto")
+      {helpEditing ? (
+        <HelpEditor
+          content={content}
+          onCancel={closeHelp}
+          onApply={(help) => {
+            if (canonical(help ?? null) === canonical(content.help ?? null)) {
+              closeHelp();
+              return true;
             }
-            onChange={(e) => {
-              const next = {
-                ...content,
-                startLayout: {
-                  mode: "ordered" as const,
-                  ...(e.target.value === "auto"
-                    ? {}
-                    : { columns: Number(e.target.value) }),
-                },
-              };
-              change(next);
-            }}
-          >
-            <option value="auto">
-              Nummerisch · automatisch an Bildschirm anpassen
-            </option>
-            {Array.from({ length: 12 }, (_, i) => (
-              <option key={i + 1} value={i + 1}>
-                {i + 1} Spalten · nummerisch
-              </option>
-            ))}
-            {content.startLayout?.mode === "explicit" && (
-              <option value="explicit">
-                Importierte ausdrückliche Startanordnung
-              </option>
-            )}
-          </select>
-        </label>
-      </div>
-      <p className="small">
-        Inhaltsversion {content.version} · {content.cards.length} Karten. Jede
-        übernommene Inhaltsänderung erhält eine neue Version. Beim Löschen
-        werden IDs und Hilfereferenzen gemeinsam neu nummeriert.
-      </p>
-      <button
-        className="primary"
-        disabled={content.cards.length >= 100}
-        onClick={add}
-      >
-        + Karte hinzufügen
-      </button>
-      <ol className="author-card-list">
-        {content.cards.map((c) => (
-          <li key={c.id}>
-            <strong>
-              {cardNumber(content, c.id)} · {c.title || "Ohne Überschrift"}
-            </strong>
-            <span>
-              {content.cardGroups![c.group!].label}
-              {draft.author.hiddenCards.includes(c.id)
-                ? " · nur im Entwurf"
-                : ""}
-            </span>
-            <div className="actions">
-              <button onClick={() => edit(c.id)}>
-                Karte {cardNumber(content, c.id)} bearbeiten
-              </button>
-              <button onClick={() => remove(c.id)}>
-                Karte {cardNumber(content, c.id)} löschen
-              </button>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <section aria-label="Mystery-Vorschau">
-        <h2>{content.title || "Vorschau eures Mysterys"}</h2>
-        {content.subtitle && <p>{content.subtitle}</p>}
-        <p>
-          Die Kartennummern helfen beim Wiederfinden. Sie geben keine richtige
-          Reihenfolge vor. Bewegungen in dieser Vorschau werden nicht als
-          Schülerlösung verteilt.
-        </p>
-        {preview && (
-          <div className="author-board">
-            <Board
-              key={content.version}
-              work={preview}
-              mystery={content}
-              onChange={(work) => setPreviewOverride({ content, work })}
-              onCard={edit}
-              onEdge={() => {}}
-              fitTick={0}
-              connecting={null}
-            />
+            const next = { ...content };
+            if (help) next.help = help;
+            else delete next.help;
+            if (change(next)) {
+              closeHelp();
+              return true;
+            }
+            return false;
+          }}
+        />
+      ) : (
+        <>
+          <div className="author-fields">
+            <label>
+              Mystery-Titel
+              <input
+                maxLength={100}
+                value={content.title}
+                onChange={(e) => change({ ...content, title: e.target.value })}
+              />
+            </label>
+            <label>
+              Untertitel (optional)
+              <input
+                maxLength={300}
+                value={content.subtitle ?? ""}
+                onChange={(e) =>
+                  change({ ...content, subtitle: e.target.value })
+                }
+              />
+            </label>
+            <label>
+              Startablage
+              <select
+                value={
+                  content.startLayout?.mode === "explicit"
+                    ? "explicit"
+                    : (content.startLayout?.columns ?? "auto")
+                }
+                onChange={(e) => {
+                  const next = {
+                    ...content,
+                    startLayout: {
+                      mode: "ordered" as const,
+                      ...(e.target.value === "auto"
+                        ? {}
+                        : { columns: Number(e.target.value) }),
+                    },
+                  };
+                  change(next);
+                }}
+              >
+                <option value="auto">
+                  Nummerisch · automatisch an Bildschirm anpassen
+                </option>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {i + 1} Spalten · nummerisch
+                  </option>
+                ))}
+                {content.startLayout?.mode === "explicit" && (
+                  <option value="explicit">
+                    Importierte ausdrückliche Startanordnung
+                  </option>
+                )}
+              </select>
+            </label>
           </div>
-        )}
-      </section>
-      <div className="actions">
-        <button className="primary" onClick={preparePublication}>
-          Mystery für Schülerinnen und Schüler bereitstellen
-        </button>
-        <button disabled={!content.cards.length} onClick={() => setPrint(true)}>
-          Karten drucken / PDF
-        </button>
-      </div>
+          <p className="small">
+            Fassung {content.version} · {content.cards.length} Karten. Jede
+            Änderung gilt für eine neue Fassung. Bereits verteilte Dateien
+            bleiben erhalten.
+          </p>
+          <section
+            className="author-help-entry"
+            aria-label="Hilfen für Lernende"
+          >
+            <h2>Hilfen für Lernende</h2>
+            <p>Denkimpuls und freiwillige farbige Kartennummern.</p>
+            <button ref={helpButton} onClick={() => setHelpEditing(true)}>
+              Hilfetext festlegen
+            </button>
+          </section>
+          <button
+            className="primary"
+            disabled={content.cards.length >= 100}
+            onClick={add}
+          >
+            Karte hinzufügen
+          </button>
+          <ol className="author-card-list">
+            {content.cards.map((c) => (
+              <li key={c.id}>
+                <strong>
+                  {cardNumber(content, c.id)} · {c.title || "Ohne Überschrift"}
+                </strong>
+                <span>
+                  {content.cardGroups![c.group!].label}
+                  {draft.author.hiddenCards.includes(c.id)
+                    ? " · nur im Entwurf"
+                    : ""}
+                </span>
+                <div className="actions">
+                  <button onClick={() => edit(c.id)}>
+                    Karte {cardNumber(content, c.id)} bearbeiten
+                  </button>
+                  <button onClick={() => remove(c.id)}>
+                    Karte {cardNumber(content, c.id)} löschen
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <section aria-label="Mystery-Vorschau">
+            <h2>{content.title || "Vorschau eures Mysterys"}</h2>
+            {content.subtitle && <p>{content.subtitle}</p>}
+            <p>
+              Die Kartennummern helfen beim Wiederfinden. Sie geben keine
+              richtige Reihenfolge vor. Bewegungen in dieser Vorschau werden
+              nicht als Schülerlösung verteilt.
+            </p>
+            {preview && (
+              <div className="author-board">
+                <Board
+                  key={content.version}
+                  work={preview}
+                  mystery={content}
+                  onChange={(work) => setPreviewOverride({ content, work })}
+                  onCard={edit}
+                  onEdge={() => {}}
+                  fitTick={0}
+                  connecting={null}
+                />
+              </div>
+            )}
+          </section>
+          <div className="actions">
+            <button className="primary" onClick={preparePublication}>
+              Schülerversion erstellen
+            </button>
+            <button
+              onClick={() => {
+                try {
+                  publishDraft(draft);
+                  setError("");
+                  setPublication(true);
+                } catch (error) {
+                  setError((error as Error).message);
+                }
+              }}
+            >
+              Aufgabe als PNG
+            </button>
+            <button
+              disabled={!content.cards.length}
+              onClick={() => setPrint(true)}
+            >
+              Karten drucken / PDF
+            </button>
+          </div>
+        </>
+      )}
       {error && (
         <p role="alert" className="status">
           {error}
@@ -558,7 +601,7 @@ export function AuthorEditor({
               }
             }}
           >
-            Neue Schülerversion exportieren
+            Schülerversion als Datei
           </button>
           <button
             className="full"

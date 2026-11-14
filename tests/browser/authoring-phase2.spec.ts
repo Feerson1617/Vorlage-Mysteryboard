@@ -52,11 +52,7 @@ test("Phase 2: zwölf Karten mit drei Medien erstellen, Entwurf schließen und e
     next.getByLabel("Bildbeschreibung (optional)", { exact: true }),
   ).toHaveValue("Diagramm 1 mit Kreis und Legende");
   await button(next, "Karte übernehmen").click();
-  await button(
-    next,
-    "Mystery für Schülerinnen und Schüler bereitstellen",
-  ).click();
-  await button(next, "Neue Schülerversion exportieren").click();
+  await button(next, "Schülerversion erstellen").click();
   const task = await getFile(next, info, "beispiel-aufgabe.mysteryboard");
   expect(task.document.kind).toBe("task");
   expect(task.document).not.toHaveProperty("author");

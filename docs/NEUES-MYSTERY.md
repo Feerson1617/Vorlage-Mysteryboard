@@ -4,7 +4,7 @@ Neue Aufgaben benötigen keine erneute Programmierung. Der bevorzugte Weg ist ei
 
 ## Ohne Programmierung
 
-**Eigenes Mystery erstellen** öffnen, Lehrkraftkürzel eingeben, Titel und Karten bearbeiten. Karten wählen ihre Pflicht-/Vertiefungsgruppe ausdrücklich; Nummern werden automatisch vergeben. Bilder, Quellen, Alternativtexte und strukturierte Tabellen bleiben bearbeitbar. **Entwurf sichern** für die eigene Weiterarbeit, **Mystery für Schülerinnen und Schüler bereitstellen → Neue Schülerversion exportieren** für den Kurs. Vollständige Anleitung: [LEHRKRAEFTE-ANLEITUNG](../LEHRKRAEFTE-ANLEITUNG.md).
+**Eigenes Mystery erstellen** öffnen, Lehrkraftkürzel eingeben, Titel und Karten bearbeiten. Karten wählen ihre Pflicht-/Vertiefungsgruppe ausdrücklich; Nummern werden automatisch vergeben. Bilder, Quellen, Alternativtexte und strukturierte Tabellen bleiben bearbeitbar. **Entwurf sichern** für die eigene Weiterarbeit, **Schülerversion erstellen** für den Kurs. Vollständige Anleitung: [LEHRKRAEFTE-ANLEITUNG](../LEHRKRAEFTE-ANLEITUNG.md).
 
 Eine bereits veröffentlichte Datei erneut öffnen und **Lehrkräftemodus – Mystery bearbeiten** wählen. Änderungen erhalten eine neue Inhaltsrevision; ältere Schüler-PNGs behalten ihren eigenen Inhalt. Das installierte SCORM wird nicht automatisch geändert.
 
@@ -47,3 +47,6 @@ Die frühere Registry `mysteries.json` bleibt für bestehende feste Inhalte und 
 7. itslearning-Dateiauswahl, Download/Teilen, Touch und Safari-Druck auf dem tatsächlich verwalteten Schul-iPad prüfen. Canva bei geplanter Nutzung separat testen. Die lokalen automatisierten Tests sind keine schulische Freigabe.
 
 Vollständige Entwicklerregression: `CLASSROOM_SCORM=1 npm run check`, anschließend `npm run package:universal` und `npm run test:rc2`. Abhängigkeiten und Nachweisgrenzen: [README](../README.md), [Abnahmebericht](UNIVERSAL-ABNAHME.md).
+
+
+Die grafische Hilfe-Bearbeitung verwendet weiterhin exakt `help.method` und `help.categories`. Es gibt keine zusätzliche Speicherformatversion. Fünf Denkimpulse, zwei Gruppenvorlagen, eigene Gruppen und eine Kontrastpalette dienen nur der Redaktion. Vorlagen ordnen **keine** Karten automatisch zu. Leere, unfertige Gruppen bleiben bis zur Prüfung lokal im Formular; übernommen werden nur gültige Gruppen mit mindestens einer Karte. Beim Export wird genau die gewählte Gruppierung gespeichert, nicht der lokale Verlauf der Vorlagenwechsel. Vorhandene Hilfemetadaten werden vollständig übernommen. Tatsächliche Inhaltsänderungen erhöhen die bestehende Patch-Version; bloßes Öffnen und unverändertes Übernehmen erhöht sie nicht. Die Schüler-Vorschau verwendet dieselbe `App`, `LearningHelp` und `Board` wie die universelle Anwendung. Details und Nachweise: [Abnahme Hilfen](HELP-EDITOR-ABNAHME.md).
