@@ -17,9 +17,14 @@ for folder,target in [('examples/help-editor','beispiele'),('docs/test-evidence/
   if p.is_file():items[target+'/'+p.relative_to(root/folder).as_posix()]=p.read_bytes()
 for name in ['Hilfe-Lehrkraftentwurf.mysteryboard','Hilfe-Ursachen.mysteryboard','Hilfe-Nutzungskonflikte.mysteryboard','Hilfe-Sechs-eigene-Gruppen.mysteryboard','Hilfe-Ohne-farbige-Hilfe.mysteryboard','Hilfe-Schuelerarbeitsstand.png','Hilfe-Ueberarbeitet.mysteryboard']:
  assert 'beispiele/'+name in items, 'Benötigtes Beispiel fehlt: '+name
-for name in ['pruefen.mjs','package.json','package-lock.json']:
+for name in ['pruefen.mjs','package.json','package-lock.json','README.md']:
  items['browserpruefung/'+name]=(root/'qa/help-review'/name).read_bytes()
-assert 'pruefnachweise/RESULTS.json' in items,'Abschließende Prüfergebnisse fehlen'
+assert 'pruefnachweise/abschluss/RESULTS.json' in items,'Aktuelle Abschlussprüfung fehlt'
+# Keep the current results unambiguous at the top level. Preserve history with
+# its original context inside the project and the earlier report below.
+for name in ['RESULTS.json','full-check.txt','browser-summary.json','rc2.txt']:
+ items['pruefnachweise/'+name]=items['pruefnachweise/abschluss/'+name]
+items['HELP-EDITOR-ABNAHME.md']=b'Historischer Bericht zum Ausgangsstand 9aa16fd. Aktueller Stand: AKTUELLER-PRUEFBERICHT.md.\n\n'+items['HELP-EDITOR-ABNAHME.md']
 items['QUELLSTAND.json']=(json.dumps({'repository':'Feerson1617/Vorlage-Mysteryboard','commit':commit,'branch':branch,'baseCommit':'5a6899a7a67465c932c340c60ccde56e989586b4','documentFormat':3,'reviewBaseCommit':'9aa16fd41f3ce9e5e35015bb1f4c7fe0911f8e89'},indent=2)+'\n').encode()
 items['START-HIER.md']='''# MysteryBoard – grafische Hilfen unabhängig prüfen
 
