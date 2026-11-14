@@ -37,6 +37,15 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
   expect(newVersion.kind).toBe("task");
   expect(teacher.content).toEqual(original.content);
   expect(student.content).toEqual(original.content);
+  if (student.kind !== "student") throw new Error("Schülerstand erwartet");
+  expect(student.work.team).toBe("Gruppe Abnahme");
+  expect(student.work.cards[0].x).not.toBe(original.content.initial.cards[0].x);
+  expect(student.work.cards.some((card) => card.color !== 0)).toBe(true);
+  expect(student.work.categories[2]).toBe("Eigene Beobachtung");
+  expect(student.work.edges.map((edge) => edge.label)).toEqual([
+    "kann beeinflussen",
+    "steht im Zusammenhang",
+  ]);
   expect(original.content.cards).toHaveLength(12);
   expect(
     original.content.cards.filter((c) => c.group === "required"),
@@ -95,9 +104,12 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
     .getByRole("link", { name: "Sicherungsbild herunterladen", exact: true })
     .tap();
   const download = await pending;
-  const pngPath = join(files, "MysteryBoard-Beispiel-Schuelerarbeitsstand.png");
+  const pngPath = info.outputPath("neu-erzeugter-schuelerstand.png");
   await download.saveAs(pngPath);
-  const png = await readFile(pngPath);
+  expect(readDocument(await readFile(pngPath))).toEqual(student);
+  const png = await readFile(
+    join(files, "MysteryBoard-Beispiel-Schuelerarbeitsstand.png"),
+  );
   expect(readDocument(png)).toEqual(student);
   await c2.close();
   const c3 = await browser.newContext({ hasTouch: true }),
@@ -164,13 +176,11 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
   await button(ui, "Schließen").tap();
   await button(ui, "Menü").tap();
   await button(ui, "Fortsetzen").tap();
-  await ui
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles({
-      name: "revision.mysteryboard",
-      mimeType: "application/json",
-      buffer: revision,
-    });
+  await ui.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
+    name: "revision.mysteryboard",
+    mimeType: "application/json",
+    buffer: revision,
+  });
   await ui
     .getByLabel("Teamname oder Vornamen", { exact: true })
     .fill("Neue Fassung");

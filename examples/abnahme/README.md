@@ -17,4 +17,4 @@ node scripts/create-acceptance-examples.mjs
 npx playwright test tests/browser/acceptance-delivery.spec.ts
 ```
 
-Der Browsertest schreibt die PNG neu und prüft ihre Daten gegen die vollständige Projektdatei.
+Der Browsertest erzeugt eine weitere PNG im temporären Testergebnisordner und prüft sie sowie die mitgelieferte Original-PNG gegen die vollständige Projektdatei. Die Beispieldatei wird dabei nicht überschrieben.
