@@ -1,0 +1,91 @@
+[WebServer] (node:149898) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:149911) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:47:55] "GET / HTTP/1.1" 200 -
+
+Running 8 tests using 1 worker
+
+(node:149942) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:47:57] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:01] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:03] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:03] code 404, message File not found
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:03] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:06] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:06] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:06] "GET /test-results/help-editor-final-Finale-H-b70c5-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓  1 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 1024x768: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (10.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:08] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:11] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:13] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:13] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:13] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:16] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:16] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:16] "GET /test-results/help-editor-final-Finale-H-41055-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 768x1024: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (9.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:17] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:21] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:22] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:22] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:22] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:25] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:25] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:25] "GET /test-results/help-editor-final-Finale-H-94c15-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 600x800: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (9.6s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:27] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:30] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:32] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:32] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:32] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:34] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:35] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:35] "GET /test-results/help-editor-final-Finale-H-cc78c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓  4 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 12 Karten 320x700: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (9.3s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:36] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:40] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:42] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:42] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:42] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:45] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:45] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:45] "GET /test-results/help-editor-final-Finale-H-58c20-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓  5 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 1024x768: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (10.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:47] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:51] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:53] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:53] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:53] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:56] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:56] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:56] "GET /test-results/help-editor-final-Finale-H-eb63c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+  ✓  6 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 768x1024: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (10.5s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:48:58] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:01] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:03] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:03] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:03] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:06] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:06] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:06] "GET /test-results/help-editor-final-Finale-H-8489c-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓  7 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 600x800: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (11.7s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:09] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:14] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:16] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:16] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:16] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/lernende-final/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:19] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:19] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 20:49:19] "GET /test-results/help-editor-final-Finale-H-a1074-chau-SCORM-und-portable-PNG/neu-und-alt-final/app.html HTTP/1.1" 200 -
+  ✓  8 tests/browser/help-editor-final.spec.ts:52:5 › Finale Hilfen 60 Karten 320x700: Suche, Mehrfachwahl, isolierte Vorschau, SCORM und portable PNG (12.5s)
+
+  8 passed (1.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

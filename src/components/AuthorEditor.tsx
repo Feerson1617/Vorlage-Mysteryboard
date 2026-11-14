@@ -39,6 +39,7 @@ export function AuthorEditor({
     } | null>(null),
     [png, setPng] = useState<{ url: string; name: string } | null>(null);
   const [helpEditing, setHelpEditing] = useState(false);
+  const [helpNotice, setHelpNotice] = useState(false);
   const helpButton = useRef<HTMLButtonElement>(null);
   const closeHelp = () => {
     setHelpEditing(false);
@@ -257,6 +258,7 @@ export function AuthorEditor({
             if (help) next.help = help;
             else delete next.help;
             if (change(next)) {
+              setHelpNotice(true);
               closeHelp();
               return true;
             }
@@ -331,10 +333,29 @@ export function AuthorEditor({
             aria-label="Hilfen für Lernende"
           >
             <h2>Hilfen für Lernende</h2>
-            <p>Denkimpuls und freiwillige farbige Kartennummern.</p>
+            <p>Denkimpuls und farbige Kartennummern</p>
             <button ref={helpButton} onClick={() => setHelpEditing(true)}>
-              Hilfetext festlegen
+              Hilfen bearbeiten
             </button>
+            <p className="small">
+              Hilfe eingerichtet:{" "}
+              {content.help?.method ? "Denkimpuls" : "Allgemeiner Denkimpuls"}
+              {" · "}
+              {content.help?.categories?.length ?? 0} Farbgruppen
+              {" · "}
+              {
+                new Set(
+                  content.help?.categories?.flatMap((g) => g.cardIds) ?? [],
+                ).size
+              }{" "}
+              Karten markiert
+            </p>
+            {helpNotice && (
+              <p role="status">
+                Hilfen im geöffneten Entwurf geändert. Ladet ihn jetzt über
+                „Entwurf sichern“ herunter.
+              </p>
+            )}
           </section>
           <button
             className="primary"

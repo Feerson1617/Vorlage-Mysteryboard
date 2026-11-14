@@ -1,0 +1,7 @@
+{
+  "node": "v24.22.1",
+  "npm": "11.9.0",
+  "chromium": "Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)",
+  "python": "Python 3.12.14",
+  "git": "git version 2.52.0"
+}

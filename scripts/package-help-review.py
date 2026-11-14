@@ -11,21 +11,21 @@ try:
 except (FileNotFoundError,subprocess.CalledProcessError):
  version=json.loads((root/'PROJECT-VERSION.json').read_text());commit=version['sourceCommit'];branch=version['sourceBranch']
 items={}
-for source,target in [('artifacts/MysteryBoard-Universal.html','MysteryBoard-Universal.html'),('artifacts/MysteryBoard-Universal-SCORM-1.2.zip','MysteryBoard-Universal-SCORM-1.2.zip'),('docs/HELP-EDITOR-ABNAHME.md','HELP-EDITOR-ABNAHME.md'),('docs/HELP-EDITOR-ABSCHLUSS.md','AKTUELLER-PRUEFBERICHT.md'),('LEHRKRAEFTE-ANLEITUNG.md','LEHRKRAEFTE-ANLEITUNG.md'),('AI-ANLEITUNG.md','AI-ANLEITUNG.md'),('docs/HELP-EDITOR-ABSCHLUSS-PRUEFAUFTRAG.md','UNABHAENGIGER-PRUEFAUFTRAG.md')]:items[target]=(root/source).read_bytes()
+for source,target in [('artifacts/MysteryBoard-Universal.html','MysteryBoard-Universal.html'),('artifacts/MysteryBoard-Universal-SCORM-1.2.zip','MysteryBoard-Universal-SCORM-1.2.zip'),('docs/HELP-EDITOR-ABNAHME.md','HELP-EDITOR-ABNAHME.md'),('docs/HELP-EDITOR-FINAL.md','AKTUELLER-PRUEFBERICHT.md'),('LEHRKRAEFTE-ANLEITUNG.md','LEHRKRAEFTE-ANLEITUNG.md'),('AI-ANLEITUNG.md','AI-ANLEITUNG.md'),('docs/HELP-EDITOR-FINAL-PRUEFAUFTRAG.md','UNABHAENGIGER-PRUEFAUFTRAG.md')]:items[target]=(root/source).read_bytes()
 for folder,target in [('examples/help-editor','beispiele'),('docs/test-evidence/help-editor','pruefnachweise')]:
  for p in sorted((root/folder).rglob('*')):
   if p.is_file():items[target+'/'+p.relative_to(root/folder).as_posix()]=p.read_bytes()
-for name in ['Hilfe-Lehrkraftentwurf.mysteryboard','Hilfe-Ursachen.mysteryboard','Hilfe-Nutzungskonflikte.mysteryboard','Hilfe-Sechs-eigene-Gruppen.mysteryboard','Hilfe-Ohne-farbige-Hilfe.mysteryboard','Hilfe-Schuelerarbeitsstand.png','Hilfe-Ueberarbeitet.mysteryboard']:
+for name in ['Hilfe-Lehrkraftentwurf.mysteryboard','Hilfe-Ursachen.mysteryboard','Hilfe-Nutzungskonflikte.mysteryboard','Hilfe-Sechs-eigene-Gruppen.mysteryboard','Hilfe-Ohne-farbige-Hilfe.mysteryboard','Hilfe-Schuelerarbeitsstand.png','Hilfe-Ueberarbeitet.mysteryboard','Hilfe-60-Karten-Entwurf.mysteryboard','Hilfe-60-Karten-Schuelerarbeitsstand.png']:
  assert 'beispiele/'+name in items, 'Benötigtes Beispiel fehlt: '+name
-for name in ['pruefen.mjs','package.json','package-lock.json','README.md']:
+for name in ['pruefen.mjs','reproduce-preview.mjs','package.json','package-lock.json','README.md']:
  items['browserpruefung/'+name]=(root/'qa/help-review'/name).read_bytes()
-assert 'pruefnachweise/abschluss/RESULTS.json' in items,'Aktuelle Abschlussprüfung fehlt'
+assert 'pruefnachweise/final/RESULTS.json' in items,'Aktuelle Abschlussprüfung fehlt'
 # Keep the current results unambiguous at the top level. Preserve history with
 # its original context inside the project and the earlier report below.
 for name in ['RESULTS.json','full-check.txt','browser-summary.json','rc2.txt']:
- items['pruefnachweise/'+name]=items['pruefnachweise/abschluss/'+name]
+ items['pruefnachweise/'+name]=items['pruefnachweise/final/'+name]
 items['HELP-EDITOR-ABNAHME.md']=b'Historischer Bericht zum Ausgangsstand 9aa16fd. Aktueller Stand: AKTUELLER-PRUEFBERICHT.md.\n\n'+items['HELP-EDITOR-ABNAHME.md']
-items['QUELLSTAND.json']=(json.dumps({'repository':'Feerson1617/Vorlage-Mysteryboard','commit':commit,'branch':branch,'baseCommit':'5a6899a7a67465c932c340c60ccde56e989586b4','documentFormat':3,'reviewBaseCommit':'9aa16fd41f3ce9e5e35015bb1f4c7fe0911f8e89'},indent=2)+'\n').encode()
+items['QUELLSTAND.json']=(json.dumps({'repository':'Feerson1617/Vorlage-Mysteryboard','commit':commit,'branch':branch,'baseCommit':'5a6899a7a67465c932c340c60ccde56e989586b4','documentFormat':3,'reviewBaseCommit':'d7b41c20a8d773248f71f858ce18f5ce1b5c51d8'},indent=2)+'\n').encode()
 items['START-HIER.md']='''# MysteryBoard – grafische Hilfen unabhängig prüfen
 
 Öffnet MysteryBoard-Universal.html in einem vollständigen Browser. Falls lokale Dateien gesperrt sind, im entpackten Ordner mit `python3 -m http.server 8765` lokal bereitstellen und danach vom Netz trennen. Dies ist keine öffentliche Veröffentlichung.
@@ -33,8 +33,8 @@ items['START-HIER.md']='''# MysteryBoard – grafische Hilfen unabhängig prüfe
 Unter `beispiele/` liegen die tatsächlichen Browser-Ausgaben: Ursachen- und Konflikt-Aufgaben, ein erneut bearbeitbarer Entwurf, die vollständige Schüler-PNG und eine Revision. Die Dateien sind neutrale Prüfbeispiele ohne fachliche Musterlösung.
 
 1. Aufgabe über „Mystery bearbeiten“ laden, „Lehrkräftemodus – Mystery bearbeiten“ wählen, Kürzel eingeben.
-2. „Hilfetext festlegen“ öffnen: Denkimpuls ändern, freiwillige Nummernhilfe einschalten, Gruppen und jede Kartenzuordnung prüfen. Keine Karte wird automatisch zugeordnet.
-3. „Hilfe aus Schülersicht ansehen“ öffnen und beide Hilfestufen, Nummernfarben und Legende prüfen. Bewegungen aus dieser Vorschau dürfen nicht in die Aufgabe übernommen werden.
+2. „Hilfen bearbeiten“ öffnen: Denkimpuls ändern, freiwillige Nummernhilfe einschalten, Gruppen und jede Kartenzuordnung prüfen. Nach Nummer oder Titel suchen; bei Bedarf mehrere Karten gemeinsam einer vorhandenen Gruppe zuordnen. Keine Karte wird automatisch zugeordnet.
+3. „Hilfe aus Schülersicht ansehen“ öffnen und beide Hilfestufen, Nummernfarben und Legende prüfen. Die Vorschau darf keine Sicherung, Dateiimporte, Teamänderung oder Druckfunktion anbieten. Bewegungen und Verbindungen werden beim Schließen verworfen.
 4. Hilfe übernehmen, Entwurf sichern, neue Sitzung öffnen und vergleichen. „Schülerversion erstellen“ erzeugt eine neutrale Datei.
 5. SCORM-ZIP unverändert in einen eigenen lokalen Unterordner entpacken und launch.html über denselben lokalen Server öffnen. Aufgabe importieren, Teamname eingeben, Touch, Verbindungen, Farben, Undo/Redo und Druck testen.
 6. Original-PNG herunterladen, Anwendung schließen und in frischer SCORM-Sitzung wiederherstellen. Die Hilfe ist zunächst ausgeblendet. Alle Karten, Medien, Positionen, Beziehungen, Kategorien und Team müssen erhalten bleiben.

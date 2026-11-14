@@ -193,7 +193,7 @@ for (const viewport of [
       page = await ctx.newPage();
     await openUniversal(page);
     await createTwelve(page);
-    await button(page, "Hilfetext festlegen").tap();
+    await button(page, "Hilfen bearbeiten").tap();
     await page
       .getByRole("combobox", { name: "Denkimpuls auswählen", exact: true })
       .selectOption("1");
@@ -277,7 +277,7 @@ for (const viewport of [
       p2 = await c2.newPage();
     await openUniversal(p2);
     await importMystery(p2, draft.bytes);
-    await button(p2, "Hilfetext festlegen").tap();
+    await button(p2, "Hilfen bearbeiten").tap();
     await expect(
       p2.getByRole("textbox", { name: "Name Gruppe 1", exact: true }),
     ).toHaveValue("Ausgangsbedingungen");
@@ -295,7 +295,7 @@ for (const viewport of [
     expect(exported.document.content.help).toEqual(draft.document.content.help);
     expect(exported.document.content.initial.edges).toEqual([]);
     // Second template is configured manually, never automatically by thirds.
-    await button(p2, "Hilfetext festlegen").tap();
+    await button(p2, "Hilfen bearbeiten").tap();
     await p2
       .getByRole("combobox", { name: "Gruppen auswählen", exact: true })
       .selectOption("conflicts");
@@ -401,7 +401,7 @@ for (const viewport of [
     await button(revision.ui, "Karte übernehmen").tap();
     revision.page.once("dialog", (d) => d.accept());
     await button(revision.ui, "Karte 1 löschen").tap();
-    await button(revision.ui, "Hilfetext festlegen").tap();
+    await button(revision.ui, "Hilfen bearbeiten").tap();
     await revision.ui
       .getByRole("textbox", { name: "Name Gruppe 1", exact: true })
       .fill("Präzisierte Bedingungen");
@@ -457,7 +457,7 @@ test("Lokale Hilfe: Fehler, Vorlagenwechsel, eigene Gruppen, Löschen, Tastatur 
   await button(page, "Lehrkräftemodus – Mystery bearbeiten").tap();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
   await button(page, "Lehrkräftemodus öffnen").tap();
-  await button(page, "Hilfetext festlegen").press("Enter");
+  await button(page, "Hilfen bearbeiten").press("Enter");
   await expect(
     page.getByRole("heading", { name: "Hilfen für Lernende", exact: true }),
   ).toBeFocused();
@@ -518,7 +518,7 @@ test("Lokale Hilfe: Fehler, Vorlagenwechsel, eigene Gruppen, Löschen, Tastatur 
     taskDocument(source).content.help,
   );
   await button(page, "Schließen").tap();
-  await button(page, "Hilfetext festlegen").tap();
+  await button(page, "Hilfen bearbeiten").tap();
   await button(page, "Gruppe 1 entfernen").tap();
   await button(page, "Beibehalten").tap();
   await expect(
@@ -545,7 +545,7 @@ test("Lokale Hilfe: Fehler, Vorlagenwechsel, eigene Gruppen, Löschen, Tastatur 
   expect(disabled.document.content.help?.categories).toBeUndefined();
   expect(disabled.document.content.help?.method).toBe(source.help.method);
   await button(page, "Schließen").tap();
-  await button(page, "Hilfetext festlegen").tap();
+  await button(page, "Hilfen bearbeiten").tap();
   await page
     .getByRole("checkbox", {
       name: "Kartennummern als Hilfe markieren",
@@ -596,8 +596,8 @@ test("Erstbedienung bei 320 Pixeln: sichtbare Funktionsnamen führen in 14 Handl
     await action();
     actions.push(name);
   };
-  await act("Hilfetext festlegen", () =>
-    button(page, "Hilfetext festlegen").tap(),
+  await act("Hilfen bearbeiten", () =>
+    button(page, "Hilfen bearbeiten").tap(),
   );
   await act("Denkimpuls wählen", () =>
     page
@@ -729,7 +729,7 @@ for (const format of ["HTML", "SCORM"])
     await button(ui, "Lehrkräftemodus – Mystery bearbeiten").tap();
     await ui.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
     await button(ui, "Lehrkräftemodus öffnen").tap();
-    await button(ui, "Hilfetext festlegen").tap();
+    await button(ui, "Hilfen bearbeiten").tap();
     await expect(
       ui.getByRole("combobox", { name: "Hilfe für Karte 1", exact: true }),
     ).toHaveValue("conditions");

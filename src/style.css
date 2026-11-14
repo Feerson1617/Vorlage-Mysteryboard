@@ -782,6 +782,26 @@ input[type="checkbox"] {
   display: block;
   overflow-wrap: anywhere;
 }
+.help-bulk {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #c7d0ca;
+  border-radius: 8px;
+}
+.help-bulk button {
+  margin: 4px 0;
+}
+.help-card-assignments .help-bulk-check {
+  flex: 0 0 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.help-bulk-check input {
+  min-width: 24px;
+  min-height: 24px;
+}
 .help-confirm {
   padding: 12px;
   border: 1px solid #a8b8ae;

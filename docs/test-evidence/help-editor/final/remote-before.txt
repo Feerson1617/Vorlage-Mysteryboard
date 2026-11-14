@@ -1,0 +1,6 @@
+d7b41c20a8d773248f71f858ce18f5ce1b5c51d8	refs/heads/feat/mysteryboard-author-help-editor
+1fa1fff81e5e19b7031130c8d034a77d9e1ace61	refs/heads/main
+9f02f956c1c6853137920d79f24ba66eb5b94b66	refs/tags/unterricht-2026-11-13-rc1
+240d5fcfcac7e5924efe169493c9f7525ba5ed74	refs/tags/unterricht-2026-11-13-rc1^{}
+e25fa3fc483f1cd181f31960c9fe575fe358ec69	refs/tags/unterricht-2026-11-13-rc2
+2c39d5427dc7cbd03558657d62821823949ac170	refs/tags/unterricht-2026-11-13-rc2^{}

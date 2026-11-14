@@ -19,7 +19,7 @@ test("gleich gemeinte Gruppennamen mit Großschreibung und Leerzeichen werden vo
     page,
     await readFile("examples/help-editor/Hilfe-Lehrkraftentwurf.mysteryboard"),
   );
-  await button(page, "Hilfetext festlegen").tap();
+  await button(page, "Hilfen bearbeiten").tap();
   for (const [i, label] of ["Ursachen", " Ursachen ", "ursachen"].entries())
     await page
       .getByRole("textbox", { name: `Name Gruppe ${i + 1}`, exact: true })
@@ -65,7 +65,7 @@ test("alle fünf Denkimpulse bleiben nach eigener Änderung, Vorlagenwechsel und
       page = await ctx.newPage();
     await openUniversal(page);
     await importMystery(page, input);
-    await button(page, "Hilfetext festlegen").tap();
+    await button(page, "Hilfen bearbeiten").tap();
     await page
       .getByRole("combobox", { name: "Denkimpuls auswählen", exact: true })
       .selectOption(String(index));
@@ -98,7 +98,7 @@ test("alle fünf Denkimpulse bleiben nach eigener Änderung, Vorlagenwechsel und
       again = await fresh.newPage();
     await openUniversal(again);
     await importMystery(again, saved.bytes);
-    await button(again, "Hilfetext festlegen").tap();
+    await button(again, "Hilfen bearbeiten").tap();
     await expect(
       again.getByRole("textbox", { name: "Hilfetext", exact: true }),
     ).toHaveValue(own);
@@ -160,7 +160,7 @@ test("Hilfeeditor und echte Schülerhilfe bleiben in allen vier geforderten Ansi
       page = await ctx.newPage();
     await openUniversal(page);
     await importMystery(page, bytes);
-    await button(page, "Hilfetext festlegen").tap();
+    await button(page, "Hilfen bearbeiten").tap();
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,

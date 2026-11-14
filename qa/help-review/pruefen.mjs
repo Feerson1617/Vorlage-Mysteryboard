@@ -95,10 +95,10 @@ const report = {
 };
 let browser;
 const btn = (ui, name) => ui.getByRole("button", { name, exact: true });
-async function app(mode) {
+async function app(mode, viewport = { width: 1024, height: 768 }) {
   const context = await browser.newContext({
       hasTouch: true,
-      viewport: { width: 1024, height: 768 },
+      viewport,
     }),
     page = await context.newPage(),
     requests = [];
@@ -278,6 +278,12 @@ async function touch(a) {
     touchPoints: [],
   });
   assert.notEqual(await card.getAttribute("data-x"), old);
+  // CDP's acknowledgement can precede Chromium's final pointer/capture events.
+  // Observe settled frames before starting a separate real button gesture.
+  await a.ui.evaluate(
+    () =>
+      new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+  );
   await session.detach();
 }
 try {
@@ -294,7 +300,7 @@ try {
     teacher,
     await readFile(join(root, "beispiele/Hilfe-Lehrkraftentwurf.mysteryboard")),
   );
-  await btn(teacher.ui, "Hilfetext festlegen").tap();
+  await btn(teacher.ui, "Hilfen bearbeiten").tap();
   await teacher.ui
     .getByRole("combobox", { name: "Denkimpuls auswählen", exact: true })
     .selectOption("1");
@@ -335,6 +341,44 @@ try {
       .inputValue(),
     "",
   );
+  const search = teacher.ui.getByRole("searchbox", {
+    name: "Karten suchen (Nummer oder Titel)",
+    exact: true,
+  });
+  await search.fill("1");
+  assert.equal(
+    await teacher.ui.locator(".help-card-assignments li").count(),
+    1,
+  );
+  await search.fill("Information 12");
+  assert.equal(
+    await teacher.ui.locator(".help-card-assignments li").count(),
+    1,
+  );
+  await btn(teacher.ui, "Suche zurücksetzen").tap();
+  await btn(teacher.ui, "Mehrere Karten gemeinsam zuordnen").tap();
+  await teacher.ui
+    .getByRole("combobox", { name: "Gemeinsame Farbgruppe", exact: true })
+    .selectOption("group1");
+  for (const id of [1, 3])
+    await teacher.ui
+      .getByRole("checkbox", {
+        name: `Karte ${id} gemeinsam zuordnen`,
+        exact: true,
+      })
+      .check();
+  await search.fill("1");
+  assert(
+    (
+      await teacher.ui
+        .getByRole("status")
+        .filter({ hasText: "2 Karten ausgewählt" })
+        .textContent()
+    ).includes("1 davon außerhalb"),
+  );
+  await btn(teacher.ui, "Ausgewählte Karten zuordnen").tap();
+  await btn(teacher.ui, "Suche zurücksetzen").tap();
+  await btn(teacher.ui, "Mehrfachzuordnung schließen").tap();
   await teacher.ui
     .getByRole("checkbox", {
       name: "Kartennummern als Hilfe markieren",
@@ -368,7 +412,7 @@ try {
   );
   const reopened = await app("html");
   await load(reopened, draft.bytes);
-  await btn(reopened.ui, "Hilfetext festlegen").tap();
+  await btn(reopened.ui, "Hilfen bearbeiten").tap();
   assert.equal(
     await reopened.ui
       .getByRole("textbox", { name: "Hilfetext", exact: true })
@@ -395,6 +439,24 @@ try {
         .textContent()
     ).includes(method),
   );
+  await btn(preview, "Hilfe schließen").tap();
+  for (const name of [
+    "Sichern",
+    "Menü",
+    "Fortsetzen",
+    "Teamname ändern",
+    "Druckfassung / PDF",
+    "Zur Startansicht",
+  ])
+    assert.equal(await btn(preview, name).count(), 0);
+  assert.equal(await preview.locator('input[type="file"]').count(), 0);
+  await connection({ ...reopened, ui: preview }, 1, 2, "Nur Vorschau");
+  await touch({ ...reopened, ui: preview });
+  await btn(preview, "Zurück zu den Hilfen").tap();
+  await btn(reopened.ui, "Hilfe aus Schülersicht ansehen").tap();
+  await btn(preview, "Hilfe schließen").tap();
+  assert.equal(await preview.locator("[data-edge-label]").count(), 0);
+  await screenshot(reopened, "isolierte-vorschau.png");
   await btn(preview, "Zurück zu den Hilfen").tap();
   await btn(reopened.ui, "Hilfe übernehmen").tap();
   await btn(reopened.ui, "Schülerversion erstellen").tap();
@@ -578,7 +640,7 @@ try {
   await btn(revision.ui, "Karte übernehmen").tap();
   revision.page.once("dialog", (d) => d.accept());
   await btn(revision.ui, "Karte 1 löschen").tap();
-  await btn(revision.ui, "Hilfetext festlegen").tap();
+  await btn(revision.ui, "Hilfen bearbeiten").tap();
   await revision.ui
     .getByRole("textbox", { name: "Name Gruppe 1", exact: true })
     .fill("Ausgangslage überarbeitet");
@@ -604,6 +666,120 @@ try {
   report.checks.push(
     "Revision mit neuer/gelöschter Karte und angepassten Hilfen; alte Schülerarbeit danach unvermischt geöffnet.",
   );
+  for (const viewport of [
+    { width: 1024, height: 768 },
+    { width: 768, height: 1024 },
+    { width: 600, height: 800 },
+    { width: 320, height: 700 },
+  ]) {
+    const label = `60-${viewport.width}x${viewport.height}`;
+    const large = await app("html", viewport);
+    await load(
+      large,
+      await readFile(
+        join(root, "beispiele/Hilfe-60-Karten-Entwurf.mysteryboard"),
+      ),
+    );
+    await btn(large.ui, "Hilfen bearbeiten").tap();
+    const filter = large.ui.getByRole("searchbox", {
+      name: "Karten suchen (Nummer oder Titel)",
+      exact: true,
+    });
+    await filter.fill("60");
+    assert.equal(
+      await large.ui.locator(".help-card-assignments li").count(),
+      1,
+    );
+    await filter.fill("Beobachtung 60");
+    assert.equal(
+      await large.ui.locator(".help-card-assignments li").count(),
+      1,
+    );
+    await btn(large.ui, "Suche zurücksetzen").tap();
+    await btn(large.ui, "Mehrere Karten gemeinsam zuordnen").tap();
+    await large.ui
+      .getByRole("combobox", { name: "Gemeinsame Farbgruppe", exact: true })
+      .selectOption("group2");
+    for (const id of [7, 8])
+      await large.ui
+        .getByRole("checkbox", {
+          name: `Karte ${id} gemeinsam zuordnen`,
+          exact: true,
+        })
+        .check();
+    await filter.fill("7");
+    assert(
+      (
+        await large.ui
+          .getByRole("status")
+          .filter({ hasText: "2 Karten ausgewählt" })
+          .textContent()
+      ).includes("1 davon außerhalb"),
+    );
+    await btn(large.ui, "Ausgewählte Karten zuordnen").tap();
+    await screenshot(large, `${label}-suchfilter.png`);
+    await btn(large.ui, "Hilfe aus Schülersicht ansehen").tap();
+    const view = large.ui.getByRole("dialog", {
+      name: "Hilfe aus Schülersicht",
+      exact: true,
+    });
+    await btn(view, "Hilfe schließen").tap();
+    assert.equal(await btn(view, "Sichern").count(), 0);
+    assert.equal(await btn(view, "Menü").count(), 0);
+    await connection({ ...large, ui: view }, 1, 2, "Nur temporär");
+    await touch({ ...large, ui: view });
+    await btn(view, "Zurück zu den Hilfen").tap();
+    await btn(large.ui, "Hilfe übernehmen").tap();
+    await btn(large.ui, "Entwurf sichern").tap();
+    const largeDraft = await download(large, `${label}-entwurf.mysteryboard`);
+    assert.equal(largeDraft.doc.content.cards.length, 60);
+    assert.deepEqual(largeDraft.doc.content.initial.edges, []);
+    const ids = largeDraft.doc.content.help.categories.flatMap(
+      (g) => g.cardIds,
+    );
+    assert.equal(new Set(ids).size, ids.length);
+    await large.finish();
+    const largeFresh = await app("html", viewport);
+    await load(largeFresh, largeDraft.bytes);
+    await btn(largeFresh.ui, "Schülerversion erstellen").tap();
+    const largeTask = await download(
+      largeFresh,
+      `${label}-aufgabe.mysteryboard`,
+    );
+    assert.deepEqual(largeTask.doc.content, largeDraft.doc.content);
+    await largeFresh.finish();
+    const pupils = await app("scorm", viewport);
+    await load(pupils, largeTask.bytes);
+    await pupils.ui
+      .getByLabel("Teamname oder Vornamen", { exact: true })
+      .fill("Sechzig Karten");
+    await btn(pupils.ui, "Beginnen").tap();
+    await btn(pupils.ui, "Menü").tap();
+    await btn(pupils.ui, "Hilfe").tap();
+    await btn(pupils.ui, "Weitere Hilfe anzeigen").tap();
+    await screenshot(pupils, `${label}-schuelerhilfe.png`);
+    await btn(pupils.ui, "Hilfe schließen").tap();
+    await touch(pupils);
+    await connection(pupils, 1, 2, "Schülerarbeit mit 60 Karten");
+    const largeWork = await project(pupils, `${label}-projekt`);
+    await btn(pupils.ui, "Menü").tap();
+    await btn(pupils.ui, "Kleineres Sicherungsbild").tap();
+    const largePng = await download(
+      pupils,
+      `${label}-schueler.png`,
+      "Sicherungsbild herunterladen",
+    );
+    assert.deepEqual(largePng.doc, largeWork.doc);
+    await pupils.finish();
+    const restored60 = await app("scorm", viewport);
+    await load(restored60, largePng.bytes, "original.png");
+    const compared = await project(restored60, `${label}-wiederhergestellt`);
+    assert.deepEqual(compared.doc, largeWork.doc);
+    await restored60.finish();
+    report.checks.push(
+      `${label}: Suche/Mehrfachwahl, isolierte Vorschau, frischer Entwurf, SCORM mit Touch/Pinch, echte PNG und vollständige frische Wiederherstellung.`,
+    );
+  }
   report.status = "passed";
 } catch (error) {
   report.status = "failed";

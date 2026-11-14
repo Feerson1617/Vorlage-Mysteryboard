@@ -92,7 +92,7 @@ Maximal sechs Spalten, zwanzig Zeilen; jeder Zeile genau ein Textwert je Spalte,
 }
 ```
 
-Höchstens sechs Kategorien; IDs, Bezeichnungen und Farben müssen eindeutig sein, alle Kartenreferenzen existieren, jede Karte höchstens einer Kategorie zugeordnet. Nicht jede Karte braucht eine Zuordnung. Keine Kategorien aus Kartennummern automatisch ableiten und keine Musterlösung erfinden. Die sichtbare Nummernorientierung ist flüchtig, verändert weder Kartenfarben noch gespeicherte Schülerarbeit. Der Editor bewahrt vorhandene Kategorien beim Bearbeiten; beim Löschen werden Referenzen gemeinsam neu nummeriert. Die Gruppen sind im Lehrkräfteeditor über **Hilfetext festlegen** grafisch bearbeitbar.
+Höchstens sechs Kategorien; IDs, Bezeichnungen und Farben müssen eindeutig sein, alle Kartenreferenzen existieren, jede Karte höchstens einer Kategorie zugeordnet. Nicht jede Karte braucht eine Zuordnung. Keine Kategorien aus Kartennummern automatisch ableiten und keine Musterlösung erfinden. Die sichtbare Nummernorientierung ist flüchtig, verändert weder Kartenfarben noch gespeicherte Schülerarbeit. Der Editor bewahrt vorhandene Kategorien beim Bearbeiten; beim Löschen werden Referenzen gemeinsam neu nummeriert. Die Gruppen sind im Lehrkräfteeditor über **Hilfen bearbeiten** grafisch bearbeitbar.
 
 ## Validieren und transportierbare Aufgabe erzeugen
 
@@ -162,3 +162,5 @@ Die grafische Hilfe-Bearbeitung verwendet weiterhin exakt `help.method` und `hel
 
 
 Vor der redaktionellen Übernahme und neuer Veröffentlichung müssen Hilfegruppennamen auch ohne Unterschiede in Großschreibung, äußeren oder mehrfachen inneren Leerzeichen eindeutig sein. Die originale Schreibweise wird nicht automatisch umgeschrieben. Das technische Dokumentformat bleibt für historische Dateien rückwärtskompatibel. Der grafische Editor sowie Aufgabenexport und CLI-Erstellen/Build verwenden die zusätzliche redaktionelle Prüfung; reines Lesen/Validieren historischer Dokumente ist davon getrennt. Der aktuelle unabhängige Abschlussauftrag und die Browserprüfung stehen unter `docs/HELP-EDITOR-ABSCHLUSS-PRUEFAUFTRAG.md`, `docs/HELP-EDITOR-ABSCHLUSS.md` und `qa/help-review/`.
+
+Die Hilfe-Vorschau nutzt dieselbe App mit `mode="preview"`: keine Datei-, Team- oder Druckaktionen, temporäre Karten/Verbindungen werden beim Schließen verworfen. Suchfilter und optionale Mehrfachwahl im Hilfeeditor sind reine Bearbeitungshilfen; sie ordnen ohne bewusste Kartenauswahl nichts fachlich zu. Das Dateiformat bleibt Version 3.

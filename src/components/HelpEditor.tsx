@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Content } from "../core/documents";
-import {
-  packDocument,
-  studentDocument,
-  validateContent,
-} from "../core/documents";
+import { validateContent } from "../core/documents";
 import {
   cardNumber,
   withTeam,
@@ -14,6 +10,8 @@ import {
 import { DEFAULT_METHOD_HELP, numberTextColor } from "../core/help";
 import {
   checkHelp,
+  assignHelpCards,
+  matchesHelpCard,
   ambiguousHelpNames,
   helpTemplate,
   HELP_PALETTE,
@@ -56,6 +54,18 @@ export function HelpEditor({
     [issues, setIssues] = useState<HelpIssue[]>([]),
     [message, setMessage] = useState("");
   const [preview, setPreview] = useState<Content | null>(null);
+  const [query, setQuery] = useState(""),
+    [bulk, setBulk] = useState(false),
+    [selected, setSelected] = useState<number[]>([]),
+    [bulkGroup, setBulkGroup] = useState("");
+  const visibleCards = content.cards.filter((c) =>
+    matchesHelpCard(content, c, query),
+  );
+  const toggleBulk = () => {
+    setBulk((v) => !v);
+    setSelected([]);
+    setBulkGroup("");
+  };
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     heading.current?.focus();
@@ -365,11 +375,96 @@ export function HelpEditor({
           <p className="small">
             Wählt einen passenden Schwerpunkt oder lasst die Karte unmarkiert.
           </p>
+          <label>
+            Karten suchen (Nummer oder Titel)
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+          <p className="small" role="status">
+            {visibleCards.length} von {content.cards.length} Karten angezeigt.
+          </p>
+          {query && (
+            <button onClick={() => setQuery("")}>Suche zurücksetzen</button>
+          )}
+          <button aria-expanded={bulk} onClick={toggleBulk}>
+            {bulk
+              ? "Mehrfachzuordnung schließen"
+              : "Mehrere Karten gemeinsam zuordnen"}
+          </button>
+          {bulk && (
+            <div className="help-bulk">
+              <label>
+                Gemeinsame Farbgruppe
+                <select
+                  value={
+                    groups.some((g) => g.id === bulkGroup) ? bulkGroup : ""
+                  }
+                  onChange={(e) => setBulkGroup(e.target.value)}
+                >
+                  <option value="">Gruppe auswählen</option>
+                  {groups.map((g, i) => (
+                    <option key={g.id} value={g.id}>
+                      {g.label || `Gruppe ${i + 1}`}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="small" role="status">
+                {selected.length} Karten ausgewählt
+                {" · "}
+                {
+                  selected.filter(
+                    (id) => !visibleCards.some((c) => c.id === id),
+                  ).length
+                }{" "}
+                davon außerhalb der Suche. Vorherige Zuordnungen dieser Karten
+                werden ersetzt.
+              </p>
+              <button
+                disabled={
+                  !selected.length || !groups.some((g) => g.id === bulkGroup)
+                }
+                onClick={() => {
+                  setGroups(assignHelpCards(groups, selected, bulkGroup));
+                  setMessage(`${selected.length} Karten gemeinsam zugeordnet.`);
+                  setSelected([]);
+                  setIssues([]);
+                }}
+              >
+                Ausgewählte Karten zuordnen
+              </button>
+              <button
+                disabled={!selected.length}
+                onClick={() => setSelected([])}
+              >
+                Auswahl aufheben
+              </button>
+            </div>
+          )}
           <ul className="help-card-assignments">
-            {content.cards.map((c) => {
+            {visibleCards.map((c) => {
               const category = groups.find((g) => g.cardIds.includes(c.id));
               return (
                 <li key={c.id}>
+                  {bulk && (
+                    <label className="help-bulk-check">
+                      <input
+                        type="checkbox"
+                        aria-label={`Karte ${cardNumber(content, c.id)} gemeinsam zuordnen`}
+                        checked={selected.includes(c.id)}
+                        onChange={(e) =>
+                          setSelected(
+                            e.target.checked
+                              ? [...selected, c.id]
+                              : selected.filter((id) => id !== c.id),
+                          )
+                        }
+                      />
+                    </label>
+                  )}
                   <span
                     className="help-number-preview"
                     style={{
@@ -389,13 +484,7 @@ export function HelpEditor({
                       value={category?.id ?? ""}
                       onChange={(e) => {
                         setGroups(
-                          groups.map((g) => ({
-                            ...g,
-                            cardIds: [
-                              ...g.cardIds.filter((id) => id !== c.id),
-                              ...(g.id === e.target.value ? [c.id] : []),
-                            ],
-                          })),
+                          assignHelpCards(groups, [c.id], e.target.value),
                         );
                         setIssues([]);
                       }}
@@ -427,7 +516,7 @@ export function HelpEditor({
             ))}
         </div>
       )}
-      {message && <p role="alert">{message}</p>}
+      {message && <p role="status">{message}</p>}
       <div className="actions">
         <button onClick={showPreview}>Hilfe aus Schülersicht ansehen</button>
         <button className="primary" onClick={apply}>
@@ -444,6 +533,7 @@ export function HelpEditor({
           <button onClick={() => setPreview(null)}>Zurück zu den Hilfen</button>
           <div className="student-help-preview">
             <App
+              mode="preview"
               mystery={preview}
               loadedWork={withTeam(
                 initialBoardWork(preview, {
@@ -453,9 +543,6 @@ export function HelpEditor({
                 "Vorschau",
               )}
               initialHelpOpen
-              backupPayload={(work) =>
-                packDocument(studentDocument(preview, work))
-              }
             />
           </div>
         </Dialog>

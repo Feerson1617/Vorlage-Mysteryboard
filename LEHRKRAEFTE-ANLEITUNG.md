@@ -58,7 +58,7 @@ Das Bearbeiten im itslearning-Player verändert das dort installierte SCORM-Pake
 
 Karten lesen und verschieben, mit beschrifteten Pfeilen verbinden, Farben und eigene Kategorien vergeben: alles bleibt im gemeinsamen Board. Zwei Finger zoomen, ein Finger verschiebt Karten oder eine freie Stelle der Arbeitsfläche. Rückgängig/Wiederholen behalten die bisherigen 40 Schritte; nach einer neuen Bearbeitung entfällt die Wiederholen-Folge.
 
-Die Hilfe beginnt mit einem methodischen Impuls. Nur wenn geprüfte Kategorien hinterlegt sind, erscheint die freiwillige zweite Nummernorientierung. Sie färbt ausschließlich die Nummern, nicht die eigenen Kartenfarben. Vorhandene Hilfemetadaten bleiben beim Bearbeiten erhalten; Hilfetext, Gruppen, Farben und Zuordnungen lassen sich jetzt unter **Hilfetext festlegen** bearbeiten.
+Die Hilfe beginnt mit einem methodischen Impuls. Nur wenn geprüfte Kategorien hinterlegt sind, erscheint die freiwillige zweite Nummernorientierung. Sie färbt ausschließlich die Nummern, nicht die eigenen Kartenfarben. Vorhandene Hilfemetadaten bleiben beim Bearbeiten erhalten; Hilfetext, Gruppen, Farben und Zuordnungen lassen sich jetzt unter **Hilfen bearbeiten** bearbeiten.
 
 **Sichern** erzeugt eine Original-PNG mit Inhalt, Bildern und vollständigem Schülerarbeitsstand. Bei Bedarf steht im Menü das kleinere Sicherungsbild zur Verfügung. **Projektdatei sichern** bietet dieselben vollständigen Daten als `.mysteryboard` an. Ein erzeugtes Bild ist noch keine dauerhaft abgelegte Datei. Laden Sie es herunter, kontrollieren Sie den Speicherort und bewahren Sie es unverändert auf. Screenshots, Bildoptimierer und manche Messenger können den unsichtbaren Sicherungsblock entfernen.
 
@@ -80,14 +80,14 @@ Weitere Details: [KI-Anleitung](AI-ANLEITUNG.md), [Dateiformat](docs/UNIVERSAL-F
 
 ## Hilfen für Lernende grafisch erstellen
 
-Öffnen Sie im Lehrkräfteeditor **Hilfetext festlegen**. Sie sehen jetzt nur die Hilfe-Einstellungen. Andere Änderungen am Mystery sind erst nach **Hilfe übernehmen** oder **Abbrechen** wieder möglich.
+Öffnen Sie im Lehrkräfteeditor **Hilfen bearbeiten**. Sie sehen jetzt nur die Hilfe-Einstellungen. Andere Änderungen am Mystery sind erst nach **Hilfe übernehmen** oder **Abbrechen** wieder möglich.
 
 1. **Denkimpuls auswählen:** fünf Vorlagen stehen zur Wahl. Der Text kann danach frei verändert werden. „Allgemeiner Denkimpuls“ verwendet die bisherige Standardhilfe; „Eigener Hilfetext“ erlaubt eine eigene Formulierung.
 2. **Kartennummern als Hilfe markieren** einschalten, wenn Sie die zweite Hilfestufe anbieten möchten. Sie ist für neue Mysterys standardmäßig ausgeschaltet.
 3. **Gruppen auswählen:** „Ursachen und Wirkungen“, „Nutzungskonflikte“ oder „Eigene Kategorien“. Namen und Farben sind bearbeitbar. Eine kleine Palette bietet gut lesbare Nummernfarben; bereits importierte andere Farben bleiben erhalten.
-4. **Karten zuordnen:** Wählen Sie je Karte eine Gruppe oder „Keine Zuordnung“. Es gibt keine automatische fachliche Zuordnung. Unterschiedliche Gruppengrößen und unmarkierte Karten sind ausdrücklich möglich.
-5. **Hilfe aus Schülersicht ansehen:** Die echte Schüleransicht zeigt zuerst den Denkimpuls. „Weitere Hilfe anzeigen“ aktiviert die farbigen Nummern und ihre Legende. Probieren Sie Karten und Verbindungen aus; diese Bewegungen werden nicht in die Aufgabe übernommen. **Zurück zu den Hilfen** bringt Sie zu Ihren Eingaben.
-6. **Hilfe übernehmen**, dann **Entwurf sichern** oder **Schülerversion erstellen**. Die erstellte Datei bewusst herunterladen.
+4. **Karten zuordnen:** Wählen Sie je Karte eine Gruppe oder „Keine Zuordnung“. Suchen Sie bei vielen Karten nach einer exakten Nummer (auch etwa „V12“) oder einem Wort im Titel. Der Zähler zeigt die sichtbare Anzahl; ausgeblendete Karten behalten ihre Zuordnungen. Bei Bedarf öffnen Sie **Mehrere Karten gemeinsam zuordnen**, wählen eine vorhandene Farbgruppe, markieren Karten und tippen **Ausgewählte Karten zuordnen**. Die Anzahl außerhalb der Suche bleibt sichtbar. Die gemeinsame Zuordnung ersetzt die bisherige Gruppe dieser Karten. **Mehrfachzuordnung schließen** kehrt zur einfachen Einzelwahl zurück. Es gibt keine automatische fachliche Zuordnung. Unterschiedliche Gruppengrößen und unmarkierte Karten sind ausdrücklich möglich.
+5. **Hilfe aus Schülersicht ansehen:** Die echte Schüleransicht zeigt zuerst den Denkimpuls. „Weitere Hilfe anzeigen“ aktiviert die farbigen Nummern und ihre Legende. Probieren Sie Karten und Verbindungen aus; diese Bewegungen werden nicht in die Aufgabe übernommen. Die Vorschau bietet keine Sicherung, Dateiimporte, Teamänderung oder Druckfunktion. Beim Schließen werden alle dort ausprobierten Bewegungen und Verbindungen verworfen. **Zurück zu den Hilfen** bringt Sie zu Ihren Eingaben.
+6. **Hilfe übernehmen** ändert zunächst nur den geöffneten Entwurf. Die Kurzangabe im Lehrkräftemodus zählt die tatsächlich übernommenen Gruppen und markierten Karten. Dann **Entwurf sichern** für die spätere Weiterarbeit; **Schülerversion erstellen** erzeugt zusätzlich die Datei für Lernende. Die erstellte Datei bewusst herunterladen.
 
 Höchstens sechs Gruppen sind möglich. Jede aktive Gruppe braucht einen eigenen Namen, eine andere Farbe und mindestens eine zugeordnete Karte. Fehler erscheinen direkt am betreffenden Feld; die Eingaben bleiben erhalten. Eine nicht benötigte Gruppe entfernen Sie mit „Gruppe … entfernen“. Sind Karten zugeordnet, fragt die Oberfläche vorher nach.
 

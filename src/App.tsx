@@ -43,6 +43,7 @@ export default function App({
   onProjectSave,
   onAuthor,
   initialHelpOpen = false,
+  mode = "student",
 }: {
   mystery: Mystery & { subtitle?: string };
   loadedWork?: Work;
@@ -52,7 +53,9 @@ export default function App({
   onProjectSave?: (work: Work) => void;
   onAuthor?: () => void;
   initialHelpOpen?: boolean;
+  mode?: "student" | "preview";
 }) {
+  const previewMode = mode === "preview";
   const [history, dispatch] = useReducer(
     historyReducer,
     loadedWork
@@ -115,14 +118,14 @@ export default function App({
   }, [modal]);
   useEffect(() => {
     const f = (e: BeforeUnloadEvent) => {
-      if (dirty) {
+      if (dirty && !previewMode) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", f);
     return () => window.removeEventListener("beforeunload", f);
-  }, [dirty]);
+  }, [dirty, previewMode]);
   useEffect(
     () => () => {
       if (saved) URL.revokeObjectURL(saved.url);
@@ -137,10 +140,12 @@ export default function App({
     close();
   };
   const choose = () => {
+    if (previewMode) return;
     input.current!.value = "";
     input.current!.click();
   };
   const importFile = async (file: File) => {
+    if (previewMode) return;
     const id = ++operation.current;
     setBusy(true);
     setMessage("Das Sicherungsbild wird gelesen …");
@@ -166,6 +171,7 @@ export default function App({
     }
   };
   const scan = (text: string) => {
+    if (previewMode) return false;
     try {
       const next = fromQr(text, mystery);
       accept(next);
@@ -176,7 +182,7 @@ export default function App({
     }
   };
   const save = async (mode: ExportMode = "a3", snapshot = work) => {
-    if (!snapshot) return;
+    if (previewMode || !snapshot) return;
     const id = ++operation.current;
     setSaved(null);
     setTeamError("");
@@ -298,7 +304,7 @@ export default function App({
     } else setCard(id);
   };
   const openPrint = () => {
-    if (!work) return;
+    if (previewMode || !work) return;
     if (!teamName(work)) {
       pendingExport.current = "print";
       setTeamDraft("");
@@ -316,17 +322,19 @@ export default function App({
     cardState = work?.cards.find((c) => c.id === card);
   return (
     <main className={work ? "workspace" : undefined}>
-      <input
-        ref={input}
-        type="file"
-        accept="image/png,.png"
-        hidden
-        aria-label="Sicherungsbild"
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f) void importFile(f);
-        }}
-      />
+      {!previewMode && (
+        <input
+          ref={input}
+          type="file"
+          accept="image/png,.png"
+          hidden
+          aria-label="Sicherungsbild"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) void importFile(f);
+          }}
+        />
+      )}
       {work ? (
         <>
           <header className="toolbar">
@@ -355,10 +363,12 @@ export default function App({
                   ↷
                 </span>
               </button>
-              <button className="primary" onClick={() => void save()}>
-                Sichern
-              </button>
-              {wideToolbar && (
+              {!previewMode && (
+                <button className="primary" onClick={() => void save()}>
+                  Sichern
+                </button>
+              )}
+              {(wideToolbar || previewMode) && (
                 <button
                   className="icon-button"
                   aria-label="Hilfe"
@@ -378,13 +388,15 @@ export default function App({
                   )}
                 </button>
               )}
-              <button
-                className="icon-button"
-                aria-label="Menü"
-                onClick={() => setModal("menu")}
-              >
-                ⋯
-              </button>
+              {!previewMode && (
+                <button
+                  className="icon-button"
+                  aria-label="Menü"
+                  onClick={() => setModal("menu")}
+                >
+                  ⋯
+                </button>
+              )}
             </nav>
             {teamName(work) && (
               <span
@@ -664,7 +676,7 @@ export default function App({
           </form>
         </Dialog>
       )}
-      {modal === "menu" && (
+      {!previewMode && modal === "menu" && (
         <Dialog title="Menü" onClose={close}>
           {teamName(work) && (
             <p className="menu-team">Team: {teamName(work)}</p>
@@ -772,7 +784,7 @@ export default function App({
           </div>
         </Dialog>
       )}
-      {modal === "team" && work && (
+      {!previewMode && modal === "team" && work && (
         <Dialog title="Teamname ändern" onClose={close}>
           {message && <p>{message}</p>}
           <form
@@ -844,12 +856,12 @@ export default function App({
           </p>
         </Dialog>
       )}
-      {modal === "print" && work && (
+      {!previewMode && modal === "print" && work && (
         <Dialog title="Druckfassung / PDF" onClose={close}>
           <PrintPreview work={work} mystery={mystery} />
         </Dialog>
       )}
-      {(modal === "resume" || modal === "camera") && (
+      {!previewMode && (modal === "resume" || modal === "camera") && (
         <Dialog title="Fortsetzen" onClose={close}>
           {work && (
             <p>
@@ -888,7 +900,7 @@ export default function App({
           )}
         </Dialog>
       )}
-      {modal === "save" && (
+      {!previewMode && modal === "save" && (
         <Dialog title="Arbeitsstand sichern" onClose={close}>
           <p role="status" aria-live="polite">
             {message}

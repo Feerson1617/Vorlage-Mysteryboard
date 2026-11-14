@@ -1,6 +1,40 @@
 import type { HelpCategory, HelpConfig } from "./model";
 import type { Content } from "./documents";
 import { validateContent } from "./documents";
+import { cardNumber } from "./model";
+
+/** Filtering never changes the underlying cards or their assignments. */
+export function matchesHelpCard(
+  content: Content,
+  card: Content["cards"][number],
+  query: string,
+) {
+  const term = query.trim().normalize("NFC").toLocaleLowerCase("de");
+  if (!term) return true;
+  const number = cardNumber(content, card.id).toLocaleLowerCase("de");
+  if (/^\d+$/.test(term)) return card.id === Number(term) || number === term;
+  return (
+    number === term ||
+    card.title.normalize("NFC").toLocaleLowerCase("de").includes(term)
+  );
+}
+
+/** One shared operation for single and explicitly requested bulk assignment. */
+export function assignHelpCards(
+  groups: HelpCategory[],
+  cardIds: number[],
+  target: string,
+): HelpCategory[] {
+  if (target && !groups.some((g) => g.id === target)) return groups;
+  const selected = new Set(cardIds);
+  return groups.map((g) => ({
+    ...g,
+    cardIds: [
+      ...g.cardIds.filter((id) => !selected.has(id)),
+      ...(g.id === target ? selected : []),
+    ],
+  }));
+}
 export const METHOD_PRESETS = [
   [
     "Beobachtung erklären",
@@ -97,7 +131,7 @@ export function ambiguousHelpNames(
 export function assertDistinctHelpNames(groups: readonly HelpCategory[] = []) {
   if (ambiguousHelpNames(groups).length)
     throw new Error(
-      "Einige Hilfegruppen haben gleichlautende Namen. Bitte öffnet ‚Hilfetext festlegen‘ und gebt ihnen unterschiedliche Namen.",
+      "Einige Hilfegruppen haben gleichlautende Namen. Bitte öffnet ‚Hilfen bearbeiten‘ und gebt ihnen unterschiedliche Namen.",
     );
 }
 

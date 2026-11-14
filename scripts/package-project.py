@@ -27,7 +27,7 @@ if not commit:
     except (subprocess.CalledProcessError, FileNotFoundError):
         version = root / 'PROJECT-VERSION.json'
         commit = json.loads(version.read_text())['sourceCommit'] if version.exists() else 'unversioned-local-copy'
-folders = ['src', 'scripts', 'tests', 'schemas', 'examples', 'docs', 'artifacts', 'scorm', 'qa']
+folders = ['src', 'scripts', 'tests', 'schemas', 'examples', 'docs', 'artifacts', 'scorm', 'qa', '.github']
 files = [p for p in root.iterdir() if p.is_file() and p.suffix in ['.md', '.json', '.ts', '.html']]
 files += [root / '.gitignore']
 for folder in folders:
@@ -57,7 +57,7 @@ try:
 except (subprocess.CalledProcessError, FileNotFoundError):
     branch = json.loads((root / 'PROJECT-VERSION.json').read_text()).get('sourceBranch', 'local-copy') if (root / 'PROJECT-VERSION.json').exists() else 'local-copy'
 version = {'sourceCommit': commit, 'sourceBranch': branch,
-           'baseCommit': '5a6899a7a67465c932c340c60ccde56e989586b4', 'documentFormatVersion': 3,
+           'baseCommit': '5a6899a7a67465c932c340c60ccde56e989586b4', 'documentFormatVersion': 3, 'reviewBaseCommit': 'd7b41c20a8d773248f71f858ce18f5ce1b5c51d8',
            'packagedAtUtc': datetime.now(timezone.utc).isoformat(), 'entries': entries,
            'redactedHistoricalDocuments': redacted,
            'note': 'Quellcode und Produktionsartefakte unverändert. Historische Dokumenttexte ohne Cloud-Pfadpräfixe; regenerierbare Test-HTMLs nicht enthalten. Keine schulische Gerätefreigabe.'}
