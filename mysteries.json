@@ -41,5 +41,10 @@
     "content": "tests/fixtures/ordered-60.json",
     "output": "MysteryBoard-Vorlage-Geordnet-60.html",
     "testOnly": true
+  },
+  "print-media": {
+    "content": "tests/fixtures/print-media.json",
+    "output": "MysteryBoard-Vorlage-Medien.html",
+    "testOnly": true
   }
 }

@@ -23,8 +23,10 @@ import { Camera } from "./components/Camera";
 import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 import { initialBoardWork } from "./core/layout";
 import { LearningHelp } from "./components/LearningHelp";
+import { PrintPreview } from "./components/PrintPreview";
 const mystery = validateMystery(dataset);
-type Modal = "resume" | "camera" | "save" | "help" | "menu" | "team" | null;
+type Modal =
+  "resume" | "camera" | "save" | "help" | "menu" | "team" | "print" | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
 const requireTeam = (work: Work, name: string): Work => {
   const named = withTeam(work, name);
@@ -55,7 +57,7 @@ export default function App() {
   const input = useRef<HTMLInputElement>(null),
     startTeamInput = useRef<HTMLInputElement>(null),
     teamInput = useRef<HTMLInputElement>(null),
-    pendingExport = useRef<ExportMode | null>(null),
+    pendingExport = useRef<ExportMode | "print" | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
@@ -262,6 +264,21 @@ export default function App() {
       setConnecting(null);
     } else setCard(id);
   };
+  const openPrint = () => {
+    if (!work) return;
+    if (!teamName(work)) {
+      pendingExport.current = "print";
+      setTeamDraft("");
+      setTeamError("");
+      setMessage(
+        "Ergänzt vor der Druckfassung eure Teambezeichnung oder Vornamen. Eine Gruppenbezeichnung genügt.",
+      );
+      setModal("team");
+      return;
+    }
+    setMessage("");
+    setModal("print");
+  };
   const cardContent = mystery.cards.find((c) => c.id === card),
     cardState = work?.cards.find((c) => c.id === card);
   return (
@@ -312,11 +329,20 @@ export default function App() {
                 <button
                   className="icon-button"
                   aria-label="Hilfe"
+                  aria-describedby="orientation-state"
+                  data-orientation-active={orientation}
                   aria-expanded={helpOpen}
-                  title="Hilfe"
+                  title={
+                    orientation ? "Hilfe · Orientierung eingeschaltet" : "Hilfe"
+                  }
                   onClick={openHelp}
                 >
                   ?
+                  {orientation && (
+                    <span className="help-active-mark" aria-hidden="true">
+                      ✓
+                    </span>
+                  )}
                 </button>
               )}
               <button
@@ -336,6 +362,11 @@ export default function App() {
               </span>
             )}
           </header>
+          <span id="orientation-state" className="sr-only">
+            {orientation
+              ? "Orientierungshilfe eingeschaltet."
+              : "Orientierungshilfe ausgeschaltet."}
+          </span>
           <Board
             work={work}
             mystery={mystery}
@@ -381,6 +412,10 @@ export default function App() {
             Verschiebt die Karten, verbindet eure Gedanken
             <br className="wide-only" /> und haltet euren gemeinsamen Stand
             fest.
+          </p>
+          <p className="number-guidance">
+            Die Kartennummern helfen euch beim Wiederfinden. Sie geben keine
+            richtige Reihenfolge vor.
           </p>
           <label className="team-input">
             Teamname oder Vornamen
@@ -585,7 +620,19 @@ export default function App() {
             <p className="menu-team">Team: {teamName(work)}</p>
           )}
           <div className="menu-list">
-            <button onClick={openHelp}>Hilfe</button>
+            <button
+              onClick={openHelp}
+              aria-label="Hilfe"
+              aria-describedby="orientation-state"
+              data-orientation-active={orientation}
+            >
+              Hilfe
+              {orientation && (
+                <span className="help-active-label" aria-hidden="true">
+                  ✓ Orientierung an
+                </span>
+              )}
+            </button>
             <button
               onClick={() => {
                 setTeamDraft(teamName(work!));
@@ -608,6 +655,7 @@ export default function App() {
             <button onClick={() => void save("compact")}>
               Kleineres Sicherungsbild
             </button>
+            <button onClick={openPrint}>Druckfassung / PDF</button>
             <button onClick={() => setModal("help")}>Hinweise</button>
             <button
               onClick={() => {
@@ -641,7 +689,8 @@ export default function App() {
                 commit(named);
                 close();
                 // Use the newly named snapshot, not the preceding render's work.
-                if (mode) void save(mode, named);
+                if (mode === "print") setModal("print");
+                else if (mode) void save(mode, named);
               } catch (error) {
                 setTeamError((error as Error).message);
                 teamInput.current?.focus();
@@ -697,6 +746,11 @@ export default function App() {
             oder das Versenden als verkleinertes Bild kann die Sicherung
             verlieren.
           </p>
+        </Dialog>
+      )}
+      {modal === "print" && work && (
+        <Dialog title="Druckfassung / PDF" onClose={close}>
+          <PrintPreview work={work} mystery={mystery} />
         </Dialog>
       )}
       {(modal === "resume" || modal === "camera") && (

@@ -1,0 +1,73 @@
+{
+  "id": "template-print-media",
+  "version": "1.0.0",
+  "title": "Neutraler Medien- und Langtexttest",
+  "cardGroups": {
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "Z"
+    },
+    "additional": {
+      "label": "Zusatz",
+      "prefix": "V"
+    }
+  },
+  "cards": [
+    {
+      "id": 5,
+      "title": "Notiz 5",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 3,
+      "title": "Notiz 3",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjYwMCIgdmlld0JveD0iMCAwIDE2MDAgNjAwIj48cmVjdCB3aWR0aD0iMTYwMCIgaGVpZ2h0PSI2MDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI4IiB5PSI4IiB3aWR0aD0iMTU4NCIgaGVpZ2h0PSI1ODQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIyMiIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGNpcmNsZSBjeD0iODAwLjAiIGN5PSIzMDAuMCIgcj0iMTUwLjAiIGZpbGw9IiMyMTY2YWMiLz48dGV4dCB4PSIzMCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzOCI+QmlsZCAzOiAxNjAwIMOXIDYwMDwvdGV4dD48dGV4dCB4PSIzMCIgeT0iNTYwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjgiPkxlZ2VuZGU6IEtyZWlzID0gbmV1dHJhbGUgTWVzc2Zsw6RjaGU8L3RleHQ+PC9zdmc+",
+      "imageAlt": "Neutrales Diagramm 3: Ein runder blauer Kreis, Rahmen und lesbare Legende, 1600 mal 600 Pixel."
+    },
+    {
+      "id": 1,
+      "title": "Notiz 1",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iODAwIiB2aWV3Qm94PSIwIDAgODAwIDgwMCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI4MDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI4IiB5PSI4IiB3aWR0aD0iNzg0IiBoZWlnaHQ9Ijc4NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjIyIiBzdHJva2Utd2lkdGg9IjgiLz48Y2lyY2xlIGN4PSI0MDAuMCIgY3k9IjQwMC4wIiByPSIyMDAuMCIgZmlsbD0iIzIxNjZhYyIvPjx0ZXh0IHg9IjMwIiB5PSI2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjM4Ij5CaWxkIDE6IDgwMCDDlyA4MDA8L3RleHQ+PHRleHQgeD0iMzAiIHk9Ijc2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4Ij5MZWdlbmRlOiBLcmVpcyA9IG5ldXRyYWxlIE1lc3NmbMOkY2hlPC90ZXh0Pjwvc3ZnPg==",
+      "imageAlt": "Neutrales Diagramm 1: Ein runder blauer Kreis, Rahmen und lesbare Legende, 800 mal 800 Pixel."
+    },
+    {
+      "id": 2,
+      "title": "Notiz 2",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "extension",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MDAiIGhlaWdodD0iMTIwMCIgdmlld0JveD0iMCAwIDYwMCAxMjAwIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjEyMDAiIGZpbGw9IiNmZmYiLz48cmVjdCB4PSI4IiB5PSI4IiB3aWR0aD0iNTg0IiBoZWlnaHQ9IjExODQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzIyMiIgc3Ryb2tlLXdpZHRoPSI4Ii8+PGNpcmNsZSBjeD0iMzAwLjAiIGN5PSI2MDAuMCIgcj0iMTUwLjAiIGZpbGw9IiMyMTY2YWMiLz48dGV4dCB4PSIzMCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIzOCI+QmlsZCAyOiA2MDAgw5cgMTIwMDwvdGV4dD48dGV4dCB4PSIzMCIgeT0iMTE2MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4Ij5MZWdlbmRlOiBLcmVpcyA9IG5ldXRyYWxlIE1lc3NmbMOkY2hlPC90ZXh0Pjwvc3ZnPg==",
+      "imageAlt": "Neutrales Diagramm 2: Ein runder blauer Kreis, Rahmen und lesbare Legende, 600 mal 1200 Pixel."
+    },
+    {
+      "id": 4,
+      "title": "Langtext mit vollständigem Ende",
+      "text": "ANFANG DER PRÜFNOTIZ. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt werden. Eine neutrale Beobachtung wird beschrieben und kann verschieden erklärt wer VOLLSTÄNDIGES TEXTENDE.",
+      "group": "additional"
+    }
+  ],
+  "help": {
+    "method": "Wählt eine Notiz, zu der ihr eine Frage habt. Welche andere Notiz könnte beim Erklären helfen? Begründet eure Vermutung gemeinsam.",
+    "categories": [
+      {
+        "id": "a",
+        "label": "Rahmenbedingungen",
+        "color": "#2166ac",
+        "cardIds": [1, 4]
+      },
+      {
+        "id": "b",
+        "label": "Vorgänge",
+        "color": "#f5a623",
+        "cardIds": [2]
+      },
+      {
+        "id": "c",
+        "label": "Beobachtungen",
+        "color": "#287c43",
+        "cardIds": [5]
+      }
+    ]
+  }
+}
