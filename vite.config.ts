@@ -9,6 +9,7 @@ import {
   validateBuildContents,
 } from "./scripts/content-config.ts";
 import { validateMystery } from "./src/core/model.ts";
+import { documentImportAssets } from "./scripts/document-import-assets.ts";
 export default defineConfig(({ mode }) => {
   validateBuildContents();
   const target = targetForMode(mode),
@@ -20,7 +21,8 @@ export default defineConfig(({ mode }) => {
       __UNIVERSAL__: JSON.stringify(target.key === "universal"),
       __INITIAL_DOCUMENT__: "null",
     },
-    plugins: [react(), viteSingleFile()],
+    plugins: [react(), documentImportAssets(), viteSingleFile()],
+    worker: { plugins: () => [documentImportAssets()], format: "es" },
     resolve: { alias: { "@mystery": content } },
     build: { target: "es2022", assetsInlineLimit: 10000000, sourcemap: false },
     test: { include: ["tests/**/*.test.ts"] },

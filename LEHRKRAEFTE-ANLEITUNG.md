@@ -25,7 +25,7 @@ Bilder behalten ihr Seitenverhältnis. Im Lesefenster öffnet **Bild vergrößer
 
 **Tabelle hinzufügen** erzeugt eine strukturierte Tabelle: bis zu sechs Spalten und zwanzig Zeilen, mit optionaler Überschrift. Überschriften und Zellen lassen sich nach dem Wiederöffnen weiter bearbeiten. Im Druck erscheinen Tabellen platzsparend als vollständig beschriftete Datenzeilen. Ein Foto einer Tabelle bleibt dagegen ein Bild. Werte in einem solchen Foto lassen sich nicht wie Tabellenzellen bearbeiten.
 
-PDF- und Word-Dateien werden nicht direkt im Editor importiert. Exportieren Sie die gewünschte PDF-Seite lokal als PNG/JPEG/WebP oder lassen Sie eine KI den Text sorgfältig in das strukturierte Format übertragen. Der Editor enthält weder OCR noch eine versteckte Cloud-Konvertierung. Die technische Entscheidung dazu steht im Abnahmebericht.
+Vorhandene Word-Dateien (.docx) und PDFs mit Textebene können Sie über **Dokument importieren** direkt lokal übernehmen. Vergleichen und korrigieren Sie die vorgeschlagenen Karten im Assistenten, bevor Sie sie ausdrücklich in Ihren Entwurf übernehmen. Bei einem gescannten PDF gibt es keine automatische Texterkennung; eine Seite oder ein Ausschnitt kann als Bildkarte dienen. [Schrittfolge und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md). Es gibt keine Cloud-Konvertierung und keine automatische Veröffentlichung.
 
 ## Entwurf wieder öffnen und Aufgaben nachträglich ändern
 
@@ -76,7 +76,7 @@ Die Lehrkraftfassung verwendet das Kürzel ausdrücklich als Lehrkraftangabe; di
 
 Prüfen Sie Karten und Quellen fachlich, lesen Sie die kleinsten Diagrammlegenden, testen Sie Hoch-/Querformat, Touch, Hilfe, Druck und vor allem eine **vollständige Sicherung und Wiederherstellung nach dem Schließen**. Testen Sie mit dem verwalteten Schul-iPad innerhalb des echten itslearning-Kurses. Eine lokale Chromium-Simulation ist keine schulische Freigabe. Canva-Einbettung, Kamera-/Downloadrechte und Safari müssen gesondert geprüft werden.
 
-Weitere Details: [KI-Anleitung](AI-ANLEITUNG.md), [Dateiformat](docs/UNIVERSAL-FORMAT.md), [Abnahmebericht](docs/UNIVERSAL-ABNAHME.md).
+Weitere Details: [KI-Anleitung](AI-ANLEITUNG.md), [Dateiformat](docs/UNIVERSAL-FORMAT.md), [aktueller Prüfbericht](docs/DOKUMENTIMPORT-PRUEFBERICHT.md).
 
 ## Hilfen für Lernende grafisch erstellen
 
@@ -99,3 +99,7 @@ Die Kategorien sind eine freiwillige Orientierung und keine Musterlösung. Wähl
 Gruppennamen müssen eindeutig sein. „Ursachen“, „ Ursachen “ und „ursachen“ zählen als derselbe Name. Bei solchen Doppelungen bleiben Ihre Eingaben erhalten; ändern Sie die betroffenen Namen vor dem Übernehmen oder Bereitstellen. Ältere Dateien werden unverändert geöffnet. Ihre Hilfegruppen lassen sich vor einer erneuten Veröffentlichung präzisieren.
 
 Kurzer Einstieg: [START-HIER.md](START-HIER.md). Fertiger externer Übertragungsauftrag: [KI-PROMPT-ZUM-KOPIEREN.md](KI-PROMPT-ZUM-KOPIEREN.md). Die kontrollierte [Papierprobe](examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md) ist keine bereits bestandene Fremd-KI-Prüfung. Exportnamen nennen jetzt Entwurf, Aufgabe oder Arbeitsstand sowie den sichtbaren Titel und die Inhaltsversion; das Dateiformat bleibt unverändert.
+
+## Lokaler Word-/PDF-Import
+
+Im Lehrkräfteeditor öffnet **Dokument importieren** einen lokalen Assistenten für DOCX und PDF mit Textebene. Es wird keine KI und kein externer Dienst benötigt. Vorschläge erst am Original kontrollieren; Scan-PDFs können als Bild übernommen werden, OCR wird nicht behauptet. Der Import verwendet dieselben Karten, Tabellen, Medien, Validatoren und Inhaltsversionen wie der vorhandene Editor. [Ablauf und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).

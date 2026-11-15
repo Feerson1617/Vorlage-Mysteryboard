@@ -842,3 +842,95 @@ dialog:has(.student-help-preview) .dialog-body {
 .student-help-preview .workspace {
   height: 100%;
 }
+
+.author-document-import {
+  margin: 16px 0;
+}
+.document-import .actions {
+  margin: 16px 0;
+}
+.import-step-body {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.import-warning {
+  border-left: 3px solid #708477;
+  padding-left: 12px;
+}
+.import-review {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.import-original,
+.import-cards {
+  min-width: 0;
+}
+.import-docx-original {
+  max-height: 65dvh;
+  overflow: auto;
+  border: 1px solid #c7d0ca;
+  padding: 12px;
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+}
+.import-docx-original img,
+.import-image {
+  max-width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+}
+.import-tabs button[aria-pressed="true"] {
+  border: 2px solid #345943;
+}
+.import-page {
+  position: relative;
+  margin: 12px 0;
+  line-height: 0;
+}
+.import-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.import-page.marking {
+  touch-action: none;
+  cursor: crosshair;
+}
+.import-crop {
+  position: absolute;
+  border: 2px solid #2166ac;
+  background: #2166ac22;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+.import-crop-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.import-crop-fields label {
+  min-width: 0;
+}
+.document-import textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.document-import button,
+.document-import .button {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 899px) {
+  .import-review {
+    display: block;
+  }
+  .import-review[data-view="cards"] .import-original {
+    display: none;
+  }
+  .import-review[data-view="original"] .import-cards {
+    display: none;
+  }
+}

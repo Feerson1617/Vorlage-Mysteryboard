@@ -12,6 +12,7 @@ import { PrintPreview } from "./PrintPreview";
 import { MediaView } from "./MediaView";
 import { TableEditor } from "./TableEditor";
 import { HelpEditor } from "./HelpEditor";
+import { DocumentImport } from "./DocumentImport";
 
 type Card = Content["cards"][number];
 export function AuthorEditor({
@@ -39,6 +40,8 @@ export function AuthorEditor({
     } | null>(null),
     [png, setPng] = useState<{ url: string; name: string } | null>(null);
   const [helpEditing, setHelpEditing] = useState(false);
+  const [documentImport, setDocumentImport] = useState(false);
+  const [importNotice, setImportNotice] = useState("");
   const [helpNotice, setHelpNotice] = useState(false);
   const helpButton = useRef<HTMLButtonElement>(null);
   const closeHelp = () => {
@@ -63,14 +66,14 @@ export function AuthorEditor({
       : initialPreview;
   useEffect(() => {
     const before = (e: BeforeUnloadEvent) => {
-      if (dirty || card || helpEditing) {
+      if (dirty || card || helpEditing || documentImport) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", before);
     return () => window.removeEventListener("beforeunload", before);
-  }, [dirty, card, helpEditing]);
+  }, [dirty, card, helpEditing, documentImport]);
   useEffect(
     () => () => {
       operation.current++;
@@ -218,16 +221,16 @@ export function AuthorEditor({
         <span>Kürzel: {draft.author.initials}</span>
         <button
           className="primary"
-          disabled={helpEditing}
+          disabled={helpEditing || documentImport}
           onClick={() => onFile(validateDocument(draft))}
         >
           Entwurf sichern
         </button>
-        <button disabled={helpEditing} onClick={onImport}>
+        <button disabled={helpEditing || documentImport} onClick={onImport}>
           Entwurf öffnen
         </button>
         <button
-          disabled={helpEditing}
+          disabled={helpEditing || documentImport}
           onClick={() => {
             if (
               !dirty ||
@@ -265,8 +268,35 @@ export function AuthorEditor({
             return false;
           }}
         />
+      ) : documentImport ? (
+        <DocumentImport
+          draft={draft}
+          dirty={dirty}
+          onCancel={() => setDocumentImport(false)}
+          onApply={(next, count) => {
+            setDraft(next);
+            setDirty(true);
+            setDocumentImport(false);
+            setError("");
+            setImportNotice(
+              `${count} Karten übernommen. Die Änderungen liegen nur im geöffneten Entwurf. Bitte „Entwurf sichern“ herunterladen; anschließend „Schülerversion erstellen“ für die Klasse verwenden.`,
+            );
+          }}
+        />
       ) : (
         <>
+          <section
+            className="author-document-import"
+            aria-label="Unterrichtsmaterial übernehmen"
+          >
+            <button onClick={() => setDocumentImport(true)}>
+              Dokument importieren
+            </button>
+            <p className="small">
+              Karten aus einer Word- oder PDF-Datei übernehmen.
+            </p>
+            {importNotice && <p role="status">{importNotice}</p>}
+          </section>
           <div className="author-fields">
             <label>
               Mystery-Titel

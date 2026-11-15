@@ -166,3 +166,7 @@ Vor der redaktionellen Übernahme und neuer Veröffentlichung müssen Hilfegrupp
 Die Hilfe-Vorschau nutzt dieselbe App mit `mode="preview"`: keine Datei-, Team- oder Druckaktionen, temporäre Karten/Verbindungen werden beim Schließen verworfen. Suchfilter und optionale Mehrfachwahl im Hilfeeditor sind reine Bearbeitungshilfen; sie ordnen ohne bewusste Kartenauswahl nichts fachlich zu. Das Dateiformat bleibt Version 3.
 
 Kurzer Einstieg: [START-HIER.md](START-HIER.md). Fertiger externer Übertragungsauftrag: [KI-PROMPT-ZUM-KOPIEREN.md](KI-PROMPT-ZUM-KOPIEREN.md). Die kontrollierte [Papierprobe](examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md) ist keine bereits bestandene Fremd-KI-Prüfung. Exportnamen nennen jetzt Entwurf, Aufgabe oder Arbeitsstand sowie den sichtbaren Titel und die Inhaltsversion; das Dateiformat bleibt unverändert.
+
+## Lokaler Word-/PDF-Import
+
+Im Lehrkräfteeditor öffnet **Dokument importieren** einen lokalen Assistenten für DOCX und PDF mit Textebene. Es wird keine KI und kein externer Dienst benötigt. Vorschläge erst am Original kontrollieren; Scan-PDFs können als Bild übernommen werden, OCR wird nicht behauptet. Der Import verwendet dieselben Karten, Tabellen, Medien, Validatoren und Inhaltsversionen wie der vorhandene Editor. [Ablauf und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).

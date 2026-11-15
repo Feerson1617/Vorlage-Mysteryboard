@@ -1,0 +1,9 @@
+# Echte Dokumente für die Importprüfung
+
+A/B sind selbst erzeugte OOXML-Worddateien mit ZIP-Verzeichnis, Beziehungen, Formatvorlagen und tatsächlichen Text-/Tabellen-/Bilddaten. C/D/E/G/H sind von Chromium erzeugte PDFs mit wirklichen Seiten; E enthält ausschließlich ein Seitenbild ohne Textebene. Die HTML-Ausgangsdateien und `ORIGINAL-INHALTE.json` enthalten die getrennte Inhaltsreferenz. Die Vergleichs-PDFs A/B geben dieselben Originalinhalte wieder; sie behaupten keine identische Seitenausgabe durch Microsoft Word.
+
+Alle Texte, Messwerte und Diagramme sind eigene synthetische Prüfdaten, keine Feldmessungen, Personen-/Schülerdaten oder fachlich freigegebenen Unterrichtskarten. Es wurden keine fremden Bildbestände übernommen. Diese eigenen technischen Prüfmaterialien können für die Arbeit an dieser Vorlage weiterverwendet werden. Bibliotheks- und Schriftlizenzen stehen in der Lizenzbeigabe der HTML.
+
+**F-Dateien ausschließlich für Sicherheits-/Fehlertests verwenden.** Die Dateien enthalten absichtlich beschädigte Bytes, ein Kompressionsmuster, einen blockierten VBA-Platzhalter, zu viele Bildpunkte, harmlose Skriptzeichen beziehungsweise eine wirkliche PDF-JavaScript-Aktion (`app.alert`). Nicht an Lernende als Aufgaben verteilen und nicht als normale Dokumente ausführen. Erwartet sind verständliche Ablehnung beziehungsweise ausschließlich wörtliche Textübernahme ohne Skriptausführung oder fremde Anfragen.
+
+Neu erzeugen: `node scripts/create-document-import-fixtures.mjs NEUER-ORDNER`. Ein bestehender Ausgabeordner wird nicht überschrieben. Erforderlich sind die Projektabhängigkeiten und Chromium; die fertige Schüleranwendung benötigt diese Werkzeuge nicht. Die Testmaterialien A–H sind technische Prüfbeispiele. Der direkte Word-Layout- und Schul-iPad-Vergleich bleibt eine separate Geräteprüfung.

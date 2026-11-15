@@ -1,10 +1,22 @@
 import { useState } from "react";
-export function MediaView({ src, alt }: { src: string; alt?: string }) {
+export function MediaView({
+  src,
+  alt,
+  lazy = false,
+}: {
+  src: string;
+  alt?: string;
+  lazy?: boolean;
+}) {
   const [expanded, setExpanded] = useState(false),
     [zoom, setZoom] = useState(1);
   return (
     <section className="media-view">
-      <img src={src} alt={alt || "Bild zur Karte"} />
+      <img
+        src={src}
+        alt={alt || "Bild zur Karte"}
+        loading={lazy ? "lazy" : undefined}
+      />
       <button
         type="button"
         aria-expanded={expanded}

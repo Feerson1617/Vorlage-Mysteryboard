@@ -10,7 +10,7 @@ Die fertige Anwendung braucht weder Programmierkenntnisse noch kostenpflichtige 
 
 ## 2. Selbst ein Mystery erstellen
 
-Wählen Sie **Eigenes Mystery erstellen**, geben Sie Ihr Kürzel ein und öffnen Sie den Lehrkräftemodus. Tragen Sie Titel und Karten ein. Bilder und Tabellen können Sie in der jeweiligen Karte ergänzen. Pflicht- und Vertiefungskarten wählen Sie ausdrücklich aus.
+Wählen Sie **Eigenes Mystery erstellen**, geben Sie Ihr Kürzel ein und öffnen Sie den Lehrkräftemodus. Tragen Sie Titel und Karten ein. Vorhandene Word- oder Text-PDF-Dateien übernehmen Sie über **Dokument importieren**; prüfen Sie die Vorschläge vor der Übernahme. Bilder und Tabellen können Sie in der jeweiligen Karte ergänzen. Pflicht- und Vertiefungskarten wählen Sie ausdrücklich aus.
 
 Unter **Hilfen bearbeiten** können Sie einen Denkimpuls und freiwillige farbige Kartennummern festlegen. Bei vielen Karten helfen die Suche und die auf Wunsch einblendbare gemeinsame Zuordnung. Die Vorschau lässt Karten und Verbindungen ausprobieren; beim Schließen werden diese Versuche verworfen.
 

@@ -2,6 +2,7 @@ import { readFile, mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { selectBuildTargets } from "./content-config.ts";
+import { documentImportLicenses } from "./document-import-licenses.mjs";
 const licenses = [
   ["react", "LICENSE"],
   ["react-dom", "LICENSE"],
@@ -43,6 +44,7 @@ export async function checkBuilds(targets = selectBuildTargets()) {
     );
     notices += `\n${pkg} ${metadata.version}\n${await readFile(`node_modules/${pkg}/${file}`, "utf8")}\n`;
   }
+  notices += await documentImportLicenses();
   for (const { key: mode, output, testOnly, previewOnly } of targets) {
     const source = await readFile(`dist/${mode}/index.html`, "utf8");
     checkSize(Buffer.byteLength(source), mode);
