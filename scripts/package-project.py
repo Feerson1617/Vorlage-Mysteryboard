@@ -34,9 +34,10 @@ for folder in folders:
     files += [p for p in (root / folder).rglob('*') if p.is_file() and '__pycache__' not in p.parts and 'node_modules' not in p.relative_to(root).parts
               and not p.relative_to(root).as_posix().startswith('artifacts/previews/')
               and not p.relative_to(root).as_posix().startswith('artifacts/tests/')
-              and not p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import/screenshots/')
-              and not (p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import/dokumentimport/') and p.suffix.lower() == '.png')
-              and not (p.relative_to(root).as_posix().startswith('docs/test-evidence/') and not p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import/') and p.suffix.lower() in ['.png', '.pdf'])
+              and not p.relative_to(root).as_posix().startswith('artifacts/delivery/')
+              and not p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import-integrity/screenshots/')
+              and not (p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import-integrity/dokumentimport/') and p.suffix.lower() == '.png')
+              and not (p.relative_to(root).as_posix().startswith('docs/test-evidence/') and not p.relative_to(root).as_posix().startswith('docs/test-evidence/document-import-integrity/') and p.suffix.lower() in ['.png', '.pdf'])
               and 'Projektvorlage' not in p.name and 'Pruefnachweise.zip' not in p.name]
 files = sorted(set(files) - {output, root / 'PROJECT-VERSION.json'})
 entries = []
@@ -60,7 +61,7 @@ try:
 except (subprocess.CalledProcessError, FileNotFoundError):
     branch = json.loads((root / 'PROJECT-VERSION.json').read_text()).get('sourceBranch', 'local-copy') if (root / 'PROJECT-VERSION.json').exists() else 'local-copy'
 version = {'sourceCommit': commit, 'sourceBranch': branch,
-           'baseCommit': '35019c364ffef026482250ec75042b38e138fe18', 'templateOriginCommit': '5a6899a7a67465c932c340c60ccde56e989586b4', 'documentFormatVersion': 3, 'reviewBaseCommit': '35019c364ffef026482250ec75042b38e138fe18', 'developmentPhase': 'LocalDocumentImport-2026-11-15',
+           'baseCommit': '8418a445248893c2ba01bea673d84febcdf36537', 'templateOriginCommit': '5a6899a7a67465c932c340c60ccde56e989586b4', 'documentFormatVersion': 3, 'reviewBaseCommit': '8418a445248893c2ba01bea673d84febcdf36537', 'developmentPhase': 'DocumentImportIntegrity-2026-11-15',
            'packagedAtUtc': datetime.now(timezone.utc).isoformat(), 'entries': entries,
            'redactedHistoricalDocuments': redacted,
            'note': 'Quellcode und Produktionsartefakte unverändert. Historische Dokumenttexte ohne Cloud-Pfadpräfixe; regenerierbare Test-HTMLs und historische generierte Screenshots/Pruef-PDFs nicht enthalten. Aktuelle Protokolle, importierte Dokumente und Schüler-PNGs enthalten; doppelte aktuelle Screenshotkopien nur im vollständigen Abnahmepaket. Keine schulische Gerätefreigabe.'}

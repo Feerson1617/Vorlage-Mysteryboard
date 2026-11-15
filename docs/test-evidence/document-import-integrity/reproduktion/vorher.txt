@@ -1,0 +1,17 @@
+{
+  "status": "confirmed defect",
+  "browser": "156.0.8078.79",
+  "dialog": {
+    "text": "Materia\n\nl 1",
+    "source": "Eigene technische Vorlage B1.\nEigene technische Vorlage B1."
+  },
+  "actualSavedCard": {
+    "group": "required",
+    "id": 1,
+    "image": "[original image retained]",
+    "source": "Eigene technische Vorlage B1.\nEigene technische Vorlage B1.",
+    "text": "Materia\n\nl 1",
+    "title": "Karte 1: Material 1"
+  },
+  "sourceCommit": "8418a445248893c2ba01bea673d84febcdf36537"
+}

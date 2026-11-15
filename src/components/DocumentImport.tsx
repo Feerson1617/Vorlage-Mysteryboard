@@ -9,6 +9,8 @@ import {
   checkImportFile,
   takeImportedCards,
   mergeImported,
+  splitImported,
+  canRejoinImported,
   type Card,
   type ImportResult,
 } from "../core/document-import/model";
@@ -274,14 +276,7 @@ export function DocumentImport({
     const id = Math.max(...cards.map((c) => c.id)) + 1;
     setCards([
       ...cards.slice(0, index),
-      { ...current, text: current.text.slice(0, at) },
-      {
-        id,
-        title: "",
-        text: current.text.slice(at),
-        group: current.group,
-        ...(current.source ? { source: current.source } : {}),
-      },
+      ...splitImported(current, at, id),
       ...cards.slice(index + 1),
     ]);
     setSelected([...selected, id]);
@@ -290,7 +285,15 @@ export function DocumentImport({
   function merge() {
     try {
       const next = cards[index + 1],
+        exact = canRejoinImported(current, next),
         joined = mergeImported(current, next);
+      if (
+        !exact &&
+        !confirm(
+          "Diese Karten können nicht eindeutig als unveränderte Teilstücke zurückgesetzt werden. Ihre Texte und die zweite Überschrift werden mit Absätzen verbunden; unterschiedliche Quellen, Bilder und Tabelleninformationen bleiben erhalten. Die gemeinsame Karte verwendet die Kartengruppe der ersten Karte. Zusammenfügen und die Textgrenze sowie Kartengruppe anschließend am Original prüfen?",
+        )
+      )
+        return;
       setCards([...cards.slice(0, index), joined, ...cards.slice(index + 2)]);
       setSelected([
         ...selected.filter((id) => id !== next.id && id !== current.id),
@@ -300,6 +303,11 @@ export function DocumentImport({
       ]);
       setReviewed(false);
       setError("");
+      setMessage(
+        exact
+          ? "Teilung zurückgenommen: Text, Quelle und Karteninformationen entsprechen wieder dem Original vor der Teilung."
+          : "Karten mit Absätzen zusammengefügt. Bitte Textgrenze und gemeinsame Kartengruppe am Original prüfen.",
+      );
     } catch (e) {
       setError((e as Error).message);
     }

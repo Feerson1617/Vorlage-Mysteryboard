@@ -6,3 +6,5 @@ playwright-report-rc2/
 test-results-rc2/
 artifacts/previews/
 *.log
+__pycache__/
+*.pyc

@@ -1,5 +1,7 @@
 # MysteryBoard Universal: lokaler Word-/PDF-Import
 
+> Historischer Bericht zum Vorgängerstand `8418a44`. Der nachträglich reproduzierte Split/Merge-Fehler war in den damaligen Vergleichen nach dem Export nicht abgesichert. Maßgeblich für die Nacharbeit sind [DOKUMENTIMPORT-NACHARBEIT.md](DOKUMENTIMPORT-NACHARBEIT.md) und deren aktuelle Dateien/Prüfsummen.
+
 Prüfdatum: 15. November 2026. Ausgangscommit: `35019c364ffef026482250ec75042b38e138fe18`. Entwicklungsbranch: `feat/mysteryboard-local-document-import`. Der endgültige Quellcommit steht in `QUELLSTAND.json` des Abnahmepakets beziehungsweise `PROJECT-VERSION.json` der Projektvorlage. Diese Dateien werden beim Verpacken aus Git erzeugt. Kein Merge, Release-Tag oder Deployment gehört zu dieser Lieferung.
 
 ## Ergebnis und Bedienweg

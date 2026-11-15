@@ -1,0 +1,22 @@
+{
+  "trustedBundledWasmAssets": [
+    {
+      "resource": "jbig2.wasm",
+      "bytes": 103671,
+      "sha256": "466f45c2a61a698152fb5400c27e56ff2ceb73dcb71fde3fc366a502308eaab0"
+    },
+    {
+      "resource": "openjpeg.wasm",
+      "bytes": 220817,
+      "sha256": "7ea4b2b04613370ad4e9c1162da750cc88b4b176eac0d0c164b3caff23fc0a46"
+    },
+    {
+      "resource": "qcms_bg.wasm",
+      "bytes": 96589,
+      "sha256": "663d86126d5f5fcb1c61490f94353e2a8375660b8c5498ab3ebab5a34b08800e"
+    }
+  ],
+  "totalAssetBytes": 421077,
+  "quickjsEvalWasmBundled": false,
+  "scope": "Static bundled decoder bytes; not allocated linear memory or total process RAM. C/D sample measurements do not prove JBIG2/JPX worst-case memory."
+}

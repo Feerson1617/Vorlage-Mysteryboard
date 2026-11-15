@@ -223,6 +223,38 @@ async function screenshot(a, name) {
   await a.page.screenshot({ path: join(output, name), fullPage: true });
   report.screenshots.push(name);
 }
+async function printPdf(a, key, paper) {
+  await btn(a.ui, "Menü").tap();
+  await btn(a.ui, "Druckfassung / PDF").tap();
+  await a.ui
+    .getByRole("combobox", { name: "Papierformat", exact: true })
+    .selectOption(paper);
+  await a.ui
+    .locator(".print-preview")
+    .getByRole("status")
+    .filter({ hasText: /\d+ Seiten vorbereitet/ })
+    .waitFor({ timeout: 60000 });
+  const printFrame = await a.ui
+    .locator('iframe[title="Druckvorschau"]')
+    .elementHandle();
+  const inner = await printFrame.contentFrame();
+  const innerHtml = await inner.content();
+  assert(innerHtml.includes("<html") && innerHtml.includes("@page"));
+  assert(innerHtml.includes(`size: ${paper.toUpperCase()} landscape`));
+  const context = await browser.newContext(),
+    p = await context.newPage();
+  await context.setOffline(true);
+  await p.setContent(innerHtml);
+  await p.evaluate(async () => {
+    await Promise.all([...document.images].map((i) => i.decode()));
+    await document.fonts.ready;
+  });
+  const bytes = await p.pdf({ preferCSSPageSize: true, printBackground: true });
+  assert(bytes.subarray(0, 5).toString() === "%PDF-");
+  await writeFile(join(output, `${key}-${paper}.pdf`), bytes);
+  await context.close();
+  await btn(a.ui, "Schließen").tap();
+}
 async function connection(a, from, to, label) {
   await a.ui.locator(`[data-number="${from}"]`).tap();
   await btn(a.ui, "Mit einer Karte verbinden").tap();
@@ -377,6 +409,23 @@ try {
         for (const part of source[i].paragraphs)
           assert(norm(body).includes(norm(part)));
         assert.equal(
+          norm(body),
+          norm(
+            [...source[i].paragraphs, ...(source[i].bullets || [])].join(
+              "\n\n",
+            ),
+          ),
+        );
+        if (format === "docx" && source[i].image) {
+          const src = await a.ui
+            .locator(".import-cards .media-view > img")
+            .getAttribute("src");
+          assert.equal(
+            sha(Buffer.from(src.split(",")[1], "base64")),
+            sha(await readFile(join(root, "dateien", source[i].image))),
+          );
+        }
+        assert.equal(
           norm(
             await a.ui
               .getByRole("textbox", { name: "Quellenangabe", exact: true })
@@ -413,6 +462,10 @@ try {
         name: "Kartentext",
         exact: true,
       });
+      const originalText = await text.inputValue();
+      const originalSource = await a.ui
+        .getByRole("textbox", { name: "Quellenangabe", exact: true })
+        .inputValue();
       await text.press("Control+Home");
       await text.press("Control+ArrowRight");
       await btn(a.ui, "Karte am Textcursor teilen").tap();
@@ -424,6 +477,13 @@ try {
         source.length + 1,
       );
       await btn(a.ui, "Mit nächster Karte zusammenfügen").tap();
+      assert.equal(await text.inputValue(), originalText);
+      assert.equal(
+        await a.ui
+          .getByRole("textbox", { name: "Quellenangabe", exact: true })
+          .inputValue(),
+        originalSource,
+      );
       await a.ui
         .getByLabel("Bild ersetzen (PNG, JPEG, WebP)", { exact: true })
         .setInputFiles(join(root, "dateien/bild-2.jpeg"));
@@ -454,6 +514,8 @@ try {
       await btn(a.ui, "Entwurf sichern").tap();
       const draft = await download(a, key + "-entwurf.mysteryboard");
       assert.equal(draft.doc.content.cards.length, source.length);
+      assert.equal(draft.doc.content.cards[0].text, originalText);
+      assert.equal(draft.doc.content.cards[0].source, originalSource);
       assert(draft.doc.content.cards[0].image.startsWith("data:image/jpeg;"));
       if (format === "docx")
         assert.equal(draft.doc.content.cards[2].table.rows[0][1], "13,75");
@@ -464,6 +526,34 @@ try {
       const task = await download(reopened, key + "-aufgabe.mysteryboard");
       assert.deepEqual(task.doc.content, draft.doc.content);
       assert.equal(task.doc.kind, "task");
+      assert.equal(task.doc.content.cards[0].text, originalText);
+      assert.equal(task.doc.content.cards[0].source, originalSource);
+      // Two actual content versions, both exported through the existing editor.
+      await btn(reopened.ui, "Karte 1 bearbeiten").tap();
+      await reopened.ui
+        .getByRole("textbox", { name: "Kartentext", exact: true })
+        .fill(originalText + "\n\nBewusste technische Revision 2.");
+      await btn(reopened.ui, "Karte übernehmen").tap();
+      await btn(reopened.ui, "Entwurf sichern").tap();
+      const revisionDraft = await download(
+        reopened,
+        key + "-entwurf-v2.mysteryboard",
+      );
+      await btn(reopened.ui, "Schülerversion erstellen").tap();
+      const revisionTask = await download(
+        reopened,
+        key + "-aufgabe-v2.mysteryboard",
+      );
+      assert.equal(revisionTask.doc.content.id, task.doc.content.id);
+      assert.notEqual(
+        revisionTask.doc.content.version,
+        task.doc.content.version,
+      );
+      assert.deepEqual(revisionTask.doc.content, revisionDraft.doc.content);
+      assert.equal(
+        revisionTask.doc.content.cards[0].text,
+        originalText + "\n\nBewusste technische Revision 2.",
+      );
       await reopened.finish();
       const pupils = await app("scorm", viewport);
       await load(pupils, task.bytes);
@@ -474,6 +564,15 @@ try {
       await touch(pupils);
       await connection(pupils, 1, 2, "Begründeter Zusammenhang");
       const before = await project(pupils, key + "-projekt");
+      await btn(pupils.ui, "Rückgängig").tap();
+      const undone = await project(pupils, key + "-undo");
+      assert.equal(
+        undone.doc.work.edges.length,
+        before.doc.work.edges.length - 1,
+      );
+      await btn(pupils.ui, "Wiederholen").tap();
+      assert.deepEqual((await project(pupils, key + "-redo")).doc, before.doc);
+      for (const paper of ["a4", "a3"]) await printPdf(pupils, key, paper);
       await btn(pupils.ui, "Menü").tap();
       await btn(pupils.ui, "Kleineres Sicherungsbild").tap();
       const png = await download(
@@ -492,9 +591,28 @@ try {
       );
       await connection(fresh, 2, 3, "Weitergearbeitet");
       await fresh.finish();
+      const revised = await app("scorm", viewport);
+      await load(revised, revisionTask.bytes);
+      await revised.ui
+        .getByLabel("Teamname oder Vornamen", { exact: true })
+        .fill("Revisionsteam");
+      await btn(revised.ui, "Beginnen").tap();
+      const revisedProject = await project(revised, key + "-projekt-v2");
+      assert.deepEqual(revisedProject.doc.content, revisionTask.doc.content);
+      assert.notEqual(
+        revisedProject.doc.content.version,
+        before.doc.content.version,
+      );
+      revised.page.once("dialog", (d) => d.accept());
+      await load(revised, png.bytes, "stand-v1.png", true);
+      assert.deepEqual(
+        (await project(revised, key + "-v1-in-v2-wiederhergestellt")).doc,
+        before.doc,
+      );
+      await revised.finish();
       report.checks.push(
         key +
-          ": Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+          ": Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
       );
     }
   const check = await app("html", { width: 768, height: 1024 });
@@ -589,6 +707,37 @@ try {
   await btn(complex.ui, "Original ansehen").tap();
   await screenshot(complex, "D-mehrspaltiges-original.png");
   await complex.finish();
+  const across = await app("html", { width: 600, height: 800 });
+  await teacher(across);
+  await btn(across.ui, "Dokument importieren").tap();
+  await parse(across, "G-PDF-Seitenuebergreifend.pdf");
+  assert.equal(
+    await across.ui
+      .getByRole("combobox", { name: "Importkarte auswählen", exact: true })
+      .locator("option")
+      .count(),
+    2,
+  );
+  const acrossText = await across.ui
+    .getByRole("textbox", { name: "Kartentext", exact: true })
+    .inputValue();
+  assert(acrossText.includes("Erster Teil: 12,5 °C."));
+  assert(
+    acrossText.includes("Fortsetzung ohne neue Kartenüberschrift: 3,50 g."),
+  );
+  await take(across);
+  await btn(across.ui, "Entwurf sichern").tap();
+  const acrossDraft = await download(
+    across,
+    "G-seitenuebergreifend-entwurf.mysteryboard",
+  );
+  assert(
+    acrossDraft.doc.content.cards[0].text.includes(
+      "Fortsetzung ohne neue Kartenüberschrift: 3,50 g.",
+    ),
+  );
+  assert.equal(acrossDraft.doc.content.cards[1].group, "extension");
+  await across.finish();
   const unsafe = await app("html", { width: 768, height: 1024 });
   await load(unsafe, twelve.bytes);
   for (const name of [
@@ -620,7 +769,7 @@ try {
   assert.deepEqual(unchanged.doc, twelve.doc);
   await unsafe.finish();
   report.checks.push(
-    "D: sechs Originalkarten mit allen Texten/Quellen und allen Messwerten aus beiden Spalten; F/H: sieben zurückgewiesene Dateien und großer Importabbruch erhalten den vorhandenen Entwurf exakt.",
+    "D: sechs Originalkarten mit allen Texten/Quellen und allen Messwerten aus beiden Spalten; G: echter seitenübergreifender Text im heruntergeladenen Entwurf; F/H: sieben zurückgewiesene Dateien und großer Importabbruch erhalten den vorhandenen Entwurf exakt.",
   );
   report.status = "passed";
 } catch (error) {

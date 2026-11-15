@@ -17,14 +17,14 @@ import zipfile
 
 root = Path(__file__).resolve().parent.parent
 source = Path(sys.argv[1]).resolve()
-target = root / 'docs/test-evidence/document-import'
+target = root / 'docs/test-evidence/document-import-integrity'
 target.mkdir(parents=True, exist_ok=True)
-full = (source / 'final/full-check.txt').read_text()
-rc2 = (source / 'rc2-final.txt').read_text()
+full = (source / 'full-check.txt').read_text()
+rc2 = (source / 'rc2.txt').read_text()
 assert not re.search(r'^\s*\d+ failed', full, re.M), 'Gesamtlauf ist fehlgeschlagen'
 unit = re.search(r'Tests\s+(\d+) passed', full)
 browser = re.search(r'^\s*(\d+) passed \(', full, re.M)
-assert unit and browser and int(unit[1]) >= 117 and int(browser[1]) >= 188
+assert unit and browser and int(unit[1]) >= 130 and int(browser[1]) >= 193
 assert re.search(r'^\s*4 passed \(', rc2, re.M)
 standalone = json.loads((source / 'preflight/browserpruefung/ergebnisse/dokumentimport/ERGEBNIS.json').read_text())
 assert standalone['status'] == 'passed'
@@ -38,21 +38,21 @@ def copy_file(path, dest):
     shutil.copyfile(path, dest)
 
 logs = {
-    'final/full-check.txt': 'full-check.txt',
-    'final/full-check-first-attempt.txt': 'attempts/full-check-title-label.txt',
-    'final/full-check-media-limit-attempt.txt': 'attempts/full-check-media-limit.txt',
-    'final/title-label-first-attempt.md': 'attempts/title-label-context.md',
-    'final/media-limit-attempt.md': 'attempts/media-limit-context.md',
-    'rc2-final.txt': 'rc2.txt', 'webkit.txt': 'webkit-open.txt',
-    'preflight-final.txt': 'standalone-review.txt', 'benchmark-final.txt': 'benchmark.txt',
-    'cold-source.txt': 'cold-source.txt', 'npm-audit-production.json': 'npm-audit-production.json',
-    'npm-audit-all.json': 'npm-audit-all.json', 'protected-artifacts.json': 'protected-artifacts.json',
-    'browser-corrections.txt': 'targeted-corrections.txt',
-    'remote-before-push.txt': 'remote-before-push.txt',
-    'file-scheme.txt': 'file-scheme-open.txt',
-    'library-evaluation.txt': 'library-evaluation.txt',
+    'full-check.txt': 'full-check.txt', 'rc2.txt': 'rc2.txt',
+    'reproduction-before.txt': 'reproduktion/vorher.txt',
+    'VORHER-fehlerhafter-entwurf.mysteryboard': 'reproduktion/VORHER-fehlerhafter-entwurf.mysteryboard',
+    'browser-before-old-artifact.txt': 'reproduktion/zusatztests-alte-html.txt',
+    'browser-integrity.txt': 'targeted-integrity.txt',
+    'standalone-label-attempt.txt': 'attempts/standalone-locator.txt',
+    'print-label-diagnostic.txt': 'attempts/print-label-diagnostic.txt',
+    'standalone.txt': 'standalone.txt', 'benchmark.txt': 'benchmark.txt',
+    'cold-source.txt': 'cold-source.txt', 'webkit.txt': 'webkit-open.txt',
+    'protected-artifacts.json': 'protected-artifacts.json',
+    'scorm-validation.txt': 'scorm-validation.txt', 'remote-before.txt': 'remote-before.txt',
     'word-original.txt': 'word-original.txt',
-    'scorm-validation.txt': 'scorm-validation.txt',
+    'wasm-assets.json': 'wasm-assets.json',
+    'pdf-verification.json': 'pdf-verification.json',
+    'integrity-comparison.json': 'integrity-comparison.json',
 }
 for path, dest in logs.items():
     copy_file(source / path, target / dest)
@@ -109,11 +109,11 @@ for name in ['package.json', 'package-lock.json', 'vite.config.ts']:
 (target / 'IMPLEMENTATION-SHA256.json').write_text(json.dumps(implementation, indent=2) + '\n')
 result = {
     'status': 'passed', 'collectedAtUtc': datetime.now(timezone.utc).isoformat(),
-    'baseCommit': '35019c364ffef026482250ec75042b38e138fe18',
-    'sourceBranch': 'feat/mysteryboard-local-document-import',
+    'baseCommit': '8418a445248893c2ba01bea673d84febcdf36537',
+    'sourceBranch': 'feat/mysteryboard-document-import-integrity',
     'applicationSha256': hashlib.sha256(html).hexdigest(),
-    'tests': {'unit': int(unit[1]), 'chromium': int(browser[1]), 'originalChromium': 173,
-              'newImportChromium': 15, 'frozenRc2Chromium': 4,
+    'tests': {'unit': int(unit[1]), 'chromium': int(browser[1]), 'originalChromium': 188,
+              'newIntegrityChromium': 5, 'frozenRc2Chromium': 4,
               'standaloneChecks': standalone['checks']},
     'runtime': {'node': subprocess.check_output(['node', '--version'], text=True).strip(),
                 'npm': subprocess.check_output(['npm', '--version'], text=True).strip(),

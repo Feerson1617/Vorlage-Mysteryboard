@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "collectedAtUtc": "2026-11-15T10:02:41.077223+00:00",
+  "baseCommit": "8418a445248893c2ba01bea673d84febcdf36537",
+  "sourceBranch": "feat/mysteryboard-document-import-integrity",
+  "applicationSha256": "55d3b4b5bc23e0e4070629a5e08488f34b685e157ead5144024a05f25183ec03",
+  "tests": {
+    "unit": 130,
+    "chromium": 193,
+    "originalChromium": 188,
+    "newIntegrityChromium": 5,
+    "frozenRc2Chromium": 4,
+    "standaloneChecks": [
+      "docx-1440x1000: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "pdf-1440x1000: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "docx-1024x768: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "pdf-1024x768: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "docx-768x1024: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "pdf-768x1024: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "docx-600x800: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "pdf-600x800: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "docx-320x700: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "pdf-320x700: Originalfelder, exakter Split/Merge, Ergänzen/Löschen, Bild/Tabelle, Hilfen, zwei tatsächliche Inhaltsversionen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch/Pfeil/Undo/Redo, A4/A3-PDF und vollständiger PNG-Restore.",
+      "A: zwölf Karten, explizite V3/V8/V12, neun Pflichtkarten; E: keine OCR behauptet, echte Seite als Bildkarte.",
+      "D: sechs Originalkarten mit allen Texten/Quellen und allen Messwerten aus beiden Spalten; G: echter seitenübergreifender Text im heruntergeladenen Entwurf; F/H: sieben zurückgewiesene Dateien und großer Importabbruch erhalten den vorhandenen Entwurf exakt."
+    ]
+  },
+  "runtime": {
+    "node": "v24.22.1",
+    "npm": "11.9.0",
+    "chromium": "156.0.8078.79"
+  },
+  "coldBuild": "passed; byte-identical HTML and SCORM",
+  "htmlLimitBytesExclusive": 10000000,
+  "open": [
+    "WebKit 26.5 not available",
+    "WebKit 27.2 missing host libraries",
+    "real Safari/managed school iPads",
+    "real itslearning/Canva deployment",
+    "direct file URL blocked by host administrator; localhost/offline tested",
+    "native Safari print",
+    "physical iPad total-memory/performance measurement"
+  ],
+  "schoolApproval": false
+}

@@ -130,6 +130,10 @@ for (const viewport of views)
         name: "Kartentext",
         exact: true,
       });
+      const originalFirstText = await text.inputValue();
+      const originalFirstSource = await page
+        .getByRole("textbox", { name: "Quellenangabe", exact: true })
+        .inputValue();
       await text.press("Control+Home");
       await text.press("Control+ArrowRight");
       await button(page, "Karte am Textcursor teilen").tap();
@@ -139,6 +143,10 @@ for (const viewport of views)
           .locator("option"),
       ).toHaveCount(source.length + 1);
       await button(page, "Mit nächster Karte zusammenfügen").tap();
+      await expect(text).toHaveValue(originalFirstText);
+      await expect(
+        page.getByRole("textbox", { name: "Quellenangabe", exact: true }),
+      ).toHaveValue(originalFirstSource);
       await expect(
         page
           .getByRole("combobox", { name: "Importkarte auswählen", exact: true })
@@ -224,6 +232,8 @@ for (const viewport of views)
         `import-${format}-${viewport.width}-entwurf.mysteryboard`,
       );
       expect(draft.document.content.cards).toHaveLength(source.length);
+      expect(draft.document.content.cards[0].text).toBe(originalFirstText);
+      expect(draft.document.content.cards[0].source).toBe(originalFirstSource);
       expect(draft.document.content.cards[0].image).toMatch(
         /^data:image\/jpeg/,
       );
@@ -251,6 +261,8 @@ for (const viewport of views)
       );
       expect(task.document.content).toEqual(draft.document.content);
       expect(task.document.kind).toBe("task");
+      expect(task.document.content.cards[0].text).toBe(originalFirstText);
+      expect(task.document.content.cards[0].source).toBe(originalFirstSource);
       await reopened.close();
       const student = await scorm(browser, info, "import-lernen", viewport);
       await importMystery(student.ui, task.bytes);

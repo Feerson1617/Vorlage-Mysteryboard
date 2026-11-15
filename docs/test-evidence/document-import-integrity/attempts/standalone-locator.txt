@@ -1,0 +1,12 @@
+{
+  "status": "failed",
+  "applicationSha256": "55d3b4b5bc23e0e4070629a5e08488f34b685e157ead5144024a05f25183ec03",
+  "checks": [],
+  "screenshots": [
+    "docx-1440x1000-karten.png",
+    "docx-1440x1000-original.png"
+  ],
+  "scormCalls": [],
+  "browserVersion": "156.0.8078.79",
+  "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByLabel('Papierformat', { exact: true })\u001b[22m\n\n    at printPdf (/workspace/Mysteryboard-document-import/qa/document-import/pruefen.mjs:229:58)\n    at async file:///workspace/Mysteryboard-document-import/qa/document-import/pruefen.mjs:573:41"
+}

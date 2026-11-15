@@ -2,6 +2,79 @@ import type { Content, Draft } from "../documents";
 import { newDraft, reviseDraft } from "../authoring";
 import { inspectDataImage } from "../media";
 export type Card = Content["cards"][number];
+// Import editing only: never serialize this provenance into a Mystery document.
+const splitPairs = new WeakMap<
+  Card,
+  {
+    right: Card;
+    original: Card;
+    originalSnapshot: Card;
+    leftSnapshot: Card;
+    rightSnapshot: Card;
+  }
+>();
+function snapshotCard(card: Card): Card {
+  return {
+    ...card,
+    ...(card.table
+      ? {
+          table: {
+            ...card.table,
+            headers: [...card.table.headers],
+            rows: card.table.rows.map((row) => [...row]),
+          },
+        }
+      : {}),
+  };
+}
+function sameCard(a: Card, b: Card) {
+  return (
+    a.id === b.id &&
+    a.title === b.title &&
+    a.text === b.text &&
+    a.group === b.group &&
+    a.source === b.source &&
+    a.image === b.image &&
+    a.imageAlt === b.imageAlt &&
+    JSON.stringify(a.table) === JSON.stringify(b.table)
+  );
+}
+export function splitImported(
+  card: Card,
+  at: number,
+  id: number,
+): [Card, Card] {
+  if (!Number.isInteger(at) || at <= 0 || at >= card.text.length)
+    throw new Error(
+      "Setzt den Textcursor an die gewünschte Grenze innerhalb des Kartentexts.",
+    );
+  const left = { ...card, text: card.text.slice(0, at) };
+  const right: Card = {
+    id,
+    title: "",
+    text: card.text.slice(at),
+    group: card.group,
+    ...(card.source ? { source: card.source } : {}),
+  };
+  splitPairs.set(left, {
+    right,
+    original: card,
+    originalSnapshot: snapshotCard(card),
+    leftSnapshot: snapshotCard(left),
+    rightSnapshot: snapshotCard(right),
+  });
+  return [left, right];
+}
+export function canRejoinImported(a: Card, b: Card): boolean {
+  const pair = splitPairs.get(a);
+  return (
+    !!pair &&
+    pair.right === b &&
+    sameCard(a, pair.leftSnapshot) &&
+    sameCard(b, pair.rightSnapshot) &&
+    sameCard(pair.original, pair.originalSnapshot)
+  );
+}
 export type Block = {
   kind: "heading" | "paragraph" | "list" | "image" | "table";
   text: string;
@@ -174,6 +247,7 @@ export function takeImportedCards(
   return reviseDraft(base, content);
 }
 export function mergeImported(a: Card, b: Card): Card {
+  if (canRejoinImported(a, b)) return splitPairs.get(a)!.original;
   if (a.image && b.image && a.image !== b.image)
     throw new Error(
       "Beide Karten enthalten ein Bild. Ordnet eines der Bilder zunächst einer anderen Karte zu. Es wird kein Bild verworfen.",
@@ -188,16 +262,41 @@ export function mergeImported(a: Card, b: Card): Card {
     );
   const table =
     a.table && b.table
-      ? { ...a.table, rows: [...a.table.rows, ...b.table.rows] }
+      ? {
+          ...a.table,
+          ...(a.table.caption || b.table.caption
+            ? {
+                caption: [
+                  ...new Set(
+                    [a.table.caption, b.table.caption].filter(Boolean),
+                  ),
+                ].join(" · "),
+              }
+            : {}),
+          rows: [...a.table.rows, ...b.table.rows],
+        }
       : (a.table ?? b.table);
+  const imageAlt = [...new Set([a.imageAlt, b.imageAlt].filter(Boolean))].join(
+    "\n",
+  );
+  if (imageAlt.length > 300)
+    throw new Error(
+      "Die gemeinsamen Bildbeschreibungen sind länger als 300 Zeichen. Bitte zuerst bewusst bearbeiten; es wird nichts verworfen.",
+    );
+  if ((table?.caption?.length ?? 0) > 200)
+    throw new Error(
+      "Die gemeinsamen Tabellentitel sind länger als 200 Zeichen. Bitte zuerst bewusst bearbeiten; es wird nichts verworfen.",
+    );
   return {
     ...a,
     text: [a.text, b.title, b.text].filter(Boolean).join("\n\n"),
     ...(a.source || b.source
-      ? { source: [a.source, b.source].filter(Boolean).join("\n") }
+      ? {
+          source: [...new Set([a.source, b.source].filter(Boolean))].join("\n"),
+        }
       : {}),
     ...(a.image || b.image
-      ? { image: a.image ?? b.image, imageAlt: a.imageAlt ?? b.imageAlt }
+      ? { image: a.image ?? b.image, ...(imageAlt ? { imageAlt } : {}) }
       : {}),
     ...(table ? { table } : {}),
   };

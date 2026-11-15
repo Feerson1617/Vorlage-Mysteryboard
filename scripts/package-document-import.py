@@ -24,10 +24,11 @@ for source, target in [
     ('artifacts/MysteryBoard-Universal.html', 'MysteryBoard-Universal.html'),
     ('artifacts/MysteryBoard-Universal-SCORM-1.2.zip', 'MysteryBoard-Universal-SCORM-1.2.zip'),
     ('START-HIER.md', 'START-HIER.md'),
+    ('qa/document-import/verify-zips.py', 'PRUEFUNG-ZIPS.py'),
     ('AI-ANLEITUNG.md', 'AI-ANLEITUNG.md'),
     ('LEHRKRAEFTE-ANLEITUNG.md', 'LEHRKRAEFTE-ANLEITUNG.md'),
-    ('docs/DOKUMENTIMPORT-PRUEFBERICHT.md', 'PRUEFBERICHT.md'),
-    ('docs/DOKUMENTIMPORT-AUFTRAG.md', 'AUFTRAG.md'),
+    ('docs/DOKUMENTIMPORT-NACHARBEIT.md', 'PRUEFBERICHT.md'),
+    ('docs/DOKUMENTIMPORT-NACHARBEIT-AUFTRAG.md', 'AUFTRAG.md'),
     ('docs/DOKUMENTIMPORT-ANLEITUNG.md', 'DOKUMENTIMPORT-ANLEITUNG.md'),
     ('docs/UNIVERSAL-FORMAT.md', 'docs/UNIVERSAL-FORMAT.md'),
     ('docs/NEUES-MYSTERY.md', 'docs/NEUES-MYSTERY.md'),
@@ -35,7 +36,7 @@ for source, target in [
     items[target] = (root / source).read_bytes()
 for source, target in [
     ('tests/fixtures/document-import', 'dateien'),
-    ('docs/test-evidence/document-import', 'pruefnachweise'),
+    ('docs/test-evidence/document-import-integrity', 'pruefnachweise'),
     ('qa/document-import', 'browserpruefung'),
     ('schemas', 'schemas'),
 ]:
@@ -45,11 +46,16 @@ for source, target in [
 # Keep a clearly labelled historical file solely for the size/start benchmark.
 items['referenz/Universal-35019c3.html'] = subprocess.check_output([
     'git', '-C', str(root), 'show', '35019c364ffef026482250ec75042b38e138fe18:artifacts/MysteryBoard-Universal.html'
-]) if (root / '.git').exists() else (root / 'docs/test-evidence/document-import/referenz/Universal-35019c3.html').read_bytes()
+]) if (root / '.git').exists() else (root / 'docs/test-evidence/document-import-integrity/referenz/Universal-35019c3.html').read_bytes()
 required = [
     'dateien/A-Word-12-Karten.docx', 'dateien/B-Word-Medien-Tabelle.docx',
     'dateien/C-PDF-12-Karten.pdf', 'dateien/D-PDF-Mehrspaltig.pdf',
     'dateien/E-PDF-Scan-ohne-Text.pdf', 'dateien/ORIGINAL-INHALTE.json',
+    'dateien/G-PDF-Seitenuebergreifend.pdf', 'dateien/H-PDF-Abbruch-38-Seiten.pdf',
+    'dateien/F-Word-aktive-Inhalte.docx',
+    'pruefnachweise/dokumentimport/docx-1024x768-aufgabe.mysteryboard',
+    'pruefnachweise/dokumentimport/docx-1024x768-aufgabe-v2.mysteryboard',
+    'pruefnachweise/downloads/import-integrity-1024-entwurf.mysteryboard',
     'pruefnachweise/RESULTS.json', 'browserpruefung/pruefen.mjs',
     'pruefnachweise/downloads/import-docx-1024-entwurf.mysteryboard',
     'pruefnachweise/downloads/import-pdf-1024-aufgabe.mysteryboard',
@@ -58,12 +64,20 @@ required = [
 ]
 for name in required:
     assert name in items, 'Benötigter Lieferbestandteil fehlt: ' + name
-assert json.loads(items['pruefnachweise/RESULTS.json'])['status'] == 'passed'
+result = json.loads(items['pruefnachweise/RESULTS.json'])
+assert result['status'] == 'passed'
+assert result['applicationSha256'] == hashlib.sha256(items['MysteryBoard-Universal.html']).hexdigest()
+v1 = json.loads(items['pruefnachweise/dokumentimport/docx-1024x768-aufgabe.mysteryboard'])
+v2 = json.loads(items['pruefnachweise/dokumentimport/docx-1024x768-aufgabe-v2.mysteryboard'])
+assert v1['content']['id'] == v2['content']['id']
+assert v1['content']['version'] != v2['content']['version']
+assert v1['content']['cards'][0]['source'] == 'Eigene technische Vorlage B1.'
+assert v1['content']['cards'][0]['text'] != v2['content']['cards'][0]['text']
 items['QUELLSTAND.json'] = (json.dumps({
-    'developmentPhase': 'LocalDocumentImport-2026-11-15',
+    'developmentPhase': 'DocumentImportIntegrity-2026-11-15',
     'repository': 'Feerson1617/Vorlage-Mysteryboard',
     'sourceCommit': commit, 'sourceBranch': branch,
-    'baseCommit': '35019c364ffef026482250ec75042b38e138fe18',
+    'baseCommit': '8418a445248893c2ba01bea673d84febcdf36537',
     'documentFormatVersion': 3, 'ocrImplemented': False,
     'externalAiRequired': False, 'realSchoolDevices': 'OPEN', 'schoolApproval': False,
 }, ensure_ascii=False, indent=2) + '\n').encode()

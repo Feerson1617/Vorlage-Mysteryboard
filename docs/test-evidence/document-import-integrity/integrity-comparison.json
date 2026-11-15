@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "oldSourceCommit": "8418a445248893c2ba01bea673d84febcdf36537",
+  "originalInputText": "Material 1",
+  "originalInputSource": "Eigene technische Vorlage B1.",
+  "before": {
+    "text": "Materia\n\nl 1",
+    "source": "Eigene technische Vorlage B1.\nEigene technische Vorlage B1."
+  },
+  "actualNewTaskCard": {
+    "title": "Karte 1: Material 1",
+    "text": "Material 1",
+    "source": "Eigene technische Vorlage B1.",
+    "group": "required"
+  },
+  "originalImageSha256": "9bf18999d6f6da6e2c69b6b00d5fd1f392fb1fdd04887d08a1093ced18e66639",
+  "originalImageTitleAndGroupRetained": true,
+  "newFile": "downloads/import-integrity-1024-aufgabe.mysteryboard"
+}
