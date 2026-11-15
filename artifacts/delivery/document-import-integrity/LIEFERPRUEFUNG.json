@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "sourceCommit": "059bc50b7a2d58924264df1cd734697f0157feae",
+  "sourceBranch": "feat/mysteryboard-document-import-integrity",
+  "tests": {
+    "data": 130,
+    "chromium": 193,
+    "frozenRc2": 4,
+    "independentStandaloneGroups": 12
+  },
+  "finalExtractedReview": "passed",
+  "finalExtractedSourceBuild": "passed; byte-identical HTML/SCORM",
+  "allZipCrcAndEntryHashes": "passed",
+  "actualPdfs": 20,
+  "actualSecondContentVersions": 10,
+  "schoolApproval": false
+}
