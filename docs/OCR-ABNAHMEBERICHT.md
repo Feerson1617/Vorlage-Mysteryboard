@@ -221,6 +221,45 @@ Kein Merge in main, keine Pages-Veröffentlichung, kein öffentlicher Release un
 keine Änderung an der eingefrorenen Boden-RC2. Private Quellen werden nicht als
 öffentliche Testmaterialien ausgegeben.
 
+## Entpackung, Reproduktion und Bereitstellung
+
+Beide OCR-ZIPs, die kompakte Universal-SCORM-ZIP und das tatsächliche
+Unterrichtsbeispiel wurden vollständig entpackt: alle Einträge CRC-fehlerfrei,
+extrahierte Bytes identisch, SHA-256 und SCORM-Manifest vollständig geprüft.
+Der deutsche Modellgzip wurde zusätzlich dekomprimiert. Aus einer frischen
+Autoren-ZIP-Entpackung wurde der lokale Python-Server gestartet; vollständige
+HTTP-Downloads von Anwendung und Modell stimmen byteweise mit der ZIP überein.
+`START.command` besitzt im ausgelieferten Autorenpaket Ausführungsrechte.
+
+Zusätzlich wurden die Quelltexte aus dem provisorischen vollständigen
+Abnahmepaket in einen neuen Ordner entpackt: erneut **165 Datentests bestanden**,
+TypeScript erfolgreich und Universal-Neubau **bytegleich** mit der zuvor in
+Chromium geprüften Datei. Hierfür wurden die bereits installierten, festgelegten
+Abhängigkeiten per Symlink verwendet; ein separater frischer `npm ci`-Lauf wird
+nicht behauptet. Die Logs heißen `fresh-source-*.log`; der maschinenlesbare
+Vergleich steht in `fresh-source-verification.json`.
+
+Das abschließende Paket enthält den Quellstand einschließlich aller bisherigen
+Tests. Neutrale Fotos und Scan-PDFs stehen einmalig unter
+`Quellcode/tests/fixtures/ocr/`; `Testmaterial/LESEN.txt` verweist darauf. Die
+vermeidbare doppelte Kopie wird eingespart, damit das vollständige Abnahmepaket
+auch innerhalb einer 32-MiB-Uploadgrenze übertragen werden kann. Es werden keine
+Tests oder Nachweise deswegen weggelassen. `MANIFEST.json`, `SHA256SUMS` und
+`Pruefen.py` erlauben eine erneute Kontrolle nach dem Download.
+
+GitHub vor der Lieferung: `main` verweist auf
+`1fa1fff81e5e19b7031130c8d034a77d9e1ace61`; der neue OCR-Featurebranch war noch
+nicht remote vorhanden. Gesichert wird ausschließlich der OCR-Featurebranch.
+Der finale Quellcommit wird im Paket als `VERSION.json` festgehalten, der
+Bereitstellungscommit und die Hashes der äußeren ZIP in den Begleitdateien.
+Es wird weder eine GitHub-Release noch eine Pages-Anwendung veröffentlicht.
+
+Der verfügbare Cloud-Werkzeugsatz besitzt keine Funktion, um einen echten
+Chat-Dateianhang hochzuladen. Die Dateien werden deshalb im Arbeitsbereich
+bereitgestellt und zusätzlich als vollständige, binäre, commitgebundene
+GitHub-Rohdownloads geprüft. Diese sind keine GitHub-Dateivorschauseiten.
+Private Originaldokumente werden darüber nicht bereitgestellt.
+
 ## Betroffene Dateien
 
 | Bereich | Dateien und Zweck |

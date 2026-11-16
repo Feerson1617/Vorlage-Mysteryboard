@@ -23,8 +23,7 @@ for p in sorted(evidence.iterdir()):
  if p.is_file()and p.suffix in {'.json','.log','.png','.txt'}:
   # No private directory is traversed. All public evidence uses our own sheets.
   add('Pruefnachweise/'+p.name,p)
-for p in sorted((root/'tests/fixtures/ocr').iterdir()):
- if p.is_file():add('Testmaterial/'+p.name,p)
+add('Testmaterial/LESEN.txt',('Die vollständigen neutralen Testfotos, Scan-PDFs, Solltexte und ihre Lizenz stehen ohne doppelte Kopie unter Quellcode/tests/fixtures/ocr/. Diese Dateien sind Bestandteil des SHA-256-Manifests. Die unabhängigen Roh-/Korrekturvergleiche stehen unter Pruefnachweise/.\n').encode())
 for name in ['LOKALE-OCR.md','OCR-ABNAHMEBERICHT.md']:add(name,root/'docs'/name)
 version={'sourceCommit':commit,'baseCommit':'9740c7120bd2c80d06bd158b7276f696c30b67d7','branch':'feat/mysteryboard-offline-ocr','contentFormat':3,'privateOriginalsIncluded':False,'realSafariSchoolIpadItslearningAcceptance':'open','runtimeFiles':[]}
 for name,b in payload.items():
