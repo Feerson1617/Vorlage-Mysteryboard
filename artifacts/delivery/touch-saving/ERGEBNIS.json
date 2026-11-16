@@ -1,0 +1,161 @@
+{
+  "baseCommit": "50c6b59e8688abea8863eb27f2753840f2391df5",
+  "branch": "fix/mysteryboard-touch-png-saving",
+  "finalDataTests": {
+    "passed": 160,
+    "files": 23
+  },
+  "finalChromiumBrowserTests": {
+    "passed": 253,
+    "failed": 0,
+    "skipped": 0,
+    "files": 30,
+    "durationMinutes": 28.1
+  },
+  "privateOriginalPdfTests": {
+    "passed": 8,
+    "exactCardsCompared": 36,
+    "privateMaterialNotPublished": true
+  },
+  "frozenRc2Tests": {
+    "passed": 4,
+    "filesByteIdentical": true
+  },
+  "independentArrowTracking": {
+    "cases": 8,
+    "measurements": 192,
+    "passed": true,
+    "maxCardTrackingErrorCssPx": 0.005617618297244606,
+    "maxApexEndpointErrorCssPx": 0,
+    "minimumDirectionCosine": 0.9999999999996947,
+    "actualProductionHtmlAndScorm": true,
+    "restoredActualStudentPng": true
+  },
+  "touchPositions": {
+    "cases": [
+      {
+        "case": "stress-1024",
+        "continuousMoves": 200,
+        "successiveDrags": 30,
+        "measurements": 230,
+        "maxErrorCssPx": 0.017948185259633084,
+        "pointerEvents": 609,
+        "rotationContinuedWithoutCancellation": true,
+        "cancelAndCaptureLossDiscarded": true
+      },
+      {
+        "case": "stress-320",
+        "continuousMoves": 200,
+        "successiveDrags": 30,
+        "measurements": 230,
+        "maxErrorCssPx": 0.01793629467004646,
+        "pointerEvents": 609,
+        "rotationContinuedWithoutCancellation": true,
+        "cancelAndCaptureLossDiscarded": true
+      },
+      {
+        "case": "stress-600",
+        "continuousMoves": 200,
+        "successiveDrags": 30,
+        "measurements": 230,
+        "maxErrorCssPx": 0.01793930399967134,
+        "pointerEvents": 609,
+        "rotationContinuedWithoutCancellation": true,
+        "cancelAndCaptureLossDiscarded": true
+      },
+      {
+        "case": "stress-768",
+        "continuousMoves": 200,
+        "successiveDrags": 30,
+        "measurements": 230,
+        "maxErrorCssPx": 0.01793629467004646,
+        "pointerEvents": 609,
+        "rotationContinuedWithoutCancellation": true,
+        "cancelAndCaptureLossDiscarded": true
+      },
+      {
+        "case": "text-bild-rand-1024",
+        "measurements": 20,
+        "maxErrorCssPx": 0.0024404412332534784,
+        "actualHitTags": [
+          "image",
+          "tspan"
+        ]
+      },
+      {
+        "case": "text-bild-rand-320",
+        "measurements": 20,
+        "maxErrorCssPx": 0.0011064483382241322,
+        "actualHitTags": [
+          "image",
+          "tspan"
+        ]
+      },
+      {
+        "case": "text-bild-rand-600",
+        "measurements": 20,
+        "maxErrorCssPx": 0.0017746271975936571,
+        "actualHitTags": [
+          "image",
+          "tspan"
+        ]
+      },
+      {
+        "case": "text-bild-rand-768",
+        "measurements": 20,
+        "maxErrorCssPx": 0.002465237237513306,
+        "actualHitTags": [
+          "image",
+          "tspan"
+        ]
+      }
+    ],
+    "totalMeasurements": 1000,
+    "successiveDrags": 120,
+    "maxErrorCssPx": 0.017948185259633084,
+    "device": "Linux Chromium native CDP touch emulation; not real iPad/FPS measurement"
+  },
+  "actualPngDownloadCycles": {
+    "passed": 12,
+    "modes": [
+      "HTML",
+      "universal SCORM",
+      "browser-generated classroom SCORM"
+    ],
+    "viewports": [
+      [
+        1024,
+        768
+      ],
+      [
+        768,
+        1024
+      ],
+      [
+        600,
+        800
+      ],
+      [
+        320,
+        700
+      ]
+    ],
+    "actualPngsIndependentlyDecoded": 48,
+    "freshRestoresComplete": true,
+    "filename": "Teamname_Mysterytitel.png",
+    "studentProjectExportRemoved": true,
+    "legacyProjectImportRetained": true
+  },
+  "historyLimitUnchanged": 40,
+  "documentFormatVersionUnchanged": 3,
+  "newRuntimeDependencies": 0,
+  "sourceCoreProtectedFiles": 25,
+  "publicReleaseOrPagesDeployed": false,
+  "mainMerged": false,
+  "webkit26_5": "not installed",
+  "webkit27_2": "cannot launch, missing host library libharfbuzz-icu.so.0",
+  "realSafariSchoolIpadItslearningAcceptance": "open",
+  "directFileUrlBrowserTest": "blocked by Cloud policy; actual bytes served locally then offline",
+  "schoolReleaseGranted": false,
+  "sourceCommit": "7f057f684d22cbc128edee5af7c48d340fd72940"
+}
