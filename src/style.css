@@ -988,3 +988,9 @@ dialog:has(.student-help-preview) .dialog-body {
     display: none;
   }
 }
+
+.ocr-preparation { margin-block: .8rem; }
+.ocr-preparation img { max-width: 100%; height: auto; }
+.ocr-raw { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+
+.ocr-original-detail img { display: block; max-width: 100%; height: auto; }

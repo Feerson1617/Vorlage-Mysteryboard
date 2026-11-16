@@ -86,7 +86,7 @@ export type Block = {
   bounds?: { x: number; y: number; width: number; height: number };
 };
 export type ImportResult = {
-  format: "docx" | "pdf";
+  format: "docx" | "pdf" | "image";
   name: string;
   blocks: Block[];
   cards: Card[];
@@ -112,13 +112,17 @@ export function checkImportFile(name: string, size: number) {
     throw new Error(
       "Ältere Word-Dateien (.doc) werden nicht unterstützt. Speichert das Dokument zuerst als .docx.",
     );
-  if (!["docx", "pdf"].includes(ext ?? ""))
-    throw new Error("Bitte eine Word-Datei (.docx) oder PDF-Datei auswählen.");
+  if (!["docx", "pdf", "png", "jpg", "jpeg", "webp"].includes(ext ?? ""))
+    throw new Error(
+      "Bitte Word (.docx), PDF oder ein Foto als PNG, JPEG oder WebP auswählen. HEIC/HEIF bitte als JPEG exportieren.",
+    );
   if (!size || size > IMPORT_LIMITS.fileBytes)
     throw new Error(
       "Die Importdatei muss zwischen 1 Byte und 20 MB groß sein. Der geöffnete Entwurf bleibt erhalten.",
     );
-  return ext as "docx" | "pdf";
+  return ["png", "jpg", "jpeg", "webp"].includes(ext!)
+    ? "image"
+    : (ext as "docx" | "pdf");
 }
 export const isCardHeading = (text: string) =>
   /^(?:(?:pflichtkarte|vertiefungskarte|karte|card)\s*V?\s*\d+\b|V\d+\b|\d+\s*[.):·–-](?=\s|$))/i.test(

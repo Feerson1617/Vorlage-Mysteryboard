@@ -22,7 +22,8 @@ export function captureRuntimeShell() {
       .filter(
         (e) =>
           e.tagName === "STYLE" ||
-          e.tagName === "META" ||
+          (e.tagName === "META" &&
+            e.getAttribute("name") !== "mysteryboard-ocr") ||
           (e.tagName === "LINK" &&
             e.getAttribute("rel") === "icon" &&
             e.getAttribute("href") === "data:,"),

@@ -127,7 +127,8 @@ export function PdfRegionControls({
         Eine nummerierte Umrandung entspricht einem Kartenvorschlag. Antippen
         wählt die Karte. Markierungen und Prozentwerte lassen sich mit Finger,
         Maus oder Tastatur ändern. Räumliche Änderungen lesen die betroffenen
-        Texte neu aus dem PDF; Bilder bleiben erhalten.
+        Texte neu aus der Textebene beziehungsweise im OCR-Paket aus dem Bild;
+        Bilder bleiben erhalten.
       </p>
       <button
         onClick={() =>

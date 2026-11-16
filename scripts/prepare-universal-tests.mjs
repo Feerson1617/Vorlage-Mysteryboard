@@ -8,6 +8,7 @@ process.chdir(projectRoot);
 execFileSync(process.execPath, ["scripts/package-universal.mjs"], {
   stdio: "inherit",
 });
+execFileSync(process.execPath, ["scripts/package-ocr.mjs"], {stdio:"inherit"});
 await mkdir("dist", { recursive: true });
 const staging = await mkdtemp(join(projectRoot, "dist", "authoring-test-"));
 try {

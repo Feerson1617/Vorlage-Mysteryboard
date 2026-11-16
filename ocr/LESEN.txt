@@ -1,0 +1,33 @@
+MysteryBoard – lokale OCR-Autorenfassung
+
+itslearning: MysteryBoard-OCR-SCORM-1.2.zip unverändert als SCORM 1.2 hochladen.
+Nicht einzelne HTMLs hochladen. Echte LMS-/Safari-/Schul-iPad-Abnahme steht aus.
+
+Offline am Computer: komplettes Autorenpaket entpacken. Python 3 (kostenlos)
+benötigt. Im Ordner im Terminal ausführen: python3 start-ocr.py
+Mac: alternativ START.command starten (ggf. chmod +x START.command).
+Der Server bindet nur 127.0.0.1, verarbeitet keine Uploads und speichert nichts.
+Uploads/OCR erfolgen ausschließlich im Browser. Für Offline-Betrieb ist nach
+Installation kein Internet nötig. Server mit Strg+C beenden.
+app.html direkt per file:// unterstützt OCR wegen Browser-Sicherheitsregeln
+nicht zuverlässig. Die kompakte Universal-HTML enthält keine OCR-Ressourcen.
+
+Lehrkräfteeditor > Foto oder Scan importieren > Foto auswählen/aufnehmen.
+Original ansehen > Kartengrenzen und Text erkennen. Bereiche und Texte prüfen.
+Bei verdrehter Aufnahme: Bild vorbereiten, drehen/Schräglage ändern und anwenden.
+Bei Bedarf Ausschnitt markieren; Bereiche ergänzen/teilen/zusammenführen.
+Grenzänderung liest nur betroffene Karten erneut. Andere Texte bleiben erhalten.
+Jede OCR-Karte einzeln am Original kontrollieren und bestätigen, besonders Zahlen,
+Kommas, Einheiten, Eigennamen, Quellen, Absätze und Pflicht-/V-Zuordnung.
+Fehler werden nicht automatisch fachlich berichtigt. Niedrige Wortwerte (?) sind
+Hinweise, hohe Werte keine Richtigkeitsgarantie. Leere Ergebnisse manuell füllen,
+besser aufnehmen oder entfernen. Scharfe, gleichmäßig beleuchtete Vorlagen nutzen.
+Nach der Übernahme im bisherigen Editor weiterarbeiten. Entwurf bewusst sichern.
+Schülerversion erstellen > Für itslearning als SCORM herunterladen: erzeugt ein
+schlankes Unterrichtspaket OHNE OCR-Dateien. Kein automatischer LMS-Upload.
+Keine Speicherung von Inhalten in localStorage/IndexedDB, keine KI, kein Konto.
+
+HEIC/HEIF nicht zugesichert; vorher als JPEG exportieren. Keine Handschrifterkennung
+zugesichert. Englisch ist nicht als eigenes Modell enthalten. Schräglage wird
+manuell korrigiert; keine automatische Perspektivkorrektur. Kamera nur, soweit
+Browser/Dateiauswahl sie anbietet. Keine automatische Aufnahme oder Berechtigung.

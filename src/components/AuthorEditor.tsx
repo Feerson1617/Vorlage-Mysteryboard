@@ -7,6 +7,7 @@ import {
   retainCards,
   reviseDraft,
 } from "../core/authoring";
+import { parsePng } from "../core/png";
 import { imageFromFile } from "../core/media";
 import { initialBoardWork } from "../core/layout";
 import { cardNumber, withTeam, type Work } from "../core/model";
@@ -219,9 +220,9 @@ export function AuthorEditor({
       return;
     }
     const file = files[0];
-    if (!/\.(mysteryboard|png|docx|pdf)$/i.test(file.name)) {
+    if (!/\.(mysteryboard|png|docx|pdf|jpg|jpeg|webp)$/i.test(file.name)) {
       setFileError(
-        "Bitte eine .mysteryboard-, Original-PNG-, .docx- oder .pdf-Datei auswählen.",
+        "Bitte eine .mysteryboard-, Original-PNG-, Word-, PDF- oder Foto-Datei (PNG/JPEG/WebP) auswählen.",
       );
       return;
     }
@@ -239,7 +240,20 @@ export function AuthorEditor({
       return;
     }
     setFileError("");
-    if (/\.(docx|pdf)$/i.test(file.name)) {
+    let photo = /\.(jpg|jpeg|webp)$/i.test(file.name);
+    if (/\.png$/i.test(file.name)) {
+      try {
+        if (file.size > 30_000_000)
+          throw Error("Die Datei ist größer als 30 MB.");
+        photo = !parsePng(new Uint8Array(await file.arrayBuffer())).some(
+          (c) => c.type === "mySt",
+        );
+      } catch (e) {
+        setFileError((e as Error).message);
+        return;
+      }
+    }
+    if (/\.(docx|pdf)$/i.test(file.name) || photo) {
       setFileDialog(false);
       setImportFile(file);
       setDocumentImport(true);
@@ -286,7 +300,7 @@ export function AuthorEditor({
       hidden
       ref={fileInput}
       type="file"
-      accept=".mysteryboard,.png,.docx,.pdf"
+      accept=".mysteryboard,.png,.docx,.pdf,.jpg,.jpeg,.webp"
       aria-label="Mystery-Datei"
       disabled={fileBusy}
       onChange={(e) => {
@@ -446,7 +460,7 @@ export function AuthorEditor({
           >
             <p>
               Datei hier ablegen oder auswählen: .mysteryboard, Word (.docx),
-              PDF.
+              PDF oder Foto (PNG/JPEG/WebP).
             </p>
             <button
               disabled={fileBusy}
@@ -463,6 +477,15 @@ export function AuthorEditor({
               }}
             >
               Dokument importieren
+            </button>
+            <button
+              disabled={fileBusy}
+              onClick={() => {
+                setImportFile(undefined);
+                setDocumentImport(true);
+              }}
+            >
+              Foto oder Scan importieren
             </button>
             {fileBusy && (
               <>

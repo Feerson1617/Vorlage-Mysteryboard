@@ -19,10 +19,12 @@
     "create:mystery": "node scripts/mystery-tools.mjs create",
     "build:mystery": "node scripts/mystery-tools.mjs build",
     "test:universal": "npm run build:universal && node scripts/prepare-universal-tests.mjs && CLASSROOM_SCORM=1 playwright test tests/browser/authoring-classroom.spec.ts",
-    "package:project": "python3 scripts/package-project.py"
+    "package:project": "python3 scripts/package-project.py",
+    "package:ocr": "node scripts/package-ocr.mjs"
   },
   "dependencies": {
     "@noble/hashes": "2.4.0",
+    "@tesseract.js-data/deu": "1.0.0",
     "ajv": "8.20.0",
     "fflate": "0.8.3",
     "htmlparser2": "12.0.0",
@@ -31,7 +33,8 @@
     "pdfjs-dist": "6.5.438",
     "qrcode": "1.5.4",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "tesseract.js": "7.0.0"
   },
   "devDependencies": {
     "@playwright/test": "1.65.0",

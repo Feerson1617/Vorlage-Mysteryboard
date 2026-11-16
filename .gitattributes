@@ -2,3 +2,5 @@ tests/fixtures/pdf-regions/*.pdf binary
 docs/test-evidence/pdf-regions/*.log -whitespace
 docs/test-evidence/touch-saving/*.log -whitespace
 docs/test-evidence/touch-saving/*.diff -whitespace
+
+tests/fixtures/ocr/*.pdf binary

@@ -26,8 +26,27 @@ import {
   type PdfRegion,
 } from "../core/document-import/pdf-layout";
 
+import {
+  LocalOcr,
+  ocrBase,
+  ocrWords,
+  type OcrData,
+} from "../core/document-import/ocr";
+import {
+  inspectScan,
+  prepareScan,
+  plainPreparation,
+  scanFrames,
+  ocrItems,
+  ocrCard,
+  fallbackRegions,
+  checkOcrBudget,
+  type Preparation,
+} from "../core/document-import/scan";
+import { type Rect, type PdfItem } from "../core/document-import/pdf-layout";
+
 type Crop = { x: number; y: number; w: number; h: number };
-async function cropImage(src: string, crop: Crop) {
+async function cropImage(src: string, crop: Crop, maxPixels = 4_000_000) {
   if (
     crop.w <= 0 ||
     crop.h <= 0 ||
@@ -45,30 +64,40 @@ async function cropImage(src: string, crop: Crop) {
   const width = Math.max(1, Math.round((image.naturalWidth * crop.w) / 100)),
     height = Math.max(1, Math.round((image.naturalHeight * crop.h) / 100));
   const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  canvas
-    .getContext("2d")!
-    .drawImage(
-      image,
-      (image.naturalWidth * crop.x) / 100,
-      (image.naturalHeight * crop.y) / 100,
-      width,
-      height,
-      0,
-      0,
-      width,
-      height,
-    );
-  let data = canvas.toDataURL("image/png");
   try {
-    inspectDataImage(data);
-  } catch {
-    data = canvas.toDataURL("image/jpeg", 0.9);
-    inspectDataImage(data);
+    const scale = Math.min(
+      1,
+      4096 / width,
+      4096 / height,
+      Math.sqrt(maxPixels / (width * height)),
+    );
+    canvas.width = Math.max(1, Math.floor(width * scale));
+    canvas.height = Math.max(1, Math.floor(height * scale));
+    canvas
+      .getContext("2d")!
+      .drawImage(
+        image,
+        (image.naturalWidth * crop.x) / 100,
+        (image.naturalHeight * crop.y) / 100,
+        width,
+        height,
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      );
+    let data = canvas.toDataURL("image/png");
+    try {
+      inspectDataImage(data);
+    } catch {
+      data = canvas.toDataURL("image/jpeg", 0.9);
+      inspectDataImage(data);
+    }
+    return data;
+  } finally {
+    canvas.width = canvas.height = 0;
+    image.src = "";
   }
-  canvas.width = canvas.height = 0;
-  return data;
 }
 export function DocumentImport({
   draft,
@@ -101,7 +130,18 @@ export function DocumentImport({
     [crop, setCrop] = useState<Crop>({ x: 0, y: 0, w: 100, h: 100 }),
     [mark, setMark] = useState(false),
     [picked, setPicked] = useState("");
-  const fileInput = useRef<HTMLInputElement>(null);
+  const fileInput = useRef<HTMLInputElement>(null),
+    photoInput = useRef<HTMLInputElement>(null),
+    cameraInput = useRef<HTMLInputElement>(null);
+  const ocrController = useRef<AbortController | null>(null);
+  const [ocrRunning, setOcrRunning] = useState(false);
+  const [ocrInfo, setOcrInfo] = useState<
+    Record<number, { data: OcrData; checked: boolean; regions: PdfRegion[] }>
+  >({});
+  const [rasterPages, setRasterPages] = useState<number[]>([]);
+  const [preparation, setPreparation] = useState<Preparation>(plainPreparation);
+  const [rawPageImage, setRawPageImage] = useState("");
+  const [showUntouched, setShowUntouched] = useState(false);
   const worker = useRef<Worker | null>(null),
     request = useRef(0),
     timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined),
@@ -111,12 +151,70 @@ export function DocumentImport({
     cropPointers = useRef(new Set<number>()),
     cropBefore = useRef<Crop>({ x: 0, y: 0, w: 100, h: 100 });
   const originalURL = useRef("");
+  const regionRenders = useRef(
+    new Map<
+      number,
+      {
+        resolve: (src: string) => void;
+        reject: (e: Error) => void;
+        timer: ReturnType<typeof setTimeout>;
+      }
+    >(),
+  );
+  const preparations = useRef(new Map<number, Preparation>());
   const groups = Object.entries(draft.content.cardGroups!);
   const defaultGroup = groups.find(([, g]) => !g.prefix)?.[0] ?? groups[0][0];
   const extensionGroup =
     groups.find(([, g]) => g.prefix === "V" || /vertief/i.test(g.label))?.[0] ??
     defaultGroup;
   const current = cards[index];
+  const [activeOriginal, setActiveOriginal] = useState("");
+  const activeRegion =
+    result?.pdfLayout?.regions.find(
+      (r) => r.cardId === current?.id && r.page === page,
+    ) ??
+    (current
+      ? ocrInfo[current.id]?.regions.find((r) => r.page === page)
+      : undefined);
+  useEffect(() => {
+    let cancelled = false;
+    setActiveOriginal("");
+    if (
+      !pageImage ||
+      !activeRegion ||
+      !current ||
+      !ocrInfo[current.id] ||
+      !result?.pdfLayout
+    )
+      return;
+    const b = activeRegion.bounds,
+      p = result.pdfLayout.pages[page - 1];
+    const source =
+      result.format === "image" && !preparations.current.has(page)
+        ? originalURL.current
+        : pageImage;
+    void cropImage(source, {
+      x: (b.x / p.width) * 100,
+      y: (b.y / p.height) * 100,
+      w: (b.width / p.width) * 100,
+      h: (b.height / p.height) * 100,
+    })
+      .then((src) => {
+        if (!cancelled && alive.current) setActiveOriginal(src);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    pageImage,
+    current?.id,
+    page,
+    activeRegion?.bounds.x,
+    activeRegion?.bounds.y,
+    activeRegion?.bounds.width,
+    activeRegion?.bounds.height,
+  ]);
   const initialCards = useRef<Card[]>([]);
   const splitGeometry = useRef(new WeakMap<Card, PdfRegion[]>());
   function proposalsChanged() {
@@ -129,7 +227,13 @@ export function DocumentImport({
   }
   function stop() {
     request.current++;
+    ocrController.current?.abort();
     clearTimeout(timer.current);
+    for (const p of regionRenders.current.values()) {
+      clearTimeout(p.timer);
+      p.reject(new DOMException("OCR abgebrochen", "AbortError"));
+    }
+    regionRenders.current.clear();
     worker.current?.terminate();
     worker.current = null;
   }
@@ -153,7 +257,7 @@ export function DocumentImport({
       }
     }, ms);
   }
-  function renderPage(n: number) {
+  function renderPage(n: number, highResolution = rasterPages.includes(n)) {
     if (!worker.current) return;
     setBusy(true);
     setMessage(`PDF-Seite ${n} wird angezeigt …`);
@@ -162,6 +266,7 @@ export function DocumentImport({
       type: "render",
       id: ++request.current,
       page: n,
+      ocr: highResolution,
     });
   }
   async function openFile(f: File) {
@@ -186,10 +291,53 @@ export function DocumentImport({
       setPage(1);
       setStep(1);
       setFile(f);
+      preparations.current.clear();
+      setOcrInfo({});
+      setRasterPages([]);
+      setRawPageImage("");
+      setPreparation(plainPreparation);
       setTitle(f.name.replace(/\.[^.]+$/, ""));
       if (originalURL.current) URL.revokeObjectURL(originalURL.current);
       originalURL.current = URL.createObjectURL(f);
       const id = ++request.current;
+      if (format === "image") {
+        inspectScan(new Uint8Array(await f.arrayBuffer()));
+        const prepared = await prepareScan(originalURL.current);
+        if (!alive.current || id !== request.current) return;
+        const layout: PdfLayout = {
+          pages: [
+            { width: prepared.width, height: prepared.height, items: [] },
+          ],
+          regions: [],
+          sections: [],
+          uncertainPages: [1],
+        };
+        const r: ImportResult = {
+          format: "image",
+          name: f.name,
+          blocks: [],
+          cards: [],
+          images: [],
+          pages: [layout.pages[0]],
+          pdfLayout: layout,
+          noText: true,
+          warnings: [
+            "OCR-Vorschläge sind nicht fachlich geprüft. Jede Karte und besonders Zahlen am Original kontrollieren.",
+          ],
+        };
+        setResult(r);
+        initialCards.current = [];
+        setStep(2);
+        setView("original");
+        setPageImage(prepared.src);
+        setRawPageImage(prepared.src);
+        setRasterPages([1]);
+        setBusy(false);
+        setMessage(
+          "Foto geöffnet. Jetzt Kartengrenzen und Text lokal erkennen oder einen einzelnen Bereich markieren.",
+        );
+        return;
+      }
       deadline(45000);
       const bytes = await f.arrayBuffer();
       if (!alive.current || id !== request.current) return;
@@ -205,9 +353,21 @@ export function DocumentImport({
           "Die Datei konnte nicht gelesen werden. Bitte eine gültige Word- oder PDF-Datei beziehungsweise einen aktuellen Browser verwenden.",
         );
       };
-      instance.onmessage = (e) => {
+      instance.onmessage = async (e) => {
         const data = e.data;
         if (!alive.current || worker.current !== instance) return;
+        const pending = regionRenders.current.get(data.id);
+        if (
+          pending &&
+          (data.type === "rendered-region" || data.type === "error")
+        ) {
+          clearTimeout(pending.timer);
+          regionRenders.current.delete(data.id);
+          data.type === "error"
+            ? pending.reject(Error(data.message))
+            : pending.resolve(data.image);
+          return;
+        }
         if (data.type === "progress") {
           setMessage(data.message);
           return;
@@ -237,9 +397,39 @@ export function DocumentImport({
           setMessage(
             "Die Vorschläge sind noch nicht im Entwurf. Bitte am Original prüfen.",
           );
-          if (r.format === "pdf") renderPage(1);
+          if (r.format === "pdf") {
+            setRasterPages(
+              r.pdfLayout?.pages.flatMap((p, i) =>
+                p.items.reduce((n, t) => n + t.text.trim().length, 0) < 20
+                  ? [i + 1]
+                  : [],
+              ) ?? [],
+            );
+            renderPage(
+              1,
+              r.pdfLayout?.pages[0].items.reduce(
+                (n, t) => n + t.text.trim().length,
+                0,
+              )! < 20,
+            );
+          }
         } else if (data.type === "rendered") {
-          setPageImage(data.image);
+          const options =
+            preparations.current.get(data.page) ?? plainPreparation;
+          let image = data.image;
+          if (preparations.current.has(data.page)) {
+            try {
+              image = (await prepareScan(data.image, options)).src;
+            } catch (e) {
+              setError((e as Error).message);
+              return;
+            }
+            if (!alive.current || data.id !== request.current) return;
+          }
+          setPageImage(image);
+          setRawPageImage(data.image);
+          setPreparation(options);
+          setShowUntouched(false);
           setCrop({ x: 0, y: 0, w: 100, h: 100 });
           setMark(false);
           setMessage("Seite lokal angezeigt.");
@@ -257,6 +447,16 @@ export function DocumentImport({
     if (initialFile) void openFile(initialFile);
   }, []);
   function editRegions(next: PdfLayout, affected: number[], removed: number[]) {
+    if (
+      ocrBase() &&
+      (rasterPages.includes(page) ||
+        affected.some(
+          (id) => !regionCard(next, id).text && !regionCard(next, id).title,
+        ))
+    ) {
+      void recognizeRegions(next, affected, removed);
+      return false;
+    }
     try {
       const updated = affected.map((id) => {
         const card = regionCard(next, id),
@@ -310,6 +510,15 @@ export function DocumentImport({
           "Mehr als 100 Karten sind nicht möglich. Bitte zuerst Bereiche entfernen oder das PDF aufteilen.",
         );
       setCards(remaining);
+      if (affected.length)
+        setIndex(
+          Math.max(
+            0,
+            remaining.findIndex((c) => c.id === affected[0]),
+          ),
+        );
+      if (!affected.length)
+        setIndex(Math.max(0, Math.min(index, remaining.length - 1)));
       setSelected([
         ...selected.filter((id) => !removed.includes(id)),
         ...added.map((c) => c.id),
@@ -342,12 +551,20 @@ export function DocumentImport({
     setResult({ ...result, pdfLayout: next });
   }
   function update(patch: Partial<Card>) {
+    if (current && ocrInfo[current.id])
+      setOcrInfo({
+        ...ocrInfo,
+        [current.id]: { ...ocrInfo[current.id], checked: false },
+      });
     setCards(cards.map((c, i) => (i === index ? { ...c, ...patch } : c)));
     setReviewed(false);
     setError("");
   }
   function addCard(patch: Partial<Card> = {}) {
     const id = Math.max(0, ...cards.map((c) => c.id)) + 1;
+    const infos = { ...ocrInfo };
+    delete infos[id];
+    setOcrInfo(infos);
     setCards([
       ...cards,
       { id, title: "", text: "", group: defaultGroup, ...patch },
@@ -359,6 +576,9 @@ export function DocumentImport({
   }
   function remove() {
     if (!current) return;
+    const infos = { ...ocrInfo };
+    delete infos[current.id];
+    setOcrInfo(infos);
     forgetRegions([current.id]);
     setCards(cards.filter((c) => c.id !== current.id));
     setSelected(selected.filter((id) => id !== current.id));
@@ -376,6 +596,12 @@ export function DocumentImport({
     }
     const id = Math.max(...cards.map((c) => c.id)) + 1;
     const pair = splitImported(current, at, id);
+    if (ocrInfo[current.id])
+      setOcrInfo({
+        ...ocrInfo,
+        [current.id]: { ...ocrInfo[current.id], checked: false },
+        [id]: { ...ocrInfo[current.id], checked: false },
+      });
     if (result?.pdfLayout)
       splitGeometry.current.set(
         pair[0],
@@ -402,6 +628,40 @@ export function DocumentImport({
         [current.id, next.id],
         exact ? (splitGeometry.current.get(current) ?? []) : [],
       );
+      const infos = { ...ocrInfo };
+      if (ocrInfo[current.id] || ocrInfo[next.id])
+        infos[current.id] = {
+          ...(ocrInfo[current.id] ?? ocrInfo[next.id]),
+          ...(!exact && ocrInfo[current.id] && ocrInfo[next.id]
+            ? {
+                data: {
+                  text: [
+                    ocrInfo[current.id].data.text,
+                    ocrInfo[next.id].data.text,
+                  ].join("\n\n"),
+                  confidence: Math.min(
+                    ocrInfo[current.id].data.confidence,
+                    ocrInfo[next.id].data.confidence,
+                  ),
+                  blocks: [
+                    ...(ocrInfo[current.id].data.blocks ?? []),
+                    ...(ocrInfo[next.id].data.blocks ?? []),
+                  ],
+                },
+              }
+            : {}),
+          checked: false,
+          regions: [
+            ...new Map(
+              [
+                ...(ocrInfo[current.id]?.regions ?? []),
+                ...(ocrInfo[next.id]?.regions ?? []),
+              ].map((r) => [`${r.page}-${r.id}`, r]),
+            ).values(),
+          ],
+        };
+      delete infos[next.id];
+      setOcrInfo(infos);
       setCards([...cards.slice(0, index), joined, ...cards.slice(index + 2)]);
       setSelected([
         ...selected.filter((id) => id !== next.id && id !== current.id),
@@ -469,6 +729,14 @@ export function DocumentImport({
           "Bitte zuerst den Vergleich mit dem Original bestätigen.",
         );
       const chosen = cards.filter((c) => selected.includes(c.id));
+      if (
+        chosen.some(
+          (c) => ocrInfo[c.id] && (!ocrInfo[c.id].checked || !c.text.trim()),
+        )
+      )
+        throw Error(
+          "Bitte jede OCR-Karte einzeln am Original prüfen und bestätigen. Leere Karten entfernen oder manuell ausfüllen.",
+        );
       const next = takeImportedCards(draft, chosen, mode, title);
       setBusy(true);
       for (const c of chosen) if (c.image) await verifyImageDecode(c.image);
@@ -488,6 +756,437 @@ export function DocumentImport({
       setBusy(false);
       setError((e as Error).message);
     }
+  }
+  async function withOcr(
+    action: (session: LocalOcr, signal: AbortSignal) => Promise<void>,
+  ) {
+    const controller = new AbortController();
+    ocrController.current?.abort();
+    ocrController.current = controller;
+    let session: LocalOcr | undefined;
+    setBusy(true);
+    setOcrRunning(true);
+    setError("");
+    try {
+      session = new LocalOcr(controller.signal, (m) => {
+        if (alive.current && !controller.signal.aborted) setMessage(m);
+      });
+      await session.start();
+      await action(session, controller.signal);
+    } catch (e) {
+      if (alive.current && ocrController.current === controller)
+        setError(
+          (e as Error).name === "AbortError"
+            ? "OCR abgebrochen. Vorherige Vorschläge und Entwurf bleiben erhalten."
+            : /Bereiche überlagern/.test((e as Error).message)
+              ? "Die automatische Aufteilung ist unsicher: Bereiche überlagern sich. Bitte die Karten einzeln im Original markieren und als Textkarten hinzufügen. Bisherige Vorschläge und Entwurf bleiben erhalten."
+              : (e as Error).message,
+        );
+    } finally {
+      session?.close();
+      if (ocrController.current === controller) {
+        ocrController.current = null;
+        if (alive.current) {
+          setBusy(false);
+          setOcrRunning(false);
+        }
+      }
+    }
+  }
+  const contains = (item: PdfItem, b: Rect) =>
+    item.x + item.width / 2 >= b.x &&
+    item.x + item.width / 2 <= b.x + b.width &&
+    item.y + item.height / 2 >= b.y &&
+    item.y + item.height / 2 <= b.y + b.height;
+  async function recognizeRegions(
+    next: PdfLayout,
+    affected: number[],
+    removed: number[] = [],
+    session?: LocalOcr,
+    signal?: AbortSignal,
+  ) {
+    if (!pageImage) return;
+    if (
+      !session &&
+      affected.some((id) => cards.some((c) => c.id === id)) &&
+      !confirm(
+        "Betroffene Karten erneut erkennen? Überschrift, Text und Quelle werden nach erfolgreicher OCR ersetzt. Andere Karten und der Entwurf bleiben erhalten.",
+      )
+    )
+      return;
+    const run = async (engine: LocalOcr, abort: AbortSignal) => {
+      let remaining = cards.filter((c) => !removed.includes(c.id));
+      const infos = { ...ocrInfo };
+      for (const id of removed) delete infos[id];
+      let items = [...next.pages[page - 1].items];
+      const dimensions = next.pages[page - 1];
+      for (const [i, id] of affected.entries()) {
+        abort.throwIfAborted();
+        const region = next.regions.find(
+          (r) => r.page === page && r.cardId === id,
+        );
+        if (!region) continue;
+        setMessage(`Karte ${i + 1} von ${affected.length} wird erkannt …`);
+        const b = region.bounds;
+        let src: string;
+        const prepared = preparations.current.get(page);
+        if (result?.format === "pdf" && !prepared) {
+          src = await new Promise<string>((resolve, reject) => {
+            const id = ++request.current;
+            const cancel = () => {
+              clearTimeout(timer);
+              regionRenders.current.delete(id);
+              request.current++;
+              worker.current?.postMessage({ type: "cancel-render" });
+              reject(new DOMException("OCR abgebrochen", "AbortError"));
+            };
+            const finish = (value: string) => {
+              abort.removeEventListener("abort", cancel);
+              resolve(value);
+            };
+            const failure = (e: Error) => {
+              abort.removeEventListener("abort", cancel);
+              reject(e);
+            };
+            const timer = setTimeout(() => {
+              regionRenders.current.delete(id);
+              request.current++;
+              worker.current?.postMessage({ type: "cancel-render" });
+              failure(
+                Error(
+                  "PDF-OCR-Ausschnitt konnte nicht rechtzeitig gerendert werden.",
+                ),
+              );
+            }, 20000);
+            regionRenders.current.set(id, {
+              resolve: finish,
+              reject: failure,
+              timer,
+            });
+            abort.addEventListener("abort", cancel, { once: true });
+            worker.current!.postMessage({
+              type: "render-region",
+              id,
+              page,
+              bounds: b,
+            });
+          });
+        } else {
+          const source =
+            result?.format === "image" && !prepared
+              ? originalURL.current
+              : pageImage;
+          src = await cropImage(source, {
+            x: (b.x / dimensions.width) * 100,
+            y: (b.y / dimensions.height) * 100,
+            w: (b.width / dimensions.width) * 100,
+            h: (b.height / dimensions.height) * 100,
+          });
+        }
+        const data = await engine.recognize(src);
+        abort.throwIfAborted();
+        const raw = ocrCard(data, id),
+          old = remaining.find((c) => c.id === id);
+        let preserved: Partial<Card> = old ? { ...old } : {};
+        delete preserved.source;
+        const card = {
+          ...preserved,
+          ...raw,
+          group:
+            old?.group ??
+            (raw.group === "extension" ? extensionGroup : defaultGroup),
+        } as Card;
+        if (!old) remaining.push(card);
+        else remaining = remaining.map((c) => (c.id === id ? card : c));
+        infos[id] = { data, checked: false, regions: [region] };
+        const image = new Image();
+        image.src = src;
+        await image.decode();
+        const scale = b.width / image.naturalWidth;
+        image.src = "";
+        items = [
+          ...items.filter((t) => !contains(t, b)),
+          ...ocrItems(data, scale, { x: b.x, y: b.y }),
+        ];
+      }
+      if (remaining.length > 100)
+        throw Error(
+          "Mehr als 100 Karten sind nicht möglich. Bitte den Scan aufteilen.",
+        );
+      checkOcrBudget(next.pages, page - 1, items);
+      const pages = next.pages.map((p, i) =>
+        i === page - 1 ? { ...p, items } : p,
+      );
+      // An automatic heading region can extend over an otherwise empty scan.
+      // Tighten only such existing regions to their original text before adding
+      // an independent OCR area; never duplicate or replace the existing text.
+      const additions = next.regions.filter(
+        (r) =>
+          r.page === page &&
+          affected.includes(r.cardId) &&
+          !cards.some((c) => c.id === r.cardId),
+      );
+      const regions = next.regions.map((r) => {
+        if (
+          r.page !== page ||
+          affected.includes(r.cardId) ||
+          r.strategy === "manual" ||
+          !additions.some(
+            (a) =>
+              a.bounds.x < r.bounds.x + r.bounds.width &&
+              a.bounds.x + a.bounds.width > r.bounds.x &&
+              a.bounds.y < r.bounds.y + r.bounds.height &&
+              a.bounds.y + a.bounds.height > r.bounds.y,
+          )
+        )
+          return r;
+        const owned = next.pages[page - 1].items.filter((t) =>
+          contains(t, r.bounds),
+        );
+        if (!owned.length) return r;
+        const x = Math.max(0, Math.min(...owned.map((t) => t.x)) - 1),
+          y = Math.max(0, Math.min(...owned.map((t) => t.y)) - 1);
+        return {
+          ...r,
+          bounds: {
+            x,
+            y,
+            width:
+              Math.min(
+                next.pages[page - 1].width,
+                Math.max(...owned.map((t) => t.x + t.width)) + 1,
+              ) - x,
+            height:
+              Math.min(
+                next.pages[page - 1].height,
+                Math.max(...owned.map((t) => t.y + t.height)) + 1,
+              ) - y,
+          },
+        };
+      });
+      const layout = changeRegions({ ...next, pages }, regions);
+      if (layout.sections.length > 4000)
+        throw Error(
+          "Zu viele Dokumentabschnitte. Bitte die Aufnahme aufteilen.",
+        );
+      abort.throwIfAborted();
+      if (!alive.current) return;
+      setCards(remaining);
+      if (affected.length)
+        setIndex(
+          Math.max(
+            0,
+            remaining.findIndex((c) => c.id === affected[0]),
+          ),
+        );
+      if (!affected.length)
+        setIndex(Math.max(0, Math.min(index, remaining.length - 1)));
+      setSelected([
+        ...selected.filter((id) => !removed.includes(id)),
+        ...affected.filter((id) => !selected.includes(id)),
+      ]);
+      setOcrInfo(infos);
+      setResult({
+        ...result!,
+        pdfLayout: layout,
+        blocks: [
+          ...result!.blocks.filter((b) => b.page !== page),
+          ...layout.sections.filter((b) => b.page === page),
+        ],
+      });
+      setReviewed(false);
+      setMark(false);
+      setMessage(
+        "OCR beendet. Jede Karte, Zahl und Quellenangabe am Original kontrollieren und einzeln bestätigen. Erkennungssicherheit ist keine Garantie für Richtigkeit.",
+      );
+    };
+    if (session && signal) await run(session, signal);
+    else await withOcr(run);
+  }
+  async function recognizePage() {
+    if (!result?.pdfLayout || !pageImage) return;
+    if (!rasterPages.includes(page)) {
+      setError(
+        "Diese Seite besitzt eine Textebene. Für fehlende Bildtexte einen nicht überlappenden Ausschnitt markieren und als Textkarte hinzufügen; vorhandene Texte bleiben erhalten.",
+      );
+      return;
+    }
+    const layout = result.pdfLayout;
+    if (
+      layout.regions.some((r) => r.page === page) &&
+      !confirm(
+        "Karten dieser Scan-Seite neu aufteilen? Die bisherigen Vorschläge dieser Seite werden erst nach erfolgreicher Erkennung ersetzt.",
+      )
+    )
+      return;
+    await withOcr(async (engine, signal) => {
+      const frames = await scanFrames(pageImage);
+      signal.throwIfAborted();
+      const fullSource = frames.length
+        ? await cropImage(pageImage, { x: 0, y: 0, w: 100, h: 100 }, 1_500_000)
+        : pageImage;
+      const full = await engine.recognize(fullSource);
+      signal.throwIfAborted();
+      const dimensions = layout.pages[page - 1],
+        img = new Image();
+      img.src = fullSource;
+      await img.decode();
+      const scale = dimensions.width / img.naturalWidth;
+      img.src = pageImage;
+      await img.decode();
+      const frameScale = dimensions.width / img.naturalWidth;
+      img.src = "";
+      const items = ocrItems(full, scale),
+        bounds = frames.length
+          ? frames.map((b) => ({
+              x: b.x * frameScale,
+              y: b.y * frameScale,
+              width: b.width * frameScale,
+              height: b.height * frameScale,
+            }))
+          : fallbackRegions({ ...dimensions, items });
+      const usable = bounds.length
+        ? bounds
+        : [{ x: 0, y: 0, width: dimensions.width, height: dimensions.height }];
+      if (usable.length > 100)
+        throw Error(
+          "Mehr als 100 Kartenbereiche erkannt. Bitte die Aufnahme aufteilen.",
+        );
+      const old = layout.regions
+          .filter((r) => r.page === page)
+          .map((r) => r.cardId),
+        id = Math.max(0, ...cards.map((c) => c.id)) + 1,
+        rid = Math.max(0, ...layout.regions.map((r) => r.id)) + 1;
+      const regions = [
+        ...layout.regions.filter((r) => r.page !== page),
+        ...usable
+          .sort((a, b) => (Math.abs(a.y - b.y) < 10 ? a.x - b.x : a.y - b.y))
+          .map((bounds, i) => ({
+            id: rid + i,
+            cardId: id + i,
+            page,
+            bounds,
+            strategy: "manual" as const,
+          })),
+      ];
+      const next = {
+        ...layout,
+        pages: layout.pages.map((p, i) =>
+          i === page - 1 ? { ...p, items } : p,
+        ),
+        regions,
+      };
+      await recognizeRegions(
+        next,
+        usable.map((_, i) => id + i),
+        old,
+        engine,
+        signal,
+      );
+    });
+  }
+  async function prepareMarkedCrop() {
+    const image = new Image();
+    image.src = rawPageImage;
+    setBusy(true);
+    setError("");
+    try {
+      await image.decode();
+      if (!alive.current) return;
+      await prepareImage({
+        ...preparation,
+        crop: {
+          x: (crop.x * image.naturalWidth) / 100,
+          y: (crop.y * image.naturalHeight) / 100,
+          width: (crop.w * image.naturalWidth) / 100,
+          height: (crop.h * image.naturalHeight) / 100,
+        },
+      });
+    } catch {
+      if (alive.current)
+        setError(
+          "Der Bildausschnitt konnte nicht vorbereitet werden. Bitte die Seite erneut öffnen.",
+        );
+    } finally {
+      image.src = "";
+      if (alive.current) setBusy(false);
+    }
+  }
+  async function prepareImage(options: Preparation) {
+    if (!result?.pdfLayout || !rawPageImage) return;
+    const ids = result.pdfLayout.regions
+      .filter((r) => r.page === page)
+      .map((r) => r.cardId);
+    if (
+      ids.length &&
+      !confirm(
+        "Bildvorbereitung ändern? Die OCR-Vorschläge dieser Seite werden verworfen; Texte anderer Seiten und der Entwurf bleiben erhalten.",
+      )
+    )
+      return;
+    setBusy(true);
+    setError("");
+    try {
+      const prepared = await prepareScan(rawPageImage, options);
+      if (!alive.current) return;
+      setPageImage(prepared.src);
+      preparations.current.set(page, options);
+      setPreparation(options);
+      setCards(cards.filter((c) => !ids.includes(c.id)));
+      setSelected(selected.filter((id) => !ids.includes(id)));
+      const infos = { ...ocrInfo };
+      for (const id of ids) delete infos[id];
+      setOcrInfo(infos);
+      setIndex(0);
+      setCrop({ x: 0, y: 0, w: 100, h: 100 });
+      const layout = result.pdfLayout;
+      const next = changeRegions(
+        {
+          ...layout,
+          pages: layout.pages.map((p, i) =>
+            i === page - 1
+              ? { width: prepared.width, height: prepared.height, items: [] }
+              : p,
+          ),
+        },
+        layout.regions.filter((r) => r.page !== page),
+      );
+      setResult({ ...result, pdfLayout: next });
+      setReviewed(false);
+      setMessage(
+        "Bild vorbereitet. Original bleibt zum Vergleich verfügbar. Kartengrenzen neu erkennen oder markieren.",
+      );
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      if (alive.current) setBusy(false);
+    }
+  }
+  function chooseCard(n: number) {
+    setIndex(n);
+    const region =
+      result?.pdfLayout?.regions.find((r) => r.cardId === cards[n]?.id) ??
+      ocrInfo[cards[n]?.id]?.regions[0];
+    if (
+      region &&
+      region.page !== page &&
+      result?.format === "pdf" &&
+      ocrInfo[cards[n]?.id]
+    ) {
+      setPage(region.page);
+      setPageImage("");
+      setRawPageImage("");
+      renderPage(region.page);
+    }
+  }
+  function reorder(delta: number) {
+    const n = index + delta;
+    if (n < 0 || n >= cards.length) return;
+    const next = [...cards];
+    [next[index], next[n]] = [next[n], next[index]];
+    setCards(next);
+    setIndex(n);
+    setReviewed(false);
   }
   const originalText =
     result?.blocks
@@ -516,6 +1215,42 @@ export function DocumentImport({
         <button disabled={busy} onClick={() => fileInput.current?.click()}>
           Word- oder PDF-Datei auswählen
         </button>
+        <button disabled={busy} onClick={() => photoInput.current?.click()}>
+          Foto oder Scan importieren
+        </button>
+        <input
+          hidden
+          ref={photoInput}
+          type="file"
+          accept=".png,.jpg,.jpeg,.webp,.pdf"
+          aria-label="Foto oder Scan"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            e.target.value = "";
+            if (f) void openFile(f);
+          }}
+        />
+        <button disabled={busy} onClick={() => cameraInput.current?.click()}>
+          Foto aufnehmen
+        </button>
+        <input
+          hidden
+          ref={cameraInput}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          capture="environment"
+          aria-label="Foto aufnehmen"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            e.target.value = "";
+            if (f) void openFile(f);
+          }}
+        />
+        {ocrRunning && (
+          <button onClick={() => ocrController.current?.abort()}>
+            OCR abbrechen
+          </button>
+        )}
         <input
           hidden
           ref={fileInput}
@@ -567,11 +1302,11 @@ export function DocumentImport({
               und Pflicht-/Vertiefungsangaben am Original kontrollieren. Es
               findet keine fachliche Erkennung statt.
             </p>
-            {result.noText && (
+            {result.noText && !Object.keys(ocrInfo).length && (
               <p role="status">
-                Dieses PDF enthält keinen auslesbaren Text. Sie können eine
-                Seite als Bild übernehmen. Die automatische Texterkennung
-                ergänzen wir später.
+                Dieses Dokument enthält keinen auslesbaren Text. Sie können eine
+                Seite als Bild übernehmen oder im vollständigen OCR-Autorenpaket
+                Text lokal erkennen lassen.
               </p>
             )}
             {result.pdfLayout?.uncertainPages.includes(page) && (
@@ -686,10 +1421,10 @@ export function DocumentImport({
                     ))}
                   </div>
                 )}
-                {result.format === "pdf" && (
+                {(result.format === "pdf" || result.format === "image") && (
                   <>
                     <label>
-                      PDF-Seite
+                      {result.format === "image" ? "Bild" : "PDF-Seite"}
                       <select
                         aria-label="PDF-Seite"
                         disabled={busy}
@@ -698,6 +1433,7 @@ export function DocumentImport({
                           const n = Number(e.target.value);
                           setPage(n);
                           setPageImage("");
+                          setRawPageImage("");
                           renderPage(n);
                         }}
                       >
@@ -710,6 +1446,132 @@ export function DocumentImport({
                     </label>
                     {pageImage && (
                       <>
+                        <div
+                          className="ocr-preparation"
+                          aria-label="Foto und Scan vorbereiten"
+                        >
+                          <p className="small">
+                            {ocrBase()
+                              ? "Deutsche Texterkennung vollständig lokal. Jede Karte vor der Übernahme prüfen."
+                              : "OCR benötigt das vollständige lokale OCR-Autorenpaket oder OCR-SCORM. Die kompakte Einzel-HTML enthält keine Sprachmodelle."}
+                          </p>
+                          <button
+                            disabled={!ocrBase()}
+                            onClick={() => void recognizePage()}
+                          >
+                            Kartengrenzen und Text erkennen
+                          </button>
+                          {rasterPages.includes(page) && (
+                            <details>
+                              <summary>Bild vorbereiten</summary>
+                              <button
+                                onClick={() =>
+                                  void prepareImage({
+                                    ...preparation,
+                                    angle: (preparation.angle + 90) % 360,
+                                  })
+                                }
+                              >
+                                Foto um 90° drehen
+                              </button>
+                              <label>
+                                Schräglage (Grad)
+                                <input
+                                  type="number"
+                                  min={-360}
+                                  max={360}
+                                  step={0.5}
+                                  value={preparation.angle}
+                                  onChange={(e) =>
+                                    setPreparation({
+                                      ...preparation,
+                                      angle: Number(e.target.value),
+                                    })
+                                  }
+                                />
+                              </label>
+                              <label>
+                                Kontrast
+                                <input
+                                  type="number"
+                                  min={0.5}
+                                  max={2}
+                                  step={0.1}
+                                  value={preparation.contrast}
+                                  onChange={(e) =>
+                                    setPreparation({
+                                      ...preparation,
+                                      contrast: Number(e.target.value),
+                                    })
+                                  }
+                                />
+                              </label>
+                              <label>
+                                Bildansicht
+                                <select
+                                  value={preparation.mode}
+                                  onChange={(e) =>
+                                    setPreparation({
+                                      ...preparation,
+                                      mode: e.target
+                                        .value as Preparation["mode"],
+                                    })
+                                  }
+                                >
+                                  <option value="color">Farbe</option>
+                                  <option value="gray">Graustufen</option>
+                                  <option value="bw">
+                                    Schwarz-Weiß (kontrollieren)
+                                  </option>
+                                </select>
+                              </label>
+                              <button
+                                onClick={() => void prepareImage(preparation)}
+                              >
+                                Bildvorbereitung anwenden
+                              </button>
+                              <button
+                                disabled={
+                                  !mark ||
+                                  preparation.angle !== 0 ||
+                                  preparation.crop !== undefined
+                                }
+                                onClick={() => void prepareMarkedCrop()}
+                              >
+                                Auf Markierung zuschneiden
+                              </button>
+                              <button
+                                onClick={() =>
+                                  void prepareImage(plainPreparation)
+                                }
+                              >
+                                Bildvorbereitung zurücksetzen
+                              </button>
+                              <p className="small">
+                                Drehung und Zuschnitt am Original prüfen.
+                                Schräglage manuell korrigieren; keine
+                                automatische Perspektivkorrektur. Schwarz-Weiß
+                                kann feine Zeichen verlieren.
+                              </p>
+                            </details>
+                          )}
+                          <label>
+                            <input
+                              type="checkbox"
+                              checked={showUntouched}
+                              onChange={(e) =>
+                                setShowUntouched(e.target.checked)
+                              }
+                            />{" "}
+                            Unbearbeitete Aufnahme zusätzlich vergleichen
+                          </label>
+                          {showUntouched && (
+                            <img
+                              src={rawPageImage}
+                              alt="Unbearbeitete Aufnahme"
+                            />
+                          )}
+                        </div>
                         <label className="help-toggle">
                           <input
                             type="checkbox"
@@ -773,7 +1635,23 @@ export function DocumentImport({
                           />
                           {result.pdfLayout && (
                             <PdfRegionOverlay
-                              layout={result.pdfLayout}
+                              layout={
+                                current &&
+                                ocrInfo[current.id] &&
+                                !result.pdfLayout.regions.some(
+                                  (r) => r.cardId === current.id,
+                                )
+                                  ? {
+                                      ...result.pdfLayout,
+                                      regions: [
+                                        ...result.pdfLayout.regions,
+                                        ...ocrInfo[current.id].regions.map(
+                                          (r) => ({ ...r, cardId: current.id }),
+                                        ),
+                                      ],
+                                    }
+                                  : result.pdfLayout
+                              }
                               page={page}
                               cardId={current?.id}
                               mark={mark}
@@ -918,12 +1796,66 @@ export function DocumentImport({
                         ? " Möglicherweise nicht lesbare Zeichen gefunden; bitte korrigieren."
                         : ""}
                     </p>
+                    {ocrInfo[current.id] && (
+                      <section
+                        className="import-warning"
+                        aria-label="OCR kontrollieren"
+                      >
+                        <p>
+                          OCR-Sicherheit:{" "}
+                          {Math.round(ocrInfo[current.id].data.confidence)} %.
+                          Keine Garantie für fachliche Richtigkeit. Zahlen,
+                          Einheiten, Eigennamen und Quellen stets vergleichen.
+                        </p>
+                        {!current.text.trim() && (
+                          <p role="alert">
+                            Kein verwertbarer Text erkannt. Bitte schärfer
+                            fotografieren, Bereich ändern oder Text manuell
+                            eingeben.
+                          </p>
+                        )}
+                        <p>
+                          Unsichere Wörter (?):{" "}
+                          {ocrWords(ocrInfo[current.id].data)
+                            .filter((w) => w.confidence < 85)
+                            .slice(0, 50)
+                            .map((w) => w.text + " (?)")
+                            .join(" · ") ||
+                            "Keine niedrigen Wortwerte gemeldet; trotzdem am Original prüfen."}
+                        </p>
+                        <details>
+                          <summary>Rohe OCR-Ausgabe vergleichen</summary>
+                          <pre className="ocr-raw">
+                            {ocrInfo[current.id].data.text}
+                          </pre>
+                        </details>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={ocrInfo[current.id].checked}
+                            disabled={!current.text.trim()}
+                            onChange={(e) => {
+                              setOcrInfo({
+                                ...ocrInfo,
+                                [current.id]: {
+                                  ...ocrInfo[current.id],
+                                  checked: e.target.checked,
+                                },
+                              });
+                              setReviewed(false);
+                            }}
+                          />{" "}
+                          Diese OCR-Karte mit dem Original geprüft,
+                          einschließlich Zahlen und Quellen.
+                        </label>
+                      </section>
+                    )}
                     <label>
                       Karte auswählen
                       <select
                         aria-label="Importkarte auswählen"
                         value={index}
-                        onChange={(e) => setIndex(Number(e.target.value))}
+                        onChange={(e) => chooseCard(Number(e.target.value))}
                       >
                         {cards.map((c, i) => (
                           <option key={c.id} value={i}>
@@ -935,13 +1867,13 @@ export function DocumentImport({
                     <div className="actions">
                       <button
                         disabled={index === 0}
-                        onClick={() => setIndex(index - 1)}
+                        onClick={() => chooseCard(index - 1)}
                       >
                         Vorherige Karte
                       </button>
                       <button
                         disabled={index === cards.length - 1}
-                        onClick={() => setIndex(index + 1)}
+                        onClick={() => chooseCard(index + 1)}
                       >
                         Nächste Karte
                       </button>
@@ -968,6 +1900,21 @@ export function DocumentImport({
                         onChange={(e) => update({ title: e.target.value })}
                       />
                     </label>
+                    {activeOriginal && (
+                      <details className="ocr-original-detail">
+                        <summary>
+                          Original dieser Karte vergrößert vergleichen
+                        </summary>
+                        <img
+                          src={activeOriginal}
+                          alt={`Originalausschnitt der Importkarte ${index + 1}`}
+                        />
+                        <p className="small">
+                          Ausschnitt aus der Aufnahme, keine OCR-Nachzeichnung.
+                          Im vollständigen Original bleibt die Karte markiert.
+                        </p>
+                      </details>
+                    )}
                     <label>
                       Kartentext
                       <textarea
@@ -1110,6 +2057,32 @@ export function DocumentImport({
                         Mit nächster Karte zusammenfügen
                       </button>
                       <button onClick={remove}>Importkarte entfernen</button>
+                      <button
+                        disabled={index === 0}
+                        onClick={() => reorder(-1)}
+                      >
+                        Karte nach vorne
+                      </button>
+                      <button
+                        disabled={index === cards.length - 1}
+                        onClick={() => reorder(1)}
+                      >
+                        Karte nach hinten
+                      </button>
+                      {result.pdfLayout?.regions.some(
+                        (r) => r.cardId === current.id && r.page === page,
+                      ) && (
+                        <button
+                          disabled={!ocrBase()}
+                          onClick={() =>
+                            void recognizeRegions(result.pdfLayout!, [
+                              current.id,
+                            ])
+                          }
+                        >
+                          Diese Karte erneut per OCR erkennen
+                        </button>
+                      )}
                     </div>
                   </>
                 )}

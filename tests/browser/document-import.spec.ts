@@ -395,13 +395,14 @@ test("PDF D/E/G: komplexe Seiten, echter Ausschnitt, Scan ohne OCR und seitenüb
     .setInputFiles(fixture("E-PDF-Scan-ohne-Text.pdf"));
   await expect(
     page.getByText(
-      "Dieses PDF enthält keinen auslesbaren Text. Sie können eine Seite als Bild übernehmen. Die automatische Texterkennung ergänzen wir später.",
+      "Dieses Dokument enthält keinen auslesbaren Text. Sie können eine Seite als Bild übernehmen oder im vollständigen OCR-Autorenpaket Text lokal erkennen lassen.",
       { exact: true },
     ),
   ).toBeVisible({ timeout: 45000 });
   await expect(page.locator(".import-step-body")).toBeEnabled({
     timeout: 25000,
   });
+  await expect(button(page, "Kartengrenzen und Text erkennen")).toBeDisabled();
   await expect(
     page.getByRole("combobox", { name: "Importkarte auswählen", exact: true }),
   ).toHaveCount(0);

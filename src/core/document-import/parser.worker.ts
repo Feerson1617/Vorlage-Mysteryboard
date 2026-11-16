@@ -80,6 +80,7 @@ class LocalFilters {
   destroy() {}
 }
 let pdf: any = null;
+let rendering: { cancel: () => void } | null = null;
 const b64 = (bytes: Uint8Array) => {
   let s = "";
   for (let i = 0; i < bytes.length; i += 16384)
@@ -292,7 +293,7 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
     disableRange: true,
     disableAutoFetch: true,
     stopAtErrors: true,
-    maxImageSize: 4_000_000,
+    maxImageSize: 24_000_000,
     canvasMaxAreaInBytes: 16_000_000,
     BinaryDataFactory: LocalBinaryData,
     CanvasFactory: LocalCanvas,
@@ -394,7 +395,11 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
     ],
   };
 }
-async function renderPage(pageNo: number) {
+async function renderPage(
+  pageNo: number,
+  ocr = false,
+  bounds?: { x: number; y: number; width: number; height: number },
+) {
   if (!pdf) throw new Error("Bitte zuerst ein PDF auswählen.");
   if (typeof OffscreenCanvas === "undefined")
     throw new Error(
@@ -402,22 +407,56 @@ async function renderPage(pageNo: number) {
     );
   const page = await pdf.getPage(pageNo),
     original = page.getViewport({ scale: 1 });
-  const scale = Math.min(
-    2,
-    1400 / original.width,
-    Math.sqrt(2_000_000 / (original.width * original.height)),
-  );
+  if (
+    bounds &&
+    (![bounds.x, bounds.y, bounds.width, bounds.height].every(
+      Number.isFinite,
+    ) ||
+      bounds.x < 0 ||
+      bounds.y < 0 ||
+      bounds.width < 1 ||
+      bounds.height < 1 ||
+      bounds.x + bounds.width > original.width + 0.5 ||
+      bounds.y + bounds.height > original.height + 0.5)
+  )
+    throw Error("Ungültiger PDF-OCR-Bereich.");
+  const scale = bounds
+    ? Math.min(
+        4,
+        4096 / bounds.width,
+        4096 / bounds.height,
+        Math.sqrt(3_900_000 / (bounds.width * bounds.height)),
+      )
+    : Math.min(
+        ocr ? 3 : 2,
+        (ocr ? 2000 : 1400) / original.width,
+        Math.sqrt(
+          (ocr ? 3_900_000 : 2_000_000) / (original.width * original.height),
+        ),
+      );
   const viewport = page.getViewport({ scale }),
     canvas = new OffscreenCanvas(
-      Math.ceil(viewport.width),
-      Math.ceil(viewport.height),
+      Math.ceil((bounds?.width ?? original.width) * scale),
+      Math.ceil((bounds?.height ?? original.height) * scale),
     );
-  await page.render({
+  const task = page.render({
     canvas,
     canvasContext: canvas.getContext("2d"),
     viewport,
     annotationMode: 0,
-  }).promise;
+    ...(bounds
+      ? { transform: [1, 0, 0, 1, -bounds.x * scale, -bounds.y * scale] }
+      : {}),
+  });
+  rendering = task;
+  try {
+    await task.promise;
+  } catch (error) {
+    canvas.width = canvas.height = 0;
+    throw error;
+  } finally {
+    rendering = null;
+  }
   let blob = await canvas.convertToBlob({ type: "image/png" });
   if (blob.size > 3_000_000)
     blob = await canvas.convertToBlob({ type: "image/jpeg", quality: 0.9 });
@@ -429,6 +468,10 @@ async function renderPage(pageNo: number) {
 scope.onmessage = async (event: MessageEvent) => {
   const request = event.data;
   try {
+    if (request.type === "cancel-render") {
+      rendering?.cancel();
+      return;
+    }
     if (request.type === "parse") {
       if (pdf) {
         await pdf.destroy();
@@ -439,12 +482,18 @@ scope.onmessage = async (event: MessageEvent) => {
           ? await docx(new Uint8Array(request.bytes), request.name)
           : await readPdf(new Uint8Array(request.bytes), request.name);
       scope.postMessage({ type: "parsed", id: request.id, result });
+    } else if (request.type === "render-region") {
+      scope.postMessage({
+        type: "rendered-region",
+        id: request.id,
+        image: await renderPage(request.page, true, request.bounds),
+      });
     } else if (request.type === "render") {
       scope.postMessage({
         type: "rendered",
         id: request.id,
         page: request.page,
-        image: await renderPage(request.page),
+        image: await renderPage(request.page, request.ocr === true),
       });
     }
   } catch (error) {

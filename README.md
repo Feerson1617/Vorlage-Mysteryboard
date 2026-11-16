@@ -113,3 +113,15 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 
 Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 bleibt unter `unterricht-2026-11-13-rc2` eingefroren. Die ursprünglichen Unterrichts- und Entwicklungsbranches bleiben unverändert; diese Erweiterung liegt ausschließlich auf `feat/mysteryboard-classroom-scorm-export`.
+
+
+### Lokale OCR für Lehrkräfte
+
+Die optionale Autorenfassung erkennt gedruckte Karten aus PNG/JPEG/WebP und
+Bild-PDFs vollständig lokal. Einstieg: „Foto oder Scan importieren“. Jede Karte
+am Original prüfen. Die kompakte Universal-HTML enthält keine OCR-Modelle;
+`npm run package:ocr` erstellt aus derselben Universalversion das vollständige
+OCR-SCORM und das lokale Autorenpaket. Unterrichts-SCORM-Exporte benötigen keine
+OCR-Dateien. Anleitung und Grenzen: [Lokale OCR](docs/LOKALE-OCR.md),
+[Prüfbericht](docs/OCR-ABNAHMEBERICHT.md). Keine schulische Freigabe ohne echten
+Safari-/Schul-iPad-/itslearning-Test.

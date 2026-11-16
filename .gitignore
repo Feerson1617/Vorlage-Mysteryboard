@@ -8,3 +8,6 @@ artifacts/previews/
 *.log
 __pycache__/
 *.pyc
+
+# Reproducible multi-file OCR build, distributed through the sealed ZIPs.
+artifacts/ocr-author/
