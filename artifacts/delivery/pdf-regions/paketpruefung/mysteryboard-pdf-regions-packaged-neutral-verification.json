@@ -1,0 +1,82 @@
+[
+  {
+    "case": "Rahmen20",
+    "viewportWidth": 1024,
+    "cards": 20,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "passed",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": "be3ee6412b0c2d1976878a64eaee3f76c5491fe60818fecb35c505e62fcb726e"
+  },
+  {
+    "case": "Rahmen20",
+    "viewportWidth": 768,
+    "cards": 20,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  },
+  {
+    "case": "Rahmen20",
+    "viewportWidth": 600,
+    "cards": 20,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  },
+  {
+    "case": "Rahmen20",
+    "viewportWidth": 320,
+    "cards": 20,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  },
+  {
+    "case": "OhneRahmen16",
+    "viewportWidth": 1024,
+    "cards": 16,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "passed",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": "88cb6bb0c91944401991aa49e4a01594d450f20eee11eb7e7d74ddda4ae47d66"
+  },
+  {
+    "case": "OhneRahmen16",
+    "viewportWidth": 768,
+    "cards": 16,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  },
+  {
+    "case": "OhneRahmen16",
+    "viewportWidth": 600,
+    "cards": 16,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  },
+  {
+    "case": "OhneRahmen16",
+    "viewportWidth": 320,
+    "cards": 16,
+    "everyTitleAndText": "passed",
+    "zipCrcAndManifest": "additional viewport ZIP not retained; see full browser protocol",
+    "fullFreshPngRestore": "passed",
+    "newDirectedConnections": "passed",
+    "scormZipSha256": null
+  }
+]
