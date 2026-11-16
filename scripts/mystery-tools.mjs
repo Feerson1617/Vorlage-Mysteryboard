@@ -1,9 +1,10 @@
 // The CLI uses exactly the application's schema and semantic validators.
 import { createServer, build } from "vite";
-import { readFile, writeFile, mkdir, copyFile, stat } from "node:fs/promises";
+import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { resolve, basename, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { existsSync } from "node:fs";
+import { embedTask } from "./embed-task.mjs";
 import { chromium } from "@playwright/test";
 import { checkBuilds } from "./check-build.mjs";
 import { packageScorm } from "./package-scorm.mjs";
@@ -114,15 +115,14 @@ try {
       process.chdir(root);
       await server.close();
       server = null;
+      // The validation server sets development mode; ship the same production
+      // player as the universal build, without authoring source paths.
+      process.env.NODE_ENV = "production";
       await build({
         mode: "universal",
         define: {
           __UNIVERSAL__: "true",
-          // Keep arbitrary card text outside HTML syntax, including mixed-case
-          // closing script tags. Decode and validate with the same core at launch.
-          __INITIAL_DOCUMENT__: JSON.stringify(
-            Buffer.from(core.encodeDocument(doc)).toString("base64"),
-          ),
+          __INITIAL_DOCUMENT__: "null",
         },
         build: { outDir: "dist/authored-content" },
       });
@@ -135,10 +135,14 @@ try {
         },
       ]);
       await mkdir(dirname(outputPath), { recursive: true });
-      await copyFile(
+      const universalHTML = await readFile(
         resolve(root, "artifacts/previews", basename(outputPath)),
-        outputPath,
+        "utf8",
       );
+      const html = embedTask(universalHTML, core.encodeDocument(doc));
+      if (Buffer.byteLength(html) >= 10_000_000)
+        throw new Error("Die vollständige HTML überschreitet 10 MB.");
+      await writeFile(outputPath, html);
       if (scormPath)
         await packageScorm(
           outputPath,

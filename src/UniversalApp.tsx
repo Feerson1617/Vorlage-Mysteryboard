@@ -10,8 +10,7 @@ import {
   type Task,
   type Student,
 } from "./core/documents";
-import { verifyImageDecode } from "./core/media";
-import DocumentWorker from "./core/document-worker?worker&inline";
+import { readDocumentFile } from "./core/document-file";
 import { AuthorEditor } from "./components/AuthorEditor";
 import { draftFromContent, newDraft } from "./core/authoring";
 import { portableBuiltin } from "./core/builtin-content";
@@ -38,7 +37,9 @@ export function documentFile(doc: MysteryDocument) {
 export function UniversalApp({
   builtIn,
   initialDocument,
+  classroom = false,
 }: {
+  classroom?: boolean;
   builtIn?: Mystery;
   initialDocument?: MysteryDocument | null;
 }) {
@@ -49,6 +50,7 @@ export function UniversalApp({
     [initials, setInitials] = useState(""),
     [createNew, setCreateNew] = useState(false);
   const [generation, setGeneration] = useState(0);
+  const [authorImport, setAuthorImport] = useState(false);
   const [importOpen, setImportOpen] = useState(false),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
@@ -67,14 +69,10 @@ export function UniversalApp({
   const [camera, setCamera] = useState(false);
   const input = useRef<HTMLInputElement>(null),
     operation = useRef(0),
-    worker = useRef<Worker | null>(null);
-  const stopRead = useRef<(() => void) | null>(null);
+    readController = useRef<AbortController | null>(null);
   const cancel = () => {
     operation.current++;
-    stopRead.current?.();
-    stopRead.current = null;
-    worker.current?.terminate();
-    worker.current = null;
+    readController.current?.abort();
     setBusy(false);
     setImportOpen(false);
     setCamera(false);
@@ -83,62 +81,25 @@ export function UniversalApp({
   useEffect(
     () => () => {
       operation.current++;
-      stopRead.current?.();
-      worker.current?.terminate();
+      readController.current?.abort();
     },
     [],
   );
   const importFile = async (selected: File) => {
     const id = ++operation.current;
-    stopRead.current?.();
-    worker.current?.terminate();
+    readController.current?.abort();
+    const controller = new AbortController();
+    readController.current = controller;
     setBusy(true);
     setError("");
     try {
-      if (selected.size > 30_000_000)
+      const doc = await readDocumentFile(selected, controller.signal);
+      if (id !== operation.current) return;
+      if (classroom && doc.kind === "draft")
         throw new Error(
-          "Die Datei ist größer als 30 MB. Der geöffnete Stand bleibt erhalten.",
+          "Hier können Aufgaben und Schülerarbeitsstände fortgesetzt werden. Lehrkraftentwürfe bitte in der universellen Vorlage öffnen.",
         );
-      const bytes = await selected.arrayBuffer();
-      if (id !== operation.current) return;
-      const doc = await new Promise<MysteryDocument>((resolve, reject) => {
-        const instance = new DocumentWorker();
-        worker.current = instance;
-        let settled = false;
-        const finish = (error?: Error, document?: MysteryDocument) => {
-          if (settled) return;
-          settled = true;
-          clearTimeout(timer);
-          instance.terminate();
-          stopRead.current = null;
-          error ? reject(error) : resolve(document!);
-        };
-        const timer = setTimeout(
-          () =>
-            finish(
-              new Error(
-                "Die Importprüfung wurde nach 15 Sekunden abgebrochen. Bitte die Datei prüfen.",
-              ),
-            ),
-          15000,
-        );
-        stopRead.current = () => finish(new Error("Import abgebrochen."));
-        instance.onmessage = (event) =>
-          finish(
-            event.data.error ? new Error(event.data.error) : undefined,
-            event.data.document,
-          );
-        instance.onerror = () =>
-          finish(
-            new Error("Die Importprüfung konnte nicht ausgeführt werden."),
-          );
-        instance.postMessage(bytes, [bytes]);
-      });
-      for (const card of doc.content.cards) {
-        if (id !== operation.current) return;
-        if (card.image) await verifyImageDecode(card.image);
-      }
-      if (id !== operation.current) return;
+      setAuthorImport(false);
       setActive(doc);
       setGeneration((v) => v + 1);
       cancel();
@@ -168,8 +129,9 @@ export function UniversalApp({
         <AuthorEditor
           key={generation}
           initial={active}
+          initialImport={authorImport}
           onFile={offerDocument}
-          onImport={openImport}
+          onDownload={setFile}
           onHome={home}
         />
       ) : active ? (
@@ -181,11 +143,11 @@ export function UniversalApp({
             packDocument(studentDocument(active.content, work))
           }
           onImport={openImport}
-          onHome={() => setActive(null)}
+          onHome={classroom ? undefined : () => setActive(null)}
           onProjectSave={(work) =>
             offerDocument(studentDocument(active.content, work))
           }
-          onAuthor={() => openAuthor()}
+          onAuthor={classroom ? undefined : () => openAuthor()}
         />
       ) : builtIn ? (
         <App key={generation} mystery={builtIn} onAuthor={() => openAuthor()} />
@@ -310,6 +272,7 @@ export function UniversalApp({
                       initials,
                     );
                 if (id !== operation.current) return;
+                setAuthorImport(false);
                 setActive(draft);
                 setGeneration((v) => v + 1);
                 setAuthorOpen(false);
@@ -338,8 +301,16 @@ export function UniversalApp({
             <button
               className="full"
               onClick={() => {
-                setAuthorOpen(false);
-                openImport();
+                try {
+                  const draft = newDraft(initials);
+                  setAuthorImport(true);
+                  setActive(draft);
+                  setGeneration((v) => v + 1);
+                  setAuthorOpen(false);
+                  setError("");
+                } catch (error) {
+                  setError((error as Error).message);
+                }
               }}
             >
               Vorhandenes Mystery öffnen

@@ -65,11 +65,13 @@ async function cropImage(src: string, crop: Crop) {
 }
 export function DocumentImport({
   draft,
+  initialFile,
   dirty,
   onApply,
   onCancel,
 }: {
   draft: Draft;
+  initialFile?: File;
   dirty: boolean;
   onApply: (next: Draft, count: number) => void;
   onCancel: () => void;
@@ -241,6 +243,9 @@ export function DocumentImport({
       setError((e as Error).message);
     }
   }
+  useEffect(() => {
+    if (initialFile) void openFile(initialFile);
+  }, []);
   function update(patch: Partial<Card>) {
     setCards(cards.map((c, i) => (i === index ? { ...c, ...patch } : c)));
     setReviewed(false);

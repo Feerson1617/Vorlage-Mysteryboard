@@ -38,6 +38,13 @@ export async function getFile(
   name: string,
   link = "Datei herunterladen",
 ) {
+  if (
+    link === "Datei herunterladen" &&
+    (await page
+      .getByRole("dialog", { name: "Mystery bereitstellen", exact: true })
+      .isVisible())
+  )
+    await button(page, "Schülerversion als Datei").click();
   const pending = rootPage(page).waitForEvent("download");
   await page.getByRole("link", { name: link, exact: true }).click();
   const d = await pending,

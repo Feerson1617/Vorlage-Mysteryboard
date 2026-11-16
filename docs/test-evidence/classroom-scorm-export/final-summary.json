@@ -1,0 +1,38 @@
+{
+  "baseCommit": "38ba0a77ac1f2b8d667f5185724ee4933d159d1a",
+  "branch": "feat/mysteryboard-classroom-scorm-export",
+  "fullCheckExitCode": 0,
+  "dataTests": {
+    "passed": 134,
+    "failed": 0,
+    "baseline": 130,
+    "added": 4
+  },
+  "chromiumBrowserTests": {
+    "passed": 210,
+    "failed": 0,
+    "skipped": 0,
+    "baseline": 201,
+    "added": 9,
+    "duration": "18.1 minutes"
+  },
+  "frozenRc2Tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "independentPngSnapshots": 8,
+  "viewports": [
+    "1024x768",
+    "768x1024",
+    "600x800",
+    "320x700"
+  ],
+  "engines": {
+    "chromium": "156.0.8078.79",
+    "webkit26.5": "not installed",
+    "webkit27.2": "launch blocked by missing host libraries"
+  },
+  "realSafariItslearningSchoolIpadTests": "open",
+  "mainMerged": false,
+  "publicReleaseOrPagesPublished": false
+}

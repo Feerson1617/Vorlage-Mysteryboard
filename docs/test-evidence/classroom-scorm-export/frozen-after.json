@@ -1,0 +1,20 @@
+[
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+    "bytes": 158755,
+    "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "unchangedFromBase": true
+  }
+]

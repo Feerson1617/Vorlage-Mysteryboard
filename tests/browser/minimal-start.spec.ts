@@ -66,13 +66,11 @@ async function chooseFile(ui: UI, buffer: Buffer, name: string) {
   await expect(
     ui.getByRole("dialog", { name: "Datei öffnen", exact: true }),
   ).toBeVisible();
-  await ui
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles({
-      name,
-      mimeType: name.endsWith(".png") ? "image/png" : "application/json",
-      buffer,
-    });
+  await ui.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
+    name,
+    mimeType: name.endsWith(".png") ? "image/png" : "application/json",
+    buffer,
+  });
 }
 for (const viewport of views)
   for (const mode of ["html", "scorm"] as const) {
@@ -182,13 +180,14 @@ for (const viewport of views)
       page.once("dialog", (d) => d.accept());
       await button(ui, "Startseite").tap();
       await welcome(ui, viewport.width, viewport.height);
-      // Teacher navigation opens the same existing importer for an existing task.
+      // Teacher navigation now uses the same editor importer directly.
       await button(ui, "Lehrkräfteeditor").tap();
+      await ui.getByLabel("Lehrkraftkürzel", { exact: true }).fill("TEST2");
       await button(ui, "Vorhandenes Mystery öffnen").tap();
       await chooseFile(ui, exported.bytes, "eigene-aufgabe.mysteryboard");
-      await button(ui, "Lehrkräftemodus – Mystery bearbeiten").tap();
-      await ui.getByLabel("Lehrkraftkürzel", { exact: true }).fill("TEST2");
-      await button(ui, "Lehrkräftemodus öffnen").tap();
+      await expect(
+        ui.getByLabel("Teamname oder Vornamen", { exact: true }),
+      ).toHaveCount(0);
       await expect(ui.getByLabel("Mystery-Titel", { exact: true })).toHaveValue(
         "Startseite – eigene Aufgabe",
       );

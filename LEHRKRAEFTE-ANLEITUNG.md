@@ -29,30 +29,31 @@ Vorhandene Word-Dateien (.docx) und PDFs mit Textebene können Sie über **Dokum
 
 ## Entwurf wieder öffnen und Aufgaben nachträglich ändern
 
-Auf dem Startbildschirm wählen Sie **Lehrkräfteeditor → Vorhandenes Mystery öffnen → Mystery-Datei auswählen**. Die Anwendung erkennt den Dateityp:
+Auf dem Startbildschirm wählen Sie **Lehrkräfteeditor → Kürzel eingeben → Vorhandenes Mystery öffnen → Mystery-Datei auswählen**. Die Anwendung erkennt den Dateityp:
 
 | Dateiinhalt | Verhalten |
 | --- | --- |
 | Lehrkraft-Entwurf | Öffnet den Editor mit Kürzel, Karten, Medien und unveröffentlichten Karten. |
-| Veröffentlichte Aufgabe | Zeigt Titel und fordert einen eigenen Teamnamen an. |
-| Schülerarbeitsstand | Stellt die ursprünglichen Inhalte und die gesamte gespeicherte Arbeit wieder her. |
+| Veröffentlichte Aufgabe | Öffnet unmittelbar als bearbeitbarer Lehrkraftentwurf; Inhalt und Version bleiben beim Öffnen erhalten. |
+| Schülerarbeitsstand | Auf der Startseite über **Arbeit fortsetzen** öffnen. |
 
-Auch eine veröffentlichte Aufgabe, ein KI-erzeugtes Mystery oder eine mit dem neuen Build-Weg erstellte Einzel-HTML/SCORM-Ausgabe hat den Einstieg **Lehrkräftemodus – Mystery bearbeiten**. Er steht auf der Aufgabenseite und im Arbeitsmenü bereit. Sichern Sie vorher eine eventuell vorhandene Schülerarbeit. Der Editor übernimmt die Inhalte; Pfeile, Farben und Schülerpositionen werden nicht zur neuen Aufgabe.
+Im Editor können Sie eine einzelne `.mysteryboard`-, Word- oder PDF-Datei auch auf den gekennzeichneten Dateibereich ziehen oder **Unterrichtsmaterial auswählen** verwenden. Aufgaben werden unmittelbar bearbeitbar, Word/PDF öffnen den vorhandenen Importassistenten. Ungesicherte Änderungen werden erst nach ausdrücklicher Bestätigung ersetzt. Abgebrochene oder fehlerhafte Imports lassen den Entwurf erhalten.
+
+In der universellen Anwendung und in den weiterhin bearbeitbaren CLI-Aufgabenbuilds steht zusätzlich **Lehrkräftemodus – Mystery bearbeiten** auf der Aufgabenseite und im Arbeitsmenü bereit. Die neuen Unterrichts-SCORM-Exporte blenden diesen Einstieg aus; das ist kein Zugangsschutz. Schülerpositionen und -beziehungen werden nicht zur neuen Aufgabe.
 
 Bei einer übernommenen Inhaltsänderung erhöht die Anwendung die letzte Versionszahl, beispielsweise `1.0.0 → 1.0.1`. Bei direkt eingegebenen Titeländerungen können mehrere Zwischenrevisionen entstehen. Die Mystery-ID bleibt erhalten. Eine bereits verteilte Datei wird dadurch nicht überschrieben. Ältere Schüler-PNGs bringen weiterhin ihre eigene ursprüngliche Inhaltsfassung mit; sie werden nicht mit den neuen Karten kombiniert.
 
 **Lehrkräftemodus ist eine Bedienfunktion, keine Berechtigungskontrolle.** Es gibt keine Anmeldung und keinen geheimen Lehrer-PIN. Wer eine Datei besitzt, kann eine lokale Kopie bearbeiten. Dadurch werden weder die offizielle Datei im Kurs noch andere Nutzerdateien geändert.
 
-## Aufgabe verteilen: SCORM einmal, Mystery-Dateien nach Bedarf
+## Aufgabe verteilen
 
-1. Installieren Sie nach dem Praxistest `MysteryBoard-Universal-SCORM-1.2.zip` einmal als SCORM-1.2-Lernressource in itslearning. Die ZIP enthält das Manifest unmittelbar auf oberster Ebene. Nicht zuerst entpacken und mit einem zusätzlichen Oberordner neu verpacken.
-2. Erstellen oder importieren Sie Ihr Mystery im Editor.
-3. Wählen Sie **Schülerversion erstellen**.
-4. Laden Sie die erzeugte `.mysteryboard`-Datei bewusst herunter und stellen Sie sie **separat** als Kursdatei bereit. Alternativ öffnet **Aufgabe als PNG** die Erzeugung einer vollständigen Original-PNG.
-5. Die Lernenden laden die Aufgabe auf ihr Gerät und öffnen in derselben universellen Anwendung **Aufgabe öffnen** beziehungsweise **Menü → Fortsetzen → Mystery-Datei auswählen**.
-6. Nach vollständiger Prüfung erscheint die Aufgabe. Jede Gruppe gibt ihren eigenen Teamnamen oder Vornamen ein. Eine neutrale Gruppenbezeichnung genügt.
+1. Erstellen oder importieren Sie Ihr Mystery im Editor und sichern Sie den Entwurf.
+2. Wählen Sie **Schülerversion erstellen**. Der Veröffentlichungsdialog bietet **Schülerversion als Datei** und **Für itslearning als SCORM herunterladen**. Zusätzlich bleibt die Aufgaben-PNG verfügbar.
+3. Für einen direkten Start im Kurs empfehlen wir **SCORM**. Laden Sie das vollständige ZIP im folgenden Dateidialog herunter und importieren Sie es **unentpackt als SCORM 1.2** in itslearning. Das Paket enthält Player und Aufgabe. Die Lernenden geben nur ihren Teamnamen ein und beginnen.
+4. Alternativ verteilen Sie die **.mysteryboard-Datei** separat. Die Klasse öffnet sie über **Aufgabe öffnen** in der Universal-HTML oder der universellen Blanko-SCORM-Ressource.
+5. Das örtliche Bearbeiten und Herunterladen ersetzt keine installierte LMS-Ressource. Für eine neue Inhaltsfassung erzeugen Sie ein neues Paket und ersetzen beziehungsweise importieren es ausdrücklich im Kurs.
 
-Das Bearbeiten im itslearning-Player verändert das dort installierte SCORM-Paket nicht. Die Verteilung der neuen Inhaltsdatei bleibt ein bewusster separater Vorgang. Die Anwendung führt keine Kursverwaltung und keinen automatischen Upload aus. Der genaue itslearning-Dateidialog und die Schulrechte müssen im realen Kurs erprobt werden.
+Die genaue Importmaske und die Schulrechte müssen im realen Kurs erprobt werden. [Schrittfolge, Grenzen und Datenschutz](docs/UNTERRICHTS-SCORM-ANLEITUNG.md).
 
 ## Schülerarbeit, Hilfe und Sicherung
 

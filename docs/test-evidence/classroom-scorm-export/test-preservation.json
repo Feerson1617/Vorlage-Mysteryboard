@@ -1,0 +1,26 @@
+[
+  {
+    "file": "tests/browser/authoring-helpers.ts",
+    "oldTests": 0,
+    "newTests": 0,
+    "oldExpect": 2,
+    "newExpect": 2,
+    "newSkip": false
+  },
+  {
+    "file": "tests/browser/authoring-safety.spec.ts",
+    "oldTests": 6,
+    "newTests": 6,
+    "oldExpect": 39,
+    "newExpect": 44,
+    "newSkip": false
+  },
+  {
+    "file": "tests/browser/minimal-start.spec.ts",
+    "oldTests": 1,
+    "newTests": 1,
+    "oldExpect": 32,
+    "newExpect": 33,
+    "newSkip": false
+  }
+]

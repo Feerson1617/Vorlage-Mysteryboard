@@ -200,6 +200,13 @@ async function load(a, bytes, name = "datei.mysteryboard", menu = false) {
   });
 }
 async function download(a, name, link = "Datei herunterladen") {
+  if (
+    link === "Datei herunterladen" &&
+    (await a.ui
+      .getByRole("dialog", { name: "Mystery bereitstellen", exact: true })
+      .isVisible())
+  )
+    await btn(a.ui, "Schülerversion als Datei").tap();
   const pending = a.page.waitForEvent("download");
   await a.ui.getByRole("link", { name: link, exact: true }).tap();
   const file = await pending;

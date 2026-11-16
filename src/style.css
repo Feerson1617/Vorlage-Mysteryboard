@@ -874,6 +874,12 @@ dialog:has(.student-help-preview) .dialog-body {
 
 .author-document-import {
   margin: 16px 0;
+  padding: 12px;
+  border: 1px dashed #708477;
+  border-radius: 6px;
+}
+.author-document-import > p:first-child {
+  margin-top: 0;
 }
 .document-import .actions {
   margin: 16px 0;

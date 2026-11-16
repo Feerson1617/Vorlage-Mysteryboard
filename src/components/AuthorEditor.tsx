@@ -1,7 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Content, Draft, MysteryDocument } from "../core/documents";
 import { canonical, packDocument, validateDocument } from "../core/documents";
-import { publishDraft, retainCards, reviseDraft } from "../core/authoring";
+import {
+  draftFromContent,
+  publishDraft,
+  retainCards,
+  reviseDraft,
+} from "../core/authoring";
 import { imageFromFile } from "../core/media";
 import { initialBoardWork } from "../core/layout";
 import { cardNumber, withTeam, type Work } from "../core/model";
@@ -13,17 +18,21 @@ import { MediaView } from "./MediaView";
 import { TableEditor } from "./TableEditor";
 import { HelpEditor } from "./HelpEditor";
 import { DocumentImport } from "./DocumentImport";
+import { readDocumentFile } from "../core/document-file";
+import { classroomScorm } from "../core/classroom-scorm";
 
 type Card = Content["cards"][number];
 export function AuthorEditor({
   initial,
+  initialImport = false,
   onFile,
-  onImport,
+  onDownload,
   onHome,
 }: {
   initial: Draft;
+  initialImport?: boolean;
   onFile: (doc: MysteryDocument) => void;
-  onImport: () => void;
+  onDownload: (file: File) => void;
   onHome: () => void;
 }) {
   const [draft, setDraft] = useState(initial),
@@ -41,6 +50,13 @@ export function AuthorEditor({
     [png, setPng] = useState<{ url: string; name: string } | null>(null);
   const [helpEditing, setHelpEditing] = useState(false);
   const [documentImport, setDocumentImport] = useState(false);
+  const [importFile, setImportFile] = useState<File | undefined>();
+  const [fileDialog, setFileDialog] = useState(initialImport),
+    [fileBusy, setFileBusy] = useState(false),
+    [fileError, setFileError] = useState("");
+  const fileInput = useRef<HTMLInputElement>(null),
+    importController = useRef<AbortController | null>(null),
+    exportController = useRef<AbortController | null>(null);
   const [importNotice, setImportNotice] = useState("");
   const [helpNotice, setHelpNotice] = useState(false);
   const helpButton = useRef<HTMLButtonElement>(null);
@@ -77,6 +93,8 @@ export function AuthorEditor({
   useEffect(
     () => () => {
       operation.current++;
+      importController.current?.abort();
+      exportController.current?.abort();
     },
     [],
   );
@@ -180,11 +198,123 @@ export function AuthorEditor({
   };
   const preparePublication = () => {
     try {
-      const task = publishDraft(draft);
+      publishDraft(draft);
       setError("");
-      onFile(task);
+      setPublication(true);
     } catch (e) {
       setError((e as Error).message);
+    }
+  };
+  const cancelFile = () => {
+    importController.current?.abort();
+    setFileBusy(false);
+    setFileDialog(false);
+    setFileError("");
+  };
+  const openMaterial = async (files: File[]) => {
+    if (files.length !== 1) {
+      setFileError(
+        "Bitte genau eine Datei öffnen. Mehrere Dateien werden nicht zusammengeführt.",
+      );
+      return;
+    }
+    const file = files[0];
+    if (!/\.(mysteryboard|png|docx|pdf)$/i.test(file.name)) {
+      setFileError(
+        "Bitte eine .mysteryboard-, Original-PNG-, .docx- oder .pdf-Datei auswählen.",
+      );
+      return;
+    }
+    if (
+      fileBusy ||
+      card ||
+      helpEditing ||
+      documentImport ||
+      publication ||
+      print
+    ) {
+      setFileError(
+        "Bitte zuerst den geöffneten Bearbeitungsschritt abschließen oder abbrechen.",
+      );
+      return;
+    }
+    setFileError("");
+    if (/\.(docx|pdf)$/i.test(file.name)) {
+      setFileDialog(false);
+      setImportFile(file);
+      setDocumentImport(true);
+      return;
+    }
+    const controller = new AbortController();
+    importController.current?.abort();
+    importController.current = controller;
+    setFileBusy(true);
+    try {
+      const document = await readDocumentFile(file, controller.signal);
+      if (document.kind === "student")
+        throw new Error(
+          "Schülerarbeitsstände bitte über „Arbeit fortsetzen“ auf der Startseite öffnen. Für den Editor eine Aufgabe oder einen Lehrkraftentwurf verwenden.",
+        );
+      const next =
+        document.kind === "draft"
+          ? document
+          : draftFromContent(document.content, draft.author.initials);
+      if (
+        dirty &&
+        !confirm(
+          "Geöffneten Entwurf ersetzen? Nicht abgelegte Änderungen gehen verloren. Bitte vorher „Entwurf sichern“ herunterladen.",
+        )
+      )
+        return;
+      controller.signal.throwIfAborted();
+      setDraft(next);
+      setDirty(false);
+      setPreviewOverride(null);
+      setPng(null);
+      setHelpNotice(false);
+      setError("");
+      setImportNotice("Datei geprüft und als bearbeitbarer Entwurf geöffnet.");
+      setFileDialog(false);
+    } catch (error) {
+      if (!controller.signal.aborted) setFileError((error as Error).message);
+    } finally {
+      if (!controller.signal.aborted) setFileBusy(false);
+    }
+  };
+  const materialInput = (
+    <input
+      hidden
+      ref={fileInput}
+      type="file"
+      accept=".mysteryboard,.png,.docx,.pdf"
+      aria-label="Mystery-Datei"
+      disabled={fileBusy}
+      onChange={(e) => {
+        const files = [...(e.target.files ?? [])];
+        e.target.value = "";
+        if (files.length) void openMaterial(files);
+      }}
+    />
+  );
+  const exportScorm = async () => {
+    const controller = new AbortController();
+    exportController.current?.abort();
+    exportController.current = controller;
+    setBusy(true);
+    setError("");
+    try {
+      const file = await classroomScorm(publishDraft(draft), controller.signal);
+      if (!controller.signal.aborted) {
+        setPublication(false);
+        onDownload(file);
+      }
+    } catch (error) {
+      if (!controller.signal.aborted)
+        setError(
+          `SCORM konnte nicht erstellt werden. ${(error as Error).message} Der Entwurf bleibt erhalten.`,
+        );
+    } finally {
+      if (!controller.signal.aborted) setBusy(false);
     }
   };
   const taskPng = async () => {
@@ -215,22 +345,42 @@ export function AuthorEditor({
     }
   };
   return (
-    <main className="author-editor">
+    <main
+      className="author-editor"
+      onDragOver={(e) => {
+        if ([...e.dataTransfer.types].includes("Files")) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
+        }
+      }}
+      onDrop={(e) => {
+        if ([...e.dataTransfer.types].includes("Files")) {
+          e.preventDefault();
+          void openMaterial([...e.dataTransfer.files]);
+        }
+      }}
+    >
       <header className="author-toolbar">
         <strong>MysteryBoard · Lehrkräftemodus</strong>
         <span>Kürzel: {draft.author.initials}</span>
         <button
           className="primary"
-          disabled={helpEditing || documentImport}
+          disabled={helpEditing || documentImport || fileBusy}
           onClick={() => onFile(validateDocument(draft))}
         >
           Entwurf sichern
         </button>
-        <button disabled={helpEditing || documentImport} onClick={onImport}>
+        <button
+          disabled={helpEditing || documentImport || fileBusy}
+          onClick={() => {
+            setFileError("");
+            setFileDialog(true);
+          }}
+        >
           Entwurf öffnen
         </button>
         <button
-          disabled={helpEditing || documentImport}
+          disabled={helpEditing || documentImport || fileBusy}
           onClick={() => {
             if (
               !dirty ||
@@ -271,12 +421,17 @@ export function AuthorEditor({
       ) : documentImport ? (
         <DocumentImport
           draft={draft}
+          initialFile={importFile}
           dirty={dirty}
-          onCancel={() => setDocumentImport(false)}
+          onCancel={() => {
+            setDocumentImport(false);
+            setImportFile(undefined);
+          }}
           onApply={(next, count) => {
             setDraft(next);
             setDirty(true);
             setDocumentImport(false);
+            setImportFile(undefined);
             setError("");
             setImportNotice(
               `${count} Karten übernommen. Die Änderungen liegen nur im geöffneten Entwurf. Bitte „Entwurf sichern“ herunterladen; anschließend „Schülerversion erstellen“ für die Klasse verwenden.`,
@@ -289,12 +444,35 @@ export function AuthorEditor({
             className="author-document-import"
             aria-label="Unterrichtsmaterial übernehmen"
           >
-            <button onClick={() => setDocumentImport(true)}>
+            <p>
+              Datei hier ablegen oder auswählen: .mysteryboard, Word (.docx),
+              PDF.
+            </p>
+            <button
+              disabled={fileBusy}
+              onClick={() => fileInput.current?.click()}
+            >
+              Unterrichtsmaterial auswählen
+            </button>
+            {!fileDialog && materialInput}
+            <button
+              disabled={fileBusy}
+              onClick={() => {
+                setImportFile(undefined);
+                setDocumentImport(true);
+              }}
+            >
               Dokument importieren
             </button>
-            <p className="small">
-              Karten aus einer Word- oder PDF-Datei übernehmen.
-            </p>
+            {fileBusy && (
+              <>
+                <p role="status">
+                  Datei und eingebettete Bilder werden geprüft …
+                </p>
+                <button onClick={cancelFile}>Import abbrechen</button>
+              </>
+            )}
+            {!fileDialog && fileError && <p role="alert">{fileError}</p>}
             {importNotice && <p role="status">{importNotice}</p>}
           </section>
           <div className="author-fields">
@@ -625,6 +803,7 @@ export function AuthorEditor({
           title="Mystery bereitstellen"
           onClose={() => {
             operation.current++;
+            exportController.current?.abort();
             setBusy(false);
             setPublication(false);
             setPng(null);
@@ -637,11 +816,15 @@ export function AuthorEditor({
             aufgenommen.
           </p>
           <p>
-            Stellt diese Datei separat im Kurs bereit. Das installierte
-            SCORM-Paket wird dadurch nicht verändert.
+            Die Schülerversion als Datei wird mit „Aufgabe öffnen“ geladen. Für
+            den direkten Aufgabenstart im itslearning-Kurs empfehlen wir SCORM.
+            Ladet das ZIP herunter und importiert es anschließend manuell als
+            SCORM-Ressource in itslearning. Eine bereits installierte Ressource
+            wird dadurch nicht automatisch verändert.
           </p>
           <button
-            className="primary full"
+            className="full"
+            disabled={busy}
             onClick={() => {
               try {
                 const task = publishDraft(draft);
@@ -655,13 +838,20 @@ export function AuthorEditor({
             Schülerversion als Datei
           </button>
           <button
+            className="primary full"
+            disabled={busy}
+            onClick={() => void exportScorm()}
+          >
+            Für itslearning als SCORM herunterladen
+          </button>
+          <button
             className="full"
             disabled={busy}
             onClick={() => void taskPng()}
           >
             Aufgabe als Original-PNG erzeugen
           </button>
-          {busy && <p role="status">Aufgabenbild wird vorbereitet …</p>}
+          {busy && <p role="status">Datei wird lokal vorbereitet …</p>}
           {png && (
             <a
               className="button primary full"
@@ -672,6 +862,29 @@ export function AuthorEditor({
             </a>
           )}
           {error && <p role="alert">{error}</p>}
+        </Dialog>
+      )}
+      {fileDialog && (
+        <Dialog title="Datei öffnen" onClose={cancelFile}>
+          <p>
+            Eine .mysteryboard-Datei öffnet direkt als Entwurf. Word und PDF
+            öffnen den bestehenden Importassistenten.
+          </p>
+          {materialInput}
+          <button
+            className="primary full"
+            disabled={fileBusy}
+            onClick={() => fileInput.current?.click()}
+          >
+            Mystery-Datei auswählen
+          </button>
+          {fileBusy && (
+            <p role="status">Datei und eingebettete Bilder werden geprüft …</p>
+          )}
+          {fileError && <p role="alert">{fileError}</p>}
+          <button className="full" onClick={cancelFile}>
+            Abbrechen
+          </button>
         </Dialog>
       )}
       {print && content.cards.length > 0 && (

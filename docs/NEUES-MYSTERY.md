@@ -4,9 +4,9 @@ Neue Aufgaben benötigen keine erneute Programmierung. Der bevorzugte Weg ist ei
 
 ## Ohne Programmierung
 
-**Eigenes Mystery erstellen** öffnen, Lehrkraftkürzel eingeben, Titel und Karten bearbeiten. Karten wählen ihre Pflicht-/Vertiefungsgruppe ausdrücklich; Nummern werden automatisch vergeben. Bilder, Quellen, Alternativtexte und strukturierte Tabellen bleiben bearbeitbar. **Entwurf sichern** für die eigene Weiterarbeit, **Schülerversion erstellen** für den Kurs. Vollständige Anleitung: [LEHRKRAEFTE-ANLEITUNG](../LEHRKRAEFTE-ANLEITUNG.md).
+**Lehrkräfteeditor** öffnen, Lehrkraftkürzel eingeben, Titel und Karten bearbeiten. Karten wählen ihre Pflicht-/Vertiefungsgruppe ausdrücklich; Nummern werden automatisch vergeben. Bilder, Quellen, Alternativtexte und strukturierte Tabellen bleiben bearbeitbar. **Entwurf sichern** für die eigene Weiterarbeit, **Schülerversion erstellen** für den Kurs. Vollständige Anleitung: [LEHRKRAEFTE-ANLEITUNG](../LEHRKRAEFTE-ANLEITUNG.md).
 
-Eine bereits veröffentlichte Datei erneut öffnen und **Lehrkräftemodus – Mystery bearbeiten** wählen. Änderungen erhalten eine neue Inhaltsrevision; ältere Schüler-PNGs behalten ihren eigenen Inhalt. Das installierte SCORM wird nicht automatisch geändert.
+Eine bereits veröffentlichte Datei im Lehrkräfteeditor über Drag-and-Drop oder die Dateiauswahl direkt als Entwurf öffnen. Änderungen erhalten eine neue Inhaltsrevision; ältere Schüler-PNGs behalten ihren eigenen Inhalt. Das installierte SCORM wird nicht automatisch geändert. Im Veröffentlichungsdialog kann die Aufgabe jetzt auch lokal als eigenständiges Unterrichts-SCORM erzeugt werden; siehe [Bereitstellung für itslearning](UNTERRICHTS-SCORM-ANLEITUNG.md).
 
 ## Mit einer KI oder JSON-Datei
 

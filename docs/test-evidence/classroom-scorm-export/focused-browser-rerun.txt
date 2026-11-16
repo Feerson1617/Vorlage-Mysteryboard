@@ -1,0 +1,82 @@
+[WebServer] (node:40943) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:40956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:40:55] "GET / HTTP/1.1" 200 -
+
+Running 7 tests using 1 worker
+
+(node:40984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:40:57] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:01] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:01] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:01] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:02] code 404, message File not found
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:02] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:04] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:04] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:04] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:09] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:09] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:09] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-learner-2/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:11] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:11] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:11] "GET /test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/fresh-restore-2/app.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/classroom-scorm-export.spec.ts:228:3 › Browser-SCORM 1024x768: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (16.9s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:14] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:17] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:17] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:17] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:19] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:20] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:20] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:24] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:24] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:24] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-learner-2/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:27] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:27] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-2/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:27] "GET /test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/fresh-restore-2/session.js HTTP/1.1" 200 -
+  ✓  2 tests/browser/classroom-scorm-export.spec.ts:228:3 › Browser-SCORM 768x1024: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (15.4s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:29] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:32] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:32] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:32] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:35] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:35] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:35] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:40] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:40] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-2/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:40] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-learner-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:42] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:42] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:42] "GET /test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/fresh-restore-2/app.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/classroom-scorm-export.spec.ts:228:3 › Browser-SCORM 600x800: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (15.0s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:44] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:47] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:47] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:47] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:50] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:50] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:50] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:54] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:54] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:54] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-2/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:57] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-2/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:57] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-2/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:41:57] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-2/app.html HTTP/1.1" 200 -
+  ✓  4 tests/browser/classroom-scorm-export.spec.ts:228:3 › Browser-SCORM 320x700: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (15.4s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:42:00] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+
+  ✓  5 tests/browser/classroom-scorm-export.spec.ts:385:1 › Editor-Dateiimport: defekt, zu groß, Bilddecoder, Mehrfachdrop, Abbruch und bestätigter Entwurfswechsel (14.7s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:42:14] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  6 tests/browser/classroom-scorm-export.spec.ts:479:3 › Einheitlicher docx-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf (2.5s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:42:17] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  7 tests/browser/classroom-scorm-export.spec.ts:479:3 › Einheitlicher pdf-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf (1.9s)
+
+  7 passed (1.4m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

@@ -20,15 +20,15 @@ Unter **Hilfen bearbeiten** können Sie einen Denkimpuls und freiwillige farbige
 
 Lassen Sie einer KI den vollständigen Projektordner, Ihr Ausgangsmaterial und **KI-PROMPT-ZUM-KOPIEREN.md** zukommen. Die KI soll eine fertige Aufgaben-Datei und einen bearbeitbaren Entwurf liefern. Unlesbare Stellen muss sie benennen, statt Informationen zu erfinden. Vergleichen Sie Texte, Zahlen, Quellen und Bilder anschließend selbst mit dem Original.
 
-Öffnen Sie die erhaltene Datei über **Lehrkräfteeditor → Vorhandenes Mystery öffnen**. Ein Entwurf öffnet direkt den Editor. Bei einer Aufgaben-Datei wählen Sie **Lehrkräftemodus – Mystery bearbeiten** und geben Ihr Kürzel ein. Auch veröffentlichte Aufgaben bleiben auf diesem Weg bearbeitbar. Eine fremde KI wurde mit der mitgelieferten Papierprobe bislang nicht tatsächlich erprobt; die Probe enthält Vergleichsmaterial und Prüfanleitung.
+Öffnen Sie die erhaltene Datei über **Lehrkräfteeditor → Kürzel eingeben → Vorhandenes Mystery öffnen**. Entwürfe und Aufgaben werden unmittelbar bearbeitbar. Im Editor können Sie eine einzelne Datei auch auf den Dateibereich ziehen oder über **Unterrichtsmaterial auswählen** öffnen. Eine fremde KI wurde mit der mitgelieferten Papierprobe bislang nicht tatsächlich erprobt; die Probe enthält Vergleichsmaterial und Prüfanleitung.
 
 ## 4. Die Klasse versorgen
 
-Wählen Sie im Editor **Schülerversion erstellen** und laden Sie die Datei mit der Endung **.mysteryboard** herunter. Geben Sie Ihrer Klasse diese Aufgaben-Datei. Ihren Lehrkraftentwurf behalten Sie.
+Wählen Sie im Editor **Schülerversion erstellen**. Für den direkten itslearning-Kursstart empfehlen wir **Für itslearning als SCORM herunterladen**. Laden Sie das ZIP im folgenden Dateidialog herunter und importieren Sie es unentpackt als SCORM-1.2-Ressource in Ihren Kurs. Die Lernenden erhalten die Aufgabe unmittelbar, geben einen Teamnamen ein und beginnen. Das Herunterladen ersetzt keine bereits installierte Kursressource.
 
-Zusätzlich braucht die Klasse Zugang zur universellen Anwendung: entweder zur HTML-Datei oder zu deren Lernplattform-Version. Die Aufgaben-Datei allein ist kein Programm.
+Alternativ wählen Sie **Schülerversion als Datei** und verteilen die `.mysteryboard`-Aufgabe zusammen mit dem Zugang zur universellen Anwendung. Die Aufgaben-Datei allein ist kein Programm. Die universelle Blanko-SCORM-ZIP bleibt für diesen Weg erhalten.
 
-Für **itslearning** wird **MysteryBoard-Universal-SCORM-1.2.zip** einmal als SCORM-1.2-Lernpaket in der vorgesehenen Kursressource importiert. Wenden Sie sich bei fehlenden Rechten an Ihre Schuladministration. Das Paket wird vollständig und unverändert hochgeladen. Die genaue Importmaske hängt von Ihrer itslearning-Einrichtung ab. Weitere Mysterys werden als Aufgaben-Dateien verteilt; dafür muss das Programm nicht jedes Mal neu erstellt werden. Der tatsächliche itslearning-/Schul-iPad-Test bleibt erforderlich.
+Die genaue itslearning-Importmaske und benötigte Rechte hängen von Ihrer Einrichtung ab. Der tatsächliche itslearning-/Schul-iPad-Test bleibt erforderlich. [Vollständige Bereitstellungsanleitung](docs/UNTERRICHTS-SCORM-ANLEITUNG.md).
 
 ## 5. Ergebnisse sichern und weiterarbeiten
 

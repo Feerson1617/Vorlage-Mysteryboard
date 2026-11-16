@@ -4,13 +4,12 @@ import { createHash } from "node:crypto";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { zipSync, unzipSync, strToU8 } from "fflate";
+import { unzipSync } from "fflate";
+import { scormEntries, zipScorm } from "../src/core/scorm-package.ts";
 
 export const RC2_MANIFEST_ID = "MysteryBoard-Boden-Klasse11-2026-11-13-RC2";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const sha = (b) => createHash("sha256").update(b).digest("hex");
-const xml = (s) =>
-  s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll('"', "&quot;");
 
 export async function packageScorm(
   input,
@@ -31,46 +30,14 @@ export async function packageScorm(
     /<html[\s>]/i.test(app.toString()) && /<\/html>/i.test(app.toString()),
     "Complete HTML required",
   );
-  const manifest = `<?xml version="1.0" encoding="UTF-8"?>
-<manifest identifier="${xml(identifier)}" version="1.0"
- xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
- xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2">
-  <metadata><schema>ADL SCORM</schema><schemaversion>1.2</schemaversion></metadata>
-  <organizations default="ORG">
-    <organization identifier="ORG">
-      <title>${xml(title)}</title>
-      <item identifier="ITEM" identifierref="SCO" isvisible="true">
-        <title>${xml(title)}</title>
-      </item>
-    </organization>
-  </organizations>
-  <resources>
-    <resource identifier="SCO" type="webcontent" adlcp:scormtype="sco" href="launch.html">
-      <file href="launch.html"/><file href="session.js"/><file href="app.html"/>
-    </resource>
-  </resources>
-</manifest>
-`;
-  const entries = {
-    "imsmanifest.xml": strToU8(manifest),
-    "launch.html": new Uint8Array(
-      await readFile(join(root, "scorm/launch.html")),
-    ),
-    "session.js": new Uint8Array(
-      await readFile(join(root, "scorm/session.js")),
-    ),
-    "app.html": new Uint8Array(app),
-  };
-  // Fixed timestamps make the same inputs produce an identical release ZIP.
-  const archive = zipSync(
-    Object.fromEntries(
-      Object.entries(entries).map(([name, bytes]) => [
-        name,
-        [bytes, { mtime: new Date(2026, 10, 13, 0, 0, 0) }],
-      ]),
-    ),
-    { level: 9 },
+  const entries = scormEntries(
+    new Uint8Array(app),
+    await readFile(join(root, "scorm/launch.html"), "utf8"),
+    await readFile(join(root, "scorm/session.js"), "utf8"),
+    identifier,
+    title,
   );
+  const archive = zipScorm(entries);
   const unpacked = unzipSync(archive);
   assert.deepEqual(Object.keys(unpacked).sort(), Object.keys(entries).sort());
   for (const [name, bytes] of Object.entries(entries))

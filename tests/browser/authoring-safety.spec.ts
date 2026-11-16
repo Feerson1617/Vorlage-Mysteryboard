@@ -240,11 +240,20 @@ test("Fehlerhafte und abgebrochene Imports verändern einen geöffneten Entwurf 
     if (/^https?:/.test(r.url())) requests.push(r.url());
   });
   await button(page, "Entwurf öffnen").tap();
+  page.once("dialog", async (d) => {
+    expect(d.message()).toContain("Entwurf ersetzen");
+    await d.accept();
+  });
   await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
     name: "texte.mysteryboard",
     mimeType: "application/json",
     buffer: Buffer.from(encodeDocument(task)),
   });
+  await expect(page.getByLabel("Mystery-Titel", { exact: true })).toHaveValue(
+    task.content.title,
+  );
+  await button(page, "Startseite").tap();
+  await importMystery(page, Buffer.from(encodeDocument(task)));
   await page
     .getByLabel("Teamname oder Vornamen", { exact: true })
     .fill("Sicher");
@@ -350,11 +359,28 @@ test("Original-Aufgaben-PNG und gedrehtes JPEG sind vollständig; Legacy-PNG wir
   expect("work" in saved.document).toBe(false);
   await button(page, "Schließen").tap();
   await button(page, "Entwurf öffnen").tap();
+  page.once("dialog", async (d) => {
+    expect(d.message()).toContain("Entwurf ersetzen");
+    await d.accept();
+  });
   await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
     name: "aufgabe.png",
     mimeType: "image/png",
     buffer: saved.bytes,
   });
+  await expect(page.getByLabel("Mystery-Titel", { exact: true })).toHaveValue(
+    saved.document.content.title,
+  );
+  await button(page, "Entwurf sichern").tap();
+  const reopened = await getFile(
+    page,
+    info,
+    "aufgaben-png-als-entwurf.mysteryboard",
+  );
+  expect(reopened.document.content).toEqual(saved.document.content);
+  await button(page, "Schließen").tap();
+  await button(page, "Startseite").tap();
+  await importMystery(page, saved.bytes, "aufgabe.png");
   await expect(
     page.getByLabel("Teamname oder Vornamen", { exact: true }),
   ).toHaveValue("");

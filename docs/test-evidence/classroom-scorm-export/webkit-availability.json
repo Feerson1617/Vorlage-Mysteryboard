@@ -1,0 +1,24 @@
+{
+  "metadata": [
+    {
+      "name": "webkit",
+      "revision": "2388",
+      "installByDefault": true,
+      "revisionOverrides": {
+        "mac14": "2251",
+        "mac14-arm64": "2251"
+      },
+      "browserVersion": "27.2",
+      "title": "WebKit"
+    }
+  ],
+  "webkit265": {
+    "status": "unavailable",
+    "note": "Kein installiertes WebKit 26.5 in dieser Umgebung."
+  },
+  "webkit272": {
+    "path": "/workspace/mysteryboard-browsers/webkit-2388/pw_run.sh",
+    "status": "blocked-missing-host-libraries",
+    "error": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /workspace/mysteryboard-browsers/webkit-2388/pw_run.sh --inspector-pipe --headless --no-startup-window\n<launched> pid=43367\n[pid=43367][err] /workspace/mysteryboard-browsers/webkit-2388/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory\nCall log:\n\u001b[2m  - <launching> /workspace/mysteryboard-browsers/webkit-2388/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=43367\u001b[22m\n\u001b[2m  - [pid=43367][err] /workspace/mysteryboard-browsers/webkit-2388/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory\u001b[22m\n\u001b[2m  - [pid=43367] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=43367] <kill>\u001b[22m\n\u001b[2m  - [pid=43367] <will force kill>\u001b[22m\n\u001b[2m  - [pid=43367] <process did exit: exitCode=127, signal=null>\u001b[22m\n\u001b[2m  - [pid=43367] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=43367] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=43367] <gracefully close end>\u001b[22m\n"
+  }
+}
