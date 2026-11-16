@@ -1,0 +1,2007 @@
+[
+  {
+    "file": "ABNAHME-START.md",
+    "bytes": 3264,
+    "sha256": "85d1294c3a15f9f6358ecb669543a4f08e8e26bcfdc43822e987eb648f32ddb6"
+  },
+  {
+    "file": "ERGEBNIS.json",
+    "bytes": 1623,
+    "sha256": "b59e03d6c1b62c3e07f05164f2ba0bf6c54d6e70db8a48757957eee3a17fa3f5"
+  },
+  {
+    "file": "MysteryBoard-Fuenf-Spuren-SCORM-1.2.zip",
+    "bytes": 2818670,
+    "sha256": "1dfe4759ee59376dc0c090bc44f5c9b8953d6e632a0cffb7f3bacea46efa5e91"
+  },
+  {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 2787939,
+    "sha256": "ac80fdd8e6c3de441e40e805079343f937108a3a847cb5dbe5b8f0a8ee3c593a"
+  },
+  {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 5583930,
+    "sha256": "bdff8ca1f6e51b4ce26b5fc1d70cb425770ebc38668822f0f40b50423fd492ee"
+  },
+  {
+    "file": "MysteryBoard-Zwoelf-Beobachtungen-SCORM-1.2.zip",
+    "bytes": 2818910,
+    "sha256": "b3aea4eaf3c14462c513ae17c364250fd862d5776ebec68d0cbc2490d4d2bf74"
+  },
+  {
+    "file": "UNTERRICHTS-SCORM-ANLEITUNG.md",
+    "bytes": 3702,
+    "sha256": "814803945e2a93079a7b034b580c313dd5e0145c4ac5e6d972fce9ddd7e73548"
+  },
+  {
+    "file": "UNTERRICHTS-SCORM-PRUEFBERICHT.md",
+    "bytes": 12966,
+    "sha256": "bd696862997227d787d36297f3e97f72ca352488692ca19d31c6d9b55ff767ee"
+  },
+  {
+    "file": "VERSION.json",
+    "bytes": 358,
+    "sha256": "f04fff8f6ecc6f719597d6c0e98e9d63049160263fa541f2ecd779f73093b37b"
+  },
+  {
+    "file": "projekt/.github/workflows/pages-manual.yml",
+    "bytes": 3996,
+    "sha256": "38990c74fcd3b470dbf0f2db975eca66c72e6fd267fcc2fe84bc5bcc88374684"
+  },
+  {
+    "file": "projekt/.gitignore",
+    "bytes": 139,
+    "sha256": "eb39e5285dd335d1f51dbc7b030924b56152fca298188d299134b86ffc4e8e93"
+  },
+  {
+    "file": "projekt/AI-ANLEITUNG.md",
+    "bytes": 17561,
+    "sha256": "9552566831ae833059b2115b3860d2fdf75b59561aaf9de90716a7f2194c14a5"
+  },
+  {
+    "file": "projekt/KI-PROMPT-ZUM-KOPIEREN.md",
+    "bytes": 6825,
+    "sha256": "3e9c8ff2b9fc9d190f31683bc0ed1959548dfd72472b19c078583fb013f606ed"
+  },
+  {
+    "file": "projekt/LEHRKRAEFTE-ANLEITUNG.md",
+    "bytes": 15974,
+    "sha256": "3fd2e0ae7e4f6971996cb2472713de75d511dd265f61139c3f5c6d750a815dfa"
+  },
+  {
+    "file": "projekt/PROJECT-VERSION.json",
+    "bytes": 358,
+    "sha256": "f04fff8f6ecc6f719597d6c0e98e9d63049160263fa541f2ecd779f73093b37b"
+  },
+  {
+    "file": "projekt/README.md",
+    "bytes": 13226,
+    "sha256": "a976efac0e4eaa958c2093ce42a26c884033f195cc265604d296dc5575e0fdd4"
+  },
+  {
+    "file": "projekt/START-HIER.md",
+    "bytes": 4983,
+    "sha256": "1c80d952832c16d169a67916baff8201d44d519b26de0dbd3d614301cc829aea"
+  },
+  {
+    "file": "projekt/artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+    "bytes": 158755,
+    "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0"
+  },
+  {
+    "file": "projekt/artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "projekt/artifacts/MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "projekt/docs/AUFTRAG-2.md",
+    "bytes": 818,
+    "sha256": "ee4d06c30a62c14c9634a6a16bcad3295ce3030775fbddd66c69b5546d7b318f"
+  },
+  {
+    "file": "projekt/docs/DOKUMENTIMPORT-ANLEITUNG.md",
+    "bytes": 5835,
+    "sha256": "e295fdcd7bc77116081ada14104193623f511d03b1265788030b52ffcd298c8c"
+  },
+  {
+    "file": "projekt/docs/DOKUMENTIMPORT-AUFTRAG.md",
+    "bytes": 15970,
+    "sha256": "53cde2f55740023928b6bf84b5c4e2aab173763bc581b71f8e9aec9bab5df1b0"
+  },
+  {
+    "file": "projekt/docs/DOKUMENTIMPORT-NACHARBEIT-AUFTRAG.md",
+    "bytes": 3832,
+    "sha256": "705bb25fef19c8bc8e5eef6cc6e48060b9b059fe3201454ba2bb8e2d28c84fb4"
+  },
+  {
+    "file": "projekt/docs/DOKUMENTIMPORT-NACHARBEIT.md",
+    "bytes": 16194,
+    "sha256": "bdad28c77eda14e41cb114c61d9e422f9a847460cb6c8609a240447b3bc5dcc5"
+  },
+  {
+    "file": "projekt/docs/DOKUMENTIMPORT-PRUEFBERICHT.md",
+    "bytes": 21460,
+    "sha256": "142fcda030a8236c75700bb7b72f5636dc247519c074aa091072c19c6058eca3"
+  },
+  {
+    "file": "projekt/docs/DRUCKFASSUNG.md",
+    "bytes": 8974,
+    "sha256": "6986701178067fb5b43e03ee8c61c57217ab86ce65ceb4ba5ca1c1e8fdb9cdd2"
+  },
+  {
+    "file": "projekt/docs/FORMAT.md",
+    "bytes": 18330,
+    "sha256": "4ca25e466a99eb3bdb0756599c1a2bcda85753e3e9a3dfeb5be5ec1d0bdd31bd"
+  },
+  {
+    "file": "projekt/docs/HELP-EDITOR-ABNAHME.md",
+    "bytes": 13664,
+    "sha256": "ec0de09724bfefee2e0bdf2f0a24da7a8d03054dabb1817127c453907c6de8c8"
+  },
+  {
+    "file": "projekt/docs/HELP-EDITOR-ABSCHLUSS-PRUEFAUFTRAG.md",
+    "bytes": 8674,
+    "sha256": "f02e80baeb0318c4ae3a3c5b8a59c05fd5ed1154d7cd9964664f9a32bfb25b49"
+  },
+  {
+    "file": "projekt/docs/HELP-EDITOR-ABSCHLUSS.md",
+    "bytes": 9292,
+    "sha256": "c85301202053ed859619dfab508d9452357730746a43cb267cec99ded6b81f83"
+  },
+  {
+    "file": "projekt/docs/HELP-EDITOR-FINAL-PRUEFAUFTRAG.md",
+    "bytes": 7621,
+    "sha256": "3105b87f4021562d93f0c6104a7945cd5a67ad126893de2891c4ab481740de0b"
+  },
+  {
+    "file": "projekt/docs/HELP-EDITOR-FINAL.md",
+    "bytes": 11923,
+    "sha256": "151b4e09a6b9308ce0dfbe310323562e1521ef9b3b53775e96dd82fd5e75ecaa"
+  },
+  {
+    "file": "projekt/docs/KORREKTUR-2518a53.md",
+    "bytes": 17316,
+    "sha256": "e06aea54ff484f021f807fa3762e349c5b04c365d9b71bf92f07c65ae1a117e1"
+  },
+  {
+    "file": "projekt/docs/NACHBESSERUNG.md",
+    "bytes": 13405,
+    "sha256": "1dec6c297ee13c44d5c68c780d783b17ce87b060bde988eeaa14686084d5ac0b"
+  },
+  {
+    "file": "projekt/docs/NEUES-MYSTERY.md",
+    "bytes": 6280,
+    "sha256": "dc9a53ae65b2f4eca05c4b3601d4523c4de1424896c73be1ffb2c2fa3e1f6c32"
+  },
+  {
+    "file": "projekt/docs/PAGES.md",
+    "bytes": 8138,
+    "sha256": "6308301ae5182f294def3fd7e8c42f09de78e7988e7a3940026e07c874cb5982"
+  },
+  {
+    "file": "projekt/docs/PRAXISTEST.md",
+    "bytes": 6841,
+    "sha256": "201d2775b3de5900a8f27e75e54029f3df499c7cdbcda121cce9c4c80384fe86"
+  },
+  {
+    "file": "projekt/docs/PRINT-INTEGRATION-ABNAHME.md",
+    "bytes": 14544,
+    "sha256": "c905ca327fb83c4832e63dce859be7aea0f7194ee2ff3456a86c6e2b109333ae"
+  },
+  {
+    "file": "projekt/docs/R1-ABNAHME.md",
+    "bytes": 11352,
+    "sha256": "1ca4789d491689b2e8480d164402731d1b92ad4ddc04014c36ebfa66798361ad"
+  },
+  {
+    "file": "projekt/docs/R1b-ABNAHME.md",
+    "bytes": 14448,
+    "sha256": "f87716660d21c8bac8f26b1a63190355401ed7ffcd42c4142df01adf11d2a152"
+  },
+  {
+    "file": "projekt/docs/RC2-ABNAHME.md",
+    "bytes": 8405,
+    "sha256": "ca34fb28d18a4f75fc171040f1a6591e5c4e546876b81aed153097e1bfabd437"
+  },
+  {
+    "file": "projekt/docs/RC2-FACHPRUEFUNG.md",
+    "bytes": 4697,
+    "sha256": "4cea209083238941c3ed0103fc53ac750d60e189d171ef3f5d28bada52d84eb1"
+  },
+  {
+    "file": "projekt/docs/RC2-SCORM.md",
+    "bytes": 5210,
+    "sha256": "9450801476d40c03378862c461d29c715d468d529fba0d7c8564621be2df57bc"
+  },
+  {
+    "file": "projekt/docs/RELEASE-CANDIDATE-AUFTRAG.md",
+    "bytes": 13352,
+    "sha256": "3ce4396ebaebc3d4080c7ddbcd2dd9ac43e9545e288d73a382e049b653c99be1"
+  },
+  {
+    "file": "projekt/docs/RELEASE-CANDIDATE.md",
+    "bytes": 15084,
+    "sha256": "eb7b66981d38cc39a5a15ac27e651a2f929a65c403e89470d75a437475505755"
+  },
+  {
+    "file": "projekt/docs/RELEASE-KANDIDAT.md",
+    "bytes": 9046,
+    "sha256": "ca6f754f7f11ee01521be295f80105da738c6451d8bc2b51f5c1de51c09550be"
+  },
+  {
+    "file": "projekt/docs/STARTSEITE-PRUEFBERICHT.md",
+    "bytes": 5915,
+    "sha256": "28e26e5a292c81dd1ebe4123f60bdc2a711b25d0e2035c6ac72766abb918ea89"
+  },
+  {
+    "file": "projekt/docs/TEMPLATE-ORDERED-HELP-ABNAHME.md",
+    "bytes": 16723,
+    "sha256": "4161aeedfc0a1a8e8470eed3322d3d576ebb9ad8e374428bd59b3ac09f03c922"
+  },
+  {
+    "file": "projekt/docs/TESTBERICHT.md",
+    "bytes": 12839,
+    "sha256": "237dc92fb2a3f2261e032cc2c71e7cbf9dee2a8fe0cd3a7d5bf6505f31a6fe03"
+  },
+  {
+    "file": "projekt/docs/UNABHAENGIGE-PRUEFUNG.md",
+    "bytes": 4561,
+    "sha256": "9d0b8924f4ae217abe39821a59b68414eb57e3777f781b18958aaddb0af4a4a9"
+  },
+  {
+    "file": "projekt/docs/UNI-01-02-ABNAHME.md",
+    "bytes": 13654,
+    "sha256": "30a568900ae4bc2e76cec3073883dc66208a18b42b88878d0c16777d51211229"
+  },
+  {
+    "file": "projekt/docs/UNIVERSAL-ABNAHME.md",
+    "bytes": 19894,
+    "sha256": "65ca78231822915b15af3cc12c6235c0bbd957bad3fe1167a51c68437805b7c5"
+  },
+  {
+    "file": "projekt/docs/UNIVERSAL-FORMAT.md",
+    "bytes": 11712,
+    "sha256": "02b0970b50f3244e78e93884e1010eba14cbcea4ae13bafa5c0fd5bd6afa3c00"
+  },
+  {
+    "file": "projekt/docs/UNIVERSELLE-VORLAGE-ABNAHME.md",
+    "bytes": 13840,
+    "sha256": "3c9080ca56251e2f3660e8f3d3d7d5cc99780dd0694ac66249ddf0b3d6ea7c93"
+  },
+  {
+    "file": "projekt/docs/UNTERRICHTS-SCORM-ANLEITUNG.md",
+    "bytes": 3702,
+    "sha256": "814803945e2a93079a7b034b580c313dd5e0145c4ac5e6d972fce9ddd7e73548"
+  },
+  {
+    "file": "projekt/docs/UNTERRICHTS-SCORM-PRUEFBERICHT.md",
+    "bytes": 12966,
+    "sha256": "bd696862997227d787d36297f3e97f72ca352488692ca19d31c6d9b55ff767ee"
+  },
+  {
+    "file": "projekt/docs/UNTERRICHTSERPROBUNG.md",
+    "bytes": 6160,
+    "sha256": "3bc1019d0fb12d12b37e2a65022b6a296206779111f242ad6268edbfbc57f826"
+  },
+  {
+    "file": "projekt/docs/WORK-KOMPATIBILITAET.md",
+    "bytes": 7780,
+    "sha256": "08d58cda18de74886c1e236dc96cf923cad7cbf7c1b89faf2283d460cfc1f20a"
+  },
+  {
+    "file": "projekt/examples/abnahme/MysteryBoard-Beispiel-Lehrkraftentwurf.mysteryboard",
+    "bytes": 49327,
+    "sha256": "0991f6034aa5be6efb509dff5dfa080e2da08b1a70ee4775fb417eb944205af7"
+  },
+  {
+    "file": "projekt/examples/abnahme/MysteryBoard-Beispiel-Schuelerarbeitsstand.png",
+    "bytes": 251777,
+    "sha256": "386ef8bbd1dedff480cd742a40d579ed8e313901e90965de2de45baba439ec08"
+  },
+  {
+    "file": "projekt/examples/abnahme/MysteryBoard-Beispiel-Schuelerstand.mysteryboard",
+    "bytes": 49993,
+    "sha256": "3f392bed173e312027e8e6bb460b21ae6e879148d6740ec8b40516403e415d92"
+  },
+  {
+    "file": "projekt/examples/abnahme/MysteryBoard-Beispiel-Schuelerversion.mysteryboard",
+    "bytes": 49259,
+    "sha256": "5af0f3d3775f7964f14895acbff1e604fb4e8ace820aff22f183bdb2df3fdbca"
+  },
+  {
+    "file": "projekt/examples/abnahme/MysteryBoard-Beispiel-Ueberarbeitet.mysteryboard",
+    "bytes": 47132,
+    "sha256": "587a5a9efaa0afc0fc41895886ac0c86853b78f9cf4b688545733add607ba409"
+  },
+  {
+    "file": "projekt/examples/abnahme/README.md",
+    "bytes": 1966,
+    "sha256": "10b1c69ab90c8f49ace8d08eab5d6086f7117773087c52e60805a25f23c83faa"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-60-Karten-Entwurf.mysteryboard",
+    "bytes": 55426,
+    "sha256": "e861055e13c22b1ad373e3182b875aa7f0109618015410904ddb14b75c548a83"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-60-Karten-Schuelerarbeitsstand.png",
+    "bytes": 278434,
+    "sha256": "6a2bdda81915cee01b9a32be28669370c0bdb3b3e6633cb9e5232e60da96f57d"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Lehrkraftentwurf.mysteryboard",
+    "bytes": 48219,
+    "sha256": "37b072c1d03326922deecb65a77f950ae3e60a4779ab6291f4585b343ab41b64"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Nutzungskonflikte.mysteryboard",
+    "bytes": 48162,
+    "sha256": "450613aa2426fac015827072d35eca2a6ff40e0956676e5e875789d29df2c658"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Ohne-farbige-Hilfe.mysteryboard",
+    "bytes": 48877,
+    "sha256": "3dd349082ca248a86a3a2a2fcd80c2f6415d4187f64d97ed9a9be5b6b18027dc"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Schuelerarbeitsstand.png",
+    "bytes": 299242,
+    "sha256": "c732b902f9f3db8820eff548c1857eed662d2633f16832140fedf09a6141bcb0"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Sechs-eigene-Gruppen.mysteryboard",
+    "bytes": 49336,
+    "sha256": "a9b112eb14877fddc25194195da5fc037d1dcbcc71eefdeeb4f704554ea685b4"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Ueberarbeitet.mysteryboard",
+    "bytes": 38326,
+    "sha256": "f94c99a09e3529d674d61b40553c17e3f0ad19f3f8d896213f6b85397fd1d2c1"
+  },
+  {
+    "file": "projekt/examples/help-editor/Hilfe-Ursachen.mysteryboard",
+    "bytes": 48151,
+    "sha256": "5764dba71aac983aa751c82a51c5852690243e37ebd4d9d8b078f5c2f4a53eb2"
+  },
+  {
+    "file": "projekt/examples/help-editor/README.md",
+    "bytes": 1951,
+    "sha256": "3aae934d0ecc7be1c6379a9dfcfbfe537ca1951115c1fe01b6c535451a688aea"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/ERWARTETE-INHALTSSTRUKTUR.json",
+    "bytes": 6197,
+    "sha256": "adfa952de77cf184701f768a4cf45acc3ee546c31d99b50dd3e5e69aa68215e7"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md",
+    "bytes": 3686,
+    "sha256": "fae9d2916bcc02e917cb7d0312d738f95d8e47a949307b34d63fa1c96b1a3a19"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/GENERATED-SHA256SUMS.txt",
+    "bytes": 905,
+    "sha256": "b9b9cb74ee5871f1082fe44ca62f6f0b0d3e0d39a45bce41b375e09aab1ee941"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/Papieroriginal.html",
+    "bytes": 54224,
+    "sha256": "f958cd7221f41e7eab1beebda21964c58a23efed7adae4a3217f3a49e792a7f3"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/Papieroriginal.pdf",
+    "bytes": 71715,
+    "sha256": "ebbabc7c64f419b3c81d6fcc4460f785f5e0a978d0c11bb05275cb649cbfea8a"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/Parkteich-Aufgabe-v1.mysteryboard",
+    "bytes": 52870,
+    "sha256": "be148a42c6d9bf045d5e30cf913041a5828f6d851966df8cd9ae10bf8d31b7aa"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/Parkteich-Lehrkraftentwurf-v1.mysteryboard",
+    "bytes": 52938,
+    "sha256": "ffe0b7980c649bde646039581fe99cf7597256fe0ed0ddaf8d86e4e917c86c62"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/inhalt.json",
+    "bytes": 53230,
+    "sha256": "3ae196eca73afa1f4bb5f20705526152729501529a4f509fe1f9da825f7601ce"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/original-karten.json",
+    "bytes": 6635,
+    "sha256": "e6e7984a68e4686d4981edba4b8ac64bfe0e4cf6d6b30fd5920c95997525b0be"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/oxygen-alternative.png",
+    "bytes": 35391,
+    "sha256": "2c8047ac6b5377b6d8111d521923c764fac75fb23174ed587583e29cf906b397"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/oxygen-alternative.svg",
+    "bytes": 2146,
+    "sha256": "f2b068251a7a20deb6916a74e6d86a19e36a9ed6d1754fdeb49529d4c82da211"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/oxygen-original.png",
+    "bytes": 35398,
+    "sha256": "9bf18999d6f6da6e2c69b6b00d5fd1f392fb1fdd04887d08a1093ced18e66639"
+  },
+  {
+    "file": "projekt/examples/ki-papierprobe/oxygen-original.svg",
+    "bytes": 2146,
+    "sha256": "df7fe55d22c0b44a697e7c0a18cdc866b34e851d3ada66ee134a47203658557e"
+  },
+  {
+    "file": "projekt/examples/universal/README.md",
+    "bytes": 2973,
+    "sha256": "58db7fe724c835e4c4221369f7716e7ca2f08182ccaf4cee895aca23e44e5e24"
+  },
+  {
+    "file": "projekt/examples/universal/content.json",
+    "bytes": 49379,
+    "sha256": "b533db5a6f2e21ed059554e813095d56a1287d762201967f1f402d91c53270a2"
+  },
+  {
+    "file": "projekt/examples/universal/diagramm-1.png",
+    "bytes": 7265,
+    "sha256": "1bafd510238e85cc8edb7ec42adcf580b173ac2ae6e452d95d24f1dcd77e5551"
+  },
+  {
+    "file": "projekt/examples/universal/diagramm-2.jpeg",
+    "bytes": 20639,
+    "sha256": "5b66b044a2cdab4f3e8d9c5dbda526cd1dbe19eae77af0839bc81973b794d24f"
+  },
+  {
+    "file": "projekt/examples/universal/diagramm-3.webp",
+    "bytes": 5812,
+    "sha256": "24285ac0a3f4f6819083a351ca07824ecd72e775a286fcf39f8f44c78863bf42"
+  },
+  {
+    "file": "projekt/examples/universal/ki-alte-schuelerarbeit.png",
+    "bytes": 334340,
+    "sha256": "214084aae2d151d6ec1785e5749e06679846eb9d2e5b2d64348d4928d48631b4"
+  },
+  {
+    "file": "projekt/examples/universal/ki-beispiel.mysteryboard",
+    "bytes": 49133,
+    "sha256": "495883aa573706dfe13e7ba187c56fc2a4c7bba566e17f98b94ee83f205fa784"
+  },
+  {
+    "file": "projekt/examples/universal/ki-erste-schuelerversion.mysteryboard",
+    "bytes": 49133,
+    "sha256": "495883aa573706dfe13e7ba187c56fc2a4c7bba566e17f98b94ee83f205fa784"
+  },
+  {
+    "file": "projekt/examples/universal/ki-neue-schuelerarbeit.png",
+    "bytes": 335809,
+    "sha256": "9b562c1e7c8d30f45d2f12ba689c39e7acc9995673a1ce6c0be4ddd79264266b"
+  },
+  {
+    "file": "projekt/examples/universal/ki-neue-schuelerversion.mysteryboard",
+    "bytes": 46941,
+    "sha256": "9e43def7ee68c794532f840ff76d3265e8e89912284ba9f37b128681fbe01865"
+  },
+  {
+    "file": "projekt/examples/universal/ki-ueberarbeiteter-entwurf.mysteryboard",
+    "bytes": 47009,
+    "sha256": "50e74f2f873c6aaf1215ad24215db430880b6098294154e9595ec149af5a283b"
+  },
+  {
+    "file": "projekt/examples/universal/unterricht-aufgabe.mysteryboard",
+    "bytes": 47788,
+    "sha256": "077be7368b058ab4568f73ea916982cfcfde7af2651eae3e3420918549fe9572"
+  },
+  {
+    "file": "projekt/examples/universal/unterricht-entwurf.mysteryboard",
+    "bytes": 47856,
+    "sha256": "0b95382190392de02544f07aa81964980513fb4027ab77d0b07388ec135bd326"
+  },
+  {
+    "file": "projekt/examples/universal/unterricht-schueler.png",
+    "bytes": 301616,
+    "sha256": "8c7791fb4010ed082d44f4bc82baa2a49460ef56a085bc61b7b2ca4716b48034"
+  },
+  {
+    "file": "projekt/index.html",
+    "bytes": 508,
+    "sha256": "b8332c2796e3dbedddf7c9a481d6a57c3332bf89fe98373d88d416e531c4e9e9"
+  },
+  {
+    "file": "projekt/mysteries.json",
+    "bytes": 1484,
+    "sha256": "e027cd0906e11924f91962fc118189fc193677052baf5e92e138b1e2ac08791e"
+  },
+  {
+    "file": "projekt/package-lock.json",
+    "bytes": 89154,
+    "sha256": "c5c26fde95b694f7982a62214224d39ce53b3fb3b67e285c2eeb11e9112b0809"
+  },
+  {
+    "file": "projekt/package.json",
+    "bytes": 2125,
+    "sha256": "3f1c85f85983456709a7876e039f0896ce239c677d2c5cd76d9ddd290ec1f9b9"
+  },
+  {
+    "file": "projekt/playwright.config.ts",
+    "bytes": 950,
+    "sha256": "1bce26d6cac97830421fd27a69fd3f108487bd5c59ff9eba7f6b4f9c5b581665"
+  },
+  {
+    "file": "projekt/playwright.rc2.config.ts",
+    "bytes": 756,
+    "sha256": "cf7fa38947f1943dde22bf1e5a8f391b3cb074f173fcc69d819affece015a174"
+  },
+  {
+    "file": "projekt/qa/classroom-scorm/ABNAHME-START.md",
+    "bytes": 3264,
+    "sha256": "85d1294c3a15f9f6358ecb669543a4f08e8e26bcfdc43822e987eb648f32ddb6"
+  },
+  {
+    "file": "projekt/qa/classroom-scorm/screenshots.mjs",
+    "bytes": 3884,
+    "sha256": "ef49f19bba04ccb7bfcf87a7b3e1cd7908e4d5f68e2e9fdc68ab426d6bece309"
+  },
+  {
+    "file": "projekt/qa/classroom-scorm/verify-delivery.py",
+    "bytes": 6401,
+    "sha256": "7c6dd0347d22ee312a43760b2c8012e2363ed818535f05203acce903f1bf0063"
+  },
+  {
+    "file": "projekt/qa/document-import/README.md",
+    "bytes": 5352,
+    "sha256": "dec9a2fa8585c4ec1b4f183f47c5f858e5e9b27ec4ba8ca916b9a67ef7436509"
+  },
+  {
+    "file": "projekt/qa/document-import/benchmark.mjs",
+    "bytes": 8384,
+    "sha256": "8741b25942b73c6235a051d4727c81878e3ece9a9128a07dc6afd4df6163e6b3"
+  },
+  {
+    "file": "projekt/qa/document-import/cold-build.sh",
+    "bytes": 2163,
+    "sha256": "c50f0f836b568bf317c28e2e37c2c57eafa45d06805b2b59605711dac42528d5"
+  },
+  {
+    "file": "projekt/qa/document-import/file-scheme.mjs",
+    "bytes": 2497,
+    "sha256": "51484ef553b3f5c6019dfafb670349831e7345f52ed4e57c70137be1a26c9de4"
+  },
+  {
+    "file": "projekt/qa/document-import/package-lock.json",
+    "bytes": 1462,
+    "sha256": "c51f0bd519f5177b76ef467786206c95fd7c1207a6372cddc7261897fa2d57df"
+  },
+  {
+    "file": "projekt/qa/document-import/package.json",
+    "bytes": 226,
+    "sha256": "43f3b663bfa31a23de9622b6be487d9747d5ca2bc36d8aabdfc53aa4a78e4993"
+  },
+  {
+    "file": "projekt/qa/document-import/pruefen.mjs",
+    "bytes": 28410,
+    "sha256": "7a893f02b9c8bd2181c1be10b76a28413cc38bab4b981413e84c3ea5061d0869"
+  },
+  {
+    "file": "projekt/qa/document-import/verify-zips.py",
+    "bytes": 3626,
+    "sha256": "808b720cbad2a279a18261f06cf078a6043d43079034610132d05263d93a7104"
+  },
+  {
+    "file": "projekt/qa/document-import/word-original.py",
+    "bytes": 1953,
+    "sha256": "33d5b0f742042643643a34bd4ee7ef9fdbc9d5f0c50ecd3572d139c2e8153ddf"
+  },
+  {
+    "file": "projekt/qa/help-review/README.md",
+    "bytes": 3107,
+    "sha256": "ab069ae4fa32fcf1d284bbca7b8f710a531c4b050461a8b5a53fbc0fee551036"
+  },
+  {
+    "file": "projekt/qa/help-review/package-lock.json",
+    "bytes": 1452,
+    "sha256": "1f9d76c67997ab2bfa4249420885da82a42088941255cff434886284d5c5854e"
+  },
+  {
+    "file": "projekt/qa/help-review/package.json",
+    "bytes": 205,
+    "sha256": "09f442ce85c6a183bcbfaf0ada19be6db63bb92136635f6cbbd6d1fcb12a6e09"
+  },
+  {
+    "file": "projekt/qa/help-review/pruefen.mjs",
+    "bytes": 28274,
+    "sha256": "9d3795c138330bedc1baf5501b17e6c65bc763fda064ae5cfba6e5c0b5c4106d"
+  },
+  {
+    "file": "projekt/qa/help-review/reproduce-preview.mjs",
+    "bytes": 3251,
+    "sha256": "d9c76db2542f45cb22a66ee835b341b8ce94df21fe5238db93730ec64d09d6ed"
+  },
+  {
+    "file": "projekt/qa/release-candidate/README.md",
+    "bytes": 2841,
+    "sha256": "bebb194820bc1bfd673bf5e35aa9d55ec21f4e27649fda576591889c7290f03f"
+  },
+  {
+    "file": "projekt/qa/release-candidate/cold-build.sh",
+    "bytes": 1400,
+    "sha256": "435aad78c456c11a817dfb3dae7583f8e6528e3c9f4e9d9eda2a682dff8c5c65"
+  },
+  {
+    "file": "projekt/qa/release-candidate/hilfe-pruefen.mjs",
+    "bytes": 28274,
+    "sha256": "9d3795c138330bedc1baf5501b17e6c65bc763fda064ae5cfba6e5c0b5c4106d"
+  },
+  {
+    "file": "projekt/qa/release-candidate/package-lock.json",
+    "bytes": 1454,
+    "sha256": "1b9a66af71640d9f43acfd017270d0452f245d1567cb47a754e8999d49cba706"
+  },
+  {
+    "file": "projekt/qa/release-candidate/package.json",
+    "bytes": 222,
+    "sha256": "814d852553715a06e2209fdbeb32839a8e851d0a5e5d1017a5387e156d1cead3"
+  },
+  {
+    "file": "projekt/qa/release-candidate/papier-pruefen.mjs",
+    "bytes": 20675,
+    "sha256": "936bd97163eb732a8aacf2f38c71feda4fc0d04c5cd8757d17756e6ffb472877"
+  },
+  {
+    "file": "projekt/qa/release-candidate/pruefen.mjs",
+    "bytes": 1157,
+    "sha256": "c8854d073504e20d44b80f25c7bb28e759a8fd814b53aa2641c29b608285c87d"
+  },
+  {
+    "file": "projekt/schemas/mystery-content.schema.json",
+    "bytes": 6966,
+    "sha256": "6966b41294d2f987103c66193590d7d415e16a6bdb036eb760429d88d41d228b"
+  },
+  {
+    "file": "projekt/schemas/mystery-document.schema.json",
+    "bytes": 14880,
+    "sha256": "7a7f2617edd68439d31287140554516dd9c96171b75e20ba419dd4a1d9c3837d"
+  },
+  {
+    "file": "projekt/scorm/launch.html",
+    "bytes": 633,
+    "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+  },
+  {
+    "file": "projekt/scorm/session.js",
+    "bytes": 1190,
+    "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+  },
+  {
+    "file": "projekt/scripts/audit-integration-pdfs.py",
+    "bytes": 3540,
+    "sha256": "43544eb3721059f7471a64e1c95f97b6b1146fad4f27df86dd3935ec3715d537"
+  },
+  {
+    "file": "projekt/scripts/build.mjs",
+    "bytes": 508,
+    "sha256": "be131d114174ae4c6d7ac6563bdc1f60650b98ff628749f14d289c08aca4e5dd"
+  },
+  {
+    "file": "projekt/scripts/check-build.d.mts",
+    "bytes": 205,
+    "sha256": "b964ad85820d63bdefc864f6d09c8a9bb0626020d242dcfef550646ced947228"
+  },
+  {
+    "file": "projekt/scripts/check-build.mjs",
+    "bytes": 2908,
+    "sha256": "2e4e7984d08dba9be7c29efe568f7b74bf5e3324d154aed5e45507bb431fc571"
+  },
+  {
+    "file": "projekt/scripts/collect-document-import-evidence.py",
+    "bytes": 7662,
+    "sha256": "8ea2081ef5b130fd4e075262a3bbdeaa50e9747fd56ebaca07fedcfe2fdae755"
+  },
+  {
+    "file": "projekt/scripts/content-config.ts",
+    "bytes": 3948,
+    "sha256": "fc02f6b604666c4ff24438e78baf614f871bd77d2b766b88e0f4ef5002f2704b"
+  },
+  {
+    "file": "projekt/scripts/create-acceptance-examples.mjs",
+    "bytes": 3411,
+    "sha256": "4e7e8a852980ea3c1cddaa2e6a645ee45df7cb56da80478d9da447410dc41021"
+  },
+  {
+    "file": "projekt/scripts/create-document-import-fixtures.mjs",
+    "bytes": 13884,
+    "sha256": "44b2d905b8a0aa2480c9ab76cd0c9417c69eb8fd7473f346ae321587dc9b3a0b"
+  },
+  {
+    "file": "projekt/scripts/create-paper-fixture.mjs",
+    "bytes": 8959,
+    "sha256": "4f27b091eab96c8b1aad728e779c532d389229fa5346318a243a820366af26ef"
+  },
+  {
+    "file": "projekt/scripts/document-import-assets.ts",
+    "bytes": 1364,
+    "sha256": "b475ae5746bc7ca264bd775dd62e13e857da2f2cecb35c507fd849ccdde20271"
+  },
+  {
+    "file": "projekt/scripts/document-import-licenses.mjs",
+    "bytes": 1820,
+    "sha256": "3aaf83bc7bd4a8194f1fec759c309b080dfc7c016217908a64c08ccbe7f68c48"
+  },
+  {
+    "file": "projekt/scripts/embed-task.mjs",
+    "bytes": 990,
+    "sha256": "5afa96ec2cfb75e67acdd6304625615267e760d21ff08d5c72aacc1783e38044"
+  },
+  {
+    "file": "projekt/scripts/extract-review-fixture.py",
+    "bytes": 1379,
+    "sha256": "fc8148e3385d2c22493fee20a28bc86cc61c7625f47054fcd430f27353acc596"
+  },
+  {
+    "file": "projekt/scripts/mystery-tools.mjs",
+    "bytes": 6141,
+    "sha256": "53990027cd292383cabd66a558af93263501a54238ea8d676610c7e1bccae602"
+  },
+  {
+    "file": "projekt/scripts/package-acceptance.py",
+    "bytes": 5491,
+    "sha256": "3dc59906aa84458831c2bcaa46522c564ce02a02f37c78b11542bfb1f5ff1ad0"
+  },
+  {
+    "file": "projekt/scripts/package-classroom-review.py",
+    "bytes": 4286,
+    "sha256": "07de3d60c62115d597ce781cf1079cbd32977308d241da18dbcaed7f0a2a2eea"
+  },
+  {
+    "file": "projekt/scripts/package-document-import.py",
+    "bytes": 6697,
+    "sha256": "3c57b00f7946ab7b1bd14e6d6830dc10c7ff8cabfce8704313134aad9735a732"
+  },
+  {
+    "file": "projekt/scripts/package-help-review.py",
+    "bytes": 7587,
+    "sha256": "63767f8e5fc2aadbbb39fae29e0d33145651a675fada09d67a3d22da499c3ca8"
+  },
+  {
+    "file": "projekt/scripts/package-project.py",
+    "bytes": 5997,
+    "sha256": "1c3c76e5ecf262be2766864a141ae1b1add0dd386735f23e813504e778b090dc"
+  },
+  {
+    "file": "projekt/scripts/package-release-candidate.py",
+    "bytes": 4894,
+    "sha256": "db15541c2f06142ef64de231cbf8e73413f208876878a5b4cc12a2a53e8b2233"
+  },
+  {
+    "file": "projekt/scripts/package-scorm.mjs",
+    "bytes": 2558,
+    "sha256": "800552550adff89727190de49d8e51a2265bb6d1da97d21e43b14ebdf7a337eb"
+  },
+  {
+    "file": "projekt/scripts/package-universal.mjs",
+    "bytes": 555,
+    "sha256": "1f803c8e5fd564ba944f3a697a2c3d74522985e55e3d4f0b0087cb98e12280c5"
+  },
+  {
+    "file": "projekt/scripts/prepare-pages.mjs",
+    "bytes": 4900,
+    "sha256": "b6d2a5638fbf1901f7928319eb74f3b2cfa12825b14547593a5df0a2d552a280"
+  },
+  {
+    "file": "projekt/scripts/prepare-rc2.mjs",
+    "bytes": 1026,
+    "sha256": "91d11f311443397478de119e97cf0abb51be88026a1f644756620c6bcad9a0dd"
+  },
+  {
+    "file": "projekt/scripts/prepare-universal-tests.mjs",
+    "bytes": 1283,
+    "sha256": "58aadf785598ec0cac2e98e9b52116de81ca6f25738ad8a2dc096b30997546ce"
+  },
+  {
+    "file": "projekt/scripts/r1-reference.mjs",
+    "bytes": 5301,
+    "sha256": "1d16c5cac9515f436a6ec9c17a25af46a23d781521794c990efcd58abf20b61a"
+  },
+  {
+    "file": "projekt/scripts/reproduce-team-requirements.mjs",
+    "bytes": 7831,
+    "sha256": "8d8a7dfcd10f785b28389de0417b12cc6a7b2e6c422073606da8aa608a3a05be"
+  },
+  {
+    "file": "projekt/scripts/validate-scorm.py",
+    "bytes": 3060,
+    "sha256": "a4a8f7363b388686558f263d0deda4be3b943cac6fd1597bb386412fc73b51e3"
+  },
+  {
+    "file": "projekt/scripts/work-compatibility.mjs",
+    "bytes": 22598,
+    "sha256": "148b1a6fe4c38a87544100cbbc7d5c9fa6b26d308fe759bc3bb3b3cda4821896"
+  },
+  {
+    "file": "projekt/src/App.tsx",
+    "bytes": 32156,
+    "sha256": "6d2b103fd8e0a6a7cb7b980bc6994b1b17580339f5d63bec1b21e9a7507df2fc"
+  },
+  {
+    "file": "projekt/src/UniversalApp.tsx",
+    "bytes": 10272,
+    "sha256": "a1edc7addc6087e6a8aff56b29eb46edf38580269f4f5c2390dbd37602b02b03"
+  },
+  {
+    "file": "projekt/src/components/AuthorEditor.tsx",
+    "bytes": 29085,
+    "sha256": "84dab9d38a9102e8833630d05a8ea08c4e38b47c53a71abfe6c8f9cf8a350d8e"
+  },
+  {
+    "file": "projekt/src/components/Board.tsx",
+    "bytes": 17680,
+    "sha256": "61778349129a1f991a5f08c8ab7c6a4f553406534583495d69821ba29141e50e"
+  },
+  {
+    "file": "projekt/src/components/Camera.tsx",
+    "bytes": 3248,
+    "sha256": "2e8b83dd17e42764f1cc7cdb987b60e7d7f5c0cb8c5b305b2480f3c83534d6ea"
+  },
+  {
+    "file": "projekt/src/components/CardImage.tsx",
+    "bytes": 1025,
+    "sha256": "d1474d062cd55c5ad90cf474b413f431ee540a6c25fe633f23b1fabcf616a63a"
+  },
+  {
+    "file": "projekt/src/components/Dialog.tsx",
+    "bytes": 885,
+    "sha256": "da2f5058ae8edd6367b92d4c51525cb0aa5ee6a0cfce59a5adf08cdeae01bc8b"
+  },
+  {
+    "file": "projekt/src/components/DocumentImport.tsx",
+    "bytes": 36693,
+    "sha256": "99ea596043c4fc92ea14dcc02f70204b363ccc586011bd8ccf05452e6d04d610"
+  },
+  {
+    "file": "projekt/src/components/FileDownload.tsx",
+    "bytes": 1685,
+    "sha256": "4b3d8825118be32cf137767671d2e37a64eef41ddfbac91d898ed51fdbd86f8b"
+  },
+  {
+    "file": "projekt/src/components/HelpEditor.tsx",
+    "bytes": 19369,
+    "sha256": "93af411d34200bd926d0c718ea5a2856f970a8786a35f58c830adaaff1449797"
+  },
+  {
+    "file": "projekt/src/components/LearningHelp.tsx",
+    "bytes": 3352,
+    "sha256": "42dd36e3a670b3846bdeca00f09e3bdcc7d8cb05f731d891f770731cad5889af"
+  },
+  {
+    "file": "projekt/src/components/MediaView.tsx",
+    "bytes": 1600,
+    "sha256": "947733dd6b8bd741fd82c1a258523a6a1c5a40dbd160392fbc49c6d8529a5cd2"
+  },
+  {
+    "file": "projekt/src/components/PrintPreview.tsx",
+    "bytes": 3323,
+    "sha256": "540923aaf1fc36eb8bbefc4815dd6af3768bd204e0c2e8cead1f56fd971ab0c2"
+  },
+  {
+    "file": "projekt/src/components/TableEditor.tsx",
+    "bytes": 3632,
+    "sha256": "4d28c10bbc268122e73cb8642beeb17ba65c171189457e1d4a4649e3fe0eae0a"
+  },
+  {
+    "file": "projekt/src/components/TableView.tsx",
+    "bytes": 701,
+    "sha256": "067bac383f443e071be5d348a743b6fa3596dadd4c94ad97b09c5ff0891a6e8f"
+  },
+  {
+    "file": "projekt/src/content/blank.json",
+    "bytes": 175,
+    "sha256": "1e346d0ad349d53e5eb23123d89f354b21178dfef4e15fa73c287f939424993b"
+  },
+  {
+    "file": "projekt/src/content/boden-klasse11.json",
+    "bytes": 8445,
+    "sha256": "44419be70fa5173529b25ffdb58818b733d95330f5b81cadb3edd5c589d4a4c5"
+  },
+  {
+    "file": "projekt/src/content/large.json",
+    "bytes": 49185,
+    "sha256": "cd5ed7512ad20d90861df716021ed5c53b3a45b29d7810bd76a878474f5ed5f2"
+  },
+  {
+    "file": "projekt/src/content/small.json",
+    "bytes": 6689,
+    "sha256": "703cf8019f87dcbbeef3bae93b786977661761f143c18df20a4177892f47ba9c"
+  },
+  {
+    "file": "projekt/src/core/authoring.ts",
+    "bytes": 3332,
+    "sha256": "ff625147622b00ccada09bf162a3eb26673be67d370b0f4b5f86d2e9891cc2fd"
+  },
+  {
+    "file": "projekt/src/core/builtin-content.ts",
+    "bytes": 1763,
+    "sha256": "194fb76401f1a5d2e416cd5d1bcb97724bbddcc07c2f013c471391f0b78ab22a"
+  },
+  {
+    "file": "projekt/src/core/classroom-scorm.ts",
+    "bytes": 3312,
+    "sha256": "0aa44b91bc08021c12a3484885f68eccb3fa8a09b8a67de609579d1b1d267304"
+  },
+  {
+    "file": "projekt/src/core/classroom-scorm.worker.ts",
+    "bytes": 562,
+    "sha256": "26491412d8d6dd39b9d694e58965b3fa2e0ae1cc29c62cf15f98d5680eadb149"
+  },
+  {
+    "file": "projekt/src/core/codec.ts",
+    "bytes": 4546,
+    "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7"
+  },
+  {
+    "file": "projekt/src/core/document-file.ts",
+    "bytes": 1775,
+    "sha256": "52042d915e8468a223365846176dea9410775a1752056dbd37130c2398c69a75"
+  },
+  {
+    "file": "projekt/src/core/document-import/model.ts",
+    "bytes": 9173,
+    "sha256": "829f449f9c0fbd8bc653ec06667f7d6df325a7b94bb0bd965285756dae509b05"
+  },
+  {
+    "file": "projekt/src/core/document-import/parser.worker.ts",
+    "bytes": 16130,
+    "sha256": "070d928f31ff04ed85349f68139fa36a81a028ef760884284c5fb099dda9fab8"
+  },
+  {
+    "file": "projekt/src/core/document-import/zip.ts",
+    "bytes": 4629,
+    "sha256": "05a4d7dd63c4a719b703ebacc0d1f1faaebce9e712752c81520b0bcb35ae9b39"
+  },
+  {
+    "file": "projekt/src/core/document-qr.ts",
+    "bytes": 1150,
+    "sha256": "d55179f8ff80d9d120c8a63fdb77ac8b8857f7bd618fddafaa5533f4fa33bf48"
+  },
+  {
+    "file": "projekt/src/core/document-worker.ts",
+    "bytes": 369,
+    "sha256": "fe2aa84b875504313830e9fe0a2b87a6f00da2f851c185bd9c1eedc208ee6511"
+  },
+  {
+    "file": "projekt/src/core/documents.ts",
+    "bytes": 9604,
+    "sha256": "74f136b913f702600777dd1942283587db64c3b8e6b08726ec499a10a33053a7"
+  },
+  {
+    "file": "projekt/src/core/export.ts",
+    "bytes": 10532,
+    "sha256": "9f788d6455da0a4ae8db38ddbca94dc510ab453093d077993f9a70ad859cf3dc"
+  },
+  {
+    "file": "projekt/src/core/help-authoring.ts",
+    "bytes": 7246,
+    "sha256": "76b0aefd8ccd1ad0c6ec3243e066dacc8463b56c160a5e1df39ceaa2b5f3b388"
+  },
+  {
+    "file": "projekt/src/core/help.ts",
+    "bytes": 856,
+    "sha256": "db62e13df8fa095cc75e03efde2ba2c9fd111c75ce2b3f6fc9ef7a7939f2fbb2"
+  },
+  {
+    "file": "projekt/src/core/history.ts",
+    "bytes": 1960,
+    "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923"
+  },
+  {
+    "file": "projekt/src/core/launch-document.ts",
+    "bytes": 1008,
+    "sha256": "7bc1adca2141534cbb51258787083f3079e393c9808925fbc14c0641db15908a"
+  },
+  {
+    "file": "projekt/src/core/layout.ts",
+    "bytes": 7153,
+    "sha256": "9628a54ca25ad614a4d3455b82ca7bfd47d0c86e8510839f8a2b39d7ae52244b"
+  },
+  {
+    "file": "projekt/src/core/media.ts",
+    "bytes": 6387,
+    "sha256": "d18d8859bba3187807e8bb5d26d0fff0b58506ef500875093752a01dd594a65a"
+  },
+  {
+    "file": "projekt/src/core/model.ts",
+    "bytes": 13032,
+    "sha256": "595781a22da5daa388e19ccd287d7ec746d8184d50a33c93052d3b7ff3ce557b"
+  },
+  {
+    "file": "projekt/src/core/png.ts",
+    "bytes": 4229,
+    "sha256": "e1a43017f811ecc30e28fc54c3bf2433dd80739874687bb826dcb4d6c3a7ed81"
+  },
+  {
+    "file": "projekt/src/core/print.ts",
+    "bytes": 25140,
+    "sha256": "152a5316257e9616929f38b203fa0868b5d889bfa931d6929dc16a55d9ac8d01"
+  },
+  {
+    "file": "projekt/src/core/qr.ts",
+    "bytes": 172,
+    "sha256": "73f2ccec8b81f48374a30b0fabf08917a76dbe837200d99cf12018a73734930f"
+  },
+  {
+    "file": "projekt/src/core/scorm-package.ts",
+    "bytes": 2115,
+    "sha256": "6e7ad2ce02a4648f2b49331ff95b7b5677e46db7dacedc6becda61db280b85bc"
+  },
+  {
+    "file": "projekt/src/core/start-layout.ts",
+    "bytes": 1350,
+    "sha256": "8304c8e6c5b20339b1c4be4a7c45081ec56558bc850c55ba4f23fee8f1db7868"
+  },
+  {
+    "file": "projekt/src/env.d.ts",
+    "bytes": 461,
+    "sha256": "2ceb1d72bfcda2a749166bd1129cc48d9b1665ed242ca08b7dffaa018ab8a8bc"
+  },
+  {
+    "file": "projekt/src/main.tsx",
+    "bytes": 1464,
+    "sha256": "7d84b79c5b5462076fddeb656d84c5695c1d5ee924233e4531898e429cc8c578"
+  },
+  {
+    "file": "projekt/src/style.css",
+    "bytes": 16697,
+    "sha256": "56ae2d257b734cb8732484a30950c0115059d55c868eb9ef171f69a87e6f4bcc"
+  },
+  {
+    "file": "projekt/tests/authoring.test.ts",
+    "bytes": 2451,
+    "sha256": "f65e51e09929be469f4e93f99d28c5d58b294da82c22b6ece9e719f36a4a1a3f"
+  },
+  {
+    "file": "projekt/tests/browser/acceptance-delivery.spec.ts",
+    "bytes": 7820,
+    "sha256": "a631e22b9a69a7889be3df0fa122e1cbb16731a2705e7e0573ea499e96462882"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-build-security.spec.ts",
+    "bytes": 2046,
+    "sha256": "87cf815cef74e3fcc523651ee54a754e4e77b799c8ca4767babff9ccace5de1d"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-classroom.spec.ts",
+    "bytes": 22168,
+    "sha256": "56d42b75e65f3c21b2978cf28362224938a618351c2f5349be30804d5ab3b963"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-helpers.ts",
+    "bytes": 3831,
+    "sha256": "6bf8ad15ca4dc2a695752d7ff1bb4e13ece302da79ba63a300a5c4abfb4aad48"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-phase1.spec.ts",
+    "bytes": 3130,
+    "sha256": "071255c7bac322591dde5f1da2637b3240f01adb8287e520a0a35855300345a6"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-phase2.spec.ts",
+    "bytes": 2382,
+    "sha256": "af5d887058f86ae89d0fee5c72022adf5b64da557319fc40313ec42d45f53ecb"
+  },
+  {
+    "file": "projekt/tests/browser/authoring-safety.spec.ts",
+    "bytes": 17339,
+    "sha256": "c338ff1345343b91351ae09b5ccdc2378d46b2c154d930c97aa49bd8ada0c3de"
+  },
+  {
+    "file": "projekt/tests/browser/classroom-scorm-export.spec.ts",
+    "bytes": 22155,
+    "sha256": "c96a4f9115a8ac4eb5348e52485e7196ff72843e519926648dc8deb99072dedc"
+  },
+  {
+    "file": "projekt/tests/browser/corrections.spec.ts",
+    "bytes": 16534,
+    "sha256": "f2414b29967338ee40712d5b81ad3e78171bdd22ec44bcbb2d81a1cfa0a12b3d"
+  },
+  {
+    "file": "projekt/tests/browser/document-import-integrity.spec.ts",
+    "bytes": 7463,
+    "sha256": "8b4a8eb14192890b5d5a34bace6aba75c25db5112483e9a5a0db86b9734c0a22"
+  },
+  {
+    "file": "projekt/tests/browser/document-import.spec.ts",
+    "bytes": 22805,
+    "sha256": "9ecfd18f16f50ab4120d828f2c4adf5c01ea5d38ae27d52b5c2bd659e7a02dbe"
+  },
+  {
+    "file": "projekt/tests/browser/help-editor-final.spec.ts",
+    "bytes": 11229,
+    "sha256": "f37c4c448271e33242daac5a8499e7b493efc14f0e15f3eee93109fd48a04c5d"
+  },
+  {
+    "file": "projekt/tests/browser/help-editor.spec.ts",
+    "bytes": 26605,
+    "sha256": "1f8c463d3ec785eb9d2a31a831a13b112bb409d6cff4ce51a51b012d614a5f83"
+  },
+  {
+    "file": "projekt/tests/browser/help-final.spec.ts",
+    "bytes": 7101,
+    "sha256": "63edd0b3cbf1ee7f79e8e9acdcf2b73821db28bcd25d02bfc11c709eb5a62606"
+  },
+  {
+    "file": "projekt/tests/browser/help-runtime-helpers.ts",
+    "bytes": 5494,
+    "sha256": "692e199e2e0b819d0daeea19a6e5f299fa31715c35599b707c681b600ca31388"
+  },
+  {
+    "file": "projekt/tests/browser/integration.spec.ts",
+    "bytes": 20800,
+    "sha256": "16e6fa142fce2d666bfc976b0a646b8cf821a4f84aa46188e8dcf792d82ab737"
+  },
+  {
+    "file": "projekt/tests/browser/minimal-start.spec.ts",
+    "bytes": 8279,
+    "sha256": "41a4219df02360782bcbccc7bda57e416b7ac7cd486266ea8d55147eb82aaaf7"
+  },
+  {
+    "file": "projekt/tests/browser/ordered-help.spec.ts",
+    "bytes": 18729,
+    "sha256": "9cc11fb671f23239fbdcba2806a016e719b98397f7bd3ecfae2db6b38d6d6e34"
+  },
+  {
+    "file": "projekt/tests/browser/print-lifecycle.spec.ts",
+    "bytes": 8938,
+    "sha256": "bb6999bc3768bad8beb02dd9be840f5a10da17824360269e3dbf913313aa9e18"
+  },
+  {
+    "file": "projekt/tests/browser/print.spec.ts",
+    "bytes": 29478,
+    "sha256": "93590ac8132191c3d7470b4a873c028ce20e491a511ca29eee3127ea622fd528"
+  },
+  {
+    "file": "projekt/tests/browser/prototype.spec.ts",
+    "bytes": 21394,
+    "sha256": "3f811d749a71a84bd8aae2c5350576f778ea75a2d1f6645c39434343cc4c7791"
+  },
+  {
+    "file": "projekt/tests/browser/r1.spec.ts",
+    "bytes": 18845,
+    "sha256": "b7d50795c77bf89b67b70e15ebf8e88d48ebf989656cb89841a4f4b1c004040e"
+  },
+  {
+    "file": "projekt/tests/browser/r1b.spec.ts",
+    "bytes": 25513,
+    "sha256": "c62df30f2d2f82e4d42c6a6eda0ad72197ce61e35028422e5887538aa8eb121f"
+  },
+  {
+    "file": "projekt/tests/browser/release-candidate.spec.ts",
+    "bytes": 11587,
+    "sha256": "70af55eb545747e8889bdfe24b4e732dd266e83ecc1e672cd184eb1028d66077"
+  },
+  {
+    "file": "projekt/tests/browser/review.spec.ts",
+    "bytes": 25288,
+    "sha256": "2045ab3bdadc6e0f5716d6027756cca45569f5750073954009c2c5002ba03ef2"
+  },
+  {
+    "file": "projekt/tests/browser/team-helpers.ts",
+    "bytes": 954,
+    "sha256": "88710aea577df5160db7aa477caea3ce805eb21af131600e17def756be89d377"
+  },
+  {
+    "file": "projekt/tests/browser/team-requirements.spec.ts",
+    "bytes": 22822,
+    "sha256": "011a317e2f486a83809fbe3b5304702db39a6935b94292a98be70ff43ba6d1c2"
+  },
+  {
+    "file": "projekt/tests/browser/universal.spec.ts",
+    "bytes": 28788,
+    "sha256": "d92103035d046318c649ab50958c272281a7386383831bc9d7a841904c6036c6"
+  },
+  {
+    "file": "projekt/tests/build-notices.test.ts",
+    "bytes": 1407,
+    "sha256": "66da93cda3dbd8e9a3603a6d940d9e1d7ac026ba0452f9e2c2be95cefd7eb7ea"
+  },
+  {
+    "file": "projekt/tests/classroom-scorm.test.ts",
+    "bytes": 4687,
+    "sha256": "1e85185f754f9ed8436b3eb9162d0e7227e1d917287418db7329d217c0bef23a"
+  },
+  {
+    "file": "projekt/tests/content-build.test.ts",
+    "bytes": 7133,
+    "sha256": "d8a8b413fda1307086258e09cb6ed60b324af74847d43ac76b93d9a00c914310"
+  },
+  {
+    "file": "projekt/tests/document-import-integrity.test.ts",
+    "bytes": 4855,
+    "sha256": "d02067410b0ab1f3b0e6987f54eec2efbffc1f7e710b7c83570aecd38df430e0"
+  },
+  {
+    "file": "projekt/tests/document-import.test.ts",
+    "bytes": 5788,
+    "sha256": "a957025db7aec0aab4a00f0c76dfc584d3f88091642f46936b530b3c0dc0d848"
+  },
+  {
+    "file": "projekt/tests/documents.test.ts",
+    "bytes": 5461,
+    "sha256": "7986f6197a9c8a8899609dfdb02cb1714f1f6be0641fd8211a90319cda0680aa"
+  },
+  {
+    "file": "projekt/tests/edge-id.test.ts",
+    "bytes": 659,
+    "sha256": "d8a1fbc3b8a7b6dcf6a5741f772d8c847eedb32e64fc765be0b69a08b4d0e18e"
+  },
+  {
+    "file": "projekt/tests/fixtures/boden-source-fingerprint.json",
+    "bytes": 2073,
+    "sha256": "ddac539e810b54efcc2a5484701e6cb2596fa845cade73fb1f55e2ec43e9c461"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/A-Word-12-Karten.docx",
+    "bytes": 2287,
+    "sha256": "2f9f3e9bcb7a8910d98398ecc0d0f873520dde2487c95183bb7ea3c242c2aae9"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/A-Word-Originalvergleich.html",
+    "bytes": 4047,
+    "sha256": "cc24ce4a8e9d524a9c9cd2ec95f1a7a74408a42b67ed7e206bdee556e618a816"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/A-Word-Originalvergleich.pdf",
+    "bytes": 26466,
+    "sha256": "0bdf6f910089a2fdccdd53b252eb764e50697acb48ce0e36e9ae1fb7eb9d2fa4"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/B-Word-Medien-Tabelle.docx",
+    "bytes": 44292,
+    "sha256": "cfb0a07124b333e594ba5e8c8cee4ca174791bc285104d4cfb6003bee4187464"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/B-Word-Originalvergleich.html",
+    "bytes": 76790,
+    "sha256": "b5ce0d05df6ad93105d3ececc03133e0957f8a774f93911671a7fb6dbd3f3b5c"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/B-Word-Originalvergleich.pdf",
+    "bytes": 77700,
+    "sha256": "0607c54e6c2a9889546a1de61c40939582e0e751e1b289f2ac87c19d0815cf55"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/C-PDF-12-Karten.html",
+    "bytes": 4047,
+    "sha256": "cc24ce4a8e9d524a9c9cd2ec95f1a7a74408a42b67ed7e206bdee556e618a816"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/C-PDF-12-Karten.pdf",
+    "bytes": 26466,
+    "sha256": "0bdf6f910089a2fdccdd53b252eb764e50697acb48ce0e36e9ae1fb7eb9d2fa4"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/D-PDF-Mehrspaltig.html",
+    "bytes": 77014,
+    "sha256": "fbcf353c7ab0096b23741fa976b487595532b1743acc88f0adf29b800045cbd7"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/D-PDF-Mehrspaltig.pdf",
+    "bytes": 73419,
+    "sha256": "ab742fb1c2663079526d5fb6f24346486af753335dce2904fc7a7eb7d686069d"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/E-PDF-Scan-ohne-Text.html",
+    "bytes": 47317,
+    "sha256": "5e2eb2bb0db67737f823a30bf2eb9c50fd1d025ee9cfaa9e8b39c06ab31987ec"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/E-PDF-Scan-ohne-Text.pdf",
+    "bytes": 30807,
+    "sha256": "fe3c37c5dd796d061e8a159b11c8218a5f7606485959f32df9dfd2fb04c5d681"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Altformat.doc",
+    "bytes": 8,
+    "sha256": "6dda1524c96123bdeaba431bb8bcf4eaae977606559d411919ffdda50edf3efe"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Defekt.docx",
+    "bytes": 16,
+    "sha256": "e5b09b84677a7d003e29579faac3f199b3c7b2eee0014ac04a042458dc55e9da"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Defekt.pdf",
+    "bytes": 24,
+    "sha256": "7e76476802f1fa71283b29f57b80c70306b3aa294e2388e8708d0d76f522ef53"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-PDF-JavaScript.pdf",
+    "bytes": 441,
+    "sha256": "fbc2c36fb7dfb5b2f6e1dc5f8dbc5c8c872ddcdfa727588a140a3bebe03c8235"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Word-Mediengrenze.docx",
+    "bytes": 30744,
+    "sha256": "e32f41b418ae2145b942a2a963b7978603142c6a81a5199f429a81f99edfc073"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Word-Text-und-externe-Verweise.docx",
+    "bytes": 2062,
+    "sha256": "f7d1830f6de6f3e85cc88baad7a469a2cbd8946042ef70f34166d116585cb117"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Word-aktive-Inhalte.docx",
+    "bytes": 2410,
+    "sha256": "59523931c85a9e3aeb18feaabc35dfa173e2aa6b23523c2970b4e6f27ebe0027"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/F-Word-komprimiert.docx",
+    "bytes": 12157,
+    "sha256": "8c7e147931a6687481e3b834810d7d40ffbd79cca2f5ec6b6188908eec6e2899"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/G-PDF-Seitenuebergreifend.html",
+    "bytes": 616,
+    "sha256": "b656510e5ed4f09eb28620021212a444a35e9279018021880a2c3c50fc342a25"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/G-PDF-Seitenuebergreifend.pdf",
+    "bytes": 20426,
+    "sha256": "c45488a325b732b9d90b87582444dd628e71fa176e1c2cc89544116b9ffb1c85"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/H-PDF-Abbruch-38-Seiten.html",
+    "bytes": 11640,
+    "sha256": "81626a69301bc72c49c25e21c203f462be2b1b406fdffc85fc2310648485b22c"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/H-PDF-Abbruch-38-Seiten.pdf",
+    "bytes": 52724,
+    "sha256": "ae3b15e05b403d2a42ccd7a10a5b67a656dc4253ebf6efb36d5e1ae94c762dd9"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/ORIGINAL-INHALTE.json",
+    "bytes": 7425,
+    "sha256": "59a8da0944d8ce1c41ec2e249741dae213757322f5d0b10c9f9393257e365100"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/README.md",
+    "bytes": 1855,
+    "sha256": "eeed564c47e5c84999e7ed1e5650e6391dce0047bbb102ba3668b85edc7b8ea3"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/bild-1.png",
+    "bytes": 35398,
+    "sha256": "9bf18999d6f6da6e2c69b6b00d5fd1f392fb1fdd04887d08a1093ced18e66639"
+  },
+  {
+    "file": "projekt/tests/fixtures/document-import/bild-2.jpeg",
+    "bytes": 20639,
+    "sha256": "5b66b044a2cdab4f3e8d9c5dbda526cd1dbe19eae77af0839bc81973b794d24f"
+  },
+  {
+    "file": "projekt/tests/fixtures/ordered-12.json",
+    "bytes": 3410,
+    "sha256": "1b4bac44cd1022b037f804d68fe38e13b759107f3a3649ce870c5ec6f2732110"
+  },
+  {
+    "file": "projekt/tests/fixtures/ordered-18.json",
+    "bytes": 4960,
+    "sha256": "1e263098f5bb21c5bf69ce83030add8b136d78b01365f2905342d958b95ada44"
+  },
+  {
+    "file": "projekt/tests/fixtures/ordered-5.json",
+    "bytes": 2218,
+    "sha256": "666120b5323ef8fc7c30af78d9f4d062c5236fd75d9fcb6805d7e0a833e134c6"
+  },
+  {
+    "file": "projekt/tests/fixtures/ordered-60.json",
+    "bytes": 15901,
+    "sha256": "7d2a162afd6569f3000177720344b423f004642380cf3bd060122bcafadde466"
+  },
+  {
+    "file": "projekt/tests/fixtures/oriented-diagram.jpg",
+    "bytes": 20876,
+    "sha256": "50a0d275405703b622e165fb6fa7a68d2f54386977239b3a346c0af53494239f"
+  },
+  {
+    "file": "projekt/tests/fixtures/png.ts",
+    "bytes": 1442,
+    "sha256": "86f2a3cf7c52c28b3e4920a8ea0094b92fec451455a5b9d49402f3fb4cbb242c"
+  },
+  {
+    "file": "projekt/tests/fixtures/print-media.json",
+    "bytes": 8347,
+    "sha256": "f2b1467c37cb0c6f29de366f2cfb2318c95accd55252b504034a0783e2bf953b"
+  },
+  {
+    "file": "projekt/tests/fixtures/release/README.md",
+    "bytes": 595,
+    "sha256": "cd1ebe56347c894c197edcdeba265089946e4e5c37c359401e0cb34cc3bc18a0"
+  },
+  {
+    "file": "projekt/tests/fixtures/release/rc1-initial.json",
+    "bytes": 1489,
+    "sha256": "8d9738717194640a4a2448bb118098a0c823ac20d2d7f49326ac02e30d0f1631"
+  },
+  {
+    "file": "projekt/tests/fixtures/release/rc1-original.png",
+    "bytes": 1309667,
+    "sha256": "05e292b47092da0d4e35bbb0863c5096ad21a81a7e39eb5181d891c1422b97b8"
+  },
+  {
+    "file": "projekt/tests/fixtures/reusable-five.json",
+    "bytes": 1839,
+    "sha256": "6a2929903df4562960b4c1c0311c1baf1e4ed1e5c0b96f6cdd8b8e01148badd6"
+  },
+  {
+    "file": "projekt/tests/fixtures/review/60-90-Gruppenstand.png",
+    "bytes": 2381276,
+    "sha256": "5256a551a362d6372aff9781497aa27aa7a8aa329490c9038c5fb549e8c80b66"
+  },
+  {
+    "file": "projekt/tests/fixtures/review/README.md",
+    "bytes": 2099,
+    "sha256": "9b8dda669e2fc183e73b5675c0e86c361faa1c4343a7a70fd64faa06d9030c2c"
+  },
+  {
+    "file": "projekt/tests/fixtures/review/Start-ID-1000000.png",
+    "bytes": 412485,
+    "sha256": "1c75c56db6a4cf0603d0679c68c38fa3466f399f351de2ef8ce5dd6a5f27e289"
+  },
+  {
+    "file": "projekt/tests/fixtures/review/stress-220.json",
+    "bytes": 565340,
+    "sha256": "7c5847007655720054c7e2af80d3a751260b0235134054febb05faa0c83f6cc2"
+  },
+  {
+    "file": "projekt/tests/help-authoring.test.ts",
+    "bytes": 4987,
+    "sha256": "b5375878ddac18e7c2b47b258aa90b8cfa41beb44f230bedf87603358d972c91"
+  },
+  {
+    "file": "projekt/tests/help-editor-final.test.ts",
+    "bytes": 1421,
+    "sha256": "66102650c0a44d2591557097260a0773024296e83f469a6dbdf46a22a3bc4ce3"
+  },
+  {
+    "file": "projekt/tests/help-final.test.ts",
+    "bytes": 1309,
+    "sha256": "a4e89a01cfc371078b2874a1da1fa33839c32583a7b8e189bf709c56884204a7"
+  },
+  {
+    "file": "projekt/tests/history.test.ts",
+    "bytes": 3982,
+    "sha256": "2b29f8faa1a449c9b61844028854fc0c5f142dbd1f6f92c7a1ac3455eb5fc707"
+  },
+  {
+    "file": "projekt/tests/limits.test.ts",
+    "bytes": 2519,
+    "sha256": "5a247960870d4e33e2c629b8ff557f4987323487a1e6cfd982cee251efa0030b"
+  },
+  {
+    "file": "projekt/tests/ordered-help.test.ts",
+    "bytes": 8158,
+    "sha256": "c9da07a07fc680d1166a2f0abc62403a9f19607a0c2ec72347a1377c2740f431"
+  },
+  {
+    "file": "projekt/tests/paper-reference.test.ts",
+    "bytes": 2047,
+    "sha256": "8cd3e422c6bedf963c98b8b97a7396f8a08dbc0515a1b95cab9b4812bd27a39f"
+  },
+  {
+    "file": "projekt/tests/persistence.test.ts",
+    "bytes": 6515,
+    "sha256": "81170a1c6522b5116f9364c9c5c70c3cb6b9346f7afbc683f6a54113fe4daeea"
+  },
+  {
+    "file": "projekt/tests/portable-safety.test.ts",
+    "bytes": 5727,
+    "sha256": "9cc9c1d4e1e3f25c4125e9f864dbbe5629490e7a3291249c0f26f4a2d1b3f8e6"
+  },
+  {
+    "file": "projekt/tests/rc2.test.ts",
+    "bytes": 1829,
+    "sha256": "254d6327ca08bebbf86525bba87542defa6994c7195bd303551f72c9230296ef"
+  },
+  {
+    "file": "projekt/tests/release/rc2.spec.ts",
+    "bytes": 22303,
+    "sha256": "59c8895b44587be044448541e9fe5a46b4c60d0da6467c2899bfeeb15589728b"
+  },
+  {
+    "file": "projekt/tests/scorm.test.ts",
+    "bytes": 3545,
+    "sha256": "c036916a56dd6d4b105d4adae169ec7e0b24001ecb3ac06cb2f44d937ad1a892"
+  },
+  {
+    "file": "projekt/tests/universal-model.test.ts",
+    "bytes": 8417,
+    "sha256": "7c48e51895451ca0ccb1fade64791c85227b1466afb1903bb81e6898fd9a2f94"
+  },
+  {
+    "file": "projekt/tsconfig.json",
+    "bytes": 460,
+    "sha256": "f1e3a4f0aa4f8d731d258e0e447c2162064ae0e67daf2f0f33475d94491c744d"
+  },
+  {
+    "file": "projekt/vite.config.ts",
+    "bytes": 1221,
+    "sha256": "aafd64909ba3d0a85c6cfa4deeb75c597db808ac4b33a419072ba8e58f2969f2"
+  },
+  {
+    "file": "pruefprotokolle/build-focused.log",
+    "bytes": 959,
+    "sha256": "5994da335d4a151e534d5ed8c0d93a5854ec2ed63fbc3c6c16b4e6604bda0bb8"
+  },
+  {
+    "file": "pruefprotokolle/final-summary.json",
+    "bytes": 833,
+    "sha256": "f92394ce2f27c71cf23e4d5e447eccf13093475a80d7c180cf5fb81b1e111cee"
+  },
+  {
+    "file": "pruefprotokolle/focused-browser-rerun.log",
+    "bytes": 11180,
+    "sha256": "259c00376b6cfcf76c482c1594fc76b80ecb3ab466e3ff3935ce5b9493917437"
+  },
+  {
+    "file": "pruefprotokolle/focused-browser.log",
+    "bytes": 19453,
+    "sha256": "427f48eb827756296ebe90365f15a5e0c2d2622a13c052c957999e5dce7c965e"
+  },
+  {
+    "file": "pruefprotokolle/focused-unit.log",
+    "bytes": 408,
+    "sha256": "e60f0a98d16e7b0c68f723cf0832068e554de6b93850847e6e01367fb5347180"
+  },
+  {
+    "file": "pruefprotokolle/frozen-after.json",
+    "bytes": 620,
+    "sha256": "c098a05ccbb148703c97ed7dfc0f79749cda3e7988b1a4ed594bbb6a6615c012"
+  },
+  {
+    "file": "pruefprotokolle/frozen-before.json",
+    "bytes": 620,
+    "sha256": "c098a05ccbb148703c97ed7dfc0f79749cda3e7988b1a4ed594bbb6a6615c012"
+  },
+  {
+    "file": "pruefprotokolle/full-check.log",
+    "bytes": 119809,
+    "sha256": "8b8493c1e1cdd652b59a7bbc8973e9c449104ae00e26badaf1831f3e45cfd9d4"
+  },
+  {
+    "file": "pruefprotokolle/independent-delivery.json",
+    "bytes": 2187,
+    "sha256": "b959adf921e0925253a3e0b61d5a35c3f78889494d924973118f8161e2991c35"
+  },
+  {
+    "file": "pruefprotokolle/playwright-last-run.json",
+    "bytes": 45,
+    "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+  },
+  {
+    "file": "pruefprotokolle/prepare-final.log",
+    "bytes": 2019,
+    "sha256": "df85ba7abb4246d3b73b933da022b84615b903028a622f5157a1a7a10612b53c"
+  },
+  {
+    "file": "pruefprotokolle/prepare.log",
+    "bytes": 2019,
+    "sha256": "029900a867cb94aeae4db6329b7e2277ec06ccdcb1529cebc4771c0d2ae585df"
+  },
+  {
+    "file": "pruefprotokolle/production-checksums.json",
+    "bytes": 664,
+    "sha256": "c56a8f66c8a9997c0bde13f8d29a829e3446e10b8eeac98c3d292e21a2338451"
+  },
+  {
+    "file": "pruefprotokolle/protected-sources.json",
+    "bytes": 2857,
+    "sha256": "0049ae691866958d4735ac615803c5bb8f733d7e06cb4af6cc2412ccb392f548"
+  },
+  {
+    "file": "pruefprotokolle/rc2-results.json",
+    "bytes": 79835,
+    "sha256": "c1d90c2c13f508ddbb51631297828f6dd4f405d0fe04a81c171a30326c892278"
+  },
+  {
+    "file": "pruefprotokolle/rc2.log",
+    "bytes": 987,
+    "sha256": "2be46e611d46fe1b0cad181554e366c71968dc59764b153741092ab145055069"
+  },
+  {
+    "file": "pruefprotokolle/remote-all-before.txt",
+    "bytes": 1357,
+    "sha256": "f35a5d4b3396041278b1d9442c06c6e22d33fbc8334c0f67a63ebcf6ea733852"
+  },
+  {
+    "file": "pruefprotokolle/remote-before.txt",
+    "bytes": 237,
+    "sha256": "4f7af5269a0d3dc5f05d49423e065e6bb7e65c2b9da58e1bc79b403ae9e4ca6e"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-1-1024.png",
+    "bytes": 56715,
+    "sha256": "f47f6991d3b5f04f2a49af1fbd85d5b3f50721ac37db119016bdc2f894b6fcee"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-1-320.png",
+    "bytes": 38831,
+    "sha256": "575a37fc8419824482950bd763158b76af34864c2d4c87ff5e5e11696cb5bd5c"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-1-600.png",
+    "bytes": 49921,
+    "sha256": "93d8a2aa3803a701597804b7ba8a133325ba5145d56df27c0d538f76a2532d32"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-1-768.png",
+    "bytes": 54629,
+    "sha256": "8a6a285e7426f49b304b546c510d8c7a3005ad3c50cf643c85828f14a17c7c55"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-2-1024.png",
+    "bytes": 53775,
+    "sha256": "4d16ecd704bdf5ffac01bc811f95a9e4d15bd637defa4d2f1b91de957fcd814f"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-2-320.png",
+    "bytes": 39554,
+    "sha256": "e2540e52cd200ebc52dd4fc29cd1c487fd2f8522500019c66a6ed5a62669e78f"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-2-600.png",
+    "bytes": 48475,
+    "sha256": "ead9ae3f70c6cd9d21e5f6accf482e0c5bf2033fd1601dbdf9e1f98a3fb2adc2"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/autostart-2-768.png",
+    "bytes": 52911,
+    "sha256": "bcee56a3bcfa64e8786df8b88b092c9212c705a7685f287ebf253282e01def7d"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/bereitstellen-1024x768.png",
+    "bytes": 120926,
+    "sha256": "a6378f2ada1a4e1103aeb22055cb6a2796bbab3282055a1e54e098ce94c08d52"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/bereitstellen-320x700.png",
+    "bytes": 52311,
+    "sha256": "dc006101287ac4d4e525e25244b173229b181ddf9d0019eb4d7969a6ae9ba27c"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/bereitstellen-600x800.png",
+    "bytes": 93254,
+    "sha256": "3d7f6235f4438e1c628d6702ea56abdd7392524feadcc61f55c0578878253518"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/bereitstellen-768x1024.png",
+    "bytes": 118312,
+    "sha256": "99ecd5fbb3890deb146ec601b601266da5a2fd0a6258c9c28286f4eb3a3a8912"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/editor-1024.png",
+    "bytes": 199839,
+    "sha256": "8cd8f22960d29124517d62c1b89ea5357a35e943354f21ee93eca71f00492d38"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/editor-320.png",
+    "bytes": 194628,
+    "sha256": "f06e8783926191e8a1f135e28a5490fd86c25978749972cc938a16ba3d873bb6"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/editor-600.png",
+    "bytes": 206254,
+    "sha256": "c14c9eb53b40f6409f881d33e1a6bc4fe71bcd6f98d740c7d6ffd9128cf7a026"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/editor-768.png",
+    "bytes": 196792,
+    "sha256": "ea3182833120fa509be3f9195ae56ef10d09d88bc8ed0722bd77797f28d5b916"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/import-editor-1024x768.png",
+    "bytes": 117312,
+    "sha256": "e9783d67c9243fa3c52802fe6d61b5e441a20a7c41359b5e04f52ba74fd998e8"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/import-editor-320x700.png",
+    "bytes": 101325,
+    "sha256": "d55d13bb5b931f804b9d48a18ddaa8ee97f344c8d8bf9e848a7c3b99951f7cb6"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/import-editor-600x800.png",
+    "bytes": 110188,
+    "sha256": "39b8ea635de5886e7c8b81d938f583427a20d630accbe44591f802a04fcd87b7"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/import-editor-768x1024.png",
+    "bytes": 115647,
+    "sha256": "71a3d900b98160e5a00b24701272b1adb88f16833623d4d8539bb35e16e4d582"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/start-1024x768.png",
+    "bytes": 23567,
+    "sha256": "7f14a90b7dca87cdd4087289abf7d027a12a787a1d00b372aa1ada9d89a2cd01"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/start-320x700.png",
+    "bytes": 18239,
+    "sha256": "39533fcb9ff17fb3b112ef55f2cee2f95633eb76f9da4b3cf69b58c0adb721f7"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/start-600x800.png",
+    "bytes": 19977,
+    "sha256": "358e2edd402ef60e08a66cfa6044a111a2c1e48e5f3ae8433fd3030a564e33c3"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/start-768x1024.png",
+    "bytes": 23588,
+    "sha256": "22b64d146901c8bbcb1fde745db25175f1f42efe8568bff4cbbcb512266e0242"
+  },
+  {
+    "file": "pruefprotokolle/screenshots/viewport-checks.json",
+    "bytes": 858,
+    "sha256": "0ae73d60ba6bd0982af50a96b4d5eea3e6a452bf35d4447dca6380ec691bb265"
+  },
+  {
+    "file": "pruefprotokolle/staged-source-stat.txt",
+    "bytes": 4466,
+    "sha256": "39795dcc61e2feab7f698fedce48b96f1cdec1a7a1e492b544eb21752d70af89"
+  },
+  {
+    "file": "pruefprotokolle/test-preservation.json",
+    "bytes": 486,
+    "sha256": "9f29932ab811c080c6f6b49573dedfd37137c1de64a04eee7304efa9ef621ee9"
+  },
+  {
+    "file": "pruefprotokolle/unit.log",
+    "bytes": 664,
+    "sha256": "4d3b32bdc756c794deb086bfe80e70c084c3a229f59c4ed43e6562cfbdde0ce3"
+  },
+  {
+    "file": "pruefprotokolle/universal-package-validation.json",
+    "bytes": 537,
+    "sha256": "c4c5a7eb09da70b975e1371eee19a8a236c767f8b1453dbeccfda924e0561f37"
+  },
+  {
+    "file": "pruefprotokolle/viewport-checks.json",
+    "bytes": 858,
+    "sha256": "0ae73d60ba6bd0982af50a96b4d5eea3e6a452bf35d4447dca6380ec691bb265"
+  },
+  {
+    "file": "pruefprotokolle/webkit-availability.json",
+    "bytes": 1858,
+    "sha256": "288150aa05a0933da50c6ed46ac38b3de59b7449b2a3c18fe10152b5d2fe6cc6"
+  },
+  {
+    "file": "testdateien/A-Word-12-Karten.docx",
+    "bytes": 2287,
+    "sha256": "2f9f3e9bcb7a8910d98398ecc0d0f873520dde2487c95183bb7ea3c242c2aae9"
+  },
+  {
+    "file": "testdateien/B-Word-Medien-Tabelle.docx",
+    "bytes": 44292,
+    "sha256": "cfb0a07124b333e594ba5e8c8cee4ca174791bc285104d4cfb6003bee4187464"
+  },
+  {
+    "file": "testdateien/C-PDF-12-Karten.pdf",
+    "bytes": 26466,
+    "sha256": "0bdf6f910089a2fdccdd53b252eb764e50697acb48ce0e36e9ae1fb7eb9d2fa4"
+  },
+  {
+    "file": "testdateien/F-Defekt.docx",
+    "bytes": 16,
+    "sha256": "e5b09b84677a7d003e29579faac3f199b3c7b2eee0014ac04a042458dc55e9da"
+  },
+  {
+    "file": "testdateien/F-Defekt.pdf",
+    "bytes": 24,
+    "sha256": "7e76476802f1fa71283b29f57b80c70306b3aa294e2388e8708d0d76f522ef53"
+  },
+  {
+    "file": "testdateien/continued-1-1024.mysteryboard",
+    "bytes": 50518,
+    "sha256": "d3f932de4b3c1d020154b1696e6189601dbec26b8f9b218f71b0fe5a7aaae834"
+  },
+  {
+    "file": "testdateien/continued-1-320.mysteryboard",
+    "bytes": 50507,
+    "sha256": "702f9a399df1eef309e07f80f5ca926e5ca9deb8a78fbe457b9e90823b8e7eb5"
+  },
+  {
+    "file": "testdateien/continued-1-600.mysteryboard",
+    "bytes": 50518,
+    "sha256": "157d9cf147e7066e3c6f25d161e2d1a06a73c3dc3ddf98954c5534474260a880"
+  },
+  {
+    "file": "testdateien/continued-1-768.mysteryboard",
+    "bytes": 50518,
+    "sha256": "d8959df472d345ef5537274844d64c5ce3ac084073f36b98820d029f2bf386b6"
+  },
+  {
+    "file": "testdateien/continued-2-1024.mysteryboard",
+    "bytes": 48167,
+    "sha256": "7e1648b34273fb54c8b5868786c33d6ea9334b45c0ff25fe5e6c90408895ee2e"
+  },
+  {
+    "file": "testdateien/continued-2-320.mysteryboard",
+    "bytes": 48167,
+    "sha256": "46b100409340cea839c1cc5deb1879fa9a37ebc706a977e5dd4ff9ad1cc0272b"
+  },
+  {
+    "file": "testdateien/continued-2-600.mysteryboard",
+    "bytes": 48166,
+    "sha256": "c7e0956505ccb4ae87bbad60d8d1c36b719b59d4ee9a7396f9dcceaed559b926"
+  },
+  {
+    "file": "testdateien/continued-2-768.mysteryboard",
+    "bytes": 48167,
+    "sha256": "44f1f3015934d049c59c1f314fee11aaff62beaedc153f3a0032a2e9945665cd"
+  },
+  {
+    "file": "testdateien/original-png-1-1024.png",
+    "bytes": 318470,
+    "sha256": "b393aa095e6e7aa71eeec4b0296f7e2ca26b667e586f89f6f9490a5a0a91fe92"
+  },
+  {
+    "file": "testdateien/original-png-1-320.png",
+    "bytes": 254219,
+    "sha256": "03e5b0227dfba116a774e1192ba2b34275eb10ff4421d76b58e8d7584b21672c"
+  },
+  {
+    "file": "testdateien/original-png-1-600.png",
+    "bytes": 299148,
+    "sha256": "c71dbeae16fdbec917bd9ac1f6847ba9b9ffeb394102d30012e1fb1e40a72cdd"
+  },
+  {
+    "file": "testdateien/original-png-1-768.png",
+    "bytes": 300328,
+    "sha256": "256b6f22ccb94e2017f08abb935482da4c49779e23ad87178d19ba199287ace9"
+  },
+  {
+    "file": "testdateien/original-png-2-1024.png",
+    "bytes": 349827,
+    "sha256": "e952ac11eb178cbd21328267244f4b2f024ef06861897a1d40837f0f12a50c84"
+  },
+  {
+    "file": "testdateien/original-png-2-320.png",
+    "bytes": 275513,
+    "sha256": "89df73685be247709efb1d5767c4091f3f767e6ffca62c291b0966bd0407a5a1"
+  },
+  {
+    "file": "testdateien/original-png-2-600.png",
+    "bytes": 276837,
+    "sha256": "eb4aa6dca889b74a577da5cdfaabb90e7ce4829531ce40ac9565706c85bc0101"
+  },
+  {
+    "file": "testdateien/original-png-2-768.png",
+    "bytes": 274638,
+    "sha256": "54fae95faee44a8d346905da3ca6c9ab9b3888f2d1ffc9de92aeef1df4f7b4de"
+  },
+  {
+    "file": "testdateien/restored-1-1024.mysteryboard",
+    "bytes": 50422,
+    "sha256": "7ed03e4b8d9d4242c85a8f06fc557cdadf598cd01e06f1b377e8339942df2558"
+  },
+  {
+    "file": "testdateien/restored-1-320.mysteryboard",
+    "bytes": 50411,
+    "sha256": "cab5c789fd2664bdba90dac1334f041a69899ad92f1a73032b58bf367fc43714"
+  },
+  {
+    "file": "testdateien/restored-1-600.mysteryboard",
+    "bytes": 50422,
+    "sha256": "f16ff3000344b587c51c9cec6c343b301d7e228ab40d37b24cbc8279ec104fd6"
+  },
+  {
+    "file": "testdateien/restored-1-768.mysteryboard",
+    "bytes": 50422,
+    "sha256": "a52600c3c14748b349bc9fa0f4606f308dc1d991742b986fc0e5b0f33fbbe9a4"
+  },
+  {
+    "file": "testdateien/restored-2-1024.mysteryboard",
+    "bytes": 48071,
+    "sha256": "398a38fb5d98015ab21e40495a227a89f35a667fc81113bb85fc5ad67e9d6e48"
+  },
+  {
+    "file": "testdateien/restored-2-320.mysteryboard",
+    "bytes": 48071,
+    "sha256": "6c1336b07419320681610f60d5ee5154f8d291bfc196f0b492b5e8ae991a855f"
+  },
+  {
+    "file": "testdateien/restored-2-600.mysteryboard",
+    "bytes": 48070,
+    "sha256": "e2eb7d9454d222d181329c33fb1144d02fba917708c8a4abcb166eeae79b6409"
+  },
+  {
+    "file": "testdateien/restored-2-768.mysteryboard",
+    "bytes": 48071,
+    "sha256": "0f9d143ff3b85875726a6961d49069ec93d7d7a3f62e29eac751e8997ff8d93a"
+  },
+  {
+    "file": "testdateien/unveraendert-1024-1.mysteryboard",
+    "bytes": 49814,
+    "sha256": "cce44c4ea11b4a1f254a547ee1cce9f0f747bd47f6613683b97b89fabec79dee"
+  },
+  {
+    "file": "testdateien/unveraendert-1024-2.mysteryboard",
+    "bytes": 47862,
+    "sha256": "b13c2f9f5e66f00b8909dda644369f5303fad1fc9d6054f7c059dc1a9aa5e099"
+  },
+  {
+    "file": "testdateien/unveraendert-320-1.mysteryboard",
+    "bytes": 49814,
+    "sha256": "cce44c4ea11b4a1f254a547ee1cce9f0f747bd47f6613683b97b89fabec79dee"
+  },
+  {
+    "file": "testdateien/unveraendert-320-2.mysteryboard",
+    "bytes": 47862,
+    "sha256": "b13c2f9f5e66f00b8909dda644369f5303fad1fc9d6054f7c059dc1a9aa5e099"
+  },
+  {
+    "file": "testdateien/unveraendert-600-1.mysteryboard",
+    "bytes": 49814,
+    "sha256": "cce44c4ea11b4a1f254a547ee1cce9f0f747bd47f6613683b97b89fabec79dee"
+  },
+  {
+    "file": "testdateien/unveraendert-600-2.mysteryboard",
+    "bytes": 47862,
+    "sha256": "b13c2f9f5e66f00b8909dda644369f5303fad1fc9d6054f7c059dc1a9aa5e099"
+  },
+  {
+    "file": "testdateien/unveraendert-768-1.mysteryboard",
+    "bytes": 49814,
+    "sha256": "cce44c4ea11b4a1f254a547ee1cce9f0f747bd47f6613683b97b89fabec79dee"
+  },
+  {
+    "file": "testdateien/unveraendert-768-2.mysteryboard",
+    "bytes": 47862,
+    "sha256": "b13c2f9f5e66f00b8909dda644369f5303fad1fc9d6054f7c059dc1a9aa5e099"
+  },
+  {
+    "file": "testdateien/vollstand-1-1024.mysteryboard",
+    "bytes": 50422,
+    "sha256": "7ed03e4b8d9d4242c85a8f06fc557cdadf598cd01e06f1b377e8339942df2558"
+  },
+  {
+    "file": "testdateien/vollstand-1-320.mysteryboard",
+    "bytes": 50411,
+    "sha256": "cab5c789fd2664bdba90dac1334f041a69899ad92f1a73032b58bf367fc43714"
+  },
+  {
+    "file": "testdateien/vollstand-1-600.mysteryboard",
+    "bytes": 50422,
+    "sha256": "f16ff3000344b587c51c9cec6c343b301d7e228ab40d37b24cbc8279ec104fd6"
+  },
+  {
+    "file": "testdateien/vollstand-1-768.mysteryboard",
+    "bytes": 50422,
+    "sha256": "a52600c3c14748b349bc9fa0f4606f308dc1d991742b986fc0e5b0f33fbbe9a4"
+  },
+  {
+    "file": "testdateien/vollstand-2-1024.mysteryboard",
+    "bytes": 48071,
+    "sha256": "398a38fb5d98015ab21e40495a227a89f35a667fc81113bb85fc5ad67e9d6e48"
+  },
+  {
+    "file": "testdateien/vollstand-2-320.mysteryboard",
+    "bytes": 48071,
+    "sha256": "6c1336b07419320681610f60d5ee5154f8d291bfc196f0b492b5e8ae991a855f"
+  },
+  {
+    "file": "testdateien/vollstand-2-600.mysteryboard",
+    "bytes": 48070,
+    "sha256": "e2eb7d9454d222d181329c33fb1144d02fba917708c8a4abcb166eeae79b6409"
+  },
+  {
+    "file": "testdateien/vollstand-2-768.mysteryboard",
+    "bytes": 48071,
+    "sha256": "0f9d143ff3b85875726a6961d49069ec93d7d7a3f62e29eac751e8997ff8d93a"
+  }
+]
