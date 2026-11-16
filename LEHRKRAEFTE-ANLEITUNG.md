@@ -6,7 +6,7 @@ Diese universelle Vorlage öffnet unterschiedliche Mysterys aus Dateien. Sie ent
 
 Öffnen Sie `MysteryBoard-Universal.html` in einem vollständigen Browser oder die universelle SCORM-Anwendung im Kurs. Ein Browser kann lokal geladene HTML-Dateien je nach Betriebssystem und Schulverwaltung einschränken; die iPad-Dateivorschau ersetzt keinen Browser. Prüfen Sie den vorgesehenen Bereitstellungsweg vor dem Unterricht.
 
-1. Wählen Sie **Eigenes Mystery erstellen**, geben Sie ein Lehrkraftkürzel ein und öffnen Sie den Lehrkräftemodus. Das Kürzel ist kein Schüler-Teamname.
+1. Wählen Sie **Lehrkräfteeditor**, geben Sie ein Lehrkraftkürzel ein und öffnen Sie den Lehrkräftemodus. Das Kürzel ist kein Schüler-Teamname.
 2. Tragen Sie Titel und optional Untertitel ein. Ein eigener methodischer Denkimpuls ist optional.
 3. Mit **Karte hinzufügen** legen Sie Karten an. Geben Sie Überschrift, Text und Kartengruppe an. **Karte übernehmen** übernimmt die Eingaben in den Entwurf.
 4. Karten können nachträglich bearbeitet oder nach einer Sicherheitsabfrage gelöscht werden. IDs und Hilfereferenzen werden gemeinsam angepasst. `V` stammt aus den Gruppenmetadaten; es gibt keine fest programmierte Grenze zwischen Pflicht- und Vertiefungskarten.
@@ -29,7 +29,7 @@ Vorhandene Word-Dateien (.docx) und PDFs mit Textebene können Sie über **Dokum
 
 ## Entwurf wieder öffnen und Aufgaben nachträglich ändern
 
-Auf dem Startbildschirm wählen Sie **Mystery bearbeiten → Mystery-Datei auswählen**. Die Anwendung erkennt den Dateityp:
+Auf dem Startbildschirm wählen Sie **Lehrkräfteeditor → Vorhandenes Mystery öffnen → Mystery-Datei auswählen**. Die Anwendung erkennt den Dateityp:
 
 | Dateiinhalt | Verhalten |
 | --- | --- |
@@ -49,7 +49,7 @@ Bei einer übernommenen Inhaltsänderung erhöht die Anwendung die letzte Versio
 2. Erstellen oder importieren Sie Ihr Mystery im Editor.
 3. Wählen Sie **Schülerversion erstellen**.
 4. Laden Sie die erzeugte `.mysteryboard`-Datei bewusst herunter und stellen Sie sie **separat** als Kursdatei bereit. Alternativ öffnet **Aufgabe als PNG** die Erzeugung einer vollständigen Original-PNG.
-5. Die Lernenden laden die Aufgabe auf ihr Gerät und öffnen in derselben universellen Anwendung **Mystery bearbeiten** beziehungsweise **Menü → Fortsetzen → Mystery-Datei auswählen**.
+5. Die Lernenden laden die Aufgabe auf ihr Gerät und öffnen in derselben universellen Anwendung **Aufgabe öffnen** beziehungsweise **Menü → Fortsetzen → Mystery-Datei auswählen**.
 6. Nach vollständiger Prüfung erscheint die Aufgabe. Jede Gruppe gibt ihren eigenen Teamnamen oder Vornamen ein. Eine neutrale Gruppenbezeichnung genügt.
 
 Das Bearbeiten im itslearning-Player verändert das dort installierte SCORM-Paket nicht. Die Verteilung der neuen Inhaltsdatei bleibt ein bewusster separater Vorgang. Die Anwendung führt keine Kursverwaltung und keinen automatischen Upload aus. Der genaue itslearning-Dateidialog und die Schulrechte müssen im realen Kurs erprobt werden.

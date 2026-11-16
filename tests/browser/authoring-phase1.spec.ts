@@ -29,15 +29,13 @@ test("Phase 1: echte Blanko-HTML öffnet Aufgabe, sichert vollständige PNG und 
   );
   await context.setOffline(true);
   await page
-    .getByRole("button", { name: "Mystery bearbeiten", exact: true })
+    .getByRole("button", { name: "Aufgabe öffnen", exact: true })
     .click();
-  await page
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles({
-      name: "aufgabe.mysteryboard",
-      mimeType: "application/json",
-      buffer: Buffer.from(encodeDocument(taskDocument(source))),
-    });
+  await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
+    name: "aufgabe.mysteryboard",
+    mimeType: "application/json",
+    buffer: Buffer.from(encodeDocument(taskDocument(source))),
+  });
   await expect(
     page.getByRole("heading", { name: source.title, exact: true }),
   ).toBeVisible();
@@ -71,15 +69,13 @@ test("Phase 1: echte Blanko-HTML öffnet Aufgabe, sichert vollständige PNG und 
   );
   await fresh.setOffline(true);
   await next
-    .getByRole("button", { name: "Mystery bearbeiten", exact: true })
+    .getByRole("button", { name: "Arbeit fortsetzen", exact: true })
     .click();
-  await next
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles({
-      name: "arbeit.png",
-      mimeType: "image/png",
-      buffer: bytes,
-    });
+  await next.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
+    name: "arbeit.png",
+    mimeType: "image/png",
+    buffer: bytes,
+  });
   await expect(next.locator(".card")).toHaveCount(12);
   await expect(
     next.getByLabel("Team: Gruppe Phase 1", { exact: true }),

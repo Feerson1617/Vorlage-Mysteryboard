@@ -1,14 +1,16 @@
-# MysteryBoard · universelle Vorlage mit lokalem Dokumentimport
+# MysteryBoard · reduzierte Startseite und universeller Editor
 
 Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Ohne Backend, Benutzerkonten, externe Laufzeitressourcen oder automatische Browserspeicherung. React + TypeScript + Vite; eigene SVG-/Pointer-Steuerung, separater Canvas-Export.
 
-Auf `feat/mysteryboard-document-import-integrity` liegt die neue universelle Autoren- und Unterrichtsvorlage auf Basis von `8418a445248893c2ba01bea673d84febcdf36537`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
+Auf `feat/mysteryboard-minimal-start` liegt die neue universelle Autoren- und Unterrichtsvorlage auf Basis von `e7f50a03a8cb63168cde78ff01ab0d1e9ea9d460`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
 
-Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung in einer ausdrücklich getrennten Betriebsart ohne Datei-, Team- und Druckaktionen; ihre Bewegungen und Verbindungen werden beim Schließen verworfen. Kartensuche und optionale Mehrfachzuordnung erleichtern große Mysterys. [Aktueller Abschlussbericht](docs/DOKUMENTIMPORT-NACHARBEIT.md).
+Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung in einer ausdrücklich getrennten Betriebsart ohne Datei-, Team- und Druckaktionen; ihre Bewegungen und Verbindungen werden beim Schließen verworfen. Kartensuche und optionale Mehrfachzuordnung erleichtern große Mysterys. [Aktueller Abschlussbericht](docs/STARTSEITE-PRUEFBERICHT.md).
 
-**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/DOKUMENTIMPORT-NACHARBEIT.md).
+**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/STARTSEITE-PRUEFBERICHT.md).
 
 DOCX und PDF mit auslesbarer Textebene können im bestehenden Lehrkräfteeditor über **Dokument importieren** lokal übernommen werden. Die Parser werden bei der Dateiauswahl in einem abbrechbaren Worker gestartet; alle Bibliotheken, PDF-Schriften und Zeichenressourcen sind in HTML/SCORM enthalten. [Importanleitung und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).
+
+Die Startseite priorisiert **Aufgabe öffnen** und **Arbeit fortsetzen**. Der nachgeordnete Zugang **Lehrkräfteeditor** öffnet den vorhandenen Autorenmodus.
 
 ## Einstieg für Lehrkräfte
 
@@ -104,4 +106,4 @@ Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im
 - [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
 - [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
 
-Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 bleibt unter `unterricht-2026-11-13-rc2` eingefroren. Die ursprünglichen Unterrichts- und Entwicklungsbranches bleiben unverändert; diese Erweiterung liegt ausschließlich auf `feat/mysteryboard-document-import-integrity`.
+Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 bleibt unter `unterricht-2026-11-13-rc2` eingefroren. Die ursprünglichen Unterrichts- und Entwicklungsbranches bleiben unverändert; diese Erweiterung liegt ausschließlich auf `feat/mysteryboard-minimal-start`.

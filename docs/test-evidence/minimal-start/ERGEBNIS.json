@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "baseCommit": "e7f50a03a8cb63168cde78ff01ab0d1e9ea9d460",
+  "branch": "feat/mysteryboard-minimal-start",
+  "tests": {
+    "unit": 130,
+    "browserCasesSuccessfullyExecuted": 201,
+    "initialWholeSuitePassed": 197,
+    "initialWholeSuiteFailedOnObsoleteUiText": 4,
+    "updatedPaperCasesPassed": 4,
+    "newStartCasesPassed": 8,
+    "frozenRc2": 4
+  },
+  "browserEvidence": "All 201 cases executed successfully against the same production bytes: 197 in the complete run, four full paper workflows rerun after updating the removed-text assertion. No production change between runs.",
+  "applicationSha256": "0b83c3500a23434b304866b50fd9cebf00344b2fd480ebd43b2329d743d1368d",
+  "scormSha256": "1bb355bbcb902182bfddd4fbd921bbde7667697ba685be319c260f6d9b142110",
+  "scope": {
+    "baseCommit": "e7f50a03a8cb63168cde78ff01ab0d1e9ea9d460",
+    "branch": "feat/mysteryboard-minimal-start",
+    "applicationChanges": [
+      "src/UniversalApp.tsx",
+      "src/style.css"
+    ],
+    "applicationSources": {
+      "src/UniversalApp.tsx": "c15c5116edb615a3cd4d46780e9525cd58bccdfffc839ac44e03be87246c131f",
+      "src/style.css": "5d235f03d7aa33f60bff51ea70d8f0a870ba2136724de32889fa1789fca30093"
+    },
+    "sharedImportEntry": "openImport unchanged; both pupil actions share it",
+    "teacherEntry": "existing openAuthor(true)",
+    "coreEditorImportHelpHistoryPngPrintAppUnchanged": true
+  },
+  "actualSchoolDeviceApproval": false
+}

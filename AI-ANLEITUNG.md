@@ -110,7 +110,7 @@ Das erzeugte Dokument ist `format: "MysteryBoard"`, `formatVersion: 3`, `kind: "
 
 ## Im universellen SCORM verwenden und weiter bearbeiten
 
-Die Lehrkraft installiert die universelle SCORM-ZIP einmal, verteilt die `.mysteryboard`-Aufgabe separat und lässt sie über **Mystery bearbeiten / Fortsetzen → Mystery-Datei auswählen** öffnen. Schüler geben ihren eigenen Teamnamen an. Ein eigener KI-Weg im Schülerbereich existiert nicht.
+Die Lehrkraft installiert die universelle SCORM-ZIP einmal, verteilt die `.mysteryboard`-Aufgabe separat und lässt sie über **Aufgabe öffnen / Arbeit fortsetzen → Mystery-Datei auswählen** öffnen. Schüler geben ihren eigenen Teamnamen an. Ein eigener KI-Weg im Schülerbereich existiert nicht.
 
 Zur Revision dieselbe Datei öffnen, **Lehrkräftemodus – Mystery bearbeiten** wählen, Kürzel eingeben, Inhalte bearbeiten, **Entwurf sichern**, anschließend **Schülerversion erstellen**. Dies funktioniert auch im SCORM-Player. Es verändert keine installierte Ressource und keine bereits verteilte Datei automatisch.
 

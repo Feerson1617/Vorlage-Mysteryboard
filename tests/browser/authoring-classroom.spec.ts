@@ -73,7 +73,7 @@ async function classroom(
     await expect(
       page
         .frameLocator("iframe")
-        .getByRole("button", { name: "Mystery bearbeiten", exact: true }),
+        .getByRole("button", { name: "Aufgabe öffnen", exact: true }),
     ).toBeVisible();
     ui = page.frames().find((f) => f.url().endsWith("/app.html"))!;
     expect(ui).toBeTruthy();

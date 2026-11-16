@@ -150,11 +150,11 @@ async function app(mode, viewport = { width: 1024, height: 768 }) {
     mode === "scorm"
       ? (await page
           .frameLocator("iframe")
-          .getByRole("button", { name: "Mystery bearbeiten", exact: true })
+          .getByRole("button", { name: "Aufgabe öffnen", exact: true })
           .waitFor(),
         page.frames().find((f) => f.url().endsWith("/app.html")))
       : page;
-  await btn(ui, "Mystery bearbeiten").waitFor();
+  await btn(ui, "Aufgabe öffnen").waitFor();
   await context.setOffline(true);
   offline = true;
   return {
@@ -192,7 +192,7 @@ async function load(a, bytes, name = "datei.mysteryboard", menu = false) {
   if (menu) {
     await btn(a.ui, "Menü").tap();
     await btn(a.ui, "Fortsetzen").tap();
-  } else await btn(a.ui, "Mystery bearbeiten").tap();
+  } else await btn(a.ui, "Aufgabe öffnen").tap();
   await a.ui.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
     name,
     mimeType: name.endsWith(".png") ? "image/png" : "application/json",

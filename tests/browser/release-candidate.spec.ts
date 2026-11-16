@@ -29,7 +29,13 @@ for (const viewport of [
     const filenames: string[] = [];
     page.on("download", (d) => filenames.push(d.suggestedFilename()));
     await openUniversal(page);
-    await expect(page.getByText(/Auch Dateien von einer KI/)).toBeVisible();
+    await expect(page.getByText(/Auch Dateien von einer KI/)).toHaveCount(0);
+    await expect(page.locator("main.universal-welcome > p")).toHaveText(
+      "Öffnet eine Aufgabe oder setzt eure Arbeit fort.",
+    );
+    await expect(
+      page.locator("main.universal-welcome").getByRole("button"),
+    ).toHaveText(["Aufgabe öffnen", "Arbeit fortsetzen", "Lehrkräfteeditor"]);
     await importMystery(page, input);
     await page
       .getByLabel("Teamname oder Vornamen", { exact: true })

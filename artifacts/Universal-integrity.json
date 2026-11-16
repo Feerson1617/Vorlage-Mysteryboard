@@ -3,13 +3,13 @@
   "scormVersion": "1.2",
   "html": {
     "file": "MysteryBoard-Universal.html",
-    "bytes": 5564484,
-    "sha256": "55d3b4b5bc23e0e4070629a5e08488f34b685e157ead5144024a05f25183ec03"
+    "bytes": 5564417,
+    "sha256": "0b83c3500a23434b304866b50fd9cebf00344b2fd480ebd43b2329d743d1368d"
   },
   "zip": {
     "file": "MysteryBoard-Universal-SCORM-1.2.zip",
-    "bytes": 2779368,
-    "sha256": "d603dcbec91ce0ddb57327b2c18016b6498b306995ac620c3a79f41bc65494ef"
+    "bytes": 2779287,
+    "sha256": "1bb355bbcb902182bfddd4fbd921bbde7667697ba685be319c260f6d9b142110"
   },
   "applicationByteIdentical": true,
   "entries": [
@@ -30,8 +30,8 @@
     },
     {
       "file": "app.html",
-      "bytes": 5564484,
-      "sha256": "55d3b4b5bc23e0e4070629a5e08488f34b685e157ead5144024a05f25183ec03"
+      "bytes": 5564417,
+      "sha256": "0b83c3500a23434b304866b50fd9cebf00344b2fd480ebd43b2329d743d1368d"
     }
   ]
 }

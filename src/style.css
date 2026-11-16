@@ -305,6 +305,35 @@ p {
 .welcome .actions button {
   min-width: 154px;
 }
+.universal-welcome h1 {
+  margin-bottom: 16px;
+}
+.universal-welcome > p {
+  max-width: 30rem;
+  margin-bottom: 20px;
+}
+.universal-welcome .student-entry-actions {
+  justify-content: center;
+  max-width: 100%;
+}
+.universal-welcome .student-entry-actions button {
+  min-width: 180px;
+}
+.universal-welcome .teacher-entry {
+  margin-top: 24px;
+  padding: 8px 12px;
+  border-color: transparent;
+  background: transparent;
+  color: #607064;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.universal-welcome .teacher-entry:hover {
+  border-color: transparent;
+  background: #f0f4f1;
+}
 .small {
   font-size: 14px;
   color: #69766c;

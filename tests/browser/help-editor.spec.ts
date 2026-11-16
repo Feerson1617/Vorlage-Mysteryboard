@@ -68,7 +68,7 @@ async function scorm(browser: Browser, info: TestInfo, name: string) {
   await expect(
     page
       .frameLocator("iframe")
-      .getByRole("button", { name: "Mystery bearbeiten", exact: true }),
+      .getByRole("button", { name: "Aufgabe öffnen", exact: true }),
   ).toBeVisible();
   const ui = page.frames().find((f) => f.url().endsWith("/app.html"))!;
   await context.setOffline(true);

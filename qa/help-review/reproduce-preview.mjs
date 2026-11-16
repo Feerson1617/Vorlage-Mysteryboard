@@ -30,7 +30,7 @@ try {
   await page.goto(`http://127.0.0.1:${server.address().port}`);
   await page.context().setOffline(true);
   const button = (ui, name) => ui.getByRole("button", { name, exact: true });
-  await button(page, "Mystery bearbeiten").tap();
+  await button(page, "Aufgabe öffnen").tap();
   await page
     .getByLabel("Mystery-Datei", { exact: true })
     .setInputFiles({

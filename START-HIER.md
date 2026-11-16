@@ -10,7 +10,7 @@ Die fertige Anwendung braucht weder Programmierkenntnisse noch kostenpflichtige 
 
 ## 2. Selbst ein Mystery erstellen
 
-Wählen Sie **Eigenes Mystery erstellen**, geben Sie Ihr Kürzel ein und öffnen Sie den Lehrkräftemodus. Tragen Sie Titel und Karten ein. Vorhandene Word- oder Text-PDF-Dateien übernehmen Sie über **Dokument importieren**; prüfen Sie die Vorschläge vor der Übernahme. Bilder und Tabellen können Sie in der jeweiligen Karte ergänzen. Pflicht- und Vertiefungskarten wählen Sie ausdrücklich aus.
+Wählen Sie **Lehrkräfteeditor**, geben Sie Ihr Kürzel ein und öffnen Sie den Lehrkräftemodus. Tragen Sie Titel und Karten ein. Vorhandene Word- oder Text-PDF-Dateien übernehmen Sie über **Dokument importieren**; prüfen Sie die Vorschläge vor der Übernahme. Bilder und Tabellen können Sie in der jeweiligen Karte ergänzen. Pflicht- und Vertiefungskarten wählen Sie ausdrücklich aus.
 
 Unter **Hilfen bearbeiten** können Sie einen Denkimpuls und freiwillige farbige Kartennummern festlegen. Bei vielen Karten helfen die Suche und die auf Wunsch einblendbare gemeinsame Zuordnung. Die Vorschau lässt Karten und Verbindungen ausprobieren; beim Schließen werden diese Versuche verworfen.
 
@@ -20,7 +20,7 @@ Unter **Hilfen bearbeiten** können Sie einen Denkimpuls und freiwillige farbige
 
 Lassen Sie einer KI den vollständigen Projektordner, Ihr Ausgangsmaterial und **KI-PROMPT-ZUM-KOPIEREN.md** zukommen. Die KI soll eine fertige Aufgaben-Datei und einen bearbeitbaren Entwurf liefern. Unlesbare Stellen muss sie benennen, statt Informationen zu erfinden. Vergleichen Sie Texte, Zahlen, Quellen und Bilder anschließend selbst mit dem Original.
 
-Öffnen Sie die erhaltene Datei über **Mystery bearbeiten**. Ein Entwurf öffnet direkt den Editor. Bei einer Aufgaben-Datei wählen Sie **Lehrkräftemodus – Mystery bearbeiten** und geben Ihr Kürzel ein. Auch veröffentlichte Aufgaben bleiben auf diesem Weg bearbeitbar. Eine fremde KI wurde mit der mitgelieferten Papierprobe bislang nicht tatsächlich erprobt; die Probe enthält Vergleichsmaterial und Prüfanleitung.
+Öffnen Sie die erhaltene Datei über **Lehrkräfteeditor → Vorhandenes Mystery öffnen**. Ein Entwurf öffnet direkt den Editor. Bei einer Aufgaben-Datei wählen Sie **Lehrkräftemodus – Mystery bearbeiten** und geben Ihr Kürzel ein. Auch veröffentlichte Aufgaben bleiben auf diesem Weg bearbeitbar. Eine fremde KI wurde mit der mitgelieferten Papierprobe bislang nicht tatsächlich erprobt; die Probe enthält Vergleichsmaterial und Prüfanleitung.
 
 ## 4. Die Klasse versorgen
 
@@ -34,7 +34,7 @@ Für **itslearning** wird **MysteryBoard-Universal-SCORM-1.2.zip** einmal als SC
 
 Lernende öffnen die Aufgaben-Datei in der Anwendung, geben eine Teambezeichnung ein und beginnen. **Sichern** erstellt ein Sicherungsbild; dieses muss als **Original-PNG** bewusst heruntergeladen oder abgelegt werden. Ein Bildschirmfoto ersetzt diese Datei nicht.
 
-In einer neuen Sitzung öffnen sie die Original-PNG über **Mystery bearbeiten** beziehungsweise **Menü → Fortsetzen**. Sie enthält die vollständigen Karten und den Arbeitsstand. Teamnamen, Antworten und Arbeitsstände werden nicht automatisch an die Lernplattform gespeichert. Beim Schließen ungesicherte Änderungen beachten.
+In einer neuen Sitzung öffnen sie die Original-PNG über **Arbeit fortsetzen** beziehungsweise **Menü → Fortsetzen**. Sie enthält die vollständigen Karten und den Arbeitsstand. Teamnamen, Antworten und Arbeitsstände werden nicht automatisch an die Lernplattform gespeichert. Beim Schließen ungesicherte Änderungen beachten.
 
 ## 6. Eine Aufgabe später ändern
 

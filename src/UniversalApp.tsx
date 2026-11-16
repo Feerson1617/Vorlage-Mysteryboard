@@ -191,38 +191,21 @@ export function UniversalApp({
         <App key={generation} mystery={builtIn} onAuthor={() => openAuthor()} />
       ) : (
         <main className="welcome universal-welcome">
-          <div className="wordmark">▦ MysteryBoard</div>
-          <h1>Eine Vorlage für eure Mysterys</h1>
-          <p>
-            Öffnet eine Aufgabe oder setzt eure Arbeit mit einer Originaldatei
-            fort.
-          </p>
-          <p className="number-guidance">
-            Die Kartennummern helfen euch beim Wiederfinden. Sie geben keine
-            richtige Reihenfolge vor.
-          </p>
-          <div className="actions">
+          <h1>MysteryBoard</h1>
+          <p>Öffnet eine Aufgabe oder setzt eure Arbeit fort.</p>
+          <div className="actions student-entry-actions">
             <button className="primary" onClick={openImport}>
-              Mystery bearbeiten
+              Aufgabe öffnen
             </button>
-            <button onClick={() => openAuthor(true)}>
-              Eigenes Mystery erstellen
-            </button>
+            <button onClick={openImport}>Arbeit fortsetzen</button>
           </div>
-          <p className="small">
-            Für Lehrkräfte: Erstellt eigene Karten über „Eigenes Mystery
-            erstellen“. Auch Dateien von einer KI öffnet ihr über „Mystery
-            bearbeiten“. Bei Aufgaben wählt ihr danach „Lehrkräftemodus –
-            Mystery bearbeiten“; Entwürfe öffnen direkt den Editor.
-          </p>
-          <p>
-            Eure Inhalte werden nicht automatisch gespeichert oder an die
-            Lernplattform übertragen.
-          </p>
+          <button className="teacher-entry" onClick={() => openAuthor(true)}>
+            Lehrkräfteeditor
+          </button>
         </main>
       )}
       {importOpen && (
-        <Dialog title="Fortsetzen" onClose={cancel}>
+        <Dialog title="Datei öffnen" onClose={cancel}>
           <p>
             Aufgabe, Lehrkraft-Entwurf oder Schülerarbeitsstand: Wählt eine
             unveränderte .mysteryboard-Datei oder Original-PNG. Ein
@@ -359,7 +342,7 @@ export function UniversalApp({
                 openImport();
               }}
             >
-              Vorhandenen Entwurf öffnen
+              Vorhandenes Mystery öffnen
             </button>
           )}
         </Dialog>

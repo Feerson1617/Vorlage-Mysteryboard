@@ -17,7 +17,7 @@ async function choose(page: Page, index: number) {
 }
 async function start(page: Page) {
   await openUniversal(page);
-  await button(page, "Eigenes Mystery erstellen").tap();
+  await button(page, "Lehrkräfteeditor").tap();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("DI");
   await button(page, "Lehrkräftemodus öffnen").tap();
   await button(page, "Dokument importieren").tap();

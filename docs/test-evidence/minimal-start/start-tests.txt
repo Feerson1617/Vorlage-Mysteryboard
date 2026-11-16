@@ -1,0 +1,43 @@
+[WebServer] (node:9950) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:9963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:38] "GET / HTTP/1.1" 200 -
+
+Running 8 tests using 1 worker
+
+(node:9991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:40] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite html 1024x768: drei Einstiege, echte PNG und Rückwege (5.2s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:45] "GET /test-results/minimal-start-Minimale-Sta-1237a-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:45] "GET /test-results/minimal-start-Minimale-Sta-1237a-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:45] "GET /test-results/minimal-start-Minimale-Sta-1237a-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:46] code 404, message File not found
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:46] "GET /favicon.ico HTTP/1.1" 404 -
+  ✓  2 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite scorm 1024x768: drei Einstiege, echte PNG und Rückwege (5.2s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:50] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite html 768x1024: drei Einstiege, echte PNG und Rückwege (5.4s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:56] "GET /test-results/minimal-start-Minimale-Sta-146b0-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:56] "GET /test-results/minimal-start-Minimale-Sta-146b0-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:29:56] "GET /test-results/minimal-start-Minimale-Sta-146b0-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/session.js HTTP/1.1" 200 -
+  ✓  4 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite scorm 768x1024: drei Einstiege, echte PNG und Rückwege (5.6s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:01] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  5 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite html 600x800: drei Einstiege, echte PNG und Rückwege (6.7s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:08] "GET /test-results/minimal-start-Minimale-Sta-39221-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:08] "GET /test-results/minimal-start-Minimale-Sta-39221-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:08] "GET /test-results/minimal-start-Minimale-Sta-39221-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/app.html HTTP/1.1" 200 -
+  ✓  6 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite scorm 600x800: drei Einstiege, echte PNG und Rückwege (5.4s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:13] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  7 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite html 320x700: drei Einstiege, echte PNG und Rückwege (6.7s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:20] "GET /test-results/minimal-start-Minimale-Sta-06d89-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:20] "GET /test-results/minimal-start-Minimale-Sta-06d89-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:30:20] "GET /test-results/minimal-start-Minimale-Sta-06d89-iege-echte-PNG-und-R%C3%BCckwege/minimal-scorm/session.js HTTP/1.1" 200 -
+  ✓  8 tests/browser/minimal-start.spec.ts:79:5 › Minimale Startseite scorm 320x700: drei Einstiege, echte PNG und Rückwege (6.3s)
+
+  8 passed (49.7s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

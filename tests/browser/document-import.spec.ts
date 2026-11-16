@@ -14,7 +14,7 @@ const fixture = (n: string) => resolve("tests/fixtures/document-import", n),
   norm = (s: string) => s.replace(/\s+/g, " ").trim();
 async function teacher(page: Page) {
   await openUniversal(page);
-  await button(page, "Eigenes Mystery erstellen").tap();
+  await button(page, "Lehrkräfteeditor").tap();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("DI");
   await button(page, "Lehrkräftemodus öffnen").tap();
 }

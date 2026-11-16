@@ -86,7 +86,11 @@ try {
       const start = Date.now();
       await page.goto(origin + "/" + variant + "?run=" + i);
       await page
-        .getByRole("button", { name: "Mystery bearbeiten", exact: true })
+        .getByRole("button", {
+          name:
+            variant === "baseline" ? "Mystery bearbeiten" : "Aufgabe öffnen",
+          exact: true,
+        })
         .waitFor();
       const ready = Date.now() - start;
       await context.setOffline(true);
@@ -114,7 +118,7 @@ try {
   await page.goto(origin + "/current?import");
   await context.setOffline(true);
   const b = (n) => page.getByRole("button", { name: n, exact: true });
-  await b("Eigenes Mystery erstellen").click();
+  await b("Lehrkräfteeditor").click();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("DI");
   await b("Lehrkräftemodus öffnen").click();
   await b("Dokument importieren").click();
@@ -153,7 +157,7 @@ try {
     await page.goto(origin + "/current?pdf=" + filename);
     await context.setOffline(true);
     const b = (name) => page.getByRole("button", { name, exact: true });
-    await b("Eigenes Mystery erstellen").click();
+    await b("Lehrkräfteeditor").click();
     await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("DI");
     await b("Lehrkräftemodus öffnen").click();
     await b("Dokument importieren").click();

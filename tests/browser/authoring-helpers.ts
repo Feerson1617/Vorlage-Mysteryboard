@@ -25,7 +25,7 @@ export async function importMystery(
   buffer: Buffer,
   name = "datei.mysteryboard",
 ) {
-  await button(page, "Mystery bearbeiten").click();
+  await button(page, "Aufgabe öffnen").click();
   await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({
     name,
     mimeType: name.endsWith(".png") ? "image/png" : "application/json",
@@ -55,7 +55,7 @@ export async function getFile(
   return { bytes, document: readDocument(bytes) };
 }
 export async function createTwelve(page: UI) {
-  await button(page, "Eigenes Mystery erstellen").click();
+  await button(page, "Lehrkräfteeditor").click();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
   await button(page, "Lehrkräftemodus öffnen").click();
   await page

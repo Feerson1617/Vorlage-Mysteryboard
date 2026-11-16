@@ -1,0 +1,15 @@
+{
+  "baseCommit": "e7f50a03a8cb63168cde78ff01ab0d1e9ea9d460",
+  "branch": "feat/mysteryboard-minimal-start",
+  "applicationChanges": [
+    "src/UniversalApp.tsx",
+    "src/style.css"
+  ],
+  "applicationSources": {
+    "src/UniversalApp.tsx": "c15c5116edb615a3cd4d46780e9525cd58bccdfffc839ac44e03be87246c131f",
+    "src/style.css": "5d235f03d7aa33f60bff51ea70d8f0a870ba2136724de32889fa1789fca30093"
+  },
+  "sharedImportEntry": "openImport unchanged; both pupil actions share it",
+  "teacherEntry": "existing openAuthor(true)",
+  "coreEditorImportHelpHistoryPngPrintAppUnchanged": true
+}

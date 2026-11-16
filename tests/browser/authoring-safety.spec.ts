@@ -27,7 +27,7 @@ for (const viewport of [
     test.setTimeout(90000);
     await page.setViewportSize(viewport);
     await openUniversal(page);
-    await button(page, "Eigenes Mystery erstellen").tap();
+    await button(page, "Lehrkräfteeditor").tap();
     await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
     await button(page, "Lehrkräftemodus öffnen").tap();
     await page
@@ -185,7 +185,7 @@ test("Fehlerhafte und abgebrochene Imports verändern einen geöffneten Entwurf 
   page,
 }, info) => {
   await openUniversal(page);
-  await button(page, "Eigenes Mystery erstellen").tap();
+  await button(page, "Lehrkräfteeditor").tap();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
   await button(page, "Lehrkräftemodus öffnen").tap();
   await page
@@ -204,7 +204,7 @@ test("Fehlerhafte und abgebrochene Imports verändern einen geöffneten Entwurf 
     });
     await expect(
       page
-        .getByRole("dialog", { name: "Fortsetzen", exact: true })
+        .getByRole("dialog", { name: "Datei öffnen", exact: true })
         .getByRole("alert"),
     ).toBeVisible();
     await button(page, "Abbrechen").tap();
@@ -393,7 +393,7 @@ test("Fehler bei Projektdatei und Downloadvorbereitung bleiben verständlich und
   page,
 }, info) => {
   await openUniversal(page);
-  await button(page, "Eigenes Mystery erstellen").tap();
+  await button(page, "Lehrkräfteeditor").tap();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("AB");
   await button(page, "Lehrkräftemodus öffnen").tap();
   await page

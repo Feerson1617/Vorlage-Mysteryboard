@@ -23,7 +23,7 @@ try {
   await page.goto("file://" + resolve(process.argv[2]));
   await context.setOffline(true);
   const b = (name) => page.getByRole("button", { name, exact: true });
-  await b("Eigenes Mystery erstellen").click();
+  await b("Lehrkräfteeditor").click();
   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("DI");
   await b("Lehrkräftemodus öffnen").click();
   result.imports = [];

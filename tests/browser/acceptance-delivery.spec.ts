@@ -163,7 +163,7 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
   );
   const frame = p4.frameLocator("iframe");
   await expect(
-    frame.getByRole("button", { name: "Mystery bearbeiten", exact: true }),
+    frame.getByRole("button", { name: "Aufgabe öffnen", exact: true }),
   ).toBeVisible();
   const ui = p4.frames().find((f) => f.url().endsWith("/app.html"))!;
   await c4.setOffline(true);
