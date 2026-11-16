@@ -1,3 +1,4 @@
+import type { PdfLayout } from "./pdf-layout";
 import type { Content, Draft } from "../documents";
 import { newDraft, reviseDraft } from "../authoring";
 import { inspectDataImage } from "../media";
@@ -93,6 +94,8 @@ export type ImportResult = {
   warnings: string[];
   pages?: { width: number; height: number }[];
   noText?: boolean;
+  pdfLayout?: PdfLayout;
+  suggestedTitle?: string;
 };
 export const IMPORT_LIMITS = {
   fileBytes: 20_000_000,

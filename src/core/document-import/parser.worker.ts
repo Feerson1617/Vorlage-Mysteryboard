@@ -17,6 +17,14 @@ import {
   type Block,
   type ImportResult,
 } from "./model";
+import {
+  analyzePdf,
+  paintedSegments,
+  pdfItems,
+  regionBlocks,
+  type PdfPage,
+  type Segment,
+} from "./pdf-layout";
 const scope = globalThis as any;
 scope.pdfjsWorker = { WorkerMessageHandler };
 // Parser assets never use a URL supplied by the document or the network.
@@ -305,7 +313,8 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
       "Dieses PDF enthält aktive Skript-Aktionen und wird nicht importiert. Bitte ein PDF ohne aktive Inhalte verwenden.",
     );
   const pages: { width: number; height: number }[] = [],
-    blocks: Block[] = [];
+    geometryPages: PdfPage[] = [],
+    vectors: Segment[][] = [];
   for (let pageNo = 1; pageNo <= pdf.numPages; pageNo++) {
     scope.postMessage({
       type: "progress",
@@ -346,74 +355,40 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
           );
       }
     }
-    const lines: {
-      x: number;
-      y: number;
-      w: number;
-      h: number;
-      text: string;
-    }[] = [];
-    for (const it of items) {
-      const t = view.transform,
-        x = t[0] * it.transform[4] + t[2] * it.transform[5] + t[4],
-        y = t[1] * it.transform[4] + t[3] * it.transform[5] + t[5],
-        h = Math.max(4, Math.abs(it.height || it.transform[3])),
-        w = Math.max(1, it.width);
-      let line = lines.find(
-        (l) =>
-          Math.abs(l.y - y) < Math.max(2, h * 0.35) &&
-          x >= l.x - 2 &&
-          x - (l.x + l.w) < 45,
-      );
-      if (line) {
-        line.text += (x > line.x + line.w + 1 ? " " : "") + it.str;
-        line.w = Math.max(line.w, x + w - line.x);
-        line.h = Math.max(line.h, h);
-      } else lines.push({ x, y, w, h, text: it.str });
-      if (lines.length > IMPORT_LIMITS.blocks)
-        throw new Error(
-          "Die PDF-Seite enthält zu viele Textbereiche. Bitte das Dokument aufteilen.",
-        );
-    }
-    const heads = lines.filter((l) => isCardHeading(l.text));
-    const two =
-      heads.some((h) => h.x < view.width * 0.35) &&
-      heads.some((h) => h.x > view.width * 0.45);
-    // Heading origins mark the starts of columns, not their centres. The
-    // midpoint of those origins cuts through the left column (e.g. a table's
-    // last cells). Put the boundary in the gutter before the right column.
-    const rightStart = Math.min(
-      ...heads.filter((l) => l.x > view.width * 0.45).map((l) => l.x),
-    );
-    const cut = two ? rightStart - 12 : Infinity;
-    lines.sort(
-      (a, b) =>
-        Number(a.x >= cut) - Number(b.x >= cut) || a.y - b.y || a.x - b.x,
-    );
-    for (const l of lines)
-      blocks.push({
-        kind: isCardHeading(l.text) ? "heading" : "paragraph",
-        text: l.text,
-        page: pageNo,
-        bounds: {
-          x: Math.max(0, l.x),
-          y: Math.max(0, l.y - l.h),
-          width: l.w,
-          height: l.h,
-        },
-      });
-    checkBlocks(blocks);
+    geometryPages.push({
+      width: view.width,
+      height: view.height,
+      items: pdfItems(items, view.transform),
+    });
+    // Read vector geometry once, never rasterize pages for card detection.
+    vectors.push(paintedSegments(await page.getOperatorList(), view.transform));
     page.cleanup();
   }
+  const { layout: pdfLayout, cards } = analyzePdf(geometryPages, vectors);
+  const blocks = [
+    ...pdfLayout.regions.flatMap((r) => regionBlocks(pdfLayout, r)),
+    ...pdfLayout.sections,
+  ];
+  checkBlocks(blocks);
+  const question = pdfLayout.sections.find(
+    (b) => b.text.includes("?") && b.text.length <= 300,
+  )?.text;
   return {
     format: "pdf",
     name,
     blocks,
-    cards: proposeCards(blocks),
+    cards,
     images: [],
     pages,
-    noText: !blocks.length,
+    pdfLayout,
+    ...(question ? { suggestedTitle: question } : {}),
+    noText: !geometryPages.some((p) => p.items.length),
     warnings: [
+      ...(pdfLayout.uncertainPages.length
+        ? [
+            "Auf dieser PDF-Seite könnten mehrere Mystery-Karten stehen. Bitte überprüfe die Aufteilung.",
+          ]
+        : []),
       "PDF-Reihenfolge und Kartengrenzen sind Vorschläge. Mehrspaltige, gedrehte oder seitenübergreifende Inhalte bitte am Original prüfen.",
       "PDF-Bilder und Tabellen werden nicht fachlich zugeordnet. Gewünschte Grafiken als Seitenausschnitt übernehmen; Tabellen bei Bedarf manuell bearbeiten.",
     ],

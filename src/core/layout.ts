@@ -188,15 +188,21 @@ export function edgeGeometry(
     bc = { x: b.x + CARD_WIDTH / 2, y: b.y + bh / 2 };
   const dx = bc.x - ac.x,
     dy = bc.y - ac.y;
-  const exit = (cx: number, cy: number, h: number, sign: number) => {
+  const exit = (cx: number, cy: number, h: number, sign: number, gap = 7) => {
     const t = Math.min(
-      (CARD_WIDTH / 2 + 7) / Math.max(Math.abs(dx), 0.001),
-      (h / 2 + 7) / Math.max(Math.abs(dy), 0.001),
+      (CARD_WIDTH / 2 + gap) / Math.max(Math.abs(dx), 0.001),
+      (h / 2 + gap) / Math.max(Math.abs(dy), 0.001),
     );
     return { x: cx + sign * dx * t, y: cy + sign * dy * t };
   };
-  const start = exit(ac.x, ac.y, ah, 1),
+  let start = exit(ac.x, ac.y, ah, 1),
     end = exit(bc.x, bc.y, bh, -1);
+  // A fixed margin must not reverse a connector when two cards are close.
+  // Heads are painted above fills, so this smaller margin remains visible.
+  if ((end.x - start.x) * dx + (end.y - start.y) * dy <= 0) {
+    start = exit(ac.x, ac.y, ah, 1, 0.5);
+    end = exit(bc.x, bc.y, bh, -1, 0.5);
+  }
   const middle = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 },
     label = labelLayout(e.label);
   // Horizontal captions sit above the line so long text cannot hide the entire connector.
@@ -206,6 +212,39 @@ export function edgeGeometry(
       middle.y - (Math.abs(dx) > Math.abs(dy) ? label.labelHeight / 2 + 12 : 0),
   };
   return { start, end, middle, labelCenter, ...label };
+}
+
+// Screen, raster and print use the same head geometry. A bounded enlargement
+// keeps arrows readable at overview zoom without covering whole small cards.
+export function arrowSize(scale = 1) {
+  const length = Math.min(60, Math.max(14, 10 / Math.max(0.001, scale)));
+  return { length, halfWidth: length * (6 / 14) };
+}
+export function edgeArrow(
+  e: Edge,
+  start: { x: number; y: number },
+  end: { x: number; y: number },
+  scale = 1,
+) {
+  if (!e.direction) return null;
+  const tip = e.direction === 1 ? end : start;
+  const tail = e.direction === 1 ? start : end;
+  const distance = Math.hypot(tip.x - tail.x, tip.y - tail.y);
+  if (distance < 0.001) return null;
+  const ux = (tip.x - tail.x) / distance,
+    uy = (tip.y - tail.y) / distance;
+  const { length, halfWidth } = arrowSize(scale);
+  return [
+    tip,
+    {
+      x: tip.x - ux * length - uy * halfWidth,
+      y: tip.y - uy * length + ux * halfWidth,
+    },
+    {
+      x: tip.x - ux * length + uy * halfWidth,
+      y: tip.y - uy * length - ux * halfWidth,
+    },
+  ];
 }
 
 // Shared contain geometry for SVG cards and Canvas exports, including SVGs

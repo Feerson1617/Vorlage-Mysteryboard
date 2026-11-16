@@ -1,0 +1,32 @@
+[
+  {
+    "file": "MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "under10000000": true
+  },
+  {
+    "file": "MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "under10000000": true
+  },
+  {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 5605865,
+    "sha256": "42e7a3843908ee7560bb56492505eb2905c4a1256a3e4a06b1d59035c1b8da37",
+    "under10000000": true
+  },
+  {
+    "file": "MysteryBoard-klein.html",
+    "bytes": 5609686,
+    "sha256": "f5cdd63f48fc5b3616a2c7e498060869b6fe3ac7985e59a7595abb7e6cf29780",
+    "under10000000": true
+  },
+  {
+    "file": "MysteryBoard-umfangreich.html",
+    "bytes": 5642572,
+    "sha256": "adc40f92fa9933b03a8335de484b33ad6f8fe9cd5a332048bd03bc24c500a84f",
+    "under10000000": true
+  }
+]

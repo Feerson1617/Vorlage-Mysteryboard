@@ -1,0 +1,169 @@
+[
+  {
+    "alias": "Rahmen20",
+    "title": "Neutrale Messungen – 20 Felder",
+    "pdf": "../testdateien/Rahmen-20.pdf",
+    "pages": [
+      15,
+      5
+    ],
+    "cards": [
+      {
+        "title": "",
+        "text": "Feld 1: Der Messwert ist 1,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 2: Der Messwert ist 2,50 g bei 12,5 Grad.\n\nZweiter Absatz in Feld 2: Alle Werte sind synthetisch."
+      },
+      {
+        "title": "",
+        "text": "Feld 3: Der Messwert ist 3,50 g bei 12,5 Grad.\n\nZweiter Absatz in Feld 3: Alle Werte sind synthetisch."
+      },
+      {
+        "title": "",
+        "text": "Feld 4: Der Messwert ist 4,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 5: Der Messwert ist 5,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 6: Der Messwert ist 6,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 7: Der Messwert ist 7,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 8: Der Messwert ist 8,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 9: Der Messwert ist 9,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 10: Der Messwert ist 10,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 11: Der Messwert ist 11,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 12: Der Messwert ist 12,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 13: Der Messwert ist 13,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 14: Der Messwert ist 14,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 15: Der Messwert ist 15,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 16: Der Messwert ist 16,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 17: Der Messwert ist 17,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 18: Der Messwert ist 18,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 19: Der Messwert ist 19,50 g bei 12,5 Grad."
+      },
+      {
+        "title": "",
+        "text": "Feld 20: Der Messwert ist 20,50 g bei 12,5 Grad."
+      }
+    ],
+    "classroomZip": "../MysteryBoard-Neutrale-20-Karten-SCORM-1.2.zip"
+  },
+  {
+    "alias": "OhneRahmen16",
+    "title": "Neutrale Beobachtungen – 16 Karten",
+    "pdf": "../testdateien/Ohne-Rahmen-16.pdf",
+    "pages": [
+      16
+    ],
+    "cards": [
+      {
+        "title": "Karte R",
+        "text": "Neutrale Beobachtung R: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte A",
+        "text": "Neutrale Beobachtung A: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte H",
+        "text": "Neutrale Beobachtung H: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte C",
+        "text": "Neutrale Beobachtung C: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte T",
+        "text": "Neutrale Beobachtung T: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte F",
+        "text": "Neutrale Beobachtung F: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte B",
+        "text": "Neutrale Beobachtung B: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte J",
+        "text": "Neutrale Beobachtung J: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte I",
+        "text": "Neutrale Beobachtung I: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte D",
+        "text": "Neutrale Beobachtung D: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte K",
+        "text": "Neutrale Beobachtung K: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte L",
+        "text": "Neutrale Beobachtung L: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte P",
+        "text": "Neutrale Beobachtung P: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte N",
+        "text": "Neutrale Beobachtung N: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte O",
+        "text": "Neutrale Beobachtung O: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      },
+      {
+        "title": "Karte M",
+        "text": "Neutrale Beobachtung M: Diese Messung wurde mit 3,50 g und 12,5 Grad dokumentiert."
+      }
+    ],
+    "classroomZip": "../MysteryBoard-Neutrale-16-Karten-SCORM-1.2.zip"
+  }
+]

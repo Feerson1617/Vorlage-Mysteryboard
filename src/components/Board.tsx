@@ -3,6 +3,7 @@ import {
   useRef,
   useState,
   useMemo,
+  useId,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import type { Mystery, Work } from "../core/model";
@@ -14,6 +15,8 @@ import {
   numberBadge,
   CARD_WIDTH,
   edgeGeometry,
+  edgeArrow,
+  arrowSize,
   makeLayouts,
 } from "../core/layout";
 type View = { x: number; y: number; z: number };
@@ -63,6 +66,8 @@ export function Board({
       [mystery],
     );
   const drawn = preview ?? work;
+  const arrowId = "arrow-" + useId().replace(/[^A-Za-z0-9_-]/g, "");
+  const headSize = arrowSize(view.z);
   useEffect(() => {
     // Board gestures finish at pointerup. Only a fresh, completed gesture on
     // the same live control may authorize a following pointer click. WebKit
@@ -372,15 +377,16 @@ export function Board({
     >
       <defs>
         <marker
-          id="arrow"
-          viewBox="0 0 10 10"
-          refX="9"
-          refY="5"
-          markerWidth="8"
-          markerHeight="8"
+          id={arrowId}
+          viewBox="0 0 14 12"
+          refX="14"
+          refY="6"
+          markerUnits="userSpaceOnUse"
+          markerWidth={headSize.length}
+          markerHeight={headSize.halfWidth * 2}
           orient="auto-start-reverse"
         >
-          <path d="M0 0L10 5L0 10z" fill="#738277" />
+          <path d="M0 0L14 6L0 12z" fill="#526558" />
         </marker>
       </defs>
       <g transform={`translate(${view.x} ${view.y}) scale(${view.z})`}>
@@ -416,8 +422,8 @@ export function Board({
                 y2={g.end.y}
                 stroke="#738277"
                 strokeWidth="2"
-                markerEnd={e.direction === 1 ? "url(#arrow)" : undefined}
-                markerStart={e.direction === 2 ? "url(#arrow)" : undefined}
+                markerEnd={e.direction === 1 ? `url(#${arrowId})` : undefined}
+                markerStart={e.direction === 2 ? `url(#${arrowId})` : undefined}
               />
             </g>
           );
@@ -541,6 +547,28 @@ export function Board({
             </g>
           );
         })}
+        {/* Paint the heads last so crossings, labels and card fills cannot hide
+            them. This decorative layer introduces no new pointer targets. */}
+        <g pointerEvents="none" aria-hidden="true" data-arrowheads="true">
+          {drawn.edges.map((e) => {
+            const g = edgeGeometry(e, drawn.cards, layouts),
+              points = edgeArrow(e, g.start, g.end, view.z);
+            return (
+              points && (
+                <polygon
+                  key={e.id}
+                  data-arrowhead={e.id}
+                  data-direction={e.direction}
+                  points={points.map((p) => `${p.x},${p.y}`).join(" ")}
+                  fill="#526558"
+                  stroke="#f7f8f7"
+                  strokeWidth={Math.min(3, 0.8 / view.z)}
+                  strokeLinejoin="round"
+                />
+              )
+            );
+          })}
+        </g>
       </g>
     </svg>
   );

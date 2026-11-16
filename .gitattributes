@@ -1,0 +1,2 @@
+tests/fixtures/pdf-regions/*.pdf binary
+docs/test-evidence/pdf-regions/*.log -whitespace

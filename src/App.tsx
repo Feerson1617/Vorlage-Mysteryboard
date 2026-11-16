@@ -297,7 +297,7 @@ export default function App({
         id: nextEdgeId(work.edges),
         from: connecting,
         to: id,
-        direction: 0,
+        direction: 1,
         label: "",
       });
       setConnecting(null);

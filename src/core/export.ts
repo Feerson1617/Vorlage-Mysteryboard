@@ -11,6 +11,7 @@ import {
   boardBounds,
   CARD_WIDTH,
   edgeGeometry,
+  edgeArrow,
   makeLayouts,
   fitImage,
   numberBadge,
@@ -155,18 +156,6 @@ export async function exportBoard(
     );
     ctx.scale(scale, scale);
     ctx.translate(-bounds.x, -bounds.y);
-    const arrow = (x: number, y: number, angle: number) => {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(angle);
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-14, -6);
-      ctx.lineTo(-14, 6);
-      ctx.closePath();
-      ctx.fill();
-      ctx.restore();
-    };
     for (const e of work.edges) {
       const { start, end } = edgeGeometry(e, work.cards, layouts);
       ctx.strokeStyle = "#68766e";
@@ -176,9 +165,6 @@ export async function exportBoard(
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(end.x, end.y);
       ctx.stroke();
-      const angle = Math.atan2(end.y - start.y, end.x - start.x);
-      if (e.direction === 1) arrow(end.x, end.y, angle);
-      if (e.direction === 2) arrow(start.x, start.y, angle + Math.PI);
     }
     // Match the Board: draw all labels above the lines.
     for (const e of work.edges) {
@@ -255,6 +241,22 @@ export async function exportBoard(
       ctx.fillText(l.numberLabel, c.x + badge.offset, c.y + badge.offset);
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
+    }
+    // Heads above every line, label and card, matching the live SVG.
+    for (const edge of work.edges) {
+      const g = edgeGeometry(edge, work.cards, layouts),
+        points = edgeArrow(edge, g.start, g.end, scale);
+      if (!points) continue;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      points.slice(1).forEach((p) => ctx.lineTo(p.x, p.y));
+      ctx.closePath();
+      ctx.fillStyle = "#526558";
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = Math.min(3, 0.8 / scale);
+      ctx.lineJoin = "round";
+      ctx.fill();
+      ctx.stroke();
     }
     ctx.restore();
     const footerY = height - footer,

@@ -10,6 +10,8 @@
 
 ## Was unterstützt wird
 
+PDFs werden vor dem Zusammenfügen der Texte räumlich in Kartenbereiche aufgeteilt. Im Originalvergleich zeigen nummerierte Umrandungen die Zuordnung. Grenzen können markiert, verändert, geteilt, zusammengeführt, entfernt und ergänzt werden. Hinweise auf unsichere Aufteilungen und separat erkannte Dokumentabschnitte beachten. Die ausführliche [Anleitung zur grafischen PDF-Kartenprüfung](PDF-KARTEN-UND-PFEILE-ANLEITUNG.md) beschreibt die Korrektur einschließlich Touch-Bedienung.
+
 `.docx` sowie PDF mit auslesbarer Textebene. `.doc` wird mit einem Hinweis zurückgewiesen. Bei Scan-PDFs erfolgt keine OCR: Ihr könnt eine Seite als Bild übernehmen und Text selbst ergänzen. Die Inhalte werden nicht durch eine KI interpretiert. Überschriften und Grenzen sind Vorschläge, keine Musterlösung und keine fachliche Zuordnung.
 
 Die Quelldatei bleibt auf eurem Gerät. Der Import benötigt nach dem Laden der Anwendung keine Verbindung. Externe Bilder und Verweise werden nicht nachgeladen. Fehler, Abbruch oder nicht bestätigtes Ersetzen verändern den vorhandenen Entwurf nicht. Bei einem Dateiwechsel nach Importbearbeitungen wird vor dem Verwerfen gefragt.

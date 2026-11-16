@@ -16,6 +16,8 @@ import {
   boardBounds,
   CARD_WIDTH,
   edgeGeometry,
+  edgeArrow,
+  arrowSize,
   fitImage,
   makeLayouts,
   numberBadge,
@@ -249,17 +251,20 @@ export async function preparePrintFrame(
     role: "img",
     "aria-label": "Gespeicherte Kartenpositionen und Verbindungen",
   });
+  const arrowScale = (paper === "a3" ? 1000 : 700) / bounds.width,
+    head = arrowSize(arrowScale);
   const defs = svgNode("defs"),
     marker = svgNode("marker", {
       id: "print-arrow",
-      viewBox: "0 0 10 10",
-      refX: 9,
-      refY: 5,
-      markerWidth: 8,
-      markerHeight: 8,
+      viewBox: "0 0 14 12",
+      refX: 14,
+      refY: 6,
+      markerUnits: "userSpaceOnUse",
+      markerWidth: head.length,
+      markerHeight: head.halfWidth * 2,
       orient: "auto-start-reverse",
     });
-  marker.append(svgNode("path", { d: "M0 0 L10 5 L0 10 z", fill: "#526558" }));
+  marker.append(svgNode("path", { d: "M0 0 L14 6 L0 12 z", fill: "#526558" }));
   defs.append(marker);
   svg.append(defs);
   for (const edge of work.edges) {
@@ -398,6 +403,24 @@ export async function preparePrintFrame(
     );
     svg.append(group);
   }
+  const heads = svgNode("g", { "data-print-arrowheads": "true" });
+  for (const edge of work.edges) {
+    const g = edgeGeometry(edge, work.cards, layouts),
+      points = edgeArrow(edge, g.start, g.end, arrowScale);
+    if (points)
+      heads.append(
+        svgNode("polygon", {
+          "data-arrowhead": edge.id,
+          "data-direction": edge.direction,
+          points: points.map((p) => `${p.x},${p.y}`).join(" "),
+          fill: "#526558",
+          stroke: "white",
+          "stroke-width": Math.min(3, 0.8 / arrowScale),
+          "stroke-linejoin": "round",
+        }),
+      );
+  }
+  svg.append(heads);
   summary.body.append(svg);
   await pause();
 

@@ -18,6 +18,13 @@ import ImportWorker from "../core/document-import/parser.worker?worker&inline";
 import { TableEditor } from "./TableEditor";
 import { TableView } from "./TableView";
 import { MediaView } from "./MediaView";
+import { PdfRegionControls, PdfRegionOverlay } from "./PdfRegionEditor";
+import {
+  changeRegions,
+  regionCard,
+  type PdfLayout,
+  type PdfRegion,
+} from "../core/document-import/pdf-layout";
 
 type Crop = { x: number; y: number; w: number; h: number };
 async function cropImage(src: string, crop: Crop) {
@@ -100,7 +107,9 @@ export function DocumentImport({
     timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined),
     alive = useRef(true),
     textarea = useRef<HTMLTextAreaElement>(null),
-    cropStart = useRef<{ x: number; y: number } | null>(null);
+    cropStart = useRef<{ x: number; y: number } | null>(null),
+    cropPointers = useRef(new Set<number>()),
+    cropBefore = useRef<Crop>({ x: 0, y: 0, w: 100, h: 100 });
   const originalURL = useRef("");
   const groups = Object.entries(draft.content.cardGroups!);
   const defaultGroup = groups.find(([, g]) => !g.prefix)?.[0] ?? groups[0][0];
@@ -109,6 +118,7 @@ export function DocumentImport({
     defaultGroup;
   const current = cards[index];
   const initialCards = useRef<Card[]>([]);
+  const splitGeometry = useRef(new WeakMap<Card, PdfRegion[]>());
   function proposalsChanged() {
     return (
       result &&
@@ -246,6 +256,91 @@ export function DocumentImport({
   useEffect(() => {
     if (initialFile) void openFile(initialFile);
   }, []);
+  function editRegions(next: PdfLayout, affected: number[], removed: number[]) {
+    try {
+      const updated = affected.map((id) => {
+        const card = regionCard(next, id),
+          old = cards.find((c) => c.id === id);
+        if (!(card.title || card.text || card.source))
+          throw new Error(
+            "Dieser Bereich enthält keinen auslesbaren Text. Bitte die Grenzen ändern oder den vorhandenen Bildausschnitt verwenden; es wird keine OCR durchgeführt.",
+          );
+        if (!old)
+          return {
+            ...card,
+            group: card.group === "extension" ? extensionGroup : defaultGroup,
+          };
+        const original = regionCard(result!.pdfLayout!, id);
+        if (
+          (old.title !== original.title ||
+            old.text !== original.text ||
+            old.source !== original.source) &&
+          !confirm(
+            "Diesen Kartenbereich neu aus dem Original lesen? Manuell geänderte Überschrift, Text und Quelle werden ersetzt. Bilder, Tabellen und Kartengruppe bleiben erhalten.",
+          )
+        )
+          throw new Error(
+            "Bereichsänderung abgebrochen. Die bisherigen Karten bleiben erhalten.",
+          );
+        let merged = old;
+        for (const removedId of removed) {
+          const other = cards.find((c) => c.id === removedId);
+          if (other) merged = mergeImported(merged, other);
+        }
+        const preserved = { ...merged };
+        delete preserved.source;
+        return { ...preserved, ...card, group: old.group };
+      });
+      let remaining = cards
+        .filter((c) => !removed.includes(c.id))
+        .map((c) => updated.find((u) => u.id === c.id) ?? c);
+      const added = updated.filter(
+        (c) => !cards.some((old) => old.id === c.id),
+      );
+      const insertion = current
+        ? remaining.findIndex((c) => c.id === current.id) + 1
+        : remaining.length;
+      remaining = [
+        ...remaining.slice(0, insertion),
+        ...added,
+        ...remaining.slice(insertion),
+      ];
+      if (remaining.length > 100)
+        throw new Error(
+          "Mehr als 100 Karten sind nicht möglich. Bitte zuerst Bereiche entfernen oder das PDF aufteilen.",
+        );
+      setCards(remaining);
+      setSelected([
+        ...selected.filter((id) => !removed.includes(id)),
+        ...added.map((c) => c.id),
+      ]);
+      setIndex(
+        Math.max(
+          0,
+          remaining.findIndex((c) => c.id === (affected[0] ?? current?.id)),
+        ),
+      );
+      setResult({ ...result!, pdfLayout: next });
+      setReviewed(false);
+      setMark(false);
+      setError("");
+      setMessage(
+        "Kartengrenzen geändert. Betroffene Texte wurden räumlich neu aus dem Original gelesen; nicht zugeordnete Texte bleiben unter Dokumentabschnitte verfügbar.",
+      );
+      return true;
+    } catch (e) {
+      setError((e as Error).message);
+      return false;
+    }
+  }
+  function forgetRegions(ids: number[], restore: PdfRegion[] = []) {
+    if (!result?.pdfLayout) return;
+    const next = changeRegions(result.pdfLayout, [
+      ...result.pdfLayout.regions.filter((r) => !ids.includes(r.cardId)),
+      ...restore,
+    ]);
+    setResult({ ...result, pdfLayout: next });
+  }
   function update(patch: Partial<Card>) {
     setCards(cards.map((c, i) => (i === index ? { ...c, ...patch } : c)));
     setReviewed(false);
@@ -264,6 +359,7 @@ export function DocumentImport({
   }
   function remove() {
     if (!current) return;
+    forgetRegions([current.id]);
     setCards(cards.filter((c) => c.id !== current.id));
     setSelected(selected.filter((id) => id !== current.id));
     setIndex(Math.max(0, index - 1));
@@ -279,11 +375,14 @@ export function DocumentImport({
       return;
     }
     const id = Math.max(...cards.map((c) => c.id)) + 1;
-    setCards([
-      ...cards.slice(0, index),
-      ...splitImported(current, at, id),
-      ...cards.slice(index + 1),
-    ]);
+    const pair = splitImported(current, at, id);
+    if (result?.pdfLayout)
+      splitGeometry.current.set(
+        pair[0],
+        result.pdfLayout.regions.filter((r) => r.cardId === current.id),
+      );
+    forgetRegions([current.id]);
+    setCards([...cards.slice(0, index), ...pair, ...cards.slice(index + 1)]);
     setSelected([...selected, id]);
     setReviewed(false);
   }
@@ -299,6 +398,10 @@ export function DocumentImport({
         )
       )
         return;
+      forgetRegions(
+        [current.id, next.id],
+        exact ? (splitGeometry.current.get(current) ?? []) : [],
+      );
       setCards([...cards.slice(0, index), joined, ...cards.slice(index + 2)]);
       setSelected([
         ...selected.filter((id) => id !== next.id && id !== current.id),
@@ -471,6 +574,55 @@ export function DocumentImport({
                 ergänzen wir später.
               </p>
             )}
+            {result.pdfLayout?.uncertainPages.includes(page) && (
+              <p role="status" className="import-warning">
+                Auf dieser PDF-Seite könnten mehrere Mystery-Karten stehen.
+                Bitte überprüfe die Aufteilung. Unter „Original ansehen“ lassen
+                sich eigene Textbereiche markieren, teilen und ergänzen.
+              </p>
+            )}
+            {result.pdfLayout && (
+              <details className="pdf-document-sections">
+                <summary>
+                  Dokumentabschnitte außerhalb der Karten (
+                  {result.pdfLayout.sections.length})
+                </summary>
+                <p className="small">
+                  Diese Texte bleiben zum Vergleich verfügbar und werden nicht
+                  automatisch als Karten übernommen. Zum Aufbewahren die
+                  Originaldatei ablegen oder den Text kopieren.
+                </p>
+                {result.suggestedTitle && (
+                  <>
+                    <p>
+                      Titelvorschlag aus dem Dokument: {result.suggestedTitle}
+                    </p>
+                    <button
+                      disabled={result.suggestedTitle.length > 100}
+                      onClick={() => {
+                        setTitle(result.suggestedTitle!);
+                        setMessage(
+                          "Titelvorschlag gewählt. Den Titel vor der Kartenübernahme bestätigen.",
+                        );
+                      }}
+                    >
+                      Titelvorschlag übernehmen
+                    </button>
+                    {result.suggestedTitle.length > 100 && (
+                      <p>Bitte den Titel auf höchstens 100 Zeichen kürzen.</p>
+                    )}
+                  </>
+                )}
+                <textarea
+                  aria-label="Separate Dokumentabschnitte"
+                  readOnly
+                  rows={8}
+                  value={result.pdfLayout.sections
+                    .map((b) => `Seite ${b.page}\n${b.text}`)
+                    .join("\n\n")}
+                />
+              </details>
+            )}
             <details>
               <summary>Hinweise zur Übernahme</summary>
               {result.warnings.map((w, i) => (
@@ -572,10 +724,23 @@ export function DocumentImport({
                             if (!mark) return;
                             e.preventDefault();
                             e.currentTarget.setPointerCapture(e.pointerId);
-                            cropStart.current = cropPoint(e);
+                            cropPointers.current.add(e.pointerId);
+                            if (cropPointers.current.size > 1) {
+                              cropStart.current = null;
+                              setCrop(cropBefore.current);
+                            } else {
+                              cropBefore.current = crop;
+                              cropStart.current = cropPoint(e);
+                            }
                           }}
                           onPointerMove={(e) => {
-                            if (!mark || !cropStart.current) return;
+                            if (
+                              !mark ||
+                              !cropStart.current ||
+                              cropPointers.current.size !== 1 ||
+                              !cropPointers.current.has(e.pointerId)
+                            )
+                              return;
                             const p = cropPoint(e),
                               s = cropStart.current;
                             setCrop({
@@ -585,17 +750,47 @@ export function DocumentImport({
                               h: Math.max(0.1, Math.abs(s.y - p.y)),
                             });
                           }}
-                          onPointerUp={() => {
+                          onPointerUp={(e) => {
+                            cropPointers.current.delete(e.pointerId);
                             cropStart.current = null;
                           }}
-                          onPointerCancel={() => {
+                          onPointerCancel={(e) => {
+                            cropPointers.current.delete(e.pointerId);
                             cropStart.current = null;
+                            setCrop(cropBefore.current);
+                          }}
+                          onLostPointerCapture={(e) => {
+                            if (cropPointers.current.has(e.pointerId)) {
+                              cropPointers.current.delete(e.pointerId);
+                              cropStart.current = null;
+                              setCrop(cropBefore.current);
+                            }
                           }}
                         >
                           <img
                             src={pageImage}
                             alt={`Original-PDF-Seite ${page}`}
                           />
+                          {result.pdfLayout && (
+                            <PdfRegionOverlay
+                              layout={result.pdfLayout}
+                              page={page}
+                              cardId={current?.id}
+                              mark={mark}
+                              numberFor={(id) =>
+                                cards.findIndex((c) => c.id === id) + 1
+                              }
+                              onSelect={(id) => {
+                                const n = cards.findIndex((c) => c.id === id);
+                                if (n >= 0) {
+                                  setIndex(n);
+                                  setMessage(
+                                    `Kartenbereich ${n + 1} ausgewählt. Zugehöriger Text unter „Karten ansehen“.`,
+                                  );
+                                }
+                              }}
+                            />
+                          )}
                           {mark && (
                             <span
                               className="import-crop"
@@ -647,6 +842,23 @@ export function DocumentImport({
                               ))}
                             </div>
                           </>
+                        )}
+                        {result.pdfLayout && (
+                          <PdfRegionControls
+                            layout={result.pdfLayout}
+                            page={page}
+                            cardId={current?.id}
+                            crop={crop}
+                            nextId={Math.max(0, ...cards.map((c) => c.id)) + 1}
+                            numberFor={(id) =>
+                              cards.findIndex((c) => c.id === id) + 1
+                            }
+                            onMark={(value) => {
+                              setCrop(value);
+                              setMark(true);
+                            }}
+                            onChange={editRegions}
+                          />
                         )}
                         <div className="actions">
                           <button

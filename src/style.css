@@ -931,6 +931,25 @@ dialog:has(.student-help-preview) .dialog-body {
   width: 100%;
   height: auto;
 }
+.import-region-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.pdf-region-controls {
+  line-height: 1.5;
+  margin: 12px 0;
+  border-top: 1px solid #b9c4bc;
+  padding-top: 10px;
+}
+.pdf-region-controls button {
+  margin: 4px 4px 4px 0;
+}
+.pdf-document-sections {
+  margin: 12px 0;
+}
 .import-page.marking {
   touch-action: none;
   cursor: crosshair;

@@ -469,7 +469,7 @@ for (const big of [false, true]) {
       id: newId,
       from: 1,
       to: 3,
-      direction: 0,
+      direction: 1,
       label: "R1b neue Verbindung",
     });
     await expect(page.locator("[data-edge]")).toHaveCount(initialEdges + 1);
