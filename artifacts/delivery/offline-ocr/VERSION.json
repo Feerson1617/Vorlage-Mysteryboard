@@ -1,0 +1,87 @@
+{
+  "sourceCommit": "dfb9927bd554a9536caa2eb33d3b2687d2354c1a",
+  "baseCommit": "9740c7120bd2c80d06bd158b7276f696c30b67d7",
+  "branch": "feat/mysteryboard-offline-ocr",
+  "contentFormat": 3,
+  "privateOriginalsIncluded": false,
+  "realSafariSchoolIpadItslearningAcceptance": "open",
+  "runtimeFiles": [
+    {
+      "file": "Anwendungen/MysteryBoard-Universal.html",
+      "bytes": 5681723,
+      "sha256": "65d62944d1f00237ef552436387533461b17cd832b0b5181fcfc540a634c6c51"
+    },
+    {
+      "file": "Anwendungen/MysteryBoard-Universal-SCORM-1.2.zip",
+      "bytes": 2806608,
+      "sha256": "c84e5a311c926c4e9458566145e68696bae7a9ebd9977eceeaba289f65350f26"
+    },
+    {
+      "file": "Anwendungen/MysteryBoard-OCR-Autorenpaket.zip",
+      "bytes": 5742828,
+      "sha256": "afbb5b5325c836c50ff353b170a9ea027e590e669f9cb0f9ee868fa37ecdbb0c"
+    },
+    {
+      "file": "Anwendungen/MysteryBoard-OCR-SCORM-1.2.zip",
+      "bytes": 5740661,
+      "sha256": "8ca117932e42792fd5c61c19c7c7be70b19f44487b57362525d99b9d0d3ebfe9"
+    },
+    {
+      "file": "Beispiel/MysteryBoard-OCR-Beispiel-SCORM-1.2.zip",
+      "bytes": 2807792,
+      "sha256": "5ea9fd70107f595cf72cd2fee20a6dc3ca14362f1ec024483a1ae37035aca3ee"
+    },
+    {
+      "file": "Beispiel/OCR-Beispiel-Lehrkraftentwurf.mysteryboard",
+      "bytes": 1729,
+      "sha256": "f4bd7bf7efd85615cfb0e623c1699c6b57744d56c2ec198faf5d7d6b3b16127f"
+    },
+    {
+      "file": "Beispiel/Team Küste_Lokale OCR – neutrale Übung.png",
+      "bytes": 251987,
+      "sha256": "eccd573325275824f9dfc8b4f62872a631006cddfb1dccdd36f9f405c6b9de6b"
+    }
+  ],
+  "deliveryFiles": [
+    {
+      "file": "LOKALE-OCR.md",
+      "bytes": 6249,
+      "sha256": "81044a937b131f7f3b5b7525d2713e8793db45c7b6d3dd1abd33db6bbc5402af"
+    },
+    {
+      "file": "MysteryBoard-OCR-Abnahmepaket.zip",
+      "bytes": 32325771,
+      "sha256": "91d617f2382760a437fd654da4132b0a56d122196901b85e695674eb94835076"
+    },
+    {
+      "file": "MysteryBoard-OCR-Autorenpaket.zip",
+      "bytes": 5742828,
+      "sha256": "afbb5b5325c836c50ff353b170a9ea027e590e669f9cb0f9ee868fa37ecdbb0c"
+    },
+    {
+      "file": "MysteryBoard-OCR-Beispiel-SCORM-1.2.zip",
+      "bytes": 2807792,
+      "sha256": "5ea9fd70107f595cf72cd2fee20a6dc3ca14362f1ec024483a1ae37035aca3ee"
+    },
+    {
+      "file": "MysteryBoard-OCR-SCORM-1.2.zip",
+      "bytes": 5740661,
+      "sha256": "8ca117932e42792fd5c61c19c7c7be70b19f44487b57362525d99b9d0d3ebfe9"
+    },
+    {
+      "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+      "bytes": 2806608,
+      "sha256": "c84e5a311c926c4e9458566145e68696bae7a9ebd9977eceeaba289f65350f26"
+    },
+    {
+      "file": "MysteryBoard-Universal.html",
+      "bytes": 5681723,
+      "sha256": "65d62944d1f00237ef552436387533461b17cd832b0b5181fcfc540a634c6c51"
+    },
+    {
+      "file": "OCR-ABNAHMEBERICHT.md",
+      "bytes": 20979,
+      "sha256": "9bc04c3bd47de1f7b535942859a9ffa09bab1f1c5d7d522f85d076d7f8c05338"
+    }
+  ]
+}
