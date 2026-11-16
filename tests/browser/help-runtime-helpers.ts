@@ -8,6 +8,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join, relative } from "node:path";
 import { unzipSync } from "fflate";
 import { button, rootPage, getFile, type UI } from "./authoring-helpers";
+import { encodeDocument } from "../../src/core/documents";
 export async function scorm(
   browser: Browser,
   info: TestInfo,
@@ -87,10 +88,39 @@ export async function scorm(
     },
   };
 }
-export async function project(ui: UI, info: TestInfo, name: string) {
+// The application only downloads a PNG. Derived JSON is a test snapshot,
+// never an alternate student export. Keep every existing full-state assertion.
+export async function studentSnapshot(ui: UI, info: TestInfo, name: string) {
   await button(ui, "Menü").tap();
-  await button(ui, "Projektdatei sichern").tap();
-  const saved = await getFile(ui, info, name + ".mysteryboard");
+  await expect(button(ui, "Projektdatei sichern")).toHaveCount(0);
+  await button(ui, "Kleineres Sicherungsbild").tap();
+  await expect(
+    ui.getByRole("link", { name: "Sicherungsbild herunterladen", exact: true }),
+  ).toBeVisible({ timeout: 60000 });
+  const saved = await getFile(
+    ui,
+    info,
+    name + "-snapshot-original.png",
+    "Sicherungsbild herunterladen",
+  );
+  const bytes = Buffer.from(encodeDocument(saved.document));
+  const path = info.outputPath(name + ".mysteryboard");
+  await writeFile(path, bytes);
+  await info.attach(name + "-aus-PNG-gelesen.mysteryboard", {
+    path,
+    contentType: "application/json",
+  });
+  if (process.env.AUTHORING_EXAMPLES_DIR) {
+    await mkdir(process.env.AUTHORING_EXAMPLES_DIR, { recursive: true });
+    await writeFile(
+      join(process.env.AUTHORING_EXAMPLES_DIR, name + ".mysteryboard"),
+      bytes,
+    );
+  }
+  return { ...saved, bytes, png: saved.bytes };
+}
+export async function project(ui: UI, info: TestInfo, name: string) {
+  const saved = await studentSnapshot(ui, info, name);
   await button(ui, "Schließen").tap();
   return saved;
 }
@@ -174,7 +204,18 @@ export async function gestures(ui: UI) {
     type: "touchEnd",
     touchPoints: [],
   });
-  expect(await card.getAttribute("data-x")).not.toBe(old);
+  const committed = await card.getAttribute("data-x");
+  expect(committed).not.toBe(old);
   await expect(ui.getByRole("dialog")).toHaveCount(0);
   await session.detach();
+  // Verify that the committed card survives two paints. This also lets the
+  // raw-CDP input queue settle before switching back to Playwright's native
+  // touchscreen. The bare-HTML probe documents that driver boundary.
+  await ui.evaluate(
+    () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      ),
+  );
+  expect(await card.getAttribute("data-x")).toBe(committed);
 }

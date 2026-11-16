@@ -2,15 +2,17 @@
 
 Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Ohne Backend, Benutzerkonten, externe Laufzeitressourcen oder automatische Browserspeicherung. React + TypeScript + Vite; eigene SVG-/Pointer-Steuerung, separater Canvas-Export.
 
-Auf `fix/mysteryboard-pdf-multiple-cards` liegt die universelle Autoren- und Unterrichtsvorlage auf Basis des geprüften SCORM-Unterrichtsexports `b35aa16f41fe1f2bb7557ef42c9140723ed9d203`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
+Auf `fix/mysteryboard-touch-png-saving` liegt die universelle Autoren- und Unterrichtsvorlage auf Basis der geprüften PDF-/Pfeilkorrektur `50c6b59e8688abea8863eb27f2753840f2391df5`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
 
 Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung in einer ausdrücklich getrennten Betriebsart ohne Datei-, Team- und Druckaktionen; ihre Bewegungen und Verbindungen werden beim Schließen verworfen. Kartensuche und optionale Mehrfachzuordnung erleichtern große Mysterys. [Aktueller Abschlussbericht](docs/UNTERRICHTS-SCORM-PRUEFBERICHT.md).
 
-**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/UNTERRICHTS-SCORM-PRUEFBERICHT.md).
+**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/TOUCH-UND-PNG-PRUEFBERICHT.md).
 
 DOCX und PDF mit auslesbarer Textebene können im bestehenden Lehrkräfteeditor über **Dokument importieren** lokal übernommen werden. Die Parser werden bei der Dateiauswahl in einem abbrechbaren Worker gestartet; alle Bibliotheken, PDF-Schriften und Zeichenressourcen sind in HTML/SCORM enthalten. [Importanleitung und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).
 
 PDF-Karten werden zuerst räumlich anhand gezeichneter Rahmen oder Überschriften abgegrenzt. Nummerierte Bereiche lassen sich im Originalvergleich korrigieren; unsichere Aufteilungen werden gekennzeichnet. Neue Verbindungen beginnen mit einem Pfeil, vorhandene ungerichtete Verbindungen bleiben erhalten. [Bedienung](docs/PDF-KARTEN-UND-PFEILE-ANLEITUNG.md) · [Prüfbericht und offene Gerätetests](docs/PDF-KARTEN-UND-PFEILE-PRUEFBERICHT.md).
+
+Kartenbewegungen übernehmen ihre Endposition unabhängig von einem ausstehenden React-Render. Schüler sichern ausschließlich PNG über **Sichern** oder das kleinere Sicherungsbild, benannt als **Teamname_Mysterytitel.png**. Ältere Schüler-Projektdateien bleiben importierbar; Lehrkraftdateien behalten `.mysteryboard`. [Touch-/Sicherungsprüfung und Gerätegrenzen](docs/TOUCH-UND-PNG-PRUEFBERICHT.md).
 
 Die Startseite priorisiert **Aufgabe öffnen** und **Arbeit fortsetzen**. Der nachgeordnete Zugang **Lehrkräfteeditor** öffnet den vorhandenen Autorenmodus.
 

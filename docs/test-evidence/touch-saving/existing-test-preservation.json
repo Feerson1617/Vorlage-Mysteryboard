@@ -1,0 +1,180 @@
+{
+  "baseCommit": "50c6b59e8688abea8863eb27f2753840f2391df5",
+  "existingSpecs": 28,
+  "existingTestDeclarations": 105,
+  "existingExpectCalls": 1339,
+  "existingSpecsRemoved": 0,
+  "existingTestNamesAndExpectCallCountsUnchanged": true,
+  "method": "Literal test-name comparison and expect-call counts plus manual diff review; not an AST-equivalence proof.",
+  "adaptation": "Former student project-export actions now download an actual PNG. Complete document comparisons remain; derived JSON is only a test snapshot. Gesture helper adds a two-paint persistence check.",
+  "files": [
+    {
+      "file": "tests/browser/acceptance-delivery.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 36,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/arrows-visible.spec.ts",
+      "testDeclarations": 2,
+      "expectCallCount": 16,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/authoring-build-security.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 5,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/authoring-classroom.spec.ts",
+      "testDeclarations": 2,
+      "expectCallCount": 64,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/authoring-phase1.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 8,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/authoring-phase2.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 13,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/authoring-safety.spec.ts",
+      "testDeclarations": 5,
+      "expectCallCount": 44,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/classroom-scorm-export.spec.ts",
+      "testDeclarations": 5,
+      "expectCallCount": 72,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/corrections.spec.ts",
+      "testDeclarations": 5,
+      "expectCallCount": 47,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/document-import-integrity.spec.ts",
+      "testDeclarations": 2,
+      "expectCallCount": 22,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/document-import.spec.ts",
+      "testDeclarations": 6,
+      "expectCallCount": 73,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/help-editor-final.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 31,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/help-editor.spec.ts",
+      "testDeclarations": 4,
+      "expectCallCount": 57,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/help-final.spec.ts",
+      "testDeclarations": 4,
+      "expectCallCount": 15,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/integration.spec.ts",
+      "testDeclarations": 4,
+      "expectCallCount": 68,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/minimal-start.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 33,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/ordered-help.spec.ts",
+      "testDeclarations": 4,
+      "expectCallCount": 78,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/pdf-regions-manual.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 22,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/pdf-regions.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 26,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/print-lifecycle.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 35,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/print.spec.ts",
+      "testDeclarations": 4,
+      "expectCallCount": 84,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/prototype.spec.ts",
+      "testDeclarations": 12,
+      "expectCallCount": 56,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/r1.spec.ts",
+      "testDeclarations": 7,
+      "expectCallCount": 58,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/r1b.spec.ts",
+      "testDeclarations": 10,
+      "expectCallCount": 71,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/release-candidate.spec.ts",
+      "testDeclarations": 1,
+      "expectCallCount": 33,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/review.spec.ts",
+      "testDeclarations": 9,
+      "expectCallCount": 72,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/team-requirements.spec.ts",
+      "testDeclarations": 5,
+      "expectCallCount": 96,
+      "namesAndExpectCountsUnchanged": true
+    },
+    {
+      "file": "tests/browser/universal.spec.ts",
+      "testDeclarations": 5,
+      "expectCallCount": 104,
+      "namesAndExpectCountsUnchanged": true
+    }
+  ]
+}

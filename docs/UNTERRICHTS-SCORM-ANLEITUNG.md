@@ -14,7 +14,7 @@ Die universelle HTML und die universelle SCORM-Vorlage enthalten weiterhin keine
 
 6. Das heruntergeladene **SCORM-1.2-ZIP unentpackt** als neue SCORM-Ressource in itslearning importieren. Die genaue Bezeichnung des Ressourcenimports hängt von der itslearning-Konfiguration ab. Das lokale Erzeugen eines ZIPs ändert keine bereits installierte Kursressource. Für eine Revision ein neues Paket herunterladen und im LMS ausdrücklich neu importieren beziehungsweise ersetzen.
 7. Den echten Schülerstart im Kurs testen: richtige Aufgabe, Teamname eingeben, beginnen. Der Unterrichtsmodus bietet keinen Lehrkräftezugang an. Das ist eine Oberflächentrennung, **kein Zugangsschutz**; keine vertraulichen Lösungen in freigegebene Karten aufnehmen.
-8. Eine echte Schüler-PNG sichern, die Sitzung schließen und die PNG in einer frischen Sitzung über **Fortsetzen** wiederherstellen. Ein Bildschirmfoto genügt nicht.
+8. Über **Sichern** eine echte Schüler-PNG erzeugen und unverändert in „Dateien“ ablegen. Ihr Name lautet **Teamname_Mysterytitel.png**; auch **Kleineres Sicherungsbild** erzeugt ausschließlich PNG. Den früheren zusätzlichen Schüler-Projektdatei-Export gibt es nicht mehr. Danach die Sitzung schließen und die PNG in einer frischen Sitzung über **Fortsetzen** wiederherstellen. Ein Bildschirmfoto genügt nicht. Alte Schüler-Projektdateien bleiben über denselben Import nutzbar.
 
 Die SCORM-Hülle überträgt keine Teamnamen, Antworten, Positionen, Beziehungen oder Bewertungen. Sie verwendet nur die vorhandenen Sitzungsaufrufe. Ohne bewusst abgelegte Original-PNG gehen Änderungen beim Schließen verloren. Ein vorbereiteter Download bestätigt keine dauerhafte Ablage außerhalb der Anwendung.
 

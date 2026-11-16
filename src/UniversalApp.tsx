@@ -31,7 +31,9 @@ export function documentFile(doc: MysteryDocument) {
   return new File(
     [encodeDocument(doc) as BlobPart],
     `MysteryBoard-${role}-${title}-v${doc.content.version}.mysteryboard`,
-    { type: "application/json" },
+    // Safari must download the custom extension instead of treating this as
+    // a generic JSON document. The encoded content and import stay unchanged.
+    { type: "application/octet-stream" },
   );
 }
 export function UniversalApp({
@@ -144,9 +146,6 @@ export function UniversalApp({
           }
           onImport={openImport}
           onHome={classroom ? undefined : () => setActive(null)}
-          onProjectSave={(work) =>
-            offerDocument(studentDocument(active.content, work))
-          }
           onAuthor={classroom ? undefined : () => openAuthor()}
         />
       ) : builtIn ? (

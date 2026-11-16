@@ -1,3 +1,4 @@
+import { project } from "./help-runtime-helpers";
 import { test, expect, type Browser, type TestInfo } from "@playwright/test";
 import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { resolve, dirname, join, relative } from "node:path";
@@ -122,13 +123,6 @@ async function snapshot(ui: UI) {
     ),
     team: document.querySelector(".team-summary")?.textContent,
   }));
-}
-async function project(ui: UI, info: TestInfo, name: string) {
-  await button(ui, "Menü").tap();
-  await button(ui, "Projektdatei sichern").tap();
-  const saved = await getFile(ui, info, name + ".mysteryboard");
-  await button(ui, "Schließen").tap();
-  return saved;
 }
 async function png(ui: UI, info: TestInfo, name: string) {
   await button(ui, "Menü").tap();

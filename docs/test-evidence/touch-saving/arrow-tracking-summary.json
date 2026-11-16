@@ -1,0 +1,10 @@
+{
+  "cases": 8,
+  "measurements": 192,
+  "passed": true,
+  "maxCardTrackingErrorCssPx": 0.005617618297244606,
+  "maxApexEndpointErrorCssPx": 0,
+  "minimumDirectionCosine": 0.9999999999996947,
+  "actualProductionHtmlAndScorm": true,
+  "restoredActualStudentPng": true
+}

@@ -1,3 +1,4 @@
+import { studentSnapshot } from "./help-runtime-helpers";
 import { test, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join, relative, resolve } from "node:path";
@@ -116,9 +117,7 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
     p3 = await c3.newPage();
   await openUniversal(p3);
   await importMystery(p3, png, "arbeit.png");
-  await button(p3, "Menü").tap();
-  await button(p3, "Projektdatei sichern").tap();
-  const restored = await getFile(p3, info, "restored.mysteryboard");
+  const restored = await studentSnapshot(p3, info, "restored");
   expect(restored.document).toEqual(student);
   await c3.close();
   const folder = info.outputPath("scorm");
@@ -169,9 +168,7 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
   await c4.setOffline(true);
   await importMystery(ui, png, "arbeit.png");
   await expect(ui.locator("[data-card]")).toHaveCount(12);
-  await button(ui, "Menü").tap();
-  await button(ui, "Projektdatei sichern").tap();
-  const inScorm = await getFile(ui, info, "scorm-restored.mysteryboard");
+  const inScorm = await studentSnapshot(ui, info, "scorm-restored");
   expect(inScorm.document).toEqual(student);
   await button(ui, "Schließen").tap();
   await button(ui, "Menü").tap();
@@ -193,9 +190,7 @@ test("Lieferbeispiele mit Tabelle: Editor, echte PNG, neue Sitzung und tatsächl
   await expect(
     ui.getByLabel("Team: Gruppe Abnahme", { exact: true }),
   ).toBeVisible();
-  await button(ui, "Menü").tap();
-  await button(ui, "Projektdatei sichern").tap();
-  const oldAgain = await getFile(ui, info, "old-again.mysteryboard");
+  const oldAgain = await studentSnapshot(ui, info, "old-again");
   expect(oldAgain.document).toEqual(student);
   expect(requests).toEqual([]);
   expect(await p4.evaluate(() => (window as any).__calls)).toEqual([

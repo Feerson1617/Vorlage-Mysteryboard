@@ -59,7 +59,11 @@ export async function getFile(
     await mkdir(process.env.AUTHORING_EXAMPLES_DIR, { recursive: true });
     await copyFile(path, join(process.env.AUTHORING_EXAMPLES_DIR, name));
   }
-  return { bytes, document: readDocument(bytes) };
+  return {
+    bytes,
+    document: readDocument(bytes),
+    filename: d.suggestedFilename(),
+  };
 }
 export async function createTwelve(page: UI) {
   await button(page, "Lehrkräfteeditor").click();

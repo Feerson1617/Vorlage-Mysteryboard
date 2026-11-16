@@ -16,6 +16,7 @@ import {
 import { fromQr } from "./core/codec";
 import { MAX_PNG_BYTES, restorePng } from "./core/png";
 import { exportBoard, type ExportMode } from "./core/export";
+import { backupFilename } from "./core/filenames";
 import { Board } from "./components/Board";
 import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
@@ -40,7 +41,6 @@ export default function App({
   backupPayload,
   onImport,
   onHome,
-  onProjectSave,
   onAuthor,
   initialHelpOpen = false,
   mode = "student",
@@ -50,7 +50,6 @@ export default function App({
   backupPayload?: (work: Work) => Uint8Array;
   onImport?: () => void;
   onHome?: () => void;
-  onProjectSave?: (work: Work) => void;
   onAuthor?: () => void;
   initialHelpOpen?: boolean;
   mode?: "student" | "preview";
@@ -83,7 +82,7 @@ export default function App({
   const input = useRef<HTMLInputElement>(null),
     startTeamInput = useRef<HTMLInputElement>(null),
     teamInput = useRef<HTMLInputElement>(null),
-    pendingExport = useRef<ExportMode | "print" | "project" | null>(null),
+    pendingExport = useRef<ExportMode | "print" | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
@@ -245,7 +244,7 @@ export default function App({
       if (id !== operation.current) return;
       const file = new File(
         [result.blob],
-        `MysteryBoard-${mystery.id.replace(/[^\p{L}\p{N}._-]/gu, "-")}-${new Date().toISOString().slice(0, 10)}.png`,
+        backupFilename(teamName(snapshot), mystery.title),
         { type: "image/png" },
       );
       setSaved({
@@ -739,26 +738,6 @@ export default function App({
                 Lehrkräftemodus – Mystery bearbeiten
               </button>
             )}
-            {onProjectSave && work && (
-              <button
-                onClick={() => {
-                  if (!teamName(work)) {
-                    pendingExport.current = "project";
-                    setTeamDraft("");
-                    setTeamError("");
-                    setMessage(
-                      "Ergänzt vor dem Sichern eure Teambezeichnung oder Vornamen.",
-                    );
-                    setModal("team");
-                    return;
-                  }
-                  close();
-                  onProjectSave(work);
-                }}
-              >
-                Projektdatei sichern
-              </button>
-            )}
             <button onClick={() => setModal("help")}>Hinweise</button>
             <button
               onClick={() => {
@@ -797,7 +776,6 @@ export default function App({
                 close();
                 // Use the newly named snapshot, not the preceding render's work.
                 if (mode === "print") setModal("print");
-                else if (mode === "project") onProjectSave?.(named);
                 else if (mode) void save(mode, named);
               } catch (error) {
                 setTeamError((error as Error).message);

@@ -1,3 +1,4 @@
+import { project } from "./help-runtime-helpers";
 import {
   test,
   expect,
@@ -93,13 +94,6 @@ async function scorm(browser: Browser, info: TestInfo, name: string) {
       await context.close();
     },
   };
-}
-async function project(ui: UI, info: TestInfo, name: string) {
-  await button(ui, "Menü").tap();
-  await button(ui, "Projektdatei sichern").tap();
-  const saved = await getFile(ui, info, name + ".mysteryboard");
-  await button(ui, "Schließen").tap();
-  return saved;
 }
 async function png(ui: UI, info: TestInfo, name: string) {
   await button(ui, "Menü").tap();
@@ -596,9 +590,7 @@ test("Erstbedienung bei 320 Pixeln: sichtbare Funktionsnamen führen in 14 Handl
     await action();
     actions.push(name);
   };
-  await act("Hilfen bearbeiten", () =>
-    button(page, "Hilfen bearbeiten").tap(),
-  );
+  await act("Hilfen bearbeiten", () => button(page, "Hilfen bearbeiten").tap());
   await act("Denkimpuls wählen", () =>
     page
       .getByRole("combobox", { name: "Denkimpuls auswählen", exact: true })
@@ -716,12 +708,10 @@ for (const format of ["HTML", "SCORM"])
           relative(process.cwd(), join(folder, "launch.html")),
       );
       await expect(
-        page
-          .frameLocator("iframe")
-          .getByRole("button", {
-            name: "Lehrkräftemodus – Mystery bearbeiten",
-            exact: true,
-          }),
+        page.frameLocator("iframe").getByRole("button", {
+          name: "Lehrkräftemodus – Mystery bearbeiten",
+          exact: true,
+        }),
       ).toBeVisible();
       ui = page.frames().find((f) => f.url().endsWith("/app.html"))!;
     }

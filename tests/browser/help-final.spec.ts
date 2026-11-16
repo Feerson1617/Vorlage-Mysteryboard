@@ -1,3 +1,4 @@
+import { studentSnapshot } from "./help-runtime-helpers";
 import { test, expect } from "@playwright/test";
 import { METHOD_PRESETS } from "../../src/core/help-authoring";
 import { readFile } from "node:fs/promises";
@@ -121,13 +122,7 @@ test("alte Dateien mit gleichlautenden Hilfen bleiben lesbar, werden aber nicht 
     .getByLabel("Teamname oder Vornamen", { exact: true })
     .fill("Alte Datei");
   await button(page, "Beginnen").tap();
-  await button(page, "Menü").tap();
-  await button(page, "Projektdatei sichern").tap();
-  const work = await getFile(
-    page,
-    info,
-    "alte-gruppennamen-schueler.mysteryboard",
-  );
+  const work = await studentSnapshot(page, info, "alte-gruppennamen-schueler");
   expect(work.document.content).toEqual(doc.content);
   await button(page, "Schließen").tap();
   await button(page, "Menü").tap();

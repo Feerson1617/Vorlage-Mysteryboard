@@ -1,0 +1,78 @@
+{
+  "htmlBytes": 5608321,
+  "zipCrcManifestAndSameRuntime": "passed",
+  "cases": [
+    {
+      "case": "html-1024",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "html-768",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "html-600",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "html-320",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "universal-scorm-1024",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "universal-scorm-768",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "universal-scorm-600",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "universal-scorm-320",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "classroom-scorm-1024",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "classroom-scorm-768",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "classroom-scorm-600",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    },
+    {
+      "case": "classroom-scorm-320",
+      "fullFreshRestoreAndContinuation": "passed",
+      "independentPngData": "passed",
+      "actualPngFilesRechecked": 4
+    }
+  ]
+}
