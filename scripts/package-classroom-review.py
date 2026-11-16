@@ -43,6 +43,10 @@ for name in source_paths:
     payloads['projekt/' + name] = subprocess.check_output(['git', '-C', str(root), 'show', commit + ':' + name])
 payloads['VERSION.json'] = (json.dumps({'sourceCommit': commit, 'sourceBranch': 'feat/mysteryboard-classroom-scorm-export', 'baseCommit': '38ba0a77ac1f2b8d667f5185724ee4933d159d1a', 'documentFormatVersion': 3, 'classroomZips': 'Actual Chromium browser downloads, not rebuilt by this packager', 'realSafariItslearningSchoolIpadAcceptance': 'open'}, ensure_ascii=False, indent=2) + '\n').encode()
 payloads['projekt/PROJECT-VERSION.json'] = payloads['VERSION.json']
+result_summary = json.loads((evidence / 'final-summary.json').read_text())
+result_summary['sourceCommit'] = commit
+result_summary['productionFiles'] = json.loads((evidence / 'production-checksums.json').read_text())
+payloads['ERGEBNIS.json'] = (json.dumps(result_summary, ensure_ascii=False, indent=2) + '\n').encode()
 entries = [{'file': name, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()} for name, data in sorted(payloads.items())]
 payloads['PRUEFSUMMEN.json'] = (json.dumps(entries, ensure_ascii=False, indent=2) + '\n').encode()
 payloads['SHA256SUMS.txt'] = ''.join(f'{entry["sha256"]}  {entry["file"]}\n' for entry in entries).encode()
