@@ -143,7 +143,10 @@ try{
  assert.deepEqual(JSON.parse(await readFile(alternate)),expected);
  const firstSCORM=await scorm(join(out,'Windows-5-SCORM.zip'));
  record('five cards created, Unicode, image, V-card, movement, Ctrl-S and Ctrl-Shift-S',{projectPath,firstSCORM});
- await stop();await start();await open(projectPath,5);assert.deepEqual(await saveTo(join(out,'Wiedergeöffnet-5.mysteryboard'),true),expected);
+ await stop();await start();
+ await b(page,'Müller – Projekt 中文.mysteryboard').click();await expect(page.locator('.studio-board [data-card]')).toHaveCount(5);
+ record('real recent-project entry reopens Unicode project');
+ await open(projectPath,5);assert.deepEqual(await saveTo(join(out,'Wiedergeöffnet-5.mysteryboard'),true),expected);
  await expect(page.getByRole('button',{name:'Zur Projektübersicht',exact:true})).toBeVisible();
  record('full process restart and exact Mac-compatible project round trip');
  await openExports(page);await viewports('Export');await closeExports(page);
@@ -196,6 +199,11 @@ try{
   const height=page.getByRole('spinbutton',{name:'Höhe (%)',exact:true});await height.fill(String(Number(await height.inputValue())-.25));
   await b(page,'Grenze aktualisieren und Text neu lesen').click();await expect(page.locator('.import-step-body')).toBeEnabled({timeout:120000});
   await simpleImport(page);await chooseImportCard(page,0);await page.getByRole('textbox',{name:'Kartentext',exact:true}).fill(corrected);
+  await correction(page,'Kartenstruktur');
+  await page.getByRole('textbox',{name:'Kartentext',exact:true}).evaluate(el=>el.setSelectionRange(7,7));
+  await b(page,'Karte am Textcursor teilen').click();await expect(page.getByLabel('Importkarte auswählen',{exact:true}).locator('option')).toHaveCount(21);
+  await b(page,'Mit nächster Karte zusammenfügen').click();await expect(page.getByLabel('Importkarte auswählen',{exact:true}).locator('option')).toHaveCount(20);
+  await expect(page.getByRole('textbox',{name:'Kartentext',exact:true})).toHaveValue(corrected);await simpleImport(page);
   await take();await expect(page.locator('.studio-board [data-card]')).toHaveCount(20);
   const imported=await saveTo(join(out,'PDF-20-importiert.mysteryboard'));
   assert.equal(imported.content.cards[0].text,corrected);for(let i=1;i<20;i++)assert.equal(imported.content.cards[i].text,originals[i].text);
@@ -206,8 +214,12 @@ try{
   const wordOriginal=JSON.parse(await readFile('tests/fixtures/document-import/ORIGINAL-INHALTE.json','utf8'));
   for(let i=0;i<6;i++){await chooseImportCard(page,i);await expect(page.getByRole('textbox',{name:'Überschrift',exact:true})).toHaveValue(wordOriginal.B[i].title);
    if(i!==3)await expect(page.getByRole('textbox',{name:'Kartentext',exact:true})).toHaveValue(wordOriginal.B[i].paragraphs.join('\n\n'));}
+  await chooseImportCard(page,2);await correction(page,'Bilder, Diagramme und Tabellen');
+  const cell=page.getByRole('textbox',{name:'Zeile 1, Spalte 2',exact:true});
+  await expect(cell).toHaveValue(wordOriginal.table.rows[0][1]);
+  const editedTable=structuredClone(wordOriginal.table);editedTable.rows[0][1]+=' – geprüft';await cell.fill(editedTable.rows[0][1]);await simpleImport(page);
   await take();const word=await saveTo(join(out,'Word-Medien.mysteryboard'));
-  assert.deepEqual(word.content.cards[2].table,wordOriginal.table);
+  assert.deepEqual(word.content.cards[2].table,editedTable);
   for(const [i,name]of [[0,'bild-1.png'],[1,'bild-2.jpeg']])assert.deepEqual(Buffer.from(word.content.cards[i].image.split(',')[1],'base64'),await readFile('tests/fixtures/document-import/'+name));
   for(let i=0;i<6;i++){assert.equal(word.content.cards[i].source,wordOriginal.B[i].source);assert.equal(word.content.cards[i].group,wordOriginal.B[i].extension?'extension':'required')}
   record('DOCX with original image bytes, table, headings, paragraphs, sources and V-groups');
@@ -220,12 +232,12 @@ try{
   const scanText=await scanWorkflow(page,out);assert.equal(JSON.parse(await readFile(scanPath)).content.cards[0].text,scanText);
   record('offline scan OCR, card text and boundary correction, individual review protection');
   // Scan PDFs: actual rasterization and local OCR on both pages.
-  for(const [name,n]of [['Scan-B-16.pdf',16],['Scan-A-20.pdf',20]]){
+  for(const [name,n]of [['Scan-B-16.pdf',16],['Scan-A-20.pdf',20],['Foto.webp',4],['Raster-B-16.png',16]]){
    await b(page,'Importieren').click();await page.getByLabel('Mystery-Datei',{exact:true}).setInputFiles(resolve('tests/fixtures/ocr',name));
    const picker=page.getByLabel('Importkarte auswählen',{exact:true});
-   await expect(picker.locator('option')).toHaveCount(n===20?15:16,{timeout:300000});
+   await expect(picker.locator('option')).toHaveCount(n===20?15:n,{timeout:300000});
    if(n===20){await page.getByLabel('PDF-Seite',{exact:true}).selectOption('2');await expect(picker.locator('option')).toHaveCount(20,{timeout:300000})}
-   await screenshot('OCR-'+n);await b(page,'Zur Pinnwand').click();record('offline raster PDF OCR '+n+' cards');
+   await screenshot('OCR-'+name);await b(page,'Zur Pinnwand').click();record('offline OCR '+name+' '+n+' cards');
   }
   // Failure cases run the real IPC and atomic writes; only paths are injected.
   const protectedPath=scanPath,old=await readFile(protectedPath);
