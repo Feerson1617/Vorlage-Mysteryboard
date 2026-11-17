@@ -18,6 +18,7 @@ export interface StudioBridge {
     forms: boolean;
   }) => Promise<void>;
   detachProject: () => Promise<void>;
+  modalState: (active: boolean) => Promise<void>;
   saveExport: (
     bytes: Uint8Array,
     name: string,
@@ -29,6 +30,7 @@ export interface StudioBridge {
 }
 export interface EditorIntegration {
   name: string;
+  modal?: boolean;
   state: (draft: Draft, dirty: boolean, forms: boolean) => void;
   save: (draft: Draft, saveAs: boolean) => Promise<boolean>;
   open: () => void;

@@ -137,7 +137,13 @@ export function AuthorEditor({
   );
   const draftRef = useRef(draft);
   draftRef.current = draft;
-  const blocked = !!card || helpEditing || documentImport || fileBusy || busy;
+  const blocked =
+    !!card ||
+    helpEditing ||
+    documentImport ||
+    fileBusy ||
+    busy ||
+    !!integration?.modal;
   const blockedRef = useRef(blocked);
   blockedRef.current = blocked;
   const saving = useRef(false);

@@ -49,7 +49,8 @@ let window: BrowserWindow;
 let currentPath: string | null = null;
 let state: { bytes: Uint8Array; dirty: boolean; forms: boolean } | null = null;
 let closing = false,
-  asking = false;
+  asking = false,
+  uiBlocked = false;
 let recent: { id: string; path: string }[] = [];
 function updateFileMenu() {
   const focused = BrowserWindow.getFocusedWindow() === window;
@@ -61,7 +62,8 @@ function updateFileMenu() {
         focused &&
         !window.webContents.isLoadingMainFrame() &&
         (id === "project-open" || !!state) &&
-        !state?.forms;
+        !state?.forms &&
+        !uiBlocked;
   }
 }
 const bytes = (value: unknown, max = MAX_DOCUMENT_BYTES) => {
@@ -126,14 +128,15 @@ async function save(data: Uint8Array, saveAs = false) {
   return { name: basename(path) };
 }
 async function allowReplace() {
-  if (!state?.dirty && !state?.forms) return true;
-  const buttons = state.forms
+  const forms = !!state?.forms || uiBlocked;
+  if (!state?.dirty && !forms) return true;
+  const buttons = forms
     ? ["Abbrechen", "Änderungen verwerfen"]
     : ["Abbrechen", "Änderungen verwerfen", "Projekt speichern"];
   const response = await dialog.showMessageBox(window, {
     type: "warning",
     message: "Ungesicherte Änderungen",
-    detail: state.forms
+    detail: forms
       ? "Es ist ein Bearbeitungsschritt geöffnet. Bitte diesen zuerst übernehmen oder abbrechen. Beim Verwerfen gehen auch noch nicht übernommene Eingaben verloren."
       : "Das geöffnete Projekt enthält noch nicht gespeicherte Änderungen.",
     buttons,
@@ -257,7 +260,7 @@ async function setup() {
     if (url !== URL) event.preventDefault();
   });
   window.on("close", (event) => {
-    if (closing || (!state?.dirty && !state?.forms)) return;
+    if (closing || (!state?.dirty && !state?.forms && !uiBlocked)) return;
     event.preventDefault();
     if (asking) return;
     asking = true;
@@ -274,7 +277,8 @@ async function setup() {
   // beforeunload is still used by the shared browser editor. Native close owns
   // the decision; never silently discard form edits or a pending native save.
   window.webContents.on("will-prevent-unload", (event) => {
-    if (closing || (!state?.dirty && !state?.forms)) event.preventDefault();
+    if (closing || (!state?.dirty && !state?.forms && !uiBlocked))
+      event.preventDefault();
   });
   handle("preview:open", async (input) => {
     const doc = readDocument(bytes(input));
@@ -354,6 +358,11 @@ async function setup() {
     await preview.loadURL("mysteryboard://preview/index.html");
   });
   handle("project:open", () => open());
+  handle("app:modal", (active) => {
+    if (typeof active !== "boolean") throw Error("Ungültiger Dialogzustand.");
+    uiBlocked = active;
+    updateFileMenu();
+  });
   handle("project:list", () =>
     recent.map((r) => ({ id: r.id, name: basename(r.path) })),
   );

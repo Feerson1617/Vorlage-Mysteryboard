@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld(
       ipcRenderer.invoke("project:save", { bytes, saveAs }),
     projectState: (state) => ipcRenderer.invoke("project:state", state),
     detachProject: () => ipcRenderer.invoke("project:detach"),
+    modalState: (active) => ipcRenderer.invoke("app:modal", active),
     saveExport: (bytes, name, kind) =>
       ipcRenderer.invoke("export:save", { bytes, name, kind }),
     printPDF: (html) => ipcRenderer.invoke("export:pdf", html),

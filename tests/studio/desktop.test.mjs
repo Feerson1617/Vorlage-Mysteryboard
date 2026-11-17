@@ -64,9 +64,11 @@ test(
         "native sandbox/context isolation/node integration preferences verified",
       );
       const nativeCommand = async (id) => {
-        await app.evaluate(({ BrowserWindow }) =>
-          BrowserWindow.getAllWindows()[0].focus(),
-        );
+        await app.evaluate(({ BrowserWindow, app }) => {
+          app.focus({ steal: true });
+          BrowserWindow.getAllWindows()[0].show();
+          BrowserWindow.getAllWindows()[0].focus();
+        });
         await expect
           .poll(() =>
             app.evaluate(
@@ -187,6 +189,15 @@ test(
         await expect(
           page.getByRole("button", { name: "PDF speichern", exact: true }),
         ).toBeEnabled({ timeout: 60000 });
+        await expect
+          .poll(() =>
+            app.evaluate(({ Menu }) =>
+              ["project-open", "project-save", "project-save-as"].every(
+                (id) => !Menu.getApplicationMenu().getMenuItemById(id).enabled,
+              ),
+            ),
+          )
+          .toBe(true);
         await page
           .getByRole("button", { name: "PDF speichern", exact: true })
           .click();
@@ -473,6 +484,15 @@ test(
       await page
         .getByRole("button", { name: "Neues Mystery erstellen", exact: true })
         .click();
+      await expect
+        .poll(() =>
+          app.evaluate(
+            ({ Menu }) =>
+              !Menu.getApplicationMenu().getMenuItemById("project-open")
+                .enabled,
+          ),
+        )
+        .toBe(true);
       await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("UX");
       await page
         .getByRole("button", { name: "Mystery erstellen", exact: true })
@@ -592,6 +612,34 @@ test(
       );
       console.log(checks.join("\n"));
     } catch (error) {
+      await writeFile(
+        join(out, "Mac-Fokus-und-Menue.json"),
+        JSON.stringify(
+          await app
+            .evaluate(({ BrowserWindow, Menu, app }) => ({
+              hidden: app.isHidden(),
+              focused: BrowserWindow.getFocusedWindow()?.id,
+              windows: BrowserWindow.getAllWindows().map((w) => ({
+                id: w.id,
+                focused: w.isFocused(),
+                visible: w.isVisible(),
+                loading: w.webContents.isLoadingMainFrame(),
+                url: w.webContents.getURL(),
+              })),
+              menu: Object.fromEntries(
+                ["project-open", "project-save", "project-save-as"].map(
+                  (id) => [
+                    id,
+                    Menu.getApplicationMenu().getMenuItemById(id).enabled,
+                  ],
+                ),
+              ),
+            }))
+            .catch(() => ({})),
+          null,
+          2,
+        ),
+      );
       const page = await app.firstWindow().catch(() => null);
       if (page) {
         await page

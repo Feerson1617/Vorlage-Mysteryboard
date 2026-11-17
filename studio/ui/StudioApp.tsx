@@ -50,6 +50,8 @@ export function StudioApp() {
       setDraft(
         doc.kind === "draft" ? doc : draftFromContent(doc.content, "LK"),
       );
+      setCreate(null);
+      setPdf(null);
       setName(opened.name);
       setGeneration((g) => g + 1);
       setInitialImport(false);
@@ -66,12 +68,19 @@ export function StudioApp() {
   useEffect(
     () =>
       bridge?.onCommand?.((command) => {
-        if (command === "open") void read(bridge.openProject());
+        if (command === "open" && !pdf && !create)
+          void read(bridge.openProject());
       }),
-    [bridge],
+    [bridge, pdf, create],
   );
+  useEffect(() => {
+    void bridge
+      ?.modalState?.(!!pdf || !!create)
+      .catch((e) => setError(e.message));
+  }, [bridge, pdf, create]);
   const integration: EditorIntegration = {
     name,
+    modal: !!pdf || !!create,
     state: (d, dirty, forms) => {
       void bridge
         ?.projectState({ bytes: encodeDocument(d), dirty, forms })
