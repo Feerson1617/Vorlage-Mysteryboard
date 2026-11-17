@@ -755,10 +755,13 @@ test(
       const nativeDialogRecords = await app.evaluate(
         () => globalThis.__nativeDialogRecords,
       );
-      const confirmations = [
-        ...rendererConfirmations,
-        ...nativeDialogRecords.map((record) => record.message),
-      ];
+      console.log(
+        "Confirmation channels:",
+        JSON.stringify({ nativeDialogRecords, rendererConfirmations }),
+      );
+      // Electron reports the same question through both channels. Its native
+      // dialog calls determine the selected answer; do not sum the observers.
+      const confirmations = nativeDialogRecords.map((record) => record.message);
       assert.equal(
         confirmations.filter((message) =>
           message.startsWith("Import schließen?"),
