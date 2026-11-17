@@ -1,0 +1,28 @@
+{
+  "applicationSourceCommit": "0defd50126519ddda43a6a001a06355206844a93",
+  "sourceAndQACommit": "c07e729474a71c7927180e301563a56051296077",
+  "files": [
+    {
+      "file": "MysteryBoard-Studio-Apple-Silicon.dmg",
+      "bytes": 125949583,
+      "sha256": "befb973b5caa50bb22e90bd78971b5daab6320269c99ba52314c154952dcf7ec"
+    },
+    {
+      "file": "MysteryBoard-Studio-Apple-Silicon.zip",
+      "bytes": 127811911,
+      "sha256": "9c3a5260e169aaa3065776878f12a34b28cc740d2a8a59519c9633fe0f9460d2"
+    },
+    {
+      "file": "MysteryBoard-Studio-Abnahmepaket.zip",
+      "bytes": 28021281,
+      "sha256": "4ad197b182f4ee9ab1d52fcb3d20a60cc164d4c931bed684b1a14d6039905d93"
+    },
+    {
+      "file": "MysteryBoard-Studio-Beispiele.zip",
+      "bytes": 748522,
+      "sha256": "7ee3fbd09786d1995a3b0db980807bb7a20d4df70af0c76c1500b8136d8e3853"
+    }
+  ],
+  "zipIntegrity": "all ZIP CRC and review manifest entries passed",
+  "nativeDMG": "verified by hdiutil in successful macOS run 44029762631"
+}
