@@ -413,3 +413,66 @@ export function checkOcrBudget(
   )
     throw Error("Zu viele OCR-Textbestandteile. Bitte die Aufnahme aufteilen.");
 }
+
+// Conservative preservation, never semantic diagram interpretation. Ink not
+// explained by OCR word rectangles may be axes, strokes, photos or missed text.
+export async function graphicCandidate(src: string, data: OcrData) {
+  const image = new Image();
+  image.src = src;
+  await image.decode();
+  const width = image.naturalWidth,
+    height = image.naturalHeight;
+  if (width * height > 4_000_000) {
+    image.src = "";
+    return true;
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  try {
+    const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
+    ctx.drawImage(image, 0, 0);
+    const pixels = ctx.getImageData(0, 0, width, height).data,
+      mask = new Uint8Array(width * height);
+    const words =
+      data.blocks?.flatMap((b) =>
+        b.paragraphs.flatMap((p) => p.lines.flatMap((l) => l.words)),
+      ) ?? [];
+    for (const word of words) {
+      const b = word.bbox;
+      const x0 = Math.max(0, Math.floor(b.x0) - 4),
+        x1 = Math.min(width, Math.ceil(b.x1) + 4),
+        y0 = Math.max(0, Math.floor(b.y0) - 4),
+        y1 = Math.min(height, Math.ceil(b.y1) + 4);
+      for (let y = y0; y < y1; y++)
+        mask.fill(1, y * width + x0, y * width + x1);
+    }
+    const margin = Math.max(5, Math.round(Math.min(width, height) * 0.035));
+    let dark = 0,
+      unexplained = 0,
+      color = 0,
+      area = 0;
+    for (let y = margin; y < height - margin; y += 2)
+      for (let x = margin; x < width - margin; x += 2) {
+        area++;
+        const offset = (y * width + x) * 4,
+          r = pixels[offset],
+          g = pixels[offset + 1],
+          b = pixels[offset + 2],
+          luma = (r + g + b) / 3;
+        if (pixels[offset + 3] < 128 || luma > 195) continue;
+        dark++;
+        if (!mask[y * width + x]) {
+          unexplained++;
+          if (Math.max(r, g, b) - Math.min(r, g, b) > 40) color++;
+        }
+      }
+    return (
+      color > area * 0.004 ||
+      (unexplained > area * 0.006 && unexplained > dark * 0.25)
+    );
+  } finally {
+    image.src = "";
+    canvas.width = canvas.height = 0;
+  }
+}

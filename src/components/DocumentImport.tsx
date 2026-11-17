@@ -40,6 +40,7 @@ import {
   scanFrames,
   ocrItems,
   ocrCard,
+  graphicCandidate,
   fallbackRegions,
   checkOcrBudget,
   type Preparation,
@@ -918,6 +919,16 @@ export function DocumentImport({
             old?.group ??
             (raw.group === "extension" ? extensionGroup : defaultGroup),
         } as Card;
+        if (
+          multipleImages &&
+          !card.image &&
+          !card.extraImages?.length &&
+          (await graphicCandidate(src, data))
+        ) {
+          card.image = src;
+          card.imageAlt = "Originalausschnitt aus der importierten Karte";
+          card.imageCaption = "Originalausschnitt";
+        }
         if (!old) remaining.push(card);
         else remaining = remaining.map((c) => (c.id === id ? card : c));
         infos[id] = { data, checked: false, regions: [region] };
