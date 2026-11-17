@@ -19,11 +19,19 @@ export function ocrBase() {
   );
   if (!meta) return null;
   const url = new URL(meta.content, location.href);
-  if (
-    url.origin !== location.origin ||
-    !["http:", "https:"].includes(url.protocol)
-  )
-    return null;
+  const sameWebOrigin =
+    ["http:", "https:"].includes(url.protocol) &&
+    url.origin === location.origin;
+  // Electron registers this exact standard, secure, same-app scheme. No file://
+  // or arbitrary custom protocol is trusted, and web builds cannot opt into it.
+  const sameStudioOrigin =
+    location.protocol === "mysteryboard:" &&
+    location.host === "app" &&
+    url.protocol === "mysteryboard:" &&
+    url.host === "app" &&
+    !url.username &&
+    !url.password;
+  if (!sameWebOrigin && !sameStudioOrigin) return null;
   return url;
 }
 export class LocalOcr {

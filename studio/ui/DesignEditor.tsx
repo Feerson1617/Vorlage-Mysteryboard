@@ -108,6 +108,7 @@ export function DesignEditor({
           <label>
             Schrift
             <select
+              aria-label="Schrift"
               value={d.font}
               onChange={(e) =>
                 change({ font: e.target.value as "sans" | "serif" })

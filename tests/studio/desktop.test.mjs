@@ -27,7 +27,11 @@ test(
     try {
       const page = await app.firstWindow();
       page.setDefaultTimeout(30000);
-      page.on("dialog", (d) => d.accept());
+      page.on("dialog", (d) =>
+        d.accept().catch((e) => {
+          if (!String(e).includes("No dialog is showing")) throw e;
+        }),
+      );
       await expect(
         page.getByRole("heading", { name: "MysteryBoard Studio", exact: true }),
       ).toBeVisible();
