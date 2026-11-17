@@ -49,8 +49,7 @@ test(
     try {
       const page = await app.firstWindow();
       page.setDefaultTimeout(30000);
-      const rendererConfirmations = [],
-        confirmDecisions = [];
+      const rendererConfirmations = [];
       let rendererFileChoosers = 0;
       // Intercept the toolbar's real input.click() before setInputFiles. Without
       // this listener Electron keeps an OS NSOpenPanel open behind the CDP run.
@@ -59,10 +58,7 @@ test(
       });
       page.on("dialog", (d) => {
         rendererConfirmations.push(d.message());
-        const accept = confirmDecisions.length
-          ? confirmDecisions.shift()
-          : true;
-        (accept ? d.accept() : d.dismiss()).catch((e) => {
+        d.accept().catch((e) => {
           if (!String(e).includes("No dialog is showing")) throw e;
         });
       });
@@ -171,10 +167,33 @@ test(
       });
       checks.push("native Ablage accelerators for open, save and save as");
       await app.evaluate(({ dialog }) => {
-        dialog.showMessageBox = async (...args) => ({
-          response: args.at(-1)?.message === "Ungesicherte Änderungen" ? 1 : 0,
-          checkboxChecked: false,
-        });
+        globalThis.__nativeDialogRecords = [];
+        globalThis.__overviewDecisions = [];
+        globalThis.__selectNativeDialog = (...args) => {
+          const options = args.at(-1);
+          globalThis.__nativeDialogRecords.push({
+            message: options?.message,
+            buttons: options?.buttons,
+          });
+          const overview =
+            options?.message ===
+            "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.";
+          return {
+            response:
+              overview && globalThis.__overviewDecisions.length
+                ? globalThis.__overviewDecisions.shift()
+                  ? 0
+                  : 1
+                : options?.message === "Ungesicherte Änderungen"
+                  ? 1
+                  : 0,
+            checkboxChecked: false,
+          };
+        };
+        dialog.showMessageBox = async (...args) =>
+          globalThis.__selectNativeDialog(...args);
+        dialog.showMessageBoxSync = (...args) =>
+          globalThis.__selectNativeDialog(...args).response;
       });
       for (const source of sources) {
         await app.evaluate(({ dialog }, path) => {
@@ -372,9 +391,8 @@ test(
       await expect(page.locator(".studio-board")).toBeVisible();
       checks.push("cancel close retains unsaved project");
       await app.evaluate(({ dialog }) => {
-        dialog.showMessageBox = async (...args) => ({
-          response: args.at(-1)?.message === "Ungesicherte Änderungen" ? 1 : 0,
-        });
+        dialog.showMessageBox = async (...args) =>
+          globalThis.__selectNativeDialog(...args);
       });
       await writeFile(
         join(out, "native-macos-progress.json"),
@@ -591,8 +609,10 @@ test(
         "new imported mystery asks for a new path and preserves old project bytes",
       );
       await closeExports(page);
-      confirmDecisions.push(false, true);
-      const overviewPromptStart = rendererConfirmations.length;
+      const overviewPromptStart = await app.evaluate(() => {
+        globalThis.__overviewDecisions = [false, true];
+        return globalThis.__nativeDialogRecords.length;
+      });
       await page
         .getByRole("button", { name: "Zur Projektübersicht", exact: true })
         .click();
@@ -601,10 +621,19 @@ test(
       await page
         .getByRole("button", { name: "Zur Projektübersicht", exact: true })
         .click();
-      assert.deepEqual(rendererConfirmations.slice(overviewPromptStart), [
-        "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-        "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-      ]);
+      assert.deepEqual(
+        await app.evaluate(
+          (start) =>
+            globalThis.__nativeDialogRecords
+              .slice(start)
+              .map((record) => record.message),
+          overviewPromptStart,
+        ),
+        [
+          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+        ],
+      );
       checks.push(
         "overview confirmation: cancel retains dirty cards; explicit discard returns home",
       );
@@ -721,19 +750,26 @@ test(
         "native scan card and boundary correction retain unrelated data and require individual review",
       );
       assert(rendererFileChoosers >= 5);
+      const nativeDialogRecords = await app.evaluate(
+        () => globalThis.__nativeDialogRecords,
+      );
+      const confirmations = [
+        ...rendererConfirmations,
+        ...nativeDialogRecords.map((record) => record.message),
+      ];
       assert.equal(
-        rendererConfirmations.filter((message) =>
+        confirmations.filter((message) =>
           message.startsWith("Import schließen?"),
         ).length,
         3,
       );
       assert(
-        rendererConfirmations.some((message) =>
+        confirmations.some((message) =>
           message.includes("Ein neues Mystery beginnen?"),
         ),
       );
       assert(
-        rendererConfirmations.some((message) =>
+        confirmations.some((message) =>
           message.startsWith("Betroffene Karten erneut erkennen?"),
         ),
       );
@@ -745,6 +781,7 @@ test(
             ...prefs,
             checks,
             rendererConfirmations,
+            nativeDialogRecords,
             rendererFileChoosers,
             platform:
               "real hosted macOS ARM64 runner; not a physical classroom Mac",
