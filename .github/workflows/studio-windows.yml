@@ -10,6 +10,9 @@ jobs:
   windows-x64:
     runs-on: windows-2025
     timeout-minutes: 60
+    env:
+      PYTHONUTF8: '1'
+      PYTHONIOENCODING: utf-8
     steps:
       - name: Preserve exact frozen file bytes on Windows
         shell: pwsh
