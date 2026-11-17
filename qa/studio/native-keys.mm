@@ -16,10 +16,11 @@ napi_value Shortcut(napi_env env, napi_callback_info info) {
   }
   @autoreleasepool {
     NSString *characters = [NSString stringWithUTF8String:key];
+    NSString *typedCharacters = shift ? characters.uppercaseString : characters;
     NSEventModifierFlags modifiers = NSEventModifierFlagCommand | (shift ? NSEventModifierFlagShift : 0);
     NSEvent *event = [NSEvent keyEventWithType:NSEventTypeKeyDown location:NSZeroPoint
       modifierFlags:modifiers timestamp:NSProcessInfo.processInfo.systemUptime
-      windowNumber:NSApp.keyWindow.windowNumber context:nil characters:characters
+      windowNumber:NSApp.keyWindow.windowNumber context:nil characters:typedCharacters
       charactersIgnoringModifiers:characters isARepeat:NO keyCode:key[0] == 'o' ? 31 : 1];
     const bool handled = NSApp.mainMenu && [NSApp.mainMenu performKeyEquivalent:event];
     napi_value result;

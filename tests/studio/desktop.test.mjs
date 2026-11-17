@@ -80,6 +80,13 @@ test(
         "native sandbox/context isolation/node integration preferences verified",
       );
       const nativeCommand = async (id) => {
+        await page.evaluate(() => {
+          globalThis.__nativeCommands = [];
+          globalThis.__nativeUnsubscribe?.();
+          globalThis.__nativeUnsubscribe = window.mysteryStudio.onCommand(
+            (command) => globalThis.__nativeCommands.push(command),
+          );
+        });
         await app.evaluate(({ BrowserWindow, app }) => {
           app.focus({ steal: true });
           BrowserWindow.getAllWindows()[0].show();
@@ -111,6 +118,9 @@ test(
           true,
           "The real AppKit menu must resolve this key equivalent",
         );
+        await expect
+          .poll(() => page.evaluate(() => globalThis.__nativeCommands))
+          .toEqual([id.replace("project-", "")]);
       };
       const accelerators = await app.evaluate(({ Menu }) =>
         Object.fromEntries(
