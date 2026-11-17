@@ -332,6 +332,75 @@ test(
           .getByRole("button", { name: "Zurück zum Entwurf", exact: true })
           .click();
       }
+      // A new import must detach the old native save path. Canceling its first
+      // Save must leave the previously saved project bytes completely unchanged.
+      const oldProject = join(out, "Studio-60-gespeichert.mysteryboard"),
+        oldBytes = await readFile(oldProject);
+      await page
+        .getByRole("button", { name: "Material importieren", exact: true })
+        .click();
+      await page
+        .getByLabel("Mystery-Datei", { exact: true })
+        .setInputFiles(resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
+      await expect(
+        page.getByRole("heading", { name: "2. Karten prüfen", exact: true }),
+      ).toBeVisible({ timeout: 60000 });
+      await page
+        .getByRole("button", { name: "Original ansehen", exact: true })
+        .click();
+      await page
+        .getByRole("button", {
+          name: "Kartengrenzen und Text erkennen",
+          exact: true,
+        })
+        .click();
+      await expect(page.locator(".import-step-body")).not.toHaveAttribute(
+        "disabled",
+        "",
+        { timeout: 240000 },
+      );
+      await page
+        .getByRole("button", { name: "Karten ansehen", exact: true })
+        .click();
+      const picker = page.getByLabel("Importkarte auswählen", { exact: true });
+      for (let i = 0; i < 4; i++) {
+        await picker.selectOption(String(i));
+        await page.getByRole("checkbox", { name: /Diese OCR-Karte/ }).check();
+      }
+      await page
+        .getByRole("button", { name: "Weiter zur Übernahme", exact: true })
+        .click();
+      await page
+        .getByRole("radio", {
+          name: "Neues Mystery aus dem Dokument erstellen",
+          exact: true,
+        })
+        .check();
+      await page.getByRole("checkbox", { name: /Ich habe Texte/ }).check();
+      await page
+        .getByRole("button", {
+          name: "Geprüfte Karten übernehmen",
+          exact: true,
+        })
+        .click();
+      await expect(page.locator(".studio-board [data-card]")).toHaveCount(4);
+      await app.evaluate(({ dialog }) => {
+        globalThis.__studioSaveRequests = 0;
+        dialog.showSaveDialog = async () => {
+          globalThis.__studioSaveRequests++;
+          return { canceled: true };
+        };
+      });
+      await page
+        .getByRole("button", { name: "Projekt sichern", exact: true })
+        .click();
+      await expect
+        .poll(() => app.evaluate(() => globalThis.__studioSaveRequests))
+        .toBe(1);
+      assert.deepEqual(await readFile(oldProject), oldBytes);
+      checks.push(
+        "new imported mystery asks for a new path and preserves old project bytes",
+      );
       await writeFile(
         join(out, "native-macos.json"),
         JSON.stringify(

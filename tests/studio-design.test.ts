@@ -275,3 +275,37 @@ describe("Studio: Mehrfachmedien ohne Verlust", () => {
     ).toEqual(["V1", "1", "V2", "2"]);
   });
 });
+
+it("zeichnet keine verwaiste Bildunterschrift und ordnet die erste Zusatzgrafik richtig zu", async () => {
+  const { vi } = await import("vitest");
+  vi.stubGlobal("document", {
+    createElement: () => ({
+      getContext: () => ({
+        measureText: (s: string) => ({ width: s.length * 8 }),
+      }),
+    }),
+  });
+  try {
+    const { layoutCard } = await import("../src/core/layout");
+    const base = {
+      id: 1,
+      title: "Originaltitel",
+      text: "Text",
+      imageCaption: "Unterschrift des entfernten Hauptbildes",
+    };
+    expect(layoutCard(base).caption).toEqual([]);
+    expect(
+      layoutCard({
+        ...base,
+        extraImages: [
+          {
+            src: "data:image/png;base64,AA==",
+            caption: "Legende der Zusatzgrafik",
+          },
+        ],
+      }).caption.join(" "),
+    ).toBe("Legende der Zusatzgrafik");
+  } finally {
+    vi.unstubAllGlobals();
+  }
+});

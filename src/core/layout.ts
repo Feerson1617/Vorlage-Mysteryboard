@@ -82,9 +82,11 @@ export function layoutCard(
     scale = (card.imageScale ?? 100) / 100,
     imageHeight = 98 * scale,
     imageWidth = 264 * scale;
-  const caption = card.imageCaption
-    ? wrap(card.imageCaption, 264, `12px ${fontFamily}`)
-    : [];
+  const captionText = card.image
+    ? card.imageCaption
+    : card.extraImages?.[0]?.caption;
+  const caption =
+    hasImage && captionText ? wrap(captionText, 264, `12px ${fontFamily}`) : [];
   let textY = 24 + title.length * titleLine + 26,
     imageY = 24 + title.length * titleLine + 12 + text.length * textLine + 12;
   let height = Math.max(

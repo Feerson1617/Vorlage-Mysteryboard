@@ -689,8 +689,20 @@ export function AuthorEditor({
           </nav>
           <details className="studio-project-menu">
             <summary>Projekt</summary>
-            <button onClick={integration.open}>Mystery öffnen</button>
             <button
+              disabled={documentImport || helpEditing || !!card || fileBusy}
+              onClick={integration.open}
+            >
+              Mystery öffnen
+            </button>
+            <button
+              disabled={
+                documentImport ||
+                helpEditing ||
+                !!card ||
+                fileBusy ||
+                !content.cards.length
+              }
               onClick={() => {
                 try {
                   integration.preview(publishDraft(draft));
@@ -701,10 +713,14 @@ export function AuthorEditor({
             >
               Schüleransicht prüfen
             </button>
-            <button onClick={() => void saveDesktop(true)}>
+            <button
+              disabled={documentImport || helpEditing || !!card || fileBusy}
+              onClick={() => void saveDesktop(true)}
+            >
               Speichern unter
             </button>
             <button
+              disabled={documentImport || helpEditing || !!card || fileBusy}
               onClick={() => {
                 if (
                   !dirty ||
@@ -724,31 +740,15 @@ export function AuthorEditor({
       {!integration && (
         <>
           <header className="author-toolbar">
-            <strong>
-              {integration
-                ? "MysteryBoard Studio"
-                : "MysteryBoard · Lehrkräftemodus"}
-            </strong>
+            <strong>MysteryBoard · Lehrkräftemodus</strong>
             <span>Kürzel: {draft.author.initials}</span>
             <button
               className="primary"
               disabled={helpEditing || documentImport || fileBusy}
-              onClick={() =>
-                integration
-                  ? void saveDesktop()
-                  : onFile(validateDocument(draft))
-              }
+              onClick={() => onFile(validateDocument(draft))}
             >
-              {integration ? "Projekt speichern" : "Entwurf sichern"}
+              Entwurf sichern
             </button>
-            {integration && (
-              <button
-                disabled={helpEditing || documentImport || fileBusy || !!card}
-                onClick={() => void saveDesktop(true)}
-              >
-                Speichern unter
-              </button>
-            )}
             <button
               disabled={helpEditing || documentImport || fileBusy}
               onClick={() => {
@@ -810,6 +810,7 @@ export function AuthorEditor({
             setImportFile(undefined);
           }}
           onApply={(next, count) => {
+            if (next.content.id !== draft.content.id) integration?.detach();
             setDraft(next);
             setDirty(true);
             setDocumentImport(false);
