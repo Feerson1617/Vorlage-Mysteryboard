@@ -16,7 +16,6 @@ napi_value Shortcut(napi_env env, napi_callback_info info) {
   }
   @autoreleasepool {
     NSString *characters = [NSString stringWithUTF8String:key];
-    if (shift) characters = characters.uppercaseString;
     NSEventModifierFlags modifiers = NSEventModifierFlagCommand | (shift ? NSEventModifierFlagShift : 0);
     NSEvent *event = [NSEvent keyEventWithType:NSEventTypeKeyDown location:NSZeroPoint
       modifierFlags:modifiers timestamp:NSProcessInfo.processInfo.systemUptime

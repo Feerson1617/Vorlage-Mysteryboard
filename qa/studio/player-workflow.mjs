@@ -2,6 +2,7 @@ import { expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { unzipSync } from "fflate";
+import { execFileSync } from "node:child_process";
 const snap = (ui) =>
   ui.evaluate(() => ({
     cards: [...document.querySelectorAll("[data-card]")].map((e) => ({
@@ -194,6 +195,21 @@ export async function playerWorkflow(
     })),
   ).toEqual({ local: 0, session: 0 });
   await fresh.close();
+  // Generate an old-style v3 student document as an IMPORT fixture with the
+  // independent PNG decoder; the Player still offers only a PNG save.
+  const legacyPath = join(out,name+"-Altimport.mysteryboard");
+  execFileSync("python3",["qa/touch-saving/verify-png.py",png,legacyPath]);
+  const legacy = await browser.newContext({viewport:{width:1024,height:768},hasTouch:true});
+  await legacy.route("**/*",offline);
+  const legacyPage = await legacy.newPage();
+  await legacyPage.goto(`${origin}/qa-evidence/${name}/launch.html`);
+  const legacyUI = legacyPage.frames().find((f)=>f.url().endsWith("/app.html"));
+  await legacyUI.getByRole("button",{name:"Fortsetzen",exact:true}).tap();
+  await legacyUI.getByLabel("Schüler-Sicherung",{exact:true}).setInputFiles(legacyPath);
+  await expect(legacyUI.locator("[data-card]")).toHaveCount(expected,{timeout:30000});
+  expect(await snap(legacyUI)).toEqual(edited);
+  await expect(legacyUI.getByRole("button",{name:/JSON|mysteryboard|Arbeitsstand.*Datei/i})).toHaveCount(0);
+  await legacy.close();
   expect(
     requests.filter((u) => /^https?:/.test(u) && !u.startsWith(origin)),
   ).toEqual([]);
@@ -208,6 +224,8 @@ export async function playerWorkflow(
       ? "not run: CDP multitouch is Chromium-specific"
       : true,
     teacherAndOCRCodeAbsent: true,
+    oldStudentDocumentImportEqual: true,
+    studentNonPNGExportButtons: 0,
     externalRequests: requests.filter(
       (u) => /^https?:/.test(u) && !u.startsWith(origin),
     ),

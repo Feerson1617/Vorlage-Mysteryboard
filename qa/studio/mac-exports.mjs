@@ -43,7 +43,7 @@ try {
         version: browser.version(),
         platform: process.platform,
         realSafariOrIpad: false,
-        sourceCommit: "0defd50126519ddda43a6a001a06355206844a93",
+        sourceCommit: native.prefs.sourceCommit,
         proofs,
       },
       null,
