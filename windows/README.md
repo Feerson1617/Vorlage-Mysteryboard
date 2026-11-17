@@ -6,6 +6,13 @@ Windows-spezifische Ergänzung zur unveränderten macOS-Referenz
 Dateigröße und SHA-256. `node windows/integrity.mjs` vergleicht den gesamten
 Arbeitsbaum und verbietet Änderungen an bestehenden Dateien.
 
+Die historische Dokumentation enthält im selben Ordner `RESULTS.json` und
+`results.json`. Deshalb materialisiert der Windows-Checkout genau diese beiden
+historischen Belegdateien nicht. Beide Git-Blobs werden weiterhin vollständig
+gegen ihre ursprünglichen SHA-256-Werte geprüft. Alle übrigen 1.693 Dateien,
+insbesondere sämtliche Anwendungsdateien, werden auch als Arbeitsdateien geprüft.
+Es wird keine geschützte Datei umbenannt, gelöscht oder geändert.
+
 Auf Windows x64 mit Node 24.22.1:
 
 ```powershell
