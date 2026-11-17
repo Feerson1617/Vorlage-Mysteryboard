@@ -4,6 +4,30 @@
 #import <ApplicationServices/ApplicationServices.h>
 #include <node_api.h>
 
+napi_value Focus(napi_env env, napi_callback_info info) {
+  @autoreleasepool {
+    [NSApp activateIgnoringOtherApps:YES];
+    NSMutableArray *windows = [NSMutableArray array];
+    for (NSWindow *window in NSApp.windows) {
+      if (window.visible && window.canBecomeMainWindow) {
+        [window orderFrontRegardless];
+        [window makeKeyAndOrderFront:nil];
+      }
+      [windows addObject:@{@"number":@(window.windowNumber), @"class":NSStringFromClass(window.class),
+        @"visible":@(window.visible), @"key":@(window.keyWindow), @"main":@(window.mainWindow),
+        @"canKey":@(window.canBecomeKeyWindow), @"canMain":@(window.canBecomeMainWindow),
+        @"sheet":@(window.sheet), @"attachedSheet":@(window.attachedSheet != nil)}];
+    }
+    NSDictionary *audit = @{@"active":@(NSApp.active), @"mainThread":@(NSThread.isMainThread),
+      @"frontmost":NSWorkspace.sharedWorkspace.frontmostApplication.bundleIdentifier ?: @"",
+      @"windows":windows};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:audit options:0 error:nil];
+    napi_value result;
+    napi_create_string_utf8(env, static_cast<const char *>(data.bytes), data.length, &result);
+    return result;
+  }
+}
+
 napi_value Shortcut(napi_env env, napi_callback_info info) {
   size_t argc = 2, length = 0;
   napi_value args[2];
@@ -41,6 +65,8 @@ napi_value Init(napi_env env, napi_value exports) {
   napi_value fn;
   napi_create_function(env, "shortcut", NAPI_AUTO_LENGTH, Shortcut, nullptr, &fn);
   napi_set_named_property(env, exports, "shortcut", fn);
+  napi_create_function(env, "focus", NAPI_AUTO_LENGTH, Focus, nullptr, &fn);
+  napi_set_named_property(env, exports, "focus", fn);
   return exports;
 }
 NAPI_MODULE(studio_native_keys, Init)

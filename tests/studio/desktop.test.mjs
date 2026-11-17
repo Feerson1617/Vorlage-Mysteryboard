@@ -90,6 +90,17 @@ test(
         "native sandbox/context isolation/node integration preferences verified",
       );
       const nativeCommand = async (id) => {
+        console.log(
+          "Native focus:",
+          await app.evaluate(
+            (_, path) =>
+              process
+                .getBuiltinModule("module")
+                .createRequire(process.execPath)(path)
+                .focus(),
+            keyDriver,
+          ),
+        );
         await page.evaluate(() => {
           globalThis.__nativeCommands = [];
           globalThis.__nativeUnsubscribe?.();
@@ -772,6 +783,9 @@ test(
                 id: w.id,
                 focused: w.isFocused(),
                 visible: w.isVisible(),
+                enabled: w.isEnabled(),
+                focusable: w.isFocusable(),
+                modal: w.isModal(),
                 loading: w.webContents.isLoadingMainFrame(),
                 url: w.webContents.getURL(),
               })),
