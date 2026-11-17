@@ -119,7 +119,7 @@ try{
   await page.getByRole('textbox',{name:'Kartenüberschrift',exact:true}).fill('Beobachtung '+i);
   await page.getByRole('textbox',{name:'Kartentext',exact:true}).fill(`1912: Karte ${i}. 1,5 °C; 2,1 mg/l; Grüße, μm und ±5 %.\n\nQuelle bleibt erhalten.`);
   if(i===1)await viewports('Karteneditor');
-  if(i===5)await page.getByLabel('Kartengruppe',{exact:true}).selectOption('extension');
+  if(i===5)await page.getByLabel(/^Kartengruppe/).selectOption('extension');
   if(i===1)await page.getByLabel('Bild oder Diagramm (PNG, JPEG, WebP)',{exact:true}).setInputFiles(resolve('tests/fixtures/studio/Foto-Diagramm.png'));
   await b(page,'Karte übernehmen').click();
  }
@@ -148,7 +148,7 @@ try{
   await b(page,'Mystery gestalten').click();
   await page.getByRole('slider',{name:'Schriftgröße',exact:true}).focus();await page.keyboard.press('Home');for(let i=0;i<4;i++)await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('slider',{name:'Schriftgröße',exact:true})).toHaveValue('18');
-  await page.getByLabel('Kartenfarbe',{exact:true}).evaluate(el=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'#fff4c2');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))});await b(page,'Verbindungen').click();await page.getByLabel('Pfeilspitze',{exact:true}).selectOption('open');
+  await page.getByLabel('Kartenfarbe',{exact:true}).evaluate(el=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'#fff4c2');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))});await b(page,'Verbindungen').click();await page.getByLabel(/^Pfeilspitze/).selectOption('open');
   await screenshot('Gestaltung');await b(page,'Darstellung').click();await b(page,'Hilfen und Nummernfarben bearbeiten').click();
   await page.getByLabel('Hilfetext',{exact:true}).fill('Vergleicht Zahlen, Quellen und begründet eure Zusammenhänge.');await b(page,'Hilfe übernehmen').click();
   if(await b(page,'Zur Pinnwand').count())await b(page,'Zur Pinnwand').click();
