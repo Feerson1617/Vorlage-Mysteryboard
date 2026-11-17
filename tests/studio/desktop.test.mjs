@@ -88,11 +88,20 @@ test(
             (command) => globalThis.__nativeCommands.push(command),
           );
         });
-        await app.evaluate(({ BrowserWindow, app }) => {
-          app.focus({ steal: true });
-          BrowserWindow.getAllWindows()[0].show();
-          BrowserWindow.getAllWindows()[0].focus();
-        });
+        await expect
+          .poll(
+            () =>
+              app.evaluate(({ BrowserWindow, app }) => {
+                const window = BrowserWindow.getAllWindows()[0];
+                app.show();
+                window.show();
+                app.focus({ steal: true });
+                window.focus();
+                return window.isFocused();
+              }),
+            { timeout: 30000 },
+          )
+          .toBe(true);
         await expect
           .poll(() =>
             app.evaluate(
