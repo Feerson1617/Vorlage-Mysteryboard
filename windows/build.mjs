@@ -2,7 +2,7 @@ import {cp, mkdir, rm, readFile, writeFile, stat} from 'node:fs/promises';
 import {join, resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-import {make} from '@electron-forge/core';
+import {api} from '@electron-forge/core';
 import {integrity, root} from './integrity.mjs';
 assert.equal(process.platform, 'win32'); assert.equal(process.arch, 'x64');
 await integrity();
@@ -28,5 +28,5 @@ await writeFile(join(stage,'package.json'),JSON.stringify({
 const boundary=JSON.parse(await readFile('studio/dist/player-boundary.json'));
 assert.equal(boundary.editorModules,0); assert.equal(boundary.ocrModules,0);
 assert(boundary.modules.some(x=>x.startsWith('node_modules/')), 'Missing normalized module/license audit');
-await make({dir:stage,platform:'win32',arch:'x64',outDir:join(root,'windows/out')});
+await api.make({dir:stage,platform:'win32',arch:'x64',outDir:join(root,'windows/out')});
 await integrity();

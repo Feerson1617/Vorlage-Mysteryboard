@@ -65,7 +65,7 @@ async function nativeKey(id){
  await app.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];w.show();w.focus()});
  await expect.poll(()=>app.evaluate(({Menu},id)=>Menu.getApplicationMenu().getMenuItemById(id).enabled,id)).toBe(true);
  await page.evaluate(()=>{globalThis.qaCommands=[];globalThis.qaUnsubscribe?.();globalThis.qaUnsubscribe=window.mysteryStudio.onCommand(c=>globalThis.qaCommands.push(c))});
- execFileSync('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File','windows/tests/keys.ps1','-ApplicationProcessId',String(prefs.pid),'-Keys',id==='project-open'?'^o':id==='project-save-as'?'^+s':'^s'],{stdio:'inherit'});
+ execFileSync('powershell.exe',['-NoProfile','-File','windows/tests/keys.ps1','-ApplicationProcessId',String(prefs.pid),'-Keys',id==='project-open'?'^o':id==='project-save-as'?'^+s':'^s'],{stdio:'inherit'});
  await expect.poll(()=>page.evaluate(()=>globalThis.qaCommands)).toEqual([id.slice(8)]);
 }
 async function open(path,n){

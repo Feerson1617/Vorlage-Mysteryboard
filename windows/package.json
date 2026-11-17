@@ -12,7 +12,7 @@
     "@electron-forge/core": "8.0.1",
     "@electron-forge/maker-squirrel": "8.0.1",
     "@electron-forge/maker-zip": "8.0.1",
-    "@electron/asar": "4.0.1",
+    "@electron/asar": "4.3.2",
     "electron": "45.3.3"
   }
 }
