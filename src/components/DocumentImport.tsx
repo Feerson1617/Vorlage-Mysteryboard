@@ -7,6 +7,7 @@ import {
 } from "../core/media";
 import {
   checkImportFile,
+  proposeCards,
   takeImportedCards,
   mergeImported,
   splitImported,
@@ -102,12 +103,14 @@ async function cropImage(src: string, crop: Crop, maxPixels = 4_000_000) {
 export function DocumentImport({
   draft,
   initialFile,
+  multipleImages = false,
   dirty,
   onApply,
   onCancel,
 }: {
   draft: Draft;
   initialFile?: File;
+  multipleImages?: boolean;
   dirty: boolean;
   onApply: (next: Draft, count: number) => void;
   onCancel: () => void;
@@ -383,6 +386,12 @@ export function DocumentImport({
         }
         if (data.type === "parsed") {
           const r = data.result as ImportResult;
+          if (multipleImages && r.format === "docx") {
+            r.cards = proposeCards(r.blocks, true);
+            r.warnings.push(
+              "Mehrere Bilder innerhalb einer erkannten Karte bleiben gemeinsam erhalten (bis vier pro Karte). Bild-/Kartenzuordnung am Original kontrollieren; zusätzliche Bilder werden in weiteren Vorschlägen erhalten.",
+            );
+          }
           setResult(r);
           const proposed = r.cards.map((c) => ({
             ...c,
@@ -485,7 +494,7 @@ export function DocumentImport({
         let merged = old;
         for (const removedId of removed) {
           const other = cards.find((c) => c.id === removedId);
-          if (other) merged = mergeImported(merged, other);
+          if (other) merged = mergeImported(merged, other, multipleImages);
         }
         const preserved = { ...merged };
         delete preserved.source;
@@ -616,7 +625,7 @@ export function DocumentImport({
     try {
       const next = cards[index + 1],
         exact = canRejoinImported(current, next),
-        joined = mergeImported(current, next);
+        joined = mergeImported(current, next, multipleImages);
       if (
         !exact &&
         !confirm(
@@ -701,7 +710,15 @@ export function DocumentImport({
       await verifyImageDecode(data);
       if (!alive.current) return;
       if (asNew) addCard({ image: data });
-      else update({ image: data });
+      else if (multipleImages && current?.image) {
+        if ((current.extraImages?.length ?? 0) >= 3)
+          throw Error(
+            "Höchstens vier Bilder pro Karte. Bitte einen weiteren Kartenvorschlag anlegen.",
+          );
+        update({
+          extraImages: [...(current.extraImages ?? []), { src: data }],
+        });
+      } else update({ image: data });
     } catch (e) {
       if (alive.current) setError((e as Error).message);
     } finally {
@@ -739,7 +756,12 @@ export function DocumentImport({
         );
       const next = takeImportedCards(draft, chosen, mode, title);
       setBusy(true);
-      for (const c of chosen) if (c.image) await verifyImageDecode(c.image);
+      for (const c of chosen)
+        for (const src of [
+          c.image,
+          ...(c.extraImages ?? []).map((i) => i.src),
+        ].filter((x): x is string => !!x))
+          await verifyImageDecode(src);
       if (!alive.current) return;
       if (
         mode === "new" &&
@@ -1980,6 +2002,27 @@ export function DocumentImport({
                         </button>
                       </>
                     )}
+                    {current.extraImages?.map((img, i) => (
+                      <figure key={i}>
+                        <MediaView
+                          src={img.src}
+                          alt={img.alt || "Zusätzliches Originalbild"}
+                        />
+                        {img.caption && <figcaption>{img.caption}</figcaption>}
+                        {img.source && <p>Quelle: {img.source}</p>}
+                        <button
+                          onClick={() =>
+                            update({
+                              extraImages: current.extraImages!.filter(
+                                (_, n) => n !== i,
+                              ),
+                            })
+                          }
+                        >
+                          Zusätzliches Bild von Importkarte entfernen
+                        </button>
+                      </figure>
+                    ))}
                     {!!result.images.length && (
                       <label>
                         Bild aus dem Dokument
@@ -1987,7 +2030,26 @@ export function DocumentImport({
                           value={result.images.indexOf(current.image ?? "")}
                           onChange={(e) => {
                             const n = Number(e.target.value);
-                            if (n >= 0) update({ image: result.images[n] });
+                            if (n >= 0) {
+                              if (
+                                multipleImages &&
+                                current.image &&
+                                current.image !== result.images[n]
+                              ) {
+                                if ((current.extraImages?.length ?? 0) >= 3) {
+                                  setError(
+                                    "Höchstens vier Bilder pro Karte. Bitte einen weiteren Vorschlag anlegen.",
+                                  );
+                                  return;
+                                }
+                                update({
+                                  extraImages: [
+                                    ...(current.extraImages ?? []),
+                                    { src: result.images[n] },
+                                  ],
+                                });
+                              } else update({ image: result.images[n] });
+                            }
                           }}
                         >
                           <option value={-1}>Bild auswählen</option>

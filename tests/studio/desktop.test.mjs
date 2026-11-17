@@ -131,6 +131,17 @@ test(
             exact: true,
           })
           .click();
+        if (source.n !== 5) {
+          await page.getByText("Druckoptionen", { exact: true }).click();
+          if (source.n === 16 || source.n === 60)
+            await page
+              .getByRole("combobox", { name: "Papier", exact: true })
+              .selectOption("A3");
+          if (source.n === 16 || source.n === 20)
+            await page
+              .getByRole("checkbox", { name: "Querformat", exact: true })
+              .check();
+        }
         await expect(
           page.getByRole("button", { name: "PDF speichern", exact: true }),
         ).toBeEnabled({ timeout: 60000 });
@@ -251,6 +262,29 @@ test(
           { timeout: 240000 },
         );
         await expect(page.getByRole("alert")).toHaveCount(0);
+        if (name === "Scan-A-20.pdf") {
+          await page
+            .getByRole("button", { name: "Original ansehen", exact: true })
+            .click();
+          await page.getByLabel("PDF-Seite", { exact: true }).selectOption("2");
+          await expect(page.locator(".import-step-body")).not.toHaveAttribute(
+            "disabled",
+            "",
+            { timeout: 60000 },
+          );
+          await page
+            .getByRole("button", {
+              name: "Kartengrenzen und Text erkennen",
+              exact: true,
+            })
+            .click();
+          await expect(page.locator(".import-step-body")).not.toHaveAttribute(
+            "disabled",
+            "",
+            { timeout: 240000 },
+          );
+          await expect(page.getByRole("alert")).toHaveCount(0);
+        }
         await page
           .getByRole("button", { name: "Karten ansehen", exact: true })
           .click();
@@ -258,7 +292,10 @@ test(
           .getByLabel("Importkarte auswählen", { exact: true })
           .locator("option")
           .count();
-        assert(count > 0);
+        assert.equal(
+          count,
+          name === "Scan-A-20.pdf" ? 20 : name === "Scan-B-16.pdf" ? 16 : 4,
+        );
         await page.screenshot({ path: join(out, `Mac-OCR-${name}.png`) });
         checks.push("custom protocol OCR " + name + " cards " + count);
         await page

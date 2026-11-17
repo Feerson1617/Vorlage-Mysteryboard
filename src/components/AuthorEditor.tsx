@@ -781,6 +781,7 @@ export function AuthorEditor({
       ) : documentImport ? (
         <DocumentImport
           draft={draft}
+          multipleImages={!!integration}
           initialFile={importFile}
           dirty={dirty}
           onCancel={() => {

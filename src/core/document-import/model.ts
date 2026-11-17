@@ -17,6 +17,9 @@ const splitPairs = new WeakMap<
 function snapshotCard(card: Card): Card {
   return {
     ...card,
+    ...(card.extraImages
+      ? { extraImages: card.extraImages.map((i) => ({ ...i })) }
+      : {}),
     ...(card.table
       ? {
           table: {
@@ -37,7 +40,11 @@ function sameCard(a: Card, b: Card) {
     a.source === b.source &&
     a.image === b.image &&
     a.imageAlt === b.imageAlt &&
-    JSON.stringify(a.table) === JSON.stringify(b.table)
+    JSON.stringify(a.table) === JSON.stringify(b.table) &&
+    JSON.stringify(a.extraImages) === JSON.stringify(b.extraImages) &&
+    a.imageCaption === b.imageCaption &&
+    a.imageScale === b.imageScale &&
+    a.imagePosition === b.imagePosition
   );
 }
 export function splitImported(
@@ -128,7 +135,7 @@ export const isCardHeading = (text: string) =>
   /^(?:(?:pflichtkarte|vertiefungskarte|karte|card)\s*V?\s*\d+\b|V\d+\b|\d+\s*[.):·–-](?=\s|$))/i.test(
     text.trim(),
   );
-export function proposeCards(blocks: Block[]): Card[] {
+export function proposeCards(blocks: Block[], multipleImages = false): Card[] {
   const cards: Card[] = [];
   let current: Card | undefined;
   const fresh = () =>
@@ -161,6 +168,20 @@ export function proposeCards(blocks: Block[]): Card[] {
     }
     if (!current) fresh();
     if (block.kind === "image" && block.image) {
+      if (
+        current!.image &&
+        multipleImages &&
+        (current!.extraImages?.length ?? 0) < 3
+      ) {
+        current!.extraImages = [
+          ...(current!.extraImages ?? []),
+          {
+            src: block.image,
+            ...(block.imageAlt ? { alt: block.imageAlt } : {}),
+          },
+        ];
+        continue;
+      }
       if (current!.image) {
         finish();
         fresh();
@@ -237,6 +258,7 @@ export function takeImportedCards(
     ...base.content,
     title: mode === "new" || !base.content.title ? title : base.content.title,
     cardGroups: draft.content.cardGroups,
+    ...(draft.content.numbering ? { numbering: draft.content.numbering } : {}),
     cards: nextCards,
     initial: {
       ...base.content.initial,
@@ -253,9 +275,25 @@ export function takeImportedCards(
   };
   return reviseDraft(base, content);
 }
-export function mergeImported(a: Card, b: Card): Card {
+export function mergeImported(a: Card, b: Card, multipleImages = false): Card {
   if (canRejoinImported(a, b)) return splitPairs.get(a)!.original;
-  if (a.image && b.image && a.image !== b.image)
+  const multi =
+    multipleImages || !!a.extraImages?.length || !!b.extraImages?.length;
+  const media = [
+    ...(a.image
+      ? [{ src: a.image, alt: a.imageAlt, caption: a.imageCaption }]
+      : []),
+    ...(a.extraImages ?? []),
+    ...(b.image
+      ? [{ src: b.image, alt: b.imageAlt, caption: b.imageCaption }]
+      : []),
+    ...(b.extraImages ?? []),
+  ];
+  if (multi && media.length > 4)
+    throw new Error(
+      "Zusammen höchstens vier Bilder pro Karte. Bitte Bilder bewusst auf zusätzliche Karten verteilen; nichts wurde verworfen.",
+    );
+  if (!multi && a.image && b.image && a.image !== b.image)
     throw new Error(
       "Beide Karten enthalten ein Bild. Ordnet eines der Bilder zunächst einer anderen Karte zu. Es wird kein Bild verworfen.",
     );
@@ -306,6 +344,14 @@ export function mergeImported(a: Card, b: Card): Card {
       ? { image: a.image ?? b.image, ...(imageAlt ? { imageAlt } : {}) }
       : {}),
     ...(table ? { table } : {}),
+    ...(multi && media.length
+      ? {
+          image: media[0].src,
+          ...(media[0].alt ? { imageAlt: media[0].alt } : {}),
+          ...(media[0].caption ? { imageCaption: media[0].caption } : {}),
+          extraImages: media.slice(1),
+        }
+      : {}),
   };
 }
 export function validateImportMedia(images: string[]) {
