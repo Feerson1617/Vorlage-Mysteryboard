@@ -623,7 +623,7 @@ test(
         .click();
       assert.deepEqual(
         await app.evaluate(
-          (start) =>
+          (_, start) =>
             globalThis.__nativeDialogRecords
               .slice(start)
               .map((record) => record.message),
