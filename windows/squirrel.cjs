@@ -6,9 +6,13 @@ function squirrelEvent(argv, executable, spawn, quit) {
   if (event === '--squirrel-obsolete') { quit(); return true; }
   const updater = resolve(dirname(executable), '..', 'Update.exe');
   const action = event === '--squirrel-uninstall' ? '--removeShortcut' : '--createShortcut';
-  const child = spawn(updater, [action, basename(executable)], {windowsHide: true});
+  const child = spawn(updater, [action, basename(executable)], {windowsHide: true, detached: true});
   let finished = false;
-  const finish = () => { if (!finished) { finished = true; quit(); } };
+  let timer;
+  const finish = () => { if (!finished) { finished = true; clearTimeout(timer); quit(); } };
+  // The installer may hold Squirrel's mutex while it waits for this process.
+  // Detach the shortcut helper and finish promptly, as Squirrel recommends.
+  timer=setTimeout(finish,1000);timer.unref?.();child.unref?.();
   child.once('error', finish);
   child.once('close', finish);
   return true;

@@ -32,7 +32,8 @@ async function start(suffix='',scale=1){
  await expect(page.getByRole('heading',{name:'MysteryBoard Studio',exact:true})).toBeVisible();
  prefs=await app.evaluate(({app,BrowserWindow,screen})=>({
   platform:process.platform,arch:process.arch,version:app.getVersion(),electron:process.versions.electron,chromium:process.versions.chrome,
-        isPackaged:app.isPackaged,exe:process.execPath,pid:process.pid,argv:process.argv,
+  isPackaged:app.isPackaged,exe:process.execPath,pid:process.pid,argv:process.argv,sourceCommit:process.env.GITHUB_SHA||null,
+  operatingSystem:process.getBuiltinModule('os').version(),release:process.getBuiltinModule('os').release(),
   preferences:BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences(),
   displays:screen.getAllDisplays(),windows:BrowserWindow.getAllWindows().length,
  }));
@@ -89,6 +90,14 @@ async function viewports(name){
   await expect.poll(()=>page.evaluate(()=>[innerWidth,innerHeight])).toEqual([width,height]);
   const layout=await page.evaluate(()=>({width:innerWidth,height:innerHeight,scrollWidth:document.documentElement.scrollWidth,scale:devicePixelRatio}));
   assert(layout.scrollWidth<=width+1,JSON.stringify(layout));
+  const scope=await page.getByRole('dialog').count()?page.getByRole('dialog').last():page;
+  const reachable=[];
+  for(const name of ['Neues Mystery erstellen','Mystery öffnen','Karte hinzufügen','Importieren','Mystery gestalten','Exportieren','Weiter zur Übernahme','Erkennung korrigieren','Bearbeitbares Mystery sichern','Als Druck-PDF speichern','Für itslearning exportieren','Als Bild exportieren','Karte übernehmen']){
+   const control=b(scope,name);if(await control.count()===1&&await control.isVisible()){
+    await control.scrollIntoViewIfNeeded();const box=await control.boundingBox();assert(box.x>=-1&&box.y>=-1&&box.x+box.width<=width+1&&box.y+box.height<=height+1,`Unreachable ${name}: ${JSON.stringify(box)}`);reachable.push(name);
+   }
+  }
+  layout.reachableButtons=reachable;
   await screenshot(`${name}-${width}x${height}`);rows.push(layout);
  }
  await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].setContentSize(1280,800));
@@ -230,6 +239,7 @@ try{
   await saveTo(join(out,'Fehler-erholt.mysteryboard'),true);await expect(page.locator('.studio-unsaved')).toHaveCount(0);
   const corrupt=join(out,'Beschädigt.mysteryboard');await writeFile(corrupt,'{"format":"broken"}');
   await app.evaluate((_,p)=>globalThis.qaOpenPath=p,corrupt);await nativeKey('project-open');await expect(page.getByRole('alert')).toBeVisible();await expect(page.locator('.studio-board [data-card]')).toHaveCount(4);
+  await b(page.getByRole('dialog',{name:'Aktion nicht möglich',exact:true}),'Schließen').click();
   await b(page,'Importieren').click();await page.getByLabel('Mystery-Datei',{exact:true}).setInputFiles(resolve('tests/fixtures/document-import/F-Defekt.docx'));
   await expect(page.getByRole('alert').last()).toBeVisible();
   await screenshot('Ungültiger-Import');await b(page,'Zur Pinnwand').click();
