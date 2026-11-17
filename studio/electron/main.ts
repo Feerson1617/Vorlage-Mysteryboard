@@ -1,3 +1,4 @@
+import { embedTask } from "../../scripts/embed-task.mjs";
 import {
   app,
   BrowserWindow,
@@ -19,7 +20,7 @@ import {
 } from "node:fs/promises";
 import { resolve, dirname, basename, sep } from "node:path";
 import { pathToFileURL } from "node:url";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import {
   readDocument,
   encodeDocument,
@@ -257,6 +258,83 @@ async function setup() {
   // the decision; never silently discard form edits or a pending native save.
   window.webContents.on("will-prevent-unload", (event) => {
     if (closing || (!state?.dirty && !state?.forms)) event.preventDefault();
+  });
+  handle("preview:open", async (input) => {
+    const doc = readDocument(bytes(input));
+    if (doc.kind !== "task")
+      throw Error("Die Vorschau benötigt eine freigegebene Aufgabe.");
+    const template = await readFile(
+      resolve(root, "player-template.html"),
+      "utf8",
+    );
+    const html = embedTask(template, encodeDocument(doc), true);
+    const partition = session.fromPartition("studio-preview-" + randomUUID());
+    const hashes = [
+      ...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g),
+    ].map(
+      (m) =>
+        "'sha256-" + createHash("sha256").update(m[1]).digest("base64") + "'",
+    );
+    partition.protocol.handle(
+      SCHEME,
+      () =>
+        new Response(html, {
+          headers: {
+            "Content-Type": "text/html; charset=utf-8",
+            "Content-Security-Policy":
+              "default-src 'none'; script-src 'self' blob: " +
+              hashes.join(" ") +
+              "; worker-src 'self' blob:; frame-src 'self' blob: data:; style-src 'unsafe-inline'; img-src data: blob:; font-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'",
+          },
+        }),
+    );
+    partition.webRequest.onBeforeRequest((d, cb) =>
+      cb({
+        cancel:
+          !d.url.startsWith("mysteryboard://preview/") &&
+          !d.url.startsWith("blob:mysteryboard://preview/") &&
+          !d.url.startsWith("data:"),
+      }),
+    );
+    partition.setPermissionRequestHandler((_w, _p, cb) => cb(false));
+    const preview = new BrowserWindow({
+      width: 1100,
+      height: 800,
+      title: "Schüleransicht prüfen",
+      webPreferences: {
+        session: partition,
+        contextIsolation: true,
+        nodeIntegration: false,
+        sandbox: true,
+        webSecurity: true,
+        devTools: false,
+      },
+    });
+    preview.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+    preview.webContents.on("will-navigate", (e) => e.preventDefault());
+    preview.webContents.on("page-title-updated", (e) => {
+      e.preventDefault();
+      preview.setTitle("Schüleransicht prüfen – " + doc.content.title);
+    });
+    preview.webContents.on("will-prevent-unload", (event) => {
+      if (
+        closing ||
+        dialog.showMessageBoxSync(preview, {
+          type: "question",
+          message: "Schüler-Vorschau schließen?",
+          detail:
+            "Änderungen in der Vorschau werden nicht in das Autorenprojekt übernommen.",
+          buttons: ["Vorschau schließen", "Abbrechen"],
+          defaultId: 1,
+          cancelId: 1,
+        }) === 0
+      )
+        event.preventDefault();
+    });
+    preview.on("closed", () => {
+      void partition.clearStorageData();
+    });
+    await preview.loadURL("mysteryboard://preview/index.html");
   });
   handle("project:open", () => open());
   handle("project:list", () =>

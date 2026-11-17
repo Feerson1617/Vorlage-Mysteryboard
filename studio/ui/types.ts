@@ -1,5 +1,6 @@
 import type { Draft, Task } from "../../src/core/documents";
 export interface StudioBridge {
+  previewTask: (bytes: Uint8Array) => Promise<void>;
   openProject: () => Promise<{ bytes: Uint8Array; name: string } | null>;
   openRecent: (
     id: string,
@@ -29,6 +30,7 @@ export interface EditorIntegration {
   open: () => void;
   detach: () => void;
   print: (task: Task) => void;
+  preview: (task: Task) => void;
   scorm: (task: Task, signal: AbortSignal) => Promise<File>;
   onSaved: (fn: () => void) => () => void;
 }

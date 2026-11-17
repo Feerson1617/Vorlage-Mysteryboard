@@ -10,7 +10,7 @@ import { createRoot } from "react-dom/client";
 import App from "../../src/App";
 import { readLaunch } from "../../src/core/launch-document";
 import { packDocument, studentDocument } from "../../src/core/documents";
-import "../../src/style.css";
+import "virtual:player-style.css";
 class Boundary extends React.Component<
   { children: React.ReactNode },
   { error: string }

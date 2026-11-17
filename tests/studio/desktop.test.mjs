@@ -208,6 +208,34 @@ test(
           assert(!html.includes("Lehrkräftemodus öffnen"));
           assert(!html.includes("tesseract.min.js"));
           checks.push(source.n + " actual independent player SCORM");
+          if (source.n === 5) {
+            await page.locator(".studio-project-menu summary").click();
+            const opened = app.waitForEvent("window");
+            await page
+              .getByRole("button", {
+                name: "Schüleransicht prüfen",
+                exact: true,
+              })
+              .click();
+            const guest = await opened;
+            await expect(
+              guest.getByRole("heading", {
+                name: source.document.content.title + " geprüft",
+                exact: true,
+              }),
+            ).toBeVisible();
+            assert.equal(
+              await guest.evaluate(() => typeof window.mysteryStudio),
+              "undefined",
+            );
+            assert.equal(
+              await guest.evaluate(() => typeof require),
+              "undefined",
+            );
+            await guest.close();
+            await page.locator(".studio-project-menu summary").click();
+            checks.push("isolated real Player preview without Studio bridge");
+          }
         }
       }
       // Native close warning cancellation keeps the actual packaged application alive.

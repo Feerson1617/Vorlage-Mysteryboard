@@ -21,6 +21,21 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run studio:make -- --platform=darwin --arch=arm64
+      - name: Verify DMG and install into a user-owned folder
+        shell: bash
+        run: |
+          set -e
+          mkdir -p artifacts/studio-tests
+          studio_dmg_path="$(python3 -c 'import pathlib; print(next(pathlib.Path("out/make").rglob("*.dmg")))')"
+          hdiutil verify "$studio_dmg_path" > artifacts/studio-tests/DMG-Pruefung.log 2>&1
+          studio_mount="$RUNNER_TEMP/studio-volume"
+          studio_install="$RUNNER_TEMP/studio-installed/MysteryBoard Studio.app"
+          mkdir -p "$studio_mount" "$(dirname "$studio_install")"
+          hdiutil attach -readonly -nobrowse -mountpoint "$studio_mount" "$studio_dmg_path"
+          ditto "$studio_mount/MysteryBoard Studio.app" "$studio_install"
+          hdiutil detach "$studio_mount"
+          codesign --verify --deep --strict "$studio_install"
+          echo "STUDIO_EXEC=$studio_install/Contents/MacOS/MysteryBoard Studio" >> "$GITHUB_ENV"
       - name: Test actual packaged application
         run: npm run studio:test
       - name: Record unsigned application assessment

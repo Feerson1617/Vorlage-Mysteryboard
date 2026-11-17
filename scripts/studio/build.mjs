@@ -1,3 +1,5 @@
+import { parseDocument } from "htmlparser2";
+import postcss from "postcss";
 import { licenses } from "./licenses.mjs";
 import { build } from "vite";
 import react from "@vitejs/plugin-react";
@@ -19,11 +21,38 @@ const common = {
   build: { target: "es2022", assetsInlineLimit: 10_000_000, sourcemap: false },
 };
 const modules = [];
+const playerStyle = {
+  name: "student-only-styles",
+  resolveId(id) {
+    if (id === "virtual:player-style.css") return "\0player-style.css";
+  },
+  async load(id) {
+    if (id !== "\0player-style.css") return;
+    const css = postcss.parse(await readFile("src/style.css", "utf8"));
+    css.walkComments((c) => c.remove());
+    css.walkRules((rule) => {
+      const selectors = rule.selectors.filter(
+        (selector) =>
+          !/\.(author(?:-|\b)|ocr(?:-|\b)|import(?:-|\b)|document-import|help-editor|help-config|teacher-entry|universal(?:-|\b)|file-download)/.test(
+            selector,
+          ),
+      );
+      if (!selectors.length) rule.remove();
+      else rule.selectors = selectors;
+    });
+    css.walkAtRules((rule) => {
+      if (rule.nodes && !rule.nodes.length) rule.remove();
+    });
+    return css.toString();
+  },
+};
+
 await build({
   ...common,
   root: resolve("studio/player"),
   plugins: [
     ...common.plugins,
+    playerStyle,
     {
       name: "player-boundary-audit",
       generateBundle() {
@@ -38,7 +67,56 @@ await build({
     emptyOutDir: true,
   },
 });
-const player = await readFile("studio/dist/player/index.html", "utf8");
+let player = await readFile("studio/dist/player/index.html", "utf8");
+const packageNames = [
+  ...new Set(
+    modules
+      .filter((m) => m.startsWith("node_modules/"))
+      .map((m) => {
+        const parts = m.split("/");
+        return parts[1].startsWith("@")
+          ? parts.slice(1, 3).join("/")
+          : parts[1];
+      }),
+  ),
+].sort();
+const notices = [];
+for (const name of packageNames) {
+  const dir = "node_modules/" + name;
+  for (const file of (
+    await (await import("node:fs/promises")).readdir(dir)
+  ).filter((f) =>
+    /^(license|licence|notice|copying|copyright)([.-]|$)/i.test(f),
+  )) {
+    try {
+      notices.push({
+        package: name,
+        file,
+        text: await readFile(dir + "/" + file, "utf8"),
+      });
+    } catch {}
+  }
+}
+const licenseJSON = JSON.stringify(notices).replaceAll("<", "\\u003c");
+const licenseNode =
+  '\n<script type="application/json" id="mysteryboard-licenses">' +
+  licenseJSON +
+  "</script>\n";
+const tree = parseDocument(player, { withEndIndices: true });
+let body;
+const visit = (node) => {
+  if (node.name === "body") body = node;
+  for (const child of node.children ?? []) visit(child);
+};
+visit(tree);
+if (!body || body.endIndex == null) throw Error("Player body missing");
+const at = body.endIndex - 6;
+if (player.slice(at, body.endIndex + 1).toLowerCase() !== "</body>")
+  throw Error("Player closing body missing");
+player = player.slice(0, at) + licenseNode + player.slice(at);
+await writeFile("studio/dist/player/index.html", player);
+if (player.includes(".author-editor") || player.includes(".ocr-controls"))
+  throw Error("Teacher styles in Player");
 if (
   Buffer.byteLength(player) >= 10_000_000 ||
   modules.some((m) =>
@@ -140,6 +218,7 @@ const hashes = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(
 if (Buffer.byteLength(html) >= 10_000_000)
   throw Error("Studio HTML exceeds 10 MB");
 const csp = `default-src 'none'; script-src 'self' blob: 'wasm-unsafe-eval' ${hashes.join(" ")}; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'`;
+await writeFile("studio/dist/studio/player-template.html", player);
 await writeFile(
   "studio/dist/studio/security.json",
   JSON.stringify({ csp }, null, 2) + "\n",

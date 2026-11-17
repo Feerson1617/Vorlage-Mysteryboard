@@ -228,6 +228,19 @@ export function DesignEditor({
             </select>
           </label>
           <label>
+            <input
+              type="checkbox"
+              checked={content.numbering === "by-group"}
+              onChange={(e) => {
+                const next = { ...content };
+                if (e.target.checked) next.numbering = "by-group";
+                else delete next.numbering;
+                onChange(next);
+              }}
+            />
+            Pflicht- und V-Karten getrennt nummerieren
+          </label>
+          <label>
             Untertitel oder kurzer Arbeitsauftrag
             <input
               maxLength={300}

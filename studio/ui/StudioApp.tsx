@@ -32,6 +32,7 @@ export function StudioApp() {
     [create, setCreate] = useState<"new" | "import" | null>(null),
     [initials, setInitials] = useState(""),
     [initialImport, setInitialImport] = useState(false),
+    [initialMaterial, setInitialMaterial] = useState<File | undefined>(),
     [recent, setRecent] = useState<{ id: string; name: string }[]>([]),
     [pdf, setPdf] = useState<Task | null>(null);
   const read = async (
@@ -87,6 +88,11 @@ export function StudioApp() {
       void bridge!.detachProject();
     },
     print: setPdf,
+    preview: (task) => {
+      void bridge!
+        .previewTask(encodeDocument(task))
+        .catch((e) => setError(e.message));
+    },
     onSaved: (fn) => bridge!.onSaved(fn),
     scorm: async (task, signal) => {
       signal.throwIfAborted();
@@ -163,6 +169,8 @@ export function StudioApp() {
             key={generation}
             initial={draft}
             initialImport={initialImport}
+            initialMaterial={initialMaterial}
+            onMaterialStarted={() => setInitialMaterial(undefined)}
             integration={integration}
             onFile={onFile}
             onDownload={(file) => void saveExport(file)}
@@ -174,7 +182,29 @@ export function StudioApp() {
           />
         </>
       ) : (
-        <main className="welcome studio-welcome">
+        <main
+          className="welcome studio-welcome"
+          onDragOver={(e) => {
+            if ([...e.dataTransfer.types].includes("Files")) e.preventDefault();
+          }}
+          onDrop={(e) => {
+            if (!e.dataTransfer.files.length) return;
+            e.preventDefault();
+            if (e.dataTransfer.files.length !== 1) {
+              setError("Bitte eine Datei auswählen oder ablegen.");
+              return;
+            }
+            const d = newDraft("LK");
+            d.content.numbering = "by-group";
+            d.contentHash = contentHash(d.content);
+            setDraft(d);
+            setGeneration((g) => g + 1);
+            setInitialImport(false);
+            setInitialMaterial(e.dataTransfer.files[0]);
+            setName("");
+            void bridge.detachProject();
+          }}
+        >
           <h1>MysteryBoard Studio</h1>
           <p>Mysterys erstellen und für den Unterricht bereitstellen.</p>
           <div className="studio-start-actions">

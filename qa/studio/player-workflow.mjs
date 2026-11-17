@@ -1,10 +1,198 @@
-import{expect}from'@playwright/test';import{readFile,writeFile,mkdir}from'node:fs/promises';import{join}from'node:path';import{unzipSync}from'fflate';
-const snap=ui=>ui.evaluate(()=>({cards:[...document.querySelectorAll('[data-card]')].map(e=>({id:e.getAttribute('data-card'),x:e.getAttribute('data-x'),y:e.getAttribute('data-y'),fill:e.querySelector('rect')?.getAttribute('fill')})),edges:[...document.querySelectorAll('[data-edge]')].map(e=>({id:e.getAttribute('data-edge'),label:e.getAttribute('aria-label'),line:[...e.querySelectorAll('line')].at(-1)?.outerHTML.replace(/url\(#[^)]+\)/g,'url(#marker)')})),team:document.querySelector('.team-summary')?.textContent}));
-export async function playerWorkflow(browser,origin,out,zipPath,name,expected){const files=unzipSync(new Uint8Array(await readFile(zipPath))),dir=join(out,name);await mkdir(dir,{recursive:true});for(const[n,b]of Object.entries(files))await writeFile(join(dir,n),b);const html=Buffer.from(files['app.html']).toString();for(const text of['Lehrkräftemodus öffnen','Foto oder Scan importieren','tesseract.min.js','Kartengrenzen und Text erkennen'])if(html.includes(text))throw Error('Teacher code in Player: '+text);
- const context=await browser.newContext({viewport:{width:1024,height:768},hasTouch:true});const requests=[];await context.route('**/*',r=>{const u=r.request().url();requests.push(u);return /^https?:/.test(u)&&!u.startsWith(origin)?r.abort():r.continue()});let page=await context.newPage();page.on('dialog',d=>d.accept());await page.goto(`${origin}/qa-evidence/${name}/launch.html`);let ui=page.frames().find(f=>f.url().endsWith('/app.html'));await expect(ui.getByLabel('Teamname oder Vornamen',{exact:true})).toBeVisible();await ui.getByLabel('Teamname oder Vornamen',{exact:true}).fill('Team Studio');await ui.getByRole('button',{name:'Beginnen',exact:true}).tap();await expect(ui.locator('[data-card]')).toHaveCount(expected);
- await ui.locator('[data-number="1"]').tap();await ui.getByRole('button',{name:'Mit einer Karte verbinden',exact:true}).tap();await ui.locator('[data-number="2"]').tap();await expect(ui.getByRole('combobox',{name:'Richtung',exact:true})).toHaveValue('1');await ui.getByRole('textbox',{name:'Beschriftung (freiwillig)',exact:true}).fill('Begründeter Zusammenhang');await ui.getByRole('button',{name:'Übernehmen',exact:true}).tap();
- const card=ui.locator('[data-card="1"]'),box=await card.boundingBox();await page.mouse.move(box.x+box.width/2,box.y+Math.min(20,box.height/2));await page.mouse.down();await page.mouse.move(box.x+box.width/2+36,box.y+Math.min(20,box.height/2)+20,{steps:6});await page.mouse.up();const edited=await snap(ui);await ui.getByRole('button',{name:'Rückgängig',exact:true}).tap();await ui.getByRole('button',{name:'Rückgängig',exact:true}).tap();await expect(ui.locator('[data-edge]')).toHaveCount(0);await ui.getByRole('button',{name:'Wiederholen',exact:true}).tap();await ui.getByRole('button',{name:'Wiederholen',exact:true}).tap();expect(await snap(ui)).toEqual(edited);
- const board=await ui.locator('svg.board').boundingBox(),cdp=await context.newCDPSession(page),zoom=Number(await ui.locator('svg.board').getAttribute('data-zoom'));await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{id:1,x:board.x+board.width/2-30,y:board.y+board.height/2},{id:2,x:board.x+board.width/2+30,y:board.y+board.height/2}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{id:1,x:board.x+board.width/2-65,y:board.y+board.height/2},{id:2,x:board.x+board.width/2+65,y:board.y+board.height/2}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await expect.poll(async()=>Number(await ui.locator('svg.board').getAttribute('data-zoom'))).not.toBe(zoom);expect(await snap(ui)).toEqual(edited);await expect(ui.getByRole('dialog')).toHaveCount(0);
- await ui.getByRole('button',{name:'Menü',exact:true}).tap();await ui.getByRole('button',{name:'Kleineres Sicherungsbild',exact:true}).tap();await expect(ui.getByRole('link',{name:'Sicherungsbild herunterladen',exact:true})).toBeVisible({timeout:60000});const pending=page.waitForEvent('download');await ui.getByRole('link',{name:'Sicherungsbild herunterladen',exact:true}).tap();const download=await pending,png=join(out,name+'-Original.png');await download.saveAs(png);expect(download.suggestedFilename()).toMatch(/^Team Studio_.+\.png$/);await page.screenshot({path:join(out,name+'-Player.png')});await context.close();
- const fresh=await browser.newContext({viewport:{width:1024,height:768},hasTouch:true});page=await fresh.newPage();await page.goto(`${origin}/qa-evidence/${name}/launch.html`);ui=page.frames().find(f=>f.url().endsWith('/app.html'));await ui.getByRole('button',{name:'Fortsetzen',exact:true}).tap();await ui.getByLabel('Schüler-Sicherung',{exact:true}).setInputFiles(png);await expect(ui.locator('[data-card]')).toHaveCount(expected,{timeout:30000});expect(await snap(ui)).toEqual(edited);expect(await page.evaluate(()=>({local:localStorage.length,session:sessionStorage.length}))).toEqual({local:0,session:0});await fresh.close();const proof={cards:expected,scorm:zipPath,originalPNG:png,filename:download.suggestedFilename(),restoredEqual:true,undoRedo:true,pinchNoAction:true,teacherAndOCRCodeAbsent:true,externalRequests:requests.filter(u=>/^https?:/.test(u)&&!u.startsWith(origin)),snapshot:edited};await writeFile(join(out,name+'-Wiederherstellung.json'),JSON.stringify(proof,null,2));return proof;
+import { expect } from "@playwright/test";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
+import { unzipSync } from "fflate";
+const snap = (ui) =>
+  ui.evaluate(() => ({
+    cards: [...document.querySelectorAll("[data-card]")].map((e) => ({
+      id: e.getAttribute("data-card"),
+      x: e.getAttribute("data-x"),
+      y: e.getAttribute("data-y"),
+      fill: e.querySelector("rect")?.getAttribute("fill"),
+    })),
+    edges: [...document.querySelectorAll("[data-edge]")].map((e) => ({
+      id: e.getAttribute("data-edge"),
+      label: e.getAttribute("aria-label"),
+      line: [...e.querySelectorAll("line")]
+        .at(-1)
+        ?.outerHTML.replace(/url\(#[^)]+\)/g, "url(#marker)"),
+    })),
+    team: document.querySelector(".team-summary")?.textContent,
+  }));
+export async function playerWorkflow(
+  browser,
+  origin,
+  out,
+  zipPath,
+  name,
+  expected,
+) {
+  const files = unzipSync(new Uint8Array(await readFile(zipPath))),
+    dir = join(out, name);
+  await mkdir(dir, { recursive: true });
+  for (const [n, b] of Object.entries(files)) await writeFile(join(dir, n), b);
+  const html = Buffer.from(files["app.html"]).toString();
+  for (const text of [
+    "Lehrkräftemodus öffnen",
+    "Foto oder Scan importieren",
+    "tesseract.min.js",
+    "Kartengrenzen und Text erkennen",
+  ])
+    if (html.includes(text)) throw Error("Teacher code in Player: " + text);
+  const context = await browser.newContext({
+    viewport: { width: 1024, height: 768 },
+    hasTouch: true,
+  });
+  const requests = [];
+  await context.route("**/*", (r) => {
+    const u = r.request().url();
+    requests.push(u);
+    return /^https?:/.test(u) && !u.startsWith(origin)
+      ? r.abort()
+      : r.continue();
+  });
+  let page = await context.newPage();
+  page.on("dialog", (d) => d.accept());
+  await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
+  let ui = page.frames().find((f) => f.url().endsWith("/app.html"));
+  await expect(
+    ui.getByLabel("Teamname oder Vornamen", { exact: true }),
+  ).toBeVisible();
+  await ui
+    .getByLabel("Teamname oder Vornamen", { exact: true })
+    .fill("Team Studio");
+  await ui.getByRole("button", { name: "Beginnen", exact: true }).tap();
+  await expect(ui.locator("[data-card]")).toHaveCount(expected);
+  await ui.locator('[data-number="1"]').tap();
+  await ui
+    .getByRole("button", { name: "Mit einer Karte verbinden", exact: true })
+    .tap();
+  await ui.locator('[data-number="2"]').tap();
+  await expect(
+    ui.getByRole("combobox", { name: "Richtung", exact: true }),
+  ).toHaveValue("1");
+  await ui
+    .getByRole("textbox", { name: "Beschriftung (freiwillig)", exact: true })
+    .fill("Begründeter Zusammenhang");
+  await ui.getByRole("button", { name: "Übernehmen", exact: true }).tap();
+  const card = ui.locator('[data-card="1"]'),
+    box = await card.boundingBox();
+  await page.mouse.move(
+    box.x + box.width / 2,
+    box.y + Math.min(20, box.height / 2),
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    box.x + box.width / 2 + 36,
+    box.y + Math.min(20, box.height / 2) + 20,
+    { steps: 6 },
+  );
+  await page.mouse.up();
+  const edited = await snap(ui);
+  await ui.getByRole("button", { name: "Rückgängig", exact: true }).tap();
+  await ui.getByRole("button", { name: "Rückgängig", exact: true }).tap();
+  await expect(ui.locator("[data-edge]")).toHaveCount(0);
+  await ui.getByRole("button", { name: "Wiederholen", exact: true }).tap();
+  await ui.getByRole("button", { name: "Wiederholen", exact: true }).tap();
+  expect(await snap(ui)).toEqual(edited);
+  const board = await ui.locator("svg.board").boundingBox(),
+    cdp = await context.newCDPSession(page),
+    zoom = Number(await ui.locator("svg.board").getAttribute("data-zoom"));
+  await cdp.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [
+      {
+        id: 1,
+        x: board.x + board.width / 2 - 30,
+        y: board.y + board.height / 2,
+      },
+      {
+        id: 2,
+        x: board.x + board.width / 2 + 30,
+        y: board.y + board.height / 2,
+      },
+    ],
+  });
+  await cdp.send("Input.dispatchTouchEvent", {
+    type: "touchMove",
+    touchPoints: [
+      {
+        id: 1,
+        x: board.x + board.width / 2 - 65,
+        y: board.y + board.height / 2,
+      },
+      {
+        id: 2,
+        x: board.x + board.width / 2 + 65,
+        y: board.y + board.height / 2,
+      },
+    ],
+  });
+  await cdp.send("Input.dispatchTouchEvent", {
+    type: "touchEnd",
+    touchPoints: [],
+  });
+  await expect
+    .poll(async () =>
+      Number(await ui.locator("svg.board").getAttribute("data-zoom")),
+    )
+    .not.toBe(zoom);
+  expect(await snap(ui)).toEqual(edited);
+  await expect(ui.getByRole("dialog")).toHaveCount(0);
+  await ui.getByRole("button", { name: "Menü", exact: true }).tap();
+  await ui
+    .getByRole("button", { name: "Kleineres Sicherungsbild", exact: true })
+    .tap();
+  await expect(
+    ui.getByRole("link", { name: "Sicherungsbild herunterladen", exact: true }),
+  ).toBeVisible({ timeout: 60000 });
+  const pending = page.waitForEvent("download");
+  await ui
+    .getByRole("link", { name: "Sicherungsbild herunterladen", exact: true })
+    .tap();
+  const download = await pending,
+    png = join(out, name + "-Original.png");
+  await download.saveAs(png);
+  expect(download.suggestedFilename()).toMatch(/^Team Studio_.+\.png$/);
+  await page.screenshot({ path: join(out, name + "-Player.png") });
+  await context.close();
+  const fresh = await browser.newContext({
+    viewport: { width: 1024, height: 768 },
+    hasTouch: true,
+  });
+  page = await fresh.newPage();
+  await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
+  ui = page.frames().find((f) => f.url().endsWith("/app.html"));
+  await ui.getByRole("button", { name: "Fortsetzen", exact: true }).tap();
+  await ui.getByLabel("Schüler-Sicherung", { exact: true }).setInputFiles(png);
+  await expect(ui.locator("[data-card]")).toHaveCount(expected, {
+    timeout: 30000,
+  });
+  expect(await snap(ui)).toEqual(edited);
+  expect(
+    await page.evaluate(() => ({
+      local: localStorage.length,
+      session: sessionStorage.length,
+    })),
+  ).toEqual({ local: 0, session: 0 });
+  await fresh.close();
+  const proof = {
+    cards: expected,
+    scorm: zipPath,
+    originalPNG: png,
+    filename: download.suggestedFilename(),
+    restoredEqual: true,
+    undoRedo: true,
+    pinchNoAction: true,
+    teacherAndOCRCodeAbsent: true,
+    externalRequests: requests.filter(
+      (u) => /^https?:/.test(u) && !u.startsWith(origin),
+    ),
+    snapshot: edited,
+  };
+  await writeFile(
+    join(out, name + "-Wiederherstellung.json"),
+    JSON.stringify(proof, null, 2),
+  );
+  return proof;
 }

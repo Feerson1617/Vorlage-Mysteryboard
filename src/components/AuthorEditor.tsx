@@ -29,6 +29,8 @@ type Card = Content["cards"][number];
 export function AuthorEditor({
   initial,
   initialImport = false,
+  initialMaterial,
+  onMaterialStarted,
   onFile,
   onDownload,
   onHome,
@@ -37,6 +39,8 @@ export function AuthorEditor({
   integration?: EditorIntegration;
   initial: Draft;
   initialImport?: boolean;
+  initialMaterial?: File;
+  onMaterialStarted?: () => void;
   onFile: (doc: MysteryDocument) => void;
   onDownload: (file: File) => void;
   onHome: () => void;
@@ -359,6 +363,12 @@ export function AuthorEditor({
       }}
     />
   );
+  useEffect(() => {
+    if (initialMaterial) {
+      void openMaterial([initialMaterial]);
+      onMaterialStarted?.();
+    }
+  }, [initialMaterial]);
   const exportScorm = async () => {
     const controller = new AbortController();
     exportController.current?.abort();
@@ -680,6 +690,17 @@ export function AuthorEditor({
           <details className="studio-project-menu">
             <summary>Projekt</summary>
             <button onClick={integration.open}>Mystery öffnen</button>
+            <button
+              onClick={() => {
+                try {
+                  integration.preview(publishDraft(draft));
+                } catch (e) {
+                  setError((e as Error).message);
+                }
+              }}
+            >
+              Schüleransicht prüfen
+            </button>
             <button onClick={() => void saveDesktop(true)}>
               Speichern unter
             </button>
