@@ -16,8 +16,8 @@
   },
   {
     "name": "app.html",
-    "bytes": 5681768,
-    "sha256": "1912f80323d41d293169c2d04e0684c8944bdc6947bf7a65cdddcb2c9ea1b6ba"
+    "bytes": 6034262,
+    "sha256": "96057a1c9925d545d47af6291fcbc478179ffb35549bccadd551aae65099b178"
   },
   {
     "name": "ocr/tesseract.min.js",

@@ -214,7 +214,15 @@ try {
   await expect(
     page.locator('.studio-board [data-card="1"] rect').first(),
   ).toHaveAttribute("fill", "#fff1cf");
-  await scorm();
+  const styledScorm = await scorm();
+  await playerWorkflow(
+    browser,
+    server.origin,
+    out,
+    styledScorm,
+    "Studio-Gestaltet",
+    5,
+  );
   times.push({
     workflow: "C: design, return, save, reopen, export",
     milliseconds: Date.now() - t,
@@ -246,8 +254,67 @@ try {
   await expect(
     page.getByLabel("Importkarte auswählen", { exact: true }).locator("option"),
   ).toHaveCount(16);
+  const gold = JSON.parse(
+    await readFile("tests/fixtures/ocr/Solltexte.json", "utf8"),
+  )["Raster-B-16"];
+  // This is an explicit correction against the supplied original truth, not
+  // a claim that raw OCR has recognized every number or source perfectly.
+  for (let i = 0; i < gold.length; i++) {
+    await page
+      .getByLabel("Importkarte auswählen", { exact: true })
+      .selectOption(String(i));
+    await page
+      .getByRole("textbox", { name: "Überschrift", exact: true })
+      .fill(gold[i].title);
+    await page
+      .getByRole("textbox", { name: "Kartentext", exact: true })
+      .fill(gold[i].text);
+    await page
+      .getByRole("textbox", { name: "Quellenangabe", exact: true })
+      .fill(gold[i].source);
+    await page.getByRole("checkbox", { name: /Diese OCR-Karte/ }).check();
+  }
+  await button("Weiter zur Übernahme").click();
+  await page
+    .getByRole("radio", {
+      name: "Neues Mystery aus dem Dokument erstellen",
+      exact: true,
+    })
+    .check();
+  await page.getByRole("checkbox", { name: /Ich habe Texte/ }).check();
+  await button("Geprüfte Karten übernehmen").click();
+  await expect(page.locator(".studio-board [data-card]")).toHaveCount(16);
+  await button("Projekt sichern").click();
+  await expect
+    .poll(
+      async () =>
+        JSON.parse(
+          await readFile(join(out, "Usability-Projekt.mysteryboard"), "utf8"),
+        ).content.cards.length,
+    )
+    .toBe(16);
+  const corrected = JSON.parse(
+    await readFile(join(out, "Usability-Projekt.mysteryboard"), "utf8"),
+  );
+  expect(
+    corrected.content.cards.map(({ title, text, source }) => ({
+      title,
+      text,
+      source,
+    })),
+  ).toEqual(gold);
+  const importedScorm = await scorm();
+  await playerWorkflow(
+    browser,
+    server.origin,
+    out,
+    importedScorm,
+    "Studio-Import-16",
+    16,
+  );
   times.push({
-    workflow: "B: scanned PDF, production CSP, 16 cards recognized",
+    workflow:
+      "B: scanned PDF, 16 cards recognized, explicitly corrected/reviewed, applied and exported, fresh Player PNG restore",
     milliseconds: Date.now() - t,
   });
   await page.screenshot({ path: join(out, "Studio-Workflow-B-OCR.png") });

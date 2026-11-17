@@ -125,3 +125,16 @@ OCR-SCORM und das lokale Autorenpaket. Unterrichts-SCORM-Exporte benötigen kein
 OCR-Dateien. Anleitung und Grenzen: [Lokale OCR](docs/LOKALE-OCR.md),
 [Prüfbericht](docs/OCR-ABNAHMEBERICHT.md). Keine schulische Freigabe ohne echten
 Safari-/Schul-iPad-/itslearning-Test.
+
+## MysteryBoard Studio für macOS (Apple Silicon)
+
+Studio verwendet denselben Karten-/Dokumentkern, einen nativen, sandboxgeschützten
+Electron-Rahmen und einen getrennten Schüler-Build ohne Autorenoberfläche/OCR.
+Installation und Bedienung: [STUDIO-MACOS.md](docs/STUDIO-MACOS.md).
+Architektur, tatsächliche Mac-Tests und offene Abnahme:
+[STUDIO-ABNAHMEBERICHT.md](docs/STUDIO-ABNAHMEBERICHT.md).
+
+Auf macOS ARM64: `npm ci`, `npm run studio:make -- --platform=darwin --arch=arm64`.
+Die `.app`, ZIP und DMG entstehen über Electron Forge. Die mitgelieferte kostenlose
+Ad-hoc-Signierung ist keine Apple Developer ID oder Notarisierung. Der manuelle
+Erststart auf dem Ziel-Mac bleibt zu prüfen. Kein Merge oder automatisches Release.

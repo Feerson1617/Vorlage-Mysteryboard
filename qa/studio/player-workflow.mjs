@@ -26,8 +26,14 @@ export async function playerWorkflow(
   zipPath,
   name,
   expected,
+  options = {},
 ) {
-  const files = unzipSync(new Uint8Array(await readFile(zipPath))),
+  const zipBytes = await readFile(zipPath);
+  // Keep each actual export immutable even when a later design export uses
+  // the same suggested filename as the earlier default version.
+  zipPath = join(out, name + "-SCORM.zip");
+  await writeFile(zipPath, zipBytes);
+  const files = unzipSync(new Uint8Array(zipBytes)),
     dir = join(out, name);
   await mkdir(dir, { recursive: true });
   for (const [n, b] of Object.entries(files)) await writeFile(join(dir, n), b);
@@ -44,13 +50,14 @@ export async function playerWorkflow(
     hasTouch: true,
   });
   const requests = [];
-  await context.route("**/*", (r) => {
+  const offline = (r) => {
     const u = r.request().url();
     requests.push(u);
     return /^https?:/.test(u) && !u.startsWith(origin)
       ? r.abort()
       : r.continue();
-  });
+  };
+  await context.route("**/*", offline);
   let page = await context.newPage();
   page.on("dialog", (d) => d.accept());
   await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
@@ -95,50 +102,52 @@ export async function playerWorkflow(
   await ui.getByRole("button", { name: "Wiederholen", exact: true }).tap();
   await ui.getByRole("button", { name: "Wiederholen", exact: true }).tap();
   expect(await snap(ui)).toEqual(edited);
-  const board = await ui.locator("svg.board").boundingBox(),
-    cdp = await context.newCDPSession(page),
-    zoom = Number(await ui.locator("svg.board").getAttribute("data-zoom"));
-  await cdp.send("Input.dispatchTouchEvent", {
-    type: "touchStart",
-    touchPoints: [
-      {
-        id: 1,
-        x: board.x + board.width / 2 - 30,
-        y: board.y + board.height / 2,
-      },
-      {
-        id: 2,
-        x: board.x + board.width / 2 + 30,
-        y: board.y + board.height / 2,
-      },
-    ],
-  });
-  await cdp.send("Input.dispatchTouchEvent", {
-    type: "touchMove",
-    touchPoints: [
-      {
-        id: 1,
-        x: board.x + board.width / 2 - 65,
-        y: board.y + board.height / 2,
-      },
-      {
-        id: 2,
-        x: board.x + board.width / 2 + 65,
-        y: board.y + board.height / 2,
-      },
-    ],
-  });
-  await cdp.send("Input.dispatchTouchEvent", {
-    type: "touchEnd",
-    touchPoints: [],
-  });
-  await expect
-    .poll(async () =>
-      Number(await ui.locator("svg.board").getAttribute("data-zoom")),
-    )
-    .not.toBe(zoom);
-  expect(await snap(ui)).toEqual(edited);
-  await expect(ui.getByRole("dialog")).toHaveCount(0);
+  if (!options.skipCDPPinch) {
+    const board = await ui.locator("svg.board").boundingBox(),
+      cdp = await context.newCDPSession(page),
+      zoom = Number(await ui.locator("svg.board").getAttribute("data-zoom"));
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [
+        {
+          id: 1,
+          x: board.x + board.width / 2 - 30,
+          y: board.y + board.height / 2,
+        },
+        {
+          id: 2,
+          x: board.x + board.width / 2 + 30,
+          y: board.y + board.height / 2,
+        },
+      ],
+    });
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchMove",
+      touchPoints: [
+        {
+          id: 1,
+          x: board.x + board.width / 2 - 65,
+          y: board.y + board.height / 2,
+        },
+        {
+          id: 2,
+          x: board.x + board.width / 2 + 65,
+          y: board.y + board.height / 2,
+        },
+      ],
+    });
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    await expect
+      .poll(async () =>
+        Number(await ui.locator("svg.board").getAttribute("data-zoom")),
+      )
+      .not.toBe(zoom);
+    expect(await snap(ui)).toEqual(edited);
+    await expect(ui.getByRole("dialog")).toHaveCount(0);
+  }
   await ui.getByRole("button", { name: "Menü", exact: true }).tap();
   await ui
     .getByRole("button", { name: "Kleineres Sicherungsbild", exact: true })
@@ -153,13 +162,16 @@ export async function playerWorkflow(
   const download = await pending,
     png = join(out, name + "-Original.png");
   await download.saveAs(png);
-  expect(download.suggestedFilename()).toMatch(/^Team Studio_.+\.png$/);
+  // WebKit's download layer replaces spaces by underscores; the team/title
+  // components and PNG suffix must remain present in both browser variants.
+  expect(download.suggestedFilename()).toMatch(/^Team(?: |_)Studio_.+\.png$/);
   await page.screenshot({ path: join(out, name + "-Player.png") });
   await context.close();
   const fresh = await browser.newContext({
     viewport: { width: 1024, height: 768 },
     hasTouch: true,
   });
+  await fresh.route("**/*", offline);
   page = await fresh.newPage();
   await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
   ui = page.frames().find((f) => f.url().endsWith("/app.html"));
@@ -175,7 +187,16 @@ export async function playerWorkflow(
       session: sessionStorage.length,
     })),
   ).toEqual({ local: 0, session: 0 });
+  expect(
+    await ui.evaluate(() => ({
+      local: localStorage.length,
+      session: sessionStorage.length,
+    })),
+  ).toEqual({ local: 0, session: 0 });
   await fresh.close();
+  expect(
+    requests.filter((u) => /^https?:/.test(u) && !u.startsWith(origin)),
+  ).toEqual([]);
   const proof = {
     cards: expected,
     scorm: zipPath,
@@ -183,7 +204,9 @@ export async function playerWorkflow(
     filename: download.suggestedFilename(),
     restoredEqual: true,
     undoRedo: true,
-    pinchNoAction: true,
+    pinchNoAction: options.skipCDPPinch
+      ? "not run: CDP multitouch is Chromium-specific"
+      : true,
     teacherAndOCRCodeAbsent: true,
     externalRequests: requests.filter(
       (u) => /^https?:/.test(u) && !u.startsWith(origin),
