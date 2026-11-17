@@ -57,8 +57,8 @@ test(
         "native sandbox/context isolation/node integration preferences verified",
       );
       await app.evaluate(({ dialog }) => {
-        dialog.showMessageBox = async () => ({
-          response: 1,
+        dialog.showMessageBox = async (...args) => ({
+          response: args.at(-1)?.message === "Ungesicherte Änderungen" ? 1 : 0,
           checkboxChecked: false,
         });
       });
@@ -221,7 +221,9 @@ test(
       await expect(page.locator(".studio-board")).toBeVisible();
       checks.push("cancel close retains unsaved project");
       await app.evaluate(({ dialog }) => {
-        dialog.showMessageBox = async () => ({ response: 1 });
+        dialog.showMessageBox = async (...args) => ({
+          response: args.at(-1)?.message === "Ungesicherte Änderungen" ? 1 : 0,
+        });
       });
       await writeFile(
         join(out, "native-macos-progress.json"),

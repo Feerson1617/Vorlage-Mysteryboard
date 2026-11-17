@@ -1,3 +1,4 @@
+import { designOf, designFont } from "./design";
 import {
   cardNumber,
   COLOR_NAMES,
@@ -125,6 +126,12 @@ export async function preparePrintFrame(
   doc.close();
   doc.title = `${mystery.title} – Druckfassung`;
   doc.documentElement.dataset.printPaper = paper;
+  const design = designOf(mystery);
+  if (mystery.design) {
+    const style = doc.createElement("style");
+    style.textContent = `body{font-family:${designFont(mystery.design)};color:${design.textColor}} .print-card-text,.print-edge-label{font-size:${Math.max(10.5, 11 + (design.fontSize - 16) * 0.4)}pt}.print-item{border-color:${design.borderColor};border-radius:${design.radius * 0.12}mm}`;
+    doc.head.append(style);
+  }
   await doc.fonts.ready;
   ensureActive();
   const el = <K extends keyof HTMLElementTagNameMap>(
@@ -275,8 +282,9 @@ export async function preparePrintFrame(
       y1: g.start.y,
       x2: g.end.x,
       y2: g.end.y,
-      stroke: "#526558",
-      "stroke-width": 2,
+      stroke: mystery.design ? design.edgeColor : "#526558",
+      "stroke-width": design.edgeWidth,
+      ...(design.edgeDash ? { "stroke-dasharray": "10 7" } : {}),
     });
     if (edge.direction)
       line.setAttribute(
@@ -334,8 +342,8 @@ export async function preparePrintFrame(
         y: state.y,
         width: CARD_WIDTH,
         height: layout.height,
-        rx: 10,
-        fill: COLORS[state.color],
+        rx: design.radius,
+        fill: state.color ? COLORS[state.color] : design.cardColor,
         stroke: "#819287",
         "stroke-width": 1.5,
       }),
@@ -346,8 +354,9 @@ export async function preparePrintFrame(
           "text",
           {
             x: state.x + 18,
-            y: state.y + 32 + i * 24,
-            "font-size": 18,
+            y: state.y + 32 + i * layout.titleLine,
+            "font-size": layout.fontSize + 2,
+            "font-family": layout.fontFamily,
             "font-weight": "bold",
           },
           line,
@@ -360,21 +369,22 @@ export async function preparePrintFrame(
           "text",
           {
             x: state.x + 18,
-            y: state.y + 24 + layout.title.length * 24 + 26 + i * 22,
-            "font-size": 16,
+            y: state.y + layout.textY + i * layout.textLine,
+            "font-size": layout.fontSize,
+            "font-family": layout.fontFamily,
           },
           line,
         ),
       ),
     );
-    if (card.image)
+    if (card.image || card.extraImages?.length)
       group.append(
         svgNode("image", {
           "data-overview-image": card.id,
-          x: state.x + 18,
+          x: state.x + 18 + (264 - layout.imageWidth) / 2,
           y: state.y + layout.imageY,
-          width: 264,
-          height: 98,
+          width: layout.imageWidth,
+          height: layout.imageHeight,
           preserveAspectRatio: "xMidYMid meet",
         }),
       );
@@ -595,7 +605,7 @@ export async function preparePrintFrame(
         cardFragment(card, state, false),
       );
     }
-    if (card.image) {
+    if (card.image || card.extraImages?.length) {
       const row = el("p", "print-reference-row");
       row.append(
         reference(
@@ -607,15 +617,35 @@ export async function preparePrintFrame(
       await appendRow(article, row, () => cardFragment(card, state, false));
     }
   }
-  for (const card of mystery.cards.filter((c) => c.image)) {
+  const printImages = mystery.cards.flatMap((c) => [
+    ...(c.image
+      ? [
+          {
+            card: c,
+            src: c.image,
+            alt: c.imageAlt,
+            caption: c.imageCaption,
+            source: undefined,
+            index: 0,
+          },
+        ]
+      : []),
+    ...(c.extraImages ?? []).map((image, index) => ({
+      card: c,
+      ...image,
+      index: index + (c.image ? 1 : 0),
+    })),
+  ]);
+  for (const media of printImages) {
+    const card = { ...media.card, image: media.src, imageAlt: media.alt };
     await pause();
     const page = createPage("images");
-    page.node.id = `image-${card.id}`;
+    page.node.id = `image-${card.id}${media.index ? "-" + media.index : ""}`;
     page.node.dataset.imageCard = String(card.id);
     const caption = el(
       "p",
       "print-image-caption",
-      `Karte ${cardNumber(mystery, card.id)}: ${card.title}. ${card.imageAlt || ""}`,
+      `Karte ${cardNumber(mystery, card.id)}: ${card.title}. ${card.imageAlt || ""} ${media.caption || ""} ${media.source ? "Quelle: " + media.source : ""}`,
     );
     const back = el("p", "print-image-caption");
     back.append(
@@ -654,7 +684,7 @@ export async function preparePrintFrame(
     const overviewImage = svg.querySelector<SVGImageElement>(
       `[data-overview-image="${card.id}"]`,
     );
-    if (overviewImage) {
+    if (overviewImage && media.index === 0) {
       const box = fitImage(image.naturalWidth, image.naturalHeight, {
         x: Number(overviewImage.getAttribute("x")),
         y: Number(overviewImage.getAttribute("y")),
