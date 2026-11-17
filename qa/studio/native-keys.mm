@@ -1,6 +1,7 @@
 // QA only: resolve synthesized native key events through the running app's
 // normal AppKit application dispatch. This addon is not shipped in Studio.
 #import <AppKit/AppKit.h>
+#import <ApplicationServices/ApplicationServices.h>
 #include <node_api.h>
 
 napi_value Shortcut(napi_env env, napi_callback_info info) {

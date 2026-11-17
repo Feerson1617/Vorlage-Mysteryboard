@@ -11,6 +11,7 @@ import {
   chooseImportCard,
 } from "../../qa/studio/controls.mjs";
 import { fixtures } from "../../qa/studio/fixtures.mjs";
+import { scanWorkflow } from "../../qa/studio/scan-workflow.mjs";
 const out = resolve(process.env.STUDIO_EVIDENCE || "artifacts/studio-tests");
 const executable =
   process.env.STUDIO_EXEC ||
