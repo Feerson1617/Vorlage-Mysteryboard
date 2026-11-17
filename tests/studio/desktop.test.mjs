@@ -54,6 +54,15 @@ test(
           if (!String(e).includes("No dialog is showing")) throw e;
         }),
       );
+      // Select renderer-confirm answers just as native file-dialog answers are
+      // selected below. Electron's OS sheet must not outlive a CDP reply.
+      await page.evaluate(() => {
+        globalThis.__nativeConfirmations = [];
+        window.confirm = (message) => {
+          globalThis.__nativeConfirmations.push(message);
+          return true;
+        };
+      });
       await expect(
         page.getByRole("heading", { name: "MysteryBoard Studio", exact: true }),
       ).toBeVisible();
@@ -711,6 +720,25 @@ test(
       checks.push(
         "native scan card and boundary correction retain unrelated data and require individual review",
       );
+      const rendererConfirmations = await page.evaluate(
+        () => globalThis.__nativeConfirmations,
+      );
+      assert.equal(
+        rendererConfirmations.filter((message) =>
+          message.startsWith("Import schließen?"),
+        ).length,
+        3,
+      );
+      assert(
+        rendererConfirmations.some((message) =>
+          message.includes("Ein neues Mystery beginnen?"),
+        ),
+      );
+      assert(
+        rendererConfirmations.some((message) =>
+          message.startsWith("Betroffene Karten erneut erkennen?"),
+        ),
+      );
       await writeFile(
         join(out, "native-macos.json"),
         JSON.stringify(
@@ -718,10 +746,11 @@ test(
             passed: true,
             ...prefs,
             checks,
+            rendererConfirmations,
             platform:
               "real hosted macOS ARM64 runner; not a physical classroom Mac",
             nativeDialogs:
-              "dialog results selected by test harness; real application filesystem and printToPDF used",
+              "native file/close dialog and renderer-confirm answers selected by test harness; confirmation calls asserted, real filesystem and printToPDF; physical OS dialog interaction not tested",
             shortcutTest:
               "synthetic Quartz keyboard events dispatched through the installed app's NSApplication; exact received commands checked, no menu-click substitution or physical keyboard claim",
             physicalM1AndManagedIpadAndItslearning: "open",
