@@ -101,23 +101,24 @@ test(
             ),
           )
           .toBe(true);
-        const handled = await app.evaluate(
-          ({ BrowserWindow }, { path, id }) => {
-            const driver = process
-              .getBuiltinModule("module")
-              .createRequire(process.execPath)(path);
-            return driver.shortcut(
-              id === "project-open" ? "o" : "s",
-              id === "project-save-as",
-            );
-          },
-          { path: keyDriver, id },
+        const eventAudit = JSON.parse(
+          await app.evaluate(
+            ({ BrowserWindow }, { path, id }) => {
+              const driver = process
+                .getBuiltinModule("module")
+                .createRequire(process.execPath)(path);
+              return driver.shortcut(
+                id === "project-open" ? "o" : "s",
+                id === "project-save-as",
+              );
+            },
+            { path: keyDriver, id },
+          ),
         );
-        assert.equal(
-          handled,
-          true,
-          "The real AppKit menu must resolve this key equivalent",
-        );
+        console.log("Native key event:", JSON.stringify(eventAudit));
+        assert.equal(eventAudit.command, true);
+        assert.equal(eventAudit.shift, id === "project-save-as");
+        assert.equal(eventAudit.keyCode, id === "project-open" ? 31 : 1);
         await expect
           .poll(() => page.evaluate(() => globalThis.__nativeCommands))
           .toEqual([id.replace("project-", "")]);
@@ -641,7 +642,7 @@ test(
             nativeDialogs:
               "dialog results selected by test harness; real application filesystem and printToPDF used",
             shortcutTest:
-              "synthetic NSEvents resolved by the installed app's real AppKit menu; no CDP/menu-click substitution and no physical keyboard claim",
+              "synthetic Quartz keyboard events dispatched through the installed app's NSApplication; exact received commands checked, no menu-click substitution or physical keyboard claim",
             physicalM1AndManagedIpadAndItslearning: "open",
           },
           null,

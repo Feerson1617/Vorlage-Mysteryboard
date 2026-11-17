@@ -1,5 +1,5 @@
 // QA only: resolve synthesized native key events through the running app's
-// actual AppKit menu. This file and its addon are not shipped in Studio.
+// normal AppKit application dispatch. This addon is not shipped in Studio.
 #import <AppKit/AppKit.h>
 #include <node_api.h>
 
@@ -15,16 +15,24 @@ napi_value Shortcut(napi_env env, napi_callback_info info) {
     return nullptr;
   }
   @autoreleasepool {
-    NSString *characters = [NSString stringWithUTF8String:key];
-    NSString *typedCharacters = shift ? characters.uppercaseString : characters;
-    NSEventModifierFlags modifiers = NSEventModifierFlagCommand | (shift ? NSEventModifierFlagShift : 0);
-    NSEvent *event = [NSEvent keyEventWithType:NSEventTypeKeyDown location:NSZeroPoint
-      modifierFlags:modifiers timestamp:NSProcessInfo.processInfo.systemUptime
-      windowNumber:NSApp.keyWindow.windowNumber context:nil characters:typedCharacters
-      charactersIgnoringModifiers:characters isARepeat:NO keyCode:key[0] == 'o' ? 31 : 1];
-    const bool handled = NSApp.mainMenu && [NSApp.mainMenu performKeyEquivalent:event];
+    CGEventRef quartz = CGEventCreateKeyboardEvent(nullptr, key[0] == 'o' ? 31 : 1, true);
+    CGEventSetFlags(quartz, kCGEventFlagMaskCommand | (shift ? kCGEventFlagMaskShift : 0));
+    NSEvent *event = [NSEvent eventWithCGEvent:quartz];
+    NSMutableArray *items = [NSMutableArray array];
+    for (NSMenuItem *top in NSApp.mainMenu.itemArray)
+      for (NSMenuItem *item in top.submenu.itemArray)
+        if (item.keyEquivalent.length)
+          [items addObject:@{@"title":item.title, @"key":item.keyEquivalent,
+            @"flags":@(item.keyEquivalentModifierMask), @"enabled":@(item.enabled)}];
+    NSDictionary *audit = @{@"characters":event.characters ?: @"", @"ignoringModifiers":event.charactersIgnoringModifiers ?: @"",
+      @"command":@((event.modifierFlags & NSEventModifierFlagCommand) != 0),
+      @"shift":@((event.modifierFlags & NSEventModifierFlagShift) != 0),
+      @"keyCode":@(event.keyCode), @"menu":items};
+    NSData *data = [NSJSONSerialization dataWithJSONObject:audit options:0 error:nil];
+    [NSApp sendEvent:event];
+    CFRelease(quartz);
     napi_value result;
-    napi_get_boolean(env, handled, &result);
+    napi_create_string_utf8(env, static_cast<const char *>(data.bytes), data.length, &result);
     return result;
   }
 }
