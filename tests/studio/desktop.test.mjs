@@ -96,7 +96,9 @@ test(
           .toBe(true);
         const handled = await app.evaluate(
           ({ BrowserWindow }, { path, id }) => {
-            const driver = require(path);
+            const driver = process
+              .getBuiltinModule("module")
+              .createRequire(process.execPath)(path);
             return driver.shortcut(
               id === "project-open" ? "o" : "s",
               id === "project-save-as",
