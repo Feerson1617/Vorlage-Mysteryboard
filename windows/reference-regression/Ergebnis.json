@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "sourceCommit": "39ff7853293b49c4aba180b49cf5331e26df96e7",
+  "source": "separate git-archive copy; protected original checkout not rebuilt",
+  "platform": "Linux x64",
+  "browser": "Chromium 156.0.8078.79 built on Debian GNU/Linux 13 (trixie)",
+  "commands": [
+    {
+      "command": "npm run check",
+      "exitCode": 0,
+      "unitPassed": 177,
+      "browserPassed": 272,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "npm run test:rc2",
+      "exitCode": 0,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "windowsNativeProof": false,
+  "logs": [
+    {
+      "file": "rc2.txt",
+      "bytes": 986,
+      "sha256": "62a2c5acca5d42ff92a27d46227f11ff4f941ca6bcc6f20ea91f0647479337b8"
+    },
+    {
+      "file": "full-check.txt",
+      "bytes": 153759,
+      "sha256": "51f6e6e0fa05520efbc79d11cf95773d94a8b3906633ce232c805fca5486ecac"
+    }
+  ]
+}

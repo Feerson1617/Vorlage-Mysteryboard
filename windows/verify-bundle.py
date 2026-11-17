@@ -20,4 +20,10 @@ assert actual==listed
 assert (root/'Installation/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe').is_file()
 assert (root/'Portable/MysteryBoard-Studio/resources/app.asar').is_file()
 assert (root/'Portable/MysteryBoard-Studio/MysteryBoard Studio.exe').is_file()
+summary=json.loads((root/'Pruefbericht/Testergebnisse.json').read_text())
+if summary['passed']:
+ proof=json.loads((root/'Pruefbericht/Identisch-zum-Laufzeittest.json').read_text());assert proof['passed']
+ for entry in proof['files']:
+  assert hashlib.file_digest((root/entry['file']).open('rb'),'sha256').hexdigest()==entry['sha256']
+ assert summary['runtimeTestedPayloadEqual'] and summary['runtimeTestedPayloadFiles']==len(proof['files'])
 print(json.dumps({'passed':True,'file':archive.name,'bytes':archive.stat().st_size,'sha256':hashlib.file_digest(archive.open('rb'),'sha256').hexdigest(),'filesChecked':len(listed),'extracted':str(root)},indent=2))

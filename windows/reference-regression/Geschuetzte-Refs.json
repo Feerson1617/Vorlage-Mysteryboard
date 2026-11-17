@@ -1,0 +1,10 @@
+{
+  "main": "1fa1fff81e5e19b7031130c8d034a77d9e1ace61",
+  "macOSBranch": "39ff7853293b49c4aba180b49cf5331e26df96e7",
+  "macDMG": {
+    "file": "MysteryBoard-Studio-0.2.0-Apple-Silicon.dmg",
+    "bytes": 125933937,
+    "sha256": "a2a66daa8cc2a0522bccb31454500e32833fd55a2dc0830de795cadbcfe5d533"
+  },
+  "changed": false
+}

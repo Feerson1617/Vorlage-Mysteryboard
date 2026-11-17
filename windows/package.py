@@ -14,6 +14,9 @@ installed=json.loads((evidence/'installed/Testergebnisse.json').read_text())
 players=json.loads((evidence/'players/Studentenpruefung.json').read_text())
 assert full['passed'] and installed['passed'] and players['passed']
 assert len(players['proofs'])==6
+regression=json.loads((root/'windows/reference-regression/Ergebnis.json').read_text())
+assert regression['passed'] and regression['sourceCommit']=='39ff7853293b49c4aba180b49cf5331e26df96e7'
+assert [(c['exitCode'],c['failed'],c['skipped']) for c in regression['commands']]==[(0,0,0),(0,0,0)]
 if phase=='final':
  proof=json.loads((evidence/'Frisch-entpackt.json').read_text());assert proof['passed']
  for name in ['bundle-portable','bundle-installed']:
@@ -24,6 +27,17 @@ for p in setup.parent.iterdir():
  if p.is_file():shutil.copy2(p,stage/'Installation'/p.name)
 shutil.copytree(portable,stage/'Portable/MysteryBoard-Studio',dirs_exist_ok=True)
 report=stage/'Pruefbericht';report.mkdir(exist_ok=True)
+payload_proof=[]
+if phase=='final':
+ tested=root/'windows/fresh-package/MysteryBoard-Studio-Windows-x64'
+ for area in ['Portable','Installation']:
+  actual_files={p.relative_to(stage).as_posix():p for p in (stage/area).rglob('*') if p.is_file()}
+  tested_files={p.relative_to(tested).as_posix():p for p in (tested/area).rglob('*') if p.is_file()}
+  assert actual_files.keys()==tested_files.keys(), 'Runtime-tested and final payload file lists differ'
+  for name,p in sorted(actual_files.items()):
+   digest=hashfile(p);assert digest==hashfile(tested_files[name]), 'Final payload differs from actual runtime-tested file: '+name
+   payload_proof.append({'file':name,'bytes':p.stat().st_size,'sha256':digest})
+ (report/'Identisch-zum-Laufzeittest.json').write_text(json.dumps({'passed':True,'files':payload_proof,'note':'Every installer and portable file is byte-identical to the freshly unpacked Windows runtime test. Final reports are sealed afterwards.'},indent=2)+'\n')
 # Profiles contain Chromium caches, not test evidence. Exclude them from delivery.
 for p in evidence.rglob('*'):
  rel=p.relative_to(evidence)
@@ -35,7 +49,7 @@ for p in (root/'windows').rglob('*'):
  target=report/'Pruefskripte'/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,target)
 base=json.loads((root/'windows/macos-reference.json').read_text())['commit']
 commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
-summary={'passed':phase=='final','phase':phase,'baseCommit':base,'windowsCommit':commit,'windowsRunner':full['prefs'],'portable':full,'installed':installed,'studentRuns':len(players['proofs']),'macOSIntegrity':json.loads((evidence/'macos-integrity.json').read_text()),'unsigned':True,'restrictedSchoolPC':'not tested','SmartScreen':'not bypassed; may warn or block','realItslearning':'not tested'}
+summary={'passed':phase=='final','phase':phase,'baseCommit':base,'windowsCommit':commit,'windowsRunner':full['prefs'],'portable':full,'installed':installed,'studentRuns':len(players['proofs']),'referenceRegression':regression,'runtimeTestedPayloadEqual':phase=='final','runtimeTestedPayloadFiles':len(payload_proof),'macOSIntegrity':json.loads((evidence/'macos-integrity.json').read_text()),'unsigned':True,'restrictedSchoolPC':'not tested','SmartScreen':'not bypassed; may warn or block','realItslearning':'not tested'}
 (report/'Testergebnisse.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 assessment='Technisch einsatzbereit (automatisierte Windows-x64-Abnahme)' if phase=='final' else 'Kandidat: abschließende Prüfung des entpackten Pakets läuft noch'
 text=f'''# MysteryBoard Studio 0.2.0 – Windows-Abnahme
@@ -50,6 +64,8 @@ Echte Windows-x64-Electron-Prozesse wurden sowohl aus dem portablen Ordner als a
 
 Die gesamte macOS-Basis mit 1.695 Dateien ist unverändert. Nur neue Windows-Dateien und ein neuer Windows-Workflow sind hinzugefügt. main und vorhandene Releases wurden nicht verändert. Im generierten Windows-HTML wurden ausschließlich die sichtbaren ⌘S/O-Hinweise durch Strg+S/O ersetzt und die CSP-Hashes aktualisiert; React, Core, Hauptprozess und bestehender Player-Quellcode bleiben identisch.
 
+Wegen zweier historischer Dateinamen (RESULTS.json und results.json) prüft der Windows-Checkout 1.693 ursprüngliche Arbeitsdateien und die zwei kollidierenden Dokumentations-Git-Blobs. Kein geschützter Dateiinhalt wurde geändert. Das endgültige Archiv enthält nachträglich versiegelte Berichte; sämtliche Installer- und Portable-Dateien sind einzeln mit den tatsächlich aus dem frisch entpackten Kandidaten getesteten Dateien verglichen. Siehe Identisch-zum-Laufzeittest.json.
+
 ## Prüfverfahren und Grenzen
 
 Playwright steuert echte gepackte Electron-Fenster. Nur Antworten der nativen Datei- und Bestätigungsdialoge werden vorgegeben. Reale Dateiverarbeitung, atomic writes, IPC, PDF-printToPDF, Word/PDF-Import, OCR und Export bleiben unverändert. Tastenkürzel werden mit synthetischen Windows-SendKeys-Ereignissen ausgelöst. Das ist keine physische Tastaturprüfung und keine händische Dialogabnahme.
@@ -57,6 +73,8 @@ Playwright steuert echte gepackte Electron-Fenster. Nur Antworten der nativen Da
 Fenster: 1280×800, 1024×768, 800×600; tatsächliche Größen und Screenshots sind dokumentiert. 150 % wurde mit Electrons Geräte-Skalierungsoption geprüft, nicht durch Änderung der Windows-Anzeigeeinstellungen.
 
 Der kostenlose reguläre GitHub-Windows-Runner ist kein verwalteter Schul-PC. Installation unter eingeschränkten Schulrechten, tatsächliche SmartScreen-/Defender-Entscheidungen, Firmenrichtlinien, reale itslearning-Integration und physische Display-/Druckerprüfung bleiben offen. Die App ist nicht vertrauenswürdig codesigniert; Windows kann warnen oder die Ausführung nach Organisationsrichtlinien blockieren. Keine Schutzfunktion wurde global deaktiviert.
+
+Der native Host ist Windows Server 2025 Datacenter x64; Windows 11 x64 bleibt die Zielplattform, wurde hier aber nicht als separates Betriebssystem gestartet. Die npm-Installationslogs melden bekannte Hinweise zu den eingefrorenen Build-Werkzeugen. Es wird keine Aussage einer vollständig schwachstellenfreien Lieferkette getroffen; Build-Abhängigkeiten und Entwicklerwerkzeuge werden nicht als node_modules in die Anwendung aufgenommen.
 
 ## Befehle
 
@@ -83,6 +101,8 @@ python windows/verify-bundle.py <KOMPLETTPAKET.zip> windows/final-check
 ```
 
 Die exakten ausgeführten Befehle, Ergebnisse und Exitcodes stehen zusätzlich im separaten Workflow `.github/workflows/studio-windows.yml` und den beigefügten Logs. Die unveränderte gesamte Browser-Regression wird gesondert in einer Linux-Quellkopie ausgeführt und ist kein Windows-Laufzeitnachweis.
+
+Die bestehende Quell-Regression besteht vollständig: 177 Datentests, 272 Chromium-Browsertests und vier eingefrorene RC2-Prüfungen, jeweils ohne fehlgeschlagene oder übersprungene Tests. Vollständige neue Protokolle: Pruefskripte/reference-regression/full-check.txt und rc2.txt. Die Plattformtrennung steht in Pruefskripte/reference-regression/Ergebnis.json.
 '''
 (report/'WINDOWS-ABNAHME.md').write_text(text,encoding='utf8')
 (stage/'INSTALLATION-LESEN.txt').write_text('MysteryBoard Studio 0.2.0 – Windows x64\n\nWindows 11 x64 als Zielsystem.\nInstallation: Installation/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe starten.\nPortable: gesamten Ordner Portable/MysteryBoard-Studio entpacken, darin MysteryBoard Studio.exe starten. Nicht nur die EXE kopieren.\nKein Node.js, Python, Git oder Internet für die Anwendung erforderlich.\nDie App ist nicht vertrauenswürdig codesigniert. SmartScreen oder Schulrichtlinien können die Ausführung beschränken. Sicherheitsfunktionen nicht deaktivieren; bei verwalteten PCs die zuständige Administration einbeziehen.\nBearbeitbares Projekt: .mysteryboard. Schüler sichern bewusst ausschließlich als PNG. Keine automatische LMS-Übertragung von Antworten/Teams/Arbeitsständen.\nAbnahmegrenzen und tatsächliche Ergebnisse siehe Pruefbericht/WINDOWS-ABNAHME.md.\n',encoding='utf8')
