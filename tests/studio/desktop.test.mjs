@@ -49,19 +49,22 @@ test(
     try {
       const page = await app.firstWindow();
       page.setDefaultTimeout(30000);
-      page.on("dialog", (d) =>
-        d.accept().catch((e) => {
+      const rendererConfirmations = [],
+        confirmDecisions = [];
+      let rendererFileChoosers = 0;
+      // Intercept the toolbar's real input.click() before setInputFiles. Without
+      // this listener Electron keeps an OS NSOpenPanel open behind the CDP run.
+      page.on("filechooser", () => {
+        rendererFileChoosers++;
+      });
+      page.on("dialog", (d) => {
+        rendererConfirmations.push(d.message());
+        const accept = confirmDecisions.length
+          ? confirmDecisions.shift()
+          : true;
+        (accept ? d.accept() : d.dismiss()).catch((e) => {
           if (!String(e).includes("No dialog is showing")) throw e;
-        }),
-      );
-      // Select renderer-confirm answers just as native file-dialog answers are
-      // selected below. Electron's OS sheet must not outlive a CDP reply.
-      await page.evaluate(() => {
-        globalThis.__nativeConfirmations = [];
-        window.confirm = (message) => {
-          globalThis.__nativeConfirmations.push(message);
-          return true;
-        };
+        });
       });
       await expect(
         page.getByRole("heading", { name: "MysteryBoard Studio", exact: true }),
@@ -588,16 +591,8 @@ test(
         "new imported mystery asks for a new path and preserves old project bytes",
       );
       await closeExports(page);
-      // Choose the two JS-confirm answers explicitly. CDP acceptance can leave
-      // Electron's native confirmation sheet owning focus on hosted macOS.
-      await page.evaluate(() => {
-        globalThis.__previousConfirm = window.confirm;
-        globalThis.__overviewConfirmations = [];
-        window.confirm = (message) => {
-          globalThis.__overviewConfirmations.push(message);
-          return globalThis.__overviewConfirmations.length > 1;
-        };
-      });
+      confirmDecisions.push(false, true);
+      const overviewPromptStart = rendererConfirmations.length;
       await page
         .getByRole("button", { name: "Zur Projektübersicht", exact: true })
         .click();
@@ -606,16 +601,10 @@ test(
       await page
         .getByRole("button", { name: "Zur Projektübersicht", exact: true })
         .click();
-      assert.deepEqual(
-        await page.evaluate(() => globalThis.__overviewConfirmations),
-        [
-          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-        ],
-      );
-      await page.evaluate(() => {
-        window.confirm = globalThis.__previousConfirm;
-      });
+      assert.deepEqual(rendererConfirmations.slice(overviewPromptStart), [
+        "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+        "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+      ]);
       checks.push(
         "overview confirmation: cancel retains dirty cards; explicit discard returns home",
       );
@@ -731,9 +720,7 @@ test(
       checks.push(
         "native scan card and boundary correction retain unrelated data and require individual review",
       );
-      const rendererConfirmations = await page.evaluate(
-        () => globalThis.__nativeConfirmations,
-      );
+      assert(rendererFileChoosers >= 5);
       assert.equal(
         rendererConfirmations.filter((message) =>
           message.startsWith("Import schließen?"),
@@ -758,6 +745,7 @@ test(
             ...prefs,
             checks,
             rendererConfirmations,
+            rendererFileChoosers,
             platform:
               "real hosted macOS ARM64 runner; not a physical classroom Mac",
             nativeDialogs:
