@@ -1,0 +1,8 @@
+node_modules/
+stage/
+out/
+evidence/
+delivery/
+fresh-package/
+*.zip
+*.exe

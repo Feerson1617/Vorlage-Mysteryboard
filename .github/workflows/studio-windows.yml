@@ -1,0 +1,110 @@
+name: MysteryBoard Studio – Windows x64 build and independent native acceptance
+on:
+  push:
+    branches: [feat/mysteryboard-studio-windows-x64]
+    paths: ['windows/**', '.github/workflows/studio-windows.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  windows-x64:
+    runs-on: windows-2025
+    timeout-minutes: 60
+    steps:
+      - name: Preserve exact frozen file bytes on Windows
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.longpaths true
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            windows/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies, baseline integrity and unchanged data regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p windows/evidence/Logs
+          node -e "if(process.platform!=='win32'||process.arch!=='x64')process.exit(1)"
+          npm ci 2>&1 | tee windows/evidence/Logs/npm-ci.log
+          npm ci --prefix windows 2>&1 | tee windows/evidence/Logs/windows-npm-ci.log
+          python -m pip install -r windows/qa-requirements.txt
+          node windows/integrity.mjs | tee windows/evidence/macos-integrity.json
+          node --test windows/tests/*.test.mjs 2>&1 | tee windows/evidence/Logs/squirrel-unit.log
+          npm test 2>&1 | tee windows/evidence/Logs/data-regression.log
+      - name: Build actual Windows installer and complete portable application
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/build.mjs 2>&1 | tee windows/evidence/Logs/windows-build.log
+          node windows/tests/inspect-package.mjs 'windows/out/MysteryBoard Studio-win32-x64' windows/evidence
+      - name: Actual portable application, imports, offline OCR, PDF and files
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/tests/native.mjs 'windows/out/MysteryBoard Studio-win32-x64/MysteryBoard Studio.exe' windows/evidence/portable full 2>&1 | tee windows/evidence/Logs/portable.log
+      - name: Run actual Squirrel installer
+        shell: pwsh
+        run: ./windows/install.ps1 -Setup 'windows/out/make/squirrel.windows/x64/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe' -Evidence windows/evidence/installation
+      - name: Start and exercise the installed application
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/tests/native.mjs "$STUDIO_WINDOWS_INSTALLED" windows/evidence/installed smoke 2>&1 | tee windows/evidence/Logs/installed.log
+      - name: Student SCOs, PNG-only saving and independent output inspection
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright install chromium
+          node windows/tests/player.mjs windows/evidence/players windows/evidence/portable 2>&1 | tee windows/evidence/Logs/players.log
+          python windows/tests/inspect-outputs.py windows/evidence 2>&1 | tee windows/evidence/Logs/independent-files.log
+      - name: Test actual uninstaller
+        shell: pwsh
+        run: ./windows/install.ps1 -Setup 'windows/out/make/squirrel.windows/x64/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe' -Evidence windows/evidence/installation -Uninstall
+      - name: Seal and independently unpack complete candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/integrity.mjs > windows/evidence/macos-integrity.json
+          python windows/package.py candidate > windows/evidence/Logs/candidate-package.log
+          python windows/verify-bundle.py windows/delivery/MysteryBoard-Studio-0.2.0-Windows-x64-KOMPLETTPAKET.zip windows/fresh-package | tee windows/evidence/Frisch-entpackt.json
+          node windows/tests/inspect-package.mjs 'windows/fresh-package/MysteryBoard-Studio-Windows-x64/Portable/MysteryBoard-Studio' windows/evidence/bundle-check
+          node windows/tests/native.mjs 'windows/fresh-package/MysteryBoard-Studio-Windows-x64/Portable/MysteryBoard-Studio/MysteryBoard Studio.exe' windows/evidence/bundle-portable smoke 2>&1 | tee windows/evidence/Logs/bundle-portable.log
+      - name: Install exact freshly unpacked Setup
+        shell: pwsh
+        run: ./windows/install.ps1 -Setup 'windows/fresh-package/MysteryBoard-Studio-Windows-x64/Installation/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe' -Evidence windows/evidence/bundle-installation
+      - name: Start installed program from the supplied end package
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/tests/native.mjs "$STUDIO_WINDOWS_INSTALLED" windows/evidence/bundle-installed smoke 2>&1 | tee windows/evidence/Logs/bundle-installed.log
+      - name: Uninstall supplied end-package program
+        shell: pwsh
+        run: ./windows/install.ps1 -Setup 'windows/fresh-package/MysteryBoard-Studio-Windows-x64/Installation/MysteryBoard-Studio-0.2.0-Windows-x64-Setup.exe' -Evidence windows/evidence/bundle-installation -Uninstall
+      - name: Seal final evidence and verify every final byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          node windows/integrity.mjs > windows/evidence/macos-integrity.json
+          python windows/package.py final 2>&1 | tee windows/evidence/Logs/final-package.log
+          python windows/verify-bundle.py windows/delivery/MysteryBoard-Studio-0.2.0-Windows-x64-KOMPLETTPAKET.zip windows/final-check | tee windows/evidence/Finales-Paket.json
+          node windows/tests/inspect-package.mjs 'windows/final-check/MysteryBoard-Studio-Windows-x64/Portable/MysteryBoard-Studio' windows/evidence/final-check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: MysteryBoard-Studio-Windows-x64-${{ github.sha }}
+          path: |
+            windows/delivery/*.zip
+            windows/delivery/*.exe
+            windows/delivery/Downloads.json
+            windows/evidence/
+            !windows/evidence/**/profile*/**
+          if-no-files-found: error
+          retention-days: 30
