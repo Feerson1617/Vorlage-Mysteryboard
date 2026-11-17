@@ -68,6 +68,9 @@ jobs:
         run: |
           set -euo pipefail
           node windows/tests/native.mjs "$STUDIO_WINDOWS_INSTALLED" windows/evidence/installed smoke 2>&1 | tee windows/evidence/Logs/installed.log
+      - name: Actual installed Squirrel event processes open no extra windows
+        shell: pwsh
+        run: ./windows/tests/squirrel-events.ps1 -Executable $env:STUDIO_WINDOWS_INSTALLED -Evidence windows/evidence/installation
       - name: Student SCOs, PNG-only saving and independent output inspection
         shell: bash
         run: |

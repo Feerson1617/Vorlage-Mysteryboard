@@ -32,7 +32,7 @@ async function start(suffix='',scale=1){
  await expect(page.getByRole('heading',{name:'MysteryBoard Studio',exact:true})).toBeVisible();
  prefs=await app.evaluate(({app,BrowserWindow,screen})=>({
   platform:process.platform,arch:process.arch,version:app.getVersion(),electron:process.versions.electron,chromium:process.versions.chrome,
-  isPackaged:app.isPackaged,exe:process.execPath,pid:process.pid,argv:process.argv,
+        isPackaged:app.isPackaged,exe:process.execPath,pid:process.pid,argv:process.argv,
   preferences:BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences(),
   displays:screen.getAllDisplays(),windows:BrowserWindow.getAllWindows().length,
  }));
@@ -139,6 +139,23 @@ try{
  record('full process restart and exact Mac-compatible project round trip');
  await openExports(page);await viewports('Export');await closeExports(page);
  if(mode==='full'){
+  await page.locator('.studio-board [data-card="1"]').click();await b(page,'Groß ansehen').click();
+  await expect(page.locator('.reading')).toContainText('1912');await screenshot('Karte-gross-lesen');await b(page,'Zur Bearbeitung').click();
+  await page.getByRole('textbox',{name:'Kartenüberschrift',exact:true}).fill('Beobachtung 1 – kontrolliert');await b(page,'Karte übernehmen').click();
+  await b(page,'Karte hinzufügen').click();await page.getByRole('textbox',{name:'Kartentext',exact:true}).fill('Temporäre Karte zum Löschtest.');await b(page,'Karte übernehmen').click();
+  await expect(page.locator('.studio-board [data-card]')).toHaveCount(6);await page.locator('.studio-board [data-card="6"]').click();
+  await page.getByText('Weitere Kartenangaben',{exact:true}).click();await b(page,'Karte löschen').click();await expect(page.locator('.studio-board [data-card]')).toHaveCount(5);
+  await b(page,'Mystery gestalten').click();
+  await page.getByRole('slider',{name:'Schriftgröße',exact:true}).focus();await page.keyboard.press('Home');for(let i=0;i<4;i++)await page.keyboard.press('ArrowRight');
+  await expect(page.getByRole('slider',{name:'Schriftgröße',exact:true})).toHaveValue('18');
+  await page.getByLabel('Kartenfarbe',{exact:true}).evaluate(el=>{Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'#fff4c2');el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))});await b(page,'Verbindungen').click();await page.getByLabel('Pfeilspitze',{exact:true}).selectOption('open');
+  await screenshot('Gestaltung');await b(page,'Darstellung').click();await b(page,'Hilfen und Nummernfarben bearbeiten').click();
+  await page.getByLabel('Hilfetext',{exact:true}).fill('Vergleicht Zahlen, Quellen und begründet eure Zusammenhänge.');await b(page,'Hilfe übernehmen').click();
+  if(await b(page,'Zur Pinnwand').count())await b(page,'Zur Pinnwand').click();
+  const design=await saveTo(join(out,'Gestaltung-und-Hilfen.mysteryboard'),true);
+  assert.equal(design.content.design.fontSize,18);assert.equal(design.content.design.cardColor,'#fff4c2');assert.equal(design.content.design.arrowHead,'open');assert(design.content.help.method.includes('Vergleicht Zahlen'));
+  assert.equal(design.content.cards[0].title,'Beobachtung 1 – kontrolliert');await scorm(firstSCORM);
+  record('existing card edited, large reading, deletion, font/color/arrow design and help configuration retained');
   const sources=await fixtures(out);
   const twelve=structuredClone(sources.find(x=>x.n===20).document);twelve.content.id='studio-windows-12';twelve.content.cards=twelve.content.cards.slice(0,12);twelve.content.initial.cards=twelve.content.initial.cards.slice(0,12);twelve.contentHash=createHash('sha256').update(canonical(twelve.content)).digest('hex');
   const twelvePath=join(out,'Studio-12.mysteryboard');await writeFile(twelvePath,canonical(twelve));sources.push({n:12,path:twelvePath,document:twelve});
