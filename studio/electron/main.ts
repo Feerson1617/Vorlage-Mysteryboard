@@ -51,6 +51,19 @@ let state: { bytes: Uint8Array; dirty: boolean; forms: boolean } | null = null;
 let closing = false,
   asking = false;
 let recent: { id: string; path: string }[] = [];
+function updateFileMenu() {
+  const focused = BrowserWindow.getFocusedWindow() === window;
+  const menu = Menu.getApplicationMenu();
+  for (const id of ["project-open", "project-save", "project-save-as"]) {
+    const item = menu?.getMenuItemById(id);
+    if (item)
+      item.enabled =
+        focused &&
+        !window.webContents.isLoadingMainFrame() &&
+        (id === "project-open" || !!state) &&
+        !state?.forms;
+  }
+}
 const bytes = (value: unknown, max = MAX_DOCUMENT_BYTES) => {
   if (
     !(value instanceof Uint8Array) ||
@@ -104,7 +117,11 @@ async function save(data: Uint8Array, saveAs = false) {
   await remember(path);
   if (state && Buffer.from(state.bytes).equals(Buffer.from(checked.bytes))) {
     state.dirty = false;
-    window.webContents.send("project:saved");
+    window.setDocumentEdited(false);
+    window.webContents.send("project:saved", {
+      bytes: checked.bytes,
+      name: basename(path),
+    });
   }
   return { name: basename(path) };
 }
@@ -349,11 +366,15 @@ async function setup() {
   handle("project:detach", () => {
     currentPath = null;
     state = null;
+    window.setDocumentEdited(false);
+    updateFileMenu();
   });
   handle("project:state", (s) => {
     if (!s || typeof s.dirty !== "boolean" || typeof s.forms !== "boolean")
       throw Error("Ungültiger Projektzustand.");
     state = { bytes: project(s.bytes).bytes, dirty: s.dirty, forms: s.forms };
+    window.setDocumentEdited(s.dirty || s.forms);
+    updateFileMenu();
   });
   handle("project:save", (s) => {
     if (!s || typeof s.saveAs !== "boolean")
@@ -455,12 +476,41 @@ async function setup() {
   });
   const template: Electron.MenuItemConstructorOptions[] = [
     ...(process.platform === "darwin" ? [{ role: "appMenu" as const }] : []),
+    {
+      label: "Ablage",
+      submenu: [
+        {
+          id: "project-open",
+          label: "Mystery öffnen …",
+          accelerator: "CmdOrCtrl+O",
+          click: () => window.webContents.send("project:command", "open"),
+        },
+        { type: "separator" },
+        {
+          id: "project-save",
+          label: "Projekt sichern",
+          accelerator: "CmdOrCtrl+S",
+          click: () => window.webContents.send("project:command", "save"),
+        },
+        {
+          id: "project-save-as",
+          label: "Speichern unter …",
+          accelerator: "CmdOrCtrl+Shift+S",
+          click: () => window.webContents.send("project:command", "save-as"),
+        },
+        { type: "separator" },
+        { role: "close", label: "Fenster schließen" },
+      ],
+    },
     { role: "editMenu" },
     { role: "windowMenu" },
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  app.on("browser-window-focus", updateFileMenu);
+  app.on("browser-window-blur", updateFileMenu);
   window.once("ready-to-show", () => window.show());
   await window.loadURL(URL);
+  updateFileMenu();
 }
 app
   .whenReady()

@@ -1,8 +1,11 @@
+import { saveProject, overview, chooseImportCard } from "./controls.mjs";
 import { chromium, expect } from "@playwright/test";
 import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { host } from "./web-host.mjs";
-const out = resolve("/workspace/mysteryboard-studio-evidence");
+const out = resolve(
+  process.env.STUDIO_EVIDENCE || "/workspace/mysteryboard-studio-ux-evidence",
+);
 await mkdir(out, { recursive: true });
 const server = await host(out),
   browser = await chromium.launch({
@@ -42,35 +45,25 @@ try {
     .fill("Grafiken bleiben Originale");
   await page
     .getByRole("navigation", { name: "Mystery bearbeiten" })
-    .getByRole("button", { name: "Material importieren", exact: true })
+    .getByRole("button", { name: "Importieren", exact: true })
     .click();
   await page
     .getByLabel("Mystery-Datei", { exact: true })
     .setInputFiles(resolve("tests/fixtures/studio/Foto-Diagramm.png"));
   await expect(
-    page.getByRole("heading", { name: "2. Karten prüfen", exact: true }),
+    page.getByRole("heading", { name: "Karten kontrollieren", exact: true }),
   ).toBeVisible({ timeout: 60000 });
-  await page
-    .getByRole("button", { name: "Original ansehen", exact: true })
-    .click();
-  await page
-    .getByRole("button", {
-      name: "Kartengrenzen und Text erkennen",
-      exact: true,
-    })
-    .click();
+
   await expect(page.locator(".import-step-body")).not.toHaveAttribute(
     "disabled",
     "",
     { timeout: 240000 },
   );
   await expect(page.getByRole("alert")).toHaveCount(0);
-  await page
-    .getByRole("button", { name: "Karten ansehen", exact: true })
-    .click();
+
   const picker = page.getByLabel("Importkarte auswählen", { exact: true });
-  await expect(picker.locator("option")).toHaveCount(2);
-  await picker.selectOption("0");
+  await expect(picker.locator("option")).toHaveCount(2, { timeout: 240000 });
+  await chooseImportCard(page, 0);
   await expect(
     page.getByRole("img", {
       name: "Originalausschnitt aus der importierten Karte",
@@ -82,7 +75,7 @@ try {
     fullPage: true,
   });
   for (let i = 0; i < 2; i++) {
-    await picker.selectOption(String(i));
+    await chooseImportCard(page, i);
     await page.getByRole("checkbox", { name: /Diese OCR-Karte/ }).check();
   }
   await page
@@ -90,12 +83,12 @@ try {
     .click();
   await page.getByRole("checkbox", { name: /Ich habe Texte/ }).check();
   await page
-    .getByRole("button", { name: "Geprüfte Karten übernehmen", exact: true })
+    .getByRole("button", { name: "Karten übernehmen", exact: true })
     .click();
-  await expect(page.locator(".studio-board [data-card]")).toHaveCount(2);
-  await page
-    .getByRole("button", { name: "Projekt sichern", exact: true })
-    .click();
+  await expect(page.locator(".studio-board [data-card]")).toHaveCount(2, {
+    timeout: 240000,
+  });
+  await saveProject(page);
   await expect
     .poll(async () => {
       try {

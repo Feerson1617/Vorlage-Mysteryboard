@@ -39,7 +39,7 @@ export function PdfExport({
   const change = (v: Partial<PaperOptions>) =>
     setOptions((o) => ({ ...o, ...v }));
   return (
-    <Dialog title="Als Druck-PDF exportieren" onClose={onClose}>
+    <Dialog title="Als Druck-PDF speichern" onClose={onClose}>
       <details>
         <summary>Druckoptionen</summary>
         <div className="studio-print-options">

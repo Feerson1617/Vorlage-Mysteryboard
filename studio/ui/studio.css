@@ -61,19 +61,94 @@
   gap: 8px;
   flex-wrap: wrap;
 }
-.studio-project-menu {
-  margin-left: auto;
-  position: relative;
+.studio-editor {
+  max-width: 1440px;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
-.studio-project-menu[open] {
-  background: #fff;
-  border: 1px solid #bcc8c0;
-  padding: 10px;
-  z-index: 6;
+.studio-editor > .studio-main-toolbar {
+  flex-shrink: 0;
 }
-.studio-project-menu button {
-  display: block;
-  margin: 5px 0;
+.studio-editor > .studio-pinboard {
+  flex: 1;
+  min-height: 0;
+}
+.studio-pinboard > .studio-title,
+.studio-pinboard > p {
+  margin: 0;
+}
+.studio-pinboard > p[role="status"] {
+  font-size: 0.9rem;
+}
+.studio-pinboard .studio-board {
+  height: auto;
+  flex: 1;
+  min-height: 200px;
+}
+.studio-project-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+.studio-back,
+.studio-export-secondary {
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 7px 10px;
+}
+.studio-project-status {
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+.studio-unsaved {
+  color: #705419;
+}
+.studio-export-choices {
+  display: grid;
+  gap: 8px;
+}
+.studio-export-option {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  padding: 14px 16px;
+}
+.studio-export-option span {
+  font-weight: normal;
+  font-size: 0.95rem;
+}
+.studio-export-option small {
+  font-weight: normal;
+  font-size: 0.8rem;
+  color: #42574a;
+}
+.studio-export-secondary {
+  justify-self: start;
+}
+.studio-reading-toggle {
+  margin-bottom: 12px;
+}
+.studio-board-help {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.studio-board-help p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+.studio-board-help button {
+  flex-shrink: 0;
+  font-size: 0.85rem;
 }
 .studio-pinboard {
   display: flex;
@@ -144,4 +219,201 @@
   border-top: 1px solid #ccd5cc;
   margin-top: 15px;
   padding-top: 15px;
+}
+
+/* One import engine and one set of fields. Tools retain their state while
+   disclosure changes; hidden tools cannot intercept ordinary original clicks. */
+[hidden] {
+  display: none !important;
+}
+.studio-import {
+  position: relative;
+}
+.studio-import[data-has-result="true"] > .import-file-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+}
+.studio-import > h2 {
+  padding: 10px 160px 10px 0;
+}
+.studio-import .import-original > label {
+  margin: 6px 0;
+}
+.studio-import .import-cards label {
+  margin: 10px 0;
+}
+.studio-import .import-original > label select {
+  min-height: 40px;
+  padding: 7px;
+}
+.studio-import [data-import-tool] {
+  display: none;
+}
+.studio-import[data-correction="bounds"] [data-import-tool~="bounds"],
+.studio-import[data-correction="text"] [data-import-tool~="text"],
+.studio-import[data-correction="structure"] [data-import-tool~="structure"],
+.studio-import[data-correction="media"] [data-import-tool~="media"] {
+  display: block;
+}
+.studio-import .import-tabs {
+  display: none;
+}
+.studio-import > h2 {
+  margin: 8px 0;
+  font-size: 1.3rem;
+}
+.studio-import .import-step-body > h3 {
+  margin: 8px 0;
+}
+.studio-import-summary {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.studio-import-summary p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+.studio-import-summary button {
+  flex-shrink: 0;
+  font-size: 0.9rem;
+}
+.studio-import-tools-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+  border-bottom: 1px solid #c6d1c8;
+  padding-bottom: 12px;
+}
+.studio-import-tools-nav button {
+  font-size: 0.9rem;
+}
+.studio-import-tools-nav button[aria-pressed="true"] {
+  background: #e1eae3;
+  border-color: #345943;
+}
+.studio-import .import-review {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 24px;
+}
+.studio-import .import-original,
+.studio-import .import-cards {
+  max-height: calc(100vh - 270px);
+  min-height: 340px;
+  overflow: auto;
+  padding: 0 12px 12px 0;
+}
+.studio-import .import-cards h3 {
+  margin: 0 0 12px;
+  position: sticky;
+  top: 0;
+  background: #f7faf6;
+  z-index: 2;
+}
+.studio-import .import-card-navigation {
+  position: sticky;
+  top: 30px;
+  background: #f7faf6;
+  z-index: 2;
+  padding-bottom: 8px;
+}
+.studio-import .import-docx-original [data-word-card] {
+  border-left: 2px solid #94a59a;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.studio-import .import-docx-original [data-selected="true"] {
+  background: #e2eee4;
+  border-color: #174a32;
+}
+.studio-import .import-cards .import-warning {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font-size: 0.85rem;
+}
+.studio-import .import-cards > .actions {
+  display: flex;
+  gap: 8px;
+}
+.studio-import textarea {
+  min-height: 72px;
+}
+.studio-import .import-cards .help-toggle {
+  margin: 12px 0;
+}
+.studio-import .import-original > h3 {
+  margin: 0 0 8px;
+}
+.studio-import .import-file-actions {
+  justify-content: flex-end;
+}
+.studio-import .import-step-body > .actions {
+  margin-top: 16px;
+}
+.studio-import .import-target-choice {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  width: auto;
+  margin: 8px 0;
+  min-height: 32px;
+}
+.studio-import .import-target-choice input {
+  flex: 0 0 auto;
+  width: 18px;
+  min-width: 18px;
+  padding: 0;
+  min-height: 18px;
+  margin: 0;
+}
+.studio-original-scroll {
+  max-width: 100%;
+  overflow: auto;
+  max-height: 65vh;
+}
+.studio-original-zoom {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.studio-original-zoom input {
+  width: 140px;
+}
+.studio-import .import-page {
+  margin: 0;
+}
+.studio-diagnostics-button {
+  margin-left: auto;
+}
+@media (max-width: 899px) {
+  .studio-import .import-tabs {
+    display: flex;
+  }
+  .studio-import .import-review {
+    display: block;
+  }
+  .studio-import .import-original,
+  .studio-import .import-cards {
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
+    padding-right: 0;
+  }
+  .studio-import-summary {
+    align-items: flex-start;
+  }
+  .studio-project-navigation {
+    align-items: flex-start;
+  }
+  .studio-project-status {
+    max-width: 55%;
+  }
 }

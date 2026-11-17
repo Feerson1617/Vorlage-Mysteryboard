@@ -994,3 +994,5 @@ dialog:has(.student-help-preview) .dialog-body {
 .ocr-raw { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
 
 .ocr-original-detail img { display: block; max-width: 100%; height: auto; }
+
+.player-board-hint { margin:0; padding:6px 12px; font-size:.8rem; color:#395444; flex-shrink:0; }

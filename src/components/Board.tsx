@@ -55,6 +55,7 @@ export function Board({
   fitTick,
   connecting,
   orientation = false,
+  badgeScaleLimit = 7,
 }: {
   work: Work;
   mystery: Mystery;
@@ -64,6 +65,7 @@ export function Board({
   fitTick: number;
   connecting: number | null;
   orientation?: boolean;
+  badgeScaleLimit?: number;
 }) {
   const design = designOf(mystery);
   const svg = useRef<SVGSVGElement>(null),
@@ -282,7 +284,15 @@ export function Board({
     const rect = svg.current?.getBoundingClientRect();
     if (!rect) return;
     measured.current = { width: rect.width, height: rect.height };
-    changeView(overview(current.current, layouts, rect.width, rect.height));
+    changeView(
+      overview(
+        current.current,
+        layouts,
+        rect.width,
+        rect.height,
+        badgeScaleLimit,
+      ),
+    );
   };
   // A toolbar/viewport shift changes local coordinates. Keep the same world
   // point under the finger instead of refitting the entire board mid-gesture.
@@ -637,7 +647,7 @@ export function Board({
         {drawn.cards.map((c) => {
           const card = content.get(c.id)!,
             l = layouts.get(c.id)!,
-            badge = numberBadge(view.z, l.numberLabel);
+            badge = numberBadge(view.z, l.numberLabel, badgeScaleLimit);
           const hint = helpForCard(mystery, c.id, orientation);
           return (
             <g

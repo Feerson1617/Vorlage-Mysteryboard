@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Draft } from "../core/documents";
+import { reviseDraft } from "../core/authoring";
 import {
   verifyImageDecode,
   imageFromFile,
@@ -105,6 +106,7 @@ export function DocumentImport({
   draft,
   initialFile,
   multipleImages = false,
+  studio = false,
   dirty,
   onApply,
   onCancel,
@@ -112,6 +114,7 @@ export function DocumentImport({
   draft: Draft;
   initialFile?: File;
   multipleImages?: boolean;
+  studio?: boolean;
   dirty: boolean;
   onApply: (next: Draft, count: number) => void;
   onCancel: () => void;
@@ -122,6 +125,13 @@ export function DocumentImport({
     [cards, setCards] = useState<Card[]>([]),
     [selected, setSelected] = useState<number[]>([]),
     [index, setIndex] = useState(0);
+  const [correction, setCorrection] = useState<
+      "bounds" | "text" | "structure" | "media" | null
+    >(null),
+    [diagnostics, setDiagnostics] = useState(false),
+    [originalZoom, setOriginalZoom] = useState(1),
+    [appendTitle, setAppendTitle] = useState(draft.content.title);
+  const automaticPages = useRef(new Set<number>());
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
     [error, setError] = useState(""),
@@ -171,7 +181,24 @@ export function DocumentImport({
   const extensionGroup =
     groups.find(([, g]) => g.prefix === "V" || /vertief/i.test(g.label))?.[0] ??
     defaultGroup;
+  const canMark =
+    mark &&
+    (!studio ||
+      correction === "bounds" ||
+      correction === "media" ||
+      correction === "text");
   const current = cards[index];
+  const wordCardFor = (block: ImportResult["blocks"][number]) => {
+    const candidates = result?.cards.filter(
+      (c) =>
+        (block.text && c.title === block.text) ||
+        (block.text && c.text === block.text),
+    );
+    return candidates?.length === 1 ? candidates[0].id : undefined;
+  };
+  const unchecked = cards.filter(
+    (c) => selected.includes(c.id) && ocrInfo[c.id] && !ocrInfo[c.id].checked,
+  ).length;
   const [activeOriginal, setActiveOriginal] = useState("");
   const activeRegion =
     result?.pdfLayout?.regions.find(
@@ -296,6 +323,11 @@ export function DocumentImport({
       setStep(1);
       setFile(f);
       preparations.current.clear();
+      automaticPages.current.clear();
+      setCorrection(null);
+      setDiagnostics(false);
+      setOriginalZoom(1);
+      setMark(false);
       setOcrInfo({});
       setRasterPages([]);
       setRawPageImage("");
@@ -755,7 +787,14 @@ export function DocumentImport({
         throw Error(
           "Bitte jede OCR-Karte einzeln am Original prüfen und bestätigen. Leere Karten entfernen oder manuell ausfüllen.",
         );
-      const next = takeImportedCards(draft, chosen, mode, title);
+      let next = takeImportedCards(draft, chosen, mode, title);
+      if (
+        studio &&
+        mode === "append" &&
+        draft.content.title &&
+        appendTitle !== next.content.title
+      )
+        next = reviseDraft(next, { ...next.content, title: appendTitle });
       setBusy(true);
       for (const c of chosen)
         for (const src of [
@@ -766,6 +805,10 @@ export function DocumentImport({
       if (!alive.current) return;
       if (
         mode === "new" &&
+        (!studio ||
+          dirty ||
+          draft.content.cards.length > 0 ||
+          !!draft.content.title) &&
         !confirm(
           `${dirty ? "Der geöffnete Entwurf enthält noch nicht dauerhaft abgelegte Änderungen. " : ""}Ein neues Mystery beginnen? Der geöffnete Entwurf wird ersetzt. Brecht ab und sichert ihn zuerst, wenn ihr ihn behalten möchtet.`,
         )
@@ -1204,7 +1247,7 @@ export function DocumentImport({
       region &&
       region.page !== page &&
       result?.format === "pdf" &&
-      ocrInfo[cards[n]?.id]
+      (studio || ocrInfo[cards[n]?.id])
     ) {
       setPage(region.page);
       setPageImage("");
@@ -1234,21 +1277,57 @@ export function DocumentImport({
       )
       .filter(Boolean)
       .join("\n\n") ?? "";
+  useEffect(() => {
+    if (
+      studio &&
+      result &&
+      step === 2 &&
+      pageImage &&
+      !busy &&
+      rasterPages.includes(page) &&
+      ocrBase() &&
+      !automaticPages.current.has(page)
+    ) {
+      automaticPages.current.add(page);
+      void recognizePage();
+    }
+  }, [studio, result, step, pageImage, busy, page, rasterPages]);
   return (
-    <section className="document-import" aria-label="Dokument importieren">
-      <h2>Dokument importieren</h2>
-      <p className="small">
+    <section
+      className={"document-import" + (studio ? " studio-import" : "")}
+      data-correction={correction ?? "none"}
+      data-has-result={!!result}
+      aria-label="Dokument importieren"
+    >
+      <h2>
+        {studio
+          ? step === 2
+            ? "Karten kontrollieren"
+            : step === 3
+              ? "Karten übernehmen"
+              : "Material importieren"
+          : "Dokument importieren"}
+      </h2>
+      <p className="small" hidden={studio}>
         1. Datei auswählen · 2. Karten prüfen · 3. Karten übernehmen
       </p>
-      <p>
+      <p hidden={studio && step !== 1}>
         Die Verarbeitung bleibt auf diesem Gerät. Es wird nichts automatisch
         gespeichert.
       </p>
-      <div className="actions">
-        <button disabled={busy} onClick={() => fileInput.current?.click()}>
+      <div className="actions import-file-actions">
+        <button
+          hidden={studio && !!result}
+          disabled={busy}
+          onClick={() => fileInput.current?.click()}
+        >
           Word- oder PDF-Datei auswählen
         </button>
-        <button disabled={busy} onClick={() => photoInput.current?.click()}>
+        <button
+          hidden={studio && !!result}
+          disabled={busy}
+          onClick={() => photoInput.current?.click()}
+        >
           Foto oder Scan importieren
         </button>
         <input
@@ -1263,7 +1342,11 @@ export function DocumentImport({
             if (f) void openFile(f);
           }}
         />
-        <button disabled={busy} onClick={() => cameraInput.current?.click()}>
+        <button
+          hidden={studio && !!result}
+          disabled={busy}
+          onClick={() => cameraInput.current?.click()}
+        >
           Foto aufnehmen
         </button>
         <input
@@ -1281,7 +1364,7 @@ export function DocumentImport({
         />
         {ocrRunning && (
           <button onClick={() => ocrController.current?.abort()}>
-            OCR abbrechen
+            {studio ? "Erkennung abbrechen" : "OCR abbrechen"}
           </button>
         )}
         <input
@@ -1297,12 +1380,16 @@ export function DocumentImport({
             if (f) void openFile(f);
           }}
         />
-        <button onClick={close}>
-          {busy ? "Import abbrechen" : "Zurück zum Entwurf"}
+        <button hidden={studio && ocrRunning} onClick={close}>
+          {busy
+            ? "Import abbrechen"
+            : studio
+              ? "Zur Pinnwand"
+              : "Zurück zum Entwurf"}
         </button>
       </div>
       {file && (
-        <p className="small">
+        <p className="small" hidden={studio && !diagnostics}>
           {file.name} ·{" "}
           {result?.format === "pdf"
             ? "PDF"
@@ -1315,7 +1402,11 @@ export function DocumentImport({
             : ""}
         </p>
       )}
-      {message && <p role="status">{message}</p>}
+      {message && (
+        <p role="status" hidden={studio && !busy && !diagnostics}>
+          {message}
+        </p>
+      )}
       {error && (
         <p role="alert" className="field-error">
           {error}
@@ -1329,74 +1420,149 @@ export function DocumentImport({
       <fieldset className="import-step-body" disabled={busy}>
         {result && step === 2 && (
           <>
-            <h3>2. Karten prüfen</h3>
-            <p className="import-warning">
+            <h3 hidden={studio}>2. Karten prüfen</h3>
+            {studio && (
+              <div className="studio-import-summary">
+                <p role="status">
+                  {cards.length} Karten erkannt
+                  {unchecked > 0
+                    ? ` · ${unchecked} noch am Original prüfen`
+                    : Object.keys(ocrInfo).length
+                      ? " · OCR-Karten geprüft"
+                      : " · Bitte am Original kontrollieren"}
+                </p>
+                <button
+                  aria-expanded={!!correction}
+                  onClick={() => {
+                    setCorrection(correction ? null : "bounds");
+                    setMark(false);
+                    setDiagnostics(false);
+                  }}
+                >
+                  {" "}
+                  {correction
+                    ? "Zur einfachen Ansicht"
+                    : "Erkennung korrigieren"}
+                </button>
+              </div>
+            )}
+            {studio && correction && (
+              <nav
+                className="studio-import-tools-nav"
+                aria-label="Erkennung korrigieren"
+              >
+                {(
+                  [
+                    ["bounds", "Kartengrenzen"],
+                    ["text", "Texterkennung"],
+                    ["structure", "Kartenstruktur"],
+                    ["media", "Bilder, Diagramme und Tabellen"],
+                  ] as const
+                ).map(([id, label]) => (
+                  <button
+                    key={id}
+                    aria-pressed={correction === id}
+                    onClick={() => {
+                      setCorrection(id);
+                      setMark(false);
+                    }}
+                  >
+                    {label}
+                  </button>
+                ))}
+                <button
+                  className="studio-diagnostics-button"
+                  aria-expanded={diagnostics}
+                  onClick={() => setDiagnostics(!diagnostics)}
+                >
+                  Details zur Erkennung
+                </button>
+              </nav>
+            )}
+            <p className="import-warning" hidden={studio}>
               Unsichere Gliederung: Bitte alle vorgeschlagenen Grenzen, Inhalte
               und Pflicht-/Vertiefungsangaben am Original kontrollieren. Es
               findet keine fachliche Erkennung statt.
             </p>
-            {result.noText && !Object.keys(ocrInfo).length && (
+            {studio && !cards.length && pageImage && !busy && (
+              <div className="studio-recognize-empty">
+                <p>
+                  Erkenne die Karten dieser Aufnahme und kontrolliere danach die
+                  Vorschläge.
+                </p>
+                <button
+                  disabled={!ocrBase()}
+                  onClick={() => void recognizePage()}
+                >
+                  Text und Karten erkennen
+                </button>
+              </div>
+            )}
+            {result.noText && !Object.keys(ocrInfo).length && !studio && (
               <p role="status">
                 Dieses Dokument enthält keinen auslesbaren Text. Sie können eine
                 Seite als Bild übernehmen oder im vollständigen OCR-Autorenpaket
                 Text lokal erkennen lassen.
               </p>
             )}
-            {result.pdfLayout?.uncertainPages.includes(page) && (
+            {!studio && result.pdfLayout?.uncertainPages.includes(page) && (
               <p role="status" className="import-warning">
                 Auf dieser PDF-Seite könnten mehrere Mystery-Karten stehen.
                 Bitte überprüfe die Aufteilung. Unter „Original ansehen“ lassen
                 sich eigene Textbereiche markieren, teilen und ergänzen.
               </p>
             )}
-            {result.pdfLayout && (
-              <details className="pdf-document-sections">
-                <summary>
-                  Dokumentabschnitte außerhalb der Karten (
-                  {result.pdfLayout.sections.length})
-                </summary>
-                <p className="small">
-                  Diese Texte bleiben zum Vergleich verfügbar und werden nicht
-                  automatisch als Karten übernommen. Zum Aufbewahren die
-                  Originaldatei ablegen oder den Text kopieren.
-                </p>
-                {result.suggestedTitle && (
-                  <>
-                    <p>
-                      Titelvorschlag aus dem Dokument: {result.suggestedTitle}
-                    </p>
-                    <button
-                      disabled={result.suggestedTitle.length > 100}
-                      onClick={() => {
-                        setTitle(result.suggestedTitle!);
-                        setMessage(
-                          "Titelvorschlag gewählt. Den Titel vor der Kartenübernahme bestätigen.",
-                        );
-                      }}
-                    >
-                      Titelvorschlag übernehmen
-                    </button>
-                    {result.suggestedTitle.length > 100 && (
-                      <p>Bitte den Titel auf höchstens 100 Zeichen kürzen.</p>
-                    )}
-                  </>
-                )}
-                <textarea
-                  aria-label="Separate Dokumentabschnitte"
-                  readOnly
-                  rows={8}
-                  value={result.pdfLayout.sections
-                    .map((b) => `Seite ${b.page}\n${b.text}`)
-                    .join("\n\n")}
-                />
+            <div data-import-tool="structure">
+              {" "}
+              {result.pdfLayout && (
+                <details className="pdf-document-sections">
+                  <summary>
+                    Dokumentabschnitte außerhalb der Karten (
+                    {result.pdfLayout.sections.length})
+                  </summary>
+                  <p className="small">
+                    Diese Texte bleiben zum Vergleich verfügbar und werden nicht
+                    automatisch als Karten übernommen. Zum Aufbewahren die
+                    Originaldatei ablegen oder den Text kopieren.
+                  </p>
+                  {result.suggestedTitle && (
+                    <>
+                      <p>
+                        Titelvorschlag aus dem Dokument: {result.suggestedTitle}
+                      </p>
+                      <button
+                        disabled={result.suggestedTitle.length > 100}
+                        onClick={() => {
+                          setTitle(result.suggestedTitle!);
+                          setMessage(
+                            "Titelvorschlag gewählt. Den Titel vor der Kartenübernahme bestätigen.",
+                          );
+                        }}
+                      >
+                        Titelvorschlag übernehmen
+                      </button>
+                      {result.suggestedTitle.length > 100 && (
+                        <p>Bitte den Titel auf höchstens 100 Zeichen kürzen.</p>
+                      )}
+                    </>
+                  )}
+                  <textarea
+                    aria-label="Separate Dokumentabschnitte"
+                    readOnly
+                    rows={8}
+                    value={result.pdfLayout.sections
+                      .map((b) => `Seite ${b.page}\n${b.text}`)
+                      .join("\n\n")}
+                  />
+                </details>
+              )}
+              <details>
+                <summary>Hinweise zur Übernahme</summary>
+                {result.warnings.map((w, i) => (
+                  <p key={i}>{w}</p>
+                ))}
               </details>
-            )}
-            <details>
-              <summary>Hinweise zur Übernahme</summary>
-              {result.warnings.map((w, i) => (
-                <p key={i}>{w}</p>
-              ))}
-            </details>
+            </div>{" "}
             <div className="actions import-tabs">
               <button
                 aria-pressed={view === "cards"}
@@ -1424,19 +1590,50 @@ export function DocumentImport({
                     Originaldatei ablegen und in Word öffnen.
                   </p>
                 )}
-                {originalURL.current && (
-                  <a
-                    className="button"
-                    href={originalURL.current}
-                    download={file?.name}
-                  >
-                    Originaldatei ablegen
-                  </a>
-                )}
+                {originalURL.current &&
+                  (!studio || diagnostics || correction === "text") && (
+                    <a
+                      className="button"
+                      href={originalURL.current}
+                      download={file?.name}
+                    >
+                      Originaldatei ablegen
+                    </a>
+                  )}
                 {result.format === "docx" && (
                   <div className="import-docx-original">
                     {result.blocks.map((b, i) => (
-                      <div key={i}>
+                      <div
+                        key={i}
+                        data-word-card={studio ? wordCardFor(b) : undefined}
+                        data-selected={studio && wordCardFor(b) === current?.id}
+                        role={studio && wordCardFor(b) ? "button" : undefined}
+                        tabIndex={studio && wordCardFor(b) ? 0 : undefined}
+                        aria-label={
+                          studio && wordCardFor(b)
+                            ? `Bereich ${cards.findIndex((c) => c.id === wordCardFor(b)) + 1} auswählen`
+                            : undefined
+                        }
+                        onClick={() => {
+                          const n = cards.findIndex(
+                            (c) => c.id === wordCardFor(b),
+                          );
+                          if (studio && n >= 0) chooseCard(n);
+                        }}
+                        onKeyDown={(e) => {
+                          const n = cards.findIndex(
+                            (c) => c.id === wordCardFor(b),
+                          );
+                          if (
+                            studio &&
+                            n >= 0 &&
+                            (e.key === "Enter" || e.key === " ")
+                          ) {
+                            e.preventDefault();
+                            chooseCard(n);
+                          }
+                        }}
+                      >
                         {b.kind === "heading" ? (
                           <h4>{b.text}</h4>
                         ) : b.table ? (
@@ -1479,7 +1676,24 @@ export function DocumentImport({
                     </label>
                     {pageImage && (
                       <>
+                        {studio && (
+                          <label className="studio-original-zoom">
+                            Original vergrößern
+                            <input
+                              aria-label="Original vergrößern"
+                              type="range"
+                              min="1"
+                              max="3"
+                              step="0.25"
+                              value={originalZoom}
+                              onChange={(e) =>
+                                setOriginalZoom(Number(e.target.value))
+                              }
+                            />
+                          </label>
+                        )}
                         <div
+                          data-import-tool="text"
                           className="ocr-preparation"
                           aria-label="Foto und Scan vorbereiten"
                         >
@@ -1605,116 +1819,136 @@ export function DocumentImport({
                             />
                           )}
                         </div>
-                        <label className="help-toggle">
+                        <label
+                          className="help-toggle"
+                          data-import-tool="bounds media text"
+                        >
                           <input
                             type="checkbox"
-                            checked={mark}
+                            checked={canMark}
                             onChange={(e) => setMark(e.target.checked)}
                           />
                           Ausschnitt markieren
                         </label>
-                        <div
-                          className={"import-page " + (mark ? "marking" : "")}
-                          onPointerDown={(e) => {
-                            if (!mark) return;
-                            e.preventDefault();
-                            e.currentTarget.setPointerCapture(e.pointerId);
-                            cropPointers.current.add(e.pointerId);
-                            if (cropPointers.current.size > 1) {
-                              cropStart.current = null;
-                              setCrop(cropBefore.current);
-                            } else {
-                              cropBefore.current = crop;
-                              cropStart.current = cropPoint(e);
+                        <div className="studio-original-scroll">
+                          <div
+                            className={
+                              "import-page " + (canMark ? "marking" : "")
                             }
-                          }}
-                          onPointerMove={(e) => {
-                            if (
-                              !mark ||
-                              !cropStart.current ||
-                              cropPointers.current.size !== 1 ||
-                              !cropPointers.current.has(e.pointerId)
-                            )
-                              return;
-                            const p = cropPoint(e),
-                              s = cropStart.current;
-                            setCrop({
-                              x: Math.min(s.x, p.x),
-                              y: Math.min(s.y, p.y),
-                              w: Math.max(0.1, Math.abs(s.x - p.x)),
-                              h: Math.max(0.1, Math.abs(s.y - p.y)),
-                            });
-                          }}
-                          onPointerUp={(e) => {
-                            cropPointers.current.delete(e.pointerId);
-                            cropStart.current = null;
-                          }}
-                          onPointerCancel={(e) => {
-                            cropPointers.current.delete(e.pointerId);
-                            cropStart.current = null;
-                            setCrop(cropBefore.current);
-                          }}
-                          onLostPointerCapture={(e) => {
-                            if (cropPointers.current.has(e.pointerId)) {
+                            style={{
+                              width:
+                                studio && result.pdfLayout
+                                  ? `min(${originalZoom * 100}%, calc(max(160px, 100vh - 455px) * ${(result.pdfLayout.pages[page - 1].width / result.pdfLayout.pages[page - 1].height) * originalZoom}))`
+                                  : `${originalZoom * 100}%`,
+                            }}
+                            onPointerDown={(e) => {
+                              if (!canMark) return;
+                              e.preventDefault();
+                              e.currentTarget.setPointerCapture(e.pointerId);
+                              cropPointers.current.add(e.pointerId);
+                              if (cropPointers.current.size > 1) {
+                                cropStart.current = null;
+                                setCrop(cropBefore.current);
+                              } else {
+                                cropBefore.current = crop;
+                                cropStart.current = cropPoint(e);
+                              }
+                            }}
+                            onPointerMove={(e) => {
+                              if (
+                                !canMark ||
+                                !cropStart.current ||
+                                cropPointers.current.size !== 1 ||
+                                !cropPointers.current.has(e.pointerId)
+                              )
+                                return;
+                              const p = cropPoint(e),
+                                s = cropStart.current;
+                              setCrop({
+                                x: Math.min(s.x, p.x),
+                                y: Math.min(s.y, p.y),
+                                w: Math.max(0.1, Math.abs(s.x - p.x)),
+                                h: Math.max(0.1, Math.abs(s.y - p.y)),
+                              });
+                            }}
+                            onPointerUp={(e) => {
+                              cropPointers.current.delete(e.pointerId);
+                              cropStart.current = null;
+                            }}
+                            onPointerCancel={(e) => {
                               cropPointers.current.delete(e.pointerId);
                               cropStart.current = null;
                               setCrop(cropBefore.current);
-                            }
-                          }}
-                        >
-                          <img
-                            src={pageImage}
-                            alt={`Original-PDF-Seite ${page}`}
-                          />
-                          {result.pdfLayout && (
-                            <PdfRegionOverlay
-                              layout={
-                                current &&
-                                ocrInfo[current.id] &&
-                                !result.pdfLayout.regions.some(
-                                  (r) => r.cardId === current.id,
-                                )
-                                  ? {
-                                      ...result.pdfLayout,
-                                      regions: [
-                                        ...result.pdfLayout.regions,
-                                        ...ocrInfo[current.id].regions.map(
-                                          (r) => ({ ...r, cardId: current.id }),
-                                        ),
-                                      ],
-                                    }
-                                  : result.pdfLayout
+                            }}
+                            onLostPointerCapture={(e) => {
+                              if (cropPointers.current.has(e.pointerId)) {
+                                cropPointers.current.delete(e.pointerId);
+                                cropStart.current = null;
+                                setCrop(cropBefore.current);
                               }
-                              page={page}
-                              cardId={current?.id}
-                              mark={mark}
-                              numberFor={(id) =>
-                                cards.findIndex((c) => c.id === id) + 1
-                              }
-                              onSelect={(id) => {
-                                const n = cards.findIndex((c) => c.id === id);
-                                if (n >= 0) {
-                                  setIndex(n);
-                                  setMessage(
-                                    `Kartenbereich ${n + 1} ausgewählt. Zugehöriger Text unter „Karten ansehen“.`,
-                                  );
+                            }}
+                          >
+                            <img
+                              src={pageImage}
+                              alt={`Original-PDF-Seite ${page}`}
+                            />
+                            {result.pdfLayout && (
+                              <PdfRegionOverlay
+                                readableNumbers={studio}
+                                layout={
+                                  current &&
+                                  ocrInfo[current.id] &&
+                                  !result.pdfLayout.regions.some(
+                                    (r) => r.cardId === current.id,
+                                  )
+                                    ? {
+                                        ...result.pdfLayout,
+                                        regions: [
+                                          ...result.pdfLayout.regions,
+                                          ...ocrInfo[current.id].regions.map(
+                                            (r) => ({
+                                              ...r,
+                                              cardId: current.id,
+                                            }),
+                                          ),
+                                        ],
+                                      }
+                                    : result.pdfLayout
                                 }
-                              }}
-                            />
-                          )}
-                          {mark && (
-                            <span
-                              className="import-crop"
-                              style={{
-                                left: crop.x + "%",
-                                top: crop.y + "%",
-                                width: crop.w + "%",
-                                height: crop.h + "%",
-                              }}
-                            />
-                          )}
+                                page={page}
+                                cardId={current?.id}
+                                mark={canMark}
+                                numberFor={(id) =>
+                                  cards.findIndex((c) => c.id === id) + 1
+                                }
+                                onSelect={(id) => {
+                                  const n = cards.findIndex((c) => c.id === id);
+                                  if (n >= 0) {
+                                    setIndex(n);
+                                    if (!studio)
+                                      setMessage(
+                                        `Kartenbereich ${n + 1} ausgewählt. Zugehöriger Text unter „Karten ansehen“.`,
+                                      );
+                                    if (studio && window.innerWidth < 900)
+                                      setView("cards");
+                                  }
+                                }}
+                              />
+                            )}
+                            {canMark && (
+                              <span
+                                className="import-crop"
+                                style={{
+                                  left: crop.x + "%",
+                                  top: crop.y + "%",
+                                  width: crop.w + "%",
+                                  height: crop.h + "%",
+                                }}
+                              />
+                            )}
+                          </div>
                         </div>
-                        {mark && (
+                        {canMark && (
                           <>
                             <p className="small">
                               Mit Finger oder Maus einen Bereich markieren oder
@@ -1754,136 +1988,103 @@ export function DocumentImport({
                             </div>
                           </>
                         )}
-                        {result.pdfLayout && (
-                          <PdfRegionControls
-                            layout={result.pdfLayout}
-                            page={page}
-                            cardId={current?.id}
-                            crop={crop}
-                            nextId={Math.max(0, ...cards.map((c) => c.id)) + 1}
-                            numberFor={(id) =>
-                              cards.findIndex((c) => c.id === id) + 1
-                            }
-                            onMark={(value) => {
-                              setCrop(value);
-                              setMark(true);
-                            }}
-                            onChange={editRegions}
-                          />
-                        )}
-                        <div className="actions">
-                          <button
-                            disabled={!current || busy}
-                            onClick={() => void attach()}
-                          >
-                            Ausschnitt der aktuellen Karte zuordnen
-                          </button>
-                          <button
-                            disabled={busy}
-                            onClick={() => void attach(true)}
-                          >
-                            Seite als Bildkarte hinzufügen
-                          </button>
+                        <div data-import-tool="bounds">
+                          {" "}
+                          {result.pdfLayout && (
+                            <PdfRegionControls
+                              layout={result.pdfLayout}
+                              page={page}
+                              cardId={current?.id}
+                              crop={crop}
+                              nextId={
+                                Math.max(0, ...cards.map((c) => c.id)) + 1
+                              }
+                              numberFor={(id) =>
+                                cards.findIndex((c) => c.id === id) + 1
+                              }
+                              onMark={(value) => {
+                                setCrop(value);
+                                setMark(true);
+                              }}
+                              onChange={editRegions}
+                            />
+                          )}
                         </div>
+                        <div data-import-tool="media">
+                          {" "}
+                          <div className="actions">
+                            <button
+                              disabled={!current || busy}
+                              onClick={() => void attach()}
+                            >
+                              Ausschnitt der aktuellen Karte zuordnen
+                            </button>
+                            <button
+                              disabled={busy}
+                              onClick={() => void attach(true)}
+                            >
+                              Seite als Bildkarte hinzufügen
+                            </button>
+                          </div>
+                        </div>{" "}
                       </>
                     )}
                   </>
                 )}
-                <label>
-                  Ausgelesener{" "}
-                  {result.format === "pdf" ? "Seitentext" : "Dokumenttext"}
-                  <textarea
-                    readOnly
-                    value={originalText}
-                    rows={6}
-                    onSelect={(e) => {
-                      const t = e.currentTarget;
-                      setPicked(
-                        t.value.slice(t.selectionStart, t.selectionEnd),
-                      );
-                    }}
-                  />
-                </label>
-                <button
-                  disabled={!picked}
-                  onClick={() => addCard({ text: picked })}
-                >
-                  Textauswahl als Karte hinzufügen
-                </button>
+                <div data-import-tool="text">
+                  {" "}
+                  <label>
+                    Ausgelesener{" "}
+                    {result.format === "pdf" ? "Seitentext" : "Dokumenttext"}
+                    <textarea
+                      readOnly
+                      value={originalText}
+                      rows={6}
+                      onSelect={(e) => {
+                        const t = e.currentTarget;
+                        setPicked(
+                          t.value.slice(t.selectionStart, t.selectionEnd),
+                        );
+                      }}
+                    />
+                  </label>
+                  <button
+                    disabled={!picked}
+                    onClick={() => addCard({ text: picked })}
+                  >
+                    Textauswahl als Karte hinzufügen
+                  </button>
+                </div>{" "}
               </section>
               <section
                 className="import-cards"
                 aria-label="Importkarten prüfen"
               >
-                <h3>Karten</h3>
-                <p>
+                <h3>
+                  {studio
+                    ? `Karte ${cards.length ? index + 1 : 0} von ${cards.length}`
+                    : "Karten"}
+                </h3>
+                <p hidden={studio}>
                   {cards.length} Vorschläge · {selected.length} zur Übernahme
                   ausgewählt
                 </p>
                 {current && (
                   <>
-                    <p className="import-warning">
+                    <p
+                      className="import-warning"
+                      hidden={
+                        studio &&
+                        !/[\uFFFD\u0000]/.test(current.title + current.text)
+                      }
+                    >
                       Vorschlag {index + 1}: Grenze, Reihenfolge und
                       Kartengruppe bitte am Original prüfen.
                       {/[\uFFFD\u0000]/.test(current.title + current.text)
                         ? " Möglicherweise nicht lesbare Zeichen gefunden; bitte korrigieren."
                         : ""}
                     </p>
-                    {ocrInfo[current.id] && (
-                      <section
-                        className="import-warning"
-                        aria-label="OCR kontrollieren"
-                      >
-                        <p>
-                          OCR-Sicherheit:{" "}
-                          {Math.round(ocrInfo[current.id].data.confidence)} %.
-                          Keine Garantie für fachliche Richtigkeit. Zahlen,
-                          Einheiten, Eigennamen und Quellen stets vergleichen.
-                        </p>
-                        {!current.text.trim() && (
-                          <p role="alert">
-                            Kein verwertbarer Text erkannt. Bitte schärfer
-                            fotografieren, Bereich ändern oder Text manuell
-                            eingeben.
-                          </p>
-                        )}
-                        <p>
-                          Unsichere Wörter (?):{" "}
-                          {ocrWords(ocrInfo[current.id].data)
-                            .filter((w) => w.confidence < 85)
-                            .slice(0, 50)
-                            .map((w) => w.text + " (?)")
-                            .join(" · ") ||
-                            "Keine niedrigen Wortwerte gemeldet; trotzdem am Original prüfen."}
-                        </p>
-                        <details>
-                          <summary>Rohe OCR-Ausgabe vergleichen</summary>
-                          <pre className="ocr-raw">
-                            {ocrInfo[current.id].data.text}
-                          </pre>
-                        </details>
-                        <label>
-                          <input
-                            type="checkbox"
-                            checked={ocrInfo[current.id].checked}
-                            disabled={!current.text.trim()}
-                            onChange={(e) => {
-                              setOcrInfo({
-                                ...ocrInfo,
-                                [current.id]: {
-                                  ...ocrInfo[current.id],
-                                  checked: e.target.checked,
-                                },
-                              });
-                              setReviewed(false);
-                            }}
-                          />{" "}
-                          Diese OCR-Karte mit dem Original geprüft,
-                          einschließlich Zahlen und Quellen.
-                        </label>
-                      </section>
-                    )}
-                    <label>
+                    <label data-import-tool="structure">
                       Karte auswählen
                       <select
                         aria-label="Importkarte auswählen"
@@ -1892,12 +2093,13 @@ export function DocumentImport({
                       >
                         {cards.map((c, i) => (
                           <option key={c.id} value={i}>
-                            {i + 1} · {c.title || "Ohne Überschrift"}
+                            {i + 1} · {ocrInfo[c.id]?.checked ? "✓ " : ""}
+                            {c.title || "Ohne Überschrift"}
                           </option>
                         ))}
                       </select>
                     </label>
-                    <div className="actions">
+                    <div className="actions import-card-navigation">
                       <button
                         disabled={index === 0}
                         onClick={() => chooseCard(index - 1)}
@@ -1911,7 +2113,7 @@ export function DocumentImport({
                         Nächste Karte
                       </button>
                     </div>
-                    <label className="help-toggle">
+                    <label className="help-toggle" data-import-tool="structure">
                       <input
                         type="checkbox"
                         checked={selected.includes(current.id)}
@@ -1953,11 +2155,11 @@ export function DocumentImport({
                       <textarea
                         ref={textarea}
                         value={current.text}
-                        rows={8}
+                        rows={studio ? 6 : 8}
                         onChange={(e) => update({ text: e.target.value })}
                       />
                     </label>
-                    <p className="small">
+                    <p className="small" data-import-tool="structure">
                       {current.text.length} von höchstens 4000 Zeichen. Zum
                       Teilen den Textcursor an die Grenze setzen.
                     </p>
@@ -1989,91 +2191,103 @@ export function DocumentImport({
                           src={current.image}
                           alt={current.imageAlt || "Bild dieser Importkarte"}
                         />
-                        <label>
-                          Bildbeschreibung
-                          <input
-                            value={current.imageAlt ?? ""}
-                            onChange={(e) =>
-                              update({ imageAlt: e.target.value })
-                            }
-                          />
-                        </label>
-                        <button
-                          onClick={() => {
-                            const next = { ...current };
-                            delete next.image;
-                            delete next.imageAlt;
-                            setCards(
-                              cards.map((c, i) => (i === index ? next : c)),
-                            );
-                            setReviewed(false);
-                          }}
-                        >
-                          Bild von Karte entfernen
-                        </button>
+                        <div data-import-tool="media">
+                          {" "}
+                          <label>
+                            Bildbeschreibung
+                            <input
+                              value={current.imageAlt ?? ""}
+                              onChange={(e) =>
+                                update({ imageAlt: e.target.value })
+                              }
+                            />
+                          </label>
+                          <button
+                            onClick={() => {
+                              const next = { ...current };
+                              delete next.image;
+                              delete next.imageAlt;
+                              setCards(
+                                cards.map((c, i) => (i === index ? next : c)),
+                              );
+                              setReviewed(false);
+                            }}
+                          >
+                            Bild von Karte entfernen
+                          </button>
+                        </div>{" "}
                       </>
                     )}
-                    {current.extraImages?.map((img, i) => (
-                      <figure key={i}>
-                        <MediaView
-                          src={img.src}
-                          alt={img.alt || "Zusätzliches Originalbild"}
-                        />
-                        {img.caption && <figcaption>{img.caption}</figcaption>}
-                        {img.source && <p>Quelle: {img.source}</p>}
-                        <button
-                          onClick={() =>
-                            update({
-                              extraImages: current.extraImages!.filter(
-                                (_, n) => n !== i,
-                              ),
-                            })
-                          }
-                        >
-                          Zusätzliches Bild von Importkarte entfernen
-                        </button>
-                      </figure>
-                    ))}
-                    {!!result.images.length && (
-                      <label>
-                        Bild aus dem Dokument
-                        <select
-                          value={result.images.indexOf(current.image ?? "")}
-                          onChange={(e) => {
-                            const n = Number(e.target.value);
-                            if (n >= 0) {
-                              if (
-                                multipleImages &&
-                                current.image &&
-                                current.image !== result.images[n]
-                              ) {
-                                if ((current.extraImages?.length ?? 0) >= 3) {
-                                  setError(
-                                    "Höchstens vier Bilder pro Karte. Bitte einen weiteren Vorschlag anlegen.",
-                                  );
-                                  return;
-                                }
-                                update({
-                                  extraImages: [
-                                    ...(current.extraImages ?? []),
-                                    { src: result.images[n] },
-                                  ],
-                                });
-                              } else update({ image: result.images[n] });
+                    <div data-import-tool="media">
+                      {" "}
+                      {current.extraImages?.map((img, i) => (
+                        <figure key={i}>
+                          <MediaView
+                            src={img.src}
+                            alt={img.alt || "Zusätzliches Originalbild"}
+                          />
+                          {img.caption && (
+                            <figcaption>{img.caption}</figcaption>
+                          )}
+                          {img.source && <p>Quelle: {img.source}</p>}
+                          <button
+                            onClick={() =>
+                              update({
+                                extraImages: current.extraImages!.filter(
+                                  (_, n) => n !== i,
+                                ),
+                              })
                             }
-                          }}
-                        >
-                          <option value={-1}>Bild auswählen</option>
-                          {result.images.map((_, i) => (
-                            <option value={i} key={i}>
-                              Bild {i + 1}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    )}
+                          >
+                            Zusätzliches Bild von Importkarte entfernen
+                          </button>
+                        </figure>
+                      ))}
+                      {!!result.images.length && (
+                        <label>
+                          Bild aus dem Dokument
+                          <select
+                            value={result.images.indexOf(current.image ?? "")}
+                            onChange={(e) => {
+                              const n = Number(e.target.value);
+                              if (n >= 0) {
+                                if (
+                                  multipleImages &&
+                                  current.image &&
+                                  current.image !== result.images[n]
+                                ) {
+                                  if ((current.extraImages?.length ?? 0) >= 3) {
+                                    setError(
+                                      "Höchstens vier Bilder pro Karte. Bitte einen weiteren Vorschlag anlegen.",
+                                    );
+                                    return;
+                                  }
+                                  update({
+                                    extraImages: [
+                                      ...(current.extraImages ?? []),
+                                      { src: result.images[n] },
+                                    ],
+                                  });
+                                } else update({ image: result.images[n] });
+                              }
+                            }}
+                          >
+                            <option value={-1}>Bild auswählen</option>
+                            {result.images.map((_, i) => (
+                              <option value={i} key={i}>
+                                Bild {i + 1}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      )}
+                    </div>{" "}
                     <label>
-                      Bild ersetzen (PNG, JPEG, WebP)
+                      {studio
+                        ? current.image
+                          ? "Bild ersetzen (PNG, JPEG, WebP)"
+                          : "Bild hinzufügen (PNG, JPEG, WebP)"
+                        : "Bild ersetzen (PNG, JPEG, WebP)"}
                       <input
                         type="file"
                         accept="image/png,image/jpeg,image/webp"
@@ -2093,55 +2307,137 @@ export function DocumentImport({
                         }}
                       />
                     </label>
-                    {current.table ? (
-                      <TableEditor
-                        table={current.table}
-                        onChange={(table) => {
-                          if (table) update({ table });
-                          else {
-                            const next = { ...current };
-                            delete next.table;
-                            setCards(
-                              cards.map((c, i) => (i === index ? next : c)),
-                            );
-                            setReviewed(false);
-                          }
-                        }}
-                      />
-                    ) : (
-                      <button
-                        onClick={() =>
-                          update({
-                            table: { headers: ["", ""], rows: [["", ""]] },
-                          })
-                        }
+                    {ocrInfo[current.id] && (
+                      <section
+                        className="import-warning"
+                        aria-label="OCR kontrollieren"
                       >
-                        Tabelle hinzufügen
-                      </button>
+                        <div data-import-tool="text">
+                          {" "}
+                          <p>
+                            OCR-Sicherheit:{" "}
+                            {Math.round(ocrInfo[current.id].data.confidence)} %.
+                            Keine Garantie für fachliche Richtigkeit. Zahlen,
+                            Einheiten, Eigennamen und Quellen stets vergleichen.
+                          </p>
+                          {!current.text.trim() && !studio && (
+                            <p role="alert">
+                              Kein verwertbarer Text erkannt. Bitte schärfer
+                              fotografieren, Bereich ändern oder Text manuell
+                              eingeben.
+                            </p>
+                          )}
+                          <p>
+                            Unsichere Wörter (?):{" "}
+                            {ocrWords(ocrInfo[current.id].data)
+                              .filter((w) => w.confidence < 85)
+                              .slice(0, 50)
+                              .map((w) => w.text + " (?)")
+                              .join(" · ") ||
+                              "Keine niedrigen Wortwerte gemeldet; trotzdem am Original prüfen."}
+                          </p>
+                          <details>
+                            <summary>Rohe OCR-Ausgabe vergleichen</summary>
+                            <pre className="ocr-raw">
+                              {ocrInfo[current.id].data.text}
+                            </pre>
+                          </details>
+                        </div>{" "}
+                        {studio && !current.text.trim() && (
+                          <p role="alert">
+                            Kein verwertbarer Text erkannt. Bitte den Kartentext
+                            am Original ergänzen.
+                          </p>
+                        )}
+                        {studio && (
+                          <p className="small">
+                            Zahlen, Einheiten, Quellen und Bilder am Original
+                            kontrollieren.
+                            {ocrWords(ocrInfo[current.id].data).some(
+                              (w) => w.confidence < 85,
+                            )
+                              ? " Unsichere Wörter erkannt; Einzelheiten unter „Erkennung korrigieren → Texterkennung“."
+                              : ""}
+                          </p>
+                        )}
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={ocrInfo[current.id].checked}
+                            disabled={!current.text.trim()}
+                            onChange={(e) => {
+                              setOcrInfo({
+                                ...ocrInfo,
+                                [current.id]: {
+                                  ...ocrInfo[current.id],
+                                  checked: e.target.checked,
+                                },
+                              });
+                              setReviewed(false);
+                            }}
+                          />{" "}
+                          Diese OCR-Karte mit dem Original geprüft,
+                          einschließlich Zahlen und Quellen.
+                        </label>
+                      </section>
                     )}
-                    <div className="actions">
-                      <button onClick={split}>
-                        Karte am Textcursor teilen
-                      </button>
-                      <button
-                        disabled={index >= cards.length - 1}
-                        onClick={merge}
-                      >
-                        Mit nächster Karte zusammenfügen
-                      </button>
-                      <button onClick={remove}>Importkarte entfernen</button>
-                      <button
-                        disabled={index === 0}
-                        onClick={() => reorder(-1)}
-                      >
-                        Karte nach vorne
-                      </button>
-                      <button
-                        disabled={index === cards.length - 1}
-                        onClick={() => reorder(1)}
-                      >
-                        Karte nach hinten
-                      </button>
+                    <div data-import-tool="media">
+                      {" "}
+                      {current.table ? (
+                        <TableEditor
+                          table={current.table}
+                          onChange={(table) => {
+                            if (table) update({ table });
+                            else {
+                              const next = { ...current };
+                              delete next.table;
+                              setCards(
+                                cards.map((c, i) => (i === index ? next : c)),
+                              );
+                              setReviewed(false);
+                            }
+                          }}
+                        />
+                      ) : (
+                        <button
+                          onClick={() =>
+                            update({
+                              table: { headers: ["", ""], rows: [["", ""]] },
+                            })
+                          }
+                        >
+                          Tabelle hinzufügen
+                        </button>
+                      )}
+                    </div>
+                    <div data-import-tool="structure">
+                      {" "}
+                      <div className="actions">
+                        <button onClick={split}>
+                          Karte am Textcursor teilen
+                        </button>
+                        <button
+                          disabled={index >= cards.length - 1}
+                          onClick={merge}
+                        >
+                          Mit nächster Karte zusammenfügen
+                        </button>
+                        <button onClick={remove}>Importkarte entfernen</button>
+                        <button
+                          disabled={index === 0}
+                          onClick={() => reorder(-1)}
+                        >
+                          Karte nach vorne
+                        </button>
+                        <button
+                          disabled={index === cards.length - 1}
+                          onClick={() => reorder(1)}
+                        >
+                          Karte nach hinten
+                        </button>
+                      </div>
+                    </div>{" "}
+                    <div className="actions" data-import-tool="text">
                       {result.pdfLayout?.regions.some(
                         (r) => r.cardId === current.id && r.page === page,
                       ) && (
@@ -2160,6 +2456,7 @@ export function DocumentImport({
                   </>
                 )}
                 <button
+                  data-import-tool="structure"
                   disabled={cards.length >= 100}
                   onClick={() => addCard()}
                 >
@@ -2167,9 +2464,31 @@ export function DocumentImport({
                 </button>
               </section>
             </div>
+            {studio && correction === "text" && (
+              <section className="studio-import-source">
+                <h4>Anderes Material auswählen</h4>
+                <div className="actions">
+                  <button onClick={() => fileInput.current?.click()}>
+                    Andere Word- oder PDF-Datei
+                  </button>
+                  <button onClick={() => photoInput.current?.click()}>
+                    Anderes Foto oder Scan
+                  </button>
+                  <button onClick={() => cameraInput.current?.click()}>
+                    Foto aufnehmen
+                  </button>
+                </div>
+              </section>
+            )}
             <div className="actions">
+              {studio && unchecked > 0 && (
+                <p className="small">
+                  Noch {unchecked} OCR-Karten einzeln am Original prüfen und
+                  bestätigen.
+                </p>
+              )}
               <button
-                disabled={busy || !selected.length}
+                disabled={busy || !selected.length || (studio && unchecked > 0)}
                 className="primary"
                 onClick={() => {
                   setStep(3);
@@ -2183,12 +2502,13 @@ export function DocumentImport({
         )}
         {result && step === 3 && (
           <>
-            <h3>3. Karten übernehmen</h3>
+            <h3 hidden={studio}>3. Karten übernehmen</h3>
             <p>
-              {selected.length} ausgewählte Karten. Bis jetzt wurde der Entwurf
-              nicht verändert.
+              {studio
+                ? `${selected.length} Karten können übernommen werden.`
+                : `${selected.length} ausgewählte Karten. Bis jetzt wurde der Entwurf nicht verändert.`}
             </p>
-            <label className="help-toggle">
+            <label className="help-toggle import-target-choice">
               <input
                 type="radio"
                 name="import-target"
@@ -2197,7 +2517,7 @@ export function DocumentImport({
               />
               Karten zu diesem Mystery hinzufügen
             </label>
-            <label className="help-toggle">
+            <label className="help-toggle import-target-choice">
               <input
                 type="radio"
                 name="import-target"
@@ -2206,13 +2526,21 @@ export function DocumentImport({
               />
               Neues Mystery aus dem Dokument erstellen
             </label>
-            {(mode === "new" || !draft.content.title) && (
+            {(studio || mode === "new" || !draft.content.title) && (
               <label>
                 Mystery-Titel
                 <input
                   aria-describedby="document-import-title-hint"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={
+                    studio && mode === "append" && draft.content.title
+                      ? appendTitle
+                      : title
+                  }
+                  onChange={(e) =>
+                    studio && mode === "append" && draft.content.title
+                      ? setAppendTitle(e.target.value)
+                      : setTitle(e.target.value)
+                  }
                 />
               </label>
             )}
@@ -2221,7 +2549,7 @@ export function DocumentImport({
                 Vorschlag aus dem Dateinamen; bitte prüfen.
               </p>
             )}
-            {mode === "new" && (
+            {!studio && mode === "new" && (
               <>
                 <p>
                   Der bisherige Entwurf wird erst nach einer zusätzlichen
@@ -2239,7 +2567,7 @@ export function DocumentImport({
               Ich habe Texte, Grenzen, Bilder, Tabellen und
               Pflicht-/Vertiefungskarten mit dem Original geprüft.
             </label>
-            <p>
+            <p hidden={studio}>
               Übernehmen ändert nur den geöffneten Entwurf. Danach „Entwurf
               sichern“ bewusst herunterladen und „Schülerversion erstellen“ für
               die Klasse verwenden.
@@ -2249,11 +2577,11 @@ export function DocumentImport({
                 Zurück zu den Karten
               </button>
               <button
-                disabled={busy || !reviewed}
+                disabled={busy || !reviewed || (studio && unchecked > 0)}
                 className="primary"
                 onClick={() => void apply()}
               >
-                Geprüfte Karten übernehmen
+                {studio ? "Karten übernehmen" : "Geprüfte Karten übernehmen"}
               </button>
             </div>
           </>

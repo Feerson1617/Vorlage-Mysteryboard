@@ -1,3 +1,4 @@
+import { saveProject, overview, chooseImportCard } from "./controls.mjs";
 import { chromium, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
@@ -80,15 +81,14 @@ try {
   const button = (name) => page.getByRole("button", { name, exact: true });
   const open = async (path) => {
     selected = path;
-    if (await page.locator(".studio-project-menu summary").count())
-      await page.locator(".studio-project-menu summary").click();
+    await overview(page);
     await button("Mystery öffnen").click();
     await expect(page.locator(".studio-board")).toBeVisible();
   };
   const scorm = async () => {
     const before = exports.length;
     await button("Exportieren").click();
-    await button("Als SCORM für itslearning exportieren").click();
+    await button("Für itslearning exportieren").click();
     await expect.poll(() => exports.length).toBeGreaterThan(before);
     return join(out, exports.at(-1));
   };
@@ -120,17 +120,17 @@ try {
     milliseconds: Date.now() - t,
     scorm: simple,
   });
-  await button("Projekt sichern").click();
+  await saveProject(page);
   await page.screenshot({ path: join(out, "Studio-Workflow-A.png") });
   // PDF: all requested card counts, all actual pages in preview and export.
   for (const source of sources) {
     await open(source.path);
     pdfName = `Studio-${source.n}-Karten.pdf`;
     await button("Exportieren").click();
-    await button("Als Druck-PDF exportieren").click();
+    await button("Als Druck-PDF speichern").click();
     await expect(button("PDF speichern")).toBeEnabled({ timeout: 60000 });
     const count = await page
-      .getByRole("dialog", { name: "Als Druck-PDF exportieren", exact: true })
+      .getByRole("dialog", { name: "Als Druck-PDF speichern", exact: true })
       .getByRole("status")
       .first()
       .innerText();
@@ -145,7 +145,7 @@ try {
       })
       .toBeGreaterThan(1000);
     await page
-      .getByRole("dialog", { name: "Als Druck-PDF exportieren", exact: true })
+      .getByRole("dialog", { name: "Als Druck-PDF speichern", exact: true })
       .getByRole("button", { name: "Schließen", exact: true })
       .click();
     if (source.n === 5 || source.n === 16) {
@@ -201,7 +201,7 @@ try {
   expect(
     await page.locator('.studio-board [data-card="1"]').getAttribute("data-x"),
   ).toBe(before);
-  await button("Projekt sichern").click();
+  await saveProject(page);
   await expect
     .poll(() => exports.includes("Usability-Projekt.mysteryboard"))
     .toBeTruthy();
@@ -229,40 +229,38 @@ try {
   });
   await page.screenshot({ path: join(out, "Studio-Workflow-C.png") });
   // B: actual local OCR under the production CSP (no eval permission).
-  await button("Material importieren").click();
+  await button("Importieren").click();
   await page
     .getByLabel("Mystery-Datei", { exact: true })
     .setInputFiles(resolve("tests/fixtures/ocr/Scan-B-16.pdf"));
   await expect(
-    page.getByRole("heading", { name: "2. Karten prüfen", exact: true }),
+    page.getByRole("heading", { name: "Karten kontrollieren", exact: true }),
   ).toBeVisible({ timeout: 60000 });
   await expect(page.locator(".import-step-body")).not.toHaveAttribute(
     "disabled",
     "",
     { timeout: 60000 },
   );
-  await button("Original ansehen").click();
+
   t = Date.now();
-  await button("Kartengrenzen und Text erkennen").click();
+
   await expect(page.locator(".import-step-body")).not.toHaveAttribute(
     "disabled",
     "",
     { timeout: 240000 },
   );
   await expect(page.getByRole("alert")).toHaveCount(0);
-  await button("Karten ansehen").click();
+
   await expect(
     page.getByLabel("Importkarte auswählen", { exact: true }).locator("option"),
-  ).toHaveCount(16);
+  ).toHaveCount(16, { timeout: 240000 });
   const gold = JSON.parse(
     await readFile("tests/fixtures/ocr/Solltexte.json", "utf8"),
   )["Raster-B-16"];
   // This is an explicit correction against the supplied original truth, not
   // a claim that raw OCR has recognized every number or source perfectly.
   for (let i = 0; i < gold.length; i++) {
-    await page
-      .getByLabel("Importkarte auswählen", { exact: true })
-      .selectOption(String(i));
+    await chooseImportCard(page, i);
     await page
       .getByRole("textbox", { name: "Überschrift", exact: true })
       .fill(gold[i].title);
@@ -282,9 +280,11 @@ try {
     })
     .check();
   await page.getByRole("checkbox", { name: /Ich habe Texte/ }).check();
-  await button("Geprüfte Karten übernehmen").click();
-  await expect(page.locator(".studio-board [data-card]")).toHaveCount(16);
-  await button("Projekt sichern").click();
+  await button("Karten übernehmen").click();
+  await expect(page.locator(".studio-board [data-card]")).toHaveCount(16, {
+    timeout: 240000,
+  });
+  await saveProject(page);
   await expect
     .poll(
       async () =>

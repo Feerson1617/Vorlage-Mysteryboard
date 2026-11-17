@@ -115,9 +115,9 @@ export function layoutCard(
     design,
   };
 }
-export function numberBadge(zoom = 1, label = "") {
+export function numberBadge(zoom = 1, label = "", scaleLimit = 7) {
   // 16 CSS-px digits in ordinary overviews; cap world size at deep zoom-out.
-  const scale = Math.max(1, Math.min(7, 16 / (18 * zoom)));
+  const scale = Math.max(1, Math.min(scaleLimit, 16 / (18 * zoom)));
   const radius = Math.max(15, measure(label, "bold 18px Arial") / 2 + 5);
   return {
     scale,
@@ -131,9 +131,10 @@ export function boardBounds(
   work: Work,
   layouts: Map<number, Layout>,
   zoom = 1,
+  badgeScaleLimit = 7,
 ): Bounds {
   const extent = (c: CardState) =>
-    numberBadge(zoom, layouts.get(c.id)!.numberLabel).extent;
+    numberBadge(zoom, layouts.get(c.id)!.numberLabel, badgeScaleLimit).extent;
   const labels = work.edges
     .filter((e) => e.label)
     .map((e) => edgeGeometry(e, work.cards, layouts));
@@ -160,17 +161,18 @@ export function overview(
   layouts: Map<number, Layout>,
   width: number,
   height: number,
+  badgeScaleLimit = 7,
 ) {
   // Badge size depends on zoom. Solve the fit with its actual outer bounds.
   let low = 0.001,
     high = 1.2;
   for (let i = 0; i < 32; i++) {
     const z = (low + high) / 2;
-    const b = boardBounds(work, layouts, z);
+    const b = boardBounds(work, layouts, z, badgeScaleLimit);
     if (b.width * z <= width - 64 && b.height * z <= height - 64) low = z;
     else high = z;
   }
-  const b = boardBounds(work, layouts, low);
+  const b = boardBounds(work, layouts, low, badgeScaleLimit);
   return {
     x: (width - b.width * low) / 2 - b.x * low,
     y: (height - b.height * low) / 2 - b.y * low,
@@ -185,6 +187,7 @@ export function makeLayouts(m: Mystery) {
 export function initialBoardWork(
   m: Mystery,
   viewport: { width: number; height: number },
+  badgeScaleLimit = 7,
 ): Work {
   const work = initialWork(m);
   if (m.startLayout?.mode !== "ordered") return work;
@@ -193,7 +196,9 @@ export function initialBoardWork(
   // This protects both multi-digit IDs and configurable prefixes at overview.
   const gap =
     Math.max(
-      ...[...layouts.values()].map((l) => numberBadge(0, l.numberLabel).extent),
+      ...[...layouts.values()].map(
+        (l) => numberBadge(0, l.numberLabel, badgeScaleLimit).extent,
+      ),
     ) + (m.design?.spacing ?? 64);
   work.cards = orderedPositions(
     work.cards,

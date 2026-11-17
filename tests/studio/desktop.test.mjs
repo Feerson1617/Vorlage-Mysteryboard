@@ -4,6 +4,11 @@ import { _electron, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { unzipSync } from "fflate";
+import {
+  openExports,
+  closeExports,
+  chooseImportCard,
+} from "../../qa/studio/controls.mjs";
 import { fixtures } from "../../qa/studio/fixtures.mjs";
 const out = resolve(process.env.STUDIO_EVIDENCE || "artifacts/studio-tests");
 const executable =
@@ -39,6 +44,8 @@ test(
       const prefs = await app.evaluate(({ BrowserWindow, app }) => ({
         platform: process.platform,
         arch: process.arch,
+        appVersion: app.getVersion(),
+        sourceCommit: process.env.GITHUB_SHA || "local-native-run",
         electron: process.versions.electron,
         chromium: process.versions.chrome,
         isPackaged: app.isPackaged,
@@ -56,6 +63,41 @@ test(
       checks.push(
         "native sandbox/context isolation/node integration preferences verified",
       );
+      const nativeCommand = async (id) => {
+        await app.evaluate(({ BrowserWindow }) =>
+          BrowserWindow.getAllWindows()[0].focus(),
+        );
+        await expect
+          .poll(() =>
+            app.evaluate(
+              ({ Menu }, id) =>
+                Menu.getApplicationMenu().getMenuItemById(id).enabled,
+              id,
+            ),
+          )
+          .toBe(true);
+        await page.keyboard.press(
+          {
+            "project-open": "Meta+o",
+            "project-save": "Meta+s",
+            "project-save-as": "Meta+Shift+s",
+          }[id],
+        );
+      };
+      const accelerators = await app.evaluate(({ Menu }) =>
+        Object.fromEntries(
+          ["project-open", "project-save", "project-save-as"].map((id) => [
+            id,
+            Menu.getApplicationMenu().getMenuItemById(id).accelerator,
+          ]),
+        ),
+      );
+      assert.deepEqual(accelerators, {
+        "project-open": "CmdOrCtrl+O",
+        "project-save": "CmdOrCtrl+S",
+        "project-save-as": "CmdOrCtrl+Shift+S",
+      });
+      checks.push("native Ablage accelerators for open, save and save as");
       await app.evaluate(({ dialog }) => {
         dialog.showMessageBox = async (...args) => ({
           response: args.at(-1)?.message === "Ungesicherte Änderungen" ? 1 : 0,
@@ -69,11 +111,7 @@ test(
             filePaths: [path],
           });
         }, source.path);
-        if (await page.locator(".studio-project-menu summary").count())
-          await page.locator(".studio-project-menu summary").click();
-        await page
-          .getByRole("button", { name: "Mystery öffnen", exact: true })
-          .click();
+        await nativeCommand("project-open");
         await expect(page.locator(".studio-board [data-card]")).toHaveCount(
           source.n,
         );
@@ -87,9 +125,7 @@ test(
             filePath: path,
           });
         }, saved);
-        await page
-          .getByRole("button", { name: "Projekt sichern", exact: true })
-          .click();
+        await nativeCommand("project-save");
         await expect
           .poll(async () => {
             try {
@@ -100,10 +136,7 @@ test(
             }
           })
           .toBe(source.document.content.title + " geprüft");
-        await page.locator(".studio-project-menu summary").click();
-        await page
-          .getByRole("button", { name: "Speichern unter", exact: true })
-          .click();
+        await nativeCommand("project-save-as");
         await expect
           .poll(async () => {
             try {
@@ -113,8 +146,17 @@ test(
             }
           })
           .toBe(source.document.content.title + " geprüft");
-        await page.locator(".studio-project-menu summary").click();
         checks.push(source.n + " native project read/write");
+        if (source.n === 16) {
+          await page.screenshot({
+            path: join(out, "Mac-UX-Hauptleiste-und-Pinnwand.png"),
+          });
+          await openExports(page);
+          await page.screenshot({
+            path: join(out, "Mac-UX-Speichern-und-Exportieren.png"),
+          });
+          await closeExports(page);
+        }
         const pdf = join(out, `Studio-${source.n}-Karten.pdf`);
         await app.evaluate(({ dialog }, path) => {
           dialog.showSaveDialog = async () => ({
@@ -127,7 +169,7 @@ test(
           .click();
         await page
           .getByRole("button", {
-            name: "Als Druck-PDF exportieren",
+            name: "Als Druck-PDF speichern",
             exact: true,
           })
           .click();
@@ -165,7 +207,7 @@ test(
         });
         await page
           .getByRole("dialog", {
-            name: "Als Druck-PDF exportieren",
+            name: "Als Druck-PDF speichern",
             exact: true,
           })
           .getByRole("button", { name: "Schließen", exact: true })
@@ -184,7 +226,7 @@ test(
             .click();
           await page
             .getByRole("button", {
-              name: "Als SCORM für itslearning exportieren",
+              name: "Für itslearning exportieren",
               exact: true,
             })
             .click();
@@ -209,7 +251,7 @@ test(
           assert(!html.includes("tesseract.min.js"));
           checks.push(source.n + " actual independent player SCORM");
           if (source.n === 5) {
-            await page.locator(".studio-project-menu summary").click();
+            await openExports(page);
             const opened = app.waitForEvent("window");
             await page
               .getByRole("button", {
@@ -233,7 +275,7 @@ test(
               "undefined",
             );
             await guest.close();
-            await page.locator(".studio-project-menu summary").click();
+            await closeExports(page);
             checks.push("isolated real Player preview without Studio bridge");
           }
         }
@@ -264,50 +306,43 @@ test(
         "Scan-A-20.pdf",
       ]) {
         await page
-          .getByRole("button", { name: "Material importieren", exact: true })
+          .getByRole("button", { name: "Importieren", exact: true })
           .click();
         await page
           .getByLabel("Mystery-Datei", { exact: true })
           .setInputFiles(resolve("tests/fixtures/ocr", name));
         await expect(
-          page.getByRole("heading", { name: "2. Karten prüfen", exact: true }),
+          page.getByRole("heading", {
+            name: "Karten kontrollieren",
+            exact: true,
+          }),
         ).toBeVisible({ timeout: 60000 });
         await expect(page.locator(".import-step-body")).not.toHaveAttribute(
           "disabled",
           "",
           { timeout: 60000 },
         );
-        await page
-          .getByRole("button", { name: "Original ansehen", exact: true })
-          .click();
-        await page
-          .getByRole("button", {
-            name: "Kartengrenzen und Text erkennen",
-            exact: true,
-          })
-          .click();
         await expect(page.locator(".import-step-body")).not.toHaveAttribute(
           "disabled",
           "",
           { timeout: 240000 },
         );
         await expect(page.getByRole("alert")).toHaveCount(0);
+        await expect(
+          page
+            .getByLabel("Importkarte auswählen", { exact: true })
+            .locator("option"),
+        ).toHaveCount(
+          name === "Scan-A-20.pdf" ? 15 : name === "Scan-B-16.pdf" ? 16 : 4,
+          { timeout: 240000 },
+        );
         if (name === "Scan-A-20.pdf") {
-          await page
-            .getByRole("button", { name: "Original ansehen", exact: true })
-            .click();
           await page.getByLabel("PDF-Seite", { exact: true }).selectOption("2");
           await expect(page.locator(".import-step-body")).not.toHaveAttribute(
             "disabled",
             "",
             { timeout: 60000 },
           );
-          await page
-            .getByRole("button", {
-              name: "Kartengrenzen und Text erkennen",
-              exact: true,
-            })
-            .click();
           await expect(page.locator(".import-step-body")).not.toHaveAttribute(
             "disabled",
             "",
@@ -315,9 +350,14 @@ test(
           );
           await expect(page.getByRole("alert")).toHaveCount(0);
         }
-        await page
-          .getByRole("button", { name: "Karten ansehen", exact: true })
-          .click();
+        await expect(
+          page
+            .getByLabel("Importkarte auswählen", { exact: true })
+            .locator("option"),
+        ).toHaveCount(
+          name === "Scan-A-20.pdf" ? 20 : name === "Scan-B-16.pdf" ? 16 : 4,
+          { timeout: 240000 },
+        );
         const count = await page
           .getByLabel("Importkarte auswählen", { exact: true })
           .locator("option")
@@ -327,9 +367,35 @@ test(
           name === "Scan-A-20.pdf" ? 20 : name === "Scan-B-16.pdf" ? 16 : 4,
         );
         await page.screenshot({ path: join(out, `Mac-OCR-${name}.png`) });
+        if (name === "Scan-B-16.pdf") {
+          for (const [width, height] of [
+            [1280, 900],
+            [1024, 768],
+            [768, 1024],
+            [720, 600],
+          ]) {
+            await app.evaluate(
+              ({ BrowserWindow }, { width, height }) =>
+                BrowserWindow.getAllWindows()[0].setContentSize(width, height),
+              { width, height },
+            );
+            await expect
+              .poll(() => page.evaluate(() => window.innerWidth))
+              .toBe(width);
+            await expect
+              .poll(() => page.evaluate(() => window.innerHeight))
+              .toBe(height);
+            await page.screenshot({
+              path: join(out, `Mac-UX-Import-${width}x${height}.png`),
+            });
+          }
+          await app.evaluate(({ BrowserWindow }) =>
+            BrowserWindow.getAllWindows()[0].setContentSize(1280, 900),
+          );
+        }
         checks.push("custom protocol OCR " + name + " cards " + count);
         await page
-          .getByRole("button", { name: "Zurück zum Entwurf", exact: true })
+          .getByRole("button", { name: "Zur Pinnwand", exact: true })
           .click();
       }
       // A new import must detach the old native save path. Canceling its first
@@ -337,34 +403,28 @@ test(
       const oldProject = join(out, "Studio-60-gespeichert.mysteryboard"),
         oldBytes = await readFile(oldProject);
       await page
-        .getByRole("button", { name: "Material importieren", exact: true })
+        .getByRole("button", { name: "Importieren", exact: true })
         .click();
       await page
         .getByLabel("Mystery-Datei", { exact: true })
         .setInputFiles(resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
       await expect(
-        page.getByRole("heading", { name: "2. Karten prüfen", exact: true }),
-      ).toBeVisible({ timeout: 60000 });
-      await page
-        .getByRole("button", { name: "Original ansehen", exact: true })
-        .click();
-      await page
-        .getByRole("button", {
-          name: "Kartengrenzen und Text erkennen",
+        page.getByRole("heading", {
+          name: "Karten kontrollieren",
           exact: true,
-        })
-        .click();
+        }),
+      ).toBeVisible({ timeout: 60000 });
       await expect(page.locator(".import-step-body")).not.toHaveAttribute(
         "disabled",
         "",
         { timeout: 240000 },
       );
-      await page
-        .getByRole("button", { name: "Karten ansehen", exact: true })
-        .click();
       const picker = page.getByLabel("Importkarte auswählen", { exact: true });
+      await expect(picker.locator("option")).toHaveCount(4, {
+        timeout: 240000,
+      });
       for (let i = 0; i < 4; i++) {
-        await picker.selectOption(String(i));
+        await chooseImportCard(page, i);
         await page.getByRole("checkbox", { name: /Diese OCR-Karte/ }).check();
       }
       await page
@@ -376,10 +436,11 @@ test(
           exact: true,
         })
         .check();
+      await page.screenshot({ path: join(out, "Mac-UX-Radioauswahl.png") });
       await page.getByRole("checkbox", { name: /Ich habe Texte/ }).check();
       await page
         .getByRole("button", {
-          name: "Geprüfte Karten übernehmen",
+          name: "Karten übernehmen",
           exact: true,
         })
         .click();
@@ -391,8 +452,12 @@ test(
           return { canceled: true };
         };
       });
+      await openExports(page);
       await page
-        .getByRole("button", { name: "Projekt sichern", exact: true })
+        .getByRole("button", {
+          name: "Bearbeitbares Mystery sichern",
+          exact: true,
+        })
         .click();
       await expect
         .poll(() => app.evaluate(() => globalThis.__studioSaveRequests))
@@ -400,6 +465,113 @@ test(
       assert.deepEqual(await readFile(oldProject), oldBytes);
       checks.push(
         "new imported mystery asks for a new path and preserves old project bytes",
+      );
+      await closeExports(page);
+      await page
+        .getByRole("button", { name: "Zur Projektübersicht", exact: true })
+        .click();
+      await page
+        .getByRole("button", { name: "Neues Mystery erstellen", exact: true })
+        .click();
+      await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("UX");
+      await page
+        .getByRole("button", { name: "Mystery erstellen", exact: true })
+        .click();
+      const emptyPath = join(out, "Leeres-Projekt.mysteryboard");
+      await app.evaluate(({ dialog }, filePath) => {
+        dialog.showSaveDialog = async () => ({ canceled: false, filePath });
+      }, emptyPath);
+      await openExports(page);
+      await expect(
+        page.getByRole("button", {
+          name: "Bearbeitbares Mystery sichern",
+          exact: true,
+        }),
+      ).toBeEnabled();
+      await expect(
+        page.getByRole("button", {
+          name: "Für itslearning exportieren",
+          exact: true,
+        }),
+      ).toBeDisabled();
+      await page.screenshot({
+        path: join(out, "Mac-UX-Leeres-Projekt-exportieren.png"),
+      });
+      await closeExports(page);
+      await nativeCommand("project-save");
+      await expect
+        .poll(async () => {
+          try {
+            return JSON.parse(await readFile(emptyPath, "utf8")).content.cards
+              .length;
+          } catch {
+            return -1;
+          }
+        })
+        .toBe(0);
+      await expect(page.locator(".studio-unsaved")).toHaveCount(0);
+      checks.push("empty untitled project saved with real native Command-S");
+      const emptyBytes = await readFile(emptyPath);
+      await page
+        .getByLabel("Mystery-Titel", { exact: true })
+        .fill("Noch nicht gesichert");
+      await app.evaluate(({ dialog }) => {
+        globalThis.__studioSaveRequests = 0;
+        dialog.showSaveDialog = async () => {
+          globalThis.__studioSaveRequests++;
+          return { canceled: true };
+        };
+      });
+      await nativeCommand("project-save-as");
+      await expect
+        .poll(() => app.evaluate(() => globalThis.__studioSaveRequests))
+        .toBe(1);
+      await expect(page.locator(".studio-unsaved")).toBeVisible();
+      assert.deepEqual(await readFile(emptyPath), emptyBytes);
+      checks.push(
+        "native Shift-Command-S cancellation retains dirty state and file bytes",
+      );
+      const badPath = join(out, "Datei-ist-Verzeichnis.mysteryboard");
+      await mkdir(badPath, { recursive: true });
+      await app.evaluate(({ dialog }, filePath) => {
+        dialog.showSaveDialog = async () => ({ canceled: false, filePath });
+      }, badPath);
+      await nativeCommand("project-save-as");
+      await expect(page.getByRole("alert")).toContainText(
+        "konnte nicht gespeichert werden",
+      );
+      await expect(page.locator(".studio-unsaved")).toBeVisible();
+      assert.deepEqual(await readFile(emptyPath), emptyBytes);
+      const recovered = join(out, "Wieder-gesichert.mysteryboard");
+      await app.evaluate(({ dialog }, filePath) => {
+        dialog.showSaveDialog = async () => ({ canceled: false, filePath });
+      }, recovered);
+      await nativeCommand("project-save-as");
+      await expect
+        .poll(async () => {
+          try {
+            return JSON.parse(await readFile(recovered, "utf8")).content.title;
+          } catch {
+            return "";
+          }
+        })
+        .toBe("Noch nicht gesichert");
+      await expect(page.locator(".studio-unsaved")).toHaveCount(0);
+      await expect(page.getByRole("alert")).toHaveCount(0);
+      checks.push(
+        "native write failure stays dirty and visible; subsequent save recovers",
+      );
+      const scanPath = join(out, "Scan-UX-korrigiert.mysteryboard");
+      await app.evaluate(({ dialog }, filePath) => {
+        dialog.showSaveDialog = async () => ({ canceled: false, filePath });
+      }, scanPath);
+      const corrected = await scanWorkflow(page, out);
+      assert.equal(
+        JSON.parse(await readFile(scanPath, "utf8")).content.cards[0].text,
+        corrected,
+      );
+      checks.push(
+        "native scan card and boundary correction retain unrelated data and require individual review",
       );
       await writeFile(
         join(out, "native-macos.json"),

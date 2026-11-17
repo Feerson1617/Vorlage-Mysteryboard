@@ -1,3 +1,4 @@
+import { saveProject, overview, chooseImportCard } from "./controls.mjs";
 import { chromium, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, join } from "node:path";
@@ -106,15 +107,13 @@ try {
   await page
     .getByLabel("Mystery-Titel", { exact: true })
     .fill("Studio Küsten-Mystery");
-  await page
-    .getByRole("button", { name: "Projekt sichern", exact: true })
-    .click();
+  await saveProject(page);
   await expect
     .poll(() => files.some((f) => f.name === "Studio-Testprojekt.mysteryboard"))
     .toBeTruthy();
   await page.getByRole("button", { name: "Exportieren", exact: true }).click();
   await page
-    .getByRole("button", { name: "Als Druck-PDF exportieren", exact: true })
+    .getByRole("button", { name: "Als Druck-PDF speichern", exact: true })
     .click();
   await expect(
     page.getByRole("button", { name: "PDF speichern", exact: true }),
@@ -133,13 +132,13 @@ try {
     })
     .toBeGreaterThan(1000);
   await page
-    .getByRole("dialog", { name: "Als Druck-PDF exportieren", exact: true })
+    .getByRole("dialog", { name: "Als Druck-PDF speichern", exact: true })
     .getByRole("button", { name: "Schließen", exact: true })
     .click();
   await page.getByRole("button", { name: "Exportieren", exact: true }).click();
   await page
     .getByRole("button", {
-      name: "Als SCORM für itslearning exportieren",
+      name: "Für itslearning exportieren",
       exact: true,
     })
     .click();

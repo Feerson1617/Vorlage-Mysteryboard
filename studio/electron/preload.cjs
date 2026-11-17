@@ -15,9 +15,16 @@ contextBridge.exposeInMainWorld(
       ipcRenderer.invoke("export:save", { bytes, name, kind }),
     printPDF: (html) => ipcRenderer.invoke("export:pdf", html),
     onSaved: (listener) => {
-      const fn = () => listener();
+      const fn = (_event, saved) => listener(saved);
       ipcRenderer.on("project:saved", fn);
       return () => ipcRenderer.removeListener("project:saved", fn);
+    },
+    onCommand: (listener) => {
+      const fn = (_event, command) => {
+        if (["open", "save", "save-as"].includes(command)) listener(command);
+      };
+      ipcRenderer.on("project:command", fn);
+      return () => ipcRenderer.removeListener("project:command", fn);
     },
   }),
 );

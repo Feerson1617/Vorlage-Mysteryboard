@@ -63,7 +63,15 @@ export function StudioApp() {
       .then(setRecent)
       .catch((e) => setError(e.message));
   }, [draft, bridge]);
+  useEffect(
+    () =>
+      bridge?.onCommand?.((command) => {
+        if (command === "open") void read(bridge.openProject());
+      }),
+    [bridge],
+  );
   const integration: EditorIntegration = {
+    name,
     state: (d, dirty, forms) => {
       void bridge
         ?.projectState({ bytes: encodeDocument(d), dirty, forms })
@@ -78,8 +86,7 @@ export function StudioApp() {
         if (result) setName(result.name);
         return !!result;
       } catch (e) {
-        setError((e as Error).message);
-        return false;
+        throw e;
       }
     },
     open: () => void read(bridge!.openProject()),
@@ -94,6 +101,7 @@ export function StudioApp() {
         .catch((e) => setError(e.message));
     },
     onSaved: (fn) => bridge!.onSaved(fn),
+    onCommand: (fn) => bridge!.onCommand?.(fn) ?? (() => {}),
     scorm: async (task, signal) => {
       signal.throwIfAborted();
       const placeholder =
@@ -162,9 +170,6 @@ export function StudioApp() {
     <>
       {draft ? (
         <>
-          <div className="studio-project-name" role="status">
-            {name || "Noch nicht als Projektdatei gespeichert"}
-          </div>
           <AuthorEditor
             key={generation}
             initial={draft}

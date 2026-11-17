@@ -95,10 +95,10 @@ try {
       .getByRole("button", { name: "Exportieren", exact: true })
       .click();
     await page
-      .getByRole("button", { name: "Als Druck-PDF exportieren", exact: true })
+      .getByRole("button", { name: "Als Druck-PDF speichern", exact: true })
       .click();
     const dialog = page.getByRole("dialog", {
-      name: "Als Druck-PDF exportieren",
+      name: "Als Druck-PDF speichern",
       exact: true,
     });
     await expect

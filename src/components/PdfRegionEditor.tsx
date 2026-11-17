@@ -13,6 +13,7 @@ export function PdfRegionOverlay({
   mark,
   onSelect,
   numberFor,
+  readableNumbers = false,
 }: {
   layout: PdfLayout;
   page: number;
@@ -20,6 +21,7 @@ export function PdfRegionOverlay({
   mark: boolean;
   onSelect: (id: number) => void;
   numberFor: (id: number) => number;
+  readableNumbers?: boolean;
 }) {
   const p = layout.pages[page - 1];
   return (
@@ -60,7 +62,7 @@ export function PdfRegionOverlay({
               x={r.bounds.x + r.bounds.width - 5}
               y={r.bounds.y + r.bounds.height - 4}
               textAnchor="end"
-              fontSize="14"
+              fontSize={readableNumbers ? Math.max(14, p.width / 45) : 14}
               fill="#174a32"
               stroke="#f7f8f7"
               strokeWidth="1.5"

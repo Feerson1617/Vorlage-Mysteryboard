@@ -1,7 +1,7 @@
 name: MysteryBoard Studio – macOS ARM64 build and native checks
 on:
   push:
-    branches: [feat/mysteryboard-studio-macos]
+    branches: [feat/mysteryboard-studio-macos, feat/mysteryboard-studio-ux-simplification]
     paths-ignore: ['artifacts/delivery/**', 'docs/**']
   workflow_dispatch:
 permissions:
@@ -52,6 +52,7 @@ jobs:
           path: |
             out/make/
             artifacts/studio-tests/
+            !artifacts/studio-tests/native-profile/**
             studio/dist/player-boundary.json
           if-no-files-found: error
           retention-days: 30

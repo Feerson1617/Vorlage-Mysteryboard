@@ -412,6 +412,12 @@ export default function App({
               ? "Orientierungshilfe eingeschaltet."
               : "Orientierungshilfe ausgeschaltet."}
           </span>
+          {__PLAYER_BUILD__ && (
+            <p className="player-board-hint">
+              Tippe auf eine Karte, um sie groß zu lesen. Mit zwei Fingern
+              kannst du die Pinnwand vergrößern.
+            </p>
+          )}
           <Board
             work={work}
             mystery={mystery}

@@ -1,4 +1,6 @@
 import type { Draft, Task } from "../../src/core/documents";
+export type ProjectCommand = "open" | "save" | "save-as";
+export type SavedProject = { bytes: Uint8Array; name: string };
 export interface StudioBridge {
   previewTask: (bytes: Uint8Array) => Promise<void>;
   openProject: () => Promise<{ bytes: Uint8Array; name: string } | null>;
@@ -22,9 +24,11 @@ export interface StudioBridge {
     kind: "scorm" | "document" | "png",
   ) => Promise<boolean>;
   printPDF: (html: string) => Promise<boolean>;
-  onSaved: (listener: () => void) => () => void;
+  onSaved: (listener: (saved: SavedProject) => void) => () => void;
+  onCommand: (listener: (command: ProjectCommand) => void) => () => void;
 }
 export interface EditorIntegration {
+  name: string;
   state: (draft: Draft, dirty: boolean, forms: boolean) => void;
   save: (draft: Draft, saveAs: boolean) => Promise<boolean>;
   open: () => void;
@@ -32,7 +36,8 @@ export interface EditorIntegration {
   print: (task: Task) => void;
   preview: (task: Task) => void;
   scorm: (task: Task, signal: AbortSignal) => Promise<File>;
-  onSaved: (fn: () => void) => () => void;
+  onSaved: (fn: (saved: SavedProject) => void) => () => void;
+  onCommand: (fn: (command: ProjectCommand) => void) => () => void;
 }
 declare global {
   interface Window {
