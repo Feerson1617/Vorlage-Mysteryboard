@@ -130,8 +130,11 @@ Safari-/Schul-iPad-/itslearning-Test.
 
 Studio verwendet denselben Karten-/Dokumentkern, einen nativen, sandboxgeschützten
 Electron-Rahmen und einen getrennten Schüler-Build ohne Autorenoberfläche/OCR.
+Studio 0.2.0 bündelt die normale Arbeit in vier Aktionen und zeigt beim Import
+Original und aktuelle Karte. Spezialwerkzeuge liegen unter „Erkennung korrigieren“.
 Installation und Bedienung: [STUDIO-MACOS.md](docs/STUDIO-MACOS.md).
-Architektur, tatsächliche Mac-Tests und offene Abnahme:
+Aktuelle UX-Abnahme: [STUDIO-UX-ABNAHMEBERICHT.md](docs/STUDIO-UX-ABNAHMEBERICHT.md).
+Historischer Bericht zur ersten nativen Version:
 [STUDIO-ABNAHMEBERICHT.md](docs/STUDIO-ABNAHMEBERICHT.md).
 
 Auf macOS ARM64: `npm ci`, `npm run studio:make -- --platform=darwin --arch=arm64`.

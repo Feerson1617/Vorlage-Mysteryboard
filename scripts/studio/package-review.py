@@ -1,6 +1,6 @@
 """Seal Studio sources + actual QA products, without native binaries or profiles.
 
-python3 scripts/studio/package-review.py OUTPUT.zip EVIDENCE_DIRECTORY
+python3 scripts/studio/package-review.py OUTPUT.zip EVIDENCE_DIRECTORY [RELEASE.json]
 Native DMG/App ZIP are delivered separately, referenced by exact SHA-256.
 """
 from pathlib import Path
@@ -14,7 +14,21 @@ import zipfile
 root = Path(__file__).resolve().parents[2]
 output = Path(sys.argv[1]).resolve()
 evidence = Path(sys.argv[2]).resolve()
-runtime_commit = '0defd50126519ddda43a6a001a06355206844a93'
+release = json.loads(Path(sys.argv[3]).read_text()) if len(sys.argv) > 3 else dict(
+    product='MysteryBoard Studio 0.1.0 – technische Abnahmefassung',
+    runtimeCommit='0defd50126519ddda43a6a001a06355206844a93',
+    baseCommit='a04f7c59f51309676156cdcb959db4fdc39128c3',
+    branch='feat/mysteryboard-studio-macos',
+    macOSRun='https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44029762631',
+    report='STUDIO-ABNAHMEBERICHT.md',
+)
+runtime_commit = release['runtimeCommit']
+if len(sys.argv) > 3:
+    native = json.loads((evidence / 'Mac/native-macos.json').read_text())
+    assert native['passed'] and native['isPackaged'] and native['arch'] == 'arm64'
+    assert native['sourceCommit'] == release['nativeBuildSourceCommit']
+    assert native['appVersion'] == json.loads((root / 'package.json').read_text())['version']
+    assert (output.parent / 'Mac-Dateien.json').is_file(), 'Missing tested native downloads'
 payload = {}
 
 
@@ -36,13 +50,13 @@ for folder in ['src', 'studio', 'scripts', 'schemas', 'tests', 'examples', 'scor
             continue
         add(path, 'source/' + rel.as_posix())
 for path in sorted(root.iterdir()):
-    if path.is_file() and (path.suffix in ['.md', '.json', '.ts', '.html', '.cjs', '.mjs'] or path.name == '.gitignore'):
+    if path.is_file() and (path.suffix in ['.md', '.json', '.ts', '.html', '.cjs', '.mjs'] or path.name in ['.gitignore', '.gitattributes']):
         add(path, 'source/' + path.name)
 for path in sorted((root / 'docs').glob('*.md')):
     add(path, 'source/docs/' + path.name)
 for name in ['MysteryBoard-Boden-Klasse11-RC2.html', 'MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip', 'MysteryBoard-Boden-Klasse11.html']:
     add(root / 'artifacts' / name, 'source/artifacts/' + name)
-for name in ['STUDIO-MACOS.md', 'STUDIO-ABNAHMEBERICHT.md']:
+for name in ['STUDIO-MACOS.md', release['report']]:
     add(root / 'docs' / name, name)
 for folder in ['studio', 'player']:
     for path in sorted((root / 'studio/dist' / folder).rglob('*')):
@@ -56,7 +70,7 @@ add(root / 'studio/dist/player-boundary.json', 'built/player-boundary.json')
 for path in sorted(evidence.iterdir()):
     if path.is_file() and path.suffix in ['.json', '.png', '.pdf', '.zip', '.mysteryboard', '.log', '.txt']:
         add(path, 'evidence/' + path.name)
-for folder in ['Mac', 'Frueher-Testlauf-Touch-Emulation', 'logs', 'PNG-Originalpruefung', 'OCR-Regression']:
+for folder in ['Mac', 'Vorher', 'Vergleich', 'Frueher-Testlauf-Touch-Emulation', 'logs', 'PNG-Originalpruefung', 'OCR-Regression']:
     for path in sorted((evidence / folder).rglob('*')):
         if path.is_file() and 'native-profile' not in path.parts:
             add(path, 'evidence/' + path.relative_to(evidence).as_posix())
@@ -67,13 +81,14 @@ for name in ['Mac-Dateien.json']:
 
 head = subprocess.check_output(['git', '-C', str(root), 'rev-parse', 'HEAD'], text=True).strip()
 payload['VERSION.json'] = (json.dumps(dict(
-    product='MysteryBoard Studio 0.1.0 – technische Abnahmefassung',
+    product=release['product'],
     packagedAtUtc=datetime.now(timezone.utc).isoformat(),
     applicationSourceCommit=runtime_commit,
     packagingSourceCommit=head,
-    baseCommit='a04f7c59f51309676156cdcb959db4fdc39128c3',
-    branch='feat/mysteryboard-studio-macos',
-    macOSRun='https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44029762631',
+    baseCommit=release['baseCommit'],
+    branch=release['branch'],
+    macOSRun=release['macOSRun'],
+    nativeBuildSourceCommit=release.get('nativeBuildSourceCommit', runtime_commit),
     nativeBinaries='Separate DMG and App ZIP: see Mac-Dateien.json. Not embedded in this review ZIP.',
     schoolApproval=False,
     note='Runtime files match applicationSourceCommit; subsequent changes are QA/documentation/delivery only. Manifest hashes are authoritative for this archive.'
@@ -81,7 +96,7 @@ payload['VERSION.json'] = (json.dumps(dict(
 payload['LESEN.txt'] = '''MysteryBoard Studio – Abnahmepaket
 
 STUDIO-MACOS.md: Installation und Bedienung.
-STUDIO-ABNAHMEBERICHT.md: tatsächliche Nachweise und offene Abnahmepunkte.
+{report}: tatsächliche Nachweise und offene Abnahmepunkte.
 Mac-Dateien.json: separate native Downloads mit Bytes und SHA-256.
 evidence/Mac/: PDFs, .mysteryboard-Projekte, Schüler-SCORMs und echte Mac-Protokolle.
 evidence/: PNG-Sicherungen, Browsernachweise, alle gerenderten PDF-Seiten.
@@ -99,7 +114,7 @@ Die installierte App benötigt kein Terminal, Python oder System-Node.js.
 Nur gültige Schüler-SCORM-ZIPs in itslearning hochladen, nicht dieses Quell-/Abnahmepaket.
 Keine Apple-Notarisierung und keine schulische Gerätefreigabe behauptet.
 Frühere Touch-Emulationsfehler sind separat markiert und nicht als bestandene Läufe ausgegeben.
-'''.encode()
+'''.replace('{report}', release['report']).encode()
 payload['verify-package.py'] = '''from pathlib import Path
 import hashlib,json,zipfile
 root=Path(__file__).resolve().parent

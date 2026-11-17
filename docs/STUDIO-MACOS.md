@@ -1,19 +1,26 @@
 # MysteryBoard Studio – Installation und Bedienung
 
-Abnahmefassung vom 17. November 2026. Für Apple Silicon (M1 und neuer),
+Studio 0.2.0, UX-Fassung vom 17. November 2026. Für Apple Silicon (M1 und neuer),
 Build-Mindestziel macOS 13; tatsächlich geprüft auf macOS 15.8.2.
-Die Anwendung wurde auf einem macOS-15-ARM64-Runner aus ihrer tatsächlichen DMG
-installiert und als gepackte App getestet. Der Erststart auf dem eigenen M1-Mac,
-verwaltete Schul-iPads und die echte itslearning-Installation bleiben zu prüfen.
+Die Einzelheiten der aktuellen nativen Prüfung stehen in
+`STUDIO-UX-ABNAHMEBERICHT.md`. Der erfolgreiche Nutzerstart der vorherigen
+Version auf dem M1 ersetzt nicht die Prüfung dieser neuen Fassung. Verwaltete
+Schul-iPads und die echte itslearning-Installation bleiben zu prüfen.
 
 ## Installieren
 
-1. `MysteryBoard-Studio-Apple-Silicon.dmg` herunterladen und öffnen.
+1. `MysteryBoard-Studio-0.2.0-Apple-Silicon.dmg` herunterladen und öffnen.
 2. `MysteryBoard Studio.app` in den gewünschten Programme-Ordner kopieren. Ein
    eigener Programme-Ordner im Benutzerordner ist ohne administrative
    Installation nutzbar. Alternativ die App aus der mitgelieferten ZIP entpacken.
 3. Die kopierte App öffnen. Während des Betriebs werden kein Terminal, kein
    Python, kein Entwicklungsserver und kein separat installiertes Node.js benötigt.
+
+Beim Download des vollständigen Actions-Artefakts die äußere ZIP zuerst
+entpacken. Die Installationsdateien liegen darin unter `out/make/`; die DMG heißt
+dort `MysteryBoard Studio.dmg`. Die App-ZIP ist eine alternative Installation.
+Das separate Abnahmepaket enthält Quellen und Prüfnachweise; es ist kein
+Installationsersatz und kein Schüler-SCORM.
 
 **Wichtig für den Erststart:** Die App ist kostenlos ad hoc signiert; ihre
 Ressourcenprüfung besteht. Sie besitzt kein Apple-Developer-ID-Zertifikat und ist
@@ -33,12 +40,11 @@ stehen Überschrift, Text, Kartengruppe und bei Bedarf ein Bild zur Verfügung.
 „Karte übernehmen“ legt die Karte auf der Pinnwand ab. Dort kann sie angeklickt
 und durch Ziehen angeordnet werden.
 
-Die fünf Hauptaktionen bleiben erreichbar:
+Die vier Hauptaktionen bleiben erreichbar:
 
 - Karte hinzufügen
-- Material importieren
+- Importieren
 - Mystery gestalten
-- Projekt sichern
 - Exportieren
 
 Für ein einfaches Mystery sind keine Gestaltungsentscheidungen nötig.
@@ -74,9 +80,9 @@ sich unabhängig davon konfigurieren.
 Hilfen erreicht ihr unter „Mystery gestalten → Karten und Medien → Hilfen
 konfigurieren“. Dort bleibt der vorhandene grafische Hilfeeditor mit Denkimpuls,
 Farbgruppen und Kartenwahl verfügbar. Mit „Übernehmen“ werden die Hilfen in
-denselben Entwurf übernommen; danach bewusst „Projekt sichern“ wählen.
+denselben Entwurf übernommen; danach bewusst mit ⌘S sichern.
 
-Unter „Projekt → Schüleransicht prüfen“ öffnet sich der tatsächlich separat gebaute
+Unter „Exportieren → Schüleransicht prüfen“ öffnet sich der tatsächlich separat gebaute
 Player in einem eigenen, vorübergehenden Fenster. Er besitzt keinen Studio-
 Dateizugriff und keine OCR. Änderungen in dieser Vorschau verändern weder das
 Autorenprojekt noch die veröffentlichte Startanordnung.
@@ -87,8 +93,14 @@ Word-Dateien (`.docx`), PDFs und Fotos als PNG, JPEG oder WebP lassen sich ausw�
 oder auf der Pinnwand ablegen; Dateien können auch auf der Studio-Startfläche
 abgelegt werden. Jeweils eine Datei wird kontrolliert verarbeitet.
 
+Nach dem Import zeigt ein breites Fenster links das Original und rechts die
+aktuelle Karte. Nummerierte Rahmen im Original sind anklickbar. „Vorherige Karte“
+und „Nächste Karte“ wechseln ebenfalls die Auswahl, bei Bedarf auch die PDF-Seite.
+„Original vergrößern“ hilft beim Vergleich. Im schmalen Fenster wechseln die
+beiden Ansichten über die vorhandenen Reiter.
+
 Text-PDFs verwenden weiterhin die schnelle räumliche Textextraktion. Für Fotos und
-reine Scan-Seiten wird die vollständig lokale deutsche OCR angeboten. Mehrere
+reine Scan-Seiten startet einmal pro Seite die vollständig lokale deutsche OCR. Mehrere
 Karten pro Seite werden anhand der vorhandenen Grenzen und Textpositionen
 vorgeschlagen. Grenzen lassen sich markieren, verschieben, verändern, teilen,
 zusammenführen, ergänzen und entfernen. Einzelne Karten können erneut erkannt
@@ -100,15 +112,22 @@ im Studio vorsorglich zur Übernahme des Originalausschnitts. Dies ist eine
 heuristische Sicherung von Bildinformationen, keine fachliche Diagrammanalyse.
 Fehlende Zuordnungen und Fehlalarme bleiben möglich. Bilder, Achsen, Legenden,
 Einheiten und Quellen deshalb am Original kontrollieren und bei Bedarf manuell
-zuordnen. Mehrere Originalbilder einer Word-Karte können gemeinsam übernommen
+zuordnen. Diese Werkzeuge liegen unter „Erkennung korrigieren“ in den Bereichen
+„Kartengrenzen“, „Texterkennung“, „Kartenstruktur“ und „Bilder, Diagramme und
+Tabellen“. Es wird jeweils ein Aufgabenbereich geöffnet. „Zur einfachen Ansicht“
+schließt die Werkzeuge; bereits bearbeitete Felder bleiben erhalten.
+Mehrere Originalbilder einer Word-Karte können gemeinsam übernommen
 werden. Mehr als vier Bilder werden in weiteren Vorschlägen erhalten beziehungsweise
 beim Zusammenführen ausdrücklich abgewiesen; es wird kein Bild still verworfen.
 
 Jede OCR-Karte muss einzeln geprüft werden. Besonders Jahreszahlen, Kommas,
 Einheiten, Eigennamen und Quellen vergleichen. Niedrige OCR-Werte werden mit
 sprachlichen Hinweisen und „(?)“ markiert; hohe Werte sind keine Garantie für
-Richtigkeit. Erst nach der Originalkontrolle übernimmt „Geprüfte Karten übernehmen“
-die Karten in das Projekt. Das ersetzt keinen fachlichen Gegencheck.
+Richtigkeit. Die individuelle Bestätigung steht direkt bei der aktuellen Karte.
+Der Zähler nennt ungeprüfte OCR-Karten. Erst nach der Originalkontrolle und der
+abschließenden Bestätigung übernimmt „Karten übernehmen“ die Karten. Bei
+Text-PDFs genügt die gemeinsame Abschlusskontrolle. Das ersetzt keinen fachlichen
+Gegencheck.
 
 Bei „Neues Mystery aus dem Dokument erstellen“ wird der alte Dateipfad gelöst.
 Das erste Sichern fragt nach einer neuen Projektdatei. Ein abgebrochener Import
@@ -120,9 +139,12 @@ noch kein bestandener realer Kameratest.
 
 ## Projekte lokal sichern
 
-„Projekt sichern“ schreibt eine validierte `.mysteryboard`-Datei mit dem nativen
-Speicherdialog. „Projekt → Speichern unter“ legt eine weitere Datei an. „Mystery
-öffnen“ und „Zuletzt bearbeitete Projekte“ öffnen vorhandene Dateien erneut.
+„Exportieren → Bearbeitbares Mystery sichern“ beziehungsweise ⌘S schreibt eine
+validierte `.mysteryboard`-Datei mit dem nativen Speicherdialog. Auch ein leeres
+oder unfertiges Projekt lässt sich so sichern. „Speichern unter“ im Exportdialog
+oder ⇧⌘S legt eine weitere Datei an. Das native Menü „Ablage“ enthält dieselben
+Dateibefehle, zusätzlich „Mystery öffnen“ (⌘O). Auf der Projektübersicht öffnen
+„Mystery öffnen“ und „Zuletzt bearbeitete Projekte“ vorhandene Dateien erneut.
 Die Liste letzter Projekte enthält lokale Dateiverweise und ist keine Sicherung.
 
 Erst ein erfolgreich abgeschlossener Dateischreibvorgang setzt die native
@@ -138,7 +160,7 @@ Notfallkopie überschrieben.
 
 ### Druck-PDF
 
-„Exportieren → Als Druck-PDF exportieren“ erzeugt ausschneidbare Karten. Die
+„Exportieren → Als Druck-PDF speichern“ erzeugt ausschneidbare Karten. Die
 Vorschau zeigt sämtliche Seiten durch Scrollen. Unter „Druckoptionen“ können A4
 oder A3, Hoch- oder Querformat, Titelseite, Leitfrage, Arbeitsauftrag und
 Schwarz-Weiß gewählt werden. Ohne Änderungen gelten sinnvolle Vorgaben.
@@ -157,7 +179,7 @@ Mystery-Gestaltung sind Projektinhalt.
 
 ### SCORM für itslearning
 
-„Exportieren → Als SCORM für itslearning exportieren“ erzeugt eine vollständige
+„Exportieren → Für itslearning exportieren“ erzeugt eine vollständige
 SCORM-1.2-ZIP. Diese ZIP unverändert als SCORM-Ressource in itslearning importieren.
 Die Aufgabe einschließlich Karten, Bildern, Tabellen, Quellen, Hilfen und
 Startablage ist bereits eingebaut. Schüler müssen keine zusätzliche Datei öffnen.

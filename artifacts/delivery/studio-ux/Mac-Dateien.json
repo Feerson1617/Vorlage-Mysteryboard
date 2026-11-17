@@ -1,0 +1,44 @@
+{
+  "passed": true,
+  "appVersion": "0.2.0",
+  "nativeBuildSourceCommit": "db92059d88e9a38307f925e831ad8728505c2660",
+  "nativeCheckpoints": 23,
+  "appZipEntries": 599,
+  "zipCRC": "passed",
+  "frameworkSymlinks": 14,
+  "machO": "ARM64",
+  "minimumMacOS": "13.0",
+  "dmgUDIFFooter": "present",
+  "dmgNativeVerification": "see DMG-Pruefung.log",
+  "files": [
+    {
+      "file": "MysteryBoard-Studio-0.2.0-Apple-Silicon-App.zip",
+      "bytes": 127815020,
+      "sha256": "fec8ff1e1f72547c8afd4df6641ed8affaa57bad8ae7837cba758f266e36bab0"
+    },
+    {
+      "file": "MysteryBoard-Studio-0.2.0-Apple-Silicon.dmg",
+      "bytes": 125933937,
+      "sha256": "a2a66daa8cc2a0522bccb31454500e32833fd55a2dc0830de795cadbcfe5d533"
+    }
+  ],
+  "workflow": "https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44126057507",
+  "runAttempt": 1,
+  "artifact": {
+    "id": 14347956458,
+    "name": "MysteryBoard-Studio-macOS-Apple-Silicon-db92059d88e9a38307f925e831ad8728505c2660",
+    "expiresAt": "2026-12-17T16:30:08Z",
+    "download": "https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44126057507/artifacts/14347956458",
+    "downloadedBytes": 255236233,
+    "sha256": "d9f088e6b595be35579ef5292b5c0c7cad4172dd3280ee8e8e6c6d2389e2f027",
+    "zipCRC": "passed",
+    "providerDigestMatches": true
+  },
+  "actualBinaryDownloadTest": "gh REST binary stream; ZIP CRC and ARM64 Mach-O checked; not an HTML preview",
+  "notarized": false,
+  "physicalM1AndItslearningAndManagedIpad": "open",
+  "originalArtifactFiles": {
+    "appZip": "out/make/zip/darwin/arm64/MysteryBoard Studio-darwin-arm64-0.2.0.zip",
+    "dmg": "out/make/dmg/arm64/MysteryBoard Studio.dmg"
+  }
+}
