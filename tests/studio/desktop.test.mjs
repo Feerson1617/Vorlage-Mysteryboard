@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { _electron, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
-import { resolve, join } from "node:path";
+import { resolve, join, dirname } from "node:path";
+import { execFileSync } from "node:child_process";
 import { unzipSync } from "fflate";
 import {
   openExports,
@@ -22,6 +23,21 @@ test(
   async () => {
     assert.equal(process.arch, "arm64");
     await mkdir(out, { recursive: true });
+    const keyDriver = join(out, "native-keys.node");
+    execFileSync("xcrun", [
+      "clang++",
+      "-std=c++17",
+      "-fobjc-arc",
+      "-shared",
+      "-undefined",
+      "dynamic_lookup",
+      "-I" + resolve(dirname(process.execPath), "../include/node"),
+      "-framework",
+      "AppKit",
+      resolve("qa/studio/native-keys.mm"),
+      "-o",
+      keyDriver,
+    ]);
     const sources = await fixtures(out);
     const app = await _electron.launch({
       executablePath: executable,
@@ -78,12 +94,20 @@ test(
             ),
           )
           .toBe(true);
-        await page.keyboard.press(
-          {
-            "project-open": "Meta+o",
-            "project-save": "Meta+s",
-            "project-save-as": "Meta+Shift+s",
-          }[id],
+        const handled = await app.evaluate(
+          ({ BrowserWindow }, { path, id }) => {
+            const driver = require(path);
+            return driver.shortcut(
+              id === "project-open" ? "o" : "s",
+              id === "project-save-as",
+            );
+          },
+          { path: keyDriver, id },
+        );
+        assert.equal(
+          handled,
+          true,
+          "The real AppKit menu must resolve this key equivalent",
         );
       };
       const accelerators = await app.evaluate(({ Menu }) =>
@@ -604,6 +628,8 @@ test(
               "real hosted macOS ARM64 runner; not a physical classroom Mac",
             nativeDialogs:
               "dialog results selected by test harness; real application filesystem and printToPDF used",
+            shortcutTest:
+              "synthetic NSEvents resolved by the installed app's real AppKit menu; no CDP/menu-click substitution and no physical keyboard claim",
             physicalM1AndManagedIpadAndItslearning: "open",
           },
           null,
