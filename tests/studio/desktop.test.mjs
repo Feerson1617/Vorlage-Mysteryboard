@@ -88,12 +88,27 @@ test(
         await expect
           .poll(async () => {
             try {
+              return JSON.parse(await readFile(source.path, "utf8")).content
+                .title;
+            } catch {
+              return "";
+            }
+          })
+          .toBe(source.document.content.title + " geprüft");
+        await page.locator(".studio-project-menu summary").click();
+        await page
+          .getByRole("button", { name: "Speichern unter", exact: true })
+          .click();
+        await expect
+          .poll(async () => {
+            try {
               return JSON.parse(await readFile(saved, "utf8")).content.title;
             } catch {
               return "";
             }
           })
           .toBe(source.document.content.title + " geprüft");
+        await page.locator(".studio-project-menu summary").click();
         checks.push(source.n + " native project read/write");
         const pdf = join(out, `Studio-${source.n}-Karten.pdf`);
         await app.evaluate(({ dialog }, path) => {
