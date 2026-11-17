@@ -1150,11 +1150,12 @@ export function AuthorEditor({
           </div>
         </>
       )}
-      {error && (
-        <p role="alert" className="status">
-          {error}
-        </p>
-      )}
+      {error &&
+        (!integration || designOpen || helpEditing || documentImport) && (
+          <p role="alert" className="status">
+            {error}
+          </p>
+        )}
       {card && (
         <Dialog
           title={

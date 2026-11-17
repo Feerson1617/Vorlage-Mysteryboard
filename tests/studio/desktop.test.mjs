@@ -713,11 +713,13 @@ test(
         dialog.showSaveDialog = async () => ({ canceled: false, filePath });
       }, badPath);
       await nativeCommand("project-save-as");
+      await expect(page.getByRole("alert")).toHaveCount(1);
       await expect(page.getByRole("alert")).toContainText(
         "konnte nicht gespeichert werden",
       );
       await expect(page.locator(".studio-unsaved")).toBeVisible();
       assert.deepEqual(await readFile(emptyPath), emptyBytes);
+      await page.screenshot({ path: join(out, "Mac-UX-Schreibfehler.png") });
       const recovered = join(out, "Wieder-gesichert.mysteryboard");
       await app.evaluate(({ dialog }, filePath) => {
         dialog.showSaveDialog = async () => ({ canceled: false, filePath });

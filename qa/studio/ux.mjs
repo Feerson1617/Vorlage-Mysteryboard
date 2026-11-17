@@ -27,7 +27,8 @@ const records = [],
   requests = [];
 let page,
   selected = "",
-  cancelSave = false;
+  cancelSave = false,
+  failSave = false;
 try {
   const context = await browser.newContext({
     viewport: { width: 1280, height: 900 },
@@ -48,6 +49,7 @@ try {
     name: selected.split("/").at(-1),
   }));
   await page.exposeFunction("qaSave", async (bytes, saveAs) => {
+    if (failSave) throw Error("Datei konnte im Test nicht geschrieben werden.");
     records.push({ operation: "save", saveAs, canceled: cancelSave });
     if (cancelSave) return null;
     await writeFile(join(out, "UX-Projekt.mysteryboard"), Buffer.from(bytes));
@@ -141,6 +143,32 @@ try {
   cancelSave = false;
   await saveProject(page);
   await expect(page.locator(".studio-unsaved")).toHaveCount(0);
+  const beforeFailedSave = await readFile(join(out, "UX-Projekt.mysteryboard"));
+  await page
+    .getByLabel("Mystery-Titel", { exact: true })
+    .fill("Vier Beobachtungen – noch nicht gesichert");
+  failSave = true;
+  await openExports(page);
+  await button("Bearbeitbares Mystery sichern").click();
+  await expect(
+    page
+      .getByRole("dialog", { name: "Speichern und exportieren", exact: true })
+      .getByRole("alert"),
+  ).toContainText("konnte nicht gespeichert werden");
+  await closeExports(page);
+  await expect(page.getByRole("alert")).toHaveCount(1);
+  await expect(page.getByRole("alert")).toBeVisible();
+  await expect(page.locator(".studio-unsaved")).toBeVisible();
+  expect(await readFile(join(out, "UX-Projekt.mysteryboard"))).toEqual(
+    beforeFailedSave,
+  );
+  await page.screenshot({ path: join(out, "Schreibfehler-eindeutig.png") });
+  failSave = false;
+  await page
+    .getByLabel("Mystery-Titel", { exact: true })
+    .fill("Vier Beobachtungen");
+  await saveProject(page);
+  await expect(page.getByRole("alert")).toHaveCount(0);
   await page.screenshot({ path: join(out, "Hauptleiste-und-Pinnwand.png") });
   await openExports(page);
   await page.screenshot({ path: join(out, "Speichern-und-Exportieren.png") });
