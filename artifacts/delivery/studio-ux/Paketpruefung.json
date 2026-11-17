@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "archive": "MysteryBoard-Studio-UX-Abnahmepaket.zip",
+  "archiveSHA256": "1917c8c96d80b783c96311a6c7367bd0ce9517fa98704ec803bfedaa149f0f60",
+  "extractedManifestFiles": 710,
+  "archiveCRC": "passed",
+  "allManifestSHA256": "passed",
+  "command": "npm run studio:build in extracted source/",
+  "dependencies": "same pinned installed dependency tree, copied using hardlinks; no symlinked root node_modules",
+  "applicationSourceCommit": "b5788140e968e60510c85a3c9e4b49480d4ec6f7",
+  "files": [
+    {
+      "file": "studio/index.html",
+      "bytes": 9705588,
+      "sha256": "4461109cac061efaf50edc13aa57a8ea97f2df415be0170d3ced340d4a740157",
+      "equal": true
+    },
+    {
+      "file": "player/index.html",
+      "bytes": 1250773,
+      "sha256": "d1d822e5f70a143440ae6cb2df796db347e56825ffb0875cf48371c5da0ed0c4",
+      "equal": true
+    },
+    {
+      "file": "player-boundary.json",
+      "bytes": 3403,
+      "sha256": "e7d3a271e5762f11fa14d0e4191c639ba1f1d21f0c7d09c3276106c25a09324c",
+      "equal": true
+    },
+    {
+      "file": "electron/main.cjs",
+      "bytes": 1227900,
+      "sha256": "c0e7d943038c88475723753317cc8035652ccaf38dc48a7e1baaddb516301d06",
+      "equal": true
+    }
+  ]
+}
