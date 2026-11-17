@@ -151,6 +151,15 @@ export async function exportBoard(
       );
     }
     ctx.restore();
+    if (m.design) {
+      ctx.fillStyle = design.background;
+      ctx.fillRect(
+        margin,
+        headerBounds.boardTop,
+        width - 2 * margin,
+        boardHeight,
+      );
+    }
     ctx.save();
     ctx.translate(
       margin + (width - 2 * margin - bounds.width * scale) / 2,

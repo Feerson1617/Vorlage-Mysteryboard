@@ -91,12 +91,13 @@ export function StudioApp() {
     scorm: async (task, signal) => {
       signal.throwIfAborted();
       const placeholder =
-        '<script id="mysteryboard-launch" type="application/json">null</script>';
-      if (template.split(placeholder).length !== 2)
+        /<script\s+id="mysteryboard-launch"\s+type="application\/json">\s*null\s*<\/script>/g;
+      if ([...template.matchAll(placeholder)].length !== 1)
         throw Error("Der geprüfte Schülerplayer fehlt.");
       const html = template.replace(
         placeholder,
-        `<script id="mysteryboard-launch" type="application/json">${launchJSON(task, true)}</script>`,
+        () =>
+          `<script id="mysteryboard-launch" type="application/json">${launchJSON(task, true)}</script>`,
       );
       const zip = zipScorm(
         scormEntries(
