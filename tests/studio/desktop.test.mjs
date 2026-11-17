@@ -417,29 +417,72 @@ test(
         );
         await page.screenshot({ path: join(out, `Mac-OCR-${name}.png`) });
         if (name === "Scan-B-16.pdf") {
+          const available = await app.evaluate(({ BrowserWindow, screen }) => {
+            const window = BrowserWindow.getAllWindows()[0];
+            const area = screen.getDisplayMatching(window.getBounds()).workArea;
+            const content = window.getContentBounds();
+            const frame = window.getBounds();
+            window.setPosition(area.x, area.y);
+            return {
+              area,
+              width: area.width - (frame.width - content.width),
+              height: area.height - (frame.height - content.height),
+            };
+          });
+          const viewports = [];
           for (const [width, height] of [
             [1280, 900],
             [1024, 768],
             [768, 1024],
             [720, 600],
           ]) {
+            const target = {
+              width: Math.min(width, available.width),
+              height: Math.min(height, available.height),
+            };
             await app.evaluate(
               ({ BrowserWindow }, { width, height }) =>
                 BrowserWindow.getAllWindows()[0].setContentSize(width, height),
-              { width, height },
+              target,
             );
             await expect
               .poll(() => page.evaluate(() => window.innerWidth))
-              .toBe(width);
+              .toBe(target.width);
             await expect
               .poll(() => page.evaluate(() => window.innerHeight))
-              .toBe(height);
+              .toBe(target.height);
+            expect(
+              await page.evaluate(() => document.documentElement.scrollWidth),
+            ).toBeLessThanOrEqual(target.width + 1);
+            await expect(
+              page.getByRole("button", {
+                name: "Erkennung korrigieren",
+                exact: true,
+              }),
+            ).toBeVisible();
+            viewports.push({ requested: { width, height }, actual: target });
             await page.screenshot({
-              path: join(out, `Mac-UX-Import-${width}x${height}.png`),
+              path: join(
+                out,
+                `Mac-UX-Import-${target.width}x${target.height}.png`,
+              ),
             });
           }
-          await app.evaluate(({ BrowserWindow }) =>
-            BrowserWindow.getAllWindows()[0].setContentSize(1280, 900),
+          await writeFile(
+            join(out, "native-viewports.json"),
+            JSON.stringify(
+              { available, viewports, unboundedPortraitNativeTest: false },
+              null,
+              2,
+            ),
+          );
+          await app.evaluate(
+            ({ BrowserWindow }, size) =>
+              BrowserWindow.getAllWindows()[0].setContentSize(
+                size.width,
+                size.height,
+              ),
+            viewports[0].actual,
           );
         }
         checks.push("custom protocol OCR " + name + " cards " + count);
