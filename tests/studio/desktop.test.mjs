@@ -568,9 +568,37 @@ test(
         "new imported mystery asks for a new path and preserves old project bytes",
       );
       await closeExports(page);
+      // Choose the two JS-confirm answers explicitly. CDP acceptance can leave
+      // Electron's native confirmation sheet owning focus on hosted macOS.
+      await page.evaluate(() => {
+        globalThis.__previousConfirm = window.confirm;
+        globalThis.__overviewConfirmations = [];
+        window.confirm = (message) => {
+          globalThis.__overviewConfirmations.push(message);
+          return globalThis.__overviewConfirmations.length > 1;
+        };
+      });
       await page
         .getByRole("button", { name: "Zur Projektübersicht", exact: true })
         .click();
+      await expect(page.locator(".studio-board [data-card]")).toHaveCount(4);
+      await expect(page.locator(".studio-unsaved")).toBeVisible();
+      await page
+        .getByRole("button", { name: "Zur Projektübersicht", exact: true })
+        .click();
+      assert.deepEqual(
+        await page.evaluate(() => globalThis.__overviewConfirmations),
+        [
+          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+        ],
+      );
+      await page.evaluate(() => {
+        window.confirm = globalThis.__previousConfirm;
+      });
+      checks.push(
+        "overview confirmation: cancel retains dirty cards; explicit discard returns home",
+      );
       await page
         .getByRole("button", { name: "Neues Mystery erstellen", exact: true })
         .click();
