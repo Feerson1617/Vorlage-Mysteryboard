@@ -1,0 +1,412 @@
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  ipcMain,
+  protocol,
+  net,
+  session,
+  Menu,
+} from "electron";
+import {
+  readFile,
+  writeFile,
+  rename,
+  mkdir,
+  stat,
+  realpath,
+  unlink,
+} from "node:fs/promises";
+import { resolve, dirname, basename, sep } from "node:path";
+import { pathToFileURL } from "node:url";
+import { randomUUID } from "node:crypto";
+import {
+  readDocument,
+  encodeDocument,
+  MAX_DOCUMENT_BYTES,
+  type Draft,
+} from "../../src/core/documents";
+import { unzipSync } from "fflate";
+import { parsePng } from "../../src/core/png";
+const SCHEME = "mysteryboard",
+  ORIGIN = SCHEME + "://app",
+  URL = ORIGIN + "/index.html";
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: SCHEME,
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+      codeCache: true,
+    },
+  },
+]);
+app.enableSandbox();
+let window: BrowserWindow;
+let currentPath: string | null = null;
+let state: { bytes: Uint8Array; dirty: boolean; forms: boolean } | null = null;
+let closing = false,
+  asking = false;
+let recent: { id: string; path: string }[] = [];
+const bytes = (value: unknown, max = MAX_DOCUMENT_BYTES) => {
+  if (
+    !(value instanceof Uint8Array) ||
+    !value.byteLength ||
+    value.byteLength > max
+  )
+    throw Error("Ungültige oder zu große Dateidaten.");
+  return new Uint8Array(value);
+};
+const project = (value: unknown) => {
+  const data = bytes(value),
+    doc = readDocument(data);
+  if (doc.kind !== "draft")
+    throw Error("Projektdateien müssen bearbeitbare Lehrkraftentwürfe sein.");
+  return { bytes: encodeDocument(doc), doc: doc as Draft };
+};
+const recentFile = () => resolve(app.getPath("userData"), "studio-recent.json");
+async function remember(path: string) {
+  recent = [
+    recent.find((x) => x.path === path) || { id: randomUUID(), path },
+    ...recent.filter((x) => x.path !== path),
+  ].slice(0, 12);
+  await mkdir(dirname(recentFile()), { recursive: true });
+  await atomic(recentFile(), Buffer.from(JSON.stringify(recent)));
+}
+async function atomic(path: string, data: Uint8Array) {
+  const temporary = path + "." + randomUUID() + ".tmp";
+  try {
+    await writeFile(temporary, data, { flag: "wx", mode: 0o600 });
+    await rename(temporary, path);
+  } finally {
+    await unlink(temporary).catch(() => {});
+  }
+}
+async function save(data: Uint8Array, saveAs = false) {
+  const checked = project(data);
+  let path = currentPath;
+  if (!path || saveAs) {
+    const result = await dialog.showSaveDialog(window, {
+      title: "Mystery-Projekt speichern",
+      defaultPath: currentPath || "Mystery.mysteryboard",
+      filters: [{ name: "MysteryBoard-Projekt", extensions: ["mysteryboard"] }],
+      properties: ["createDirectory", "showOverwriteConfirmation"],
+    });
+    if (result.canceled || !result.filePath) return null;
+    path = result.filePath;
+    if (!path.toLowerCase().endsWith(".mysteryboard")) path += ".mysteryboard";
+  }
+  await atomic(path, checked.bytes);
+  currentPath = path;
+  await remember(path);
+  if (state && Buffer.from(state.bytes).equals(Buffer.from(checked.bytes))) {
+    state.dirty = false;
+    window.webContents.send("project:saved");
+  }
+  return { name: basename(path) };
+}
+async function allowReplace() {
+  if (!state?.dirty && !state?.forms) return true;
+  const buttons = state.forms
+    ? ["Abbrechen", "Änderungen verwerfen"]
+    : ["Abbrechen", "Änderungen verwerfen", "Projekt speichern"];
+  const response = await dialog.showMessageBox(window, {
+    type: "warning",
+    message: "Ungesicherte Änderungen",
+    detail: state.forms
+      ? "Es ist ein Bearbeitungsschritt geöffnet. Bitte diesen zuerst übernehmen oder abbrechen. Beim Verwerfen gehen auch noch nicht übernommene Eingaben verloren."
+      : "Das geöffnete Projekt enthält noch nicht gespeicherte Änderungen.",
+    buttons,
+    defaultId: 0,
+    cancelId: 0,
+    noLink: true,
+  });
+  if (response.response === 2) {
+    const result = await save(state!.bytes);
+    return !!result && !state?.dirty;
+  }
+  return response.response === 1;
+}
+async function open(path?: string) {
+  if (!(await allowReplace())) return null;
+  if (!path) {
+    const r = await dialog.showOpenDialog(window, {
+      title: "Mystery öffnen",
+      filters: [{ name: "MysteryBoard", extensions: ["mysteryboard"] }],
+      properties: ["openFile"],
+    });
+    if (r.canceled) return null;
+    path = r.filePaths[0];
+  }
+  if (!path || !path.toLowerCase().endsWith(".mysteryboard"))
+    throw Error("Bitte eine .mysteryboard-Datei wählen.");
+  const size = (await stat(path)).size;
+  if (size > MAX_DOCUMENT_BYTES) throw Error("Die Datei ist größer als 20 MB.");
+  const data = new Uint8Array(await readFile(path));
+  const doc = readDocument(data);
+  if (doc.kind === "student")
+    throw Error("Schülerarbeitsstände bitte im Schülerplayer öffnen.");
+  currentPath = doc.kind === "draft" ? path : null;
+  state = null;
+  await remember(path);
+  return { bytes: data, name: basename(path) };
+}
+const trusted = (event: Electron.IpcMainInvokeEvent) => {
+  if (
+    event.sender !== window.webContents ||
+    event.senderFrame !== window.webContents.mainFrame ||
+    event.senderFrame.url !== URL
+  )
+    throw Error("Nicht erlaubter App-Zugriff.");
+};
+const handle = (name: string, fn: (arg: any) => unknown) =>
+  ipcMain.handle(name, async (event, arg) => {
+    trusted(event);
+    return await fn(arg);
+  });
+async function setup() {
+  const root = await realpath(resolve(__dirname, "../dist/studio"));
+  const security = JSON.parse(
+    await readFile(resolve(root, "security.json"), "utf8"),
+  );
+  protocol.handle(SCHEME, async (request) => {
+    try {
+      if (request.method !== "GET") return new Response("", { status: 405 });
+      const u = new globalThis.URL(request.url);
+      if (u.host !== "app" || u.username || u.password)
+        return new Response("", { status: 403 });
+      const relative = decodeURIComponent(u.pathname).replace(/^\//, "");
+      const target = await realpath(resolve(root, relative));
+      if (!target.startsWith(root + sep))
+        return new Response("", { status: 403 });
+      const content = await readFile(target);
+      const extension = target.split(".").pop();
+      const mime =
+        {
+          html: "text/html; charset=utf-8",
+          js: "text/javascript",
+          json: "application/json",
+          gz: "application/octet-stream",
+          txt: "text/plain",
+        }[extension || ""] || "application/octet-stream";
+      const headers = new Headers({ "Content-Type": mime });
+      headers.set("Content-Security-Policy", security.csp);
+      headers.set("X-Content-Type-Options", "nosniff");
+      headers.set("Referrer-Policy", "no-referrer");
+      return new Response(content, { status: 200, headers });
+    } catch {
+      return new Response("Datei nicht gefunden", { status: 404 });
+    }
+  });
+  session.defaultSession.webRequest.onBeforeRequest((details, cb) => {
+    const u = details.url;
+    cb({
+      cancel:
+        !u.startsWith(ORIGIN + "/") &&
+        !u.startsWith("blob:" + ORIGIN + "/") &&
+        !u.startsWith("data:"),
+    });
+  });
+  session.defaultSession.setPermissionRequestHandler((_wc, _permission, cb) =>
+    cb(false),
+  );
+  session.defaultSession.setPermissionCheckHandler(() => false);
+  window = new BrowserWindow({
+    width: 1280,
+    height: 900,
+    minWidth: 720,
+    minHeight: 600,
+    title: "MysteryBoard Studio",
+    show: false,
+    webPreferences: {
+      preload: resolve(__dirname, "preload.cjs"),
+      contextIsolation: true,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
+      devTools: !app.isPackaged,
+    },
+  });
+  window.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  window.webContents.on("will-attach-webview", (event) =>
+    event.preventDefault(),
+  );
+  window.webContents.on("will-navigate", (event, url) => {
+    if (url !== URL) event.preventDefault();
+  });
+  window.on("close", (event) => {
+    if (closing || (!state?.dirty && !state?.forms)) return;
+    event.preventDefault();
+    if (asking) return;
+    asking = true;
+    void allowReplace()
+      .then((ok) => {
+        if (ok) {
+          closing = true;
+          window.destroy();
+          app.quit();
+        }
+      })
+      .finally(() => (asking = false));
+  });
+  // beforeunload is still used by the shared browser editor. Native close owns
+  // the decision; never silently discard form edits or a pending native save.
+  window.webContents.on("will-prevent-unload", (event) => {
+    if (closing || (!state?.dirty && !state?.forms)) event.preventDefault();
+  });
+  handle("project:open", () => open());
+  handle("project:list", () =>
+    recent.map((r) => ({ id: r.id, name: basename(r.path) })),
+  );
+  handle("project:recent", (id) => {
+    if (typeof id !== "string") throw Error("Ungültige Projektauswahl.");
+    const entry = recent.find((r) => r.id === id);
+    if (!entry) throw Error("Projekt nicht in der Liste.");
+    return open(entry.path);
+  });
+  handle("project:detach", () => {
+    currentPath = null;
+    state = null;
+  });
+  handle("project:state", (s) => {
+    if (!s || typeof s.dirty !== "boolean" || typeof s.forms !== "boolean")
+      throw Error("Ungültiger Projektzustand.");
+    state = { bytes: project(s.bytes).bytes, dirty: s.dirty, forms: s.forms };
+  });
+  handle("project:save", (s) => {
+    if (!s || typeof s.saveAs !== "boolean")
+      throw Error("Ungültiger Speicherauftrag.");
+    return save(bytes(s.bytes), s.saveAs);
+  });
+  handle("export:save", async (s) => {
+    if (
+      !s ||
+      typeof s.name !== "string" ||
+      s.name.length > 220 ||
+      basename(s.name) !== s.name ||
+      !["scorm", "document", "png"].includes(s.kind)
+    )
+      throw Error("Ungültiger Export.");
+    const data = bytes(s.bytes, s.kind === "png" ? 30_000_000 : 20_000_000);
+    const extension =
+      s.kind === "scorm" ? "zip" : s.kind === "png" ? "png" : "mysteryboard";
+    if (s.kind === "document") {
+      const d = readDocument(data);
+      if (d.kind === "student")
+        throw Error("Studio exportiert keine Schülerarbeitsstände.");
+    } else if (s.kind === "png") parsePng(data);
+    else {
+      let sum = 0;
+      const entries = unzipSync(data, {
+        filter: (f) => {
+          sum += f.originalSize;
+          if (sum > 20_000_000 || f.originalSize > 10_000_000)
+            throw Error("SCORM-Inhalte sind zu groß.");
+          return true;
+        },
+      });
+      if (
+        Object.keys(entries).sort().join("|") !==
+        "app.html|imsmanifest.xml|launch.html|session.js"
+      )
+        throw Error("Ungültiges Schüler-SCORM.");
+    }
+    const r = await dialog.showSaveDialog(window, {
+      title: "Export speichern",
+      defaultPath: s.name,
+      filters: [{ name: "MysteryBoard-Export", extensions: [extension] }],
+      properties: ["createDirectory", "showOverwriteConfirmation"],
+    });
+    if (r.canceled || !r.filePath) return false;
+    const path = r.filePath.toLowerCase().endsWith("." + extension)
+      ? r.filePath
+      : r.filePath + "." + extension;
+    await atomic(path, data);
+    return true;
+  });
+  handle("export:pdf", async (html) => {
+    if (
+      typeof html !== "string" ||
+      Buffer.byteLength(html) > 25_000_000 ||
+      !html.toLowerCase().startsWith("<!doctype html>")
+    )
+      throw Error("Ungültige Druckfassung.");
+    const print = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        contextIsolation: true,
+        nodeIntegration: false,
+        sandbox: true,
+        javascript: false,
+        webSecurity: true,
+        devTools: false,
+      },
+    });
+    print.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+    try {
+      await print.loadURL(
+        "data:text/html;charset=utf-8," + encodeURIComponent(html),
+      );
+      const pdf = await print.webContents.printToPDF({
+        printBackground: true,
+        preferCSSPageSize: true,
+        margins: { top: 0, bottom: 0, left: 0, right: 0 },
+        generateTaggedPDF: true,
+      });
+      const r = await dialog.showSaveDialog(window, {
+        title: "Druck-PDF speichern",
+        defaultPath: "Mystery-Druckkarten.pdf",
+        filters: [{ name: "PDF", extensions: ["pdf"] }],
+        properties: ["createDirectory", "showOverwriteConfirmation"],
+      });
+      if (r.canceled || !r.filePath) return false;
+      await atomic(
+        r.filePath.toLowerCase().endsWith(".pdf")
+          ? r.filePath
+          : r.filePath + ".pdf",
+        pdf,
+      );
+      return true;
+    } finally {
+      print.destroy();
+    }
+  });
+  const template: Electron.MenuItemConstructorOptions[] = [
+    ...(process.platform === "darwin" ? [{ role: "appMenu" as const }] : []),
+    { role: "editMenu" },
+    { role: "windowMenu" },
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  window.once("ready-to-show", () => window.show());
+  await window.loadURL(URL);
+}
+app
+  .whenReady()
+  .then(async () => {
+    try {
+      const list = JSON.parse(await readFile(recentFile(), "utf8"));
+      if (Array.isArray(list))
+        recent = list
+          .filter(
+            (x: any) =>
+              x &&
+              typeof x.id === "string" &&
+              typeof x.path === "string" &&
+              x.path.length < 4096,
+          )
+          .slice(0, 12);
+    } catch {}
+    await setup();
+  })
+  .catch((error) => {
+    dialog.showErrorBox(
+      "MysteryBoard Studio konnte nicht starten",
+      String(error.message),
+    );
+    app.quit();
+  });
+app.on("window-all-closed", () => app.quit());

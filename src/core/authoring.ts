@@ -60,9 +60,7 @@ export function reviseDraft(
 // Explicitly renumber a structural edit and all internal references together.
 // The caller advances the content version; already exported files stay intact.
 export function retainCards(content: Content, ids: number[]): Content {
-  const selected = content.cards
-    .filter((c) => ids.includes(c.id))
-    .sort((a, b) => a.id - b.id);
+  const selected = content.cards.filter((c) => ids.includes(c.id));
   const map = new Map(selected.map((c, i) => [c.id, i + 1]));
   const categories = content.help?.categories
     ?.map((c) => ({

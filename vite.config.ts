@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
     define: {
       __UNIVERSAL__: JSON.stringify(target.key === "universal"),
       __INITIAL_DOCUMENT__: "null",
+      __PLAYER_BUILD__: "false",
     },
     plugins: [react(), documentImportAssets(), viteSingleFile()],
     worker: { plugins: () => [documentImportAssets()], format: "es" },

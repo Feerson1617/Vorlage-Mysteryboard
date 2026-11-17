@@ -1,0 +1,147 @@
+.studio-welcome {
+  max-width: 760px;
+  margin: auto;
+}
+.studio-start-actions {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+  margin: 28px auto;
+}
+.studio-welcome h2 {
+  font-size: 1.05rem;
+  margin-top: 32px;
+}
+.studio-recent {
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin: 8px 0;
+}
+.studio-project-name {
+  padding: 6px 24px;
+  background: #e8eee8;
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+.studio-pdf-preview {
+  width: 100%;
+  height: 58vh;
+  border: 1px solid #b6c1b7;
+  background: #eef1ed;
+}
+.studio-print-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.studio-print-options label {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.studio-print-options input[type="checkbox"] {
+  width: auto;
+}
+.author-editor .author-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #f7faf6;
+  padding-block: 12px;
+}
+.studio-main-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.studio-main-toolbar nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.studio-project-menu {
+  margin-left: auto;
+  position: relative;
+}
+.studio-project-menu[open] {
+  background: #fff;
+  border: 1px solid #bcc8c0;
+  padding: 10px;
+  z-index: 6;
+}
+.studio-project-menu button {
+  display: block;
+  margin: 5px 0;
+}
+.studio-pinboard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.studio-title {
+  max-width: 650px;
+  font-weight: 600;
+}
+.studio-title input {
+  font-size: 1.25rem;
+}
+.studio-board {
+  height: calc(100vh - 230px);
+  min-height: 360px;
+  border: 1px solid #b9c8bd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.studio-board svg.board {
+  position: static;
+  width: 100%;
+  height: 100%;
+}
+.studio-empty {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: #edf1ed;
+  border: 1px solid #bcc8c0;
+  border-radius: 8px;
+}
+.studio-design {
+  max-width: 950px;
+  margin: auto;
+}
+.studio-design > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.studio-design nav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.studio-design label {
+  max-width: 550px;
+  margin: 15px 0;
+}
+.studio-design input[type="color"] {
+  width: 80px;
+  min-height: 40px;
+}
+.studio-card-details {
+  margin: 18px 0;
+}
+.studio-card-details summary {
+  cursor: pointer;
+  padding: 10px 0;
+}
+.studio-extra-image {
+  border-top: 1px solid #ccd5cc;
+  margin-top: 15px;
+  padding-top: 15px;
+}

@@ -42,7 +42,11 @@ export async function readDocumentFile(file: File, signal: AbortSignal) {
   });
   for (const card of doc.content.cards) {
     signal.throwIfAborted();
-    if (card.image) await verifyImageDecode(card.image);
+    for (const src of [
+      card.image,
+      ...(card.extraImages ?? []).map((i) => i.src),
+    ].filter((x): x is string => !!x))
+      await verifyImageDecode(src);
   }
   signal.throwIfAborted();
   return doc;

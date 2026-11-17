@@ -1,3 +1,4 @@
+import { CardReading } from "./components/CardReading";
 import { useEffect, useReducer, useRef, useState } from "react";
 import {
   COLOR_NAMES,
@@ -296,7 +297,7 @@ export default function App({
         id: nextEdgeId(work.edges),
         from: connecting,
         to: id,
-        direction: 1,
+        direction: mystery.design?.direction ?? 1,
         label: "",
       });
       setConnecting(null);
@@ -510,10 +511,10 @@ export default function App({
             >
               Fortsetzen
             </button>
-            {onHome && (
+            {!__PLAYER_BUILD__ && onHome && (
               <button onClick={onHome}>Zur universellen Startseite</button>
             )}
-            {onAuthor && (
+            {!__PLAYER_BUILD__ && onAuthor && (
               <button onClick={onAuthor}>
                 Lehrkräftemodus – Mystery bearbeiten
               </button>
@@ -538,17 +539,7 @@ export default function App({
               {mystery.cardGroups![cardContent.group].label}
             </p>
           )}
-          <article className="reading">
-            <h3>{cardContent.title}</h3>
-            <p>{cardContent.text}</p>
-            {cardContent.table && <TableView table={cardContent.table} />}
-            {cardContent.image && (
-              <MediaView src={cardContent.image} alt={cardContent.imageAlt} />
-            )}
-            {cardContent.source && (
-              <p className="small">Quelle: {cardContent.source}</p>
-            )}
-          </article>
+          <CardReading card={cardContent} design={mystery.design} />
           <fieldset>
             <legend>Farbe</legend>
             <div className="colors">
@@ -722,7 +713,7 @@ export default function App({
               Kleineres Sicherungsbild
             </button>
             <button onClick={openPrint}>Druckfassung / PDF</button>
-            {onAuthor && (
+            {!__PLAYER_BUILD__ && onAuthor && (
               <button
                 onClick={() => {
                   if (

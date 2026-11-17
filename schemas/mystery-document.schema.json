@@ -23,7 +23,13 @@
           "pattern": "^[a-f0-9]{64}$"
         }
       },
-      "required": ["format", "formatVersion", "kind", "content", "contentHash"]
+      "required": [
+        "format",
+        "formatVersion",
+        "kind",
+        "content",
+        "contentHash"
+      ]
     },
     {
       "type": "object",
@@ -137,10 +143,65 @@
                         }
                       }
                     },
-                    "required": ["headers", "rows"]
+                    "required": [
+                      "headers",
+                      "rows"
+                    ]
+                  },
+                  "imageCaption": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "imagePosition": {
+                    "enum": [
+                      "before-text",
+                      "after-text"
+                    ]
+                  },
+                  "imageScale": {
+                    "type": "number",
+                    "minimum": 50,
+                    "maximum": 100
+                  },
+                  "extraImages": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "src"
+                      ],
+                      "properties": {
+                        "src": {
+                          "type": "string",
+                          "maxLength": 4000100,
+                          "pattern": "^data:image/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$"
+                        },
+                        "alt": {
+                          "type": "string",
+                          "minLength": 0,
+                          "maxLength": 300
+                        },
+                        "caption": {
+                          "type": "string",
+                          "maxLength": 500
+                        },
+                        "source": {
+                          "type": "string",
+                          "minLength": 0,
+                          "maxLength": 1000
+                        }
+                      }
+                    }
                   }
                 },
-                "required": ["id", "title", "text", "group"]
+                "required": [
+                  "id",
+                  "title",
+                  "text",
+                  "group"
+                ]
               }
             },
             "cardGroups": {
@@ -165,7 +226,10 @@
                     "maxLength": 3
                   }
                 },
-                "required": ["label", "prefix"]
+                "required": [
+                  "label",
+                  "prefix"
+                ]
               }
             },
             "startLayout": {
@@ -183,7 +247,9 @@
                       "maximum": 12
                     }
                   },
-                  "required": ["mode"]
+                  "required": [
+                    "mode"
+                  ]
                 },
                 {
                   "type": "object",
@@ -193,7 +259,9 @@
                       "const": "explicit"
                     }
                   },
-                  "required": ["mode"]
+                  "required": [
+                    "mode"
+                  ]
                 }
               ]
             },
@@ -229,7 +297,12 @@
                         "maximum": 5
                       }
                     },
-                    "required": ["id", "x", "y", "color"]
+                    "required": [
+                      "id",
+                      "x",
+                      "y",
+                      "color"
+                    ]
                   }
                 },
                 "edges": {
@@ -245,7 +318,11 @@
                   }
                 }
               },
-              "required": ["cards", "edges", "categories"]
+              "required": [
+                "cards",
+                "edges",
+                "categories"
+              ]
             },
             "help": {
               "type": "object",
@@ -289,14 +366,110 @@
                         }
                       }
                     },
-                    "required": ["id", "label", "color", "cardIds"]
+                    "required": [
+                      "id",
+                      "label",
+                      "color",
+                      "cardIds"
+                    ]
                   }
                 }
               },
               "required": []
+            },
+            "numbering": {
+              "const": "by-group"
+            },
+            "design": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "font": {
+                  "enum": [
+                    "sans",
+                    "serif"
+                  ]
+                },
+                "arrowHead": {
+                  "enum": [
+                    "triangle",
+                    "open"
+                  ]
+                },
+                "direction": {
+                  "enum": [
+                    0,
+                    1,
+                    2
+                  ]
+                },
+                "edgeDash": {
+                  "type": "boolean"
+                },
+                "fontSize": {
+                  "type": "number",
+                  "minimum": 14,
+                  "maximum": 22
+                },
+                "borderWidth": {
+                  "type": "number",
+                  "minimum": 1,
+                  "maximum": 4
+                },
+                "radius": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 22
+                },
+                "spacing": {
+                  "type": "number",
+                  "minimum": 40,
+                  "maximum": 160
+                },
+                "edgeWidth": {
+                  "type": "number",
+                  "minimum": 1,
+                  "maximum": 6
+                },
+                "labelSize": {
+                  "type": "number",
+                  "minimum": 12,
+                  "maximum": 20
+                },
+                "textColor": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "cardColor": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "borderColor": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "background": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "edgeColor": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "labelBackground": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                }
+              }
             }
           },
-          "required": ["id", "version", "title", "cards", "cardGroups"],
+          "required": [
+            "id",
+            "version",
+            "title",
+            "cards",
+            "cardGroups"
+          ],
           "$comment": "Zusätzlich gilt der gemeinsame semantische Validator src/core/documents.ts: eindeutige fortlaufende IDs, Gruppen-/Hilfereferenzen, neutrale Startdaten, Medienformat/Abmessungen/Summenlimits. npm run validate:mystery prüft Struktur UND diese in JSON Schema nicht ausdrückbaren Querverweise."
         },
         "contentHash": {
@@ -313,7 +486,10 @@
               "maxLength": 40
             },
             "status": {
-              "enum": ["in-progress", "reviewed"]
+              "enum": [
+                "in-progress",
+                "reviewed"
+              ]
             },
             "hiddenCards": {
               "type": "array",
@@ -324,9 +500,50 @@
                 "minimum": 1,
                 "maximum": 1000
               }
+            },
+            "board": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000
+                  },
+                  "x": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "y": {
+                    "type": "number",
+                    "minimum": -100000,
+                    "maximum": 100000
+                  },
+                  "color": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5
+                  }
+                },
+                "required": [
+                  "id",
+                  "x",
+                  "y",
+                  "color"
+                ]
+              },
+              "minItems": 0
             }
           },
-          "required": ["initials", "status", "hiddenCards"]
+          "required": [
+            "initials",
+            "status",
+            "hiddenCards"
+          ]
         }
       },
       "required": [
@@ -363,7 +580,10 @@
           "additionalProperties": false,
           "properties": {
             "schema": {
-              "enum": [1, 2]
+              "enum": [
+                1,
+                2
+              ]
             },
             "mystery": {
               "type": "string",
@@ -404,7 +624,12 @@
                     "maximum": 5
                   }
                 },
-                "required": ["id", "x", "y", "color"]
+                "required": [
+                  "id",
+                  "x",
+                  "y",
+                  "color"
+                ]
               }
             },
             "edges": {
@@ -440,7 +665,13 @@
                     "maxLength": 500
                   }
                 },
-                "required": ["id", "from", "to", "direction", "label"]
+                "required": [
+                  "id",
+                  "from",
+                  "to",
+                  "direction",
+                  "label"
+                ]
               }
             },
             "categories": {

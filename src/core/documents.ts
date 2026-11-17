@@ -1,8 +1,11 @@
-import Ajv, { type ValidateFunction } from "ajv";
+import type { ValidateFunction } from "ajv";
+import {
+  checkContent,
+  checkDraftContent,
+  checkDocument,
+} from "./document-validators.generated.js";
 import { sha256 } from "@noble/hashes/sha2.js";
 import { zlibSync, unzlibSync } from "fflate";
-import contentSchema from "../../schemas/mystery-content.schema.json" with { type: "json" };
-import documentSchema from "../../schemas/mystery-document.schema.json" with { type: "json" };
 import {
   validateMystery,
   validateWork,
@@ -31,6 +34,7 @@ export type Draft = {
     initials: string;
     status: "in-progress" | "reviewed";
     hiddenCards: number[];
+    board?: import("./model").CardState[];
   };
 };
 export type Task = {
@@ -52,14 +56,6 @@ export type MysteryDocument = Draft | Task | Student;
 export const MAX_DOCUMENT_BYTES = 20_000_000;
 const encoder = new TextEncoder(),
   decoder = new TextDecoder("utf-8", { fatal: true });
-const ajv = new Ajv({ allErrors: false, strict: true });
-const checkContent = ajv.compile(contentSchema);
-const draftSchema = structuredClone(contentSchema);
-delete (draftSchema as { $id?: string }).$id;
-draftSchema.properties.cards.minItems = 0;
-draftSchema.properties.title.minLength = 0;
-const checkDraftContent = ajv.compile(draftSchema);
-const checkDocument = ajv.compile(documentSchema);
 function schemaError(check: ValidateFunction) {
   const error = check.errors?.[0];
   const path = error?.instancePath || "/";
@@ -109,8 +105,11 @@ export function validateContent(value: unknown, draft = false): Content {
   let mediaBytes = 0,
     pixels = 0;
   for (const c of raw.cards) {
-    if (c.image) {
-      const info = inspectDataImage(c.image);
+    for (const src of [
+      c.image,
+      ...(c.extraImages ?? []).map((i) => i.src),
+    ].filter((x): x is string => !!x)) {
+      const info = inspectDataImage(src);
       mediaBytes += info.bytes;
       pixels += info.width * info.height;
     }
@@ -180,6 +179,29 @@ export function validateDocument(value: unknown): MysteryDocument {
     )
       throw new Error(
         "Der Entwurf verweist auf unbekannte unveröffentlichte Karten.",
+      );
+  }
+  if (doc.kind === "draft" && doc.author.board) {
+    const ids = new Set(doc.content.cards.map((c) => c.id)),
+      seen = new Set<number>();
+    for (const c of doc.author.board) {
+      if (!ids.has(c.id) || seen.has(c.id) || c.color !== 0)
+        throw new Error("Ungültige Autorenanordnung.");
+      seen.add(c.id);
+    }
+    if (doc.content.cards.length)
+      validateWork(
+        {
+          schema: 1,
+          mystery: doc.content.id,
+          version: doc.content.version,
+          cards: doc.content.initial.cards.map(
+            (c) => doc.author.board!.find((s) => s.id === c.id) ?? c,
+          ),
+          edges: [],
+          categories: Array(6).fill(""),
+        },
+        doc.content,
       );
   }
   return doc;

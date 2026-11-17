@@ -1,3 +1,4 @@
+import { designOf } from "./design";
 import QRCode from "qrcode";
 import {
   COLORS,
@@ -114,6 +115,7 @@ export async function exportBoard(
 ) {
   // Never offer a backup that fails our own state validator.
   work = validateWork(work, m);
+  const design = designOf(m);
   const { width, height } = EXPORT_MODES[mode],
     canvas = document.createElement("canvas");
   canvas.width = width;
@@ -158,14 +160,16 @@ export async function exportBoard(
     ctx.translate(-bounds.x, -bounds.y);
     for (const e of work.edges) {
       const { start, end } = edgeGeometry(e, work.cards, layouts);
-      ctx.strokeStyle = "#68766e";
-      ctx.fillStyle = "#68766e";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = m.design ? design.edgeColor : "#68766e";
+      ctx.fillStyle = design.edgeColor;
+      ctx.lineWidth = design.edgeWidth;
+      ctx.setLineDash(design.edgeDash ? [10, 7] : []);
       ctx.beginPath();
       ctx.moveTo(start.x, start.y);
       ctx.lineTo(end.x, end.y);
       ctx.stroke();
     }
+    ctx.setLineDash([]);
     // Match the Board: draw all labels above the lines.
     for (const e of work.edges) {
       const {
@@ -175,7 +179,7 @@ export async function exportBoard(
         labelHeight,
       } = edgeGeometry(e, work.cards, layouts);
       if (e.label) {
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = m.design ? design.labelBackground : "#ffffff";
         ctx.fillRect(
           middle.x - labelWidth / 2,
           middle.y - labelHeight / 2,
@@ -183,13 +187,16 @@ export async function exportBoard(
           labelHeight,
         );
         ctx.fillStyle = "#39463e";
-        ctx.font = "14px Arial";
+        ctx.font = `${design.labelSize}px ${m.design?.font === "serif" ? "Georgia" : "Arial"}`;
         ctx.textAlign = "center";
         labelLines.forEach((line, i) =>
           ctx.fillText(
             line,
             middle.x,
-            middle.y - labelLines.length * 9 + 14 + i * 18,
+            middle.y -
+              (labelLines.length * (design.labelSize + 4)) / 2 +
+              design.labelSize +
+              i * (design.labelSize + 4),
           ),
         );
         ctx.textAlign = "left";
@@ -198,31 +205,39 @@ export async function exportBoard(
     for (const c of work.cards) {
       const content = m.cards.find((x) => x.id === c.id)!,
         l = layouts.get(c.id)!;
-      ctx.fillStyle = COLORS[c.color];
-      ctx.strokeStyle = "#b9c4bc";
-      ctx.lineWidth = 1.5;
+      ctx.fillStyle = c.color ? COLORS[c.color] : design.cardColor;
+      ctx.strokeStyle = m.design ? design.borderColor : "#b9c4bc";
+      ctx.lineWidth = m.design ? design.borderWidth : 1.5;
       ctx.beginPath();
-      ctx.roundRect(c.x, c.y, CARD_WIDTH, l.height, 10);
+      ctx.roundRect(c.x, c.y, CARD_WIDTH, l.height, design.radius);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = "#253c30";
-      ctx.font = "bold 18px Arial";
-      l.title.forEach((t, i) => ctx.fillText(t, c.x + 18, c.y + 32 + i * 24));
-      ctx.fillStyle = "#343f38";
-      ctx.font = "16px Arial";
-      l.text.forEach((t, i) =>
-        ctx.fillText(t, c.x + 18, c.y + 24 + l.title.length * 24 + 26 + i * 22),
+      ctx.fillStyle = m.design ? design.textColor : "#253c30";
+      ctx.font = `bold ${l.fontSize + 2}px ${l.fontFamily}`;
+      l.title.forEach((t, i) =>
+        ctx.fillText(t, c.x + 18, c.y + 32 + i * l.titleLine),
       );
-      if (content.image) {
-        const loaded = await image(content.image);
+      ctx.fillStyle = design.textColor;
+      ctx.font = `${l.fontSize}px ${l.fontFamily}`;
+      l.text.forEach((t, i) =>
+        ctx.fillText(t, c.x + 18, c.y + l.textY + i * l.textLine),
+      );
+      if (content.image || content.extraImages?.length) {
+        const loaded = await image(
+          content.image ?? content.extraImages![0].src,
+        );
         const box = fitImage(loaded.naturalWidth, loaded.naturalHeight, {
-          x: c.x + 18,
+          x: c.x + 18 + (264 - l.imageWidth) / 2,
           y: c.y + l.imageY,
-          width: 264,
-          height: 98,
+          width: l.imageWidth,
+          height: l.imageHeight,
         });
         ctx.drawImage(loaded, box.x, box.y, box.width, box.height);
       }
+      ctx.font = `12px ${l.fontFamily}`;
+      l.caption.forEach((t, i) =>
+        ctx.fillText(t, c.x + 18, c.y + l.imageY + l.imageHeight + 16 + i * 16),
+      );
       ctx.fillStyle = "#334f40";
       ctx.beginPath();
       const badge = numberBadge(1, l.numberLabel);
@@ -251,8 +266,10 @@ export async function exportBoard(
       ctx.moveTo(points[0].x, points[0].y);
       points.slice(1).forEach((p) => ctx.lineTo(p.x, p.y));
       ctx.closePath();
-      ctx.fillStyle = "#526558";
-      ctx.strokeStyle = "#ffffff";
+      ctx.fillStyle =
+        design.arrowHead === "open" ? design.labelBackground : design.edgeColor;
+      ctx.strokeStyle =
+        design.arrowHead === "open" ? design.edgeColor : "#ffffff";
       ctx.lineWidth = Math.min(3, 0.8 / scale);
       ctx.lineJoin = "round";
       ctx.fill();

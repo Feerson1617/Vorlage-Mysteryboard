@@ -1,3 +1,4 @@
+import { validateDesign, type Design } from "./design.ts";
 export type CardTable = {
   caption?: string;
   headers: string[];
@@ -12,6 +13,15 @@ export type CardContent = {
   group?: string;
   source?: string;
   table?: CardTable;
+  imageCaption?: string;
+  imagePosition?: "before-text" | "after-text";
+  imageScale?: number;
+  extraImages?: {
+    src: string;
+    alt?: string;
+    caption?: string;
+    source?: string;
+  }[];
 };
 export type CardState = { id: number; x: number; y: number; color: number };
 export type Edge = {
@@ -44,6 +54,8 @@ export type Mystery = {
   version: string;
   title: string;
   cards: CardContent[];
+  design?: Design;
+  numbering?: "by-group";
   cardGroups?: Record<string, { label: string; prefix: string }>;
   startLayout?: StartLayout;
   help?: HelpConfig;
@@ -75,6 +87,14 @@ export function cardNumber(m: Mystery, id: number): string {
     group && m.cardGroups && Object.hasOwn(m.cardGroups, group)
       ? m.cardGroups[group].prefix
       : "";
+  if (m.numbering === "by-group") {
+    const index = m.cards.findIndex((c) => c.id === id);
+    const count = m.cards.slice(0, index + 1).filter((c) => {
+      const p = c.group ? (m.cardGroups?.[c.group]?.prefix ?? "") : "";
+      return p === prefix;
+    }).length;
+    return prefix + count;
+  }
   return prefix + id;
 }
 export const teamName = (work: Work | null): string => work?.team ?? "";
@@ -217,6 +237,9 @@ export function validateMystery(value: unknown): Mystery {
     (value.initial !== undefined && !object(value.initial))
   )
     throw new Error("Ungültige Mystery-Inhalte.");
+  if (value.design !== undefined) validateDesign(value.design);
+  if (value.numbering !== undefined && value.numbering !== "by-group")
+    throw new Error("Ungültige sichtbare Nummerierung.");
   const groups = value.cardGroups;
   if (groups !== undefined) {
     if (!object(groups) || Object.keys(groups).length > 100)
@@ -281,6 +304,40 @@ export function validateMystery(value: unknown): Mystery {
         throw new Error(
           "Ungültige Tabelle: 1–6 beschriftete Spalten, 1–20 gleich breite Zeilen und Textwerte erforderlich.",
         );
+    }
+    if (c.imageCaption !== undefined && !string(c.imageCaption, 500))
+      throw new Error("Ungültige Bildunterschrift.");
+    if (
+      c.imagePosition !== undefined &&
+      !["before-text", "after-text"].includes(String(c.imagePosition))
+    )
+      throw new Error("Ungültige Bildposition.");
+    if (
+      c.imageScale !== undefined &&
+      (typeof c.imageScale !== "number" ||
+        c.imageScale < 50 ||
+        c.imageScale > 100)
+    )
+      throw new Error("Ungültige Bildgröße.");
+    if (c.extraImages !== undefined) {
+      if (!Array.isArray(c.extraImages) || c.extraImages.length > 3)
+        throw new Error("Höchstens drei zusätzliche Bilder pro Karte.");
+      for (const img of c.extraImages) {
+        if (
+          !object(img) ||
+          typeof img.src !== "string" ||
+          !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(
+            img.src,
+          ) ||
+          Object.keys(img).some(
+            (k) => !["src", "alt", "caption", "source"].includes(k),
+          ) ||
+          (img.alt !== undefined && !string(img.alt, 300)) ||
+          (img.caption !== undefined && !string(img.caption, 500)) ||
+          (img.source !== undefined && !string(img.source, 1000))
+        )
+          throw new Error("Ungültiges zusätzliches Kartenbild.");
+      }
     }
     ids.add(c.id);
     const prefix =

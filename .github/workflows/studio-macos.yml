@@ -1,0 +1,42 @@
+name: MysteryBoard Studio – macOS ARM64 build and native checks
+on:
+  push:
+    branches: [feat/mysteryboard-studio-macos]
+    paths-ignore: ['artifacts/delivery/**', 'docs/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  macos-arm64:
+    runs-on: macos-15
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Confirm native Apple Silicon runner
+        run: node -e "if(process.platform!=='darwin'||process.arch!=='arm64')process.exit(1);console.log(process.platform,process.arch)"
+      - run: npm ci
+      - run: npm test
+      - run: npm run studio:make -- --platform=darwin --arch=arm64
+      - name: Test actual packaged application
+        run: npm run studio:test
+      - name: Record unsigned application assessment
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/studio-tests
+          codesign -dv --verbose=4 'out/MysteryBoard Studio-darwin-arm64/MysteryBoard Studio.app' > artifacts/studio-tests/codesign.txt 2>&1 || true
+          spctl --assess --type execute --verbose 'out/MysteryBoard Studio-darwin-arm64/MysteryBoard Studio.app' > artifacts/studio-tests/gatekeeper.txt 2>&1 || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: MysteryBoard-Studio-macOS-Apple-Silicon-${{ github.sha }}
+          path: |
+            out/make/
+            artifacts/studio-tests/
+            studio/dist/player-boundary.json
+          if-no-files-found: error
+          retention-days: 30

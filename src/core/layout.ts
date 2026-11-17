@@ -1,3 +1,4 @@
+import { designOf, designFont, type Design } from "./design";
 import type { CardContent, CardState, Edge, Work, Mystery } from "./model";
 import { cardNumber, initialWork } from "./model";
 import { orderedPositions } from "./start-layout";
@@ -8,6 +9,15 @@ export type Layout = {
   height: number;
   imageY: number;
   numberLabel: string;
+  fontSize: number;
+  fontFamily: string;
+  titleLine: number;
+  textLine: number;
+  textY: number;
+  imageHeight: number;
+  imageWidth: number;
+  caption: string[];
+  design?: Design;
 };
 export type Bounds = { x: number; y: number; width: number; height: number };
 let context: CanvasRenderingContext2D | null;
@@ -50,22 +60,57 @@ export function wrap(
 export function layoutCard(
   card: CardContent,
   numberLabel = String(card.id),
+  design?: Design,
 ): Layout {
-  const title = wrap(card.title, 264, "bold 18px Arial"),
-    text = wrap(
-      card.text +
-        (card.table
-          ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
-          : ""),
-      264,
-    );
-  const imageY = 24 + title.length * 24 + 12 + text.length * 22 + 12;
+  const fontSize = design?.fontSize ?? 16,
+    fontFamily = designFont(design),
+    titleLine = fontSize + 8,
+    textLine = fontSize + 6;
+  const title = wrap(card.title, 264, `bold ${fontSize + 2}px ${fontFamily}`);
+  const text = wrap(
+    card.text +
+      (card.table
+        ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
+        : "") +
+      (card.extraImages?.length
+        ? `\n${card.extraImages.length} zusätzliche Bilder · Zum Lesen öffnen.`
+        : ""),
+    264,
+    `${fontSize}px ${fontFamily}`,
+  );
+  const hasImage = !!card.image || !!card.extraImages?.length,
+    scale = (card.imageScale ?? 100) / 100,
+    imageHeight = 98 * scale,
+    imageWidth = 264 * scale;
+  const caption = card.imageCaption
+    ? wrap(card.imageCaption, 264, `12px ${fontFamily}`)
+    : [];
+  let textY = 24 + title.length * titleLine + 26,
+    imageY = 24 + title.length * titleLine + 12 + text.length * textLine + 12;
+  let height = Math.max(
+    130,
+    imageY + (hasImage ? imageHeight + 12 + caption.length * 16 : 0) + 18,
+  );
+  if (hasImage && card.imagePosition === "before-text") {
+    imageY = 24 + title.length * titleLine + 12;
+    textY = imageY + imageHeight + caption.length * 16 + 28;
+    height = Math.max(130, textY + text.length * textLine + 18);
+  }
   return {
     title,
     text,
-    numberLabel,
+    height,
     imageY,
-    height: Math.max(130, imageY + (card.image ? 110 : 0) + 18),
+    numberLabel,
+    fontSize,
+    fontFamily,
+    titleLine,
+    textLine,
+    textY,
+    imageHeight,
+    imageWidth,
+    caption,
+    design,
   };
 }
 export function numberBadge(zoom = 1, label = "") {
@@ -132,7 +177,7 @@ export function overview(
 }
 export function makeLayouts(m: Mystery) {
   return new Map(
-    m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id))]),
+    m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id), m.design)]),
   );
 }
 export function initialBoardWork(
@@ -147,7 +192,7 @@ export function initialBoardWork(
   const gap =
     Math.max(
       ...[...layouts.values()].map((l) => numberBadge(0, l.numberLabel).extent),
-    ) + 64;
+    ) + (m.design?.spacing ?? 64);
   work.cards = orderedPositions(
     work.cards,
     new Map([...layouts].map(([id, l]) => [id, l.height])),
@@ -161,18 +206,20 @@ const labelCache = new Map<
   string,
   { labelLines: string[]; labelWidth: number; labelHeight: number }
 >();
-function labelLayout(label: string) {
-  const cached = labelCache.get(label);
+function labelLayout(label: string, size = 14, family = "Arial") {
+  const key = label + "\0" + size + "\0" + family;
+  const cached = labelCache.get(key);
   if (cached) return cached;
-  const labelLines = wrap(label, 210, "14px Arial");
+  const labelLines = wrap(label, 210, `${size}px ${family}`);
   const result = {
     labelLines,
     labelWidth:
-      Math.max(...labelLines.map((l) => measure(l, "14px Arial"))) + 16,
-    labelHeight: labelLines.length * 18 + 10,
+      Math.max(...labelLines.map((l) => measure(l, `${size}px ${family}`))) +
+      16,
+    labelHeight: labelLines.length * (size + 4) + 10,
   };
   if (labelCache.size > 600) labelCache.clear();
-  labelCache.set(label, result);
+  labelCache.set(key, result);
   return result;
 }
 export function edgeGeometry(
@@ -204,7 +251,11 @@ export function edgeGeometry(
     end = exit(bc.x, bc.y, bh, -1, 0.5);
   }
   const middle = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 },
-    label = labelLayout(e.label);
+    label = labelLayout(
+      e.label,
+      layouts.get(a.id)!.design?.labelSize ?? 14,
+      designFont(layouts.get(a.id)!.design),
+    );
   // Horizontal captions sit above the line so long text cannot hide the entire connector.
   const labelCenter = {
     x: middle.x,

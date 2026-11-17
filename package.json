@@ -20,7 +20,12 @@
     "build:mystery": "node scripts/mystery-tools.mjs build",
     "test:universal": "npm run build:universal && node scripts/prepare-universal-tests.mjs && CLASSROOM_SCORM=1 playwright test tests/browser/authoring-classroom.spec.ts",
     "package:project": "python3 scripts/package-project.py",
-    "package:ocr": "node scripts/package-ocr.mjs"
+    "package:ocr": "node scripts/package-ocr.mjs",
+    "studio:build": "node scripts/studio/build.mjs",
+    "studio:start": "electron .",
+    "studio:package": "npm run studio:build && electron-forge package",
+    "studio:make": "npm run studio:build && electron-forge make",
+    "studio:test": "node --test tests/studio/desktop.test.mjs"
   },
   "dependencies": {
     "@noble/hashes": "2.4.0",
@@ -37,16 +42,24 @@
     "tesseract.js": "7.0.0"
   },
   "devDependencies": {
+    "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-dmg": "8.0.1",
+    "@electron-forge/maker-zip": "8.0.1",
     "@playwright/test": "1.65.0",
     "@types/node": "26.6.6",
     "@types/qrcode": "1.5.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.3.0",
+    "electron": "45.3.3",
     "prettier": "3.9.10",
     "typescript": "7.0.2",
     "vite": "8.3.6",
     "vite-plugin-singlefile": "2.3.4",
     "vitest": "5.1.0"
-  }
+  },
+  "productName": "MysteryBoard Studio",
+  "main": "studio/electron/main.cjs",
+  "description": "Lokale Lehrkräfte-App zur Erstellung und Veröffentlichung von Mysterys",
+  "author": "MysteryBoard"
 }

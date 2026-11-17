@@ -11,3 +11,8 @@ __pycache__/
 
 # Reproducible multi-file OCR build, distributed through the sealed ZIPs.
 artifacts/ocr-author/
+
+# Reproducible desktop build output (sealed deliverables tracked separately).
+out/
+studio/dist/
+studio/electron/main.cjs

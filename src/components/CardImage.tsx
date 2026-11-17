@@ -5,10 +5,14 @@ export function CardImage({
   src,
   alt,
   y,
+  width = 264,
+  height = 98,
 }: {
   src: string;
   alt?: string;
   y: number;
+  width?: number;
+  height?: number;
 }) {
   const [dimensions, setDimensions] = useState<{
     src: string;
@@ -34,10 +38,10 @@ export function CardImage({
   }, [src]);
   if (!dimensions || dimensions.src !== src) return null;
   const box = fitImage(dimensions.width, dimensions.height, {
-    x: 18,
+    x: 18 + (264 - width) / 2,
     y,
-    width: 264,
-    height: 98,
+    width,
+    height,
   });
   return (
     <image href={src} {...box} preserveAspectRatio="xMidYMid meet">

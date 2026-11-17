@@ -14,3 +14,6 @@ declare module "pdfjs-dist/legacy/build/pdf.worker.min.mjs" {
 declare module "pdfjs-dist/legacy/build/pdf.min.mjs" {
   export * from "pdfjs-dist";
 }
+declare const __PLAYER_BUILD__: boolean;
+declare module 'virtual:studio-fonts' { const fonts:{regular:string;bold:string;serif:string;serifBold:string};export default fonts;}
+declare module 'virtual:studio-player' { const html:string;export default html;}

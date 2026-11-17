@@ -1,3 +1,4 @@
+import { designOf, designFont } from "../core/design";
 import {
   useEffect,
   useRef,
@@ -64,6 +65,7 @@ export function Board({
   connecting: number | null;
   orientation?: boolean;
 }) {
+  const design = designOf(mystery);
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
     gesture = useRef<Gesture | null>(null);
@@ -511,6 +513,14 @@ export function Board({
     <svg
       ref={svg}
       className="board"
+      style={
+        mystery.design
+          ? {
+              background: design.background,
+              fontFamily: designFont(mystery.design),
+            }
+          : undefined
+      }
       role="group"
       aria-label="Arbeitsfläche"
       data-zoom={view.z}
@@ -533,7 +543,13 @@ export function Board({
           markerHeight={headSize.halfWidth * 2}
           orient="auto-start-reverse"
         >
-          <path d="M0 0L14 6L0 12z" fill="#526558" />
+          <path
+            d={
+              design.arrowHead === "open" ? "M0 0L14 6L0 12" : "M0 0L14 6L0 12z"
+            }
+            fill={design.arrowHead === "open" ? "none" : design.edgeColor}
+            stroke={design.edgeColor}
+          />
         </marker>
       </defs>
       <g transform={`translate(${view.x} ${view.y}) scale(${view.z})`}>
@@ -567,8 +583,9 @@ export function Board({
                 y1={g.start.y}
                 x2={g.end.x}
                 y2={g.end.y}
-                stroke="#738277"
-                strokeWidth="2"
+                stroke={mystery.design ? design.edgeColor : "#738277"}
+                strokeWidth={design.edgeWidth}
+                strokeDasharray={design.edgeDash ? "10 7" : undefined}
                 markerEnd={e.direction === 1 ? `url(#${arrowId})` : undefined}
                 markerStart={e.direction === 2 ? `url(#${arrowId})` : undefined}
               />
@@ -593,14 +610,22 @@ export function Board({
                   width={g.labelWidth}
                   height={g.labelHeight}
                   rx="5"
-                  fill="#f7f8f7"
+                  fill={design.labelBackground}
                 />
-                <text textAnchor="middle" fontSize="14" fill="#4e5e53">
+                <text
+                  textAnchor="middle"
+                  fontSize={design.labelSize}
+                  fill={mystery.design ? design.textColor : "#4e5e53"}
+                >
                   {g.labelLines.map((s, i) => (
                     <tspan
                       key={i}
                       x="0"
-                      y={-g.labelLines.length * 9 + 14 + i * 18}
+                      y={
+                        (-g.labelLines.length * (design.labelSize + 4)) / 2 +
+                        design.labelSize +
+                        i * (design.labelSize + 4)
+                      }
                     >
                       {s}
                     </tspan>
@@ -639,38 +664,56 @@ export function Board({
               <rect
                 width={CARD_WIDTH}
                 height={l.height}
-                rx="10"
-                fill={COLORS[c.color]}
-                stroke={connecting === c.id ? "#315e45" : "#bcc8c0"}
-                strokeWidth={connecting === c.id ? 4 : 1.3}
+                rx={design.radius}
+                fill={c.color ? COLORS[c.color] : design.cardColor}
+                stroke={connecting === c.id ? "#315e45" : design.borderColor}
+                strokeWidth={connecting === c.id ? 4 : design.borderWidth}
               />
               <text
                 x="18"
                 y="32"
                 fontWeight="bold"
-                fontSize="18"
-                fill="#253c30"
+                fontSize={l.fontSize + 2}
+                fontFamily={l.fontFamily}
+                fill={mystery.design ? design.textColor : "#253c30"}
               >
                 {l.title.map((s, i) => (
-                  <tspan x="18" dy={i ? 24 : 0} key={i}>
+                  <tspan x="18" dy={i ? l.titleLine : 0} key={i}>
                     {s}
                   </tspan>
                 ))}
               </text>
-              <text fontSize="16" fill="#343f38">
+              <text
+                fontSize={l.fontSize}
+                fontFamily={l.fontFamily}
+                fill={design.textColor}
+              >
                 {l.text.map((s, i) => (
-                  <tspan
-                    x="18"
-                    y={24 + l.title.length * 24 + 26 + i * 22}
-                    key={i}
-                  >
+                  <tspan x="18" y={l.textY + i * l.textLine} key={i}>
                     {s}
                   </tspan>
                 ))}
               </text>
-              {card.image && (
-                <CardImage src={card.image} alt={card.imageAlt} y={l.imageY} />
+              {(card.image || card.extraImages?.length) && (
+                <CardImage
+                  src={card.image ?? card.extraImages![0].src}
+                  alt={card.imageAlt ?? card.extraImages?.[0].alt}
+                  y={l.imageY}
+                  width={l.imageWidth}
+                  height={l.imageHeight}
+                />
               )}
+              {l.caption.map((text, i) => (
+                <text
+                  key={"caption" + i}
+                  x="18"
+                  y={l.imageY + l.imageHeight + 16 + i * 16}
+                  fontSize="12"
+                  fill={design.textColor}
+                >
+                  {text}
+                </text>
+              ))}
               <g
                 data-number={c.id}
                 transform={`translate(${badge.offset} ${badge.offset}) scale(${badge.scale})`}
@@ -707,8 +750,14 @@ export function Board({
                   data-arrowhead={e.id}
                   data-direction={e.direction}
                   points={points.map((p) => `${p.x},${p.y}`).join(" ")}
-                  fill="#526558"
-                  stroke="#f7f8f7"
+                  fill={
+                    design.arrowHead === "open"
+                      ? design.labelBackground
+                      : design.edgeColor
+                  }
+                  stroke={
+                    design.arrowHead === "open" ? design.edgeColor : "#f7f8f7"
+                  }
                   strokeWidth={Math.min(3, 0.8 / view.z)}
                   strokeLinejoin="round"
                 />

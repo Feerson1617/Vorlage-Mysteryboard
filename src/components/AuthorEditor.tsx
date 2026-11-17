@@ -22,6 +22,9 @@ import { DocumentImport } from "./DocumentImport";
 import { readDocumentFile } from "../core/document-file";
 import { classroomScorm } from "../core/classroom-scorm";
 
+import { DesignEditor } from "../../studio/ui/DesignEditor";
+import type { EditorIntegration } from "../../studio/ui/types";
+
 type Card = Content["cards"][number];
 export function AuthorEditor({
   initial,
@@ -29,13 +32,18 @@ export function AuthorEditor({
   onFile,
   onDownload,
   onHome,
+  integration,
 }: {
+  integration?: EditorIntegration;
   initial: Draft;
   initialImport?: boolean;
   onFile: (doc: MysteryDocument) => void;
   onDownload: (file: File) => void;
   onHome: () => void;
 }) {
+  const [designOpen, setDesignOpen] = useState(false),
+    [fitTick, setFitTick] = useState(0),
+    [cardPosition, setCardPosition] = useState(0);
   const [draft, setDraft] = useState(initial),
     [dirty, setDirty] = useState(false);
   const [card, setCard] = useState<Card | null>(null),
@@ -77,10 +85,19 @@ export function AuthorEditor({
         : null,
     [content],
   );
-  const preview =
+  const previewSeed =
     previewOverride?.content === content
       ? previewOverride.work
       : initialPreview;
+  const preview =
+    previewSeed && integration && draft.author.board
+      ? {
+          ...previewSeed,
+          cards: previewSeed.cards.map(
+            (c) => draft.author.board!.find((p) => p.id === c.id) ?? c,
+          ),
+        }
+      : previewSeed;
   useEffect(() => {
     const before = (e: BeforeUnloadEvent) => {
       if (dirty || card || helpEditing || documentImport) {
@@ -105,6 +122,22 @@ export function AuthorEditor({
     },
     [png],
   );
+  const draftRef = useRef(draft);
+  draftRef.current = draft;
+  useEffect(() => {
+    integration?.state(
+      draft,
+      dirty,
+      !!card || helpEditing || documentImport || fileBusy,
+    );
+  }, [draft, dirty, card, helpEditing, documentImport, fileBusy]);
+  useEffect(() => integration?.onSaved(() => setDirty(false)), []);
+  const saveDesktop = async (saveAs = false) => {
+    const snapshot = draft;
+    if (await integration!.save(snapshot, saveAs)) {
+      if (draftRef.current === snapshot) setDirty(false);
+    }
+  };
   const change = (next: Content, author = draft.author) => {
     try {
       setDraft(reviseDraft(draft, next, author));
@@ -130,11 +163,13 @@ export function AuthorEditor({
     }
   };
   const edit = (id: number) => {
+    setCardPosition(content.cards.findIndex((c) => c.id === id));
     setCard(structuredClone(content.cards.find((c) => c.id === id)!));
     setIncluded(!draft.author.hiddenCards.includes(id));
     setError("");
   };
   const add = () => {
+    setCardPosition(content.cards.length);
     setCard({
       id: content.cards.length + 1,
       title: "",
@@ -151,6 +186,11 @@ export function AuthorEditor({
     const cards = content.cards.some((c) => c.id === card.id)
       ? content.cards.map((c) => (c.id === card.id ? card : c))
       : [...content.cards, card];
+    if (integration) {
+      const index = cards.findIndex((c) => c.id === card.id);
+      cards.splice(index, 1);
+      cards.splice(Math.min(cardPosition, cards.length), 0, card);
+    }
     const next = {
       ...content,
       cards,
@@ -171,7 +211,10 @@ export function AuthorEditor({
       ...draft.author.hiddenCards.filter((id) => id !== card.id),
       ...(included ? [] : [card.id]),
     ];
-    if (change(next, { ...draft.author, hiddenCards: hidden })) setCard(null);
+    if (change(next, { ...draft.author, hiddenCards: hidden })) {
+      setCard(null);
+      setFitTick((t) => t + 1);
+    }
   };
   const remove = (id: number) => {
     if (
@@ -179,18 +222,23 @@ export function AuthorEditor({
         `Karte ${cardNumber(content, id)} wirklich löschen? Die übrigen Karten werden neu nummeriert. Bereits verteilte Dateien bleiben erhalten.`,
       )
     )
-      return;
-    const keep = content.cards
-      .filter((c) => c.id !== id)
-      .sort((a, b) => a.id - b.id);
+      return false;
+    const keep = content.cards.filter((c) => c.id !== id);
     const mapping = new Map(keep.map((c, i) => [c.id, i + 1]));
-    change(
+    return change(
       retainCards(
         content,
         keep.map((c) => c.id),
       ),
       {
         ...draft.author,
+        ...(draft.author.board
+          ? {
+              board: draft.author.board
+                .filter((c) => mapping.has(c.id))
+                .map((c) => ({ ...c, id: mapping.get(c.id)! })),
+            }
+          : {}),
         hiddenCards: draft.author.hiddenCards
           .filter((n) => mapping.has(n))
           .map((n) => mapping.get(n)!),
@@ -281,6 +329,7 @@ export function AuthorEditor({
       )
         return;
       controller.signal.throwIfAborted();
+      integration?.detach();
       setDraft(next);
       setDirty(false);
       setPreviewOverride(null);
@@ -317,7 +366,10 @@ export function AuthorEditor({
     setBusy(true);
     setError("");
     try {
-      const file = await classroomScorm(publishDraft(draft), controller.signal);
+      const file = await (integration?.scorm ?? classroomScorm)(
+        publishDraft(draft),
+        controller.signal,
+      );
       if (!controller.signal.aborted) {
         setPublication(false);
         onDownload(file);
@@ -358,6 +410,216 @@ export function AuthorEditor({
       if (id === operation.current) setBusy(false);
     }
   };
+  const cardExtras = card && (
+    <>
+      {" "}
+      <p className="small">
+        Bis 3 MB und 4 Millionen Bildpunkte je Bild; insgesamt 12 MB und 24
+        Millionen Bildpunkte. PDF-Seiten zunächst lokal als Bild exportieren.
+      </p>
+      {card.image && (
+        <>
+          <MediaView src={card.image} alt={card.imageAlt} />
+          <button
+            type="button"
+            onClick={() => {
+              const next = { ...card };
+              delete next.image;
+              delete next.imageAlt;
+              setCard(next);
+            }}
+          >
+            Bild entfernen
+          </button>
+          <label>
+            Bildbeschreibung (optional)
+            <input
+              maxLength={300}
+              value={card.imageAlt ?? ""}
+              onChange={(e) => setCard({ ...card, imageAlt: e.target.value })}
+            />
+          </label>
+        </>
+      )}
+      <label>
+        Quellenangabe (optional)
+        <textarea
+          maxLength={1000}
+          value={card.source ?? ""}
+          onChange={(e) => setCard({ ...card, source: e.target.value })}
+        />
+      </label>
+      {card.table ? (
+        <TableEditor
+          table={card.table}
+          onChange={(table) => {
+            const next = { ...card };
+            if (table) next.table = table;
+            else delete next.table;
+            setCard(next);
+          }}
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={() =>
+            setCard({
+              ...card,
+              table: { headers: ["Merkmal", "Wert"], rows: [["", ""]] },
+            })
+          }
+        >
+          Tabelle hinzufügen
+        </button>
+      )}
+      <label>
+        <input
+          type="checkbox"
+          checked={included}
+          onChange={(e) => setIncluded(e.target.checked)}
+        />
+        Für Schülerinnen und Schüler bereitstellen
+      </label>
+      {integration && (
+        <>
+          <label>
+            Position im Mystery
+            <select
+              value={cardPosition}
+              onChange={(e) => setCardPosition(Number(e.target.value))}
+            >
+              {Array.from(
+                { length: Math.max(content.cards.length, cardPosition + 1) },
+                (_, i) => (
+                  <option key={i} value={i}>
+                    Position {i + 1}
+                  </option>
+                ),
+              )}
+            </select>
+          </label>
+          <label>
+            Bildunterschrift
+            <input
+              value={card.imageCaption ?? ""}
+              maxLength={500}
+              onChange={(e) =>
+                setCard({ ...card, imageCaption: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            Bildposition
+            <select
+              value={card.imagePosition ?? "after-text"}
+              onChange={(e) =>
+                setCard({
+                  ...card,
+                  imagePosition: e.target.value as "before-text" | "after-text",
+                })
+              }
+            >
+              <option value="after-text">Nach dem Text</option>
+              <option value="before-text">Vor dem Text</option>
+            </select>
+          </label>
+          <label>
+            Bildgröße
+            <input
+              type="range"
+              min={50}
+              max={100}
+              value={card.imageScale ?? 100}
+              onChange={(e) =>
+                setCard({ ...card, imageScale: Number(e.target.value) })
+              }
+            />
+          </label>
+          <label>
+            Weiteres Bild oder Diagramm hinzufügen
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              disabled={(card.extraImages?.length ?? 0) >= 3}
+              onChange={async (e) => {
+                const f = e.target.files?.[0];
+                e.target.value = "";
+                if (!f) return;
+                const id = ++operation.current;
+                setBusy(true);
+                try {
+                  const src = await imageFromFile(f);
+                  if (id === operation.current)
+                    setCard({
+                      ...card,
+                      extraImages: [
+                        ...(card.extraImages ?? []),
+                        { src, alt: "", caption: "", source: "" },
+                      ],
+                    });
+                } catch (e) {
+                  if (id === operation.current) setError((e as Error).message);
+                } finally {
+                  if (id === operation.current) setBusy(false);
+                }
+              }}
+            />
+          </label>
+          {card.extraImages?.map((img, i) => (
+            <div key={i} className="studio-extra-image">
+              <MediaView src={img.src} alt={img.alt} />
+              {(["alt", "caption", "source"] as const).map((k, j) => (
+                <label key={k}>
+                  {
+                    [
+                      "Beschreibung des zusätzlichen Bildes",
+                      "Unterschrift des zusätzlichen Bildes",
+                      "Quelle des zusätzlichen Bildes",
+                    ][j]
+                  }
+                  <input
+                    value={img[k] ?? ""}
+                    maxLength={
+                      k === "source" ? 1000 : k === "caption" ? 500 : 300
+                    }
+                    onChange={(e) =>
+                      setCard({
+                        ...card,
+                        extraImages: card.extraImages!.map((m, n) =>
+                          n === i ? { ...m, [k]: e.target.value } : m,
+                        ),
+                      })
+                    }
+                  />
+                </label>
+              ))}
+              <button
+                type="button"
+                onClick={() =>
+                  setCard({
+                    ...card,
+                    extraImages: card.extraImages!.filter((_, n) => n !== i),
+                  })
+                }
+              >
+                Zusätzliches Bild entfernen
+              </button>
+            </div>
+          ))}
+          {content.cards.some((c) => c.id === card.id) && (
+            <button
+              type="button"
+              onClick={() => {
+                if (remove(card.id)) setCard(null);
+              }}
+            >
+              Karte löschen
+            </button>
+          )}
+        </>
+      )}
+    </>
+  );
   return (
     <main
       className="author-editor"
@@ -374,44 +636,128 @@ export function AuthorEditor({
         }
       }}
     >
-      <header className="author-toolbar">
-        <strong>MysteryBoard · Lehrkräftemodus</strong>
-        <span>Kürzel: {draft.author.initials}</span>
-        <button
-          className="primary"
-          disabled={helpEditing || documentImport || fileBusy}
-          onClick={() => onFile(validateDocument(draft))}
-        >
-          Entwurf sichern
-        </button>
-        <button
-          disabled={helpEditing || documentImport || fileBusy}
-          onClick={() => {
-            setFileError("");
-            setFileDialog(true);
-          }}
-        >
-          Entwurf öffnen
-        </button>
-        <button
-          disabled={helpEditing || documentImport || fileBusy}
-          onClick={() => {
-            if (
-              !dirty ||
-              confirm(
-                "Zur Startseite? Nicht abgelegte Änderungen gehen verloren.",
-              )
-            )
-              onHome();
-          }}
-        >
-          Startseite
-        </button>
-      </header>
-      <p>
-        Autorenwerkzeug ohne Anmeldung. Es wird nichts automatisch gespeichert.
-        Das Kürzel ist kein Schüler-Teamname.
-      </p>
+      {integration && (
+        <header className="author-toolbar studio-main-toolbar">
+          <strong>MysteryBoard Studio</strong>
+          <nav aria-label="Mystery bearbeiten">
+            <button
+              className="primary"
+              disabled={
+                content.cards.length >= 100 || documentImport || helpEditing
+              }
+              onClick={add}
+            >
+              Karte hinzufügen
+            </button>
+            <button
+              disabled={documentImport || helpEditing || !!card}
+              onClick={() => fileInput.current?.click()}
+            >
+              Material importieren
+            </button>
+            <button
+              aria-pressed={designOpen}
+              disabled={documentImport || helpEditing || !!card}
+              onClick={() => setDesignOpen((v) => !v)}
+            >
+              Mystery gestalten
+            </button>
+            <button
+              disabled={documentImport || helpEditing || !!card}
+              onClick={() => void saveDesktop()}
+            >
+              Projekt sichern
+            </button>
+            <button
+              disabled={
+                !content.cards.length || documentImport || helpEditing || !!card
+              }
+              onClick={preparePublication}
+            >
+              Exportieren
+            </button>
+          </nav>
+          <details className="studio-project-menu">
+            <summary>Projekt</summary>
+            <button onClick={integration.open}>Mystery öffnen</button>
+            <button onClick={() => void saveDesktop(true)}>
+              Speichern unter
+            </button>
+            <button
+              onClick={() => {
+                if (
+                  !dirty ||
+                  confirm(
+                    "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
+                  )
+                )
+                  onHome();
+              }}
+            >
+              Startseite
+            </button>
+          </details>
+          {materialInput}
+        </header>
+      )}
+      {!integration && (
+        <>
+          <header className="author-toolbar">
+            <strong>
+              {integration
+                ? "MysteryBoard Studio"
+                : "MysteryBoard · Lehrkräftemodus"}
+            </strong>
+            <span>Kürzel: {draft.author.initials}</span>
+            <button
+              className="primary"
+              disabled={helpEditing || documentImport || fileBusy}
+              onClick={() =>
+                integration
+                  ? void saveDesktop()
+                  : onFile(validateDocument(draft))
+              }
+            >
+              {integration ? "Projekt speichern" : "Entwurf sichern"}
+            </button>
+            {integration && (
+              <button
+                disabled={helpEditing || documentImport || fileBusy || !!card}
+                onClick={() => void saveDesktop(true)}
+              >
+                Speichern unter
+              </button>
+            )}
+            <button
+              disabled={helpEditing || documentImport || fileBusy}
+              onClick={() => {
+                setFileError("");
+                setFileDialog(true);
+              }}
+            >
+              Entwurf öffnen
+            </button>
+            <button
+              disabled={helpEditing || documentImport || fileBusy}
+              onClick={() => {
+                if (
+                  !dirty ||
+                  confirm(
+                    "Zur Startseite? Nicht abgelegte Änderungen gehen verloren.",
+                  )
+                )
+                  onHome();
+              }}
+            >
+              Startseite
+            </button>
+          </header>
+          <p>
+            Autorenwerkzeug ohne Anmeldung. Es wird nichts automatisch
+            gespeichert. Das Kürzel ist kein Schüler-Teamname.
+          </p>
+        </>
+      )}
       {helpEditing ? (
         <HelpEditor
           content={content}
@@ -452,6 +798,62 @@ export function AuthorEditor({
             );
           }}
         />
+      ) : integration ? (
+        designOpen ? (
+          <DesignEditor
+            content={content}
+            onChange={(next) => change(next)}
+            onClose={() => setDesignOpen(false)}
+            onHelp={() => setHelpEditing(true)}
+          />
+        ) : (
+          <section className="studio-pinboard" aria-label="Autorenpinnwand">
+            <label className="studio-title">
+              Mystery-Titel
+              <input
+                maxLength={100}
+                value={content.title}
+                placeholder="Titel des Mysterys"
+                onChange={(e) => change({ ...content, title: e.target.value })}
+              />
+            </label>
+            {error && <p role="alert">{error}</p>}
+            {fileError && <p role="alert">{fileError}</p>}
+            {importNotice && <p role="status">{importNotice}</p>}
+            {preview ? (
+              <div className="studio-board">
+                <Board
+                  work={preview}
+                  mystery={content}
+                  onChange={(work) =>
+                    change(content, {
+                      ...draft.author,
+                      board: work.cards.map((c) => ({ ...c, color: 0 })),
+                    })
+                  }
+                  onCard={edit}
+                  onEdge={() => {}}
+                  fitTick={fitTick}
+                  connecting={null}
+                />
+              </div>
+            ) : (
+              <div className="studio-empty">
+                <p>Beginnt mit eurer ersten Informationskarte.</p>
+                <button className="primary" onClick={add}>
+                  Erste Karte hinzufügen
+                </button>
+                <button onClick={() => fileInput.current?.click()}>
+                  Material importieren
+                </button>
+              </div>
+            )}
+            <p className="small">
+              {content.cards.length} Karten · Die Autorenanordnung bleibt im
+              Projekt; sie wird nicht als Schülerlösung verteilt.
+            </p>
+          </section>
+        )
       ) : (
         <>
           <section
@@ -662,7 +1064,9 @@ export function AuthorEditor({
               disabled={!content.cards.length}
               onClick={() => setPrint(true)}
             >
-              Karten drucken / PDF
+              {integration
+                ? "Als Druck-PDF exportieren"
+                : "Karten drucken / PDF"}
             </button>
           </div>
         </>
@@ -743,76 +1147,14 @@ export function AuthorEditor({
                 }}
               />
             </label>
-            <p className="small">
-              Bis 3 MB und 4 Millionen Bildpunkte je Bild; insgesamt 12 MB und
-              24 Millionen Bildpunkte. PDF-Seiten zunächst lokal als Bild
-              exportieren.
-            </p>
-            {card.image && (
-              <>
-                <MediaView src={card.image} alt={card.imageAlt} />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const next = { ...card };
-                    delete next.image;
-                    delete next.imageAlt;
-                    setCard(next);
-                  }}
-                >
-                  Bild entfernen
-                </button>
-                <label>
-                  Bildbeschreibung (optional)
-                  <input
-                    maxLength={300}
-                    value={card.imageAlt ?? ""}
-                    onChange={(e) =>
-                      setCard({ ...card, imageAlt: e.target.value })
-                    }
-                  />
-                </label>
-              </>
-            )}
-            <label>
-              Quellenangabe (optional)
-              <textarea
-                maxLength={1000}
-                value={card.source ?? ""}
-                onChange={(e) => setCard({ ...card, source: e.target.value })}
-              />
-            </label>
-            {card.table ? (
-              <TableEditor
-                table={card.table}
-                onChange={(table) => {
-                  const next = { ...card };
-                  if (table) next.table = table;
-                  else delete next.table;
-                  setCard(next);
-                }}
-              />
+            {integration ? (
+              <details className="studio-card-details">
+                <summary>Weitere Kartenangaben</summary>
+                {cardExtras}
+              </details>
             ) : (
-              <button
-                type="button"
-                onClick={() =>
-                  setCard({
-                    ...card,
-                    table: { headers: ["Merkmal", "Wert"], rows: [["", ""]] },
-                  })
-                }
-              >
-                Tabelle hinzufügen
-              </button>
+              cardExtras
             )}
-            <label>
-              <input
-                type="checkbox"
-                checked={included}
-                onChange={(e) => setIncluded(e.target.checked)}
-              />
-              Für Schülerinnen und Schüler bereitstellen
-            </label>
             {busy && <p role="status">Bild wird geprüft …</p>}
             {error && <p role="alert">{error}</p>}
             <button className="primary full" disabled={busy} type="submit">
@@ -832,48 +1174,90 @@ export function AuthorEditor({
             setPng(null);
           }}
         >
-          <p>
-            Die Datei enthält die vollständige Aufgabe und eingebettete Medien.
-            Sie enthält keinen Teamnamen, keine Schülerbeziehungen und keine
-            Bewegungen aus der Autorenvorschau. Nur freigegebene Karten werden
-            aufgenommen.
-          </p>
-          <p>
-            Die Schülerversion als Datei wird mit „Aufgabe öffnen“ geladen. Für
-            den direkten Aufgabenstart im itslearning-Kurs empfehlen wir SCORM.
-            Ladet das ZIP herunter und importiert es anschließend manuell als
-            SCORM-Ressource in itslearning. Eine bereits installierte Ressource
-            wird dadurch nicht automatisch verändert.
-          </p>
-          <button
-            className="full"
-            disabled={busy}
-            onClick={() => {
-              try {
-                const task = publishDraft(draft);
-                setPublication(false);
-                onFile(task);
-              } catch (e) {
-                setError((e as Error).message);
-              }
-            }}
-          >
-            Schülerversion als Datei
-          </button>
-          <button
-            className="primary full"
-            disabled={busy}
-            onClick={() => void exportScorm()}
-          >
-            Für itslearning als SCORM herunterladen
-          </button>
-          <button
-            className="full"
-            disabled={busy}
-            onClick={() => void taskPng()}
-          >
-            Aufgabe als Original-PNG erzeugen
-          </button>
+          {integration ? (
+            <>
+              <button
+                className="primary full"
+                disabled={busy}
+                onClick={() => {
+                  try {
+                    integration.print(publishDraft(draft));
+                    setPublication(false);
+                  } catch (e) {
+                    setError((e as Error).message);
+                  }
+                }}
+              >
+                Als Druck-PDF exportieren
+              </button>
+              <button
+                className="primary full"
+                disabled={busy}
+                onClick={() => void exportScorm()}
+              >
+                Als SCORM für itslearning exportieren
+              </button>
+              <button
+                className="full"
+                disabled={busy}
+                onClick={() => void taskPng()}
+              >
+                Als Bild exportieren
+              </button>
+              <p className="small">
+                Der Autoren-Bildexport zeigt die Aufgabe. Schüler sichern ihre
+                eigene Arbeit später mit der vollständigen Original-PNG.
+              </p>
+            </>
+          ) : (
+            <>
+              {" "}
+              <p>
+                Die Datei enthält die vollständige Aufgabe und eingebettete
+                Medien. Sie enthält keinen Teamnamen, keine Schülerbeziehungen
+                und keine Bewegungen aus der Autorenvorschau. Nur freigegebene
+                Karten werden aufgenommen.
+              </p>
+              <p>
+                Die Schülerversion als Datei wird mit „Aufgabe öffnen“ geladen.
+                Für den direkten Aufgabenstart im itslearning-Kurs empfehlen wir
+                SCORM. Ladet das ZIP herunter und importiert es anschließend
+                manuell als SCORM-Ressource in itslearning. Eine bereits
+                installierte Ressource wird dadurch nicht automatisch verändert.
+              </p>
+              <button
+                className="full"
+                disabled={busy}
+                onClick={() => {
+                  try {
+                    const task = publishDraft(draft);
+                    setPublication(false);
+                    onFile(task);
+                  } catch (e) {
+                    setError((e as Error).message);
+                  }
+                }}
+              >
+                Schülerversion als Datei
+              </button>
+              <button
+                className="primary full"
+                disabled={busy}
+                onClick={() => void exportScorm()}
+              >
+                {integration
+                  ? "Als SCORM für itslearning exportieren"
+                  : "Für itslearning als SCORM herunterladen"}
+              </button>
+              <button
+                className="full"
+                disabled={busy}
+                onClick={() => void taskPng()}
+              >
+                Aufgabe als Original-PNG erzeugen
+              </button>
+            </>
+          )}
           {busy && <p role="status">Datei wird lokal vorbereitet …</p>}
           {png && (
             <a
@@ -910,7 +1294,7 @@ export function AuthorEditor({
           </button>
         </Dialog>
       )}
-      {print && content.cards.length > 0 && (
+      {print && content.cards.length > 0 && !integration && (
         <Dialog title="Karten drucken / PDF" onClose={() => setPrint(false)}>
           <PrintPreview
             mystery={content}
