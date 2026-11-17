@@ -376,7 +376,9 @@ export function AuthorEditor({
       const document = await readDocumentFile(file, controller.signal);
       if (document.kind === "student")
         throw new Error(
-          "Schülerarbeitsstände bitte über „Arbeit fortsetzen“ auf der Startseite öffnen. Für den Editor eine Aufgabe oder einen Lehrkraftentwurf verwenden.",
+          integration
+            ? "Schülerarbeitsstände bitte im Schülerplayer fortsetzen. In Studio eine Aufgabe oder ein bearbeitbares Mystery öffnen."
+            : "Schülerarbeitsstände bitte über „Arbeit fortsetzen“ auf der Startseite öffnen. Für den Editor eine Aufgabe oder einen Lehrkraftentwurf verwenden.",
         );
       const next =
         document.kind === "draft"

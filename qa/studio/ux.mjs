@@ -157,10 +157,24 @@ try {
   );
   await openExports(page);
   await page.evaluate(() => window.__studioCommand("open"));
-  const fileError = page.getByRole("dialog",{name:"Aktion nicht möglich",exact:true});
-  await expect(fileError.getByRole("alert")).toContainText("konnte nicht geöffnet werden");
-  await b(fileError,"Schließen").click();
+  const fileError = page.getByRole("dialog", {
+    name: "Aktion nicht möglich",
+    exact: true,
+  });
+  await expect(fileError.getByRole("alert")).toContainText(
+    "konnte nicht geöffnet werden",
+  );
+  await b(fileError, "Schließen").click();
   await closeExports(page);
+  await expect(page.locator(".studio-board [data-card]")).toHaveCount(4);
+  await button("Importieren").click();
+  await page
+    .getByLabel("Mystery-Datei", { exact: true })
+    .setInputFiles(join(out, "UX-Schueler-Altimport.mysteryboard"));
+  await expect(page.getByRole("alert")).toContainText(
+    "im Schülerplayer fortsetzen",
+  );
+  await expect(page.getByRole("alert")).not.toContainText("Startseite");
   await expect(page.locator(".studio-board [data-card]")).toHaveCount(4);
   await page.locator('.studio-board [data-card="1"]').click();
   await button("Groß ansehen").click();
@@ -273,23 +287,43 @@ try {
           .inputValue(),
       ).toBe(originalText);
     }
-    await correction(page,"Bilder, Diagramme und Tabellen");
+    await correction(page, "Bilder, Diagramme und Tabellen");
     await button("Tabelle hinzufügen").click();
-    await page.getByRole("textbox",{name:"Spalte 1",exact:true}).fill("Messgröße");
-    await page.getByRole("textbox",{name:"Spalte 2",exact:true}).fill("Wert");
-    await page.getByRole("textbox",{name:"Zeile 1, Spalte 2",exact:true}).fill("1,5 °C");
+    await page
+      .getByRole("textbox", { name: "Spalte 1", exact: true })
+      .fill("Messgröße");
+    await page
+      .getByRole("textbox", { name: "Spalte 2", exact: true })
+      .fill("Wert");
+    await page
+      .getByRole("textbox", { name: "Zeile 1, Spalte 2", exact: true })
+      .fill("1,5 °C");
     await simpleImport(page);
-    await expect(page.getByRole("textbox",{name:"Spalte 1",exact:true})).toBeHidden();
-    await correction(page,"Bilder, Diagramme und Tabellen");
-    await expect(page.getByRole("textbox",{name:"Zeile 1, Spalte 2",exact:true})).toHaveValue("1,5 °C");
+    await expect(
+      page.getByRole("textbox", { name: "Spalte 1", exact: true }),
+    ).toBeHidden();
+    await correction(page, "Bilder, Diagramme und Tabellen");
+    await expect(
+      page.getByRole("textbox", { name: "Zeile 1, Spalte 2", exact: true }),
+    ).toHaveValue("1,5 °C");
     await button("Tabelle entfernen").click();
-    await correction(page,"Kartenstruktur");
-    await page.getByRole("textbox",{name:"Kartentext",exact:true}).evaluate(e=>e.setSelectionRange(20,20));
+    await correction(page, "Kartenstruktur");
+    await page
+      .getByRole("textbox", { name: "Kartentext", exact: true })
+      .evaluate((e) => e.setSelectionRange(20, 20));
     await button("Karte am Textcursor teilen").click();
-    await expect(page.locator(".studio-import-summary")).toContainText((n+1)+" Karten erkannt");
+    await expect(page.locator(".studio-import-summary")).toContainText(
+      n + 1 + " Karten erkannt",
+    );
     await button("Mit nächster Karte zusammenfügen").click();
-    await expect(page.locator(".studio-import-summary")).toContainText(n+" Karten erkannt");
-    expect(await page.getByRole("textbox",{name:"Kartentext",exact:true}).inputValue()).toBe(originalText);
+    await expect(page.locator(".studio-import-summary")).toContainText(
+      n + " Karten erkannt",
+    );
+    expect(
+      await page
+        .getByRole("textbox", { name: "Kartentext", exact: true })
+        .inputValue(),
+    ).toBe(originalText);
     await simpleImport(page);
     await button("Weiter zur Übernahme").click();
     for (const choice of await page.getByRole("radio").all()) {

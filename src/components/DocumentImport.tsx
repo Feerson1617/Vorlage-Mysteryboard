@@ -386,7 +386,9 @@ export function DocumentImport({
         stop();
         setBusy(false);
         setError(
-          "Die Datei konnte nicht gelesen werden. Bitte eine gültige Word- oder PDF-Datei beziehungsweise einen aktuellen Browser verwenden.",
+          studio
+            ? "Die Datei konnte nicht gelesen werden. Bitte eine gültige Word- oder PDF-Datei auswählen."
+            : "Die Datei konnte nicht gelesen werden. Bitte eine gültige Word- oder PDF-Datei beziehungsweise einen aktuellen Browser verwenden.",
         );
       };
       instance.onmessage = async (e) => {
