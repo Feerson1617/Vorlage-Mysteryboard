@@ -56,7 +56,9 @@ export function StudioApp() {
       setGeneration((g) => g + 1);
       setInitialImport(false);
     } catch (e) {
-      setError((e as Error).message);
+      setError(
+        `Das Mystery konnte nicht geöffnet werden. ${(e as Error).message}`,
+      );
     }
   };
   useEffect(() => {
@@ -68,19 +70,19 @@ export function StudioApp() {
   useEffect(
     () =>
       bridge?.onCommand?.((command) => {
-        if (command === "open" && !pdf && !create)
+        if (command === "open" && !pdf && !create && !error)
           void read(bridge.openProject());
       }),
-    [bridge, pdf, create],
+    [bridge, pdf, create, error],
   );
   useEffect(() => {
     void bridge
-      ?.modalState?.(!!pdf || !!create)
+      ?.modalState?.(!!pdf || !!create || !!error)
       .catch((e) => setError(e.message));
-  }, [bridge, pdf, create]);
+  }, [bridge, pdf, create, error]);
   const integration: EditorIntegration = {
     name,
-    modal: !!pdf || !!create,
+    modal: !!pdf || !!create || !!error,
     state: (d, dirty, forms) => {
       void bridge
         ?.projectState({ bytes: encodeDocument(d), dirty, forms })
@@ -251,10 +253,9 @@ export function StudioApp() {
         </main>
       )}
       {error && (
-        <div className="notice" role="alert">
-          {error}
-          <button onClick={() => setError("")}>Schließen</button>
-        </div>
+        <Dialog title="Aktion nicht möglich" onClose={() => setError("")}>
+          <p role="alert">{error}</p>
+        </Dialog>
       )}
       {create && (
         <Dialog title="Neues Mystery erstellen" onClose={() => setCreate(null)}>
