@@ -27,6 +27,7 @@ test(
     try {
       const page = await app.firstWindow();
       page.setDefaultTimeout(30000);
+      page.on("dialog", (d) => d.accept());
       await expect(
         page.getByRole("heading", { name: "MysteryBoard Studio", exact: true }),
       ).toBeVisible();
@@ -204,6 +205,13 @@ test(
       });
       await expect(page.locator(".studio-board")).toBeVisible();
       checks.push("cancel close retains unsaved project");
+      await app.evaluate(({ dialog }) => {
+        dialog.showMessageBox = async () => ({ response: 1 });
+      });
+      await writeFile(
+        join(out, "native-macos-progress.json"),
+        JSON.stringify({ prefs, checks, complete: false }, null, 2),
+      );
       // Actual custom-protocol OCR, with strict security and packaged local files.
       for (const name of [
         "Gerades-Foto.jpg",
@@ -250,7 +258,7 @@ test(
         await page.screenshot({ path: join(out, `Mac-OCR-${name}.png`) });
         checks.push("custom protocol OCR " + name + " cards " + count);
         await page
-          .getByRole("button", { name: "Import abbrechen", exact: true })
+          .getByRole("button", { name: "Zurück zum Entwurf", exact: true })
           .click();
       }
       await writeFile(
@@ -271,7 +279,25 @@ test(
         ),
       );
       console.log(checks.join("\n"));
+    } catch (error) {
+      const page = await app.firstWindow().catch(() => null);
+      if (page) {
+        await page
+          .screenshot({ path: join(out, "Mac-Fehler.png") })
+          .catch(() => {});
+        await writeFile(
+          join(out, "Mac-Fehler.txt"),
+          String(error) +
+            "\n" +
+            (await page
+              .locator("body")
+              .innerText()
+              .catch(() => "")),
+        );
+      }
+      throw error;
     } finally {
+      await app.evaluate(({ app }) => app.exit(0)).catch(() => {});
       await app.close();
     }
   },

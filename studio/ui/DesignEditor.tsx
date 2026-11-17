@@ -23,6 +23,7 @@ export function DesignEditor({
       {label}
       <input
         type="color"
+        aria-label={label}
         value={String(d[key])}
         onChange={(e) => change({ [key]: e.target.value })}
       />
@@ -38,6 +39,7 @@ export function DesignEditor({
       {label}
       <input
         type="range"
+        aria-label={label}
         min={min}
         max={max}
         step={1}
