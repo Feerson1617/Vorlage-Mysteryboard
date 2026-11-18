@@ -1,12 +1,77 @@
 import { assertDistinctHelpNames } from "./help-authoring";
 import {
   contentHash,
+  canonical,
   taskDocument,
   validateContent,
   validateDocument,
   type Content,
   type Draft,
 } from "./documents";
+import type { CardState, Edge } from "./model";
+
+export function authorEdges(draft: Draft): Edge[] {
+  return [...draft.content.initial.edges, ...(draft.author.edges ?? [])];
+}
+
+export function moveAuthorCards(draft: Draft, board: CardState[]): Draft {
+  return validateDocument({
+    ...draft,
+    author: { ...draft.author, board },
+  }) as Draft;
+}
+
+export function updateAuthorEdge(
+  draft: Draft,
+  id: number,
+  edge?: Edge,
+  shared = false,
+): Draft {
+  if (
+    edge &&
+    shared &&
+    [edge.from, edge.to].some((card) => draft.author.hiddenCards.includes(card))
+  )
+    throw new Error(
+      "Eine Starthilfe benötigt zwei Karten, die veröffentlicht werden.",
+    );
+  const replace = (edges: Edge[], include: boolean) => {
+    if (!edge || !include) return edges.filter((item) => item.id !== id);
+    return edges.some((item) => item.id === id)
+      ? edges.map((item) => (item.id === id ? edge : item))
+      : [...edges, edge];
+  };
+  const edges = replace(draft.content.initial.edges, shared);
+  const author = {
+    ...draft.author,
+    edges: replace(draft.author.edges ?? [], !shared),
+  };
+  if (canonical(edges) === canonical(draft.content.initial.edges))
+    return validateDocument({ ...draft, author }) as Draft;
+  return reviseDraft(draft, withStartEdges(draft.content, edges), author);
+}
+
+function withStartEdges(content: Content, edges: Edge[]): Content {
+  const { startEdgesAsHints: _previous, ...rest } = content;
+  return {
+    ...rest,
+    ...(edges.length ? { startEdgesAsHints: true as const } : {}),
+    initial: { ...content.initial, edges },
+  };
+}
+
+export function remapEdges(
+  edges: Edge[],
+  mapping: ReadonlyMap<number, number>,
+): Edge[] {
+  return edges
+    .filter((edge) => mapping.has(edge.from) && mapping.has(edge.to))
+    .map((edge) => ({
+      ...edge,
+      from: mapping.get(edge.from)!,
+      to: mapping.get(edge.to)!,
+    }));
+}
 
 export function newDraft(initials: string): Draft {
   const content = validateContent(
@@ -69,7 +134,7 @@ export function retainCards(content: Content, ids: number[]): Content {
     }))
     .filter((c) => c.cardIds.length);
   return {
-    ...content,
+    ...withStartEdges(content, remapEdges(content.initial.edges, map)),
     cards: selected.map((c) => ({ ...c, id: map.get(c.id)! })),
     initial: {
       cards: selected.map((c) => ({
@@ -77,7 +142,7 @@ export function retainCards(content: Content, ids: number[]): Content {
         id: map.get(c.id)!,
         color: 0,
       })),
-      edges: [],
+      edges: remapEdges(content.initial.edges, map),
       categories: Array(6).fill(""),
     },
     ...(content.help

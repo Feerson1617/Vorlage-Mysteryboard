@@ -191,8 +191,8 @@ export function DesignEditor({
         <>
           <p>
             Die Anordnung auf der Autorenpinnwand bleibt im Projekt. Sie wird
-            nicht als Schülerlösung exportiert. Die Schüler starten ohne
-            Verbindungen, Farbzuordnungen und Teamnamen.
+            getrennt von der Startablage. Lernende sehen zu Beginn die
+            ausdrücklich freigegebenen Verbindungen.
           </p>
           <label>
             Startablage der Schüler

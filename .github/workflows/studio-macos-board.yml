@@ -1,0 +1,126 @@
+name: MysteryBoard Studio 0.2.1 – macOS ARM64 Release Candidate
+on:
+  push:
+    branches: [fix/mysteryboard-macos-board-and-author-edges]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Build the Apple Silicon DMG
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/mac-board-tests artifacts/studio-tests
+          node -e "if(process.platform!=='darwin'||process.arch!=='arm64')process.exit(1)"
+          npm run studio:make -- --platform=darwin --arch=arm64 2>&1 | tee artifacts/mac-board-tests/Build.log
+      - name: Verify and install the actual DMG
+        shell: bash
+        run: |
+          set -euo pipefail
+          studio_dmg_path="$(python3 -c 'import pathlib; print(next(pathlib.Path("out/make").rglob("*.dmg")))' )"
+          hdiutil verify "$studio_dmg_path" 2>&1 | tee artifacts/mac-board-tests/DMG.log
+          studio_mount="$RUNNER_TEMP/studio-board-volume"
+          studio_install="$RUNNER_TEMP/studio-board-installed/MysteryBoard Studio.app"
+          mkdir -p "$studio_mount" "$(dirname "$studio_install")"
+          hdiutil attach -readonly -nobrowse -mountpoint "$studio_mount" "$studio_dmg_path"
+          ditto "$studio_mount/MysteryBoard Studio.app" "$studio_install"
+          hdiutil detach "$studio_mount"
+          codesign --verify --deep --strict "$studio_install"
+          codesign -dv --verbose=4 "$studio_install" > artifacts/mac-board-tests/Signatur.log 2>&1
+          echo "STUDIO_EXEC=$studio_install/Contents/MacOS/MysteryBoard Studio" >> "$GITHUB_ENV"
+          cp "$studio_dmg_path" artifacts/mac-board-tests/MysteryBoard-Studio-0.2.1-Mac-Apple-Silicon.dmg
+      - name: Board gestures and author connections in the installed application
+        shell: bash
+        run: |
+          set -euo pipefail
+          node qa/studio/mac-board-native.mjs 2>&1 | tee artifacts/mac-board-tests/Pinnwand.log
+      - name: Actual SCORM and PNG round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright install chromium
+          node qa/studio/mac-board-player.mjs 2>&1 | tee artifacts/mac-board-tests/Schuelerplayer.log
+      - name: Existing macOS application regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run studio:test 2>&1 | tee artifacts/mac-board-tests/Mac-Regression.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Studio-0.2.1-native-${{ github.sha }}
+          path: |
+            artifacts/mac-board-tests/
+            artifacts/studio-tests/native-macos.json
+            !artifacts/mac-board-tests/profile/**
+            !artifacts/mac-board-tests/sco/**
+          compression-level: 0
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Type check, data tests and frozen classroom build
+        if: matrix.shard == 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          npm test 2>&1 | tee artifacts/board-regression/Daten.log
+          npm run build 2>&1 | tee artifacts/board-regression/Build.log
+          npm run test:rc2 2>&1 | tee artifacts/board-regression/RC2.log
+      - name: Unmodified browser suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          npm run test:e2e -- --shard=${{ matrix.shard }}/4 2>&1 | tee artifacts/board-regression/Chromium-${{ matrix.shard }}.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Studio-0.2.1-regression-${{ matrix.shard }}-${{ github.sha }}
+          path: artifacts/board-regression/
+  delivery:
+    runs-on: ubuntu-24.04
+    needs: [native, regression]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Studio-0.2.1-*
+          path: board-acceptance
+      - run: python3 qa/studio/package-mac-board.py board-acceptance board-delivery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.2.1-Mac-Apple-Silicon-KOMPLETTPAKET
+          path: board-delivery/MysteryBoard-Studio-0.2.1-Mac-Apple-Silicon-KOMPLETTPAKET.zip
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.2.1-Sichtpruefung
+          path: |
+            board-delivery/MysteryBoard-Studio-0.2.1-Sichtpruefung.zip
+            board-delivery/Downloads.json
+          if-no-files-found: error
+          retention-days: 30

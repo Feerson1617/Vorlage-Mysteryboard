@@ -60,6 +60,7 @@ export type Mystery = {
   startLayout?: StartLayout;
   help?: HelpConfig;
   initial: { cards: CardState[]; edges: Edge[]; categories: string[] };
+  startEdgesAsHints?: true;
 };
 export const COLORS = [
   "#ffffff",
@@ -442,14 +443,16 @@ export function validateMystery(value: unknown): Mystery {
     { schema: 1, mystery: m.id, version: m.version, ...m.initial },
     m,
   );
+  if (m.startEdgesAsHints !== undefined && m.startEdgesAsHints !== true)
+    throw new Error("Ungültige Freigabe für Verbindungen in der Startablage.");
   if (
     m.startLayout?.mode === "ordered" &&
-    (m.initial.edges.length ||
+    ((!m.startEdgesAsHints && m.initial.edges.length) ||
       m.initial.cards.some((c) => c.color !== 0) ||
       m.initial.categories.some(Boolean))
   )
     throw new Error(
-      "Die nummerische Startablage muss ohne Pfeile, Farben und Kategorien beginnen.",
+      "Die nummerische Startablage unterstützt nur freigegebene Pfeile und beginnt ohne Farben und Kategorien.",
     );
   return m;
 }

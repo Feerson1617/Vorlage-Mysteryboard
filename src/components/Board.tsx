@@ -56,6 +56,9 @@ export function Board({
   connecting,
   orientation = false,
   badgeScaleLimit = 7,
+  authorBoard = false,
+  selectingCards = false,
+  privateEdges,
 }: {
   work: Work;
   mystery: Mystery;
@@ -66,6 +69,9 @@ export function Board({
   connecting: number | null;
   orientation?: boolean;
   badgeScaleLimit?: number;
+  authorBoard?: boolean;
+  selectingCards?: boolean;
+  privateEdges?: ReadonlySet<number>;
 }) {
   const design = designOf(mystery);
   const svg = useRef<SVGSVGElement>(null),
@@ -106,6 +112,19 @@ export function Board({
     if (gesture.current) gesture.current.cancelled = true;
     clearPreview();
   };
+  const sameDragCard = (g: Gesture, next: Work) => {
+    if (g.before === next) return true;
+    if (
+      !authorBoard ||
+      g.kind !== "card" ||
+      g.before.mystery !== next.mystery ||
+      g.before.version !== next.version
+    )
+      return false;
+    const before = g.before.cards.find((card) => card.id === g.id);
+    const after = next.cards.find((card) => card.id === g.id);
+    return !!before && !!after && before.x === after.x && before.y === after.y;
+  };
   const layouts = useMemo(() => makeLayouts(mystery), [mystery]),
     content = useMemo(
       () => new Map(mystery.cards.map((c) => [c.id, c])),
@@ -115,8 +134,17 @@ export function Board({
   // An undo/load can replace work while a finger is still down. Never draw
   // that gesture's old preview against geometry from the replacement state.
   const livePreview =
-    liveGesture && !liveGesture.cancelled && liveGesture.before === work
-      ? preview
+    liveGesture && !liveGesture.cancelled && sameDragCard(liveGesture, work)
+      ? preview && liveGesture.before !== work
+        ? {
+            ...work,
+            cards: work.cards.map((c) =>
+              c.id === liveGesture.id
+                ? (preview.cards.find((previous) => previous.id === c.id) ?? c)
+                : c,
+            ),
+          }
+        : preview
       : null;
   const drawn = livePreview ?? work;
   const baseGeometry = useMemo(
@@ -413,13 +441,14 @@ export function Board({
     };
   };
   const dragged = (g: Gesture, p: Point): Work => {
-    const card = g.before.cards.find((c) => c.id === g.id)!;
+    const base = current.current;
+    const card = base.cards.find((c) => c.id === g.id)!;
     const clamp = (n: number) =>
       Math.max(-100000, Math.min(100000, Math.round(n * 100) / 100));
     return {
-      ...g.before,
+      ...base,
       cards: [
-        ...g.before.cards.filter((c) => c.id !== g.id),
+        ...base.cards.filter((c) => c.id !== g.id),
         {
           ...card,
           x: clamp(card.x + (p.x - g.start.x) / g.view.z),
@@ -433,7 +462,7 @@ export function Board({
     syncOrigin();
     points.current.set(e.pointerId, local(e));
     const g = gesture.current;
-    if (!g || g.cancelled) return;
+    if (!g || g.cancelled || !sameDragCard(g, current.current)) return;
     if (g.kind === "pinch") {
       if (points.current.size < 2) return;
       const [a, b] = [...points.current.values()],
@@ -460,7 +489,7 @@ export function Board({
     g.moved = true;
     if (g.kind === "pan")
       changeView({ ...g.view, x: g.view.x + dx, y: g.view.y + dy });
-    else if (connecting === null) {
+    else if (connecting === null && !selectingCards) {
       showPreview(dragged(g, p));
     }
   };
@@ -470,7 +499,7 @@ export function Board({
     const g = gesture.current;
     points.current.delete(e.pointerId);
     if (!g) return;
-    if (cancel) g.cancelled = true;
+    if (cancel || !sameDragCard(g, current.current)) g.cancelled = true;
     // Once two fingers participated, consume all remaining fingers; never turn the last one into a drag/tap.
     if (g.kind === "pinch" || g.cancelled) {
       if (points.current.size === 0) gesture.current = null;
@@ -488,7 +517,11 @@ export function Board({
     const moved = g.moved || Math.hypot(p.x - g.start.x, p.y - g.start.y) >= 8;
     const target = document.elementFromPoint(e.clientX, e.clientY);
     if (g.kind === "card") {
-      if (g.moved && connecting === null) {
+      if (
+        (g.moved || (authorBoard && moved)) &&
+        connecting === null &&
+        !selectingCards
+      ) {
         const next = dragged(g, p);
         current.current = next;
         onChange(next);
@@ -504,7 +537,7 @@ export function Board({
         x: g.view.x + p.x - g.start.x,
         y: g.view.y + p.y - g.start.y,
       });
-    } else if (g.edge !== undefined) {
+    } else if (!moved && g.edge !== undefined) {
       const hit = target?.closest("[data-edge-label], [data-edge]");
       const id = Number(
         hit?.getAttribute("data-edge-label") ?? hit?.getAttribute("data-edge"),
@@ -517,7 +550,7 @@ export function Board({
   };
   pointerHandlers.current = { move, finish };
   useEffect(() => {
-    if (gesture.current && gesture.current.before !== work) abortGesture();
+    if (gesture.current && !sameDragCard(gesture.current, work)) abortGesture();
   }, [work]);
   return (
     <svg
@@ -569,10 +602,11 @@ export function Board({
             <g
               key={e.id}
               data-edge={e.id}
+              data-author-private={privateEdges?.has(e.id) ? "true" : undefined}
               className="edge"
               role="button"
               tabIndex={0}
-              aria-label={`Verbindung ${cardNumber(mystery, e.from)} zu ${cardNumber(mystery, e.to)}${e.label ? ": " + e.label : ""}`}
+              aria-label={`Verbindung ${cardNumber(mystery, e.from)} zu ${cardNumber(mystery, e.to)}${e.label ? ": " + e.label : ""}${privateEdges ? (privateEdges.has(e.id) ? " (nur für Lehrkräfte)" : " (Starthilfe)") : ""}`}
               onKeyDown={(ev) => {
                 if (ev.key === "Enter" || ev.key === " ") {
                   ev.preventDefault();
@@ -593,9 +627,21 @@ export function Board({
                 y1={g.start.y}
                 x2={g.end.x}
                 y2={g.end.y}
-                stroke={mystery.design ? design.edgeColor : "#738277"}
+                stroke={
+                  privateEdges?.has(e.id)
+                    ? "#845126"
+                    : mystery.design
+                      ? design.edgeColor
+                      : "#738277"
+                }
                 strokeWidth={design.edgeWidth}
-                strokeDasharray={design.edgeDash ? "10 7" : undefined}
+                strokeDasharray={
+                  privateEdges?.has(e.id)
+                    ? "5 6"
+                    : design.edgeDash
+                      ? "10 7"
+                      : undefined
+                }
                 markerEnd={e.direction === 1 ? `url(#${arrowId})` : undefined}
                 markerStart={e.direction === 2 ? `url(#${arrowId})` : undefined}
               />

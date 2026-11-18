@@ -3,14 +3,26 @@ import type { Content, Draft, MysteryDocument } from "../core/documents";
 import { canonical, packDocument, validateDocument } from "../core/documents";
 import {
   draftFromContent,
+  authorEdges,
+  moveAuthorCards,
   publishDraft,
+  remapEdges,
   retainCards,
   reviseDraft,
+  updateAuthorEdge,
 } from "../core/authoring";
 import { parsePng } from "../core/png";
 import { imageFromFile } from "../core/media";
 import { initialBoardWork } from "../core/layout";
-import { cardNumber, withTeam, type Work } from "../core/model";
+import {
+  cardNumber,
+  MAX_EDGES,
+  MAX_LABEL,
+  nextEdgeId,
+  withTeam,
+  type Edge,
+  type Work,
+} from "../core/model";
 import { exportBoard } from "../core/export";
 import { Board } from "./Board";
 import { Dialog } from "./Dialog";
@@ -53,6 +65,12 @@ export function AuthorEditor({
     [saveNotice, setSaveNotice] = useState("");
   const [draft, setDraft] = useState(initial),
     [dirty, setDirty] = useState(false);
+  const [connectingCards, setConnectingCards] = useState(false);
+  const [connectionFrom, setConnectionFrom] = useState<number | null>(null);
+  const [edgeForm, setEdgeForm] = useState<{
+    edge: Edge;
+    shared: boolean;
+  } | null>(null);
   const [card, setCard] = useState<Card | null>(null),
     [included, setIncluded] = useState(true),
     [error, setError] = useState("");
@@ -102,25 +120,47 @@ export function AuthorEditor({
     previewOverride?.content === content
       ? previewOverride.work
       : initialPreview;
-  const preview =
-    previewSeed && integration && draft.author.board
-      ? {
-          ...previewSeed,
-          cards: previewSeed.cards.map(
-            (c) => draft.author.board!.find((p) => p.id === c.id) ?? c,
-          ),
-        }
-      : previewSeed;
+  const studioBoard = !!integration;
+  const { board: authorBoard, edges: privateEdges } = draft.author;
+  const preview = useMemo(() => {
+    if (!previewSeed || !studioBoard) return previewSeed;
+    const positions = new Map(authorBoard?.map((c) => [c.id, c]));
+    return {
+      ...previewSeed,
+      cards: previewSeed.cards.map((c) => positions.get(c.id) ?? c),
+      edges: [...previewSeed.edges, ...(privateEdges ?? [])],
+    };
+  }, [previewSeed, studioBoard, authorBoard, privateEdges]);
+  const privateEdgeIds = useMemo(
+    () => new Set(privateEdges?.map((edge) => edge.id)),
+    [privateEdges],
+  );
+  const sharedEdges = content.initial.edges.filter(
+    (edge) =>
+      !draft.author.hiddenCards.includes(edge.from) &&
+      !draft.author.hiddenCards.includes(edge.to),
+  );
+  useEffect(() => {
+    if (!connectingCards || edgeForm) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setConnectingCards(false);
+        setConnectionFrom(null);
+      }
+    };
+    window.addEventListener("keydown", escape);
+    return () => window.removeEventListener("keydown", escape);
+  }, [connectingCards, edgeForm]);
   useEffect(() => {
     const before = (e: BeforeUnloadEvent) => {
-      if (dirty || card || helpEditing || documentImport) {
+      if (dirty || card || edgeForm || helpEditing || documentImport) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", before);
     return () => window.removeEventListener("beforeunload", before);
-  }, [dirty, card, helpEditing, documentImport]);
+  }, [dirty, card, edgeForm, helpEditing, documentImport]);
   useEffect(
     () => () => {
       operation.current++;
@@ -139,6 +179,7 @@ export function AuthorEditor({
   draftRef.current = draft;
   const blocked =
     !!card ||
+    !!edgeForm ||
     helpEditing ||
     documentImport ||
     fileBusy ||
@@ -188,9 +229,11 @@ export function AuthorEditor({
       saving.current = false;
     }
   };
-  const change = (next: Content, author = draft.author) => {
+  const applyDraft = (update: (current: Draft) => Draft) => {
     try {
-      setDraft(reviseDraft(draft, next, author));
+      const next = update(draftRef.current);
+      draftRef.current = next;
+      setDraft(next);
       setDirty(true);
       setError("");
       return true;
@@ -198,6 +241,61 @@ export function AuthorEditor({
       setError((e as Error).message);
       return false;
     }
+  };
+  const change = (next: Content, author = draft.author) =>
+    applyDraft((current) => reviseDraft(current, next, author));
+  const stopConnecting = () => {
+    setConnectingCards(false);
+    setConnectionFrom(null);
+  };
+  const openEdge = (edge: Edge) => {
+    setConnectionFrom(null);
+    setEdgeForm({ edge, shared: !privateEdgeIds.has(edge.id) });
+  };
+  const selectBoardCard = (id: number) => {
+    if (!connectingCards) return edit(id);
+    if (connectionFrom === null || connectionFrom === id) {
+      setConnectionFrom(connectionFrom === id ? null : id);
+      return;
+    }
+    const edges = authorEdges(draftRef.current);
+    const existing = edges.find(
+      (edge) =>
+        (edge.from === connectionFrom && edge.to === id) ||
+        (edge.from === id && edge.to === connectionFrom),
+    );
+    if (existing) return openEdge(existing);
+    if (edges.length >= MAX_EDGES) {
+      setError(
+        `Die Pinnwand kann höchstens ${MAX_EDGES} Verbindungen enthalten.`,
+      );
+      return;
+    }
+    setEdgeForm({
+      shared: false,
+      edge: {
+        id: nextEdgeId(edges),
+        from: connectionFrom,
+        to: id,
+        direction: content.design?.direction ?? 1,
+        label: "",
+      },
+    });
+    setConnectionFrom(null);
+  };
+  const saveEdge = (remove = false) => {
+    if (!edgeForm) return;
+    if (
+      applyDraft((current) =>
+        updateAuthorEdge(
+          current,
+          edgeForm.edge.id,
+          remove ? undefined : edgeForm.edge,
+          edgeForm.shared,
+        ),
+      )
+    )
+      setEdgeForm(null);
   };
   const closeCard = () => {
     if (
@@ -284,6 +382,9 @@ export function AuthorEditor({
       ),
       {
         ...draft.author,
+        ...(draft.author.edges
+          ? { edges: remapEdges(draft.author.edges, mapping) }
+          : {}),
         ...(draft.author.board
           ? {
               board: draft.author.board
@@ -896,27 +997,62 @@ export function AuthorEditor({
                 kannst du die Pinnwand vergrößern.
               </p>
               {preview && (
-                <button onClick={() => setFitTick((t) => t + 1)}>
-                  Alle Karten anzeigen
-                </button>
+                <div className="studio-board-tools">
+                  <button onClick={() => setFitTick((t) => t + 1)}>
+                    Alle Karten anzeigen
+                  </button>
+                  {content.cards.length >= 2 && (
+                    <button
+                      aria-pressed={connectingCards}
+                      onClick={() => {
+                        if (connectingCards) stopConnecting();
+                        else setConnectingCards(true);
+                      }}
+                    >
+                      {connectingCards
+                        ? "Verbindungsmodus beenden"
+                        : "Verbindungen bearbeiten"}
+                    </button>
+                  )}
+                </div>
               )}
             </div>
+            {connectingCards && (
+              <p role="status" className="studio-edge-hint">
+                {connectionFrom === null
+                  ? "Erste Karte oder vorhandene Verbindung auswählen."
+                  : `Karte ${cardNumber(content, connectionFrom)} gewählt. Jetzt die zweite Karte auswählen.`}
+              </p>
+            )}
+            {!!preview?.edges.length && (
+              <p className="studio-edge-hint">
+                <span className="studio-private-edge">
+                  Gestrichelt in Braun: nur für Lehrkräfte.
+                </span>{" "}
+                Übrige Verbindungen: Starthilfen.
+              </p>
+            )}
             {preview ? (
               <div className="studio-board">
                 <Board
                   badgeScaleLimit={2}
                   work={preview}
                   mystery={content}
+                  authorBoard
+                  selectingCards={connectingCards}
+                  privateEdges={privateEdgeIds}
                   onChange={(work) =>
-                    change(content, {
-                      ...draft.author,
-                      board: work.cards.map((c) => ({ ...c, color: 0 })),
-                    })
+                    applyDraft((current) =>
+                      moveAuthorCards(current, work.cards),
+                    )
                   }
-                  onCard={edit}
-                  onEdge={() => {}}
+                  onCard={selectBoardCard}
+                  onEdge={(id) => {
+                    const edge = preview.edges.find((item) => item.id === id);
+                    if (edge) openEdge(edge);
+                  }}
                   fitTick={fitTick}
-                  connecting={null}
+                  connecting={connectionFrom}
                 />
               </div>
             ) : (
@@ -1156,6 +1292,103 @@ export function AuthorEditor({
             {error}
           </p>
         )}
+      {edgeForm && (
+        <Dialog
+          title="Verbindung bearbeiten"
+          onClose={() => {
+            setEdgeForm(null);
+            setError("");
+          }}
+        >
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              saveEdge();
+            }}
+          >
+            <label>
+              Richtung
+              <select
+                value={edgeForm.edge.direction}
+                onChange={(event) =>
+                  setEdgeForm({
+                    ...edgeForm,
+                    edge: {
+                      ...edgeForm.edge,
+                      direction: Number(
+                        event.target.value,
+                      ) as Edge["direction"],
+                    },
+                  })
+                }
+              >
+                <option value="1">
+                  {cardNumber(content, edgeForm.edge.from)} →{" "}
+                  {cardNumber(content, edgeForm.edge.to)}
+                </option>
+                <option value="2">
+                  {cardNumber(content, edgeForm.edge.to)} →{" "}
+                  {cardNumber(content, edgeForm.edge.from)}
+                </option>
+                <option value="0">Ohne Pfeil</option>
+              </select>
+            </label>
+            <label>
+              Beschriftung (freiwillig)
+              <textarea
+                rows={3}
+                maxLength={MAX_LABEL}
+                value={edgeForm.edge.label}
+                onChange={(event) =>
+                  setEdgeForm({
+                    ...edgeForm,
+                    edge: { ...edgeForm.edge, label: event.target.value },
+                  })
+                }
+              />
+            </label>
+            <label className="studio-share-edge">
+              <input
+                type="checkbox"
+                checked={edgeForm.shared}
+                disabled={
+                  !edgeForm.shared &&
+                  [edgeForm.edge.from, edgeForm.edge.to].some((id) =>
+                    draft.author.hiddenCards.includes(id),
+                  )
+                }
+                onChange={(event) =>
+                  setEdgeForm({ ...edgeForm, shared: event.target.checked })
+                }
+              />
+              Diese Verbindung als Starthilfe an Lernende weitergeben.
+            </label>
+            {[edgeForm.edge.from, edgeForm.edge.to].some((id) =>
+              draft.author.hiddenCards.includes(id),
+            ) && (
+              <p className="small">
+                Eine der Karten ist ausgeblendet. Die Verbindung erscheint in
+                keiner Schülerausgabe.
+              </p>
+            )}
+            {error && <p role="alert">{error}</p>}
+            <div className="actions">
+              <button type="submit" className="primary">
+                Übernehmen
+              </button>
+              {preview?.edges.some((edge) => edge.id === edgeForm.edge.id) && (
+                <button
+                  type="button"
+                  className="danger"
+                  onClick={() => saveEdge(true)}
+                >
+                  Verbindung löschen
+                </button>
+              )}
+            </div>
+          </form>
+        </Dialog>
+      )}
       {card && (
         <Dialog
           title={
@@ -1288,6 +1521,34 @@ export function AuthorEditor({
                 Speichern unter …
               </button>
               {saveNotice && <p role="status">{saveNotice}</p>}
+              {!!content.initial.edges.length && (
+                <details className="studio-export-start-edges" open>
+                  <summary>
+                    Starthilfen für Lernende ({sharedEdges.length})
+                  </summary>
+                  <ul>
+                    {sharedEdges.map((edge) => (
+                      <li key={edge.id}>
+                        {cardNumber(
+                          content,
+                          edge.direction === 2 ? edge.to : edge.from,
+                        )}
+                        {edge.direction ? " → " : " – "}
+                        {cardNumber(
+                          content,
+                          edge.direction === 2 ? edge.from : edge.to,
+                        )}
+                        {edge.label && `: ${edge.label}`}
+                      </li>
+                    ))}
+                  </ul>
+                  {content.initial.edges.length > sharedEdges.length && (
+                    <p className="small">
+                      Starthilfen zu ausgeblendeten Karten werden ausgelassen.
+                    </p>
+                  )}
+                </details>
+              )}
               <button
                 className="studio-export-option"
                 aria-label="Als Druck-PDF speichern"

@@ -11,6 +11,7 @@ import {
   validateWork,
   type Mystery,
   type CardContent,
+  type Edge,
   type Work,
 } from "./model";
 import { extractPayload, embedPayload } from "./png";
@@ -35,6 +36,7 @@ export type Draft = {
     status: "in-progress" | "reviewed";
     hiddenCards: number[];
     board?: import("./model").CardState[];
+    edges?: Edge[];
   };
 };
 export type Task = {
@@ -135,6 +137,8 @@ export function validateContent(value: unknown, draft = false): Content {
     throw new Error(
       "Ein leerer Entwurf kann keine Karten einer Hilfekategorie zuordnen.",
     );
+  if (empty && raw.initial?.edges.length)
+    throw new Error("Ein leerer Entwurf kann keine Verbindungen enthalten.");
   const normal = validateMystery(
     empty
       ? { ...raw, cards: [{ id: 1, title: "", text: "" }], initial: undefined }
@@ -148,12 +152,12 @@ export function validateContent(value: unknown, draft = false): Content {
   if (!empty && !raw.title.trim())
     throw new Error("Bitte einen Mystery-Titel eingeben.");
   if (
-    normal.initial.edges.length ||
+    (!normal.startEdgesAsHints && normal.initial.edges.length) ||
     normal.initial.cards.some((c) => c.color !== 0) ||
     normal.initial.categories.some(Boolean)
   )
     throw new Error(
-      "Eine Aufgabe muss ohne Schülerlösung, Farben oder Beziehungen beginnen.",
+      "Eine Aufgabe darf nur freigegebene Starthilfen und keine vorgegebenen Farben oder Kategorien enthalten.",
     );
   return normal;
 }
@@ -181,24 +185,24 @@ export function validateDocument(value: unknown): MysteryDocument {
         "Der Entwurf verweist auf unbekannte unveröffentlichte Karten.",
       );
   }
-  if (doc.kind === "draft" && doc.author.board) {
+  if (doc.kind === "draft" && (doc.author.board || doc.author.edges)) {
     const ids = new Set(doc.content.cards.map((c) => c.id)),
       seen = new Set<number>();
-    for (const c of doc.author.board) {
+    for (const c of doc.author.board ?? []) {
       if (!ids.has(c.id) || seen.has(c.id) || c.color !== 0)
         throw new Error("Ungültige Autorenanordnung.");
       seen.add(c.id);
     }
-    if (doc.content.cards.length)
+    if (doc.content.cards.length || doc.author.edges?.length)
       validateWork(
         {
           schema: 1,
           mystery: doc.content.id,
           version: doc.content.version,
           cards: doc.content.initial.cards.map(
-            (c) => doc.author.board!.find((s) => s.id === c.id) ?? c,
+            (c) => doc.author.board?.find((s) => s.id === c.id) ?? c,
           ),
-          edges: [],
+          edges: [...doc.content.initial.edges, ...(doc.author.edges ?? [])],
           categories: Array(6).fill(""),
         },
         doc.content,

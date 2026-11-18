@@ -307,7 +307,10 @@
                 },
                 "edges": {
                   "type": "array",
-                  "maxItems": 0
+                  "maxItems": 300,
+                  "items": {
+                    "$ref": "https://mysteryboard.invalid/schemas/content-v3#/definitions/edge"
+                  }
                 },
                 "categories": {
                   "type": "array",
@@ -461,6 +464,9 @@
                   "pattern": "^#[0-9a-fA-F]{6}$"
                 }
               }
+            },
+            "startEdgesAsHints": {
+              "const": true
             }
           },
           "required": [
@@ -537,6 +543,13 @@
                 ]
               },
               "minItems": 0
+            },
+            "edges": {
+              "type": "array",
+              "maxItems": 300,
+              "items": {
+                "$ref": "https://mysteryboard.invalid/schemas/content-v3#/definitions/edge"
+              }
             }
           },
           "required": [

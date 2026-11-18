@@ -150,6 +150,35 @@
   flex-shrink: 0;
   font-size: 0.85rem;
 }
+.studio-board-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.studio-edge-hint {
+  margin: 0;
+  font-size: 0.85rem;
+}
+.studio-private-edge {
+  color: #845126;
+}
+.studio-share-edge {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.studio-share-edge input {
+  width: auto;
+  flex-shrink: 0;
+}
+.studio-export-start-edges {
+  overflow-wrap: anywhere;
+}
+.studio-export-start-edges ul {
+  max-height: 9rem;
+  overflow: auto;
+}
 .studio-pinboard {
   display: flex;
   flex-direction: column;
