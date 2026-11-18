@@ -1,13 +1,14 @@
 import { isCardHeading, type Block, type Card } from "./model";
 
 export type Rect = { x: number; y: number; width: number; height: number };
-export type PdfItem = Rect & { text: string; baseline: number };
+export type PdfItem = Rect & { text: string; baseline: number; rotated?: true };
 export type PdfGraphic = Rect & { raster: boolean };
 export type PdfPage = {
   width: number;
   height: number;
   items: PdfItem[];
   graphics?: PdfGraphic[];
+  reviewReasons?: string[];
 };
 export type PdfRegion = {
   id: number;
@@ -16,6 +17,9 @@ export type PdfRegion = {
   bounds: Rect;
   strategy: "frame" | "heading" | "spatial" | "manual";
   graphic?: true;
+  // Source rectangles rendered by PDF.js, including clipping, masks and labels.
+  mediaBounds?: Rect[];
+  wholeCardImage?: true;
 };
 export type PdfLayout = {
   pages: PdfPage[];
@@ -47,17 +51,33 @@ export function paintedSegments(
   ops: { fnArray: number[]; argsArray: any[] },
   view: Matrix,
   graphics: PdfGraphic[] = [],
+  reasons: Set<string> = new Set(),
 ): Segment[] {
-  if (ops.fnArray.length > 100_000) return [];
+  const limit = () =>
+    reasons.add(
+      "Grafikanalyse begrenzt. Bitte die Seite am Original prüfen und bei Bedarf Bildausschnitte übernehmen.",
+    );
+  if (ops.fnArray.length > 100_000) {
+    limit();
+    return [];
+  }
   let transform = identity;
   const stack: Matrix[] = [],
     out: Segment[] = [];
   const add = (a: { x: number; y: number }, b: { x: number; y: number }) => {
-    if (out.length < 6000 && Math.hypot(a.x - b.x, a.y - b.y) > 2)
+    if (out.length >= 6000) {
+      limit();
+      return;
+    }
+    if (Math.hypot(a.x - b.x, a.y - b.y) > 2)
       out.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
   };
   const addGraphic = (points: { x: number; y: number }[], raster: boolean) => {
-    if (points.length < 2 || graphics.length >= 6000) return;
+    if (graphics.length >= 6000) {
+      limit();
+      return;
+    }
+    if (points.length < 2) return;
     const xs = points.map(({ x }) => x),
       ys = points.map(({ y }) => y);
     const x = Math.min(...xs),
@@ -66,8 +86,9 @@ export function paintedSegments(
       height = Math.max(...ys) - y;
     if (
       [x, y, width, height].every(Number.isFinite) &&
-      width >= 8 &&
-      height >= 8
+      width > 0 &&
+      height > 0 &&
+      (raster || Math.max(width, height) >= 4)
     )
       graphics.push({ x, y, width, height, raster });
   };
@@ -84,33 +105,45 @@ export function paintedSegments(
   for (let i = 0; i < ops.fnArray.length; i++) {
     const fn = ops.fnArray[i],
       args = ops.argsArray[i];
-    if (fn === 10 || fn === 74) {
+    if (fn === 10 || fn === 74 || fn === 76) {
+      if (stack.length >= 256) {
+        limit();
+        return out;
+      }
       stack.push(transform);
       if (fn === 74 && args?.[0]) transform = multiply(transform, args[0]);
-    } else if (fn === 11 || fn === 75) transform = stack.pop() ?? identity;
+    } else if (fn === 11 || fn === 75 || fn === 77)
+      transform = stack.pop() ?? identity;
     else if (fn === 12) transform = multiply(transform, args);
-    else if ([83, 85, 86].includes(fn)) addImage(multiply(view, transform));
+    else if ([83, 85, 86, 90].includes(fn)) addImage(multiply(view, transform));
     else if (fn === 84 || fn === 87) {
       for (const image of (args[fn === 87 ? 1 : 0] ?? []).slice(0, 6000))
         if (image.transform)
           addImage(multiply(multiply(view, transform), image.transform));
-    } else if (fn === 88) {
-      const [, sx, sy, placements] = args;
+    } else if (fn === 88 || fn === 89) {
+      const [sx, b, c, sy, placements] =
+        fn === 89 ? args.slice(1) : [args[1], 0, 0, args[2], args[3]];
+      if (placements?.length > 12000) limit();
       for (let i = 0; i + 1 < (placements?.length ?? 0) && i < 12000; i += 2)
         addImage(
           multiply(multiply(view, transform), [
             sx,
-            0,
-            0,
+            b,
+            c,
             sy,
             placements[i],
             placements[i + 1],
           ]),
         );
+    } else if (fn === 62 || (fn === 76 && args?.[0]?.smask)) {
+      reasons.add("Schattierung oder Maske am Original vergleichen.");
     } else if (fn === 91 && args && args[0] >= 20 && args[0] <= 27) {
       const matrix = multiply(view, transform),
         data = args[1]?.[0];
-      if (!data || data.length > 100_000) continue;
+      if (!data || data.length > 100_000) {
+        limit();
+        continue;
+      }
       const points: { x: number; y: number }[] = [];
       let previous: { x: number; y: number } | undefined,
         first: typeof previous;
@@ -155,7 +188,7 @@ export function paintedSegments(
   }
   return out;
 }
-function coverage(graphic: Rect, region: Rect) {
+export function coverage(graphic: Rect, region: Rect) {
   const width =
     Math.min(graphic.x + graphic.width, region.x + region.width) -
     Math.max(graphic.x, region.x);
@@ -168,18 +201,60 @@ function coverage(graphic: Rect, region: Rect) {
   );
 }
 
-function containsArtwork(page: PdfPage, r: Rect) {
-  const area = r.width * r.height;
-  return page.graphics?.some(
+function interiorArtwork(page: PdfPage, r: Rect) {
+  return (page.graphics ?? []).filter(
     (g) =>
       coverage(g, r) >= 0.96 &&
-      g.width * g.height >= area * (g.raster ? 0.08 : 0.04) &&
       (g.raster ||
         (g.x > r.x + 1 &&
           g.y > r.y + 1 &&
           g.x + g.width < r.x + r.width - 1 &&
           g.y + g.height < r.y + r.height - 1)),
   );
+}
+function containsArtwork(page: PdfPage, r: Rect) {
+  return interiorArtwork(page, r).length > 0;
+}
+function overlaps(a: Rect, b: Rect) {
+  return coverage(a, b) > 0;
+}
+function cardArtwork(page: PdfPage, bounds: Rect, framed: boolean) {
+  const items = page.items.filter((t) => inside(t, bounds));
+  const artwork = interiorArtwork(page, bounds);
+  if (!artwork.length && !items.some((t) => t.rotated)) return {};
+  // With axes, overprinted labels, tiles or rotated text, rendering the entire
+  // card is the only way to preserve the relationship between text and image.
+  // A simple photo can instead accompany the editable caption and source.
+  const rasters = artwork.filter((g) => g.raster);
+  const separate =
+    items.length &&
+    rasters.length &&
+    rasters.length <= 4 &&
+    !items.some((t) => t.rotated) &&
+    artwork.every(
+      (g) =>
+        g.raster ||
+        rasters.some(
+          (r) =>
+            coverage(r, g) >= 0.97 &&
+            g.width <= r.width + 10 &&
+            g.height <= r.height + 10,
+        ),
+    ) &&
+    rasters.every(
+      (g, i) =>
+        coverage(g, bounds) >= 0.999 &&
+        !items.some((t) => overlaps(g, t)) &&
+        !rasters.slice(i + 1).some((other) => overlaps(g, other)),
+    );
+  if (separate) return { graphic: true as const, mediaBounds: rasters };
+  if (framed)
+    return {
+      graphic: true as const,
+      mediaBounds: [bounds],
+      wholeCardImage: true as const,
+    };
+  return {};
 }
 
 export function pdfItems(raw: any[], transform: Matrix): PdfItem[] {
@@ -193,13 +268,25 @@ export function pdfItems(raw: any[], transform: Matrix): PdfItem[] {
         0.1,
         Math.abs(it.width) * Math.hypot(transform[0], transform[1]),
       );
-    const p = {
+    const norm = Math.hypot(t[0], t[1]) || 1;
+    const dx = (w * t[0]) / norm,
+      dy = (w * t[1]) / norm;
+    const corners = [
+      [t[4], t[5]],
+      [t[4] + dx, t[5] + dy],
+      [t[4] + t[2], t[5] + t[3]],
+      [t[4] + dx + t[2], t[5] + dy + t[3]],
+    ];
+    const xs = corners.map((p) => p[0]),
+      ys = corners.map((p) => p[1]);
+    const p: PdfItem = {
       text: it.str,
-      x: t[4],
-      y: t[5] - h,
-      width: w,
-      height: h,
+      x: Math.min(...xs),
+      y: Math.min(...ys),
+      width: Math.max(0.1, Math.max(...xs) - Math.min(...xs)),
+      height: Math.max(1, Math.max(...ys) - Math.min(...ys)),
       baseline: t[5],
+      ...(Math.abs(t[1]) > norm * 0.05 || t[0] < 0 ? { rotated: true } : {}),
     };
     const key = [p.text, p.x.toFixed(2), p.y.toFixed(2), w.toFixed(2)].join(
       "|",
@@ -595,6 +682,27 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
       strategy = "spatial";
       layout.uncertainPages.push(index + 1);
     }
+    if (
+      index === 0 &&
+      pages.length > 1 &&
+      strategy === "spatial" &&
+      page.items.length > 0 &&
+      page.items.length <= 4 &&
+      !page.graphics?.some((g) => g.raster) &&
+      pages
+        .slice(1)
+        .some(
+          (p, i) =>
+            (segments[i + 1]?.length ?? 0) > 3 ||
+            p.items.some((item) => isPdfHeading(item.text)),
+        )
+    ) {
+      bounds = [];
+      (page.reviewReasons ??= []).push(
+        "Mögliches Titelblatt. Texte stehen unter den separaten Dokumentabschnitten zur Auswahl.",
+      );
+    }
+    if (page.reviewReasons?.length) layout.uncertainPages.push(index + 1);
     const prior = layout.regions.at(-1);
     const priorHasHeading =
       prior &&
@@ -661,31 +769,58 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
           : a.bounds.x - b.bounds.x,
       );
     for (const r of ordered) {
-      const graphic =
-        strategy === "frame" &&
-        !page.items.some((item) => inside(item, r.bounds));
       layout.regions.push({
         id: nextRegion++,
         cardId: continuation ? prior!.cardId : nextCard++,
         page: index + 1,
         bounds: r.bounds,
         strategy,
-        ...(graphic && { graphic: true as const }),
+        ...cardArtwork(page, r.bounds, strategy === "frame"),
       });
     }
-    for (const bounds of page.graphics ?? []) {
+    const here = layout.regions.filter((r) => r.page === index + 1);
+    for (const g of page.graphics ?? []) {
+      // Keep original-page coordinates, clipped to the visible CropBox.
+      const x = Math.max(0, g.x),
+        y = Math.max(0, g.y);
+      const bounds = {
+        x,
+        y,
+        width: Math.min(page.width, g.x + g.width) - x,
+        height: Math.min(page.height, g.y + g.height) - y,
+      };
+      if (bounds.width < 1 || bounds.height < 1) continue;
       if (
-        bounds.raster &&
-        bounds.width >= 30 &&
-        bounds.height >= 30 &&
-        bounds.width * bounds.height < page.width * page.height * 0.85 &&
-        !ordered.some((r) => coverage(bounds, r.bounds) >= 0.9) &&
-        layout.unassignedGraphics!.length < 100
+        here.some(
+          (r) =>
+            r.mediaBounds?.some((m) => coverage(bounds, m) >= 0.96) ||
+            (!g.raster &&
+              Math.abs(g.x - r.bounds.x) < 2 &&
+              Math.abs(g.y - r.bounds.y) < 2 &&
+              Math.abs(g.width - r.bounds.width) < 3 &&
+              Math.abs(g.height - r.bounds.height) < 3),
+        )
+      )
+        continue;
+      if (
+        g.raster &&
+        bounds.width * bounds.height >= page.width * page.height * 0.85
       ) {
-        layout.unassignedGraphics!.push({ page: index + 1, bounds });
-        if (!layout.uncertainPages.includes(index + 1))
-          layout.uncertainPages.push(index + 1);
+        if (page.items.length)
+          (page.reviewReasons ??= []).push(
+            "Seitenfüllendes Bild mit Textebene. OCR-Text, Zahlen und Quellen mit dem Scan vergleichen.",
+          );
+        layout.uncertainPages.push(index + 1);
+        continue;
       }
+      if (
+        layout.unassignedGraphics!.length < 100 &&
+        !layout.unassignedGraphics!.some(
+          (e) => e.page === index + 1 && coverage(bounds, e.bounds) > 0.99,
+        )
+      )
+        layout.unassignedGraphics!.push({ page: index + 1, bounds });
+      layout.uncertainPages.push(index + 1);
     }
     if (strategy === "frame" && ordered.length) {
       const left = Math.min(...ordered.map((r) => r.bounds.x)),
@@ -723,6 +858,9 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
     );
   const cards = [...new Set(layout.regions.map((r) => r.cardId))].map((id) =>
     regionCard(layout, id),
+  );
+  layout.uncertainPages = [...new Set(layout.uncertainPages)].sort(
+    (a, b) => a - b,
   );
   return { layout, cards };
 }

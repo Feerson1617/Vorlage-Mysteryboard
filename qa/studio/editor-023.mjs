@@ -1,3 +1,4 @@
+import { inspectOriginal } from "./import-024/inspect-original.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -16,7 +17,7 @@ const baseline = process.env.EDITOR_BASELINE === "1";
 const originals = process.env.EDITOR_ORIGINAL;
 const legacy = process.env.EDITOR_LEGACY_DIR;
 const fixturesRoot = resolve("qa/studio/evidence/pdf-artwork-023");
-const source = originals || join(fixturesRoot, "Mehrseitige-Karten.pdf");
+const source = originals || process.env.EDITOR_NEUTRAL || join(fixturesRoot, "Mehrseitige-Karten.pdf");
 const baseCount = originals ? 32 : 7;
 const m2Index = originals ? 18 : 6;
 const stage = baseline ? "Vorher" : "Nachher";
@@ -125,14 +126,14 @@ async function configure() {
       packaged: app.isPackaged,
     }));
     assert.deepEqual(proof.app, {
-      version: baseline ? "0.2.2" : "0.2.3",
+      version: process.env.EDITOR_VERSION || (baseline ? "0.2.2" : "0.2.3"),
       packaged: true,
     });
   } else {
     page = await browser.newPage({ viewport: { width: 1280, height: 820 } });
     await page.exposeFunction("qaOpen", async () => ({
       name: basename(openingPath),
-      bytes: [...(await readFile(openingPath))],
+      encoded: (await readFile(openingPath)).toString("base64"),
     }));
     await page.exposeFunction("qaSave", async (bytes) =>
       writeFile(savingPath, Buffer.from(bytes)),
@@ -144,7 +145,7 @@ async function configure() {
       window.mysteryStudio = {
         openProject: async () => {
           const d = await window.qaOpen();
-          return { ...d, bytes: new Uint8Array(d.bytes) };
+          return { name:d.name, bytes: Uint8Array.fromBase64(d.encoded) };
         },
         openRecent: async () => null,
         recentProjects: async () => [],
@@ -385,7 +386,14 @@ try {
         await back();
       }
     }
+    if(originals) assert.equal(createHash("sha256").update(await readFile(source)).digest("hex"),"07efd68057712f082819456c099a971f335c035f70b70076cda79c35bf914693");
     await loadPdf(source);
+    if(originals && process.env.EDITOR_IMPORT_AUDIT) await inspectOriginal(page,out);
+    if(process.env.EDITOR_IMPORT_AUDIT){
+      await page.locator(".import-audit summary").click();
+      await page.screenshot({path:join(out,"Vollstaendigkeitskontrolle.png")});
+      await page.locator(".import-audit summary").click();
+    }
     if (!originals)
       await expect(
         page.getByText("Grafiken ohne sichere Kartenzuordnung prüfen", {
@@ -625,7 +633,27 @@ try {
     await button(ui, "Rückgängig").click();
     assert.deepEqual(await snapshot(ui), state);
     assert.deepEqual(external, []);
-    await learner.close();
+    if(process.env.EDITOR_IMPORT_AUDIT){
+      const moved=await releaseOnly(ui,1,{dx:21,dy:17,type:"touch"});assert.deepEqual(moved.actual,moved.target);
+      const work=await snapshot(ui);
+      await button(ui,"Menü").click();await button(ui,"Kleineres Sicherungsbild").click();
+      const pending=learner.waitForEvent("download");
+      await ui.getByRole("link",{name:"Sicherungsbild herunterladen"}).click();
+      const file=await pending;assert.match(file.suggestedFilename(),/^Team[ _]QA_.+\.png$/);
+      const png=join(out,"Schuelerarbeit.png");await file.saveAs(png);
+      await learner.close();
+      const fresh=await browser.newPage();
+      await fresh.goto(server.origin+"/qa-evidence/launch/launch.html");
+      const restored=fresh.frameLocator("iframe");
+      await button(restored,"Fortsetzen").click();
+      await restored.getByLabel("Schüler-Sicherung").setInputFiles(png);
+      await expect(restored.locator("[data-card]")).toHaveCount(task.cards.length);
+      assert.deepEqual(await snapshot(restored),work);
+      await card(restored,m2Index-1).press("Enter");
+      await expect(restored.getByRole("dialog").locator("img")).toHaveAttribute("src",artwork);
+      await fresh.close();
+      proof.studentPngRestored=true;
+    }else await learner.close();
     Object.assign(proof, {
       source: basename(source),
       sha256: createHash("sha256")

@@ -23,6 +23,7 @@ import { MediaView } from "./MediaView";
 import { PdfRegionControls, PdfRegionOverlay } from "./PdfRegionEditor";
 import {
   changeRegions,
+  coverage,
   regionCard,
   type PdfLayout,
   type PdfRegion,
@@ -494,7 +495,7 @@ export function DocumentImport({
           setMessage("Seite lokal angezeigt.");
         }
       };
-      instance.postMessage({ type: "parse", id, format, name: f.name, bytes }, [
+      instance.postMessage({ type: "parse", id, format, studio, name: f.name, bytes }, [
         bytes,
       ]);
     } catch (e) {
@@ -751,16 +752,94 @@ export function DocumentImport({
     stop();
     onCancel();
   }
+  function renderOriginalRegion(
+    bounds: Rect,
+    artwork: boolean,
+    abort?: AbortSignal,
+  ) {
+    return new Promise<string>((resolve, reject) => {
+      const id = ++request.current;
+      const cancel = () => {
+        clearTimeout(timer);
+        regionRenders.current.delete(id);
+        request.current++;
+        worker.current?.postMessage({ type: "cancel-render" });
+        reject(new DOMException("OCR abgebrochen", "AbortError"));
+      };
+      const finish = (value: string) => {
+        abort?.removeEventListener("abort", cancel);
+        resolve(value);
+      };
+      const failure = (e: Error) => {
+        abort?.removeEventListener("abort", cancel);
+        reject(e);
+      };
+      const timer = setTimeout(() => {
+        regionRenders.current.delete(id);
+        request.current++;
+        worker.current?.postMessage({ type: "cancel-render" });
+        failure(
+          Error(
+            "PDF-OCR-Ausschnitt konnte nicht rechtzeitig gerendert werden.",
+          ),
+        );
+      }, 20000);
+      regionRenders.current.set(id, {
+        resolve: finish,
+        reject: failure,
+        timer,
+      });
+      abort?.addEventListener("abort", cancel, { once: true });
+      worker.current!.postMessage({
+        type: "render-region",
+        id,
+        page,
+        bounds,
+        artwork,
+      });
+    });
+  }
   async function attach(asNew = false) {
     try {
       if (!pageImage) return;
       setBusy(true);
       setError("");
-      const data = await cropImage(pageImage, crop);
+      const p = result?.pdfLayout?.pages[page - 1];
+      const bounds = p && {
+        x: (crop.x * p.width) / 100,
+        y: (crop.y * p.height) / 100,
+        width: (crop.w * p.width) / 100,
+        height: (crop.h * p.height) / 100,
+      };
+      const data =
+        result?.format === "pdf" && bounds && !preparations.current.has(page)
+          ? await renderOriginalRegion(bounds, true)
+          : await cropImage(pageImage, crop);
       await verifyImageDecode(data);
       if (!alive.current) return;
-      if (asNew) addCard({ image: data });
-      else if (multipleImages && current?.image) {
+      if (asNew) {
+        if (cards.length >= 100)
+          throw Error("Höchstens 100 Karten. Bitte das Dokument aufteilen.");
+        const cardId = Math.max(0, ...cards.map((c) => c.id)) + 1;
+        if (studio && result?.pdfLayout && bounds) {
+          const layout = result.pdfLayout;
+          const id = Math.max(0, ...layout.regions.map((r) => r.id)) + 1;
+          setResult({
+            ...result,
+            pdfLayout: {
+              ...layout,
+              regions: [
+                ...layout.regions,
+                { id, cardId, page, bounds, strategy: "manual", graphic: true },
+              ],
+              unassignedGraphics: layout.unassignedGraphics?.filter(
+                (g) => g.page !== page || coverage(g.bounds, bounds) < 0.98,
+              ),
+            },
+          });
+        }
+        addCard({ image: data });
+      } else if (multipleImages && current?.image) {
         if ((current.extraImages?.length ?? 0) >= 3)
           throw Error(
             "Höchstens vier Bilder pro Karte. Bitte einen weiteren Kartenvorschlag anlegen.",
@@ -803,11 +882,7 @@ export function DocumentImport({
           .filter((region) => region.graphic)
           .map((region) => region.cardId),
       );
-      if (
-        chosen.some(
-          (card) => graphicIds.has(card.id) && !card.image && !card.text.trim(),
-        )
-      )
+      if (chosen.some((card) => graphicIds.has(card.id) && !card.image))
         throw Error(
           "Eine ausgewählte Bildkarte hat kein Bild. Bitte den Ausschnitt übernehmen oder die Karte abwählen.",
         );
@@ -941,46 +1016,7 @@ export function DocumentImport({
         let src: string;
         const prepared = preparations.current.get(page);
         if (result?.format === "pdf" && !prepared) {
-          src = await new Promise<string>((resolve, reject) => {
-            const id = ++request.current;
-            const cancel = () => {
-              clearTimeout(timer);
-              regionRenders.current.delete(id);
-              request.current++;
-              worker.current?.postMessage({ type: "cancel-render" });
-              reject(new DOMException("OCR abgebrochen", "AbortError"));
-            };
-            const finish = (value: string) => {
-              abort.removeEventListener("abort", cancel);
-              resolve(value);
-            };
-            const failure = (e: Error) => {
-              abort.removeEventListener("abort", cancel);
-              reject(e);
-            };
-            const timer = setTimeout(() => {
-              regionRenders.current.delete(id);
-              request.current++;
-              worker.current?.postMessage({ type: "cancel-render" });
-              failure(
-                Error(
-                  "PDF-OCR-Ausschnitt konnte nicht rechtzeitig gerendert werden.",
-                ),
-              );
-            }, 20000);
-            regionRenders.current.set(id, {
-              resolve: finish,
-              reject: failure,
-              timer,
-            });
-            abort.addEventListener("abort", cancel, { once: true });
-            worker.current!.postMessage({
-              type: "render-region",
-              id,
-              page,
-              bounds: b,
-            });
-          });
+          src = await renderOriginalRegion(b, false, abort);
         } else {
           const source =
             result?.format === "image" && !prepared
@@ -1495,6 +1531,94 @@ export function DocumentImport({
                 </button>
               </div>
             )}
+            {studio && (
+              <details className="import-audit">
+                <summary>
+                  Vollständigkeit prüfen ·{" "}
+                  {result.findings?.some((f) => f.status === "missing")
+                    ? "Nicht übernommen"
+                    : result.findings?.length ||
+                        uncertainGraphics.length ||
+                        result.pdfLayout?.uncertainPages.length ||
+                        unchecked ||
+                        result.format === "image"
+                      ? "Bitte prüfen"
+                      : "Erkannt"}
+                </summary>
+                <p>
+                  {result.pages
+                    ? `${result.pages.length} Seiten`
+                    : result.format === "image"
+                      ? "1 Aufnahme"
+                      : "Word-Dokument · Seitenzahl layoutabhängig"}{" "}
+                  · {cards.length} Kartenvorschläge ·{" "}
+                  {cards.filter((c) => c.image).length} Karten mit Bild
+                </p>
+                {!!result.pdfLayout && (
+                  <p>
+                    {uncertainGraphics.length} markierte Grafikbereiche ohne
+                    sichere Zuordnung ·{" "}
+                    {result.pdfLayout.uncertainPages.length
+                      ? "Aufteilung prüfen auf Seite " +
+                        result.pdfLayout.uncertainPages.join(", ")
+                      : "Keine auffällige Seitenaufteilung"}{" "}
+                    ·{" "}
+                    {cards.filter((c) =>
+                      /^\s*(?:Ziel|Aufgabenstellung)\s*:/i.test(
+                        c.title || c.text,
+                      ),
+                    ).length +
+                      result.pdfLayout.sections.filter((b) =>
+                        /^\s*(?:Ziel|Aufgabenstellung)\s*:/i.test(b.text),
+                      ).length}{" "}
+                    mögliche Aufgabenstellungen
+                  </p>
+                )}
+                {!!unchecked && (
+                  <p>
+                    Bitte prüfen · {unchecked} OCR-Karten einzeln mit dem
+                    Original vergleichen.
+                  </p>
+                )}
+                {result.findings?.map((f, i) => (
+                  <p key={i}>
+                    <strong>
+                      {f.status === "missing"
+                        ? "Nicht übernommen"
+                        : "Bitte prüfen"}
+                    </strong>{" "}
+                    · {f.page && `Seite ${f.page} · `}
+                    {f.message}
+                  </p>
+                ))}
+                {result.format !== "docx" && (
+                  <button
+                    disabled={!pageImage || busy}
+                    onClick={() => {
+                      setCorrection("media");
+                      setView("original");
+                      setMark(true);
+                    }}
+                  >
+                    Fehlenden Bildbereich markieren
+                  </button>
+                )}
+                {!!result.pdfLayout?.sections.length && (
+                  <button
+                    onClick={() => {
+                      setCorrection("structure");
+                      setDiagnostics(true);
+                      const d = document.querySelector<HTMLDetailsElement>(
+                        ".pdf-document-sections",
+                      );
+                      if (d) d.open = true;
+                    }}
+                  >
+                    Separate Texte prüfen
+                  </button>
+                )}
+              </details>
+            )}
             {studio && correction && (
               <nav
                 className="studio-import-tools-nav"
@@ -1639,15 +1763,15 @@ export function DocumentImport({
                       .join("\n\n")}
                   />
                   {result.pdfLayout.sections
-                    .filter((block) =>
-                      /^\s*(?:Ziel|Aufgabenstellung)\s*:/i.test(block.text),
-                    )
+                    .filter((block) => !!block.text.trim())
                     .map((block, index) => (
                       <button
                         key={index}
                         onClick={() => offerInstructions(block.text)}
                       >
-                        Abschnitt „Ziel“ als Aufgabenstellung übernehmen
+                        {/^\s*(?:Ziel|Aufgabenstellung)\s*:/i.test(block.text)
+                          ? "Abschnitt „Ziel“ als Aufgabenstellung übernehmen"
+                          : `Abschnitt auf Seite ${block.page} übernehmen: ${block.text.slice(0, 45)}`}
                       </button>
                     ))}
                 </details>

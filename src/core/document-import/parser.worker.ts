@@ -9,6 +9,7 @@ import {
   MAX_TOTAL_IMAGE_BYTES,
   MAX_TOTAL_IMAGE_PIXELS,
 } from "../media";
+import { reviewWord } from "./docx-review";
 import { boundedDocx } from "./zip";
 import {
   IMPORT_LIMITS,
@@ -16,6 +17,7 @@ import {
   isCardHeading,
   type Block,
   type ImportResult,
+  type ImportFinding,
 } from "./model";
 import {
   analyzePdf,
@@ -209,6 +211,7 @@ async function docx(bytes: Uint8Array, name: string): Promise<ImportResult> {
     imagePixels = 0;
   let mediaLimitError: Error | undefined;
   const bounded = boundedDocx(bytes),
+    findings = reviewWord(bounded.files),
     images: string[] = [],
     warnings = [
       "Die Gliederung ist ein Vorschlag. Alle Grenzen, Pflicht-/V-Angaben, Quellen und Medien bitte mit dem Original prüfen.",
@@ -246,6 +249,11 @@ async function docx(bytes: Uint8Array, name: string): Promise<ImportResult> {
             error.message.startsWith("Die Bilder im Word-Dokument")
           )
             throw error;
+          findings.push({
+            status: "missing",
+            message:
+              "Ein Word-Bild fehlt. Als PNG/JPEG/WebP einsetzen oder das Dokument lokal als PDF exportieren.",
+          });
           warnings.push(
             "Ein Bild konnte nicht übernommen werden (erlaubt: PNG/JPEG/WebP bis 3 MB). Bitte das Original prüfen und das Bild bei Bedarf ersetzen.",
           );
@@ -257,14 +265,27 @@ async function docx(bytes: Uint8Array, name: string): Promise<ImportResult> {
   // Mammoth turns image-converter errors into warnings. A document-wide limit
   // must still reject the whole import, rather than silently dropping an image.
   if (mediaLimitError) throw mediaLimitError;
-  if (result.messages.length)
+  if (result.messages.length) {
+    findings.push({
+      status: "review",
+      message:
+        "Word meldet abweichende Formatierungen oder Verweise. Original vergleichen, bei Abweichungen lokal als PDF exportieren.",
+    });
     warnings.push(
       "Einige Word-Formatierungen oder Verweise konnten nicht vollständig dargestellt werden. Bitte das Original vergleichen.",
     );
+  }
   const blocks = htmlBlocks(result.value, images);
+  if (images.some((image) => !blocks.some((b) => b.image === image)))
+    findings.push({
+      status: "missing",
+      message:
+        "Ein eingebettetes Bild ist keiner Karte zugeordnet. Original als PDF exportieren und den Ausschnitt übernehmen.",
+    });
   checkBlocks(blocks);
   return {
     format: "docx",
+    findings,
     name,
     blocks,
     cards: proposeCards(blocks),
@@ -281,7 +302,7 @@ function checkBlocks(blocks: Block[]) {
       "Das Dokument enthält zu viel Text. Bitte vor dem Import aufteilen.",
     );
 }
-async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
+async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promise<ImportResult> {
   const task = pdfjs.getDocument({
     data: bytes,
     isEvalSupported: false,
@@ -357,38 +378,98 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
       }
     }
     const graphics: NonNullable<PdfPage["graphics"]> = [];
+    const reasons = new Set<string>();
+    const ops = await page.getOperatorList();
+    vectors.push(paintedSegments(ops, view.transform, graphics, reasons));
+    if (view.rotation)
+      reasons.add(
+        "Gedrehte Seite. Lesereihenfolge und Grenzen am Original vergleichen.",
+      );
+    if ((await page.getAnnotations({ intent: "display" })).length)
+      reasons.add(
+        "Anmerkungen oder Formularfelder vorhanden. Sichtbare Einträge vor dem Import lokal in ein flaches PDF drucken.",
+      );
     geometryPages.push({
+      reviewReasons: [...reasons],
       width: view.width,
       height: view.height,
       items: pdfItems(items, view.transform),
       graphics,
     });
-    vectors.push(
-      paintedSegments(await page.getOperatorList(), view.transform, graphics),
-    );
+
     page.cleanup();
   }
   const { layout: pdfLayout, cards } = analyzePdf(geometryPages, vectors);
-  const imageWarnings: string[] = [];
-  let imageBytes = 0;
+  const findings: ImportFinding[] = geometryPages.flatMap((p, i) =>
+    (p.reviewReasons ?? []).map((message) => ({
+      status: "review" as const,
+      page: i + 1,
+      message,
+    })),
+  );
+  let imageBytes = 0,
+    imagePixels = 0;
   for (const region of pdfLayout.regions.filter((entry) => entry.graphic)) {
     const card = cards.find((entry) => entry.id === region.cardId)!;
-    card.title = `Bildkarte von Seite ${region.page}`;
+    const imageTitle = `Bildkarte von Seite ${region.page}`;
+    const hasText = Boolean(card.title || card.text || card.source);
+    // The existing Universal editor retains its editable text/table workflow.
+    if (hasText && !studio) {
+      delete region.graphic;
+      delete region.mediaBounds;
+      delete region.wholeCardImage;
+      continue;
+    }
+    if (!hasText) card.title = imageTitle;
     try {
-      if (imageBytes >= 12_000_000) throw new Error("Bildbudget erreicht");
       scope.postMessage({
         type: "progress",
-        message: `Bildkarte auf Seite ${region.page} wird übernommen …`,
+        message: `Bildbereich auf Seite ${region.page} wird übernommen …`,
       });
-      const image = await renderPage(region.page, false, region.bounds, true);
-      imageBytes += Math.ceil(image.length * 0.75);
-      if (imageBytes > 12_000_000) throw new Error("Bildbudget erreicht");
-      card.image = image;
-      card.imageAlt = card.title;
+      const images: string[] = [];
+      let bytes = 0,
+        pixels = 0;
+      for (const bounds of region.mediaBounds ?? [region.bounds]) {
+        if (imageBytes + bytes >= MAX_TOTAL_IMAGE_BYTES)
+          throw Error("Bildbudget");
+        const image = await renderPage(region.page, false, bounds, true);
+        const info = inspectImage(
+          Uint8Array.from(atob(image.split(",")[1]), (c) => c.charCodeAt(0)),
+        );
+        bytes += Math.ceil(image.length * 0.75);
+        pixels += info.width * info.height;
+        if (
+          imageBytes + bytes > MAX_TOTAL_IMAGE_BYTES ||
+          imagePixels + pixels > MAX_TOTAL_IMAGE_PIXELS
+        )
+          throw Error("Bildbudget");
+        images.push(image);
+      }
+      if (card.image || images.length > 4) throw Error("Zu viele Grafiken");
+      imageBytes += bytes;
+      imagePixels += pixels;
+      if (region.wholeCardImage && hasText) {
+        // The rendered original already contains all text, labels and sources.
+        // Keep the raw text in the original comparison only.
+        card.title = imageTitle;
+        card.text = "";
+        delete card.source;
+        findings.push({
+          status: "review",
+          page: region.page,
+          message: `Karte ${card.id} enthält das vollständige Originalbild einschließlich Beschriftungen. Bitte die Lesbarkeit prüfen.`,
+        });
+      }
+      card.image = images[0];
+      card.imageAlt = imageTitle;
+      if (images.length > 1)
+        card.extraImages = images.slice(1).map((src) => ({ src }));
     } catch {
-      imageWarnings.push(
-        `Bildkarte von Seite ${region.page} konnte nicht übernommen werden. Überprüfe den Bereich am Original und füge den Bildausschnitt manuell hinzu.`,
-      );
+      findings.push({
+        status: "missing",
+        page: region.page,
+        message: `Bild von Karte ${card.id} konnte nicht übernommen werden. Einen kleineren Originalausschnitt wählen oder die Datei lokal aufteilen.`,
+      });
       if (!pdfLayout.uncertainPages.includes(region.page))
         pdfLayout.uncertainPages.push(region.page);
     }
@@ -403,6 +484,7 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
   )?.text;
   return {
     format: "pdf",
+    findings,
     name,
     blocks,
     cards,
@@ -412,7 +494,7 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
     ...(question ? { suggestedTitle: question } : {}),
     noText: !geometryPages.some((p) => p.items.length),
     warnings: [
-      ...imageWarnings,
+      ...findings.filter((f) => f.status === "missing").map((f) => f.message),
       ...(pdfLayout.unassignedGraphics?.length
         ? [
             "Grafiken ohne eindeutige Kartenzuordnung wurden zur Kontrolle markiert. Bei Bedarf einen Bereich als Bildkarte ergänzen.",
@@ -516,13 +598,18 @@ scope.onmessage = async (event: MessageEvent) => {
       const result =
         request.format === "docx"
           ? await docx(new Uint8Array(request.bytes), request.name)
-          : await readPdf(new Uint8Array(request.bytes), request.name);
+          : await readPdf(new Uint8Array(request.bytes), request.name, request.studio === true);
       scope.postMessage({ type: "parsed", id: request.id, result });
     } else if (request.type === "render-region") {
       scope.postMessage({
         type: "rendered-region",
         id: request.id,
-        image: await renderPage(request.page, true, request.bounds),
+        image: await renderPage(
+          request.page,
+          true,
+          request.bounds,
+          request.artwork === true,
+        ),
       });
     } else if (request.type === "render") {
       scope.postMessage({
@@ -542,7 +629,7 @@ scope.onmessage = async (event: MessageEvent) => {
           error.message,
         )
           ? error.message
-          : "Die Datei konnte nicht gelesen werden. Bitte überprüfen, ob es sich um eine gültige, unverschlüsselte Word- oder PDF-Datei handelt. Der geöffnete Entwurf bleibt erhalten.",
+          : "Die Datei konnte nicht gelesen werden. Bitte überprüfen, ob es sich um eine gültige, unverschlüsselte Word- oder PDF-Datei handelt. Das Original lokal öffnen und erneut als DOCX oder flaches PDF exportieren. Der geöffnete Entwurf bleibt erhalten.",
     });
   }
 };

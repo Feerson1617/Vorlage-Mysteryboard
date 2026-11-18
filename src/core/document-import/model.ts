@@ -92,7 +92,13 @@ export type Block = {
   page?: number;
   bounds?: { x: number; y: number; width: number; height: number };
 };
+export type ImportFinding = {
+  status: "review" | "missing";
+  message: string;
+  page?: number;
+};
 export type ImportResult = {
+  findings?: ImportFinding[];
   format: "docx" | "pdf" | "image";
   name: string;
   blocks: Block[];
