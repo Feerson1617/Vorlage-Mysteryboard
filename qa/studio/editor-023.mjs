@@ -104,8 +104,21 @@ async function configure() {
         canceled: false,
         filePath: globalThis.qaSave,
       });
-      dialog.showMessageBox = async () => ({ response: 1 });
-      dialog.showMessageBoxSync = () => 0;
+      globalThis.qaCancelDeletion = true;
+      globalThis.qaConfirmations = [];
+      const decision = (...args) => {
+        const message = args.at(-1)?.message ?? "";
+        const response =
+          (globalThis.qaCancelDeletion &&
+            message.includes("wirklich löschen")) ||
+          message === "Ungesicherte Änderungen"
+            ? 1
+            : 0;
+        globalThis.qaConfirmations.push({ message, response });
+        return { response, checkboxChecked: false };
+      };
+      dialog.showMessageBox = async (...args) => decision(...args);
+      dialog.showMessageBoxSync = (...args) => decision(...args).response;
     });
     proof.app = await app.evaluate(({ app }) => ({
       version: app.getVersion(),
@@ -363,7 +376,12 @@ try {
           (await page.getByText(/Bildkarte von Seite 1/).count()) > 0,
           images > 0,
         );
-        await button(page, "Zur Pinnwand").click();
+        await button(page, "Weiter zur Übernahme").click();
+        await page.getByLabel(/Ich habe Texte, Grenzen, Bilder/).check();
+        await button(page, "Karten übernehmen").click();
+        await expect(teacherBoard().locator("[data-card]")).toHaveCount(count);
+        await target(name.replace(".pdf", ".mysteryboard"));
+        await saveProject(page);
         await back();
       }
     }
@@ -440,11 +458,31 @@ try {
       baseCount - 1,
     );
     cancelDeletion = false;
+    if (app)
+      await app.evaluate(() => {
+        globalThis.qaCancelDeletion = false;
+      });
     await button(dialog(), "Karte löschen").click();
     await expect(dialog()).toHaveCount(0);
     await expect(teacherBoard().locator("[data-card]")).toHaveCount(
       baseCount - 2,
     );
+    if (app) {
+      const confirmations = await app.evaluate(
+        () => globalThis.qaConfirmations,
+      );
+      assert.deepEqual(
+        confirmations
+          .filter(({ message }) => message.includes("wirklich löschen"))
+          .map(({ response }) => response),
+        [1, 0],
+      );
+      assert(
+        !confirmations.some(({ message }) =>
+          message.startsWith("Karten dieser Scan-Seite neu aufteilen?"),
+        ),
+      );
+    }
     const reduced = (await exportScorm("Nach-Loeschung.zip")).decoded;
     assert.equal(reduced.content.cards.length, baseCount - 2);
     assert(!reduced.content.cards.some((c) => c.text === removed.text));

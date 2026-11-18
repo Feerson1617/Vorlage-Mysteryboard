@@ -1329,6 +1329,11 @@ export function DocumentImport({
       pageImage &&
       !busy &&
       rasterPages.includes(page) &&
+      // A framed artwork proposal is already a complete card. OCR remains a
+      // manual tool on those pages so it cannot replace the artwork by text.
+      !result.pdfLayout?.regions.some(
+        (region) => region.page === page && region.graphic,
+      ) &&
       ocrBase() &&
       !automaticPages.current.has(page)
     ) {
