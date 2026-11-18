@@ -288,6 +288,10 @@ try {
     during: async () => {
       await expect(line).toHaveAttribute("x1", x);
     },
+    beforeRelease: async () => {
+      await expect(line).not.toHaveAttribute("x1", x);
+      await page.screenshot({ path: join(out, "Pfeil-waehrend-Ziehen.png") });
+    },
   });
   assert.notEqual(await line.getAttribute("x1"), x);
   screenshot = join(out, "Autorenpinnwand-Pfeile.png");
@@ -339,6 +343,18 @@ try {
     studentEdges: task.content.initial.edges,
     authorScreenshot: screenshot,
   };
+  await buttonOnPage("Zur Projektübersicht").click();
+  await open(resolve("qa/studio/evidence/legacy/Studio-0.2.0.mysteryboard"), 5);
+  await fileTarget(join(out, "Altaufgabe-neu-exportiert.zip"));
+  await openExports(page);
+  await buttonOnPage("Für itslearning exportieren").click();
+  await expect
+    .poll(async () =>
+      stat(join(out, "Altaufgabe-neu-exportiert.zip"))
+        .then((file) => file.size)
+        .catch(() => 0),
+    )
+    .toBeGreaterThan(1000);
   proof.passed = true;
 } catch (error) {
   if (page && !page.isClosed())

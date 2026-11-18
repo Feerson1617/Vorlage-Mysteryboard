@@ -63,6 +63,7 @@ jobs:
             artifacts/studio-tests/native-macos.json
             !artifacts/mac-board-tests/profile/**
             !artifacts/mac-board-tests/sco/**
+            !artifacts/mac-board-tests/legacy-sco/**
           compression-level: 0
   regression:
     runs-on: ubuntu-24.04
@@ -78,7 +79,7 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install chromium
       - name: Type check, data tests and frozen classroom build
         if: matrix.shard == 1
         shell: bash
@@ -87,6 +88,8 @@ jobs:
           mkdir -p artifacts/board-regression
           npm test 2>&1 | tee artifacts/board-regression/Daten.log
           npm run build 2>&1 | tee artifacts/board-regression/Build.log
+          npm run studio:build 2>&1 | tee artifacts/board-regression/Studio-Build.log
+          node qa/studio/board-reproduction.mjs 2>&1 | tee artifacts/board-regression/Vorher-Nachher.log
           npm run test:rc2 2>&1 | tee artifacts/board-regression/RC2.log
       - name: Unmodified browser suite
         shell: bash

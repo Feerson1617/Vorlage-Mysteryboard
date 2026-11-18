@@ -64,7 +64,7 @@ export async function displacedRelease(
 export async function moveWithMouse(
   page,
   id,
-  { dx, dy, steps = 1, during, offBoard = false },
+  { dx, dy, steps = 1, during, beforeRelease, offBoard = false },
 ) {
   const board = pinboard(page);
   const before = await coordinates(board, id);
@@ -79,6 +79,7 @@ export async function moveWithMouse(
   await page.mouse.down();
   if (during) await during();
   await page.mouse.move(x + dx, y + dy, { steps });
+  if (beforeRelease) await beforeRelease();
   await page.mouse.up();
   const expected = before.map(
     (v, i) => Math.round((v + [dx, dy][i] / zoom) * 100) / 100,

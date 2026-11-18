@@ -127,6 +127,7 @@ export function reviseDraft(
 export function retainCards(content: Content, ids: number[]): Content {
   const selected = content.cards.filter((c) => ids.includes(c.id));
   const map = new Map(selected.map((c, i) => [c.id, i + 1]));
+  const edges = remapEdges(content.initial.edges, map);
   const categories = content.help?.categories
     ?.map((c) => ({
       ...c,
@@ -134,7 +135,7 @@ export function retainCards(content: Content, ids: number[]): Content {
     }))
     .filter((c) => c.cardIds.length);
   return {
-    ...withStartEdges(content, remapEdges(content.initial.edges, map)),
+    ...withStartEdges(content, edges),
     cards: selected.map((c) => ({ ...c, id: map.get(c.id)! })),
     initial: {
       cards: selected.map((c) => ({
@@ -142,7 +143,7 @@ export function retainCards(content: Content, ids: number[]): Content {
         id: map.get(c.id)!,
         color: 0,
       })),
-      edges: remapEdges(content.initial.edges, map),
+      edges,
       categories: Array(6).fill(""),
     },
     ...(content.help

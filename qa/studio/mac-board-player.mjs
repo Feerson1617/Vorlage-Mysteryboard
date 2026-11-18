@@ -123,6 +123,46 @@ try {
   );
   assert(!JSON.stringify(restored).includes("Planung bleibt intern"));
   await fresh.context.close();
+  const legacyDir = join(out, "legacy-sco");
+  await mkdir(legacyDir, { recursive: true });
+  const legacy = unzipSync(
+    new Uint8Array(await readFile(join(out, "Altaufgabe-neu-exportiert.zip"))),
+  );
+  for (const [name, bytes] of Object.entries(legacy)) {
+    assert(Object.hasOwn(archive, name));
+    await writeFile(join(legacyDir, name), bytes);
+  }
+  const oldPng = resolve("qa/studio/evidence/legacy/Studio-0.2.0-Original.png");
+  const oldDecoded = join(out, "Altstand-extrahiert.mysteryboard");
+  execFileSync(
+    "python3",
+    ["qa/touch-saving/verify-png.py", oldPng, oldDecoded],
+    { stdio: "inherit" },
+  );
+  const oldState = JSON.parse(await readFile(oldDecoded, "utf8"));
+  const old = await learner();
+  await old.page.goto(server.origin + "/qa-evidence/legacy-sco/launch.html");
+  await button(old.ui, "Fortsetzen").tap();
+  await old.ui.getByLabel("Schüler-Sicherung").setInputFiles(oldPng);
+  await expect(old.ui.locator("[data-card]")).toHaveCount(
+    oldState.work.cards.length,
+  );
+  const oldBoard = await snapshot(old.ui);
+  assert.deepEqual(
+    oldBoard.cards
+      .map(([id, x, y]) => [Number(id), Number(x), Number(y)])
+      .sort((a, b) => a[0] - b[0]),
+    oldState.work.cards
+      .map((card) => [card.id, card.x, card.y])
+      .sort((a, b) => a[0] - b[0]),
+  );
+  await expect(old.ui.locator("[data-edge-label]")).toContainText(
+    oldState.work.edges[0].label,
+  );
+  await expect(old.ui.locator(".team-summary")).toContainText(
+    oldState.work.team,
+  );
+  await old.context.close();
   assert.deepEqual(requests, []);
   await writeFile(
     join(out, "Mac-Starthilfe-SCORM.json"),
@@ -133,6 +173,7 @@ try {
         freshSessionEqual: true,
         originalPNG: download.suggestedFilename(),
         studentCanEditAndRemove: true,
+        actualStudio020PngRestoredInNewPlayer: true,
         undoRedo: true,
         externalRequests: requests,
       },

@@ -29,6 +29,7 @@ native = json.loads(find("Mac-Pinnwand-Tests.json").read_text())
 student = json.loads(find("Mac-Starthilfe-SCORM.json").read_text())
 existing = json.loads(find("native-macos.json").read_text())
 assert native["passed"] and student["passed"] and existing["passed"]
+assert student["actualStudio020PngRestoredInNewPlayer"]
 assert native["sourceCommit"] == commit == existing["sourceCommit"]
 assert native["electron"]["version"] == existing["appVersion"] == "0.2.1"
 assert native["electron"]["isPackaged"] and native["arch"] == "arm64"
@@ -58,6 +59,7 @@ with tempfile.TemporaryDirectory() as temporary:
         find("Mac-Pinnwand-Tests.json"), find("Mac-Starthilfe-SCORM.json"),
         find("native-macos.json"), find("Autorenpinnwand-Pfeile.png"),
         find("Export-Starthilfen.png"), find("Schuelerplayer-Starthilfe.png"),
+        find("Pfeil-waehrend-Ziehen.png"), find("Vorher-Nachher.log"),
         find("Starthilfe-SCORM.zip"), find("Schuelerarbeit-Original.png"),
         find("Autor-mit-Pfeilen.mysteryboard"),
         find("Daten.log"), find("RC2.log"), find("DMG.log"), find("Pinnwand.log"),
@@ -100,6 +102,8 @@ einen tatsächlichen Export, Richtungswechsel, Änderung, Löschen, Undo/Redo
 und Wiederherstellung der PNG in einer neuen Sitzung.
 
 Die neue Version liest bisherige Mystery-Dateien und Schülerarbeitsstände.
+Eine echte Schüler-PNG aus der Abnahme von 0.2.0 wurde in einem neu erzeugten
+Schülerplayer geöffnet und mit ihren ursprünglichen Koordinaten verglichen.
 Alte Player oder Apps kennen die neue Starthilfe-Eigenschaft und die internen
 Projektpfeile noch nicht. Für neue Aufgaben mit Starthilfen den mitgelieferten
 aktuellen Schülerplayer exportieren. Änderungen am veröffentlichten Inhalt

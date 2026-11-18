@@ -135,11 +135,6 @@ export function AuthorEditor({
     () => new Set(privateEdges?.map((edge) => edge.id)),
     [privateEdges],
   );
-  const sharedEdges = content.initial.edges.filter(
-    (edge) =>
-      !draft.author.hiddenCards.includes(edge.from) &&
-      !draft.author.hiddenCards.includes(edge.to),
-  );
   useEffect(() => {
     if (!connectingCards || edgeForm) return;
     const escape = (event: KeyboardEvent) => {
@@ -409,13 +404,15 @@ export function AuthorEditor({
     }
   };
   let publicationIssue = "";
+  let publishedContent: Content | undefined;
   if (integration && publication) {
     try {
-      publishDraft(draft);
+      publishedContent = publishDraft(draft).content;
     } catch (e) {
       publicationIssue = (e as Error).message;
     }
   }
+  const sharedEdges = publishedContent?.initial.edges ?? [];
   const cancelFile = () => {
     importController.current?.abort();
     setFileBusy(false);
@@ -1530,12 +1527,12 @@ export function AuthorEditor({
                     {sharedEdges.map((edge) => (
                       <li key={edge.id}>
                         {cardNumber(
-                          content,
+                          publishedContent!,
                           edge.direction === 2 ? edge.to : edge.from,
                         )}
                         {edge.direction ? " → " : " – "}
                         {cardNumber(
-                          content,
+                          publishedContent!,
                           edge.direction === 2 ? edge.from : edge.to,
                         )}
                         {edge.label && `: ${edge.label}`}

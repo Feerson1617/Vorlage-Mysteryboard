@@ -260,6 +260,15 @@ export function Board({
         }
       }
     };
+    const blur = () => {
+      if (!authorBoard) return;
+      active.clear();
+      sequence = null;
+      if (!gesture.current) return;
+      abortGesture();
+      gesture.current = null;
+      points.current.clear();
+    };
     const click = (e: MouseEvent) => {
       const target = control(e.target);
       // Scope the guard to this application, not other document controls.
@@ -296,6 +305,7 @@ export function Board({
     document.addEventListener("lostpointercapture", lost, true);
     document.addEventListener("touchcancel", touchCancel, true);
     document.addEventListener("click", click, true);
+    window.addEventListener("blur", blur);
     return () => {
       document.removeEventListener("pointerdown", down, true);
       document.removeEventListener("pointermove", move, true);
@@ -304,6 +314,7 @@ export function Board({
       document.removeEventListener("lostpointercapture", lost, true);
       document.removeEventListener("touchcancel", touchCancel, true);
       document.removeEventListener("click", click, true);
+      window.removeEventListener("blur", blur);
       if (previewFrame.current !== null)
         cancelAnimationFrame(previewFrame.current);
     };
