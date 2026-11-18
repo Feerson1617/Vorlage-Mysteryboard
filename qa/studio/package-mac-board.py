@@ -12,8 +12,9 @@ import zipfile
 source, delivery = (Path(value).resolve() for value in sys.argv[1:])
 delivery.mkdir(parents=True, exist_ok=True)
 base = "39ff7853293b49c4aba180b49cf5331e26df96e7"
-commit = os.environ["GITHUB_SHA"]
-workflow = f'{os.environ["GITHUB_SERVER_URL"]}/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{os.environ["GITHUB_RUN_ID"]}'
+commit = os.environ.get("STUDIO_ACCEPTANCE_COMMIT", os.environ["GITHUB_SHA"])
+run_id = os.environ.get("STUDIO_ACCEPTANCE_RUN_ID", os.environ["GITHUB_RUN_ID"])
+workflow = f'{os.environ["GITHUB_SERVER_URL"]}/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{run_id}'
 prefix = "MysteryBoard-Studio-0.2.1"
 dmg_name = prefix + "-Mac-Apple-Silicon.dmg"
 
@@ -24,6 +25,9 @@ def find(name):
 def sha(path):
     with path.open("rb") as stream:
         return hashlib.file_digest(stream, "sha256").hexdigest()
+
+def plain_log(path):
+    return re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", path.read_text())
 
 native = json.loads(find("Mac-Pinnwand-Tests.json").read_text())
 student = json.loads(find("Mac-Starthilfe-SCORM.json").read_text())
@@ -39,11 +43,11 @@ for project in native["projects"]:
     for motion in project["motions"]:
         assert motion["expected"] == motion["actual"]
 logs = [find(f"Chromium-{part}.log") for part in range(1, 5)]
-counts = [int(re.findall(r"(\d+) passed", p.read_text())[-1]) for p in logs]
+counts = [int(re.findall(r"(\d+) passed", plain_log(p))[-1]) for p in logs]
 assert sum(counts) == 272, counts
-data_count = int(re.search(r"Tests\s+(\d+) passed", find("Daten.log").read_text())[1])
+data_count = int(re.search(r"Tests\s+(\d+) passed", plain_log(find("Daten.log")))[1])
 assert data_count >= 181
-assert re.search(r"\b4 passed", find("RC2.log").read_text())
+assert re.search(r"\b4 passed", plain_log(find("RC2.log")))
 checks = len(existing["checks"])
 dmg = find(dmg_name)
 with dmg.open("rb") as stream:

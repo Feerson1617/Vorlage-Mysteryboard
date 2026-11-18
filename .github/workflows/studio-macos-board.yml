@@ -5,8 +5,10 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   native:
+    if: "!contains(github.event.head_commit.message, 'Package-verified-run:')"
     runs-on: macos-15
     timeout-minutes: 45
     steps:
@@ -66,6 +68,7 @@ jobs:
             !artifacts/mac-board-tests/legacy-sco/**
           compression-level: 0
   regression:
+    if: "!contains(github.event.head_commit.message, 'Package-verified-run:')"
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     env:
@@ -132,13 +135,44 @@ jobs:
   delivery:
     runs-on: ubuntu-24.04
     needs: [native, regression]
+    if: |
+      always() &&
+      ((needs.native.result == 'success' && needs.regression.result == 'success') ||
+       contains(github.event.head_commit.message, 'Package-verified-run:'))
     steps:
       - uses: actions/checkout@v4
+      - name: Resolve and verify acceptance provenance
+        id: acceptance
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          acceptance_run="$(printf '%s\n' "$COMMIT_MESSAGE" | sed -nE 's/^Package-verified-run: ([0-9]+)$/\1/p')"
+          acceptance_commit="$GITHUB_SHA"
+          if [ -n "$acceptance_run" ]; then
+            run_json="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$acceptance_run")"
+            acceptance_commit="$(jq -er '.head_sha' <<< "$run_json")"
+            jq -e '.status == "completed" and .head_branch == "fix/mysteryboard-macos-board-and-author-edges"' <<< "$run_json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$acceptance_run/jobs" --jq '.jobs | map(select(.name == "native" or (.name | startswith("regression (")))) | length == 5 and all(.conclusion == "success")' | grep -Fx true
+            git fetch --depth=1 origin "$acceptance_commit"
+            git diff --exit-code "$acceptance_commit" HEAD -- . ':!.github/workflows/studio-macos-board.yml' ':!qa/studio/package-mac-board.py'
+          else
+            acceptance_run="$GITHUB_RUN_ID"
+          fi
+          echo "run=$acceptance_run" >> "$GITHUB_OUTPUT"
+          echo "commit=$acceptance_commit" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
         with:
           pattern: Studio-0.2.1-*
           path: board-acceptance
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.acceptance.outputs.run }}
       - run: python3 qa/studio/package-mac-board.py board-acceptance board-delivery
+        env:
+          STUDIO_ACCEPTANCE_COMMIT: ${{ steps.acceptance.outputs.commit }}
+          STUDIO_ACCEPTANCE_RUN_ID: ${{ steps.acceptance.outputs.run }}
       - uses: actions/upload-artifact@v4
         with:
           name: MysteryBoard-Studio-0.2.1-Mac-Apple-Silicon-KOMPLETTPAKET
