@@ -442,6 +442,10 @@ try {
     studentEdges: task.content.initial.edges,
     authorScreenshot: screenshot,
   };
+  // Keep the edited hint as a native project before leaving the board.
+  // The project overview correctly refuses an unconfirmed discard.
+  await fileTarget(join(out, "Starthilfe-nach-Bearbeitung.mysteryboard"));
+  await saveProject(page, true);
   await buttonOnPage("Zur Projektübersicht").click();
   await open(resolve("qa/studio/evidence/legacy/Studio-0.2.0.mysteryboard"), 5);
   await fileTarget(join(out, "Altaufgabe-neu-exportiert.zip"));
