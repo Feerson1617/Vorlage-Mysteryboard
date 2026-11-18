@@ -24,6 +24,7 @@ import {
   paintedSegments,
   pdfItems,
   regionBlocks,
+  regionCard,
   type PdfPage,
   type Segment,
 } from "./pdf-layout";
@@ -302,7 +303,11 @@ function checkBlocks(blocks: Block[]) {
       "Das Dokument enthält zu viel Text. Bitte vor dem Import aufteilen.",
     );
 }
-async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promise<ImportResult> {
+async function readPdf(
+  bytes: Uint8Array,
+  name: string,
+  studio: boolean,
+): Promise<ImportResult> {
   const task = pdfjs.getDocument({
     data: bytes,
     isEvalSupported: false,
@@ -337,6 +342,8 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
   const pages: { width: number; height: number }[] = [],
     geometryPages: PdfPage[] = [],
     vectors: Segment[][] = [];
+  let totalCharacters = 0;
+  const omitted: ImportFinding[] = [];
   for (let pageNo = 1; pageNo <= pdf.numPages; pageNo++) {
     scope.postMessage({
       type: "progress",
@@ -344,6 +351,14 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
     });
     const page = await pdf.getPage(pageNo),
       view = page.getViewport({ scale: 1 });
+    if (
+      ![view.width, view.height].every(
+        (n) => Number.isFinite(n) && n > 0 && n <= 14400,
+      )
+    )
+      throw Error(
+        "Die Seitengröße ist nicht sicher verarbeitbar. Bitte lokal auf A4 oder A3 als PDF exportieren.",
+      );
     const pageActions = await page.getJSActions();
     if (
       pageActions &&
@@ -359,16 +374,17 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
       .streamTextContent({ includeMarkedContent: false })
       .getReader();
     const items: any[] = [];
-    let chars = 0;
     for (;;) {
       const chunk = await reader.read();
       if (chunk.done) break;
       for (const item of chunk.value.items) {
         if (typeof item.str !== "string" || !item.str.trim()) continue;
-        chars += item.str.length;
-        if (chars > IMPORT_LIMITS.textChars) {
+        totalCharacters += item.str.length;
+        if (totalCharacters > IMPORT_LIMITS.textChars) {
           await reader.cancel();
-          throw new Error("Die PDF-Seite enthält zu viel Text.");
+          throw Error(
+            "Das Dokument enthält zu viel Text. Bitte lokal aufteilen.",
+          );
         }
         items.push(item);
         if (items.length > 20_000)
@@ -385,10 +401,14 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
       reasons.add(
         "Gedrehte Seite. Lesereihenfolge und Grenzen am Original vergleichen.",
       );
-    if ((await page.getAnnotations({ intent: "display" })).length)
-      reasons.add(
-        "Anmerkungen oder Formularfelder vorhanden. Sichtbare Einträge vor dem Import lokal in ein flaches PDF drucken.",
-      );
+    const annotations = await page.getAnnotations({ intent: "display" });
+    if (annotations.some((a: { subtype?: string }) => a.subtype !== "Link"))
+      omitted.push({
+        status: "missing",
+        page: pageNo,
+        message:
+          "Anmerkungen oder Formularfelder werden im Kartenbild ausgelassen. Das ausgefüllte Original mit sichtbaren Anmerkungen lokal in ein flaches PDF drucken.",
+      });
     geometryPages.push({
       reviewReasons: [...reasons],
       width: view.width,
@@ -407,6 +427,8 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
       message,
     })),
   );
+  findings.push(...omitted);
+  const renderedRegions = new Set<number>();
   let imageBytes = 0,
     imagePixels = 0;
   for (const region of pdfLayout.regions.filter((entry) => entry.graphic)) {
@@ -436,7 +458,7 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
         const info = inspectImage(
           Uint8Array.from(atob(image.split(",")[1]), (c) => c.charCodeAt(0)),
         );
-        bytes += Math.ceil(image.length * 0.75);
+        bytes += info.bytes;
         pixels += info.width * info.height;
         if (
           imageBytes + bytes > MAX_TOTAL_IMAGE_BYTES ||
@@ -445,21 +467,23 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
           throw Error("Bildbudget");
         images.push(image);
       }
-      if (card.image || images.length > 4) throw Error("Zu viele Grafiken");
+      const existing = card.image
+        ? [card.image, ...(card.extraImages ?? []).map((img) => img.src)]
+        : [];
+      if (existing.length + images.length > 4) throw Error("Zu viele Grafiken");
       imageBytes += bytes;
       imagePixels += pixels;
       if (region.wholeCardImage && hasText) {
         // The rendered original already contains all text, labels and sources.
         // Keep the raw text in the original comparison only.
-        card.title = imageTitle;
-        card.text = "";
-        delete card.source;
+        renderedRegions.add(region.id);
         findings.push({
           status: "review",
           page: region.page,
           message: `Karte ${card.id} enthält das vollständige Originalbild einschließlich Beschriftungen. Bitte die Lesbarkeit prüfen.`,
         });
       }
+      images.unshift(...existing);
       card.image = images[0];
       card.imageAlt = imageTitle;
       if (images.length > 1)
@@ -467,12 +491,33 @@ async function readPdf(bytes: Uint8Array, name: string, studio: boolean): Promis
     } catch {
       findings.push({
         status: "missing",
+        ...(card.image ? {} : { missingCard: card.id }),
         page: region.page,
         message: `Bild von Karte ${card.id} konnte nicht übernommen werden. Einen kleineren Originalausschnitt wählen oder die Datei lokal aufteilen.`,
       });
       if (!pdfLayout.uncertainPages.includes(region.page))
         pdfLayout.uncertainPages.push(region.page);
     }
+  }
+  // Rebuild only semantic portions not already present in a whole-frame crop.
+  // A card continuing on another page retains the other page's transcription.
+  const transcription = {
+    ...pdfLayout,
+    regions: pdfLayout.regions.filter((r) => !renderedRegions.has(r.id)),
+  };
+  for (const region of pdfLayout.regions.filter((r) =>
+    renderedRegions.has(r.id),
+  )) {
+    const card = cards.find((c) => c.id === region.cardId)!;
+    const remaining = regionCard(transcription, card.id);
+    card.title =
+      remaining.title ||
+      (remaining.text || remaining.source
+        ? ""
+        : `Bildkarte von Seite ${region.page}`);
+    card.text = remaining.text;
+    if (remaining.source) card.source = remaining.source;
+    else delete card.source;
   }
   const blocks = [
     ...pdfLayout.regions.flatMap((r) => regionBlocks(pdfLayout, r)),
@@ -598,7 +643,11 @@ scope.onmessage = async (event: MessageEvent) => {
       const result =
         request.format === "docx"
           ? await docx(new Uint8Array(request.bytes), request.name)
-          : await readPdf(new Uint8Array(request.bytes), request.name, request.studio === true);
+          : await readPdf(
+              new Uint8Array(request.bytes),
+              request.name,
+              request.studio === true,
+            );
       scope.postMessage({ type: "parsed", id: request.id, result });
     } else if (request.type === "render-region") {
       scope.postMessage({
@@ -624,12 +673,21 @@ scope.onmessage = async (event: MessageEvent) => {
       type: "error",
       id: request.id,
       message:
-        error instanceof Error &&
-        /^(?:Die |Das |Dieses |Bitte |Kein |Nicht |Mehr |Aktive |Unvollständige|Ungültig)/.test(
-          error.message,
-        )
-          ? error.message
-          : "Die Datei konnte nicht gelesen werden. Bitte überprüfen, ob es sich um eine gültige, unverschlüsselte Word- oder PDF-Datei handelt. Das Original lokal öffnen und erneut als DOCX oder flaches PDF exportieren. Der geöffnete Entwurf bleibt erhalten.",
+        error instanceof Error && error.name === "PasswordException"
+          ? "Dieses PDF ist passwortgeschützt. Eine berechtigt geöffnete Kopie lokal ohne Passwort als PDF exportieren."
+          : error instanceof Error &&
+              /Image exceeded maximum/.test(error.message)
+            ? "Die Grafik überschreitet die zulässige Größe. Bitte lokal verkleinern und das PDF erneut exportieren."
+            : error instanceof Error &&
+                /^(?:Die |Das |Dieses |Bitte |Kein |Nicht |Mehr |Aktive |Unvollständige|Ungültig)/.test(
+                  error.message,
+                )
+              ? error.message +
+                (request.type === "parse" &&
+                !/bitte|exportier|speicher|verwenden/i.test(error.message)
+                  ? " Bitte das Original lokal öffnen und als neue, kleinere PDF- oder DOCX-Datei exportieren."
+                  : "")
+              : "Die Datei konnte nicht gelesen werden. Bitte überprüfen, ob es sich um eine gültige, unverschlüsselte Word- oder PDF-Datei handelt. Das Original lokal öffnen und erneut als DOCX oder flaches PDF exportieren. Der geöffnete Entwurf bleibt erhalten.",
     });
   }
 };

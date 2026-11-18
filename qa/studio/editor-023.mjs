@@ -17,7 +17,10 @@ const baseline = process.env.EDITOR_BASELINE === "1";
 const originals = process.env.EDITOR_ORIGINAL;
 const legacy = process.env.EDITOR_LEGACY_DIR;
 const fixturesRoot = resolve("qa/studio/evidence/pdf-artwork-023");
-const source = originals || process.env.EDITOR_NEUTRAL || join(fixturesRoot, "Mehrseitige-Karten.pdf");
+const source =
+  originals ||
+  process.env.EDITOR_NEUTRAL ||
+  join(fixturesRoot, "Mehrseitige-Karten.pdf");
 const baseCount = originals ? 32 : 7;
 const m2Index = originals ? 18 : 6;
 const stage = baseline ? "Vorher" : "Nachher";
@@ -145,7 +148,7 @@ async function configure() {
       window.mysteryStudio = {
         openProject: async () => {
           const d = await window.qaOpen();
-          return { name:d.name, bytes: Uint8Array.fromBase64(d.encoded) };
+          return { name: d.name, bytes: Uint8Array.fromBase64(d.encoded) };
         },
         openRecent: async () => null,
         recentProjects: async () => [],
@@ -386,12 +389,21 @@ try {
         await back();
       }
     }
-    if(originals) assert.equal(createHash("sha256").update(await readFile(source)).digest("hex"),"07efd68057712f082819456c099a971f335c035f70b70076cda79c35bf914693");
+    if (originals)
+      assert.equal(
+        createHash("sha256")
+          .update(await readFile(source))
+          .digest("hex"),
+        "07efd68057712f082819456c099a971f335c035f70b70076cda79c35bf914693",
+      );
     await loadPdf(source);
-    if(originals && process.env.EDITOR_IMPORT_AUDIT) await inspectOriginal(page,out);
-    if(process.env.EDITOR_IMPORT_AUDIT){
+    if (originals && process.env.EDITOR_IMPORT_AUDIT)
+      await inspectOriginal(page, out);
+    if (process.env.EDITOR_IMPORT_AUDIT) {
       await page.locator(".import-audit summary").click();
-      await page.screenshot({path:join(out,"Vollstaendigkeitskontrolle.png")});
+      await page.screenshot({
+        path: join(out, "Vollstaendigkeitskontrolle.png"),
+      });
       await page.locator(".import-audit summary").click();
     }
     if (!originals)
@@ -400,6 +412,29 @@ try {
           exact: true,
         }),
       ).toBeVisible();
+    let correctedImage;
+    if (process.env.EDITOR_NEUTRAL) {
+      await selectProposal(3, 2);
+      await page
+        .getByText("Grafiken ohne sichere Kartenzuordnung prüfen", {
+          exact: true,
+        })
+        .click();
+      await button(page, "Grafik 1 auf Seite 2 markieren").click();
+      await button(page, "Ausschnitt der aktuellen Karte zuordnen").click();
+      const corrected = page.locator(".import-cards img").first();
+      await expect(corrected).toBeVisible();
+      correctedImage = await corrected.getAttribute("src");
+      await expect(
+        page.getByText("Grafiken ohne sichere Kartenzuordnung prüfen", {
+          exact: true,
+        }),
+      ).toHaveCount(0);
+      await page.screenshot({
+        path: join(out, "Korrigierte-Bildzuordnung.png"),
+      });
+      await button(page, "Zur einfachen Ansicht").click();
+    }
     await selectProposal(m2Index, 2);
     const graphic = page.locator(".import-cards img").first();
     await expect(graphic).toBeVisible();
@@ -551,6 +586,10 @@ try {
     assert.deepEqual(task, project.content);
     assert.equal(task.cards[0].text, "Aktualisierter Faktencheck.");
     assert.equal(task.cards[m2Index - 2].image, artwork);
+    if (correctedImage) {
+      assert.equal(task.cards[1].image, correctedImage);
+      proof.manualImageRetained = true;
+    }
     assert.equal(task.cards[m2Index - 2].text, "");
     assert(!JSON.stringify(task).includes("Interne Lehrkraftverbindung"));
     const pngPath = await target("Gestaltete-Aufgabe.png");
@@ -633,27 +672,38 @@ try {
     await button(ui, "Rückgängig").click();
     assert.deepEqual(await snapshot(ui), state);
     assert.deepEqual(external, []);
-    if(process.env.EDITOR_IMPORT_AUDIT){
-      const moved=await releaseOnly(ui,1,{dx:21,dy:17,type:"touch"});assert.deepEqual(moved.actual,moved.target);
-      const work=await snapshot(ui);
-      await button(ui,"Menü").click();await button(ui,"Kleineres Sicherungsbild").click();
-      const pending=learner.waitForEvent("download");
-      await ui.getByRole("link",{name:"Sicherungsbild herunterladen"}).click();
-      const file=await pending;assert.match(file.suggestedFilename(),/^Team[ _]QA_.+\.png$/);
-      const png=join(out,"Schuelerarbeit.png");await file.saveAs(png);
+    if (process.env.EDITOR_IMPORT_AUDIT) {
+      const moved = await releaseOnly(ui, 1, { dx: 21, dy: 17, type: "touch" });
+      assert.deepEqual(moved.actual, moved.target);
+      const work = await snapshot(ui);
+      await button(ui, "Menü").click();
+      await button(ui, "Kleineres Sicherungsbild").click();
+      const pending = learner.waitForEvent("download");
+      await ui
+        .getByRole("link", { name: "Sicherungsbild herunterladen" })
+        .click();
+      const file = await pending;
+      assert.match(file.suggestedFilename(), /^Team[ _]QA_.+\.png$/);
+      const png = join(out, "Schuelerarbeit.png");
+      await file.saveAs(png);
       await learner.close();
-      const fresh=await browser.newPage();
-      await fresh.goto(server.origin+"/qa-evidence/launch/launch.html");
-      const restored=fresh.frameLocator("iframe");
-      await button(restored,"Fortsetzen").click();
+      const fresh = await browser.newPage();
+      await fresh.goto(server.origin + "/qa-evidence/launch/launch.html");
+      const restored = fresh.frameLocator("iframe");
+      await button(restored, "Fortsetzen").click();
       await restored.getByLabel("Schüler-Sicherung").setInputFiles(png);
-      await expect(restored.locator("[data-card]")).toHaveCount(task.cards.length);
-      assert.deepEqual(await snapshot(restored),work);
-      await card(restored,m2Index-1).press("Enter");
-      await expect(restored.getByRole("dialog").locator("img")).toHaveAttribute("src",artwork);
+      await expect(restored.locator("[data-card]")).toHaveCount(
+        task.cards.length,
+      );
+      assert.deepEqual(await snapshot(restored), work);
+      await card(restored, m2Index - 1).press("Enter");
+      await expect(restored.getByRole("dialog").locator("img")).toHaveAttribute(
+        "src",
+        artwork,
+      );
       await fresh.close();
-      proof.studentPngRestored=true;
-    }else await learner.close();
+      proof.studentPngRestored = true;
+    } else await learner.close();
     Object.assign(proof, {
       source: basename(source),
       sha256: createHash("sha256")

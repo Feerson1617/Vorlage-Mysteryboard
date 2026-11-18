@@ -14,6 +14,7 @@ export function PdfRegionOverlay({
   onSelect,
   numberFor,
   readableNumbers = false,
+  unassigned = layout.unassignedGraphics,
 }: {
   layout: PdfLayout;
   page: number;
@@ -22,6 +23,7 @@ export function PdfRegionOverlay({
   onSelect: (id: number) => void;
   numberFor: (id: number) => number;
   readableNumbers?: boolean;
+  unassigned?: PdfLayout["unassignedGraphics"];
 }) {
   const p = layout.pages[page - 1];
   return (
@@ -30,7 +32,7 @@ export function PdfRegionOverlay({
       viewBox={`0 0 ${p.width} ${p.height}`}
       aria-label="Erkannte Kartenbereiche"
     >
-      {layout.unassignedGraphics
+      {unassigned
         ?.filter((entry) => entry.page === page)
         .map(({ bounds }, index) => (
           <rect

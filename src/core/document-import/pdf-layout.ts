@@ -9,6 +9,7 @@ export type PdfPage = {
   items: PdfItem[];
   graphics?: PdfGraphic[];
   reviewReasons?: string[];
+  coverOnly?: true;
 };
 export type PdfRegion = {
   id: number;
@@ -17,6 +18,7 @@ export type PdfRegion = {
   bounds: Rect;
   strategy: "frame" | "heading" | "spatial" | "manual";
   graphic?: true;
+  manualImage?: true;
   // Source rectangles rendered by PDF.js, including clipping, masks and labels.
   mediaBounds?: Rect[];
   wholeCardImage?: true;
@@ -82,8 +84,8 @@ export function paintedSegments(
       ys = points.map(({ y }) => y);
     const x = Math.min(...xs),
       y = Math.min(...ys);
-    const width = Math.max(...xs) - x,
-      height = Math.max(...ys) - y;
+    const width = Math.max(raster ? 0 : 0.25, Math.max(...xs) - x),
+      height = Math.max(raster ? 0 : 0.25, Math.max(...ys) - y);
     if (
       [x, y, width, height].every(Number.isFinite) &&
       width > 0 &&
@@ -111,13 +113,17 @@ export function paintedSegments(
         return out;
       }
       stack.push(transform);
+      if (fn === 76 && args?.[0]?.smask)
+        reasons.add("Transparenzmaske am Original vergleichen.");
       if (fn === 74 && args?.[0]) transform = multiply(transform, args[0]);
     } else if (fn === 11 || fn === 75 || fn === 77)
       transform = stack.pop() ?? identity;
     else if (fn === 12) transform = multiply(transform, args);
     else if ([83, 85, 86, 90].includes(fn)) addImage(multiply(view, transform));
     else if (fn === 84 || fn === 87) {
-      for (const image of (args[fn === 87 ? 1 : 0] ?? []).slice(0, 6000))
+      const images = args[fn === 87 ? 1 : 0] ?? [];
+      if (images.length > 6000) limit();
+      for (const image of images.slice(0, 6000))
         if (image.transform)
           addImage(multiply(multiply(view, transform), image.transform));
     } else if (fn === 88 || fn === 89) {
@@ -135,7 +141,7 @@ export function paintedSegments(
             placements[i + 1],
           ]),
         );
-    } else if (fn === 62 || (fn === 76 && args?.[0]?.smask)) {
+    } else if (fn === 62) {
       reasons.add("Schattierung oder Maske am Original vergleichen.");
     } else if (fn === 91 && args && args[0] >= 20 && args[0] <= 27) {
       const matrix = multiply(view, transform),
@@ -201,9 +207,33 @@ export function coverage(graphic: Rect, region: Rect) {
   );
 }
 
+function isBorder(g: PdfGraphic, r: Rect) {
+  if (g.raster) return false;
+  const near = (a: number, b: number) => Math.abs(a - b) < 2;
+  if (
+    near(g.x, r.x) &&
+    near(g.y, r.y) &&
+    near(g.width, r.width) &&
+    near(g.height, r.height)
+  )
+    return true;
+  const cx = g.x + g.width / 2,
+    cy = g.y + g.height / 2;
+  return (
+    (g.width <= 3 &&
+      (near(cx, r.x) || near(cx, r.x + r.width)) &&
+      g.y >= r.y - 2 &&
+      g.y + g.height <= r.y + r.height + 2) ||
+    (g.height <= 3 &&
+      (near(cy, r.y) || near(cy, r.y + r.height)) &&
+      g.x >= r.x - 2 &&
+      g.x + g.width <= r.x + r.width + 2)
+  );
+}
 function interiorArtwork(page: PdfPage, r: Rect) {
   return (page.graphics ?? []).filter(
     (g) =>
+      !isBorder(g, r) &&
       coverage(g, r) >= 0.96 &&
       (g.raster ||
         (g.x > r.x + 1 &&
@@ -245,7 +275,17 @@ function cardArtwork(page: PdfPage, bounds: Rect, framed: boolean) {
       (g, i) =>
         coverage(g, bounds) >= 0.999 &&
         !items.some((t) => overlaps(g, t)) &&
-        !rasters.slice(i + 1).some((other) => overlaps(g, other)),
+        !rasters.slice(i + 1).some((other) =>
+          overlaps(
+            {
+              x: g.x - 1,
+              y: g.y - 1,
+              width: g.width + 2,
+              height: g.height + 2,
+            },
+            other,
+          ),
+        ),
     );
   if (separate) return { graphic: true as const, mediaBounds: rasters };
   if (framed)
@@ -263,7 +303,6 @@ export function pdfItems(raw: any[], transform: Matrix): PdfItem[] {
   for (const it of raw) {
     if (typeof it.str !== "string" || !it.str.trim()) continue;
     const t = multiply(transform, it.transform),
-      h = Math.max(1, Math.hypot(t[2], t[3])),
       w = Math.max(
         0.1,
         Math.abs(it.width) * Math.hypot(transform[0], transform[1]),
@@ -630,6 +669,7 @@ export function readingOrder<T extends { bounds: Rect }>(regions: T[]): T[] {
   return rows.flatMap((row) => row.sort((a, b) => a.bounds.x - b.bounds.x));
 }
 export function regionBlocks(layout: PdfLayout, region: PdfRegion) {
+  if (region.manualImage) return [];
   const page = layout.pages[region.page - 1];
   return textBlocks(
     page.items.filter((item) => inside(item, region.bounds)),
@@ -682,6 +722,22 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
       strategy = "spatial";
       layout.uncertainPages.push(index + 1);
     }
+    bounds = bounds.flatMap((r) => {
+      const x = Math.max(0, r.x),
+        y = Math.max(0, r.y);
+      const width = Math.min(page.width, r.x + r.width) - x,
+        height = Math.min(page.height, r.y + r.height) - y;
+      if (width < 1 || height < 1) return [];
+      if (
+        Math.abs(width - r.width) > 0.5 ||
+        Math.abs(height - r.height) > 0.5
+      ) {
+        (page.reviewReasons ??= []).push(
+          "Eine Kartengrenze reicht über den sichtbaren Seitenrand. Am unbeschnittenen Original prüfen.",
+        );
+      }
+      return [{ x, y, width, height }];
+    });
     if (
       index === 0 &&
       pages.length > 1 &&
@@ -698,6 +754,7 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
         )
     ) {
       bounds = [];
+      page.coverOnly = true;
       (page.reviewReasons ??= []).push(
         "Mögliches Titelblatt. Texte stehen unter den separaten Dokumentabschnitten zur Auswahl.",
       );
@@ -794,11 +851,7 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
         here.some(
           (r) =>
             r.mediaBounds?.some((m) => coverage(bounds, m) >= 0.96) ||
-            (!g.raster &&
-              Math.abs(g.x - r.bounds.x) < 2 &&
-              Math.abs(g.y - r.bounds.y) < 2 &&
-              Math.abs(g.width - r.bounds.width) < 3 &&
-              Math.abs(g.height - r.bounds.height) < 3),
+            isBorder(g, r.bounds),
         )
       )
         continue;
@@ -822,6 +875,16 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
         layout.unassignedGraphics!.push({ page: index + 1, bounds });
       layout.uncertainPages.push(index + 1);
     }
+    if (
+      layout.unassignedGraphics!.length >= 100 &&
+      layout.uncertainPages.includes(index + 1)
+    ) {
+      (page.reviewReasons ??= []).push(
+        "Es werden höchstens 100 einzelne Grafikmarkierungen angezeigt. Alle Originalseiten auf weitere Bereiche prüfen.",
+      );
+    }
+    if (page.reviewReasons)
+      page.reviewReasons = [...new Set(page.reviewReasons)];
     if (strategy === "frame" && ordered.length) {
       const left = Math.min(...ordered.map((r) => r.bounds.x)),
         top = Math.min(...ordered.map((r) => r.bounds.y)),
@@ -885,8 +948,10 @@ export function changeRegions(layout: PdfLayout, regions: PdfRegion[]) {
   for (const [index, p] of layout.pages.entries())
     for (const item of p.items) {
       if (
-        regions.filter((r) => r.page === index + 1 && inside(item, r.bounds))
-          .length > 1
+        regions.filter(
+          (r) =>
+            !r.manualImage && r.page === index + 1 && inside(item, r.bounds),
+        ).length > 1
       )
         throw new Error(
           "Die Bereiche überlagern sich und würden Text doppelt übernehmen. Bitte die Grenzen korrigieren.",
@@ -900,7 +965,10 @@ export function changeRegions(layout: PdfLayout, regions: PdfRegion[]) {
         p.items.filter(
           (item) =>
             !regions.some(
-              (r) => r.page === index + 1 && inside(item, r.bounds),
+              (r) =>
+                !r.manualImage &&
+                r.page === index + 1 &&
+                inside(item, r.bounds),
             ),
         ),
         index + 1,

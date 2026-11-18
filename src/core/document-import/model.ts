@@ -93,6 +93,7 @@ export type Block = {
   bounds?: { x: number; y: number; width: number; height: number };
 };
 export type ImportFinding = {
+  missingCard?: number;
   status: "review" | "missing";
   message: string;
   page?: number;

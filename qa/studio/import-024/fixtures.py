@@ -46,8 +46,19 @@ for n,count in [('P02',1),('P03',1),('P04',1),('P05',1),('P06',1),('P09',1)]:
         p.rect(100,300,320,150);p.line(100,370,420,370);p.line(240,300,240,450)
         p.drawString(125,400,'Jahr');p.drawString(265,400,'Niederschlag (mm)')
         p.drawString(125,330,'1990');p.drawString(265,330,'782,5')
+    if n=='P06':
+        p.showPage();frame(p)
+        alpha=im.convert('RGBA');alpha.putalpha(Image.new('L',alpha.size,125))
+        p.setFillColor('#ffeeaa');p.rect(75,290,330,180,fill=1,stroke=0)
+        p.saveState();clip=p.beginPath();clip.circle(220,380,73);p.clipPath(clip,stroke=0)
+        p.drawImage(ImageReader(alpha),89,294,275,169,mask='auto');p.restoreState()
+        p.showPage();frame(p);p.drawString(74,590,'Karte 2: Gekacheltes Diagramm')
+        p.drawImage(ImageReader(im.crop((0,0,120,160))),85,330,90,120)
+        p.drawImage(ImageReader(im.crop((120,0,240,160))),175,330,90,120)
+        p.drawString(75,280,'Legende: 1990 bis 2020; Einheit mm')
     p.save()
     note(n,count,base,images=2 if n=='P04' else 1,text=['12,5','1987','3,50','Feldbuch'] if n in ('P03','P04') else [],visual=n in ('P05','P06','P09'))
+cases['P06'].update(count=3,images=3,regions=[[page,*base[0][1:]] for page in [1,2,3]])
 # Keep the same challenging card in a realistic three-page teaching flow.
 # Other frames and the unassigned photo are independently specified here.
 for n in ['P04','P05']:
@@ -83,7 +94,7 @@ for i,(x,y) in enumerate([(30,450),(30,150),(320,450),(320,150)],1):
     areas.append([1,x,800-y-200,x+250,800-y])
 p.save();note('P08',4,areas,order=['Karte '+str(i) for i in range(1,5)],images=0)
 for n,source in [('P10','tests/fixtures/ocr/Scan-B-16.pdf'),('P11','tests/fixtures/ocr/Schwacher-Kontrast.png')]:
-    note(n,16 if n=='P10' else None,file=source,ocr=True)
+    note(n,16 if n=='P10' else 4,file=source,ocr=True)
 p=pdf('P12');p.drawString(60,640,'Beobachtungen am See');p.drawString(350,400,'Messung 27. Juni');p.save();note('P12',2,review=True,manual=True)
 p=pdf('P15');p.setPageSize((842,1191));frame(p,50,600,620,400);p.drawString(68,930,'Karte 1: A3');p.showPage()
 p.setPageSize((842,595));frame(p,40,70,400,380);p.drawString(55,400,'Karte 2: Querformat');p.save()
@@ -116,9 +127,28 @@ for n in ['P13','P14']:
     with zipfile.ZipFile(out/(n+'.docx'),'w',zipfile.ZIP_DEFLATED) as z:
         for name,b in parts.items():z.writestr(name,b)
     note(n,1,images=1,text=['12,5','Feldbuch'],warning='Textfeld' if n=='P13' else 'Word-Diagramm',table=n=='P14')
-# Neutral print equivalent to allow teachers to exercise the documented Word fallback.
-for n in ['P13','P14']:
-    p=pdf(n+'-Druck');frame(p);words(p);p.drawImage(img,85,300,135,90)
-    p.drawString(75,715,'Stationsnummer 31');p.drawString(250,412,'Beobachtung im Textfeld' if n=='P13' else 'Niederschlag (mm): 782,5')
-    p.save()
+# Actual LibreOffice PDF output for both generated Word documents.
+for n in ["P13","P14"]:
+    (out/(n+"-Druck.pdf")).write_bytes((Path(__file__).parent/"word-print"/(n+".pdf")).read_bytes())
 (out/'soll.json').write_text(json.dumps(cases,indent=2,ensure_ascii=False)+'\n')
+# Conventional protected file, existing negative fixtures and a scan with unreliable
+# invisible text. All inputs are authored locally or are existing neutral fixtures.
+with fitz.open(out/'P03.pdf') as doc:
+    doc.save(out/'Passwort.pdf',encryption=fitz.PDF_ENCRYPT_AES_256,user_pw='Unterricht',owner_pw='Lehrkraft')
+p=pdf('Scan-Textebene')
+p.drawImage(ImageReader('tests/fixtures/ocr/Gerades-Foto.jpg'),0,0,600,800)
+t=p.beginText(75,640);t.setTextRenderMode(3);t.textLine('OCR-Vorschlag mit fehlerhaften Messwerten und Zahlen');p.drawText(t);p.save()
+(out/'sicherheit.json').write_text(json.dumps({
+ 'Passwort': 'Passwort.pdf', 'Beschaedigt': 'tests/fixtures/document-import/F-Defekt.docx',
+ 'Aktive PDF': 'tests/fixtures/document-import/F-PDF-JavaScript.pdf',
+ 'Aktives Word':'tests/fixtures/document-import/F-Word-aktive-Inhalte.docx',
+ 'Komprimiertes Word':'tests/fixtures/document-import/F-Word-komprimiert.docx',
+ 'Word-Mediengrenze':'tests/fixtures/document-import/F-Word-Mediengrenze.docx'
+},indent=2)+'\n')
+with zipfile.ZipFile(out/'Neutrale-Pruefdokumente.zip','w',zipfile.ZIP_DEFLATED) as z:
+    for n,spec in cases.items():
+        f=Path(spec['file']) if 'file' in spec else out/(n+('.docx' if 'warning' in spec else '.pdf'))
+        z.write(f,n+f.suffix)
+    for name in ['P13-Druck.pdf','P14-Druck.pdf','soll.json','sicherheit.json','Passwort.pdf','Scan-Textebene.pdf']:z.write(out/name,name)
+    for f in json.loads((out/'sicherheit.json').read_text()).values():
+        if f.startswith('tests/'):z.write(f,f)

@@ -193,7 +193,28 @@ export function DocumentImport({
       correction === "media" ||
       correction === "text");
   const current = cards[index];
-  const uncertainGraphics = result?.pdfLayout?.unassignedGraphics ?? [];
+  const [assignedCrops, setAssignedCrops] = useState<
+    { page: number; bounds: Rect; image: string }[]
+  >([]);
+  const presentImages = new Set(
+    cards.flatMap((c) => [c.image, ...(c.extraImages ?? []).map((i) => i.src)]),
+  );
+  const uncertainGraphics = (
+    result?.pdfLayout?.unassignedGraphics ?? []
+  ).filter(
+    (g) =>
+      !assignedCrops.some(
+        (c) =>
+          c.page === g.page &&
+          coverage(g.bounds, c.bounds) >= 0.98 &&
+          presentImages.has(c.image),
+      ),
+  );
+  const findings =
+    result?.findings?.filter(
+      (f) =>
+        !f.missingCard || !cards.some((c) => c.id === f.missingCard && c.image),
+    ) ?? [];
   const offerInstructions = (text: string, cardId?: number) => {
     setInstruction({ text, cardId });
     if (cardId !== undefined)
@@ -340,6 +361,7 @@ export function DocumentImport({
       setFile(f);
       preparations.current.clear();
       automaticPages.current.clear();
+      setAssignedCrops([]);
       setCorrection(null);
       setDiagnostics(false);
       setOriginalZoom(1);
@@ -495,9 +517,10 @@ export function DocumentImport({
           setMessage("Seite lokal angezeigt.");
         }
       };
-      instance.postMessage({ type: "parse", id, format, studio, name: f.name, bytes }, [
-        bytes,
-      ]);
+      instance.postMessage(
+        { type: "parse", id, format, studio, name: f.name, bytes },
+        [bytes],
+      );
     } catch (e) {
       setBusy(false);
       setError((e as Error).message);
@@ -780,7 +803,7 @@ export function DocumentImport({
         worker.current?.postMessage({ type: "cancel-render" });
         failure(
           Error(
-            "PDF-OCR-Ausschnitt konnte nicht rechtzeitig gerendert werden.",
+            "Der PDF-Ausschnitt konnte nicht rechtzeitig dargestellt werden. Bitte einen kleineren Bereich wählen.",
           ),
         );
       }, 20000);
@@ -812,7 +835,10 @@ export function DocumentImport({
         height: (crop.h * p.height) / 100,
       };
       const data =
-        result?.format === "pdf" && bounds && !preparations.current.has(page)
+        studio &&
+        result?.format === "pdf" &&
+        bounds &&
+        !preparations.current.has(page)
           ? await renderOriginalRegion(bounds, true)
           : await cropImage(pageImage, crop);
       await verifyImageDecode(data);
@@ -830,11 +856,16 @@ export function DocumentImport({
               ...layout,
               regions: [
                 ...layout.regions,
-                { id, cardId, page, bounds, strategy: "manual", graphic: true },
+                {
+                  id,
+                  cardId,
+                  page,
+                  bounds,
+                  strategy: "manual",
+                  graphic: true,
+                  manualImage: true,
+                },
               ],
-              unassignedGraphics: layout.unassignedGraphics?.filter(
-                (g) => g.page !== page || coverage(g.bounds, bounds) < 0.98,
-              ),
             },
           });
         }
@@ -848,6 +879,18 @@ export function DocumentImport({
           extraImages: [...(current.extraImages ?? []), { src: data }],
         });
       } else update({ image: data });
+      if (
+        studio &&
+        bounds &&
+        uncertainGraphics.some(
+          (g) => g.page === page && coverage(g.bounds, bounds) >= 0.98,
+        )
+      ) {
+        setAssignedCrops((previous) => [
+          ...previous.filter((c) => presentImages.has(c.image)),
+          { page, bounds, image: data },
+        ]);
+      }
     } catch (e) {
       if (alive.current) setError((e as Error).message);
     } finally {
@@ -1365,6 +1408,7 @@ export function DocumentImport({
       pageImage &&
       !busy &&
       rasterPages.includes(page) &&
+      !result.pdfLayout?.pages[page - 1]?.coverOnly &&
       // A framed artwork proposal is already a complete card. OCR remains a
       // manual tool on those pages so it cannot replace the artwork by text.
       !result.pdfLayout?.regions.some(
@@ -1535,9 +1579,9 @@ export function DocumentImport({
               <details className="import-audit">
                 <summary>
                   Vollständigkeit prüfen ·{" "}
-                  {result.findings?.some((f) => f.status === "missing")
+                  {findings.some((f) => f.status === "missing")
                     ? "Nicht übernommen"
-                    : result.findings?.length ||
+                    : findings.length ||
                         uncertainGraphics.length ||
                         result.pdfLayout?.uncertainPages.length ||
                         unchecked ||
@@ -1547,12 +1591,20 @@ export function DocumentImport({
                 </summary>
                 <p>
                   {result.pages
-                    ? `${result.pages.length} Seiten`
+                    ? result.pages.length === 1
+                      ? "1 Seite"
+                      : `${result.pages.length} Seiten`
                     : result.format === "image"
                       ? "1 Aufnahme"
                       : "Word-Dokument · Seitenzahl layoutabhängig"}{" "}
-                  · {cards.length} Kartenvorschläge ·{" "}
-                  {cards.filter((c) => c.image).length} Karten mit Bild
+                  ·{" "}
+                  {cards.length === 1
+                    ? "1 Kartenvorschlag"
+                    : `${cards.length} Kartenvorschläge`}{" "}
+                  ·{" "}
+                  {cards.filter((c) => c.image).length === 1
+                    ? "1 Karte mit Bild"
+                    : `${cards.filter((c) => c.image).length} Karten mit Bild`}
                 </p>
                 {!!result.pdfLayout && (
                   <p>
@@ -1580,7 +1632,7 @@ export function DocumentImport({
                     Original vergleichen.
                   </p>
                 )}
-                {result.findings?.map((f, i) => (
+                {findings.map((f, i) => (
                   <p key={i}>
                     <strong>
                       {f.status === "missing"
@@ -2115,6 +2167,7 @@ export function DocumentImport({
                             {result.pdfLayout && (
                               <PdfRegionOverlay
                                 readableNumbers={studio}
+                                unassigned={uncertainGraphics}
                                 layout={
                                   current &&
                                   ocrInfo[current.id] &&

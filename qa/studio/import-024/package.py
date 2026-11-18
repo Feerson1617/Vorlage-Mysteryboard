@@ -16,9 +16,11 @@ assert workflow['native'] and workflow['app']==dict(version='0.2.4',packaged=Tru
 matrix=obj(one('Matrix.json'))['cases']
 assert set(matrix)=={f'P{i:02}' for i in range(2,19)} and all(e['state']!='fehlgeschlagen' for e in matrix.values())
 graphics=obj(one('Grafikvergleich.json'));assert len(graphics)>=7
+assert obj(one('Importgrenzen.json'))['passed']
+assert all(v.get('savedReopened') and v.get('scormContentMatchesProject') for k,v in matrix.items() if k!='P16')
 for case in ['P04','P05']:
     flow,=[p for p in src.rglob('Editor-Nachher.json') if p.parent.name==case]
-    evidence=obj(flow);assert evidence['passed'] and evidence['native'] and evidence['studentPngRestored'] and evidence['external']==[]
+    evidence=obj(flow);assert evidence['passed'] and evidence['native'] and evidence['studentPngRestored'] and evidence['external']==[] and evidence['manualImageRetained']
 native=obj(one('Mac-Pinnwand-Tests.json'));old=obj(one('native-macos.json'))
 assert native['passed'] and old['passed'] and native['arch']=='arm64' and native['sourceCommit']==os.environ['GITHUB_SHA']
 assert obj(one('Mac-Starthilfe-SCORM.json'))['passed']
@@ -47,7 +49,8 @@ lines+=['','## Einsatzgrenzen','','Die Original-PDF wurde über ihren SHA-256-We
 review=out/(prefix+'-Sichtpruefung.zip')
 with zipfile.ZipFile(review,'w',zipfile.ZIP_DEFLATED) as z:
     z.write(out/'ABNAHME.md','ABNAHME.md')
-    files=[*src.rglob('Fenster-*.json'),*src.rglob('*-Fenster-*.png'),one('P01-Messwerte.json'),one('P01-Mac-SCORM.json'),one('Matrix.json'),one('Grafikvergleich.json'),one('native-macos.json'),one('Mac-Pinnwand-Tests.json'),one('Mac-Starthilfe-SCORM.json'),*src.rglob('Schueler-Stress-*.json'),one('Daten.log'),one('RC2.log'),*src.rglob('Chromium-*.log'),*src.rglob('Vollstaendigkeitskontrolle.png'),*src.rglob('P??.png')]
+    z.write(Path(__file__).with_name('ABNAHME.md'),'Methodik.md')
+    files=[*src.rglob('Fenster-*.json'),*src.rglob('*-Fenster-*.png'),one('P01-Messwerte.json'),one('P01-Mac-SCORM.json'),one('Matrix.json'),one('Grafikvergleich.json'),one('Importgrenzen.json'),one('Neutrale-Pruefdokumente.zip'),one('native-macos.json'),one('Mac-Pinnwand-Tests.json'),one('Mac-Starthilfe-SCORM.json'),*src.rglob('Schueler-Stress-*.json'),one('Daten.log'),one('RC2.log'),*src.rglob('Chromium-*.log'),*src.rglob('Vollstaendigkeitskontrolle.png'),*src.rglob('Korrigierte-Bildzuordnung.png'),*src.rglob('P??.png')]
     files.extend(p for p in src.rglob('SCORM-Bildkarte.png') if p.parent.name in ('P04','P05'))
     for p in sorted(set(files)):z.write(p,p.relative_to(src))
 files=[out/dname,out/'INSTALLATION.md',out/'ABNAHME.md',review]

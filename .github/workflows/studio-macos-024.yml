@@ -114,6 +114,8 @@ jobs:
           fixtures="$RUNNER_TEMP/neutral"
           python3 qa/studio/import-024/fixtures.py "$fixtures"
           node qa/studio/import-024/matrix.mjs "$fixtures" artifacts/import-024/Matrix
+          node qa/studio/import-024/limits.mjs "$fixtures" artifacts/import-024/Matrix
+          cp "$fixtures/Neutrale-Pruefdokumente.zip" artifacts/import-024/Matrix/
           python3 qa/studio/import-024/compare-neutral.py "$fixtures" artifacts/import-024/Matrix
           for label in P04 P05; do
             EDITOR_VERSION=0.2.4 EDITOR_IMPORT_AUDIT=1 EDITOR_EVIDENCE=artifacts/import-024/"$label" EDITOR_NEUTRAL="$fixtures/$label.pdf" node qa/studio/editor-023.mjs
@@ -144,6 +146,8 @@ jobs:
             artifacts/import-024/**/*-Fenster-*.png
             artifacts/import-024/Matrix/*.json
             artifacts/import-024/Matrix/P??.png
+            artifacts/import-024/Matrix/Neutrale-Pruefdokumente.zip
+            artifacts/import-024/P0?/Korrigierte-Bildzuordnung.png
             artifacts/import-024/P0?/Editor-Nachher.json
             artifacts/import-024/P0?/Vollstaendigkeitskontrolle.png
             artifacts/import-024/P0?/SCORM-Bildkarte.png
