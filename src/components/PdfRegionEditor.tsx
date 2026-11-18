@@ -30,6 +30,25 @@ export function PdfRegionOverlay({
       viewBox={`0 0 ${p.width} ${p.height}`}
       aria-label="Erkannte Kartenbereiche"
     >
+      {layout.unassignedGraphics
+        ?.filter((entry) => entry.page === page)
+        .map(({ bounds }, index) => (
+          <rect
+            key={index}
+            x={bounds.x}
+            y={bounds.y}
+            width={bounds.width}
+            height={bounds.height}
+            fill="none"
+            stroke="#946219"
+            strokeWidth={2}
+            strokeDasharray="6 4"
+            vectorEffect="non-scaling-stroke"
+            pointerEvents="none"
+          >
+            <title>Grafik zur Kontrolle</title>
+          </rect>
+        ))}
       {layout.regions
         .filter((r) => r.page === page)
         .map((r) => (

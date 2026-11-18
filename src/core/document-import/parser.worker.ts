@@ -356,16 +356,43 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
           );
       }
     }
+    const graphics: NonNullable<PdfPage["graphics"]> = [];
     geometryPages.push({
       width: view.width,
       height: view.height,
       items: pdfItems(items, view.transform),
+      graphics,
     });
-    // Read vector geometry once, never rasterize pages for card detection.
-    vectors.push(paintedSegments(await page.getOperatorList(), view.transform));
+    vectors.push(
+      paintedSegments(await page.getOperatorList(), view.transform, graphics),
+    );
     page.cleanup();
   }
   const { layout: pdfLayout, cards } = analyzePdf(geometryPages, vectors);
+  const imageWarnings: string[] = [];
+  let imageBytes = 0;
+  for (const region of pdfLayout.regions.filter((entry) => entry.graphic)) {
+    const card = cards.find((entry) => entry.id === region.cardId)!;
+    card.title = `Bildkarte von Seite ${region.page}`;
+    try {
+      if (imageBytes >= 12_000_000) throw new Error("Bildbudget erreicht");
+      scope.postMessage({
+        type: "progress",
+        message: `Bildkarte auf Seite ${region.page} wird übernommen …`,
+      });
+      const image = await renderPage(region.page, false, region.bounds, true);
+      imageBytes += Math.ceil(image.length * 0.75);
+      if (imageBytes > 12_000_000) throw new Error("Bildbudget erreicht");
+      card.image = image;
+      card.imageAlt = card.title;
+    } catch {
+      imageWarnings.push(
+        `Bildkarte von Seite ${region.page} konnte nicht übernommen werden. Überprüfe den Bereich am Original und füge den Bildausschnitt manuell hinzu.`,
+      );
+      if (!pdfLayout.uncertainPages.includes(region.page))
+        pdfLayout.uncertainPages.push(region.page);
+    }
+  }
   const blocks = [
     ...pdfLayout.regions.flatMap((r) => regionBlocks(pdfLayout, r)),
     ...pdfLayout.sections,
@@ -385,13 +412,19 @@ async function readPdf(bytes: Uint8Array, name: string): Promise<ImportResult> {
     ...(question ? { suggestedTitle: question } : {}),
     noText: !geometryPages.some((p) => p.items.length),
     warnings: [
+      ...imageWarnings,
+      ...(pdfLayout.unassignedGraphics?.length
+        ? [
+            "Grafiken ohne eindeutige Kartenzuordnung wurden zur Kontrolle markiert. Bei Bedarf einen Bereich als Bildkarte ergänzen.",
+          ]
+        : []),
       ...(pdfLayout.uncertainPages.length
         ? [
             "Auf dieser PDF-Seite könnten mehrere Mystery-Karten stehen. Bitte überprüfe die Aufteilung.",
           ]
         : []),
       "PDF-Reihenfolge und Kartengrenzen sind Vorschläge. Mehrspaltige, gedrehte oder seitenübergreifende Inhalte bitte am Original prüfen.",
-      "PDF-Bilder und Tabellen werden nicht fachlich zugeordnet. Gewünschte Grafiken als Seitenausschnitt übernehmen; Tabellen bei Bedarf manuell bearbeiten.",
+      "Grafiken in Textkarten und Tabellen bitte am Original prüfen. Weitere Grafiken können als Seitenausschnitt übernommen werden.",
     ],
   };
 }
@@ -399,6 +432,7 @@ async function renderPage(
   pageNo: number,
   ocr = false,
   bounds?: { x: number; y: number; width: number; height: number },
+  artwork = false,
 ) {
   if (!pdf) throw new Error("Bitte zuerst ein PDF auswählen.");
   if (typeof OffscreenCanvas === "undefined")
@@ -425,7 +459,9 @@ async function renderPage(
         4,
         4096 / bounds.width,
         4096 / bounds.height,
-        Math.sqrt(3_900_000 / (bounds.width * bounds.height)),
+        Math.sqrt(
+          (artwork ? 1_650_000 : 3_900_000) / (bounds.width * bounds.height),
+        ),
       )
     : Math.min(
         ocr ? 3 : 2,

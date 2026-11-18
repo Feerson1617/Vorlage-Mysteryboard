@@ -1,3 +1,5 @@
+import { numberTextColor } from "./help.ts";
+
 export type Design = {
   font?: "sans" | "serif";
   fontSize?: number;
@@ -38,6 +40,17 @@ export const designOf = (m: { design?: Design }) => ({
   ...DEFAULT_DESIGN,
   ...m.design,
 });
+export function cardAppearance(
+  card: { backgroundColor?: string },
+  design: Required<Design>,
+  mark?: string,
+) {
+  const background = mark ?? card.backgroundColor ?? design.cardColor;
+  return {
+    background,
+    text: card.backgroundColor ? numberTextColor(background) : design.textColor,
+  };
+}
 export const designFont = (d: Design | undefined) =>
   d?.font === "serif"
     ? 'Georgia, "Times New Roman", serif'

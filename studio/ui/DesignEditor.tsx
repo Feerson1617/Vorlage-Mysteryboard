@@ -4,11 +4,13 @@ import { designOf, DEFAULT_DESIGN, type Design } from "../../src/core/design";
 export function DesignEditor({
   content,
   onChange,
+  onStartLayout,
   onHelp,
   onClose,
 }: {
   content: Content;
   onChange: (c: Content) => void;
+  onStartLayout: (layout: NonNullable<Content["startLayout"]>) => void;
   onHelp: () => void;
   onClose: () => void;
 }) {
@@ -189,44 +191,63 @@ export function DesignEditor({
         </>
       ) : (
         <>
-          <p>
-            Die Anordnung auf der Autorenpinnwand bleibt im Projekt. Sie wird
-            getrennt von der Startablage. Lernende sehen zu Beginn die
-            ausdrücklich freigegebenen Verbindungen.
-          </p>
-          <label>
-            Startablage der Schüler
-            <select
-              value={
-                content.startLayout?.mode === "explicit"
-                  ? "explicit"
-                  : (content.startLayout?.columns ?? "auto")
-              }
-              onChange={(e) =>
-                onChange({
-                  ...content,
-                  startLayout: {
-                    mode: "ordered",
-                    ...(e.target.value === "auto"
-                      ? {}
-                      : { columns: Number(e.target.value) }),
-                  },
-                })
-              }
-            >
-              <option value="auto">Automatische, geordnete Ablage</option>
-              {Array.from({ length: 12 }, (_, i) => (
-                <option key={i} value={i + 1}>
-                  {i + 1} Spalten
-                </option>
-              ))}
-              {content.startLayout?.mode === "explicit" && (
-                <option value="explicit">
-                  Importierte ausdrückliche Startablage
-                </option>
-              )}
-            </select>
-          </label>
+          <fieldset className="studio-start-layout">
+            <legend>Schüler-Startanordnung</legend>
+            <label>
+              <input
+                type="radio"
+                name="student-start-layout"
+                checked={content.startLayout?.mode !== "explicit"}
+                onChange={() => onStartLayout({ mode: "ordered" })}
+              />
+              Karten automatisch für Lernende anordnen
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="student-start-layout"
+                disabled={!content.cards.length}
+                checked={content.startLayout?.mode === "explicit"}
+                onChange={() => onStartLayout({ mode: "explicit" })}
+              />
+              Meine aktuelle Kartenanordnung als Startansicht übernehmen
+            </label>
+            {content.startLayout?.mode === "explicit" ? (
+              <button
+                type="button"
+                disabled={!content.cards.length}
+                onClick={() => onStartLayout({ mode: "explicit" })}
+              >
+                Startansicht mit aktueller Anordnung aktualisieren
+              </button>
+            ) : (
+              <label>
+                Spalten der Startansicht
+                <select
+                  value={content.startLayout?.columns ?? "auto"}
+                  onChange={(event) =>
+                    onStartLayout({
+                      mode: "ordered",
+                      ...(event.target.value === "auto"
+                        ? {}
+                        : { columns: Number(event.target.value) }),
+                    })
+                  }
+                >
+                  <option value="auto">Automatisch</option>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i} value={i + 1}>
+                      {i + 1} Spalten
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <p className="small">
+              Nur ausdrücklich freigegebene Verbindungen erscheinen in der
+              Startansicht. Prüfe die Schüleransicht vor dem Export.
+            </p>
+          </fieldset>
           <label>
             <input
               type="checkbox"

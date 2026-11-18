@@ -23,6 +23,7 @@ import {
 
 export type Content = Omit<Mystery, "cards"> & {
   subtitle?: string;
+  instructions?: string;
   cards: (CardContent & { source?: string })[];
 };
 export type Draft = {

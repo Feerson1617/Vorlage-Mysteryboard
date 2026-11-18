@@ -73,7 +73,7 @@ async function launch() {
       BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences()
         .sandbox,
   }));
-  assert.equal(proof.electron.version, "0.2.2");
+  assert.equal(proof.electron.version, process.env.STUDIO_VERSION || "0.2.2");
   assert(proof.electron.isPackaged && proof.electron.sandbox);
 }
 async function close() {

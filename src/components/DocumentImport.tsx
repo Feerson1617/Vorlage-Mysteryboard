@@ -144,6 +144,10 @@ export function DocumentImport({
     [crop, setCrop] = useState<Crop>({ x: 0, y: 0, w: 100, h: 100 }),
     [mark, setMark] = useState(false),
     [picked, setPicked] = useState("");
+  const [instruction, setInstruction] = useState<{
+    text: string;
+    cardId?: number;
+  }>();
   const fileInput = useRef<HTMLInputElement>(null),
     photoInput = useRef<HTMLInputElement>(null),
     cameraInput = useRef<HTMLInputElement>(null);
@@ -188,6 +192,16 @@ export function DocumentImport({
       correction === "media" ||
       correction === "text");
   const current = cards[index];
+  const uncertainGraphics = result?.pdfLayout?.unassignedGraphics ?? [];
+  const offerInstructions = (text: string, cardId?: number) => {
+    setInstruction({ text, cardId });
+    if (cardId !== undefined)
+      setSelected((ids) => ids.filter((id) => id !== cardId));
+    setReviewed(false);
+    setMessage(
+      "Text als Aufgabenstellung gewählt. Bitte vor der Übernahme prüfen.",
+    );
+  };
   const wordCardFor = (block: ImportResult["blocks"][number]) => {
     const candidates = result?.cards.filter(
       (c) =>
@@ -317,6 +331,7 @@ export function DocumentImport({
       setResult(null);
       setCards([]);
       setSelected([]);
+      setInstruction(undefined);
       setReviewed(false);
       setPageImage("");
       setPage(1);
@@ -780,7 +795,29 @@ export function DocumentImport({
         throw new Error(
           "Bitte zuerst den Vergleich mit dem Original bestätigen.",
         );
-      const chosen = cards.filter((c) => selected.includes(c.id));
+      const chosen = cards.filter(
+        (c) => selected.includes(c.id) && c.id !== instruction?.cardId,
+      );
+      const graphicIds = new Set(
+        result?.pdfLayout?.regions
+          .filter((region) => region.graphic)
+          .map((region) => region.cardId),
+      );
+      if (
+        chosen.some(
+          (card) => graphicIds.has(card.id) && !card.image && !card.text.trim(),
+        )
+      )
+        throw Error(
+          "Eine ausgewählte Bildkarte hat kein Bild. Bitte den Ausschnitt übernehmen oder die Karte abwählen.",
+        );
+      if (
+        instruction &&
+        (!instruction.text.trim() || instruction.text.length > 4000)
+      )
+        throw Error(
+          "Bitte die Aufgabenstellung ausfüllen oder auf höchstens 4000 Zeichen kürzen.",
+        );
       if (
         chosen.some(
           (c) => ocrInfo[c.id] && (!ocrInfo[c.id].checked || !c.text.trim()),
@@ -790,6 +827,11 @@ export function DocumentImport({
           "Bitte jede OCR-Karte einzeln am Original prüfen und bestätigen. Leere Karten entfernen oder manuell ausfüllen.",
         );
       let next = takeImportedCards(draft, chosen, mode, title);
+      if (instruction)
+        next = reviseDraft(next, {
+          ...next.content,
+          instructions: instruction.text.trim(),
+        });
       if (
         studio &&
         mode === "append" &&
@@ -1514,6 +1556,41 @@ export function DocumentImport({
                 sich eigene Textbereiche markieren, teilen und ergänzen.
               </p>
             )}
+            {!!uncertainGraphics.length && (
+              <details className="import-warning">
+                <summary>Grafiken ohne sichere Kartenzuordnung prüfen</summary>
+                {uncertainGraphics.map(
+                  ({ page: graphicPage, bounds }, index) => (
+                    <button
+                      key={index}
+                      disabled={busy}
+                      onClick={() => {
+                        if (graphicPage !== page) {
+                          setPage(graphicPage);
+                          renderPage(graphicPage);
+                        } else {
+                          const original =
+                            result.pdfLayout!.pages[graphicPage - 1];
+                          setCrop({
+                            x: (bounds.x / original.width) * 100,
+                            y: (bounds.y / original.height) * 100,
+                            w: (bounds.width / original.width) * 100,
+                            h: (bounds.height / original.height) * 100,
+                          });
+                          setMark(true);
+                        }
+                        setCorrection("media");
+                        setView("original");
+                      }}
+                    >
+                      {graphicPage === page
+                        ? `Grafik ${index + 1} auf Seite ${page} markieren`
+                        : `Zur Grafik auf Seite ${graphicPage}`}
+                    </button>
+                  ),
+                )}
+              </details>
+            )}
             <div data-import-tool="structure">
               {" "}
               {result.pdfLayout && (
@@ -1556,6 +1633,18 @@ export function DocumentImport({
                       .map((b) => `Seite ${b.page}\n${b.text}`)
                       .join("\n\n")}
                   />
+                  {result.pdfLayout.sections
+                    .filter((block) =>
+                      /^\s*(?:Ziel|Aufgabenstellung)\s*:/i.test(block.text),
+                    )
+                    .map((block, index) => (
+                      <button
+                        key={index}
+                        onClick={() => offerInstructions(block.text)}
+                      >
+                        Abschnitt „Ziel“ als Aufgabenstellung übernehmen
+                      </button>
+                    ))}
                 </details>
               )}
               <details>
@@ -2027,6 +2116,14 @@ export function DocumentImport({
                             >
                               Seite als Bildkarte hinzufügen
                             </button>
+                            {canMark && (
+                              <button
+                                disabled={busy}
+                                onClick={() => void attach(true)}
+                              >
+                                Markierten Ausschnitt als Bildkarte übernehmen
+                              </button>
+                            )}
                           </div>
                         </div>{" "}
                       </>
@@ -2161,6 +2258,39 @@ export function DocumentImport({
                         onChange={(e) => update({ text: e.target.value })}
                       />
                     </label>
+                    {result.format === "pdf" &&
+                      (instruction?.cardId === current.id ? (
+                        <button
+                          onClick={() => {
+                            setInstruction(undefined);
+                            setSelected((ids) =>
+                              ids.includes(current.id)
+                                ? ids
+                                : [...ids, current.id],
+                            );
+                            setReviewed(false);
+                          }}
+                        >
+                          Wieder als Karte übernehmen
+                        </button>
+                      ) : (
+                        /^\s*(?:Ziel|Aufgabenstellung)\s*(?::|$)/i.test(
+                          current.title || current.text,
+                        ) && (
+                          <button
+                            onClick={() =>
+                              offerInstructions(
+                                [current.title, current.text]
+                                  .filter(Boolean)
+                                  .join("\n\n"),
+                                current.id,
+                              )
+                            }
+                          >
+                            Als Aufgabenstellung übernehmen
+                          </button>
+                        )
+                      ))}
                     <p className="small" data-import-tool="structure">
                       {current.text.length} von höchstens 4000 Zeichen. Zum
                       Teilen den Textcursor an die Grenze setzen.
@@ -2550,6 +2680,23 @@ export function DocumentImport({
               <p id="document-import-title-hint" className="small">
                 Vorschlag aus dem Dateinamen; bitte prüfen.
               </p>
+            )}
+            {instruction && (
+              <label>
+                Aufgabenstellung
+                <textarea
+                  aria-label="Aufgabenstellung"
+                  rows={6}
+                  value={instruction.text}
+                  onChange={(event) => {
+                    setInstruction({
+                      ...instruction,
+                      text: event.target.value,
+                    });
+                    setReviewed(false);
+                  }}
+                />
+              </label>
             )}
             {!studio && mode === "new" && (
               <>

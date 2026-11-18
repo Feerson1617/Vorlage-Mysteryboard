@@ -1,14 +1,22 @@
 import type { CardContent } from "../core/model";
-import { designFont, type Design } from "../core/design";
+import {
+  cardAppearance,
+  designFont,
+  designOf,
+  type Design,
+} from "../core/design";
 import { MediaView } from "./MediaView";
 import { TableView } from "./TableView";
 export function CardReading({
   card,
   design,
+  mark,
 }: {
   card: CardContent;
   design?: Design;
+  mark?: string;
 }) {
+  const appearance = cardAppearance(card, designOf({ design }), mark);
   const images = (
     <>
       {card.image && (
@@ -34,15 +42,19 @@ export function CardReading({
   return (
     <article
       className="reading"
-      style={
-        design
-          ? {
-              fontFamily: designFont(design),
-              fontSize: design.fontSize,
-              color: design.textColor,
-            }
-          : undefined
-      }
+      style={{
+        ...(design && {
+          fontFamily: designFont(design),
+          fontSize: design.fontSize,
+          color: design.textColor,
+        }),
+        ...(card.backgroundColor && {
+          backgroundColor: appearance.background,
+          color: appearance.text,
+          borderRadius: 8,
+          padding: "8px 12px",
+        }),
+      }}
     >
       <h3>{card.title}</h3>
       {card.imagePosition === "before-text" && images}

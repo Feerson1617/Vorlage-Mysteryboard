@@ -802,6 +802,11 @@ input[type="checkbox"] {
   border-bottom: 1px solid #c7d0ca;
   padding: 8px 0;
 }
+.student-instructions p,
+.student-instructions-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 .help-card-assignments label {
   flex: 1;
   min-width: 0;

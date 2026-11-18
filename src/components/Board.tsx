@@ -1,4 +1,4 @@
-import { designOf, designFont } from "../core/design";
+import { cardAppearance, designOf, designFont } from "../core/design";
 import {
   useEffect,
   useRef,
@@ -57,6 +57,7 @@ export function Board({
   onCard,
   onEdge,
   fitTick,
+  zoomCommand,
   connecting,
   orientation = false,
   badgeScaleLimit = 7,
@@ -72,6 +73,7 @@ export function Board({
   onCard: (id: number) => void;
   onEdge: (id: number) => void;
   fitTick: number;
+  zoomCommand?: { factor: number };
   connecting: number | null;
   orientation?: boolean;
   badgeScaleLimit?: number;
@@ -84,6 +86,7 @@ export function Board({
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
     gesture = useRef<Gesture | null>(null);
+  const previousZoom = useRef(zoomCommand);
   const [view, setView] = useState<View>({ x: 40, y: 40, z: 0.5 }),
     [preview, setPreview] = useState<Work | null>(null);
   const current = useRef(work),
@@ -104,6 +107,21 @@ export function Board({
     v.current = next;
     setView(next);
   };
+  useEffect(() => {
+    if (previousZoom.current === zoomCommand) return;
+    previousZoom.current = zoomCommand;
+    const bounds = svg.current?.getBoundingClientRect();
+    if (!zoomCommand || !bounds || points.current.size) return;
+    const old = v.current;
+    const z = Math.min(3, Math.max(0.001, old.z * zoomCommand.factor));
+    const x = bounds.width / 2,
+      y = bounds.height / 2;
+    changeView({
+      x: x - ((x - old.x) * z) / old.z,
+      y: y - ((y - old.y) * z) / old.z,
+      z,
+    });
+  }, [zoomCommand]);
   const clearPreview = () => {
     if (previewFrame.current !== null)
       cancelAnimationFrame(previewFrame.current);
@@ -727,6 +745,11 @@ export function Board({
             l = layouts.get(c.id)!,
             badge = numberBadge(view.z, l.numberLabel, badgeScaleLimit);
           const hint = helpForCard(mystery, c.id, orientation);
+          const appearance = cardAppearance(
+            card,
+            design,
+            c.color ? COLORS[c.color] : undefined,
+          );
           return (
             <g
               key={c.id}
@@ -753,7 +776,7 @@ export function Board({
                 width={CARD_WIDTH}
                 height={l.height}
                 rx={design.radius}
-                fill={c.color ? COLORS[c.color] : design.cardColor}
+                fill={appearance.background}
                 stroke={connecting === c.id ? "#315e45" : design.borderColor}
                 strokeWidth={connecting === c.id ? 4 : design.borderWidth}
               />
@@ -763,7 +786,11 @@ export function Board({
                 fontWeight="bold"
                 fontSize={l.fontSize + 2}
                 fontFamily={l.fontFamily}
-                fill={mystery.design ? design.textColor : "#253c30"}
+                fill={
+                  mystery.design || card.backgroundColor
+                    ? appearance.text
+                    : "#253c30"
+                }
               >
                 {l.title.map((s, i) => (
                   <tspan x="18" dy={i ? l.titleLine : 0} key={i}>
@@ -774,7 +801,7 @@ export function Board({
               <text
                 fontSize={l.fontSize}
                 fontFamily={l.fontFamily}
-                fill={design.textColor}
+                fill={appearance.text}
               >
                 {l.text.map((s, i) => (
                   <tspan x="18" y={l.textY + i * l.textLine} key={i}>
@@ -797,7 +824,7 @@ export function Board({
                   x="18"
                   y={l.imageY + l.imageHeight + 16 + i * 16}
                   fontSize="12"
-                  fill={design.textColor}
+                  fill={appearance.text}
                 >
                   {text}
                 </text>

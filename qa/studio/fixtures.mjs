@@ -12,7 +12,7 @@ export const canonical = (v) =>
           .join(",") +
         "}"
       : JSON.stringify(v);
-export async function fixtures(out) {
+export async function fixtures(out, counts = [5, 16, 20, 60]) {
   await mkdir(out, { recursive: true });
   const base = JSON.parse(
     await readFile(
@@ -21,7 +21,7 @@ export async function fixtures(out) {
     ),
   );
   const paths = [];
-  for (const n of [5, 16, 20, 60]) {
+  for (const n of counts) {
     const d = structuredClone(base);
     d.content.id = "studio-test-" + n;
     d.content.version = "1.0.0";

@@ -1,4 +1,4 @@
-import { designOf, designFont } from "./design";
+import { cardAppearance, designOf, designFont } from "./design";
 import {
   cardNumber,
   COLOR_NAMES,
@@ -330,6 +330,11 @@ export async function preparePrintFrame(
     const card = mystery.cards.find((c) => c.id === state.id)!,
       layout = layouts.get(state.id)!,
       badge = numberBadge(1, layout.numberLabel);
+    const appearance = cardAppearance(
+      card,
+      design,
+      state.color ? COLORS[state.color] : undefined,
+    );
     const group = svgNode("a", {
       href: `#card-${state.id}`,
       "data-overview-card-id": state.id,
@@ -343,7 +348,7 @@ export async function preparePrintFrame(
         width: CARD_WIDTH,
         height: layout.height,
         rx: design.radius,
-        fill: state.color ? COLORS[state.color] : design.cardColor,
+        fill: appearance.background,
         stroke: "#819287",
         "stroke-width": 1.5,
       }),
@@ -358,6 +363,7 @@ export async function preparePrintFrame(
             "font-size": layout.fontSize + 2,
             "font-family": layout.fontFamily,
             "font-weight": "bold",
+            ...(card.backgroundColor && { fill: appearance.text }),
           },
           line,
         ),
@@ -372,6 +378,7 @@ export async function preparePrintFrame(
             y: state.y + layout.textY + i * layout.textLine,
             "font-size": layout.fontSize,
             "font-family": layout.fontFamily,
+            ...(card.backgroundColor && { fill: appearance.text }),
           },
           line,
         ),
@@ -536,6 +543,15 @@ export async function preparePrintFrame(
     article.dataset.cardPart = String(card.id);
     article.dataset.colorIndex = String(state.color);
     article.style.borderLeftColor = COLORS[state.color];
+    if (card.backgroundColor) {
+      const appearance = cardAppearance(
+        card,
+        designOf(mystery),
+        state.color ? COLORS[state.color] : undefined,
+      );
+      article.style.backgroundColor = appearance.background;
+      article.style.color = appearance.text;
+    }
     if (first) {
       article.dataset.cardId = String(card.id);
       article.id = `card-${card.id}`;

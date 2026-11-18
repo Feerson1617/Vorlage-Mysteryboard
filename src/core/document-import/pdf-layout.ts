@@ -2,19 +2,27 @@ import { isCardHeading, type Block, type Card } from "./model";
 
 export type Rect = { x: number; y: number; width: number; height: number };
 export type PdfItem = Rect & { text: string; baseline: number };
-export type PdfPage = { width: number; height: number; items: PdfItem[] };
+export type PdfGraphic = Rect & { raster: boolean };
+export type PdfPage = {
+  width: number;
+  height: number;
+  items: PdfItem[];
+  graphics?: PdfGraphic[];
+};
 export type PdfRegion = {
   id: number;
   cardId: number;
   page: number;
   bounds: Rect;
   strategy: "frame" | "heading" | "spatial" | "manual";
+  graphic?: true;
 };
 export type PdfLayout = {
   pages: PdfPage[];
   regions: PdfRegion[];
   sections: Block[];
   uncertainPages: number[];
+  unassignedGraphics?: { page: number; bounds: Rect }[];
 };
 export type Segment = { x1: number; y1: number; x2: number; y2: number };
 type Matrix = number[];
@@ -38,6 +46,7 @@ function point(t: Matrix, x: number, y: number) {
 export function paintedSegments(
   ops: { fnArray: number[]; argsArray: any[] },
   view: Matrix,
+  graphics: PdfGraphic[] = [],
 ): Segment[] {
   if (ops.fnArray.length > 100_000) return [];
   let transform = identity;
@@ -47,13 +56,58 @@ export function paintedSegments(
     if (out.length < 6000 && Math.hypot(a.x - b.x, a.y - b.y) > 2)
       out.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
   };
+  const addGraphic = (points: { x: number; y: number }[], raster: boolean) => {
+    if (points.length < 2 || graphics.length >= 6000) return;
+    const xs = points.map(({ x }) => x),
+      ys = points.map(({ y }) => y);
+    const x = Math.min(...xs),
+      y = Math.min(...ys);
+    const width = Math.max(...xs) - x,
+      height = Math.max(...ys) - y;
+    if (
+      [x, y, width, height].every(Number.isFinite) &&
+      width >= 8 &&
+      height >= 8
+    )
+      graphics.push({ x, y, width, height, raster });
+  };
+  const addImage = (matrix: Matrix) =>
+    addGraphic(
+      [
+        point(matrix, 0, 0),
+        point(matrix, 1, 0),
+        point(matrix, 0, 1),
+        point(matrix, 1, 1),
+      ],
+      true,
+    );
   for (let i = 0; i < ops.fnArray.length; i++) {
     const fn = ops.fnArray[i],
       args = ops.argsArray[i];
-    if (fn === 10) stack.push(transform.slice());
-    else if (fn === 11) transform = stack.pop() ?? identity;
+    if (fn === 10 || fn === 74) {
+      stack.push(transform);
+      if (fn === 74 && args?.[0]) transform = multiply(transform, args[0]);
+    } else if (fn === 11 || fn === 75) transform = stack.pop() ?? identity;
     else if (fn === 12) transform = multiply(transform, args);
-    else if (fn === 91 && args && args[0] >= 20 && args[0] <= 27) {
+    else if ([83, 85, 86].includes(fn)) addImage(multiply(view, transform));
+    else if (fn === 84 || fn === 87) {
+      for (const image of (args[fn === 87 ? 1 : 0] ?? []).slice(0, 6000))
+        if (image.transform)
+          addImage(multiply(multiply(view, transform), image.transform));
+    } else if (fn === 88) {
+      const [, sx, sy, placements] = args;
+      for (let i = 0; i + 1 < (placements?.length ?? 0) && i < 12000; i += 2)
+        addImage(
+          multiply(multiply(view, transform), [
+            sx,
+            0,
+            0,
+            sy,
+            placements[i],
+            placements[i + 1],
+          ]),
+        );
+    } else if (fn === 91 && args && args[0] >= 20 && args[0] <= 27) {
       const matrix = multiply(view, transform),
         data = args[1]?.[0];
       if (!data || data.length > 100_000) continue;
@@ -73,9 +127,13 @@ export function paintedSegments(
           if (first && previous && stroke) add(previous, first);
           previous = first;
         } else if (command === 2) {
+          for (let j = 0; j < 6; j += 2)
+            points.push(point(matrix, data[k + j], data[k + j + 1]));
           k += 6;
           previous = undefined;
         } else if (command === 3) {
+          for (let j = 0; j < 4; j += 2)
+            points.push(point(matrix, data[k + j], data[k + j + 1]));
           k += 4;
           previous = undefined;
         } else break;
@@ -92,9 +150,36 @@ export function paintedSegments(
         else if (h <= 3 && w > 4)
           add({ x, y: y + h / 2 }, { x: x + w, y: y + h / 2 });
       }
+      addGraphic(points, false);
     }
   }
   return out;
+}
+function coverage(graphic: Rect, region: Rect) {
+  const width =
+    Math.min(graphic.x + graphic.width, region.x + region.width) -
+    Math.max(graphic.x, region.x);
+  const height =
+    Math.min(graphic.y + graphic.height, region.y + region.height) -
+    Math.max(graphic.y, region.y);
+  return (
+    (Math.max(0, width) * Math.max(0, height)) /
+    (graphic.width * graphic.height)
+  );
+}
+
+function containsArtwork(page: PdfPage, r: Rect) {
+  const area = r.width * r.height;
+  return page.graphics?.some(
+    (g) =>
+      coverage(g, r) >= 0.96 &&
+      g.width * g.height >= area * (g.raster ? 0.08 : 0.04) &&
+      (g.raster ||
+        (g.x > r.x + 1 &&
+          g.y > r.y + 1 &&
+          g.x + g.width < r.x + r.width - 1 &&
+          g.y + g.height < r.y + r.height - 1)),
+  );
 }
 
 export function pdfItems(raw: any[], transform: Matrix): PdfItem[] {
@@ -348,7 +433,9 @@ export function framedRegions(segments: Segment[], page: PdfPage): Rect[] {
       ),
   );
   if (outer.length > 1) outer = outer.filter((r) => r.width / r.height < 8);
-  return outer.filter((r) => page.items.some((t) => inside(t, r)));
+  return outer.filter(
+    (r) => page.items.some((t) => inside(t, r)) || containsArtwork(page, r),
+  );
 }
 function columnCuts(
   heads: PdfItem[],
@@ -492,6 +579,7 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
     regions: [],
     sections: [],
     uncertainPages: [],
+    unassignedGraphics: [],
   };
   let nextCard = 1,
     nextRegion = 1;
@@ -551,17 +639,21 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
     // visual row order; original labels themselves are never sorted.
     if (
       strategy === "frame" &&
-      ordered.every((r) => {
-        const first = textBlocks(
-          page.items.filter((i) => inside(i, r.bounds)),
-          index + 1,
-          true,
-        )[0];
-        return (
-          first?.kind === "heading" &&
-          /^(?:Karte|Card|Pflichtkarte|Vertiefungskarte|V\d)/i.test(first.text)
-        );
-      })
+      ordered
+        .filter((r) => page.items.some((t) => inside(t, r.bounds)))
+        .every((r) => {
+          const first = textBlocks(
+            page.items.filter((i) => inside(i, r.bounds)),
+            index + 1,
+            true,
+          )[0];
+          return (
+            first?.kind === "heading" &&
+            /^(?:Karte|Card|Pflichtkarte|Vertiefungskarte|V\d)/i.test(
+              first.text,
+            )
+          );
+        })
     )
       ordered.sort((a, b) =>
         Math.abs(a.bounds.x - b.bounds.x) < 5
@@ -569,13 +661,31 @@ export function analyzePdf(pages: PdfPage[], segments: Segment[][]) {
           : a.bounds.x - b.bounds.x,
       );
     for (const r of ordered) {
+      const graphic =
+        strategy === "frame" &&
+        !page.items.some((item) => inside(item, r.bounds));
       layout.regions.push({
         id: nextRegion++,
         cardId: continuation ? prior!.cardId : nextCard++,
         page: index + 1,
         bounds: r.bounds,
         strategy,
+        ...(graphic && { graphic: true as const }),
       });
+    }
+    for (const bounds of page.graphics ?? []) {
+      if (
+        bounds.raster &&
+        bounds.width >= 30 &&
+        bounds.height >= 30 &&
+        bounds.width * bounds.height < page.width * page.height * 0.85 &&
+        !ordered.some((r) => coverage(bounds, r.bounds) >= 0.9) &&
+        layout.unassignedGraphics!.length < 100
+      ) {
+        layout.unassignedGraphics!.push({ page: index + 1, bounds });
+        if (!layout.uncertainPages.includes(index + 1))
+          layout.uncertainPages.push(index + 1);
+      }
     }
     if (strategy === "frame" && ordered.length) {
       const left = Math.min(...ordered.map((r) => r.bounds.x)),

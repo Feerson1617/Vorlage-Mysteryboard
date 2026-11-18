@@ -8,6 +8,7 @@ export type CardContent = {
   id: number;
   title: string;
   text: string;
+  backgroundColor?: string;
   image?: string;
   imageAlt?: string;
   group?: string;
@@ -266,6 +267,9 @@ export function validateMystery(value: unknown): Mystery {
       !integer(c.id, 1, value.cards.length) ||
       ids.has(c.id) ||
       !string(c.title, 100) ||
+      (c.backgroundColor !== undefined &&
+        (typeof c.backgroundColor !== "string" ||
+          !/^#[0-9a-fA-F]{6}$/.test(c.backgroundColor))) ||
       !string(c.text, 4000) ||
       (c.image !== undefined &&
         (typeof c.image !== "string" ||

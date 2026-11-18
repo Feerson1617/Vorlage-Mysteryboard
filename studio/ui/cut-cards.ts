@@ -1,4 +1,4 @@
-import { designOf } from "../../src/core/design";
+import { cardAppearance, designOf } from "../../src/core/design";
 import type { Task } from "../../src/core/documents";
 import { cardNumber } from "../../src/core/model";
 export type PaperOptions = {
@@ -130,6 +130,11 @@ export async function cutCards(
         current = sheet();
       signal.throwIfAborted();
       const a = el("article", undefined, "card");
+      if (!options.monochrome && card.backgroundColor) {
+        const appearance = cardAppearance(card, design);
+        a.style.backgroundColor = appearance.background;
+        a.style.color = appearance.text;
+      }
       a.dataset.cardId = String(card.id);
       const label = cardNumber(task.content, card.id);
       a.append(el("h2", `Karte ${label}: ${card.title}`));

@@ -11,11 +11,15 @@ import zipfile
 
 source, delivery = (Path(value).resolve() for value in sys.argv[1:])
 delivery.mkdir(parents=True, exist_ok=True)
-base = "51e0ab7b113acf2262c5bcabe440ccf51345d7b1"
+version = os.environ.get("STUDIO_PACKAGE_VERSION", "0.2.2")
+base = {
+    "0.2.2": "51e0ab7b113acf2262c5bcabe440ccf51345d7b1",
+    "0.2.3": "e5cfa0dce1e96524955921ea130a6777a7c8136f",
+}[version]
 commit = os.environ.get("STUDIO_ACCEPTANCE_COMMIT", os.environ["GITHUB_SHA"])
 run_id = os.environ.get("STUDIO_ACCEPTANCE_RUN_ID", os.environ["GITHUB_RUN_ID"])
 workflow = f'{os.environ["GITHUB_SERVER_URL"]}/{os.environ["GITHUB_REPOSITORY"]}/actions/runs/{run_id}'
-prefix = "MysteryBoard-Studio-0.2.2"
+prefix = f"MysteryBoard-Studio-{version}"
 dmg_name = prefix + "-Mac-Apple-Silicon.dmg"
 
 def find(name):
@@ -55,7 +59,7 @@ after = json.loads(after_file.read_text())
 assert all(m["before"] == m["actual"] != m["target"] for m in before["results"])
 assert all(m["before"] != m["actual"] == m["target"] for m in after["results"])
 assert native["sourceCommit"] == commit == existing["sourceCommit"]
-assert native["electron"]["version"] == existing["appVersion"] == "0.2.2"
+assert native["electron"]["version"] == existing["appVersion"] == version
 assert native["electron"]["isPackaged"] and native["arch"] == "arm64"
 motions = sum(m["kind"] == "stress" for p in native["projects"] for m in p["motions"])
 assert motions >= 100 and [p["cards"] for p in native["projects"]] == [5, 12, 20, 60]
@@ -66,13 +70,55 @@ logs = [find(f"Chromium-{part}.log") for part in range(1, 5)]
 counts = [int(re.findall(r"(\d+) passed", plain_log(p))[-1]) for p in logs]
 assert sum(counts) == 272, counts
 data_count = int(re.search(r"Tests\s+(\d+) passed", plain_log(find("Daten.log")))[1])
-assert data_count >= 184
+assert data_count >= (187 if version == "0.2.3" else 184)
 assert re.search(r"\b4 passed", plain_log(find("RC2.log")))
 checks = len(existing["checks"])
 dmg = find(dmg_name)
 with dmg.open("rb") as stream:
     stream.seek(-512, 2)
     assert stream.read(4) == b"koly"
+
+editor_report = ""
+editor_paths = []
+if version == "0.2.3":
+    before_editor = json.loads(find("Editor-Vorher.json").read_text())
+    after_editor = json.loads(find("Editor-Nachher.json").read_text())
+    assert all(result["native"] and result["passed"] and result["arch"] == "arm64" for result in (before_editor, after_editor))
+    assert before_editor["app"]["version"] == "0.2.2" and after_editor["app"]["version"] == version
+    assert after_editor["proposals"] == 7 and after_editor["published"] == 5
+    assert after_editor["external"] == [] and after_editor["legacy022ProjectAndPng"]
+    assert after_editor["taskPngMatchesScorm"]
+    before_sizes = {(case["n"], case["w"], case["h"]): case["boardHeight"] for case in before_editor["cases"]}
+    assert len(before_sizes) == len(after_editor["cases"]) == 15
+    gains = [case["boardHeight"] - before_sizes[(case["n"], case["w"], case["h"])] for case in after_editor["cases"] if case["w"] == 1280]
+    assert len(gains) == 5 and min(gains) >= 50, gains
+    assert all(case["visible"] == case["n"] for case in after_editor["cases"])
+    editor_paths = [*source.rglob("Vorher-*.png"), *source.rglob("Nachher-*.png"), *source.rglob("Uebernommene-Bildkarte.*")]
+    editor_paths += [find(name) for name in (
+        "Editor-Nachher.json", "Editor-Vorher.json", "Fokus-31.png", "PDF-Bildkarte.png",
+        "SCORM-Schueleransicht.png", "SCORM-Bildkarte.png", "Schueler-Vorschau.png",
+        "Editor.log", "Editor-Vorher.log", "Gestaltete-Aufgabe-SCORM.zip",
+    )]
+    editor_report = f"""
+## Lehrkräfteeditor und PDF-Import
+
+Der Vergleich auf dem Mac-Runner verwendet dieselben Projekte mit 5, 12, 20, 31
+und 60 Karten bei 1280 × 820, 1000 × 720 und 800 × 620. Im breiten Fenster
+gewinnt die Pinnwand mindestens {min(gains):.0f} CSS-Pixel Höhe. Alle Karten passten
+bei der Übersicht in den sichtbaren Bereich. Zoom und Fokus änderten keine Daten.
+
+Der native Test importierte drei neutrale PDFs mit Raster, Vektorgrafik,
+Textkarten samt eingebettetem Foto, mehreren Seiten und einem Aufgabenabschnitt.
+Er prüfte sichtbare Lehrkraftfarben, Rücksetzen der Farbe, das bestätigte und
+abgebrochene Löschen, Texte, Positionen, Projekt-Wiederöffnung, die native
+Vorschau und die tatsächlich aus Studio exportierte SCORM-Aufgabe. Die
+Lernenden-Markierung lässt sich entfernen und legt dann die Lehrkraftfarbe
+wieder frei. Private Pfeile blieben außerhalb der Schüleraufgabe. Das
+hochgeladene Original-PDF wurde separat im Cloud-Arbeitsbereich geprüft.
+
+Befehle und Nachweise stehen in Editor.log, Editor-Vorher.log und den beiden
+Editor-JSON-Protokollen. Das Beispiel-SCORM und Screenshots liegen bei.
+"""
 
 with tempfile.TemporaryDirectory() as temporary:
     root = Path(temporary) / prefix
@@ -90,19 +136,19 @@ with tempfile.TemporaryDirectory() as temporary:
         find("Schuelerplayer.log"), find("Mac-Regression.log"), find("Signatur.log"),
         find("Native-Schuelervorschau.png"), find("Schuelerbewegung-chromium.png"),
         find("Schuelerbewegung-webkit.png"), find("Studenten-Chromium.log"),
-        find("Studenten-WebKit.log"), *stress_paths, *logs,
+        find("Studenten-WebKit.log"), *stress_paths, *logs, *editor_paths,
     ]:
         shutil.copy2(path, report / path.name)
     shutil.copy2(before_file, report / "Schueler-vorher.json")
     shutil.copy2(after_file, report / "Schueler-nachher.json")
     shutil.copy2(dmg, root / dmg_name)
-    (root / "INSTALLATION.md").write_text("""# MysteryBoard Studio 0.2.2 installieren
+    (root / "INSTALLATION.md").write_text(f"""# MysteryBoard Studio {version} installieren
 
 1. Die DMG öffnen und MysteryBoard Studio in den Ordner Programme ziehen.
 2. MysteryBoard Studio aus Programme starten.
 3. Beim Aktualisieren bestehende bearbeitbare Projekte behalten. Ein älterer
    SCORM-Export enthält weiterhin seinen ursprünglichen Schülerplayer. Für die
-   korrigierte Fassung das Mystery in 0.2.2 öffnen, erneut als SCORM exportieren
+   korrigierte Fassung das Mystery in {version} öffnen, erneut als SCORM exportieren
    und die ZIP in itslearning austauschen.
 
 Die App ist ad hoc signiert. Eine Apple-Notarisierung liegt nicht vor.
@@ -110,7 +156,7 @@ Die zuständige Administration entscheidet über die Freigabe auf verwalteten Ma
 """, encoding="utf8")
     sample = before["results"][0]
     fixed = after["results"][0]
-    (report / "ABNAHME.md").write_text(f"""# MysteryBoard Studio 0.2.2 für Apple Silicon
+    (report / "ABNAHME.md").write_text(f"""# MysteryBoard Studio {version} für Apple Silicon
 
 Ausgangscommit `{base}`. Getesteter Commit `{commit}`.
 [GitHub-Actions-Lauf]({workflow})
@@ -120,7 +166,7 @@ Ausgangscommit `{base}`. Getesteter Commit `{commit}`.
 Das ausgelieferte SCORM aus 0.2.1 zeigte bei Maus und Touch denselben Fehler.
 Beim versetzten pointerup ohne pointermove erwartete der Test für die erste
 Karte den Zielpunkt {sample["target"]}, erhielt aber {sample["actual"]}.
-Mit dem tatsächlichen SCORM aus der installierten 0.2.2 stimmen Soll und Ist
+Mit dem tatsächlichen SCORM aus der installierten Version {version} stimmen Soll und Ist
 überein. Für den ersten Mauslauf ergibt sich {fixed["actual"]}. Die übrigen
 Messwerte stehen in Schueler-vorher.json und Schueler-nachher.json.
 
@@ -159,6 +205,7 @@ Playern wiederhergestellt. Bereits exportierte SCORM-ZIPs behalten ihren
 bisherigen Player. Zum Aktualisieren sind ein neuer Export und der Austausch
 in itslearning erforderlich. Das Dateiformat und SCORM 1.2 bleiben erhalten.
 
+{editor_report}
 ## Testnachweise
 
 - `npm test` ergab {data_count} bestandene Datentests.

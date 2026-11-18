@@ -9,6 +9,7 @@ import {
   remapEdges,
   retainCards,
   reviseDraft,
+  setStudentStart,
   updateAuthorEdge,
 } from "../core/authoring";
 import { parsePng } from "../core/png";
@@ -16,6 +17,8 @@ import { imageFromFile } from "../core/media";
 import { initialBoardWork } from "../core/layout";
 import {
   cardNumber,
+  COLORS,
+  COLOR_NAMES,
   MAX_EDGES,
   MAX_LABEL,
   nextEdgeId,
@@ -34,6 +37,7 @@ import { HelpEditor } from "./HelpEditor";
 import { DocumentImport } from "./DocumentImport";
 import { readDocumentFile } from "../core/document-file";
 import { classroomScorm } from "../core/classroom-scorm";
+import { cardAppearance, designOf } from "../core/design";
 
 import { DesignEditor } from "../../studio/ui/DesignEditor";
 import type { EditorIntegration } from "../../studio/ui/types";
@@ -63,6 +67,9 @@ export function AuthorEditor({
     [cardPosition, setCardPosition] = useState(0),
     [readingCard, setReadingCard] = useState(false),
     [saveNotice, setSaveNotice] = useState("");
+  const [boardFocused, setBoardFocused] = useState(false),
+    [boardHelp, setBoardHelp] = useState(false),
+    [zoomCommand, setZoomCommand] = useState<{ factor: number }>();
   const [draft, setDraft] = useState(initial),
     [dirty, setDirty] = useState(false);
   const [connectingCards, setConnectingCards] = useState(false);
@@ -112,7 +119,7 @@ export function AuthorEditor({
             {
               width: Math.max(300, window.innerWidth - 48),
               height: integration
-                ? Math.max(360, window.innerHeight - 300)
+                ? Math.max(360, window.innerHeight - 150)
                 : 500,
             },
             integration ? 2 : 7,
@@ -150,6 +157,14 @@ export function AuthorEditor({
     window.addEventListener("keydown", escape);
     return () => window.removeEventListener("keydown", escape);
   }, [connectingCards, edgeForm]);
+  useEffect(() => {
+    if (!boardFocused || connectingCards || card || boardHelp) return;
+    const exit = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setBoardFocused(false);
+    };
+    window.addEventListener("keydown", exit);
+    return () => window.removeEventListener("keydown", exit);
+  }, [boardFocused, connectingCards, card, boardHelp]);
   useEffect(() => {
     const before = (e: BeforeUnloadEvent) => {
       if (dirty || card || edgeForm || helpEditing || documentImport) {
@@ -231,6 +246,7 @@ export function AuthorEditor({
   const applyDraft = (update: (current: Draft) => Draft) => {
     try {
       const next = update(draftRef.current);
+      if (next === draftRef.current) return true;
       draftRef.current = next;
       setDraft(next);
       setDirty(true);
@@ -366,9 +382,10 @@ export function AuthorEditor({
     }
   };
   const remove = (id: number) => {
+    const title = content.cards.find((entry) => entry.id === id)?.title.trim();
     if (
       !window.confirm(
-        `Karte ${cardNumber(content, id)} wirklich löschen? Die übrigen Karten werden neu nummeriert. Bereits verteilte Dateien bleiben erhalten.`,
+        `Karte ${cardNumber(content, id)}${title ? ` „${title}“` : ""} wirklich löschen? Zugehörige Verbindungen werden entfernt und die übrigen Karten neu nummeriert.`,
       )
     )
       return false;
@@ -820,23 +837,17 @@ export function AuthorEditor({
               </button>
             </div>
           ))}
-          {content.cards.some((c) => c.id === card.id) && (
-            <button
-              type="button"
-              onClick={() => {
-                if (remove(card.id)) setCard(null);
-              }}
-            >
-              Karte löschen
-            </button>
-          )}
         </>
       )}
     </>
   );
   return (
     <main
-      className={"author-editor" + (integration ? " studio-editor" : "")}
+      className={
+        "author-editor" +
+        (integration ? " studio-editor" : "") +
+        (boardFocused ? " studio-board-focus" : "")
+      }
       onDragOver={(e) => {
         if ([...e.dataTransfer.types].includes("Files")) {
           e.preventDefault();
@@ -852,33 +863,32 @@ export function AuthorEditor({
     >
       {integration && (
         <header className="author-toolbar studio-main-toolbar">
-          <div className="studio-project-navigation">
-            <button
-              className="studio-back"
-              hidden={documentImport || helpEditing}
-              disabled={blocked}
-              onClick={() => {
-                if (
-                  !dirty ||
-                  confirm(
-                    "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-                  )
+          <button
+            className="studio-back"
+            hidden={documentImport || helpEditing}
+            disabled={blocked}
+            onClick={() => {
+              if (
+                !dirty ||
+                confirm(
+                  "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
                 )
-                  onHome();
-              }}
-            >
-              Zur Projektübersicht
-            </button>
-            <span className="studio-project-status" role="status">
-              {integration.name || "Neues Mystery"}
-              {(dirty || blocked || !integration.name) && (
-                <span className="studio-unsaved">
-                  {" "}
-                  · Ungesicherte Änderungen
-                </span>
-              )}
-            </span>
-          </div>
+              )
+                onHome();
+            }}
+          >
+            Zur Projektübersicht
+          </button>
+          {!documentImport && !helpEditing && !designOpen && (
+            <input
+              aria-label="Mystery-Titel"
+              className="studio-title"
+              maxLength={100}
+              value={content.title}
+              placeholder="Mystery-Titel"
+              onChange={(e) => change({ ...content, title: e.target.value })}
+            />
+          )}
           <nav
             aria-label="Mystery bearbeiten"
             hidden={documentImport || helpEditing}
@@ -907,6 +917,17 @@ export function AuthorEditor({
               Exportieren
             </button>
           </nav>
+          <span
+            className="studio-project-status"
+            role="status"
+            title={integration.name}
+          >
+            {dirty || blocked || !integration.name ? (
+              <span className="studio-unsaved">Ungesicherte Änderungen</span>
+            ) : (
+              "Gespeichert"
+            )}
+          </span>
           {materialInput}
         </header>
       )}
@@ -996,7 +1017,7 @@ export function AuthorEditor({
             setError("");
             setImportNotice(
               integration
-                ? `${count} Karten übernommen. Du kannst sie jetzt auf der Pinnwand bearbeiten oder über „Exportieren“ speichern und für den Unterricht bereitstellen.`
+                ? `${count} Karten übernommen.`
                 : `${count} Karten übernommen. Die Änderungen liegen nur im geöffneten Entwurf. Bitte „Entwurf sichern“ herunterladen; anschließend „Schülerversion erstellen“ für die Klasse verwenden.`,
             );
           }}
@@ -1006,31 +1027,36 @@ export function AuthorEditor({
           <DesignEditor
             content={content}
             onChange={(next) => change(next)}
+            onStartLayout={(layout) =>
+              applyDraft((current) =>
+                setStudentStart(current, layout, preview?.cards ?? []),
+              )
+            }
             onClose={() => setDesignOpen(false)}
             onHelp={() => setHelpEditing(true)}
           />
         ) : (
           <section className="studio-pinboard" aria-label="Autorenpinnwand">
-            <label className="studio-title">
-              Mystery-Titel
-              <input
-                maxLength={100}
-                value={content.title}
-                placeholder="Titel des Mysterys"
-                onChange={(e) => change({ ...content, title: e.target.value })}
-              />
-            </label>
             {error && <p role="alert">{error}</p>}
             {fileError && <p role="alert">{fileError}</p>}
-            {importNotice && <p role="status">{importNotice}</p>}
-            <div className="studio-board-help">
-              <p>
-                Karten anklicken zum Bearbeiten, ziehen zum Anordnen. „Groß
-                ansehen“ öffnet die Leseansicht. Mit Trackpad oder Mausrad
-                kannst du die Pinnwand vergrößern.
-              </p>
+            {importNotice && (
+              <div className="studio-board-notice">
+                <span role="status">{importNotice}</span>
+                <button
+                  aria-label="Importmeldung schließen"
+                  onClick={() => setImportNotice("")}
+                >
+                  ×
+                </button>
+              </div>
+            )}
+            <div
+              className="studio-board-tools"
+              role="group"
+              aria-label="Pinnwand-Werkzeuge"
+            >
               {preview && (
-                <div className="studio-board-tools">
+                <>
                   <button onClick={() => setFitTick((t) => t + 1)}>
                     Alle Karten anzeigen
                   </button>
@@ -1047,22 +1073,49 @@ export function AuthorEditor({
                         : "Verbindungen bearbeiten"}
                     </button>
                   )}
-                </div>
+                  <div
+                    className="studio-zoom-tools"
+                    role="group"
+                    aria-label="Zoomsteuerung"
+                  >
+                    <button
+                      aria-label="Pinnwand verkleinern"
+                      onClick={() => setZoomCommand({ factor: 0.8 })}
+                    >
+                      −
+                    </button>
+                    <button
+                      aria-label="Pinnwand vergrößern"
+                      onClick={() => setZoomCommand({ factor: 1.25 })}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    aria-pressed={boardFocused}
+                    onClick={() => setBoardFocused((value) => !value)}
+                  >
+                    {boardFocused
+                      ? "Fokusmodus beenden"
+                      : "Pinnwand maximieren"}
+                  </button>
+                </>
               )}
+              <button
+                className="studio-board-help-button"
+                onClick={() => setBoardHelp(true)}
+              >
+                Pinnwand-Hilfe
+              </button>
+              <span className="small studio-card-count">
+                {content.cards.length} Karten
+              </span>
             </div>
             {connectingCards && (
               <p role="status" className="studio-edge-hint">
                 {connectionFrom === null
                   ? "Erste Karte oder vorhandene Verbindung auswählen."
                   : `Karte ${cardNumber(content, connectionFrom)} gewählt. Jetzt die zweite Karte auswählen.`}
-              </p>
-            )}
-            {!!preview?.edges.length && (
-              <p className="studio-edge-hint">
-                <span className="studio-private-edge">
-                  Gestrichelt in Braun: nur für Lehrkräfte.
-                </span>{" "}
-                Übrige Verbindungen: Starthilfen.
               </p>
             )}
             {preview ? (
@@ -1085,6 +1138,7 @@ export function AuthorEditor({
                     if (edge) openEdge(edge);
                   }}
                   fitTick={fitTick}
+                  zoomCommand={zoomCommand}
                   connecting={connectionFrom}
                 />
               </div>
@@ -1096,10 +1150,6 @@ export function AuthorEditor({
                 </p>
               </div>
             )}
-            <p className="small">
-              {content.cards.length} Karten · Die Autorenanordnung bleibt im
-              Projekt; sie wird nicht als Schülerlösung verteilt.
-            </p>
           </section>
         )
       ) : (
@@ -1410,6 +1460,23 @@ export function AuthorEditor({
           </form>
         </Dialog>
       )}
+      {boardHelp && (
+        <Dialog title="Pinnwand-Hilfe" onClose={() => setBoardHelp(false)}>
+          <p>
+            Klicke auf eine Karte zum Bearbeiten oder ziehe sie an einen neuen
+            Platz. „Groß ansehen“ öffnet die Leseansicht.
+          </p>
+          <p>
+            Vergrößere die Pinnwand mit Trackpad, Mausrad oder den Zoomtasten.
+            „Alle Karten anzeigen“ stellt die Übersicht wieder her.
+          </p>
+          <p>
+            Gestrichelte braune Verbindungen sind intern. Freigegebene
+            Verbindungen erscheinen als Starthilfen. Die Schüler-Startanordnung
+            legst du unter „Mystery gestalten“ fest.
+          </p>
+        </Dialog>
+      )}
       {card && (
         <Dialog
           title={
@@ -1453,6 +1520,67 @@ export function AuthorEditor({
                   onChange={(e) => setCard({ ...card, text: e.target.value })}
                 />
               </label>
+              {integration && (
+                <fieldset className="studio-card-colors">
+                  <legend>Kartenfarbe</legend>
+                  <div className="studio-color-controls">
+                    <button
+                      type="button"
+                      aria-pressed={!card.backgroundColor}
+                      onClick={() =>
+                        setCard({ ...card, backgroundColor: undefined })
+                      }
+                    >
+                      Standardfarbe
+                    </button>
+                    {COLORS.slice(1).map((color, index) => (
+                      <button
+                        type="button"
+                        key={color}
+                        aria-label={COLOR_NAMES[index + 1]}
+                        aria-pressed={card.backgroundColor === color}
+                        style={{ backgroundColor: color }}
+                        onClick={() =>
+                          setCard({ ...card, backgroundColor: color })
+                        }
+                      >
+                        {COLOR_NAMES[index + 1]}
+                      </button>
+                    ))}
+                    <label>
+                      Eigene Farbe
+                      <input
+                        type="color"
+                        value={
+                          card.backgroundColor ?? designOf(content).cardColor
+                        }
+                        onChange={(event) =>
+                          setCard({
+                            ...card,
+                            backgroundColor: event.target.value,
+                          })
+                        }
+                      />
+                    </label>
+                  </div>
+                  <div
+                    className="studio-card-color-preview"
+                    style={(() => {
+                      const appearance = cardAppearance(
+                        card,
+                        designOf(content),
+                      );
+                      return {
+                        backgroundColor: appearance.background,
+                        color: appearance.text,
+                      };
+                    })()}
+                  >
+                    <strong>{card.title || "Kartenüberschrift"}</strong>
+                    {card.text && <span>{card.text}</span>}
+                  </div>
+                </fieldset>
+              )}
               <label>
                 Kartengruppe
                 <select
@@ -1502,9 +1630,27 @@ export function AuthorEditor({
               )}
               {busy && <p role="status">Bild wird geprüft …</p>}
               {error && <p role="alert">{error}</p>}
-              <button className="primary full" disabled={busy} type="submit">
-                Karte übernehmen
-              </button>
+              <div className="actions studio-card-actions">
+                <button className="primary" disabled={busy} type="submit">
+                  Karte übernehmen
+                </button>
+                {integration &&
+                  content.cards.some((entry) => entry.id === card.id) && (
+                    <button
+                      type="button"
+                      className="danger"
+                      disabled={busy}
+                      onClick={() => {
+                        if (remove(card.id)) {
+                          setCard(null);
+                          setFitTick((tick) => tick + 1);
+                        }
+                      }}
+                    >
+                      Karte löschen
+                    </button>
+                  )}
+              </div>
             </form>
           )}
         </Dialog>

@@ -1,4 +1,4 @@
-import { designOf } from "./design";
+import { cardAppearance, designOf } from "./design";
 import QRCode from "qrcode";
 import {
   COLORS,
@@ -214,19 +214,25 @@ export async function exportBoard(
     for (const c of work.cards) {
       const content = m.cards.find((x) => x.id === c.id)!,
         l = layouts.get(c.id)!;
-      ctx.fillStyle = c.color ? COLORS[c.color] : design.cardColor;
+      const appearance = cardAppearance(
+        content,
+        design,
+        c.color ? COLORS[c.color] : undefined,
+      );
+      ctx.fillStyle = appearance.background;
       ctx.strokeStyle = m.design ? design.borderColor : "#b9c4bc";
       ctx.lineWidth = m.design ? design.borderWidth : 1.5;
       ctx.beginPath();
       ctx.roundRect(c.x, c.y, CARD_WIDTH, l.height, design.radius);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = m.design ? design.textColor : "#253c30";
+      ctx.fillStyle =
+        m.design || content.backgroundColor ? appearance.text : "#253c30";
       ctx.font = `bold ${l.fontSize + 2}px ${l.fontFamily}`;
       l.title.forEach((t, i) =>
         ctx.fillText(t, c.x + 18, c.y + 32 + i * l.titleLine),
       );
-      ctx.fillStyle = design.textColor;
+      ctx.fillStyle = appearance.text;
       ctx.font = `${l.fontSize}px ${l.fontFamily}`;
       l.text.forEach((t, i) =>
         ctx.fillText(t, c.x + 18, c.y + l.textY + i * l.textLine),

@@ -21,6 +21,34 @@ export function moveAuthorCards(draft: Draft, board: CardState[]): Draft {
   }) as Draft;
 }
 
+export function setStudentStart(
+  draft: Draft,
+  layout: NonNullable<Content["startLayout"]>,
+  board: readonly CardState[],
+): Draft {
+  const content = draft.content;
+  const positions = new Map(board.map((card) => [card.id, card]));
+  const cards =
+    layout.mode === "explicit"
+      ? content.initial.cards.map((old) => {
+          const position = positions.get(old.id);
+          return position ? { ...old, x: position.x, y: position.y } : old;
+        })
+      : content.initial.cards;
+  if (
+    canonical(layout) === canonical(content.startLayout) &&
+    canonical(cards) === canonical(content.initial.cards)
+  )
+    return draft;
+  return reviseDraft(
+    draft,
+    { ...content, startLayout: layout, initial: { ...content.initial, cards } },
+    draft.author.board || !board.length
+      ? draft.author
+      : { ...draft.author, board: [...board] },
+  );
+}
+
 export function updateAuthorEdge(
   draft: Draft,
   id: number,

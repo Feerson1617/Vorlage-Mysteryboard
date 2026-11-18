@@ -28,7 +28,15 @@ import { PrintPreview } from "./components/PrintPreview";
 import { MediaView } from "./components/MediaView";
 import { TableView } from "./components/TableView";
 type Modal =
-  "resume" | "camera" | "save" | "help" | "menu" | "team" | "print" | null;
+  | "resume"
+  | "camera"
+  | "save"
+  | "help"
+  | "menu"
+  | "team"
+  | "print"
+  | "instructions"
+  | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
 const requireTeam = (work: Work, name: string): Work => {
   const named = withTeam(work, name);
@@ -46,7 +54,7 @@ export default function App({
   initialHelpOpen = false,
   mode = "student",
 }: {
-  mystery: Mystery & { subtitle?: string };
+  mystery: Mystery & { subtitle?: string; instructions?: string };
   loadedWork?: Work;
   backupPayload?: (work: Work) => Uint8Array;
   onImport?: () => void;
@@ -343,6 +351,11 @@ export default function App({
               <button onClick={() => setFitTick((t) => t + 1)}>
                 Übersicht
               </button>
+              {mystery.instructions && (
+                <button onClick={() => setModal("instructions")}>
+                  Aufgabe
+                </button>
+              )}
               <button
                 aria-label="Rückgängig"
                 disabled={!history.past.length}
@@ -467,6 +480,12 @@ export default function App({
           </div>
           <h1>{mystery.title}</h1>
           {mystery.subtitle && <p>{mystery.subtitle}</p>}
+          {mystery.instructions && (
+            <details className="student-instructions">
+              <summary>Aufgabenstellung</summary>
+              <p>{mystery.instructions}</p>
+            </details>
+          )}
           <p>
             Verschiebt die Karten, verbindet eure Gedanken
             <br className="wide-only" /> und haltet euren gemeinsamen Stand
@@ -545,6 +564,11 @@ export default function App({
           </p>
         </section>
       )}
+      {modal === "instructions" && (
+        <Dialog title="Aufgabenstellung" onClose={close}>
+          <p className="student-instructions-text">{mystery.instructions}</p>
+        </Dialog>
+      )}
       {cardContent && cardState && work && (
         <Dialog title={`Karte ${cardNumber(mystery, card!)}`} onClose={close}>
           {cardContent.group && (
@@ -552,7 +576,11 @@ export default function App({
               {mystery.cardGroups![cardContent.group].label}
             </p>
           )}
-          <CardReading card={cardContent} design={mystery.design} />
+          <CardReading
+            card={cardContent}
+            design={mystery.design}
+            mark={cardState.color ? COLORS[cardState.color] : undefined}
+          />
           <fieldset>
             <legend>Farbe</legend>
             <div className="colors">
