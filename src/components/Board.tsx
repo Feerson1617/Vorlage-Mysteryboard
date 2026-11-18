@@ -60,6 +60,7 @@ export function Board({
   connecting,
   orientation = false,
   badgeScaleLimit = 7,
+  authorBoard = false,
   selectingCards = false,
   privateEdges,
 }: {
@@ -74,16 +75,19 @@ export function Board({
   connecting: number | null;
   orientation?: boolean;
   badgeScaleLimit?: number;
+  authorBoard?: boolean;
   selectingCards?: boolean;
   privateEdges?: ReadonlySet<number>;
 }) {
   const design = designOf(mystery);
+  const trackedDrag = authorBoard || onMoveCard !== undefined;
   const svg = useRef<SVGSVGElement>(null),
     points = useRef(new Map<number, Point>()),
     gesture = useRef<Gesture | null>(null);
   const [view, setView] = useState<View>({ x: 40, y: 40, z: 0.5 }),
     [preview, setPreview] = useState<Work | null>(null);
   const current = useRef(work),
+    renderedWork = useRef(work),
     v = useRef(view),
     latestPreview = useRef<Work | null>(null),
     previewFrame = useRef<number | null>(null),
@@ -92,7 +96,10 @@ export function Board({
       move: (e: BoardPointer) => void;
       finish: (e: BoardPointer, cancel?: boolean) => void;
     } | null>(null);
-  current.current = work;
+  if (renderedWork.current !== work) {
+    renderedWork.current = work;
+    current.current = work;
+  }
   const changeView = (next: View) => {
     v.current = next;
     setView(next);
@@ -120,6 +127,7 @@ export function Board({
     if (g.session !== gestureSession) return false;
     if (g.before === next) return true;
     if (
+      !trackedDrag ||
       g.kind !== "card" ||
       g.before.mystery !== next.mystery ||
       g.before.version !== next.version
@@ -268,6 +276,7 @@ export function Board({
       }
     };
     const blur = () => {
+      if (!authorBoard) return;
       active.clear();
       sequence = null;
       if (!gesture.current) return;
@@ -477,7 +486,8 @@ export function Board({
     syncOrigin();
     points.current.set(e.pointerId, local(e));
     const g = gesture.current;
-    if (!g || g.cancelled || !sameDragCard(g, current.current)) return;
+    if (!g || g.cancelled || (trackedDrag && !sameDragCard(g, current.current)))
+      return;
     if (g.kind === "pinch") {
       if (points.current.size < 2) return;
       const [a, b] = [...points.current.values()],
@@ -505,7 +515,9 @@ export function Board({
     if (g.kind === "pan")
       changeView({ ...g.view, x: g.view.x + dx, y: g.view.y + dy });
     else if (connecting === null && !selectingCards) {
-      showPreview(moveCard(current.current, cardMove(g, p)));
+      showPreview(
+        moveCard(trackedDrag ? current.current : g.before, cardMove(g, p)),
+      );
     }
   };
   const finish = (e: BoardPointer, cancel = false) => {
@@ -514,7 +526,8 @@ export function Board({
     const g = gesture.current;
     points.current.delete(e.pointerId);
     if (!g) return;
-    if (cancel || !sameDragCard(g, current.current)) g.cancelled = true;
+    if (cancel || (trackedDrag && !sameDragCard(g, current.current)))
+      g.cancelled = true;
     // Once two fingers participated, consume all remaining fingers; never turn the last one into a drag/tap.
     if (g.kind === "pinch" || g.cancelled) {
       if (points.current.size === 0) gesture.current = null;
@@ -532,9 +545,13 @@ export function Board({
     const moved = g.moved || Math.hypot(p.x - g.start.x, p.y - g.start.y) >= 8;
     const target = document.elementFromPoint(e.clientX, e.clientY);
     if (g.kind === "card") {
-      if (moved && connecting === null && !selectingCards) {
+      if (
+        (g.moved || (trackedDrag && moved)) &&
+        connecting === null &&
+        !selectingCards
+      ) {
         const move = cardMove(g, p);
-        const next = moveCard(current.current, move);
+        const next = moveCard(trackedDrag ? current.current : g.before, move);
         if (next !== current.current) {
           current.current = next;
           if (onMoveCard) onMoveCard(move, g.session);
@@ -552,7 +569,7 @@ export function Board({
         x: g.view.x + p.x - g.start.x,
         y: g.view.y + p.y - g.start.y,
       });
-    } else if (!moved && g.edge !== undefined) {
+    } else if ((!trackedDrag || !moved) && g.edge !== undefined) {
       const hit = target?.closest("[data-edge-label], [data-edge]");
       const id = Number(
         hit?.getAttribute("data-edge-label") ?? hit?.getAttribute("data-edge"),

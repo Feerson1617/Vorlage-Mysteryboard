@@ -422,9 +422,12 @@ export default function App({
             work={work}
             mystery={mystery}
             onChange={commit}
-            gestureSession={history.gestureSession}
-            onMoveCard={(move, session) =>
-              dispatch({ type: "move-card", move, session })
+            gestureSession={__PLAYER_BUILD__ ? history.gestureSession : null}
+            onMoveCard={
+              __PLAYER_BUILD__
+                ? (move, session) =>
+                    dispatch({ type: "move-card", move, session })
+                : undefined
             }
             onCard={selectCard}
             onEdge={(id) => {

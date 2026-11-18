@@ -41,6 +41,8 @@ assert all(native["publication"][key] for key in (
 ))
 stress_paths = [find(f"Schueler-Stress-{engine}.json") for engine in ("chromium", "webkit")]
 stress = [json.loads(p.read_text()) for p in stress_paths]
+assert len(stress[0]["cdpDrags"]) == 24
+assert all(move["target"] == move["actual"] for move in stress[0]["cdpDrags"])
 for result in stress:
     assert result["passed"] and len(result["motions"]) == 100 and result["externalRequests"] == []
     assert {move["count"] for move in result["motions"]} == {5, 12, 20, 60}
@@ -128,13 +130,16 @@ an derselben Karte. Laden, Undo und Redo wechseln die Sitzung einer Geste.
 Bloße Renderänderungen oder kompatible Bearbeitungen lassen Bewegungen zu.
 Abbrüche und ein vorzeitiger Capture-Verlust speichern keine Teilbewegung.
 Die vorhandene Click-Unterdrückung bleibt Teil der Ereignisbehandlung.
+Der bisherige Webplayer der Universalvorlage behält sein geprüftes
+Gestenverhalten. Die Änderung betrifft den von Studio exportierten Player.
 
 Chromium {stress[0]["version"]} und WebKit {stress[1]["version"]} bestanden
 jeweils 100 deterministische Bewegungen mit 5, 12, 20 und 60 Karten. Die
 JSON-Protokolle dokumentieren Soll und Ist pro Schritt. Dazu kamen langsame
 und schnelle Mausbewegungen, Schwellwert, Zoom, Abbruch, Zustandswechsel,
 Pfeil-Geometrie sowie PNG-Sicherung und Weiterarbeit in einer neuen Sitzung.
-Chromium testet den Zwei-Finger-Zoom über CDP. WebKit erhält dafür zwei
+Chromium prüft zusätzlich 24 aufeinanderfolgende echte Browser-Touchsequenzen
+auf 60 Karten und den Zwei-Finger-Zoom über CDP. WebKit erhält für den Zoom zwei
 simulierte Pointer. Beide Testarten verwenden den exportierten Schülerplayer.
 
 ## Exportkontrolle

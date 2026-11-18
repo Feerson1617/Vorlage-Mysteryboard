@@ -85,6 +85,7 @@ const report = {
   motions: [],
   checks: [],
   externalRequests: [],
+  cdpDrags: [],
 };
 const button = (ui, name) => ui.getByRole("button", { name, exact: true });
 const verify = (result) =>
@@ -315,6 +316,75 @@ try {
       assert.equal(after.length, 3);
       after.forEach((value, i) => assert.notEqual(value, before[i]));
       report.checks.push("moving a card reroutes all three connected arrows");
+    }
+    if (count === 60 && engine.name() === "chromium") {
+      const cdp = await flow.context.newCDPSession(page);
+      for (let index = 0; index < 24; index++) {
+        if (index % 4 === 0) {
+          await button(ui, "Übersicht").click();
+          await frames(ui);
+        }
+        const grip = await board.evaluate((svg, index) => {
+          const bounds = svg.getBoundingClientRect();
+          const cards = [...svg.querySelectorAll("[data-card]")];
+          for (let offset = 0; offset < cards.length; offset++) {
+            const card = cards[(index * 7 + offset) % cards.length];
+            const rect = card.querySelector("rect").getBoundingClientRect();
+            const x = Math.round(rect.x + rect.width / 2);
+            const y = Math.round(rect.y + rect.height / 2);
+            if (
+              x < bounds.left + 20 ||
+              x > bounds.right - 20 ||
+              y < bounds.top + 20 ||
+              y > bounds.bottom - 20
+            )
+              continue;
+            if (
+              document.elementFromPoint(x, y)?.closest("[data-card]") === card
+            )
+              return {
+                id: Number(card.dataset.card),
+                x: x - bounds.x,
+                y: y - bounds.y,
+              };
+          }
+          throw Error("Keine sichtbare Karte für die CDP-Geste.");
+        }, index);
+        const box = await board.boundingBox();
+        const x = box.x + grip.x,
+          y = box.y + grip.y;
+        const dx = (index % 2 ? -1 : 1) * (14 + (index % 5));
+        const dy = 10 + (index % 4);
+        const zoom = Number(await board.getAttribute("data-zoom"));
+        const before = await cardPosition(ui, grip.id);
+        const send = (type, x, y) =>
+          cdp.send("Input.dispatchTouchEvent", {
+            type,
+            touchPoints: x === undefined ? [] : [{ id: 9, x, y }],
+          });
+        await send("touchStart", x, y);
+        await send("touchMove", x + dx, y + dy);
+        await send("touchEnd");
+        await frames(ui);
+        const target = before.map(
+          (v, i) => Math.round((v + [dx, dy][i] / zoom) * 100) / 100,
+        );
+        const motion = {
+          id: grip.id,
+          before,
+          target,
+          actual: await cardPosition(ui, grip.id),
+          zoom,
+          dx,
+          dy,
+        };
+        verify(motion);
+        await expect(ui.getByRole("dialog")).toHaveCount(0);
+        report.cdpDrags.push(motion);
+      }
+      report.checks.push(
+        "24 consecutive browser-dispatched touch drags on 60 cards",
+      );
     }
     for (let index = 0; index < 25; index++) {
       if (index % 5 === 0) {

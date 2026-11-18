@@ -1071,6 +1071,7 @@ export function AuthorEditor({
                   badgeScaleLimit={2}
                   work={preview}
                   mystery={content}
+                  authorBoard
                   selectingCards={connectingCards}
                   privateEdges={privateEdgeIds}
                   onChange={(work) =>
