@@ -80,6 +80,17 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install chromium
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF and image test tools
+        shell: bash
+        run: |
+          if ! command -v pdftotext >/dev/null || ! command -v pdfinfo >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+          python3 -m pip install PyMuPDF==1.26.7 Pillow==12.0.0
       - name: Type check, data tests and frozen classroom build
         if: matrix.shard == 1
         shell: bash
