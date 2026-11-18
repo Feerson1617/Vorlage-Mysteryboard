@@ -528,6 +528,8 @@ try {
     let previewSnapshot;
     if (previewOpened) {
       const preview = await previewOpened;
+      await preview.getByLabel("Teamname oder Vornamen").fill("Vorschau");
+      await button(preview, "Beginnen").click();
       await expect(preview.locator("[data-card]")).toHaveCount(baseCount - 2);
       previewSnapshot = await snapshot(preview);
       await preview.screenshot({ path: join(out, "Schueler-Vorschau.png") });
