@@ -96,6 +96,10 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p artifacts/board-regression
+          # npm run check builds production and preview HTML before test:e2e.
+          if [ "${{ matrix.shard }}" != "1" ]; then
+            npm run build 2>&1 | tee artifacts/board-regression/HTML-Build-${{ matrix.shard }}.log
+          fi
           npm run test:e2e -- --shard=${{ matrix.shard }}/4 2>&1 | tee artifacts/board-regression/Chromium-${{ matrix.shard }}.log
       - uses: actions/upload-artifact@v4
         if: always()
