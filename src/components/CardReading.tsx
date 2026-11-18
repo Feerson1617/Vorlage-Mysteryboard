@@ -41,7 +41,7 @@ export function CardReading({
   );
   return (
     <article
-      className="reading"
+      className={card.backgroundColor ? "reading reading-colored" : "reading"}
       style={{
         ...(design && {
           fontFamily: designFont(design),

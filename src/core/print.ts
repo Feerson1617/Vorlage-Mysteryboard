@@ -57,6 +57,7 @@ body { font-size: 11pt; line-height: 1.38; }
 .print-columns { display: grid; grid-template-rows: minmax(0,1fr); grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 6mm; }
 .print-column { min-width: 0; min-height: 0; height: 100%; display: flow-root; }
 .print-item { border: .25mm solid #b2beb6; border-left-width: 1.2mm; padding: 3mm; margin: 0 0 3mm; overflow-wrap: anywhere; }
+.print-item[data-custom-background] a { color: inherit; }
 .print-item h3 { font-size: 12pt; line-height: 1.25; margin: 0 0 2mm; overflow-wrap: anywhere; }
 .print-card-meta { font-size: 10pt; line-height: 1.3; margin: 0 0 2mm; }
 .print-card-text, .print-edge-label { font-size: 11pt; line-height: 1.38; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
@@ -544,6 +545,7 @@ export async function preparePrintFrame(
     article.dataset.colorIndex = String(state.color);
     article.style.borderLeftColor = COLORS[state.color];
     if (card.backgroundColor) {
+      article.dataset.customBackground = "";
       const appearance = cardAppearance(
         card,
         designOf(mystery),

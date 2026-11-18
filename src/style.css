@@ -380,6 +380,9 @@ h2 {
 .reading {
   overflow-wrap: anywhere;
 }
+.reading-colored .small {
+  color: inherit;
+}
 .reading h3 {
   font-size: 22px;
   margin: 0 0 14px;

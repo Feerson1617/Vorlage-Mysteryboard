@@ -60,7 +60,7 @@ test("author colors and instructions round-trip as content independently of lear
   });
   expect(cardAppearance(dark, design, COLORS[1])).toEqual({
     background: COLORS[1],
-    text: "#000000",
+    text: design.textColor,
   });
   expect(cardAppearance(task.content.cards[2], design).background).toBe(
     design.cardColor,

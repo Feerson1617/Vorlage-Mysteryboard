@@ -1,4 +1,4 @@
-import { numberTextColor } from "./help.ts";
+import { numberTextColor, relativeLuminance } from "./help.ts";
 
 export type Design = {
   font?: "sans" | "serif";
@@ -46,9 +46,15 @@ export function cardAppearance(
   mark?: string,
 ) {
   const background = mark ?? card.backgroundColor ?? design.cardColor;
+  if (!card.backgroundColor) return { background, text: design.textColor };
+  const backgroundLuminance = relativeLuminance(background);
+  const textLuminance = relativeLuminance(design.textColor);
+  const contrast =
+    (Math.max(backgroundLuminance, textLuminance) + 0.05) /
+    (Math.min(backgroundLuminance, textLuminance) + 0.05);
   return {
     background,
-    text: card.backgroundColor ? numberTextColor(background) : design.textColor,
+    text: contrast >= 4.5 ? design.textColor : numberTextColor(background),
   };
 }
 export const designFont = (d: Design | undefined) =>
