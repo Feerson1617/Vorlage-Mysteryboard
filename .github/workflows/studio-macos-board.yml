@@ -81,7 +81,17 @@ jobs:
           node-version: '24'
           cache: npm
       - run: npm ci
-      - run: npx playwright install chromium
+      - name: Install pinned Chromium 156 for the browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser_dir="$RUNNER_TEMP/mysteryboard-browser"
+          mkdir -p "$browser_dir"
+          curl -fsSL --retry 3 https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.80/linux64/chrome-linux64.zip -o "$browser_dir/chrome.zip"
+          echo "b711c720f774be355197f32edf37e0651418ba036d92446ee2da19ac017540a7  $browser_dir/chrome.zip" | sha256sum -c
+          unzip -q "$browser_dir/chrome.zip" -d "$browser_dir"
+          "$browser_dir/chrome-linux64/chrome" --version
+          echo "CHROMIUM_PATH=$browser_dir/chrome-linux64/chrome" >> "$GITHUB_ENV"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

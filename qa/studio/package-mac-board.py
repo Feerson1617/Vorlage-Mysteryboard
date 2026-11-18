@@ -113,7 +113,7 @@ erhöhen weiterhin die Inhaltsversion.
 
 - `npm test` ergab {data_count} bestandene Datentests.
 - `npm run build` bestätigte TypeScript und den HTML-Build.
-- `npm run test:e2e -- --shard=N/4` ergab insgesamt {sum(counts)} bestandene Chromium-Tests.
+- `npm run test:e2e -- --shard=N/4` ergab insgesamt {sum(counts)} bestandene Browserprüfungen mit Chrome for Testing 156.0.8078.80. Die Prüfungen verwenden die Chromium-Generation der App. Im Vorlauf verhielt sich die CDP-Touch-Simulation beim Viewport-Wechsel unter Chromium 158 anders.
 - `npm run test:rc2` ergab 4 bestandene Prüfungen des eingefrorenen Unterrichtsstands.
 - `npm run studio:make -- --platform=darwin --arch=arm64` erzeugte die DMG.
 - `hdiutil verify`, Mount, Installation mit `ditto` und `codesign --verify --deep --strict` bestanden.

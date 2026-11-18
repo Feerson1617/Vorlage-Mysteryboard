@@ -452,7 +452,7 @@ export function Board({
     };
   };
   const dragged = (g: Gesture, p: Point): Work => {
-    const base = current.current;
+    const base = authorBoard ? current.current : g.before;
     const card = base.cards.find((c) => c.id === g.id)!;
     const clamp = (n: number) =>
       Math.max(-100000, Math.min(100000, Math.round(n * 100) / 100));
@@ -473,7 +473,8 @@ export function Board({
     syncOrigin();
     points.current.set(e.pointerId, local(e));
     const g = gesture.current;
-    if (!g || g.cancelled || !sameDragCard(g, current.current)) return;
+    if (!g || g.cancelled || (authorBoard && !sameDragCard(g, current.current)))
+      return;
     if (g.kind === "pinch") {
       if (points.current.size < 2) return;
       const [a, b] = [...points.current.values()],
@@ -510,7 +511,8 @@ export function Board({
     const g = gesture.current;
     points.current.delete(e.pointerId);
     if (!g) return;
-    if (cancel || !sameDragCard(g, current.current)) g.cancelled = true;
+    if (cancel || (authorBoard && !sameDragCard(g, current.current)))
+      g.cancelled = true;
     // Once two fingers participated, consume all remaining fingers; never turn the last one into a drag/tap.
     if (g.kind === "pinch" || g.cancelled) {
       if (points.current.size === 0) gesture.current = null;
@@ -548,7 +550,7 @@ export function Board({
         x: g.view.x + p.x - g.start.x,
         y: g.view.y + p.y - g.start.y,
       });
-    } else if (!moved && g.edge !== undefined) {
+    } else if ((!authorBoard || !moved) && g.edge !== undefined) {
       const hit = target?.closest("[data-edge-label], [data-edge]");
       const id = Number(
         hit?.getAttribute("data-edge-label") ?? hit?.getAttribute("data-edge"),
