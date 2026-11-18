@@ -34,7 +34,7 @@ const proof = {
   cases: [],
 };
 let app, page, openingPath, savingPath, lastPreview;
-const nativeConfirms = [];
+let cancelDeletion = true;
 const read = async (p) => JSON.parse(await readFile(p, "utf8"));
 const title = "Quellen und Diagramme";
 const publishChoice =
@@ -150,13 +150,17 @@ async function configure() {
   }
   page.setDefaultTimeout(20000);
   page.on("dialog", async (d) => {
-    nativeConfirms.push(d.message());
-    if (
-      d.message().includes("wirklich löschen") &&
-      !nativeConfirms.slice(0, -1).some((v) => v.includes("wirklich löschen"))
-    )
-      await d.dismiss();
-    else await d.accept();
+    try {
+      if (cancelDeletion && d.message().includes("wirklich löschen"))
+        await d.dismiss();
+      else await d.accept();
+    } catch (error) {
+      // Electron can close its native modal before Chromium handles the reply.
+      // The following UI assertions still have to observe the requested outcome.
+      if (!native || !String(error).includes("No dialog is showing"))
+        throw error;
+      console.log("Renderer confirmation already closed:", d.message());
+    }
   });
 }
 
@@ -432,6 +436,10 @@ try {
     const removed = colored.content.cards[1];
     await button(dialog(), "Karte löschen").click();
     await expect(dialog()).toBeVisible();
+    await expect(teacherBoard().locator("[data-card]")).toHaveCount(
+      baseCount - 1,
+    );
+    cancelDeletion = false;
     await button(dialog(), "Karte löschen").click();
     await expect(dialog()).toHaveCount(0);
     await expect(teacherBoard().locator("[data-card]")).toHaveCount(
