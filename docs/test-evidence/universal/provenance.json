@@ -1,0 +1,99 @@
+{
+  "baseCommit": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "actualBase": "local R1b patch",
+  "r1bArchiveSha256": "cee72b4fd01afb0c47219358dd2223bb959dea193f82271e8d6634364550e2af",
+  "inputZipSha256": "3a21736d757b6c069454b387f71c22fcaa81c1324b4a4f8e9cdea585650a54d1",
+  "unchangedCards": 18,
+  "unchangedInitialState": true,
+  "soilId": "geo11-boden-ploen-2026",
+  "soilVersion": "2.0.0",
+  "groups": {
+    "required": {
+      "label": "Pflicht",
+      "prefix": ""
+    },
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "V"
+    }
+  },
+  "cardAssignments": [
+    {
+      "id": 1,
+      "group": "required"
+    },
+    {
+      "id": 2,
+      "group": "required"
+    },
+    {
+      "id": 3,
+      "group": "required"
+    },
+    {
+      "id": 4,
+      "group": "required"
+    },
+    {
+      "id": 5,
+      "group": "required"
+    },
+    {
+      "id": 6,
+      "group": "required"
+    },
+    {
+      "id": 7,
+      "group": "required"
+    },
+    {
+      "id": 8,
+      "group": "required"
+    },
+    {
+      "id": 9,
+      "group": "required"
+    },
+    {
+      "id": 10,
+      "group": "required"
+    },
+    {
+      "id": 11,
+      "group": "required"
+    },
+    {
+      "id": 12,
+      "group": "required"
+    },
+    {
+      "id": 13,
+      "group": "extension"
+    },
+    {
+      "id": 14,
+      "group": "extension"
+    },
+    {
+      "id": 15,
+      "group": "extension"
+    },
+    {
+      "id": 16,
+      "group": "extension"
+    },
+    {
+      "id": 17,
+      "group": "extension"
+    },
+    {
+      "id": 18,
+      "group": "extension"
+    }
+  ],
+  "unchangedOldDatasets": {
+    "src/content/small.json": "703cf8019f87dcbbeef3bae93b786977661761f143c18df20a4177892f47ba9c",
+    "src/content/large.json": "cd5ed7512ad20d90861df716021ed5c53b3a45b29d7810bd76a878474f5ed5f2"
+  },
+  "r1bEventHandlersByteIdentical": true
+}

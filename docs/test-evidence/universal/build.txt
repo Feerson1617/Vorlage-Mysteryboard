@@ -1,0 +1,48 @@
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && node scripts/build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-BVomuAip.js
+[plugin vite:singlefile] Inlining: style-BIoWEGol.css
+computing gzip size...
+dist/small/index.html  438.01 kB │ gzip: 149.67 kB
+
+✓ built in 1.29s
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-Btp1jU_Y.js
+[plugin vite:singlefile] Inlining: style-BIoWEGol.css
+computing gzip size...
+dist/large/index.html  470.90 kB │ gzip: 154.08 kB
+
+✓ built in 527ms
+vite v8.3.6 building client environment for boden-klasse11...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-_Q0E4vOU.js
+[plugin vite:singlefile] Inlining: style-BIoWEGol.css
+computing gzip size...
+dist/boden-klasse11/index.html  439.56 kB │ gzip: 150.92 kB
+
+✓ built in 491ms
+small: 456.776 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 489.662 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+boden-klasse11: 458.326 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

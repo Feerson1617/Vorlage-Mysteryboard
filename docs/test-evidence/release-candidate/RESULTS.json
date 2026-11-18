@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "baseCommit": "ae0f4cba54522752474bc474ac43a6b878b38751",
+  "releaseCandidate": "Universal-2026-11-14-RC",
+  "unit": {
+    "passed": 108,
+    "failed": 0
+  },
+  "browser": {
+    "passed": 173,
+    "failed": 0,
+    "skipped": 0
+  },
+  "rc2": {
+    "passed": 4,
+    "failed": 0
+  },
+  "baselineBeforeChanges": {
+    "unit": 107,
+    "browser": 169,
+    "rc2": 4,
+    "freshDeliveryBrowser": "passed"
+  },
+  "newPaperFlows": {
+    "passed": 4,
+    "viewports": [
+      [
+        1024,
+        768
+      ],
+      [
+        768,
+        1024
+      ],
+      [
+        600,
+        800
+      ],
+      [
+        320,
+        700
+      ]
+    ]
+  },
+  "existing12And60CardFlows": "8/8 passed",
+  "blackBoxHelp": "passed",
+  "blackBoxPaper": "passed",
+  "externalAiTrial": "OPEN: no external independent AI executed",
+  "webkit26_5": "OPEN: unavailable",
+  "webkit27_2": "OPEN: host libraries missing",
+  "realSchoolDevicesItslearningCanvaSafari": "OPEN",
+  "schoolApproval": false
+}

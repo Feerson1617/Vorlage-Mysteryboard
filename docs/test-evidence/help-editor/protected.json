@@ -1,0 +1,73 @@
+{
+  "base": "5a6899a7a67465c932c340c60ccde56e989586b4",
+  "protected": [
+    {
+      "file": "src/components/Board.tsx",
+      "bytes": 17680,
+      "sha256": "61778349129a1f991a5f08c8ab7c6a4f553406534583495d69821ba29141e50e",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/history.ts",
+      "bytes": 1960,
+      "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/codec.ts",
+      "bytes": 4546,
+      "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/png.ts",
+      "bytes": 4229,
+      "sha256": "e1a43017f811ecc30e28fc54c3bf2433dd80739874687bb826dcb4d6c3a7ed81",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/model.ts",
+      "bytes": 13032,
+      "sha256": "595781a22da5daa388e19ccd287d7ec746d8184d50a33c93052d3b7ff3ce557b",
+      "unchanged": true
+    },
+    {
+      "file": "schemas/mystery-content.schema.json",
+      "bytes": 6966,
+      "sha256": "6966b41294d2f987103c66193590d7d415e16a6bdb036eb760429d88d41d228b",
+      "unchanged": true
+    },
+    {
+      "file": "schemas/mystery-document.schema.json",
+      "bytes": 14880,
+      "sha256": "7a7f2617edd68439d31287140554516dd9c96171b75e20ba419dd4a1d9c3837d",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/boden-klasse11.json",
+      "bytes": 8445,
+      "sha256": "44419be70fa5173529b25ffdb58818b733d95330f5b81cadb3edd5c589d4a4c5",
+      "unchanged": true
+    },
+    {
+      "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+      "bytes": 459542,
+      "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+      "unchanged": true
+    },
+    {
+      "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+      "bytes": 158755,
+      "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0",
+      "unchanged": true
+    }
+  ],
+  "remoteBefore": "2c39d5427dc7cbd03558657d62821823949ac170\trefs/heads/feat/mysteryboard-prototype\n3454f97c513a6c657256623c08e11d9f93f8b09a\trefs/heads/feat/mysteryboard-template-ordered-help\ne14a09273be38c5501dc36ff3a7b819de298cd3a\trefs/heads/feat/mysteryboard-template-print-integration\n5a6899a7a67465c932c340c60ccde56e989586b4\trefs/heads/feat/mysteryboard-universal-authoring\n1fa1fff81e5e19b7031130c8d034a77d9e1ace61\trefs/heads/main\ne25fa3fc483f1cd181f31960c9fe575fe358ec69\trefs/tags/unterricht-2026-11-13-rc2\n2c39d5427dc7cbd03558657d62821823949ac170\trefs/tags/unterricht-2026-11-13-rc2^{}\n",
+  "changedExistingTests": [
+    "tests/browser/authoring-classroom.spec.ts",
+    "tests/browser/authoring-helpers.ts",
+    "tests/browser/authoring-phase2.spec.ts",
+    "tests/browser/authoring-safety.spec.ts"
+  ],
+  "reason": "Visible labels and shortened publish flow; original state assertions retained. Locator type broadened for nested preview."
+}

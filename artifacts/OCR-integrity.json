@@ -1,0 +1,87 @@
+[
+  {
+    "name": "imsmanifest.xml",
+    "bytes": 1332,
+    "sha256": "ff4a766ce8cb86971b3cffdb5874a94f0fc05eb01d7f40f2e3ea53d1c824f806"
+  },
+  {
+    "name": "launch.html",
+    "bytes": 633,
+    "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+  },
+  {
+    "name": "session.js",
+    "bytes": 1190,
+    "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+  },
+  {
+    "name": "app.html",
+    "bytes": 6034262,
+    "sha256": "96057a1c9925d545d47af6291fcbc478179ffb35549bccadd551aae65099b178"
+  },
+  {
+    "name": "ocr/tesseract.min.js",
+    "bytes": 62961,
+    "sha256": "000c27d9cd0def655f77b36c72a389c0ab13793aa31cb4d7aab56d09c0afbc7e"
+  },
+  {
+    "name": "ocr/worker.min.js",
+    "bytes": 111307,
+    "sha256": "576b7df7e3393e137e51849357c9adb53fe7ac1bb69bfa06cf3d61520f182c6d"
+  },
+  {
+    "name": "ocr/tesseract-core-lstm.wasm.js",
+    "bytes": 3896484,
+    "sha256": "eef5f8b2f8e20e150680b20adaec4a60babafee3adbe8a94583c81fee46e8680"
+  },
+  {
+    "name": "ocr/deu.traineddata.gz",
+    "bytes": 1333102,
+    "sha256": "306c4280d0cbed46fbff727486bd43b92730181bae80f56941a091f363bdf28b"
+  },
+  {
+    "name": "ocr/host.html",
+    "bytes": 227,
+    "sha256": "47f298b328fdf4988ef82654ed8c3b2977606a4d0bfdd7f8297221cb87de8b0b"
+  },
+  {
+    "name": "ocr/host.js",
+    "bytes": 1746,
+    "sha256": "559cc23e52aa57688cbdae06a35614ee30221f92ba26c864ca00394a661a7a45"
+  },
+  {
+    "name": "ocr/Tesseract-LICENSE.txt",
+    "bytes": 11357,
+    "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+  },
+  {
+    "name": "ocr/Core-LICENSE.txt",
+    "bytes": 11358,
+    "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+  },
+  {
+    "name": "ocr/tesseract.min.js.LICENSE.txt",
+    "bytes": 149,
+    "sha256": "cdf963ced7d25a0f98901a547647b4d6e2dbe0197fd78c87a059a87b0e542fe2"
+  },
+  {
+    "name": "ocr/worker.min.js.LICENSE.txt",
+    "bytes": 466,
+    "sha256": "45f54171aeaa1d10c0c1a66f374b7bba1f02472b1487fbe892eec04f840002ac"
+  },
+  {
+    "name": "ocr/German-model-package.json",
+    "bytes": 530,
+    "sha256": "a3d09f790a918237b6323f45fb5e50ea729a298d05a4bbe2b89af036f55360af"
+  },
+  {
+    "name": "ocr/German-model-README.md",
+    "bytes": 381,
+    "sha256": "db11100b63fc16eae02300fc6cebfb7d77a6689d9259df8ece7ae21dc9855ace"
+  },
+  {
+    "name": "ocr/MODEL-LICENSE.txt",
+    "bytes": 445,
+    "sha256": "7f35bc6a734c70b27c762c45ebebba4064c5559233f7c935597746d587fa533f"
+  }
+]

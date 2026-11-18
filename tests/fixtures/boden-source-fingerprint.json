@@ -1,0 +1,103 @@
+{
+  "sourceFile": "Boden-Mystery-Klasse11.json",
+  "sourceFileSha256": "47ffbd03055421b7ccfe6b7796563f83a261c063487df139afc27b87dc2cfe21",
+  "canonicalCardsSha256": "1e7417312f5800b411ce5f23abb5682a24cdd75af97cc8203da7cbb1c70a910c",
+  "canonicalInitialSha256": "83773823e38ac9313a67a292c814aad4e8dd2b2f315f0c0e47cafb24178eaf76",
+  "identity": {
+    "id": "geo11-boden-ploen-2026",
+    "version": "2.0.0",
+    "title": "Volle Ernten, verlorene Böden – welchen Preis zahlen wir für unsere Ernährung?"
+  },
+  "explicitMapping": [
+    {
+      "id": 1,
+      "anzeige": "1",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 2,
+      "anzeige": "2",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 3,
+      "anzeige": "3",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 4,
+      "anzeige": "4",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 5,
+      "anzeige": "5",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 6,
+      "anzeige": "6",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 7,
+      "anzeige": "7",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 8,
+      "anzeige": "8",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 9,
+      "anzeige": "9",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 10,
+      "anzeige": "10",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 11,
+      "anzeige": "11",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 12,
+      "anzeige": "12",
+      "arbeitsumfang": "Pflicht"
+    },
+    {
+      "id": 13,
+      "anzeige": "V13",
+      "arbeitsumfang": "Vertiefung"
+    },
+    {
+      "id": 14,
+      "anzeige": "V14",
+      "arbeitsumfang": "Vertiefung"
+    },
+    {
+      "id": 15,
+      "anzeige": "V15",
+      "arbeitsumfang": "Vertiefung"
+    },
+    {
+      "id": 16,
+      "anzeige": "V16",
+      "arbeitsumfang": "Vertiefung"
+    },
+    {
+      "id": 17,
+      "anzeige": "V17",
+      "arbeitsumfang": "Vertiefung"
+    },
+    {
+      "id": 18,
+      "anzeige": "V18",
+      "arbeitsumfang": "Vertiefung"
+    }
+  ]
+}

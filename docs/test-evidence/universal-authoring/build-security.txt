@@ -1,0 +1,48 @@
+[WebServer] (node:45038) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:45051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:35:59] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:45078) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45217) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+MysteryBoard: Die HTML-Datei enthält externe Laufzeitressourcen.
+  ✘  1 tests/browser/authoring-build-security.spec.ts:7:1 › Spezifischer Build behandelt auch gemischte Script-Endtags im Inhalt ausschließlich als Text (3.2s)
+
+
+  1) tests/browser/authoring-build-security.spec.ts:7:1 › Spezifischer Build behandelt auch gemischte Script-Endtags im Inhalt ausschließlich als Text 
+
+    Error: Command failed: /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node scripts/mystery-tools.mjs build /workspace/Mysteryboard-authoring/test-results/authoring-build-security-S-74797-alt-ausschließlich-als-Text/inhalt.json /workspace/Mysteryboard-authoring/test-results/authoring-build-security-S-74797-alt-ausschließlich-als-Text/MysteryBoard-Textpruefung.html
+    (node:45217) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+    (Use `node --trace-warnings ...` to show where the warning was created)
+    [plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+    MysteryBoard: Die HTML-Datei enthält externe Laufzeitressourcen.
+
+
+      17 |   await mkdir(info.outputPath(), { recursive: true });
+      18 |   await writeFile(input, JSON.stringify(content));
+    > 19 |   const log = execFileSync(
+         |               ^
+      20 |     process.execPath,
+      21 |     ["scripts/mystery-tools.mjs", "build", input, output],
+      22 |     { encoding: "utf8" },
+        at /workspace/Mysteryboard-authoring/tests/browser/authoring-build-security.spec.ts:19:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/authoring-build-security-S-74797-alt-ausschließlich-als-Text/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/authoring-build-security-S-74797-alt-ausschließlich-als-Text/error-context.md
+
+  1 failed
+    tests/browser/authoring-build-security.spec.ts:7:1 › Spezifischer Build behandelt auch gemischte Script-Endtags im Inhalt ausschließlich als Text 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

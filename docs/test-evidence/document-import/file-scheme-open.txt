@@ -1,0 +1,6 @@
+{
+  "browser": "156.0.8078.79",
+  "scope": "actual standalone file URL, followed by offline DOCX/PDF import",
+  "status": "open",
+  "error": "page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at file:///workspace/Mysteryboard-document-import/artifacts/MysteryBoard-Universal.html\nCall log:\n\u001b[2m  - navigating to \"file:///workspace/Mysteryboard-document-import/artifacts/MysteryBoard-Universal.html\", waiting until \"load\"\u001b[22m\n"
+}

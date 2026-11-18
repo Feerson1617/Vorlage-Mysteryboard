@@ -1,0 +1,31 @@
+Exact label count 0
+Normal label count 1
+- main:
+  - text: MysteryBoard
+  - navigation "Arbeitsfläche bedienen":
+    - button "Übersicht"
+    - button "Rückgängig"
+    - button "Wiederholen" [disabled]
+    - button "Sichern"
+    - button "Hilfe": "?"
+    - button "Menü": ⋯
+  - text: Diagnose Orientierungshilfe ausgeschaltet.
+  - group "Arbeitsfläche":
+    - button "Karte 1 öffnen": "Karte 1: Material 1 Material 1: Vergleicht diedokumentierten Angaben. AlleMesswerte sind synthetischePrüfdaten. 1"
+    - button "Karte 2 öffnen": "Karte 2: Material 2 Material 2: Vergleicht diedokumentierten Angaben. AlleMesswerte sind synthetischePrüfdaten. 2"
+    - button "Karte 3 öffnen": "Karte 3: Material 3 Material 3: Vergleicht diedokumentierten Angaben. AlleMesswerte sind synthetischePrüfdaten.Tabelle: 3 Datenzeilen · Zum Lesenöffnen. 3"
+    - button "Karte 4 öffnen": "Karte 4: Material 4 Material 4: Vergleicht diedokumentierten Angaben. AlleMesswerte sind synthetischePrüfdaten.Erste Beobachtung: 0,25 L.Zweite Beobachtung: 2,0 mg/L. 4"
+    - button "Karte 5 öffnen": "Karte 5: Material 5 Material 5: Vergleicht diedokumentierten Angaben. AlleMesswerte sind synthetischePrüfdaten. 5"
+    - button "Karte V6 öffnen": Zusätzliche Kontrollkarte Bewusste Ergänzung imImportassistenten. V6
+  - dialog "Druckfassung / PDF":
+    - heading "Druckfassung / PDF" [level=2]
+    - button "Schließen": ×
+    - paragraph: Übersicht, lesbare Kartentexte und alle Beziehungen mit Seitenverweisen. Zum späteren Weiterarbeiten benötigt ihr weiterhin die Original-PNG über „Sichern“.
+    - text: Papierformat
+    - combobox "Papierformat":
+      - option "A4 quer" [selected]
+      - option "A3 quer"
+    - button "Drucken / PDF speichern" [disabled]
+    - paragraph: Im Druckdialog dasselbe Papierformat und Querformat wählen. Dort könnt ihr auch als PDF speichern. Die Vorschau lässt sich seitlich und nach unten scrollen.
+    - status: Die Druckseiten werden vorbereitet …
+    - iframe

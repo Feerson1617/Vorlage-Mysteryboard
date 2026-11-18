@@ -1,0 +1,178 @@
+{
+  "browser": "156.0.8078.79",
+  "scope": "Chromium headless on cloud Linux; V8 heaps only, not total/native/GPU RAM and not a real iPad test",
+  "runs": {
+    "baseline": [
+      {
+        "readyMs": 433,
+        "domContentLoadedMs": 341,
+        "loadMs": 341.79999999701977,
+        "mainV8UsedBytes": 3720460,
+        "mainV8": {
+          "usedSize": 3720460,
+          "totalSize": 4710400,
+          "embedderHeapUsedSize": 442952,
+          "backingStorageSize": 1138793
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 411,
+        "domContentLoadedMs": 342.40000000596046,
+        "loadMs": 344.29999999701977,
+        "mainV8UsedBytes": 3720268,
+        "mainV8": {
+          "usedSize": 3720268,
+          "totalSize": 4448256,
+          "embedderHeapUsedSize": 443032,
+          "backingStorageSize": 1138793
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 402,
+        "domContentLoadedMs": 336.29999999701977,
+        "loadMs": 340.3999999910593,
+        "mainV8UsedBytes": 3720048,
+        "mainV8": {
+          "usedSize": 3720048,
+          "totalSize": 4448256,
+          "embedderHeapUsedSize": 442528,
+          "backingStorageSize": 1138793
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 363,
+        "domContentLoadedMs": 300.59999999403954,
+        "loadMs": 302.29999999701977,
+        "mainV8UsedBytes": 3720092,
+        "mainV8": {
+          "usedSize": 3720092,
+          "totalSize": 4448256,
+          "embedderHeapUsedSize": 443032,
+          "backingStorageSize": 1138793
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 395,
+        "domContentLoadedMs": 330.8999999910593,
+        "loadMs": 332.3999999910593,
+        "mainV8UsedBytes": 3720416,
+        "mainV8": {
+          "usedSize": 3720416,
+          "totalSize": 4972544,
+          "embedderHeapUsedSize": 443032,
+          "backingStorageSize": 1138793
+        },
+        "workers": 0
+      }
+    ],
+    "current": [
+      {
+        "readyMs": 490,
+        "domContentLoadedMs": 433.09999999403954,
+        "loadMs": 435.20000000298023,
+        "mainV8UsedBytes": 3725100,
+        "mainV8": {
+          "usedSize": 3725100,
+          "totalSize": 4976640,
+          "embedderHeapUsedSize": 448120,
+          "backingStorageSize": 10229587
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 910,
+        "domContentLoadedMs": 757.3999999910593,
+        "loadMs": 796.0999999940395,
+        "mainV8UsedBytes": 3724700,
+        "mainV8": {
+          "usedSize": 3724700,
+          "totalSize": 4976640,
+          "embedderHeapUsedSize": 449248,
+          "backingStorageSize": 10229588
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 458,
+        "domContentLoadedMs": 400.5,
+        "loadMs": 402,
+        "mainV8UsedBytes": 3725260,
+        "mainV8": {
+          "usedSize": 3725260,
+          "totalSize": 4714496,
+          "embedderHeapUsedSize": 448296,
+          "backingStorageSize": 10229588
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 682,
+        "domContentLoadedMs": 596.9000000059605,
+        "loadMs": 599.9000000059605,
+        "mainV8UsedBytes": 3725036,
+        "mainV8": {
+          "usedSize": 3725036,
+          "totalSize": 4714496,
+          "embedderHeapUsedSize": 614680,
+          "backingStorageSize": 10229588
+        },
+        "workers": 0
+      },
+      {
+        "readyMs": 631,
+        "domContentLoadedMs": 577.0999999940395,
+        "loadMs": 580.0999999940395,
+        "mainV8UsedBytes": 3727704,
+        "mainV8": {
+          "usedSize": 3727704,
+          "totalSize": 4714496,
+          "embedderHeapUsedSize": 448624,
+          "backingStorageSize": 10229588
+        },
+        "workers": 0
+      }
+    ],
+    "baselineMedian": {
+      "readyMs": 402,
+      "mainV8UsedBytes": 3720268
+    },
+    "currentMedian": {
+      "readyMs": 631,
+      "mainV8UsedBytes": 3725100
+    }
+  },
+  "importPhase": {
+    "workersBeforeFile": 0,
+    "fileToReviewMs": 1361,
+    "mainDuringImportV8": {
+      "usedSize": 5598828,
+      "totalSize": 6881280,
+      "embedderHeapUsedSize": 1082816,
+      "backingStorageSize": 10234958
+    },
+    "mainDuringImportV8Bytes": 5598828,
+    "workerV8": {
+      "usedSize": 6831088,
+      "totalSize": 7725056,
+      "embedderHeapUsedSize": 23184,
+      "backingStorageSize": 9539532
+    },
+    "workersAfterClose": 0,
+    "mainAfterCloseV8": {
+      "usedSize": 5378248,
+      "totalSize": 6094848,
+      "embedderHeapUsedSize": 1226864,
+      "backingStorageSize": 10234916
+    },
+    "mainAfterCloseV8Bytes": 5378248
+  },
+  "bytes": {
+    "baseline": 818650,
+    "current": 5562510
+  },
+  "status": "measured"
+}

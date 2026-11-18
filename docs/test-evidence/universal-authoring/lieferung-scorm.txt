@@ -1,0 +1,61 @@
+[WebServer] (node:73851) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:73864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:27] "GET / HTTP/1.1" 200 -
+
+Running 3 tests using 1 worker
+
+(node:73906) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:30] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:30] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:30] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:31] code 404, message File not found
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:31] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:34] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:34] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:34] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:35] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:35] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:35] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:40] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:40] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:40] "GET /test-results/authoring-classroom-Unterr-7957f--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/app.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/authoring-classroom.spec.ts:293:3 › Unterrichtskreislauf 1024x768: Autor → SCORM → Touch → PDF → selbsttragende PNG (12.8s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:42] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:42] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:42] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-teacher/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:45] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:45] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:45] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-reopened/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:46] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:46] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:46] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:51] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:51] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:51] "GET /test-results/authoring-classroom-Unterr-b60f4--%E2%86%92-PDF-%E2%86%92-selbsttragende-PNG/scorm-fresh/app.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/authoring-classroom.spec.ts:293:3 › Unterrichtskreislauf 768x1024: Autor → SCORM → Touch → PDF → selbsttragende PNG (10.4s)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:53] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:53] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:53] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-author/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:54] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:54] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:54] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-old-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:56] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:56] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:56] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-ki-revision/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:58] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:58] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:35:58] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-learner/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:36:01] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:36:01] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [14/Nov/2026 14:36:01] "GET /test-results/authoring-classroom-Erg%C3%A4nz-9e392-erarbeit-unvermischt-%C3%B6ffnen/scorm-revision-fresh/app.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/authoring-classroom.spec.ts:429:1 › Ergänzung: KI-Aufgabe erneut bearbeiten, Medien ersetzen, neue Version exportieren und alte Schülerarbeit unvermischt öffnen (10.7s)
+
+  3 passed (38.7s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

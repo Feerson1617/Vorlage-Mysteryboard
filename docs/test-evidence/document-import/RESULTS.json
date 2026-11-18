@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "collectedAtUtc": "2026-11-15T08:32:26.718329+00:00",
+  "baseCommit": "35019c364ffef026482250ec75042b38e138fe18",
+  "sourceBranch": "feat/mysteryboard-local-document-import",
+  "applicationSha256": "8fdd8fe9b960a14fa40baf2e9b8699f8fa22ad8eaf3fd5c44a62719eb515e40f",
+  "tests": {
+    "unit": 117,
+    "chromium": 188,
+    "originalChromium": 173,
+    "newImportChromium": 15,
+    "frozenRc2Chromium": 4,
+    "standaloneChecks": [
+      "docx-1440x1000: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "pdf-1440x1000: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "docx-1024x768: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "pdf-1024x768: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "docx-768x1024: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "pdf-768x1024: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "docx-600x800: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "pdf-600x800: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "docx-320x700: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "pdf-320x700: Originalfelder, Teilung/Zusammenführung, Ergänzen/Löschen, Bild/Tabelle, Hilfen, frischer Entwurf, Schülerversion, tatsächliche SCORM, Touch/Pinch und vollständiger PNG-Restore.",
+      "A: zwölf Karten, explizite V3/V8/V12, neun Pflichtkarten; E: keine OCR behauptet, echte Seite als Bildkarte.",
+      "D: sechs Originalkarten mit allen Texten/Quellen und allen Messwerten aus beiden Spalten; F/H: sieben zurückgewiesene Dateien und großer Importabbruch erhalten den vorhandenen Entwurf exakt."
+    ]
+  },
+  "runtime": {
+    "node": "v24.22.1",
+    "npm": "11.9.0",
+    "chromium": "156.0.8078.79"
+  },
+  "coldBuild": "passed; byte-identical HTML and SCORM",
+  "htmlLimitBytesExclusive": 10000000,
+  "open": [
+    "WebKit 26.5 not available",
+    "WebKit 27.2 missing host libraries",
+    "real Safari/managed school iPads",
+    "real itslearning/Canva deployment",
+    "direct file URL blocked by host administrator; localhost/offline tested",
+    "native Safari print",
+    "physical iPad total-memory/performance measurement"
+  ],
+  "schoolApproval": false
+}

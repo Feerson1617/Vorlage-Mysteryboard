@@ -1,0 +1,263 @@
+
+> mysteryboard-prototype@0.1.0 check
+> npm test && npm run build && npm run test:e2e
+
+
+> mysteryboard-prototype@0.1.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/Vorlage-Mysteryboard
+
+
+ Test Files  4 passed (4)
+      Tests  31 passed (31)
+   Start at  18:27:29
+   Duration  11.67s (tests 94%, import 3%, transform 3%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && vite build --mode small --outDir dist/small && vite build --mode large --outDir dist/large && node scripts/check-build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-hxLPigxu.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/small/index.html  431.28 kB │ gzip: 147.45 kB
+
+✓ built in 258ms
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-Bpa-j3YV.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/large/index.html  464.17 kB │ gzip: 152.13 kB
+
+✓ built in 240ms
+small: 450.041 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 482.927 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 test:e2e
+> npm run build:review && playwright test
+
+
+> mysteryboard-prototype@0.1.0 build:review
+> vite build --mode review --outDir dist/review
+
+vite v8.3.6 building client environment for review...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-D7T8Vxjg.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/review/index.html  971.88 kB │ gzip: 523.11 kB
+
+✓ built in 1.28s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+[WebServer] (node:53668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:53681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:27:52] "GET / HTTP/1.1" 200 -
+
+Running 33 tests using 1 worker
+
+(node:53768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:27:57] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   1 tests/browser/corrections.spec.ts:51:1 › mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück (3.4s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:00] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   2 tests/browser/corrections.spec.ts:124:1 › erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage (3.0s)
+  ✓   3 tests/browser/corrections.spec.ts:219:3 › PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung (4.9s)
+  ✓   4 tests/browser/corrections.spec.ts:219:3 › PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download (4.2s)
+  ✘   5 tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen (4.2s)
+(node:54087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen (6.4s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:24] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   7 tests/browser/corrections.spec.ts:388:1 › Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar (1.3s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:25] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   8 tests/browser/prototype.spec.ts:34:1 › eigenständiges HTML läuft offline; keine externen Anfragen (2.4s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:28] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓   9 tests/browser/prototype.spec.ts:66:1 › Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig (2.3s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:31] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:37] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  10 tests/browser/prototype.spec.ts:132:1 › kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten (8.4s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:28:39] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✘  11 tests/browser/prototype.spec.ts:189:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import (2.0m)
+(node:54654) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:30:44] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  12 tests/browser/prototype.spec.ts:226:1 › abgebrochener Import verändert den geöffneten Stand nicht (4.7s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:30:48] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  13 tests/browser/prototype.spec.ts:252:1 › Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar (937ms)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:30:49] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  14 tests/browser/prototype.spec.ts:274:1 › Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick (1.3s)
+  ✓  15 tests/browser/prototype.spec.ts:332:1 › gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export (2.6s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:30:53] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  16 tests/browser/prototype.spec.ts:386:1 › kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas (4.5s)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:30:58] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  17 tests/browser/prototype.spec.ts:410:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen (58.6s)
+
+
+  1) tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 0.02
+    Received:   0.03125000000000003
+
+      382 |       expect(
+      383 |         Math.abs(measurements.exported[i].ratio - expected) / expected,
+    > 384 |       ).toBeLessThan(0.02);
+          |         ^
+      385 |     }
+      386 |   });
+      387 |
+        at /workspace/Vorlage-Mysteryboard/tests/browser/corrections.spec.ts:384:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/corrections-quadratische-h-46f0a-PNG-identische-Proportionen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/corrections-quadratische-h-46f0a-PNG-identische-Proportionen/error-context.md
+
+  2) tests/browser/prototype.spec.ts:189:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import
+
+    Test timeout of 120000ms exceeded.
+
+    Error: locator.click: Test timeout of 120000ms exceeded.
+    Call log:
+      - waiting for locator('[data-card="60"]')
+        - locator resolved to <g class="card" tabindex="0" data-x="4770" data-y="2850" role="button" data-card="60" aria-label="Karte 60 öffnen" transform="translate(4770 2850)">…</g>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <svg role="group" class="board" aria-label="Arbeitsfläche" data-zoom="0.19816723933769387">…</svg> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <svg role="group" class="board" aria-label="Arbeitsfläche" data-zoom="0.19816723933769387">…</svg> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        217 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <svg role="group" class="board" aria-label="Arbeitsfläche" data-zoom="0.19816723933769387">…</svg> intercepts pointer events
+          - retrying click action
+            - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+
+
+      204 |   expect(await position(page)).toEqual(before);
+      205 |   await expect(page.locator("[data-edge]")).toHaveCount(90);
+    > 206 |   await card(page, 60).click();
+          |                        ^
+      207 |   await page.getByRole("button", { name: "Gelb", exact: true }).click();
+      208 |   await page.getByRole("button", { name: "Schließen", exact: true }).click();
+      209 |   await page.getByRole("button", { name: "Menü", exact: true }).click();
+        at /workspace/Vorlage-Mysteryboard/tests/browser/prototype.spec.ts:206:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/prototype-60-Karten-PNG-ob-6a684-ung-und-beschädigter-Import/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/prototype-60-Karten-PNG-ob-6a684-ung-und-beschädigter-Import/error-context.md
+
+  3) tests/browser/prototype.spec.ts:410:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for locator('[data-edge-label="1"] rect')
+        - locator resolved to <rect rx="5" y="-14" height="28" fill="#f7f8f7" x="-57.8134765625" width="115.626953125"></rect>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <tspan x="0" y="5">spricht dagegen</tspan> from <text font-size="14" fill="#4e5e53" text-anchor="middle">…</text> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <tspan x="0" y="5">spricht dagegen</tspan> from <text font-size="14" fill="#4e5e53" text-anchor="middle">…</text> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        98 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <tspan x="0" y="5">spricht dagegen</tspan> from <text font-size="14" fill="#4e5e53" text-anchor="middle">…</text> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      413 |   await start(page);
+      414 |   const line = page.locator('[data-edge-label="1"] rect');
+    > 415 |   await line.click();
+          |              ^
+      416 |   await page.getByLabel("Beschriftung").fill("Direkt ausgewählt");
+      417 |   await page.getByRole("button", { name: "Übernehmen" }).click();
+      418 |   await expect(page.locator('[data-edge-label="1"]')).toContainText(
+        at /workspace/Vorlage-Mysteryboard/tests/browser/prototype.spec.ts:415:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/prototype-vorhandene-Linie-a9a57-schen-und-rückgängig-machen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/browser/corrections.spec.ts:271:3 › quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen
+    tests/browser/prototype.spec.ts:189:1 › 60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import
+  1 interrupted
+    tests/browser/prototype.spec.ts:410:1 › vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen
+  16 did not run
+  14 passed (4.1m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

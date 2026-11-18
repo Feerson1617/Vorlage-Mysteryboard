@@ -1,0 +1,213 @@
+{
+  "id": "mysteryboard-test-small",
+  "version": "1.0.0",
+  "title": "Karten gemeinsam ordnen",
+  "cards": [
+    {
+      "id": 1,
+      "title": "Beobachtung 1",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 2,
+      "title": "Beobachtung 2",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 3,
+      "title": "Beobachtung 3",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iODkiIHdpZHRoPSI0NSIgaGVpZ2h0PSI3NiIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjE1MCIgeT0iNjYiIHdpZHRoPSI0NSIgaGVpZ2h0PSI5OSIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjIzNSIgeT0iNDMiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMjIiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIzMjAiIHk9IjEzMCIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjM1IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iNDA1IiB5PSIxMDciIHdpZHRoPSI0NSIgaGVpZ2h0PSI1OCIgZmlsbD0iIzdkOWE4OCIvPjwvc3ZnPg==",
+      "imageAlt": "Testdiagramm zu Beobachtung 3: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 4,
+      "title": "Beobachtung 4",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 5,
+      "title": "Beobachtung 5",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 6,
+      "title": "Beobachtung 6",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 7,
+      "title": "Beobachtung 7",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±. Eine weitere Zeile ergänzt den Versuch: Größen, Abstände und Beschriftungen sollen auch nach dem Sichern vollständig erhalten bleiben.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNTQwIDIwMCI+PHJlY3Qgd2lkdGg9IjU0MCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNmMmY1ZjMiLz48cGF0aCBkPSJNMzUgMjVWMTY1SDUwNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNzM4MTc5IiBzdHJva2Utd2lkdGg9IjMiLz48cmVjdCB4PSI2NSIgeT0iMTMxIiB3aWR0aD0iNDUiIGhlaWdodD0iMzQiIGZpbGw9IiM3ZDlhODgiLz48cmVjdCB4PSIxNTAiIHk9IjEwOCIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjU3IiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMjM1IiB5PSI4NSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjgwIiBmaWxsPSIjN2Q5YTg4Ii8+PHJlY3QgeD0iMzIwIiB5PSI2MiIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjEwMyIgZmlsbD0iIzdkOWE4OCIvPjxyZWN0IHg9IjQwNSIgeT0iMzkiIHdpZHRoPSI0NSIgaGVpZ2h0PSIxMjYiIGZpbGw9IiM3ZDlhODgiLz48L3N2Zz4=",
+      "imageAlt": "Testdiagramm zu Beobachtung 7: fünf unterschiedlich hohe Balken."
+    },
+    {
+      "id": 8,
+      "title": "Beobachtung 8",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 9,
+      "title": "Beobachtung 9",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    },
+    {
+      "id": 10,
+      "title": "Beobachtung 10",
+      "text": "Diese Karte enthält eine längere technische Beobachtung. Prüft beim Lesen auch Umlaute wie Ä, Ö und Ü, das ß sowie Zeichen wie „…“, € und ±."
+    },
+    {
+      "id": 11,
+      "title": "Beobachtung 11",
+      "text": "Verschiebt diese Karte an eine andere Stelle. Überlegt gemeinsam, welche Verbindung ihr zeigen möchtet. Die Zahl hilft nur beim Wiederfinden und gibt keine richtige Reihenfolge vor."
+    },
+    {
+      "id": 12,
+      "title": "Beobachtung 12",
+      "text": "Ein kurzer Text zum Ordnen und Vergleichen."
+    }
+  ],
+  "initial": {
+    "cards": [
+      {
+        "id": 1,
+        "x": 0,
+        "y": 0,
+        "color": 1
+      },
+      {
+        "id": 2,
+        "x": 530,
+        "y": 0,
+        "color": 2
+      },
+      {
+        "id": 3,
+        "x": 1060,
+        "y": 0,
+        "color": 3
+      },
+      {
+        "id": 4,
+        "x": 1590,
+        "y": 0,
+        "color": 4
+      },
+      {
+        "id": 5,
+        "x": 0,
+        "y": 570,
+        "color": 5
+      },
+      {
+        "id": 6,
+        "x": 530,
+        "y": 570,
+        "color": 0
+      },
+      {
+        "id": 7,
+        "x": 1060,
+        "y": 570,
+        "color": 1
+      },
+      {
+        "id": 8,
+        "x": 1590,
+        "y": 570,
+        "color": 2
+      },
+      {
+        "id": 9,
+        "x": 0,
+        "y": 1140,
+        "color": 3
+      },
+      {
+        "id": 10,
+        "x": 530,
+        "y": 1140,
+        "color": 4
+      },
+      {
+        "id": 11,
+        "x": 1060,
+        "y": 1140,
+        "color": 5
+      },
+      {
+        "id": 12,
+        "x": 1590,
+        "y": 1140,
+        "color": 0
+      }
+    ],
+    "edges": [
+      {
+        "id": 1,
+        "from": 1,
+        "to": 2,
+        "direction": 1,
+        "label": "spricht dagegen"
+      },
+      {
+        "id": 2,
+        "from": 1,
+        "to": 5,
+        "direction": 2,
+        "label": "könnte zusammenhängen"
+      },
+      {
+        "id": 3,
+        "from": 2,
+        "to": 3,
+        "direction": 0,
+        "label": "ergänzt"
+      },
+      {
+        "id": 4,
+        "from": 2,
+        "to": 6,
+        "direction": 1,
+        "label": "spricht dagegen"
+      },
+      {
+        "id": 5,
+        "from": 3,
+        "to": 4,
+        "direction": 2,
+        "label": "könnte zusammenhängen"
+      },
+      {
+        "id": 6,
+        "from": 3,
+        "to": 7,
+        "direction": 0,
+        "label": "ergänzt"
+      },
+      {
+        "id": 7,
+        "from": 4,
+        "to": 8,
+        "direction": 1,
+        "label": "spricht dagegen"
+      },
+      {
+        "id": 8,
+        "from": 5,
+        "to": 6,
+        "direction": 2,
+        "label": "könnte zusammenhängen"
+      },
+      {
+        "id": 9,
+        "from": 5,
+        "to": 9,
+        "direction": 0,
+        "label": "ergänzt"
+      }
+    ],
+    "categories": ["", "", "", "", "", ""]
+  }
+}

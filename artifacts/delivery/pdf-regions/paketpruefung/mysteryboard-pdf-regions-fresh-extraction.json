@@ -1,0 +1,16 @@
+[
+  {
+    "package": "public",
+    "sourceCommit": "bc93951d3d45a99a1bd65fd3e93cc79e5075f8d3",
+    "entriesChecked": 493,
+    "entryHashesChecked": 491,
+    "freshExtraction": "passed"
+  },
+  {
+    "package": "private",
+    "sourceCommit": "bc93951d3d45a99a1bd65fd3e93cc79e5075f8d3",
+    "entriesChecked": 426,
+    "entryHashesChecked": 424,
+    "freshExtraction": "passed"
+  }
+]

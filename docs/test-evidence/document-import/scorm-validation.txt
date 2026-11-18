@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "zipCrc": "passed",
+  "xmlWellFormed": true,
+  "scorm12ManifestAndLocalReferences": "passed",
+  "applicationByteIdentical": true,
+  "htmlSha256": "8fdd8fe9b960a14fa40baf2e9b8699f8fa22ad8eaf3fd5c44a62719eb515e40f",
+  "zipSha256": "17c5f153095c7524dc0de55eace7896df0c6a950a8f5537cf355300ee165b814",
+  "entries": [
+    "imsmanifest.xml",
+    "launch.html",
+    "session.js",
+    "app.html"
+  ],
+  "note": "XML parsing and explicit SCORM 1.2 contract checks; not ADL certification or an itslearning device test."
+}

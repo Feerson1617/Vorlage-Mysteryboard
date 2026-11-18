@@ -1,0 +1,28 @@
+{
+  "gitBase": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "branch": "feat/mysteryboard-prototype",
+  "r1ArchiveSha256": "695dd8e52b286dcf02fdbc0ddebb06a23941a0244752a00a117e7f59249b514c",
+  "r1BoardSha256": "a45e038eea587edfc21de213f4187864471b03da1d729af0af4f7cc6e9871b33",
+  "changedExistingFilesRelativeToR1": [
+    "artifacts/MysteryBoard-klein.html",
+    "artifacts/MysteryBoard-umfangreich.html",
+    "src/components/Board.tsx"
+  ],
+  "unchangedExistingTests": [
+    "tests/browser/corrections.spec.ts",
+    "tests/browser/prototype.spec.ts",
+    "tests/browser/review.spec.ts",
+    "tests/edge-id.test.ts",
+    "tests/fixtures/png.ts",
+    "tests/fixtures/review/60-90-Gruppenstand.png",
+    "tests/fixtures/review/README.md",
+    "tests/fixtures/review/Start-ID-1000000.png",
+    "tests/fixtures/review/stress-220.json",
+    "tests/history.test.ts",
+    "tests/limits.test.ts",
+    "tests/persistence.test.ts",
+    "tests/browser/r1.spec.ts"
+  ],
+  "noCommitsOrPublication": true,
+  "r1bBoardSha256": "c44c9f7d0a5517f20dda497ad291ddafef2280415c04f85f4cdc136079fcfd3d"
+}

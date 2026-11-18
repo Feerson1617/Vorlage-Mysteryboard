@@ -1,0 +1,133 @@
+{
+  "startedAt": "2026-11-11T14:14:19.492Z",
+  "status": "passed",
+  "engine": "chromium",
+  "expectedVersion": null,
+  "browserVersion": "156.0.8078.79",
+  "playwrightModule": "playwright",
+  "executable": "/usr/bin/chromium",
+  "suppliedSourceCommit": null,
+  "sourceCommitNote": "Supplied provenance; artifact hashes identify the actual tested bytes. This script does not attest a build-to-commit mapping.",
+  "scriptSha256": "b755f1bfe3691f9d19cd75b7cf916b9cc51adf8c3eecb863adfe61a28bf0d56c",
+  "htmlDir": "/workspace/Vorlage-Mysteryboard/artifacts",
+  "variants": [
+    {
+      "key": "small",
+      "html": "MysteryBoard-klein.html",
+      "htmlBytes": 457990,
+      "htmlSha256": "5eee3c8230d51a6a22bc1198843102345b4fe279000d6b130889ca26dd1b94c2",
+      "status": "passed",
+      "stage": "complete",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 384267,
+          "sha256": "acf8741d8113ee74ae9c5313c9bc02d2d83c5ad542b86780dac6cb44d6d6aab0"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 391392,
+          "sha256": "61cba04d3df751ac6bd143ee6ab82256708946e727f26f0f657cc7451a6768ae"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 391392,
+          "sha256": "61cba04d3df751ac6bd143ee6ab82256708946e727f26f0f657cc7451a6768ae"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 397846,
+          "sha256": "1dfe44cb3701ebe84ed576100017c9c542df558ed73115ea127505a27fc0bb7c"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": []
+    },
+    {
+      "key": "large",
+      "html": "MysteryBoard-umfangreich.html",
+      "htmlBytes": 490876,
+      "htmlSha256": "800eeaf7c086a15850980a77e0f517796d4e582dac7fb914b452a94c71bef36f",
+      "status": "passed",
+      "stage": "complete",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 805316,
+          "sha256": "9b3212baf6d1e79cef00a138bb2b69aff89693be5bc5c08688d9c83b04d9c8ce"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 811804,
+          "sha256": "546b1e20e742d2edb2bac7639817996193db32858ea915b2c1381b02fbd45d3f"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 811804,
+          "sha256": "546b1e20e742d2edb2bac7639817996193db32858ea915b2c1381b02fbd45d3f"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 812195,
+          "sha256": "fdec41250035c0f65bd65aef7b5d7bab840b176a8b3631f687a9fa96ae12bfd5"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": []
+    },
+    {
+      "key": "boden",
+      "html": "MysteryBoard-Boden-Klasse11.html",
+      "htmlBytes": 459540,
+      "htmlSha256": "4c451aec074a8cca75dd1879fce21ef5a6e0b32ce40b6af9412b9f70186540e8",
+      "status": "passed",
+      "stage": "complete",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 496410,
+          "sha256": "7278a7e35b34d5e4689f0e6042c6a81e51b9e55ad330bb4622405346f824688d"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 522267,
+          "sha256": "e894effcf01c82d322e6b04833aa2169a129b8b8c1ed5973208d4f5046816807"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 522267,
+          "sha256": "e894effcf01c82d322e6b04833aa2169a129b8b8c1ed5973208d4f5046816807"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 523232,
+          "sha256": "d482d252412c068ebd76694d2bb461b8cc87f8de1d4e63cf73f83c13846e4b4c"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": []
+    }
+  ],
+  "limitations": [
+    "Browser automation is not a managed school iPad or Canva acceptance.",
+    "Native taps use the selected engine. Delayed-click fault injection uses untrusted DOM events and is identified separately.",
+    "Only the exact local HTML document is fetched; all interaction and fresh-session import run offline.",
+    "The focused test does not replace the full regression suite or physical pinch/pan testing."
+  ],
+  "finishedAt": "2026-11-11T14:14:55.447Z"
+}

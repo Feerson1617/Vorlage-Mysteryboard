@@ -1,0 +1,70 @@
+[WebServer] (node:116626) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:116639) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 13:02:16] "GET / HTTP/1.1" 200 -
+
+Running 2 tests using 1 worker
+
+(node:116666) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 13:02:18] "GET /artifacts/delivery/pdf-regions/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/touch-stability.spec.ts:53:1 › Touch: 50 Moves und pointerup in demselben Task übernehmen die wirkliche Endposition (1.9s)
+(node:116812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 13:02:21] "GET /artifacts/delivery/pdf-regions/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  2 tests/browser/touch-stability.spec.ts:78:1 › Touch: wiederholte ResizeObserver-Meldung setzt eine aktive Ansicht nicht zurück (1.6s)
+
+
+  1) tests/browser/touch-stability.spec.ts:53:1 › Touch: 50 Moves und pointerup in demselben Task übernehmen die wirkliche Endposition 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 0.1
+    Received:   67
+
+      67 |   const after = await position(page);
+      68 |   await evidence(page, info, "race-50-moves-release", { before, after, expected: { x: before.x + 67 / before.z, y: before.y + 23 / before.z } });
+    > 69 |   expect(Math.abs(after.x - before.x - 67 / before.z) * before.z).toBeLessThan(.1);
+         |                                                                   ^
+      70 |   expect(Math.abs(after.y - before.y - 23 / before.z) * before.z).toBeLessThan(.1);
+      71 |   await expect(page.getByRole("dialog")).toHaveCount(0);
+      72 |   await button(page, "Rückgängig").click();
+        at /workspace/Mysteryboard-document-import/tests/browser/touch-stability.spec.ts:69:67
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/touch-stability-Touch-50-M-81fdc-n-die-wirkliche-Endposition/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/touch-stability-Touch-50-M-81fdc-n-die-wirkliche-Endposition/error-context.md
+
+  2) tests/browser/touch-stability.spec.ts:78:1 › Touch: wiederholte ResizeObserver-Meldung setzt eine aktive Ansicht nicht zurück 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0.6682396531105042
+    Received: 0.3953007161617279
+
+      89 |   const after = await position(page);
+      90 |   await evidence(page, info, "resize-observer-active", { before, after });
+    > 91 |   expect(after.z).toBe(before.z);
+         |                   ^
+      92 |   expect(after.screenX).toBe(before.screenX);
+      93 |   expect(after.screenY).toBe(before.screenY);
+      94 |   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+        at /workspace/Mysteryboard-document-import/tests/browser/touch-stability.spec.ts:91:19
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/touch-stability-Touch-wied-8e352-aktive-Ansicht-nicht-zurück/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/touch-stability-Touch-wied-8e352-aktive-Ansicht-nicht-zurück/error-context.md
+
+  2 failed
+    tests/browser/touch-stability.spec.ts:53:1 › Touch: 50 Moves und pointerup in demselben Task übernehmen die wirkliche Endposition 
+    tests/browser/touch-stability.spec.ts:78:1 › Touch: wiederholte ResizeObserver-Meldung setzt eine aktive Ansicht nicht zurück 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

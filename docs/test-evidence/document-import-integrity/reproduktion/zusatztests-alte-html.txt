@@ -1,0 +1,250 @@
+[WebServer] (node:335565) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:335578) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:40:13] "GET / HTTP/1.1" 200 -
+
+Running 5 tests using 1 worker
+
+(node:335606) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:40:15] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 1024x768: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download (11.0s)
+(node:335788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:40:27] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  2 tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 768x1024: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download (10.1s)
+(node:335973) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:40:38] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  3 tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 600x800: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download (10.2s)
+(node:336139) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:40:49] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  4 tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 320x700: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download (10.8s)
+(node:336371) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 09:41:01] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  5 tests/browser/document-import-integrity.spec.ts:172:1 › Unklare Zusammenführung warnt, Abbrechen erhält beide Karten; verschiedene Quellen bleiben im Download (9.9s)
+
+
+  1) tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 1024x768: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+
+    Error: mitten im Wort, Bild
+
+    expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'Kartentext', exact: true })
+    Timeout: 8000ms
+    - Expected  - 1
+    + Received  + 3
+
+    - Material 1
+    + Materia
+    +
+    + l 1
+
+    Call log:
+      - mitten im Wort, Bild getByRole('textbox', { name: 'Kartentext', exact: true }) with timeout 8000ms
+      - waiting for getByRole('textbox', { name: 'Kartentext', exact: true })
+        20 × locator resolved to <textarea rows="8">Materia↵↵l 1</textarea>
+           - unexpected value "Materia
+    
+    l 1"
+
+
+      115 |       ).toHaveCount(7);
+      116 |       await button(page, "Mit nächster Karte zusammenfügen").tap();
+    > 117 |       await expect(body, c.kind).toHaveValue(c.text);
+          |                                  ^
+      118 |       await expect(source, c.kind).toHaveValue(expected[c.card].source);
+      119 |       await expect(
+      120 |         page
+        at /workspace/Mysteryboard-document-import/tests/browser/document-import-integrity.spec.ts:117:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/document-import-integrity--f9d2a-twurf-und-Aufgaben-Download/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/document-import-integrity--f9d2a-twurf-und-Aufgaben-Download/error-context.md
+
+  2) tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 768x1024: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+
+    Error: mitten im Wort, Bild
+
+    expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'Kartentext', exact: true })
+    Timeout: 8000ms
+    - Expected  - 1
+    + Received  + 3
+
+    - Material 1
+    + Materia
+    +
+    + l 1
+
+    Call log:
+      - mitten im Wort, Bild getByRole('textbox', { name: 'Kartentext', exact: true }) with timeout 8000ms
+      - waiting for getByRole('textbox', { name: 'Kartentext', exact: true })
+        20 × locator resolved to <textarea rows="8">Materia↵↵l 1</textarea>
+           - unexpected value "Materia
+    
+    l 1"
+
+
+      115 |       ).toHaveCount(7);
+      116 |       await button(page, "Mit nächster Karte zusammenfügen").tap();
+    > 117 |       await expect(body, c.kind).toHaveValue(c.text);
+          |                                  ^
+      118 |       await expect(source, c.kind).toHaveValue(expected[c.card].source);
+      119 |       await expect(
+      120 |         page
+        at /workspace/Mysteryboard-document-import/tests/browser/document-import-integrity.spec.ts:117:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/document-import-integrity--92821-twurf-und-Aufgaben-Download/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/document-import-integrity--92821-twurf-und-Aufgaben-Download/error-context.md
+
+  3) tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 600x800: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+
+    Error: mitten im Wort, Bild
+
+    expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'Kartentext', exact: true })
+    Timeout: 8000ms
+    - Expected  - 1
+    + Received  + 3
+
+    - Material 1
+    + Materia
+    +
+    + l 1
+
+    Call log:
+      - mitten im Wort, Bild getByRole('textbox', { name: 'Kartentext', exact: true }) with timeout 8000ms
+      - waiting for getByRole('textbox', { name: 'Kartentext', exact: true })
+        20 × locator resolved to <textarea rows="8">Materia↵↵l 1</textarea>
+           - unexpected value "Materia
+    
+    l 1"
+
+
+      115 |       ).toHaveCount(7);
+      116 |       await button(page, "Mit nächster Karte zusammenfügen").tap();
+    > 117 |       await expect(body, c.kind).toHaveValue(c.text);
+          |                                  ^
+      118 |       await expect(source, c.kind).toHaveValue(expected[c.card].source);
+      119 |       await expect(
+      120 |         page
+        at /workspace/Mysteryboard-document-import/tests/browser/document-import-integrity.spec.ts:117:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/document-import-integrity--fe9cf-twurf-und-Aufgaben-Download/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/document-import-integrity--fe9cf-twurf-und-Aufgaben-Download/error-context.md
+
+  4) tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 320x700: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+
+    Error: mitten im Wort, Bild
+
+    expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'Kartentext', exact: true })
+    Timeout: 8000ms
+    - Expected  - 1
+    + Received  + 3
+
+    - Material 1
+    + Materia
+    +
+    + l 1
+
+    Call log:
+      - mitten im Wort, Bild getByRole('textbox', { name: 'Kartentext', exact: true }) with timeout 8000ms
+      - waiting for getByRole('textbox', { name: 'Kartentext', exact: true })
+        20 × locator resolved to <textarea rows="8">Materia↵↵l 1</textarea>
+           - unexpected value "Materia
+    
+    l 1"
+
+
+      115 |       ).toHaveCount(7);
+      116 |       await button(page, "Mit nächster Karte zusammenfügen").tap();
+    > 117 |       await expect(body, c.kind).toHaveValue(c.text);
+          |                                  ^
+      118 |       await expect(source, c.kind).toHaveValue(expected[c.card].source);
+      119 |       await expect(
+      120 |         page
+        at /workspace/Mysteryboard-document-import/tests/browser/document-import-integrity.spec.ts:117:34
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/document-import-integrity--cce48-twurf-und-Aufgaben-Download/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/document-import-integrity--cce48-twurf-und-Aufgaben-Download/error-context.md
+
+  5) tests/browser/document-import-integrity.spec.ts:172:1 › Unklare Zusammenführung warnt, Abbrechen erhält beide Karten; verschiedene Quellen bleiben im Download 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: 'Kartentext', exact: true })
+    Timeout: 8000ms
+    - Expected  - 0
+    + Received  + 8
+
+      Material 3: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten.
+    +
+    + Karte 4: Material 4
+    +
+    + Material 4: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten.
+    +
+    + Erste Beobachtung: 0,25 L.
+    +
+    + Zweite Beobachtung: 2,0 mg/L.
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: 'Kartentext', exact: true }) with timeout 8000ms
+      - waiting for getByRole('textbox', { name: 'Kartentext', exact: true })
+        20 × locator resolved to <textarea rows="8">Material 3: Vergleicht die dokumentierten Angaben…</textarea>
+           - unexpected value "Material 3: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten.
+    
+    Karte 4: Material 4
+    
+    Material 4: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten.
+    
+    Erste Beobachtung: 0,25 L.
+    
+    Zweite Beobachtung: 2,0 mg/L."
+
+
+      187 |   });
+      188 |   await button(page, "Mit nächster Karte zusammenfügen").tap();
+    > 189 |   await expect(body).toHaveValue(before);
+          |                      ^
+      190 |   await expect(source).toHaveValue(original.B[2].source);
+      191 |   page.once("dialog", (d) => d.accept());
+      192 |   await button(page, "Mit nächster Karte zusammenfügen").tap();
+        at /workspace/Mysteryboard-document-import/tests/browser/document-import-integrity.spec.ts:189:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/document-import-integrity--cd078-Quellen-bleiben-im-Download/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/document-import-integrity--cd078-Quellen-bleiben-im-Download/error-context.md
+
+  5 failed
+    tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 1024x768: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+    tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 768x1024: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+    tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 600x800: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+    tests/browser/document-import-integrity.spec.ts:49:3 › Split/Merge 320x700: originale Zeichen, Quellen, Bilder, Tabelle und V-Karte im echten Entwurf und Aufgaben-Download 
+    tests/browser/document-import-integrity.spec.ts:172:1 › Unklare Zusammenführung warnt, Abbrechen erhält beide Karten; verschiedene Quellen bleiben im Download 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

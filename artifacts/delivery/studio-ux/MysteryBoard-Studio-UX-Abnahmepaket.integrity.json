@@ -1,0 +1,16 @@
+{
+  "file": "MysteryBoard-Studio-UX-Abnahmepaket.zip",
+  "bytes": 29290947,
+  "sha256": "1917c8c96d80b783c96311a6c7367bd0ce9517fa98704ec803bfedaa149f0f60",
+  "entries": 711,
+  "zipCRC": "passed",
+  "entrySHA256": "passed",
+  "applicationSourceCommit": "b5788140e968e60510c85a3c9e4b49480d4ec6f7",
+  "sealedSourceRebuild": "passed; see Paketpruefung.json",
+  "nativeWorkflow": "https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44126057507",
+  "nativeCheckpoints": 23,
+  "pngOriginalComparisons": 9,
+  "browserRegressionTests": 272,
+  "dataTests": 177,
+  "frozenRC2Tests": 4
+}

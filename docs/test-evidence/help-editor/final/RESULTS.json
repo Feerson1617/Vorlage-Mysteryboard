@@ -1,0 +1,70 @@
+{
+  "baseCommit": "d7b41c20a8d773248f71f858ce18f5ce1b5c51d8",
+  "branch": "feat/mysteryboard-help-editor-final",
+  "unit": {
+    "passed": 107,
+    "failed": 0
+  },
+  "browser": {
+    "total": 169,
+    "passed": 169,
+    "failed": 0,
+    "flaky": 0,
+    "skipped": 0
+  },
+  "rc2": {
+    "passed": 4,
+    "failed": 0,
+    "initialAttempt": "3 passed / 1 failed; preserved in rc2-first-attempt.txt; focused repeat passed; final complete run 4 passed"
+  },
+  "newCompleteFlows": {
+    "cardCounts": [
+      12,
+      60
+    ],
+    "viewports": [
+      [
+        1024,
+        768
+      ],
+      [
+        768,
+        1024
+      ],
+      [
+        600,
+        800
+      ],
+      [
+        320,
+        700
+      ]
+    ],
+    "passed": 8
+  },
+  "independentBlackBox": {
+    "status": "passed",
+    "applicationModulesImported": false,
+    "actualHtmlAndScorm": true,
+    "checks": 10,
+    "screenshots": 13,
+    "a4a3Pdf": true,
+    "sixtyCardsAllViewports": true
+  },
+  "previewBefore": {
+    "bugReproduced": true,
+    "htmlSha256": "712fca95bff6501839df4085d5beda43a04a3a1485af1e6227d66e6ad8bebbe5",
+    "pngBytes": 739342,
+    "pngSha256": "83421ac0b64054ecf3f381fb1c2921d4c57046428fc45c9bd20fa01dd0de7beb"
+  },
+  "previewAfter": {
+    "bugReproduced": false,
+    "saveUnavailable": true,
+    "importUnavailable": true,
+    "htmlSha256": "57bc035ce569fdfa84b07dd6a25c2fa47698819f5fefeb795e2d4420fccf9184"
+  },
+  "webkit26_5": "open: unavailable",
+  "webkit27_2": "open: host libraries missing",
+  "realSafariSchoolIpadItslearningCanva": "open",
+  "schoolApproval": false
+}

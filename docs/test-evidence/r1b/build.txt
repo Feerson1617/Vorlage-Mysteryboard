@@ -1,0 +1,35 @@
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && vite build --mode small --outDir dist/small && vite build --mode large --outDir dist/large && node scripts/check-build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-DSP0sI1O.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/small/index.html  433.45 kB │ gzip: 148.15 kB
+
+✓ built in 2.36s
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-DxVDuyQw.js
+[plugin vite:singlefile] Inlining: style-CShkdJYE.css
+computing gzip size...
+dist/large/index.html  466.33 kB │ gzip: 152.72 kB
+
+✓ built in 305ms
+small: 452.210 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 485.096 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

@@ -1,0 +1,36 @@
+{
+  "dateUtc": "2026-11-14",
+  "unit": {
+    "passed": 93,
+    "failed": 0
+  },
+  "browser": {
+    "total": 150,
+    "expected": 150,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "rc2": {
+    "passed": 4,
+    "failed": 0
+  },
+  "baseUnitTests": 73,
+  "baseBrowserTests": 137,
+  "newUnitTests": 20,
+  "newBrowserTests": 13,
+  "browserVersion": "Chromium 156.0.8078.79",
+  "fullCheck": "CLASSROOM_SCORM=1 npm run check",
+  "nativeSystemPrintDialog": "not available: managed PrintingEnabled policy",
+  "pdfProof": "Actual Chromium PDF bytes and Poppler validation; not Safari printing",
+  "webkit27_2": "downloaded, launch blocked by missing host libraries",
+  "webkit26_5": "not available",
+  "realSafariSchoolIpadItslearningCanva": "open",
+  "classroomRelease": false,
+  "freshExtractedProjectBuild": {
+    "status": "passed",
+    "htmlAndScormByteIdentical": true,
+    "log": "project-extraction-final.txt"
+  }
+}

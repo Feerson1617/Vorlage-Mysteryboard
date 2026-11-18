@@ -1,0 +1,82 @@
+{
+  "baseline": "e14a09273be38c5501dc36ff3a7b819de298cd3a",
+  "protected": [
+    {
+      "path": "artifacts/MysteryBoard-Boden-Klasse11.html",
+      "bytes": 459542,
+      "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+      "bytes": 459542,
+      "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+      "bytes": 158755,
+      "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0",
+      "unchanged": true
+    },
+    {
+      "path": "artifacts/RC2-integrity.json",
+      "bytes": 1087,
+      "sha256": "ac6f668a01ef548c302e5bbedc0f15a42d7cc511e4f3db98b5bfc406331901d6",
+      "unchanged": true
+    },
+    {
+      "path": "src/content/boden-klasse11.json",
+      "bytes": 8445,
+      "sha256": "44419be70fa5173529b25ffdb58818b733d95330f5b81cadb3edd5c589d4a4c5",
+      "unchanged": true
+    },
+    {
+      "path": "src/components/Board.tsx",
+      "bytes": 17680,
+      "sha256": "61778349129a1f991a5f08c8ab7c6a4f553406534583495d69821ba29141e50e",
+      "unchanged": true
+    },
+    {
+      "path": "src/core/history.ts",
+      "bytes": 1960,
+      "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+      "unchanged": true
+    },
+    {
+      "path": "src/core/codec.ts",
+      "bytes": 4546,
+      "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+      "unchanged": true
+    }
+  ],
+  "unchangedExistingTestFiles": 37,
+  "strengthenedTests": [
+    "tests/browser/ordered-help.spec.ts"
+  ],
+  "testPatch": "diff --git a/tests/browser/ordered-help.spec.ts b/tests/browser/ordered-help.spec.ts\nindex 6d4a74d..90ed2cf 100644\n--- a/tests/browser/ordered-help.spec.ts\n+++ b/tests/browser/ordered-help.spec.ts\n@@ -451,6 +451,13 @@ test(\"Allgemeiner Impuls ohne Hilfemetadaten, Tastatur und breite Werkzeugleiste\n   await expect(page.getByRole(\"dialog\")).toHaveCount(0);\n   await expect(btn(page, \"Hilfe\")).toBeFocused();\n   await page.setViewportSize({ width: 320, height: 700 });\n+  // Wait for the responsive toolbar to settle before choosing its new entry.\n+  // Otherwise the helper can select the old button just as React removes it.\n+  await expect(\n+    page\n+      .locator(\".toolbar\")\n+      .getByRole(\"button\", { name: \"Hilfe\", exact: true }),\n+  ).toHaveCount(0);\n   await help(page, true);\n   await page.keyboard.press(\"Escape\");\n   await expect(page.getByRole(\"dialog\")).toHaveCount(0);\n",
+  "remoteReadOnly": "e14a09273be38c5501dc36ff3a7b819de298cd3a\trefs/heads/feat/mysteryboard-template-print-integration\n1fa1fff81e5e19b7031130c8d034a77d9e1ace61\trefs/heads/main\ne25fa3fc483f1cd181f31960c9fe575fe358ec69\trefs/tags/unterricht-2026-11-13-rc2\n2c39d5427dc7cbd03558657d62821823949ac170\trefs/tags/unterricht-2026-11-13-rc2^{}\n",
+  "otherWorktrees": {
+    "Vorlage-Mysteryboard": {
+      "head": "2c39d5427dc7cbd03558657d62821823949ac170",
+      "clean": true
+    },
+    "Mysteryboard-integration": {
+      "head": "e14a09273be38c5501dc36ff3a7b819de298cd3a",
+      "clean": true
+    },
+    "Mysteryboard-print": {
+      "head": "30ecd1d814b4510a689c7b5d44ad1dd6609849f1",
+      "clean": true
+    },
+    "Mysteryboard-template": {
+      "head": "3454f97c513a6c657256623c08e11d9f93f8b09a",
+      "clean": true
+    },
+    "Mysteryboard-unterricht-pages": {
+      "head": "0a1536e1121e4cbb6f8501c120a9ae36af821346",
+      "clean": true
+    }
+  },
+  "currentBranch": "feat/mysteryboard-universal-authoring"
+}

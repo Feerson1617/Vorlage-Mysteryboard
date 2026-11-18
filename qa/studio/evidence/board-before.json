@@ -1,0 +1,8 @@
+{
+  "commit": "39ff7853293b49c4aba180b49cf5331e26df96e7",
+  "method": "Built Studio renderer in Chromium; existing project; injected pointerdown, then displaced pointerup; no pointermove",
+  "before": [0, 0],
+  "expected": [110.88, 58.84],
+  "actual": [0, 0],
+  "testExitCode": 1
+}

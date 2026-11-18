@@ -1,0 +1,8 @@
+{
+  "webkit26_5": "not installed",
+  "webkit27_2": {
+    "path": "/workspace/mysteryboard-browsers/webkit-2388/pw_run.sh",
+    "status": "blocked by missing host libraries",
+    "error": "browserType.launch: Target page, context or browser has been closed\nBrowser logs:\n\n<launching> /workspace/mysteryboard-browsers/webkit-2388/pw_run.sh --inspector-pipe --headless --no-startup-window\n<launched> pid=109164\n[pid=109164][err] /workspace/mysteryboard-browsers/webkit-2388/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory\nCall log:\n\u001b[2m  - <launching> /workspace/mysteryboard-browsers/webkit-2388/pw_run.sh --inspector-pipe --headless --no-startup-window\u001b[22m\n\u001b[2m  - <launched> pid=109164\u001b[22m\n\u001b[2m  - [pid=109164][err] /workspace/mysteryboard-browsers/webkit-2388/minibrowser-wpe/bin/MiniBrowser: error while loading shared libraries: libharfbuzz-icu.so.0: cannot open shared object file: No such file or directory\u001b[22m\n\u001b[2m  - [pid=109164] <gracefully close start>\u001b[22m\n\u001b[2m  - [pid=109164] <kill>\u001b[22m\n\u001b[2m  - [pid=109164] <will force kill>\u001b[22m\n\u001b[2m  - [pid=109164] exception while trying to kill process: Error: kill ESRCH\u001b[22m\n\u001b[2m  - [pid=109164] <process did exit: exitCode=127, signal=null>\u001b[22m\n\u001b[2m  - [pid=109164] starting temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=109164] finished temporary directories cleanup\u001b[22m\n\u001b[2m  - [pid=109164] <gracefully close end>\u001b[22m\n"
+  }
+}

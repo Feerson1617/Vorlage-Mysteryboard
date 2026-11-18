@@ -1,0 +1,118 @@
+[WebServer] (node:51033) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:51046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:20:37] "GET / HTTP/1.1" 200 -
+
+Running 3 tests using 1 worker
+
+(node:51072) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:20:42] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/review.spec.ts:32:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung (7.0s)
+(node:51217) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:20:50] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  2 tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) (10.3s)
+(node:51374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:21:02] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✘  3 tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) (9.8s)
+
+
+  1) tests/browser/review.spec.ts:32:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung
+
+    Error: Der Arbeitsstand ist unvollständig oder enthält ungültige Daten.
+
+       at ../../src/core/model.ts:73
+
+      71 |   const { cards, edges, categories } = value;
+      72 |   const fail = () => {
+    > 73 |     throw new Error(
+         |           ^
+      74 |       "Der Arbeitsstand ist unvollständig oder enthält ungültige Daten.",
+      75 |     );
+      76 |   };
+        at fail (/workspace/Vorlage-Mysteryboard/src/core/model.ts:73:11)
+        at validateWork (/workspace/Vorlage-Mysteryboard/src/core/model.ts:121:14)
+        at unpackWork (/workspace/Vorlage-Mysteryboard/src/core/codec.ts:60:12)
+        at restorePng (/workspace/Vorlage-Mysteryboard/src/core/png.ts:104:10)
+        at /workspace/Vorlage-Mysteryboard/tests/browser/review.spec.ts:53:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-M2-Original-ID-Gren-1f91c-d-frische-Wiederherstellung/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-M2-Original-ID-Gren-1f91c-d-frische-Wiederherstellung/error-context.md
+
+  2) tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) ─
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator:  getByRole('dialog')
+    Expected: "Verbindung 1 und 2"
+    Received: "Verbindung 1 und 3"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAccessibleName" getByRole('dialog') with timeout 8000ms
+      - waiting for getByRole('dialog')
+        20 × locator resolved to <dialog open="" aria-label="Verbindung 1 und 3">…</dialog>
+           - unexpected value "Verbindung 1 und 3"
+
+
+      85 |     };
+      86 |     await tap();
+    > 87 |     await expect(page.getByRole('dialog')).toHaveAccessibleName('Verbindung 1 und 2');
+         |                                            ^
+      88 |     await page.getByLabel('Beschriftung').fill('Gezielt geändert');
+      89 |     await btn(page,'Übernehmen').click();
+      90 |     await tap();
+        at /workspace/Vorlage-Mysteryboard/tests/browser/review.spec.ts:87:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-M1-sichtbares-Label-8a47d-uzender-Trefferfläche-Maus-/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-M1-sichtbares-Label-8a47d-uzender-Trefferfläche-Maus-/error-context.md
+
+  3) tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch)
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator:  getByRole('dialog')
+    Expected: "Verbindung 1 und 2"
+    Received: "Verbindung 1 und 3"
+    Timeout:  8000ms
+
+    Call log:
+      - Expect "toHaveAccessibleName" getByRole('dialog') with timeout 8000ms
+      - waiting for getByRole('dialog')
+        17 × locator resolved to <dialog open="" aria-label="Verbindung 1 und 3">…</dialog>
+           - unexpected value "Verbindung 1 und 3"
+
+
+      85 |     };
+      86 |     await tap();
+    > 87 |     await expect(page.getByRole('dialog')).toHaveAccessibleName('Verbindung 1 und 2');
+         |                                            ^
+      88 |     await page.getByLabel('Beschriftung').fill('Gezielt geändert');
+      89 |     await btn(page,'Übernehmen').click();
+      90 |     await tap();
+        at /workspace/Vorlage-Mysteryboard/tests/browser/review.spec.ts:87:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/review-M1-sichtbares-Label-a8989-zender-Trefferfläche-Touch-/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/review-M1-sichtbares-Label-a8989-zender-Trefferfläche-Touch-/error-context.md
+
+  3 failed
+    tests/browser/review.spec.ts:32:1 › M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung
+    tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Maus) ──
+    tests/browser/review.spec.ts:73:3 › M1 sichtbares Label statt kreuzender Trefferfläche (Touch) ─
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

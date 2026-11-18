@@ -1,0 +1,97 @@
+
+> mysteryboard-prototype@0.1.0 test:rc2
+> playwright test --config playwright.rc2.config.ts
+
+
+Running 4 tests using 1 worker
+
+(node:257539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/release/rc2.spec.ts:268:5 › RC2-HTML 1024x768: vollständiger Offline-Unterrichtsablauf (3.0m)
+(node:260557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 tests/release/rc2.spec.ts:268:5 › RC2-HTML 768x1024: vollständiger Offline-Unterrichtsablauf (23.3s)
+
+
+  1) tests/release/rc2.spec.ts:268:5 › RC2-HTML 1024x768: vollständiger Offline-Unterrichtsablauf ──
+
+    Test timeout of 180000ms exceeded.
+
+    Error: locator.selectOption: Test ended.
+    Call log:
+      - waiting for getByLabel('Richtung', { exact: true })
+
+
+      401 |         expected.categories[2] = "Eigene Gruppe";
+      402 |         await connection(app);
+    > 403 |         await app.getByLabel("Beschriftung").fill("Eigene Verbindung");
+          |                                                           ^
+      404 |         await app.getByLabel("Richtung", { exact: true }).selectOption("1");
+      405 |         await button(app, "Übernehmen").tap();
+      406 |         await connection(app);
+        at /workspace/Vorlage-Mysteryboard/tests/release/rc2.spec.ts:403:59
+
+    attachment #1: 01-startanordnung (image/png) ───────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/attachments/01-startanordnung-2963ac2d3adbe839710edd6208eafe06b793665c.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: karte-8 (image/png) ─────────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/attachments/karte-8-8c0f6fbac79156d0e0a70cdd4df7318576a4cfb1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: karte-13 (image/png) ────────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/attachments/karte-13-efdc8bbba5b67a64914d158d072cfa6507b7042c.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/error-context.md
+
+    Error Context: test-results-rc2/run/rc2-RC2-HTML-1024x768-voll-7d244-r-Offline-Unterrichtsablauf/error-context.md
+
+  2) tests/release/rc2.spec.ts:268:5 › RC2-HTML 768x1024: vollständiger Offline-Unterrichtsablauf ──
+
+    Test was interrupted.
+
+    Error: locator.selectOption: Test ended.
+    Call log:
+      - waiting for getByLabel('Richtung', { exact: true })
+
+
+      401 |         expected.categories[2] = "Eigene Gruppe";
+      402 |         await connection(app);
+    > 403 |         await app.getByLabel("Beschriftung").fill("Eigene Verbindung");
+          |                                                           ^
+      404 |         await app.getByLabel("Richtung", { exact: true }).selectOption("1");
+      405 |         await button(app, "Übernehmen").tap();
+      406 |         await connection(app);
+        at /workspace/Vorlage-Mysteryboard/tests/release/rc2.spec.ts:403:59
+
+    attachment #1: 01-startanordnung (image/png) ───────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-768x1024-voll-34aea-r-Offline-Unterrichtsablauf/attachments/01-startanordnung-8f803204002cc2639ef06f9fac6631d688b2d5e2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: karte-8 (image/png) ─────────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-768x1024-voll-34aea-r-Offline-Unterrichtsablauf/attachments/karte-8-5d2b35005c9f1fc7e7b0011aa4ad5fa76d65baae.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: karte-13 (image/png) ────────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-768x1024-voll-34aea-r-Offline-Unterrichtsablauf/attachments/karte-13-f4568d94268f1092593f37d49987691f3e1d1b98.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results-rc2/run/rc2-RC2-HTML-768x1024-voll-34aea-r-Offline-Unterrichtsablauf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/release/rc2.spec.ts:268:5 › RC2-HTML 1024x768: vollständiger Offline-Unterrichtsablauf ───
+  1 interrupted
+    tests/release/rc2.spec.ts:268:5 › RC2-HTML 768x1024: vollständiger Offline-Unterrichtsablauf ───
+  2 did not run
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

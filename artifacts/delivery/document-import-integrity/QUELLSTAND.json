@@ -1,0 +1,29 @@
+{
+  "repository": "Feerson1617/Vorlage-Mysteryboard",
+  "sourceBranch": "feat/mysteryboard-document-import-integrity",
+  "baseCommit": "8418a445248893c2ba01bea673d84febcdf36537",
+  "sourceCommit": "059bc50b7a2d58924264df1cd734697f0157feae",
+  "files": [
+    {
+      "file": "MysteryBoard-Dokumentimport-Abnahmepaket.zip",
+      "bytes": 24036559,
+      "sha256": "5d6536c876340d70c82d9365ca6bfc1e7e851f38a9ad9347855329189600064f"
+    },
+    {
+      "file": "MysteryBoard-Universal-Projektvorlage.zip",
+      "bytes": 31259043,
+      "sha256": "9c62deb2e10a3c5d7da007746e8c54a9cfa3a34c767742234e1f23c0078d6c3b"
+    },
+    {
+      "file": "MysteryBoard-Universal.html",
+      "bytes": 5564484,
+      "sha256": "55d3b4b5bc23e0e4070629a5e08488f34b685e157ead5144024a05f25183ec03"
+    },
+    {
+      "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+      "bytes": 2779368,
+      "sha256": "d603dcbec91ce0ddb57327b2c18016b6498b306995ac620c3a79f41bc65494ef"
+    }
+  ],
+  "schoolApproval": false
+}

@@ -1,0 +1,23 @@
+[WebServer] (node:302038) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:302051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 08:09:27] "GET / HTTP/1.1" 200 -
+
+Running 3 tests using 1 worker
+
+(node:302078) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 08:09:29] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/document-import.spec.ts:319:1 › PDF D/E/G: komplexe Seiten, echter Ausschnitt, Scan ohne OCR und seitenübergreifender Text (7.5s)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 08:09:37] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/document-import.spec.ts:415:1 › Fehler, aktive Inhalte, Abbruch und Ersatzbestätigung lassen den vorhandenen Entwurf unverändert; keine Fremdanfragen (10.2s)
+[WebServer] 127.0.0.1 - - [15/Nov/2026 08:09:47] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/document-import.spec.ts:495:1 › Bestehendes Mystery ergänzen und ein neues Mystery bewusst erstellen bleiben getrennte, versionierte Vorgänge (3.8s)
+
+  3 passed (24.2s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

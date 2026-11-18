@@ -1,0 +1,9 @@
+# Ergänzende Versuche
+
+Der erste gezielte Testlauf verwendete einen nicht vorhandenen CSS-Klassenselektor für Verbindungsbeschriftungen. Dieser wurde auf das bestehende data-edge-label-Attribut korrigiert. Ein neuer Datentest erwartete zunächst V3 statt der tatsächlich durch das unveränderte Datenmodell definierten V12; die Erwartung wurde korrigiert. Beide Fehler betrafen neue Testannahmen, keine Anwendungskorrektur.
+
+Der erste parallele RC2-Lauf: 3/4 bestanden; nach simulierter Kartenbewegung war die Undo-Wirkung beim unmittelbaren Zustandsvergleich noch nicht sichtbar. RC2-HTML und Quellcode wurden nicht geändert. Gezielte Wiederholung: 1/1 bestanden. Danach kompletter RC2-Lauf: siehe rc2.txt. Der erste Fehlversuch bleibt mit vollständigem Log und JSON dokumentiert. Aus diesem nicht erneut reproduzierten Befund wird keine Änderung an der eingefrorenen Unterrichtsversion abgeleitet. Reales Touch-Verhalten bleibt Teil der notwendigen Geräteprüfung.
+
+Der erweiterte Blackbox-Prüfer konnte im ersten 60-Karten-Lauf nach unmittelbar aufeinanderfolgenden CDP-Gesten und realem Button-Tipp die Vorschau nicht schließen. Sein CDP-Helfer wartet nun nach touchEnd auf zwei abgeschlossene Browser-Frames, bevor eine neue separate Button-Geste beginnt. Das ist eine Synchronisierung der Testeingabe, keine Änderung oder Abschwächung der Board-Ereignisbehandlung. Die vollständigen nachfolgenden Zustands-, Download- und Wiederherstellungsassertions bleiben erhalten. Der wiederholte gesamte Blackbox-Lauf bestand bei 12 Karten sowie 60 Karten in allen vier Ansichten. Die tatsächliche finale Abnahme-ZIP wird nochmals kalt ausgeführt.
+
+Alle finalen Testergebnisse und offenen Engines sind separat in RESULTS.json dokumentiert. Frühere Zwischenläufe sind keine zusätzlichen bestandenen Regressionstests.

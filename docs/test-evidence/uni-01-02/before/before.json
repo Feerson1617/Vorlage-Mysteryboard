@@ -1,0 +1,205 @@
+{
+  "generatedAt": "2026-11-11T12:36:16.563Z",
+  "browser": "156.0.8078.79",
+  "inputs": [
+    {
+      "file": "MysteryBoard-klein.html",
+      "bytes": 456776,
+      "sha256": "239ef346ca94538281835f5e38c363bda60e00b961a17880a89f78ca694aecff"
+    },
+    {
+      "file": "MysteryBoard-umfangreich.html",
+      "bytes": 489662,
+      "sha256": "c15b75b5143c9c39f9396e57432cf9087b8f225115dd6a08f93d1f49f1f8f5f8"
+    },
+    {
+      "file": "MysteryBoard-Boden-Klasse11.html",
+      "bytes": 458326,
+      "sha256": "2ed5f9a654089f643075cedb1a62e5a734be1d9cb4cb88b9c53b188cb7309d1c"
+    }
+  ],
+  "nameless": [
+    {
+      "variant": "empty-start",
+      "startCards": 18,
+      "schema": 1,
+      "mystery": "geo11-boden-ploen-2026",
+      "version": "2.0.0",
+      "cards": 18,
+      "team": "",
+      "bytes": 1258686,
+      "sha256": "e646768f5c8ee379e874b220e28d9e1e0cd433f5b89a947e4a2e1c1645577ddd",
+      "freshImportCards": 18,
+      "freshImportTeamElements": 0
+    },
+    {
+      "variant": "empty-change",
+      "startCards": 18,
+      "schema": 1,
+      "mystery": "geo11-boden-ploen-2026",
+      "version": "2.0.0",
+      "cards": 18,
+      "team": "",
+      "bytes": 1258686,
+      "sha256": "e646768f5c8ee379e874b220e28d9e1e0cd433f5b89a947e4a2e1c1645577ddd",
+      "freshImportCards": 18,
+      "freshImportTeamElements": 0
+    },
+    {
+      "variant": "whitespace-change",
+      "startCards": 18,
+      "schema": 1,
+      "mystery": "geo11-boden-ploen-2026",
+      "version": "2.0.0",
+      "cards": 18,
+      "team": "",
+      "bytes": 1258686,
+      "sha256": "e646768f5c8ee379e874b220e28d9e1e0cd433f5b89a947e4a2e1c1645577ddd",
+      "freshImportCards": 18,
+      "freshImportTeamElements": 0
+    }
+  ],
+  "layout": [
+    {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "text": "Emma, Leon und Mia",
+      "team": {
+        "x": 20,
+        "y": 42,
+        "width": 124,
+        "height": 14,
+        "right": 144,
+        "bottom": 56
+      },
+      "toolbar": {
+        "x": 0,
+        "y": 0,
+        "width": 768,
+        "height": 74,
+        "right": 768,
+        "bottom": 74
+      },
+      "nav": {
+        "x": 200.078125,
+        "y": 12.5,
+        "width": 551.921875,
+        "height": 48,
+        "right": 752,
+        "bottom": 60.5
+      },
+      "clientWidth": 124,
+      "scrollWidth": 124,
+      "textBounds": {
+        "x": 20,
+        "y": 42,
+        "width": 114.0625,
+        "right": 134.0625
+      },
+      "style": {
+        "overflow": "hidden",
+        "textOverflow": "ellipsis"
+      },
+      "clipped": false,
+      "leftHalf": true,
+      "separateNameRow": false,
+      "pageWidth": 768
+    },
+    {
+      "viewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "text": "Emma, Leon und Mia",
+      "team": {
+        "x": 20,
+        "y": 42,
+        "width": 124,
+        "height": 14,
+        "right": 144,
+        "bottom": 56
+      },
+      "toolbar": {
+        "x": 0,
+        "y": 0,
+        "width": 1024,
+        "height": 74,
+        "right": 1024,
+        "bottom": 74
+      },
+      "nav": {
+        "x": 456.078125,
+        "y": 12.5,
+        "width": 551.921875,
+        "height": 48,
+        "right": 1008,
+        "bottom": 60.5
+      },
+      "clientWidth": 124,
+      "scrollWidth": 124,
+      "textBounds": {
+        "x": 20,
+        "y": 42,
+        "width": 114.0625,
+        "right": 134.0625
+      },
+      "style": {
+        "overflow": "hidden",
+        "textOverflow": "ellipsis"
+      },
+      "clipped": false,
+      "leftHalf": true,
+      "separateNameRow": false,
+      "pageWidth": 1024
+    },
+    {
+      "viewport": {
+        "width": 480,
+        "height": 800
+      },
+      "text": "Emma, Leon und Mia",
+      "team": {
+        "x": 8,
+        "y": 13,
+        "width": 464,
+        "height": 14,
+        "right": 472,
+        "bottom": 27
+      },
+      "toolbar": {
+        "x": 0,
+        "y": 0,
+        "width": 480,
+        "height": 92,
+        "right": 480,
+        "bottom": 92
+      },
+      "nav": {
+        "x": 8,
+        "y": 33,
+        "width": 464,
+        "height": 48,
+        "right": 472,
+        "bottom": 81
+      },
+      "clientWidth": 464,
+      "scrollWidth": 464,
+      "textBounds": {
+        "x": 8,
+        "y": 13,
+        "width": 114.0625,
+        "right": 122.0625
+      },
+      "style": {
+        "overflow": "hidden",
+        "textOverflow": "ellipsis"
+      },
+      "clipped": false,
+      "leftHalf": false,
+      "separateNameRow": true,
+      "pageWidth": 480
+    }
+  ]
+}

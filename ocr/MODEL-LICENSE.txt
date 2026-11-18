@@ -1,0 +1,5 @@
+German language data: @tesseract.js-data/deu 1.0.0, 4.0.0_best_int/deu.traineddata.gz.
+Upstream: https://github.com/tesseract-ocr/tessdata_best (deu, integer conversion).
+Tesseract trained language data are Apache License 2.0 (see Core-LICENSE.txt for full text).
+Package metadata declares MIT for the npm packaging; see README/package.json in the source lock.
+No English model is included. All processing is local, using the German LSTM model.

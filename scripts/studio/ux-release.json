@@ -1,0 +1,9 @@
+{
+  "product": "MysteryBoard Studio 0.2.0 – UX-Abnahmefassung",
+  "runtimeCommit": "b5788140e968e60510c85a3c9e4b49480d4ec6f7",
+  "nativeBuildSourceCommit": "db92059d88e9a38307f925e831ad8728505c2660",
+  "baseCommit": "8662d74628ccbc5015fdeb8c0a553765aaa25e05",
+  "branch": "feat/mysteryboard-studio-ux-simplification",
+  "macOSRun": "https://github.com/Feerson1617/Vorlage-Mysteryboard/actions/runs/44126057507",
+  "report": "STUDIO-UX-ABNAHMEBERICHT.md"
+}

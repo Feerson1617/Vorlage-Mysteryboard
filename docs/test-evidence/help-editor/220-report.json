@@ -1,0 +1,354 @@
+{
+  "pageCount": 56,
+  "issues": [],
+  "minimumTextPoints": 11.000025,
+  "pages": [
+    {
+      "page": 1,
+      "section": "overview",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 2,
+      "section": "cards",
+      "cards": 2,
+      "edges": 0
+    },
+    {
+      "page": 3,
+      "section": "cards",
+      "cards": 2,
+      "edges": 0
+    },
+    {
+      "page": 4,
+      "section": "cards",
+      "cards": 3,
+      "edges": 0
+    },
+    {
+      "page": 5,
+      "section": "cards",
+      "cards": 3,
+      "edges": 0
+    },
+    {
+      "page": 6,
+      "section": "cards",
+      "cards": 2,
+      "edges": 0
+    },
+    {
+      "page": 7,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 8,
+      "section": "cards",
+      "cards": 6,
+      "edges": 0
+    },
+    {
+      "page": 9,
+      "section": "cards",
+      "cards": 6,
+      "edges": 0
+    },
+    {
+      "page": 10,
+      "section": "cards",
+      "cards": 6,
+      "edges": 0
+    },
+    {
+      "page": 11,
+      "section": "cards",
+      "cards": 4,
+      "edges": 0
+    },
+    {
+      "page": 12,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 13,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 14,
+      "section": "cards",
+      "cards": 4,
+      "edges": 0
+    },
+    {
+      "page": 15,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 16,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 17,
+      "section": "cards",
+      "cards": 4,
+      "edges": 0
+    },
+    {
+      "page": 18,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 19,
+      "section": "cards",
+      "cards": 5,
+      "edges": 0
+    },
+    {
+      "page": 20,
+      "section": "cards",
+      "cards": 6,
+      "edges": 0
+    },
+    {
+      "page": 21,
+      "section": "cards",
+      "cards": 6,
+      "edges": 0
+    },
+    {
+      "page": 22,
+      "section": "cards",
+      "cards": 1,
+      "edges": 0
+    },
+    {
+      "page": 23,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 24,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 25,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 26,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 27,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 28,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 29,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 30,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 31,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 32,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 33,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 34,
+      "section": "images",
+      "cards": 0,
+      "edges": 0
+    },
+    {
+      "page": 35,
+      "section": "relations",
+      "cards": 0,
+      "edges": 7
+    },
+    {
+      "page": 36,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 37,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 38,
+      "section": "relations",
+      "cards": 0,
+      "edges": 9
+    },
+    {
+      "page": 39,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 40,
+      "section": "relations",
+      "cards": 0,
+      "edges": 9
+    },
+    {
+      "page": 41,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 42,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 43,
+      "section": "relations",
+      "cards": 0,
+      "edges": 9
+    },
+    {
+      "page": 44,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 45,
+      "section": "relations",
+      "cards": 0,
+      "edges": 8
+    },
+    {
+      "page": 46,
+      "section": "relations",
+      "cards": 0,
+      "edges": 11
+    },
+    {
+      "page": 47,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 48,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 49,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 50,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 51,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 52,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 53,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 54,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 55,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    },
+    {
+      "page": 56,
+      "section": "relations",
+      "cards": 0,
+      "edges": 12
+    }
+  ],
+  "previewReadyMilliseconds": 4296,
+  "key": "220",
+  "pdf": "/workspace/mysteryboard-help-evidence/final-print/MysteryBoard-Druck-220.pdf",
+  "bytes": 1192277,
+  "sha256": "2ebb55fef151aaf76b69b17fbc587449dbcca232b788067e9c8927593ce03502",
+  "pdfinfo": "Title:           Belastungsprobe · Einzugsgebiet – Druckfassung\nCreator:         Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36\nProducer:        Skia/PDF m156\nCreationDate:    Sat Nov 14 18:22:49 2026 UTC\nModDate:         Sat Nov 14 18:22:49 2026 UTC\nCustom Metadata: no\nMetadata Stream: no\nTagged:          no\nUserProperties:  no\nSuspects:        no\nForm:            none\nJavaScript:      no\nPages:           56\nEncrypted:       no\nPage size:       841.92 x 594.96 pts (A4)\nPage rot:        0\nFile size:       1192277 bytes\nOptimized:       no\nPDF version:     1.4\n",
+  "cards": 60,
+  "edges": 220,
+  "textExtraction": "All full card texts, titles, edge labels, categories and header strings present",
+  "browser": "156.0.8078.79",
+  "runtimePdfDependency": false
+}

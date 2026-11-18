@@ -1,0 +1,107 @@
+[WebServer] (node:162559) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:162572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 14:20:40] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:162600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 14:20:43] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/touch-stability.spec.ts:9:1 › Touch und Tastatur: Undo einer unbeteiligten Verbindung während eines Drags verwirft nur die Vorschau (3.1s)
+
+
+  1) tests/browser/touch-stability.spec.ts:9:1 › Touch und Tastatur: Undo einer unbeteiligten Verbindung während eines Drags verwirft nur die Vorschau 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 62
+    + Received  +  1
+
+    - Array [
+    -   Object {
+    -     "id": "1",
+    -     "x": "0",
+    -     "y": "0",
+    -   },
+    -   Object {
+    -     "id": "2",
+    -     "x": "676.19140625",
+    -     "y": "0",
+    -   },
+    -   Object {
+    -     "id": "3",
+    -     "x": "1352.3828125",
+    -     "y": "0",
+    -   },
+    -   Object {
+    -     "id": "4",
+    -     "x": "2028.57421875",
+    -     "y": "0",
+    -   },
+    -   Object {
+    -     "id": "5",
+    -     "x": "0",
+    -     "y": "664.19140625",
+    -   },
+    -   Object {
+    -     "id": "6",
+    -     "x": "676.19140625",
+    -     "y": "664.19140625",
+    -   },
+    -   Object {
+    -     "id": "7",
+    -     "x": "1352.3828125",
+    -     "y": "664.19140625",
+    -   },
+    -   Object {
+    -     "id": "8",
+    -     "x": "2028.57421875",
+    -     "y": "664.19140625",
+    -   },
+    -   Object {
+    -     "id": "9",
+    -     "x": "0",
+    -     "y": "1218.3828125",
+    -   },
+    -   Object {
+    -     "id": "10",
+    -     "x": "676.19140625",
+    -     "y": "1218.3828125",
+    -   },
+    -   Object {
+    -     "id": "11",
+    -     "x": "1352.3828125",
+    -     "y": "1218.3828125",
+    -   },
+    -   Object {
+    -     "id": "12",
+    -     "x": "2028.57421875",
+    -     "y": "1218.3828125",
+    -   },
+    - ]
+    + Array []
+
+      28 |   await evidence(page, info, "undo-during-drag", { before, after: await cards(page), errors });
+      29 |   expect(errors).toEqual([]);
+    > 30 |   expect(await cards(page)).toEqual(before);
+         |                             ^
+      31 |   await expect(page.locator("[data-edge]")).toHaveCount(0);
+      32 |   await button(page, "Wiederholen").click();
+      33 |   await expect(page.locator("[data-edge]")).toHaveCount(1);
+        at /workspace/Mysteryboard-document-import/tests/browser/touch-stability.spec.ts:30:29
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    dist/touch-interrupt-reproduction/touch-stability-Touch-und--47b6b-s-verwirft-nur-die-Vorschau/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: dist/touch-interrupt-reproduction/touch-stability-Touch-und--47b6b-s-verwirft-nur-die-Vorschau/error-context.md
+
+  1 failed
+    tests/browser/touch-stability.spec.ts:9:1 › Touch und Tastatur: Undo einer unbeteiligten Verbindung während eines Drags verwirft nur die Vorschau 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

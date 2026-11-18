@@ -1,1 +1,143 @@
-# Vorlage-Mysteryboard
+# MysteryBoard · universeller Editor und Unterrichts-SCORM
+
+Eigenständige, deutschsprachige Arbeitsfläche für Karten und Verbindungen. Ohne Backend, Benutzerkonten, externe Laufzeitressourcen oder automatische Browserspeicherung. React + TypeScript + Vite; eigene SVG-/Pointer-Steuerung, separater Canvas-Export.
+
+Auf `fix/mysteryboard-touch-png-saving` liegt die universelle Autoren- und Unterrichtsvorlage auf Basis der geprüften PDF-/Pfeilkorrektur `50c6b59e8688abea8863eb27f2753840f2391df5`. Eine Blanko-HTML bzw. ein einmal installiertes SCORM-Paket öffnet vollständige `.mysteryboard`-Aufgaben, Lehrkraft-Entwürfe und selbsttragende Schüler-PNGs. Editor und KI-Weg teilen ein Inhaltsmodell; veröffentlichte und künftig spezifisch gebaute Aufgaben bleiben bearbeitbar. Der bestehende Board-/Touchkern, History, Hilfe und mehrseitiger Druck werden weiterverwendet. Boden-RC2 einschließlich HTML, SCORM, fachlichen Karten und Tag bleibt unverändert.
+
+Der grafische Bereich **Hilfen für Lernende** bietet fünf Denkimpulse, zwei Gruppenvorlagen und eigene Gruppen. Alle Karten werden ausdrücklich von der Lehrkraft zugeordnet. Die Vorschau verwendet dieselbe Schüleranwendung in einer ausdrücklich getrennten Betriebsart ohne Datei-, Team- und Druckaktionen; ihre Bewegungen und Verbindungen werden beim Schließen verworfen. Kartensuche und optionale Mehrfachzuordnung erleichtern große Mysterys. [Aktueller Abschlussbericht](docs/UNTERRICHTS-SCORM-PRUEFBERICHT.md).
+
+**Einstieg:** [Anleitung für Lehrkräfte](LEHRKRAEFTE-ANLEITUNG.md) · [KI-Anleitung](AI-ANLEITUNG.md) · [vollständiges Format](docs/UNIVERSAL-FORMAT.md) · [aktueller Abnahmebericht](docs/TOUCH-UND-PNG-PRUEFBERICHT.md).
+
+DOCX und PDF mit auslesbarer Textebene können im bestehenden Lehrkräfteeditor über **Dokument importieren** lokal übernommen werden. Die Parser werden bei der Dateiauswahl in einem abbrechbaren Worker gestartet; alle Bibliotheken, PDF-Schriften und Zeichenressourcen sind in HTML/SCORM enthalten. [Importanleitung und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).
+
+PDF-Karten werden zuerst räumlich anhand gezeichneter Rahmen oder Überschriften abgegrenzt. Nummerierte Bereiche lassen sich im Originalvergleich korrigieren; unsichere Aufteilungen werden gekennzeichnet. Neue Verbindungen beginnen mit einem Pfeil, vorhandene ungerichtete Verbindungen bleiben erhalten. [Bedienung](docs/PDF-KARTEN-UND-PFEILE-ANLEITUNG.md) · [Prüfbericht und offene Gerätetests](docs/PDF-KARTEN-UND-PFEILE-PRUEFBERICHT.md).
+
+Kartenbewegungen übernehmen ihre Endposition unabhängig von einem ausstehenden React-Render. Schüler sichern ausschließlich PNG über **Sichern** oder das kleinere Sicherungsbild, benannt als **Teamname_Mysterytitel.png**. Ältere Schüler-Projektdateien bleiben importierbar; Lehrkraftdateien behalten `.mysteryboard`. [Touch-/Sicherungsprüfung und Gerätegrenzen](docs/TOUCH-UND-PNG-PRUEFBERICHT.md).
+
+Die Startseite priorisiert **Aufgabe öffnen** und **Arbeit fortsetzen**. Der nachgeordnete Zugang **Lehrkräfteeditor** öffnet den vorhandenen Autorenmodus.
+
+Im Editor öffnen Drag-and-Drop und **Unterrichtsmaterial auswählen** eine `.mysteryboard`-Aufgabe direkt als Entwurf; Word/PDF verwenden denselben Importassistenten. **Schülerversion erstellen → Für itslearning als SCORM herunterladen** erzeugt lokal ein eigenständiges Aufgaben-ZIP für den direkten Schülerstart mit Teamabfrage. Die universelle Blankovorlage bleibt verfügbar. [Bereitstellungsanleitung](docs/UNTERRICHTS-SCORM-ANLEITUNG.md).
+
+## Einstieg für Lehrkräfte
+
+[START-HIER](START-HIER.md) erklärt die drei Arbeitswege, Entwurf und Schülerversion sowie die bewusste PNG-Sicherung. [KI-PROMPT-ZUM-KOPIEREN](KI-PROMPT-ZUM-KOPIEREN.md) ist der vollständige Übertragungsauftrag. Die [Papierprobe](examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md) enthält das dokumentierte Original und Vergleichsdateien; eine tatsächliche Fremd-KI-Erprobung bleibt offen.
+
+## Direkt ausprobieren
+
+- `artifacts/MysteryBoard-Universal.html`: Blanko-Anwendung mit Lehrkräfteeditor und Dateiimport.
+- `artifacts/MysteryBoard-Universal-SCORM-1.2.zip`: dieselbe Anwendung in der SCORM-1.2-Hülle, ohne fest vorgegebenes Fach-Mystery.
+- `examples/universal/ki-beispiel.mysteryboard`: zwölf neutrale Karten mit drei eingebetteten Bildformaten und beiden Hilfestufen.
+- `examples/universal/unterricht-*.mysteryboard` und `unterricht-schueler.png`: zusammengehörige, im tatsächlichen Browserablauf erzeugte Entwurfs-/Aufgaben-/Schülerdateien.
+
+- `artifacts/tests/MysteryBoard-Vorlage-Medien.html`: zusätzlicher neutraler Druckprüfstand mit drei Bildformaten und langem Text.
+- `artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html`: neutraler Funktionsnachweis mit Z-/V-Präfixen, eigenem Denkimpuls und optionaler Nummernorientierung.
+- `artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html`, `…-18.html`, `…-60.html`: zusätzliche neutrale Mengenprüfungen mit allgemeiner methodischer Hilfe.
+- `artifacts/MysteryBoard-klein.html`: 12 Karten, 9 Verbindungen, 2 Testdiagramme.
+- `artifacts/MysteryBoard-umfangreich.html`: 60 Karten, 90 Verbindungen, 8 Testdiagramme.
+- `artifacts/MysteryBoard-Boden-Klasse11.html`: 18 geprüfte Karten, Inhaltsversion 2.0.0, zwölf Pflichtkarten und sechs Vertiefungen V13–V18.
+- `artifacts/MysteryBoard-Boden-Klasse11-RC2.html`: derselbe Boden-Build mit neutral durchmischter Startanordnung, eindeutig als RC2 bezeichnet.
+- `artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip`: unmittelbar importierbares SCORM-1.2-Paket für den itslearning-Praxistest; enthält die RC2-HTML byteidentisch. [Anleitung und Grenzen](docs/RC2-SCORM.md).
+
+Alle neu gebauten Varianten verwenden denselben Anwendungskern. Die eingefrorenen Boden-Dateien enthalten weiterhin exakt den RC2-Kern. [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md) beschreibt Inhaltsdatei und Build-Konfiguration. Eine Teambezeichnung oder Vornamen sind beim Beginn einer neuen Arbeit und vor jedem Schülerexport erforderlich. Eine neutrale Gruppenbezeichnung genügt; sie ist im Menü änderbar und Bestandteil der PNG-/QR-Sicherung. Teamlose Altsicherungen bleiben importierbar und bearbeitbar; vor einem neuen Export wird die Teamangabe nachgefragt. Im PNG steht der Titel links und die Teamangabe rechts oben.
+
+Die HTML-Dateien enthalten Programm, Inhaltsdaten, Bilder, Styles und QR-Bibliotheken. Sie können von einem statischen Host ausgeliefert werden; die Anwendung benötigt danach keine Netzwerkverbindung. Lokales Öffnen hängt vom Browser bzw. der Geräteverwaltung ab. iPad-Dateivorschau ist kein vollständiger Webbrowser. Kamera benötigt einen sicheren Kontext und eine passende Einbettungsfreigabe.
+
+**Arbeitsstand sichern:** „Sichern“ → Original-PNG herunterladen → unverändert in „Dateien“ aufbewahren. In einer neuen Sitzung „Fortsetzen“ → Originaldatei auswählen. Große Arbeitsstände benötigen die Originaldatei; nur ausreichend kleine bekommen zusätzlich einen vollständigen QR-Code. Screenshots und Bildoptimierungen können die eingebetteten Daten entfernen.
+
+## Entwicklung
+
+Node.js 24 und npm 11 wurden verwendet. Im vorhandenen Checkout arbeiten; für Cloud-Aufgaben ist kein weiterer Worktree nötig.
+
+```sh
+npm ci
+npx playwright install chromium
+npm run dev
+# Umfangreicher Testdatensatz im Entwicklungsmodus:
+npm run dev -- --mode large
+npm test
+npm run build
+CLASSROOM_SCORM=1 npm run test:e2e
+npm run package:universal
+npm run test:rc2
+# Vollständigen Projektordner verpacken (neuer Ausgabepfad):
+npm run package:project -- ausgabe/MysteryBoard-Universal-Projektvorlage.zip
+```
+
+`CLASSROOM_SCORM=1 npm run check` führt Datenprüfung, Produktionsbuild und gesamte Browserprüfung einschließlich des neuen SCORM-Unterrichtskreislaufs zusammen aus. Die Browserprüfung baut zusätzlich die getrennte 220-Verbindungen-Prüffassung aus den gelieferten QA-Daten (`npm run build:review`); sie gehört nicht zu den Schülerpaketen. Browserprüfungen benötigen Python 3, Chromium, `lxml` für die separate XML-Prüfung und für die tatsächliche PDF-Prüfung Poppler (`pdfinfo`, `pdftotext`; `pdftoppm` für Sichtprüfungen); `CHROMIUM_PATH` kann den Browserpfad überschreiben (vorhandener System-Chromium, sonst Playwright-Installation). Die zusätzlichen tatsächlichen Pfeil-Rastervergleiche verwenden Pillow und PyMuPDF. ReportLab wird nur zur optionalen Neuerzeugung der mitgelieferten synthetischen PDFs benötigt. Keine dieser Python-Bibliotheken ist eine Laufzeitabhängigkeit der Anwendung. Die Testserver auf 5173/5174 werden durch Playwright gestartet und beendet. Der statische Server dient nur der Prüfung des unveränderten HTML-Artefakts. Auf Linux müssen die zu Chromium passenden Systembibliotheken verfügbar sein. Für macOS lassen sich Python/Poppler mit den üblichen kostenlosen Paketwerkzeugen installieren.
+
+Der Build erstellt alle Produktionsvarianten aus `mysteries.json` und prüft die harte Grenze **< 10.000.000 Bytes**. Er scheitert bei Überschreitung. Die zusätzliche Zielgröße liegt bei < 6 MB. `npm run build -- boden-klasse11` baut eine ausgewählte Variante. Der zusätzliche Prüfdatensatz `reuse-example` mit fünf Karten und Vertiefungen Z2/Z5 wird von `npm run test:e2e` mitgebaut; einzeln ist er über `npm run build:example` verfügbar.
+
+Die Boden-Variante ist auf diesem Branch als `previewOnly` konfiguriert: neue technische Vergleichsbuilds landen ausschließlich unter `artifacts/previews/`, niemals über den RC2-Dateien. Diese Vorschauen sind vom Git-Tracking ausgeschlossen und keine Unterrichtslieferung. `release:rc2` ist auf dem neuen Entwicklungsstand gesperrt. Für den neutralen Nachweis genügt `npm run build -- ordered-5`.
+
+## Struktur
+
+| Pfad                        | Zweck                                                         |
+| --------------------------- | ------------------------------------------------------------- |
+| `src/content/*.json`        | Getrennte Mystery-Inhalte einschließlich Startanordnung und Gruppenmetadaten |
+| `mysteries.json`            | Inhaltsauswahl und Ausgabename je eigenständiger HTML        |
+| `src/core/model.ts`         | Inhalts- und Zustandsmodell, vollständige Importvalidierung   |
+| `src/core/codec.ts`         | Versioniertes, komprimiertes Speicherformat und QR-Grenze     |
+| `src/core/png.ts`           | PNG-Chunk-Parser, CRC-Prüfung, Einbetten und Wiederherstellen |
+| `src/core/layout.ts`        | Gemeinsame Karten- und Verbindungsgeometrie                   |
+| `src/core/export.ts`        | Eigenständiger, zoomunabhängiger Canvas-Renderer              |
+| `src/components/Board.tsx`  | SVG-Ansicht und Pointer-Gesten                                |
+| `src/components/Camera.tsx` | Lokale Kameraerkennung mit sauberem Stream-Abbau              |
+| `src/App.tsx`               | Sitzungszustand, Rückgängig, kontextbezogene Dialoge          |
+| `tests/`                    | Datenintegrität und Browserprüfungen                          |
+
+Neue portable Inhalte werden mit dem grafischen Editor oder dem dokumentierten `create:mystery`-/`build:mystery`-Weg erzeugt. Die bestehende Registry `mysteries.json` bleibt für bisherige feste Prüfausgaben erhalten. Weitere Mysterys benötigen keine Änderung des Anwendungskerns. Änderungen an Kartentexten, IDs oder Bildern müssen eine neue Inhaltsversion erhalten. IDs sind fortlaufende Ganzzahlen ab 1. Pflicht-/Vertiefungsgruppen und Nummernpräfixe werden ausdrücklich über Inhaltsmetadaten zugeordnet. Bilder müssen eingebettete Daten-URIs sein. Keine Daten aus fremden URLs laden.
+
+Die Kartennummer dient ausschließlich als Wiedererkennung. Kartenreihenfolge im Zustand ist zugleich Zeichenreihenfolge; Ziehen hebt eine Karte nach vorn. Rückgängig und Wiederholen teilen sich eine auf 40 Schritte begrenzte Historie im Arbeitsspeicher. Eine neue Bearbeitung verwirft die Wiederholen-Schritte; Laden eines Arbeitsstands setzt beide Historien zurück. Die Ansicht selbst ist kein Bestandteil des gespeicherten fachlichen Arbeitsstands; nach dem Import wird die Übersicht eingestellt.
+
+## Grenzen und weitere Dokumente
+
+- [Aktuelle Universalprüfung: Autorenmodell, vollständige Dateien, SCORM, fortgesetzte Bearbeitbarkeit](docs/UNIVERSAL-ABNAHME.md)
+
+- [Aktuelle Integrationsprüfung: Startablage, Hilfesystem und Druck/PDF](docs/PRINT-INTEGRATION-ABNAHME.md)
+
+- [Vorheriger Vorlagen-Prüfbericht: geordnete Startablage und zweistufige Hilfe](docs/TEMPLATE-ORDERED-HELP-ABNAHME.md)
+- [RC2-Abnahme: neutrale Anordnung und SCORM 1.2](docs/RC2-ABNAHME.md)
+- [RC2: fachliche Voraussetzungen und unveränderte Karten](docs/RC2-FACHPRUEFUNG.md)
+- [RC1-Release-Kandidat: Herkunft, Sicherung und damalige Prüfungen](docs/RELEASE-KANDIDAT.md)
+- [Manuellen HTTPS-/GitHub-Pages-Weg vorbereiten](docs/PAGES.md)
+- [Gezielte Work-Kompatibilitätsprüfung für WebKit](docs/WORK-KOMPATIBILITAET.md)
+- [Speicherformat und technische Grenzen](docs/FORMAT.md)
+- [Frühere Prüfung: verbindliche Teamzuordnung und kompakte Kopfzeile](docs/UNI-01-02-ABNAHME.md)
+- [Vorheriger Prüfbericht: universelle Vorlage und Boden 2.0.0](docs/UNIVERSELLE-VORLAGE-ABNAHME.md)
+- [Neues Mystery mit der Vorlage erstellen](docs/NEUES-MYSTERY.md)
+- [Unterrichtserprobung Boden-Mystery](docs/UNTERRICHTSERPROBUNG.md)
+- [Frühere Zweitkorrektur ab 2518a53](docs/KORREKTUR-2518a53.md)
+- [Erster Nachbesserungsbericht zu f02b411](docs/NACHBESSERUNG.md)
+- [Ursprünglicher Testbericht zu f02b411](docs/TESTBERICHT.md)
+- [Testanleitung für Schul-iPad und Canva Code](docs/PRAXISTEST.md)
+- [Empfehlung für Auftrag 2](docs/AUFTRAG-2.md)
+
+Dies ist eine technische Prüflieferung. Eine reale itslearning-/Safari-/Schul-iPad-/Canva-Abnahme wurde nicht durchgeführt. Die SCORM-1.2-Hülle initialisiert und beendet nur die Sitzung, ohne Arbeitsstände, Teamnamen oder Leistungsdaten über die API zu lesen oder zu schreiben. RC1 bleibt unter `unterricht-2026-11-13-rc1` erhalten; RC2 bleibt unter `unterricht-2026-11-13-rc2` eingefroren. Die ursprünglichen Unterrichts- und Entwicklungsbranches bleiben unverändert; diese Erweiterung liegt ausschließlich auf `feat/mysteryboard-classroom-scorm-export`.
+
+
+### Lokale OCR für Lehrkräfte
+
+Die optionale Autorenfassung erkennt gedruckte Karten aus PNG/JPEG/WebP und
+Bild-PDFs vollständig lokal. Einstieg: „Foto oder Scan importieren“. Jede Karte
+am Original prüfen. Die kompakte Universal-HTML enthält keine OCR-Modelle;
+`npm run package:ocr` erstellt aus derselben Universalversion das vollständige
+OCR-SCORM und das lokale Autorenpaket. Unterrichts-SCORM-Exporte benötigen keine
+OCR-Dateien. Anleitung und Grenzen: [Lokale OCR](docs/LOKALE-OCR.md),
+[Prüfbericht](docs/OCR-ABNAHMEBERICHT.md). Keine schulische Freigabe ohne echten
+Safari-/Schul-iPad-/itslearning-Test.
+
+## MysteryBoard Studio für macOS (Apple Silicon)
+
+Studio verwendet denselben Karten-/Dokumentkern, einen nativen, sandboxgeschützten
+Electron-Rahmen und einen getrennten Schüler-Build ohne Autorenoberfläche/OCR.
+Studio 0.2.0 bündelt die normale Arbeit in vier Aktionen und zeigt beim Import
+Original und aktuelle Karte. Spezialwerkzeuge liegen unter „Erkennung korrigieren“.
+Installation und Bedienung: [STUDIO-MACOS.md](docs/STUDIO-MACOS.md).
+Aktuelle UX-Abnahme: [STUDIO-UX-ABNAHMEBERICHT.md](docs/STUDIO-UX-ABNAHMEBERICHT.md).
+Historischer Bericht zur ersten nativen Version:
+[STUDIO-ABNAHMEBERICHT.md](docs/STUDIO-ABNAHMEBERICHT.md).
+
+Auf macOS ARM64: `npm ci`, `npm run studio:make -- --platform=darwin --arch=arm64`.
+Die `.app`, ZIP und DMG entstehen über Electron Forge. Die mitgelieferte kostenlose
+Ad-hoc-Signierung ist keine Apple Developer ID oder Notarisierung. Der manuelle
+Erststart auf dem Ziel-Mac bleibt zu prüfen. Kein Merge oder automatisches Release.

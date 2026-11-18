@@ -1,0 +1,10 @@
+{
+  "commit": "ae0f4cba54522752474bc474ac43a6b878b38751",
+  "welcome": "▦ MysteryBoard\nEine Vorlage für eure Mysterys\n\nÖffnet eine Aufgabe oder setzt eure Arbeit mit einer Originaldatei fort.\n\nDie Kartennummern helfen euch beim Wiederfinden. Sie geben keine richtige Reihenfolge vor.\n\nMystery bearbeiten\nEigenes Mystery erstellen\n\nEs wird nichts automatisch gespeichert oder an ein LMS übertragen.",
+  "downloadFilename": "MysteryBoard-draft-mystery-3c129519-e91d-4e0a-959c-29ea04ca3f6e-1.0.16.mysteryboard",
+  "findings": [
+    "Kein ausdrücklicher Hinweis auf das Öffnen und Weiterbearbeiten von KI-Dateien am Einstieg.",
+    "Exportname verwendet englische interne Rolle und UUID statt sichtbaren Titels.",
+    "Hilfe-Zuordnung wechselt von Ordne/du zu Wählt/euch."
+  ]
+}

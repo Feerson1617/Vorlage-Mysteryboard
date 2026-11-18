@@ -1,0 +1,23 @@
+[WebServer] (node:109356) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:109369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 11:49:39] "GET / HTTP/1.1" 200 -
+
+Running 2 tests using 1 worker
+
+(node:109395) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 11:49:41] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 11:49:45] "GET /artifacts/MysteryBoard-klein.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung (6.3s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 11:49:47] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 11:49:51] "GET /artifacts/MysteryBoard-umfangreich.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/r1b.spec.ts:436:3 › R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung (6.5s)
+
+  2 passed (16.7s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

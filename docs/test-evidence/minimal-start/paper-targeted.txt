@@ -1,0 +1,55 @@
+[WebServer] (node:29505) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:29518) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:18] "GET / HTTP/1.1" 200 -
+
+Running 4 tests using 1 worker
+
+(node:29546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:20] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:27] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:28] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-lernen/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:28] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-lernen/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:28] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-lernen/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:29] code 404, message File not found
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:29] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:32] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:32] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:32] "GET /test-results/release-candidate-Release--365fc-ion-SCORM-und-alte-neue-PNG/papier-frisch/app.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/release-candidate.spec.ts:19:3 › Release Candidate Papierprobe 1024x768: alle Originalfelder, Revision, SCORM und alte/neue PNG (14.5s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:34] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:40] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:41] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-lernen/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:41] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-lernen/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:41] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-lernen/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:44] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:44] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:44] "GET /test-results/release-candidate-Release--29381-ion-SCORM-und-alte-neue-PNG/papier-frisch/app.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/release-candidate.spec.ts:19:3 › Release Candidate Papierprobe 768x1024: alle Originalfelder, Revision, SCORM und alte/neue PNG (12.1s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:46] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:52] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:53] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-lernen/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:53] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-lernen/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:53] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-lernen/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:56] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:56] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:56] "GET /test-results/release-candidate-Release--3c155-ion-SCORM-und-alte-neue-PNG/papier-frisch/app.html HTTP/1.1" 200 -
+  ✓  3 tests/browser/release-candidate.spec.ts:19:3 › Release Candidate Papierprobe 600x800: alle Originalfelder, Revision, SCORM und alte/neue PNG (11.9s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:49:58] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:04] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:05] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-lernen/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:05] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-lernen/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:05] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-lernen/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:08] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-frisch/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:08] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-frisch/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 07:50:08] "GET /test-results/release-candidate-Release--cbb25-ion-SCORM-und-alte-neue-PNG/papier-frisch/app.html HTTP/1.1" 200 -
+  ✓  4 tests/browser/release-candidate.spec.ts:19:3 › Release Candidate Papierprobe 320x700: alle Originalfelder, Revision, SCORM und alte/neue PNG (12.0s)
+
+  4 passed (55.1s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

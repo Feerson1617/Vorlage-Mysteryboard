@@ -1,0 +1,49 @@
+[WebServer] (node:58611) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:58624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:41:02] "GET / HTTP/1.1" 200 -
+
+Running 2 tests using 1 worker
+
+(node:58660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:41:13] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus) (1.4m)
+(node:58844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:43:03] "GET /dist/review/index.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [09/Nov/2026 18:43:16] "GET /dist/review/index.html HTTP/1.1" 200 -
+  ✓  2 tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch) (20.2s)
+
+
+  1) tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)
+
+    Test timeout of 60000ms exceeded.
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('[data-edge]')
+    Expected: 220
+    Received: undefined
+
+
+      174 |     await context.setOffline(true);
+      175 |     await btn(page, "Beginnen").click();
+    > 176 |     await expect(page.locator("[data-edge]")).toHaveCount(220);
+          |                                               ^
+      177 |     const targets = await page.evaluate(() => {
+      178 |       const boxes = [
+      179 |         ...document.querySelectorAll("[data-edge-label] rect"),
+        at /workspace/Vorlage-Mysteryboard/tests/browser/review.spec.ts:176:47
+
+    Error Context: test-results/review-M1-220-Original-Ver-bf03c-tbare-Kreuzungslabels-Maus-/error-context.md
+
+  1 failed
+    tests/browser/review.spec.ts:160:3 › M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)
+  1 passed (2.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

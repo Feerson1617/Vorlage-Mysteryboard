@@ -1,0 +1,178 @@
+v24.22.1
+11.9.0
+Python 3.12.14
+
+added 125 packages in 8s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate docs/test-evidence/document-import/downloads/import-docx-1024-entwurf.mysteryboard
+
+Gültig: draft, mystery-ddabd376-4ec8-4691-aa43-056731bdf84a, Version 1.0.3, 6 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate docs/test-evidence/document-import/downloads/import-pdf-1024-aufgabe.mysteryboard
+
+Gültig: task, mystery-86544fce-6049-468c-be06-305a9bef8d40, Version 1.0.3, 12 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 create:mystery
+> node scripts/mystery-tools.mjs create examples/ki-papierprobe/inhalt.json cold-document-import-check/Neue-Aufgabe.mysteryboard
+
+Erstellt: /workspace/mysteryboard-import-source-preflight/MysteryBoard-Universal-Projektvorlage/cold-document-import-check/Neue-Aufgabe.mysteryboard. Inhalte bleiben im Lehrkräftemodus bearbeitbar.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate cold-document-import-check/Neue-Aufgabe.mysteryboard
+
+Gültig: task, mystery-parkteich-papierprobe, Version 1.0.0, 10 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 build
+> tsc --noEmit && node scripts/build.mjs
+
+vite v8.3.6 building client environment for small...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-BayIl04e.js
+[plugin vite:singlefile] Inlining: style-D_r6_jCw.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/small/index.html  5,362.60 kB │ gzip: 2,672.36 kB
+
+✓ built in 2.97s
+vite v8.3.6 building client environment for large...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-D48NOt2F.js
+[plugin vite:singlefile] Inlining: style-D_r6_jCw.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/large/index.html  5,395.48 kB │ gzip: 2,677.37 kB
+
+✓ built in 2.55s
+vite v8.3.6 building client environment for boden-klasse11...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-UUPwIv0U.js
+[plugin vite:singlefile] Inlining: style-D_r6_jCw.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/boden-klasse11/index.html  5,364.15 kB │ gzip: 2,673.43 kB
+
+✓ built in 2.38s
+vite v8.3.6 building client environment for universal...
+transforming...
+✓ 154 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-FiXkb2MR.js
+[plugin vite:singlefile] Inlining: style-D_r6_jCw.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/universal/index.html  5,357.93 kB │ gzip: 2,671.43 kB
+
+✓ built in 2.42s
+small: 5.567.179 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+large: 5.600.065 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+boden-klasse11: 5.568.731 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+universal: 5.562.510 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 package:universal
+> node scripts/package-universal.mjs && python3 scripts/validate-scorm.py artifacts/MysteryBoard-Universal-SCORM-1.2.zip artifacts/MysteryBoard-Universal.html MysteryBoard-Universal-v3
+
+{
+  "manifestIdentifier": "MysteryBoard-Universal-v3",
+  "scormVersion": "1.2",
+  "html": {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 5562510,
+    "sha256": "8fdd8fe9b960a14fa40baf2e9b8699f8fa22ad8eaf3fd5c44a62719eb515e40f"
+  },
+  "zip": {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 2778623,
+    "sha256": "17c5f153095c7524dc0de55eace7896df0c6a950a8f5537cf355300ee165b814"
+  },
+  "applicationByteIdentical": true,
+  "entries": [
+    {
+      "file": "imsmanifest.xml",
+      "bytes": 883,
+      "sha256": "0aa1e503e3c83e449bafcacdaf477250663321658365e3e46c3f8b6e55cc1b7e"
+    },
+    {
+      "file": "launch.html",
+      "bytes": 633,
+      "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+    },
+    {
+      "file": "session.js",
+      "bytes": 1190,
+      "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+    },
+    {
+      "file": "app.html",
+      "bytes": 5562510,
+      "sha256": "8fdd8fe9b960a14fa40baf2e9b8699f8fa22ad8eaf3fd5c44a62719eb515e40f"
+    }
+  ]
+}
+{
+  "status": "passed",
+  "zipCrc": "passed",
+  "xmlWellFormed": true,
+  "scorm12ManifestAndLocalReferences": "passed",
+  "applicationByteIdentical": true,
+  "htmlSha256": "8fdd8fe9b960a14fa40baf2e9b8699f8fa22ad8eaf3fd5c44a62719eb515e40f",
+  "zipSha256": "17c5f153095c7524dc0de55eace7896df0c6a950a8f5537cf355300ee165b814",
+  "entries": [
+    "imsmanifest.xml",
+    "launch.html",
+    "session.js",
+    "app.html"
+  ],
+  "note": "XML parsing and explicit SCORM 1.2 contract checks; not ADL certification or an itslearning device test."
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+KALTSTART BESTANDEN: echte Word-/PDF-Importdokumente validiert; neue Aufgabe, Universal-HTML und SCORM bytegleich.

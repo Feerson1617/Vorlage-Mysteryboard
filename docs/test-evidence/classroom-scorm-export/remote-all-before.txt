@@ -1,0 +1,16 @@
+d7b41c20a8d773248f71f858ce18f5ce1b5c51d8	refs/heads/feat/mysteryboard-author-help-editor
+e7f50a03a8cb63168cde78ff01ab0d1e9ea9d460	refs/heads/feat/mysteryboard-document-import-integrity
+ae0f4cba54522752474bc474ac43a6b878b38751	refs/heads/feat/mysteryboard-help-editor-final
+8418a445248893c2ba01bea673d84febcdf36537	refs/heads/feat/mysteryboard-local-document-import
+38ba0a77ac1f2b8d667f5185724ee4933d159d1a	refs/heads/feat/mysteryboard-minimal-start
+30ecd1d814b4510a689c7b5d44ad1dd6609849f1	refs/heads/feat/mysteryboard-print-pdf
+2c39d5427dc7cbd03558657d62821823949ac170	refs/heads/feat/mysteryboard-prototype
+3454f97c513a6c657256623c08e11d9f93f8b09a	refs/heads/feat/mysteryboard-template-ordered-help
+e14a09273be38c5501dc36ff3a7b819de298cd3a	refs/heads/feat/mysteryboard-template-print-integration
+5a6899a7a67465c932c340c60ccde56e989586b4	refs/heads/feat/mysteryboard-universal-authoring
+35019c364ffef026482250ec75042b38e138fe18	refs/heads/feat/mysteryboard-universal-release-candidate
+1fa1fff81e5e19b7031130c8d034a77d9e1ace61	refs/heads/main
+9f02f956c1c6853137920d79f24ba66eb5b94b66	refs/tags/unterricht-2026-11-13-rc1
+240d5fcfcac7e5924efe169493c9f7525ba5ed74	refs/tags/unterricht-2026-11-13-rc1^{}
+e25fa3fc483f1cd181f31960c9fe575fe358ec69	refs/tags/unterricht-2026-11-13-rc2
+2c39d5427dc7cbd03558657d62821823949ac170	refs/tags/unterricht-2026-11-13-rc2^{}

@@ -1,0 +1,21 @@
+
+> mysteryboard-prototype@0.1.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /workspace/mysteryboard-classroom-scorm-extracted/projekt
+
+
+ Test Files  20 passed (20)
+      Tests  134 passed (134)
+   Start at  10:05:37
+   Duration  7.96s (tests 77%, import 17%, transform 5%, worker 1%)
+
+    Isolate  20 workers spawned · ~176ms startup each (spawn + environment, per file)
+             at least ~996ms faster with isolate: false — reuses workers across files instead of one per file
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

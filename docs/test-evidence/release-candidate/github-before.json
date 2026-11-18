@@ -1,0 +1,22 @@
+{
+  "remote": "https://github.com/Feerson1617/Vorlage-Mysteryboard.git",
+  "featureBefore": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "mainBefore": "1fa1fff81e5e19b7031130c8d034a77d9e1ace61",
+  "gitLsRemoteSucceeded": true,
+  "apiReadAttempts": [
+    {
+      "command": "gh api repos/Feerson1617/Vorlage-Mysteryboard/pages",
+      "exitCode": 1,
+      "error": "Get \"https://api.github.com/repos/Feerson1617/Vorlage-Mysteryboard/pages\": Forbidden"
+    },
+    {
+      "command": "gh api repos/Feerson1617/Vorlage-Mysteryboard",
+      "exitCode": 1,
+      "error": "Get \"https://api.github.com/repos/Feerson1617/Vorlage-Mysteryboard\": Forbidden"
+    }
+  ],
+  "publicRepositoryPageHttpStatus": 200,
+  "verifiedPagesUrl": null,
+  "pagesSettingsStatus": "Unknown: API request denied; no Pages link on public repository page",
+  "publicationPerformed": false
+}

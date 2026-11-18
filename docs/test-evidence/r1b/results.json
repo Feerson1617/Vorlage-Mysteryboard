@@ -1,0 +1,1005 @@
+{
+  "baseCommit": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "r1Input": {
+    "gitBase": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+    "branch": "feat/mysteryboard-prototype",
+    "r1ArchiveSha256": "695dd8e52b286dcf02fdbc0ddebb06a23941a0244752a00a117e7f59249b514c",
+    "r1BoardSha256": "a45e038eea587edfc21de213f4187864471b03da1d729af0af4f7cc6e9871b33",
+    "changedExistingFilesRelativeToR1": [
+      "artifacts/MysteryBoard-klein.html",
+      "artifacts/MysteryBoard-umfangreich.html",
+      "src/components/Board.tsx"
+    ],
+    "unchangedExistingTests": [
+      "tests/browser/corrections.spec.ts",
+      "tests/browser/prototype.spec.ts",
+      "tests/browser/review.spec.ts",
+      "tests/edge-id.test.ts",
+      "tests/fixtures/png.ts",
+      "tests/fixtures/review/60-90-Gruppenstand.png",
+      "tests/fixtures/review/README.md",
+      "tests/fixtures/review/Start-ID-1000000.png",
+      "tests/fixtures/review/stress-220.json",
+      "tests/history.test.ts",
+      "tests/limits.test.ts",
+      "tests/persistence.test.ts",
+      "tests/browser/r1.spec.ts"
+    ],
+    "noCommitsOrPublication": true,
+    "r1bBoardSha256": "c44c9f7d0a5517f20dda497ad291ddafef2280415c04f85f4cdc136079fcfd3d"
+  },
+  "workingTree": "uncommitted R1b correction based on local R1",
+  "command": "npm run check",
+  "node": "v24.22.1",
+  "playwright": "1.65.0",
+  "engine": "chromium",
+  "version": "156.0.8078.79",
+  "dataTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0
+  },
+  "browserStats": {
+    "total": 71,
+    "expected": 71,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "browserStartTime": 1794378375653,
+  "browserDurationMs": 156892.684,
+  "console": {
+    "newTestsMonitored": 28,
+    "warnings": 0,
+    "errors": 0,
+    "freshWorkflowContexts": 2,
+    "freshWorkflowWarningsAndErrors": 0
+  },
+  "existingTestsUnchanged": true,
+  "artifacts": [
+    {
+      "file": "MysteryBoard-klein.html",
+      "bytes": 452240,
+      "sha256": "8860323ddd590fcd5b53e20faadbb3a59b86ac31863fd40adfde0e9c40e299aa",
+      "under10000000": true
+    },
+    {
+      "file": "MysteryBoard-umfangreich.html",
+      "bytes": 485126,
+      "sha256": "86227c13eaef7b87495b4e438afbbc2ee2467b8b316102c53aaefbf172014190",
+      "under10000000": true
+    }
+  ],
+  "browserTests": [
+    {
+      "file": "corrections.spec.ts",
+      "title": "mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück",
+      "outcome": "expected",
+      "durationMs": 3068,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage",
+      "outcome": "expected",
+      "durationMs": 2603,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung",
+      "outcome": "expected",
+      "durationMs": 5272,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download",
+      "outcome": "expected",
+      "durationMs": 3174,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen",
+      "outcome": "expected",
+      "durationMs": 5262,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen",
+      "outcome": "expected",
+      "durationMs": 6084,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar",
+      "outcome": "expected",
+      "durationMs": 806,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "eigenständiges HTML läuft offline; keine externen Anfragen",
+      "outcome": "expected",
+      "durationMs": 2177,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig",
+      "outcome": "expected",
+      "durationMs": 1893,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten",
+      "outcome": "expected",
+      "durationMs": 4027,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import",
+      "outcome": "expected",
+      "durationMs": 3140,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "abgebrochener Import verändert den geöffneten Stand nicht",
+      "outcome": "expected",
+      "durationMs": 3791,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar",
+      "outcome": "expected",
+      "durationMs": 1019,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick",
+      "outcome": "expected",
+      "durationMs": 1378,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export",
+      "outcome": "expected",
+      "durationMs": 1750,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas",
+      "outcome": "expected",
+      "durationMs": 1570,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen",
+      "outcome": "expected",
+      "durationMs": 951,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende",
+      "outcome": "expected",
+      "durationMs": 1276,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar",
+      "outcome": "expected",
+      "durationMs": 999,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal",
+      "outcome": "expected",
+      "durationMs": 1041,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal",
+      "outcome": "expected",
+      "durationMs": 1357,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten",
+      "outcome": "expected",
+      "durationMs": 2297,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten",
+      "outcome": "expected",
+      "durationMs": 2924,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+      "outcome": "expected",
+      "durationMs": 1320,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+      "outcome": "expected",
+      "durationMs": 1197,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam",
+      "outcome": "expected",
+      "durationMs": 1074,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog",
+      "outcome": "expected",
+      "durationMs": 1027,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte",
+      "outcome": "expected",
+      "durationMs": 1078,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar",
+      "outcome": "expected",
+      "durationMs": 1176,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal",
+      "outcome": "expected",
+      "durationMs": 799,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal",
+      "outcome": "expected",
+      "durationMs": 794,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal",
+      "outcome": "expected",
+      "durationMs": 813,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal",
+      "outcome": "expected",
+      "durationMs": 788,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal",
+      "outcome": "expected",
+      "durationMs": 872,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal",
+      "outcome": "expected",
+      "durationMs": 1010,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal",
+      "outcome": "expected",
+      "durationMs": 931,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal",
+      "outcome": "expected",
+      "durationMs": 962,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal",
+      "outcome": "expected",
+      "durationMs": 838,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal",
+      "outcome": "expected",
+      "durationMs": 769,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal",
+      "outcome": "expected",
+      "durationMs": 905,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal",
+      "outcome": "expected",
+      "durationMs": 815,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger",
+      "outcome": "expected",
+      "durationMs": 1455,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger",
+      "outcome": "expected",
+      "durationMs": 1561,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1220,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1307,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1195,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1261,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1275,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+      "outcome": "expected",
+      "durationMs": 1202,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert",
+      "outcome": "expected",
+      "durationMs": 1791,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal",
+      "outcome": "expected",
+      "durationMs": 846,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Schutz bleibt auf die Anwendung begrenzt und erlaubt keine ersetzten Dialogbuttons",
+      "outcome": "expected",
+      "durationMs": 1063,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung",
+      "outcome": "expected",
+      "durationMs": 5121,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung",
+      "outcome": "expected",
+      "durationMs": 6553,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b unveränderter Original-ID-Grenzstand bleibt per Finger sicherbar und vollständig lesbar",
+      "outcome": "expected",
+      "durationMs": 1366,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger",
+      "outcome": "expected",
+      "durationMs": 4643,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1b.spec.ts",
+      "title": "R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp",
+      "outcome": "expected",
+      "durationMs": 1323,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung",
+      "outcome": "expected",
+      "durationMs": 7524,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Maus)",
+      "outcome": "expected",
+      "durationMs": 1508,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Touch)",
+      "outcome": "expected",
+      "durationMs": 1633,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)",
+      "outcome": "expected",
+      "durationMs": 7812,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)",
+      "outcome": "expected",
+      "durationMs": 7054,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar",
+      "outcome": "expected",
+      "durationMs": 3235,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf",
+      "outcome": "expected",
+      "durationMs": 2491,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1238,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1231,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1749,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1876,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert",
+      "outcome": "expected",
+      "durationMs": 3641,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas",
+      "outcome": "expected",
+      "durationMs": 2015,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder",
+      "outcome": "expected",
+      "durationMs": 1142,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    }
+  ],
+  "open": [
+    "Original Touch-Vergleich.cjs missing; original reference script not run",
+    "WebKit 26.5 revision 2370 not installed",
+    "WebKit 27.2 revision 2388 download denied HTTP 403; launch failed",
+    "Real Canva student link, managed school iPads and didactic pilot not tested"
+  ]
+}

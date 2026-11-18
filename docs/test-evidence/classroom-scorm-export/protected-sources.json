@@ -1,0 +1,97 @@
+[
+  {
+    "file": "src/App.tsx",
+    "sha256": "6d2b103fd8e0a6a7cb7b980bc6994b1b17580339f5d63bec1b21e9a7507df2fc",
+    "unchanged": true
+  },
+  {
+    "file": "src/components/Board.tsx",
+    "sha256": "61778349129a1f991a5f08c8ab7c6a4f553406534583495d69821ba29141e50e",
+    "unchanged": true
+  },
+  {
+    "file": "src/components/HelpEditor.tsx",
+    "sha256": "93af411d34200bd926d0c718ea5a2856f970a8786a35f58c830adaaff1449797",
+    "unchanged": true
+  },
+  {
+    "file": "src/components/LearningHelp.tsx",
+    "sha256": "42dd36e3a670b3846bdeca00f09e3bdcc7d8cb05f731d891f770731cad5889af",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/model.ts",
+    "sha256": "595781a22da5daa388e19ccd287d7ec746d8184d50a33c93052d3b7ff3ce557b",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/history.ts",
+    "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/png.ts",
+    "sha256": "e1a43017f811ecc30e28fc54c3bf2433dd80739874687bb826dcb4d6c3a7ed81",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/codec.ts",
+    "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/documents.ts",
+    "sha256": "74f136b913f702600777dd1942283587db64c3b8e6b08726ec499a10a33053a7",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/export.ts",
+    "sha256": "9f788d6455da0a4ae8db38ddbca94dc510ab453093d077993f9a70ad859cf3dc",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/authoring.ts",
+    "sha256": "ff625147622b00ccada09bf162a3eb26673be67d370b0f4b5f86d2e9891cc2fd",
+    "unchanged": true
+  },
+  {
+    "file": "src/core/document-import/model.ts",
+    "sha256": "829f449f9c0fbd8bc653ec06667f7d6df325a7b94bb0bd965285756dae509b05",
+    "unchanged": true
+  },
+  {
+    "file": "scorm/launch.html",
+    "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416",
+    "unchanged": true
+  },
+  {
+    "file": "scorm/session.js",
+    "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f",
+    "unchanged": true
+  },
+  {
+    "file": "package.json",
+    "sha256": "3f1c85f85983456709a7876e039f0896ce239c677d2c5cd76d9ddd290ec1f9b9",
+    "unchanged": true
+  },
+  {
+    "file": "package-lock.json",
+    "sha256": "c5c26fde95b694f7982a62214224d39ce53b3fb3b67e285c2eeb11e9112b0809",
+    "unchanged": true
+  },
+  {
+    "file": "mysteries.json",
+    "sha256": "e027cd0906e11924f91962fc118189fc193677052baf5e92e138b1e2ac08791e",
+    "unchanged": true
+  },
+  {
+    "file": "schemas/mystery-document.schema.json",
+    "sha256": "7a7f2617edd68439d31287140554516dd9c96171b75e20ba419dd4a1d9c3837d",
+    "unchanged": true
+  },
+  {
+    "file": "schemas/mystery-content.schema.json",
+    "sha256": "6966b41294d2f987103c66193590d7d415e16a6bdb036eb760429d88d41d228b",
+    "unchanged": true
+  }
+]

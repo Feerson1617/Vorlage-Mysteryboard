@@ -1,0 +1,6 @@
+{
+  "id": "mysteryboard-blank-build-sentinel",
+  "version": "1.0.0",
+  "title": "MysteryBoard \u2013 universelle Vorlage",
+  "cards": [{ "id": 1, "title": "", "text": "" }]
+}

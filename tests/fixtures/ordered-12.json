@@ -1,0 +1,82 @@
+{
+  "id": "template-ordered-12",
+  "version": "1.0.0",
+  "title": "Neutrales Vorlagen-Mystery – 12 Notizen",
+  "cardGroups": {
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "Z"
+    },
+    "additional": {
+      "label": "Zusatz",
+      "prefix": "V"
+    }
+  },
+  "cards": [
+    {
+      "id": 11,
+      "title": "Notiz 11",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 9,
+      "title": "Notiz 9",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "additional"
+    },
+    {
+      "id": 7,
+      "title": "Notiz 7",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 5,
+      "title": "Notiz 5",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 3,
+      "title": "Notiz 3",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 1,
+      "title": "Notiz 1",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 2,
+      "title": "Notiz 2",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "extension"
+    },
+    {
+      "id": 4,
+      "title": "Notiz 4",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "additional"
+    },
+    {
+      "id": 6,
+      "title": "Notiz 6",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "extension"
+    },
+    {
+      "id": 8,
+      "title": "Notiz 8",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 10,
+      "title": "Notiz 10",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "extension"
+    },
+    {
+      "id": 12,
+      "title": "Notiz 12",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    }
+  ]
+}

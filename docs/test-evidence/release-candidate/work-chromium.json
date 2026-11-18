@@ -1,0 +1,101 @@
+{
+  "startedAt": "2026-11-11T14:13:13.813Z",
+  "status": "failed",
+  "engine": "chromium",
+  "expectedVersion": null,
+  "browserVersion": "156.0.8078.79",
+  "playwrightModule": "playwright",
+  "executable": "/usr/bin/chromium",
+  "suppliedSourceCommit": null,
+  "sourceCommitNote": "Supplied provenance; artifact hashes identify the actual tested bytes. This script does not attest a build-to-commit mapping.",
+  "scriptSha256": "ba62f744c7737447f7b0ba946e152d454ab6a25ecac966854c81cc60a60093a9",
+  "htmlDir": "/workspace/Vorlage-Mysteryboard/artifacts",
+  "variants": [
+    {
+      "key": "small",
+      "html": "MysteryBoard-klein.html",
+      "htmlBytes": 457990,
+      "htmlSha256": "5eee3c8230d51a6a22bc1198843102345b4fe279000d6b130889ca26dd1b94c2",
+      "status": "failed",
+      "stage": "create-edit-delete-connection",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 384267,
+          "sha256": "acf8741d8113ee74ae9c5313c9bc02d2d83c5ad542b86780dac6cb44d6d6aab0"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": [],
+      "failure": "AssertionError [ERR_ASSERTION]: Connection 10 label has no usable visible touch point\n    at edgeTap (file:///workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:259:3)\n    at async file:///workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:447:7"
+    },
+    {
+      "key": "large",
+      "html": "MysteryBoard-umfangreich.html",
+      "htmlBytes": 490876,
+      "htmlSha256": "800eeaf7c086a15850980a77e0f517796d4e582dac7fb914b452a94c71bef36f",
+      "status": "failed",
+      "stage": "create-edit-delete-connection",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 805316,
+          "sha256": "9b3212baf6d1e79cef00a138bb2b69aff89693be5bc5c08688d9c83b04d9c8ce"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": [],
+      "failure": "AssertionError [ERR_ASSERTION]: Connection 91 label has no usable visible touch point\n    at edgeTap (file:///workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:259:3)\n    at async file:///workspace/Vorlage-Mysteryboard/scripts/work-compatibility.mjs:447:7"
+    },
+    {
+      "key": "boden",
+      "html": "MysteryBoard-Boden-Klasse11.html",
+      "htmlBytes": 459540,
+      "htmlSha256": "4c451aec074a8cca75dd1879fce21ef5a6e0b32ce40b6af9412b9f70186540e8",
+      "status": "passed",
+      "stage": "complete",
+      "steps": [
+        "Native card open, deliberate close, reopen; two injected delayed clicks blocked; subsequent deliberate close works.",
+        "Native create/edit/delete of a connection; both delayed-click injections cannot delete; explicit delete works; Undo restores the edited connection.",
+        "PNG CRC/state SHA verified; complete work equals expected before and after fresh-context import, including team, all cards/positions/colors, categories and connections; further edits and re-export verified offline."
+      ],
+      "downloads": [
+        {
+          "file": "01-baseline.png",
+          "bytes": 496410,
+          "sha256": "7278a7e35b34d5e4689f0e6042c6a81e51b9e55ad330bb4622405346f824688d"
+        },
+        {
+          "file": "02-edited.png",
+          "bytes": 524409,
+          "sha256": "ec191a06dac0deb1d257a37f6637ebc3d2d0e247c33bf3bccddecd3017010970"
+        },
+        {
+          "file": "03-restored.png",
+          "bytes": 524409,
+          "sha256": "ec191a06dac0deb1d257a37f6637ebc3d2d0e247c33bf3bccddecd3017010970"
+        },
+        {
+          "file": "04-continued.png",
+          "bytes": 525395,
+          "sha256": "bcbc3dd7cc9d4db657edcb6aed0cd2a0e2b8ebe08ae3f06b281b7dfc745345df"
+        }
+      ],
+      "unexpectedRequests": [],
+      "errors": []
+    }
+  ],
+  "limitations": [
+    "Browser automation is not a managed school iPad or Canva acceptance.",
+    "Native taps use the selected engine. Delayed-click fault injection uses untrusted DOM events and is identified separately.",
+    "Only the exact local HTML document is fetched; all interaction and fresh-session import run offline.",
+    "The focused test does not replace the full regression suite or physical pinch/pan testing."
+  ],
+  "finishedAt": "2026-11-11T14:13:42.434Z"
+}

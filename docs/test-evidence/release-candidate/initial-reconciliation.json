@@ -1,0 +1,101 @@
+{
+  "sourceArchive": "MysteryBoard-UNI-01-02.zip",
+  "sourceArchiveSha256": "4cf69f84687677cd6620a79d19e5d3d69748a0cb89614f3dfe116204fb3bbd91",
+  "baseGitCommit": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "branch": "feat/mysteryboard-prototype",
+  "sourceFiles": 191,
+  "differentFiles": [],
+  "badManifestEntries": [],
+  "baseManifest": {
+    "date": "2026-11-11",
+    "branch": "feat/mysteryboard-prototype",
+    "gitBase": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+    "actualBase": "MysteryBoard-Universelle-Vorlage-Boden-2.0.0.zip/source",
+    "baseArchiveSha256": "be8e39950a6483dd755d4d17efce6ba515b1f900ac5e8923f820955345334e75",
+    "newCommit": null,
+    "published": false,
+    "runtimeChanged": [
+      "src/App.tsx",
+      "src/style.css"
+    ],
+    "sourceManifestSha256": "b95b04992272119015739459d327a408bd4e1918b50360e45eb65b2fef994e5c",
+    "patchSha256": "e245baf4c84ee45fb024e3f59284394d55a9cc5903f4073098f57c17359f5fb7",
+    "patchAppliedAndVerified": true,
+    "patchExcludes": [
+      "generated artifacts/",
+      "docs/test-evidence/ attachments"
+    ],
+    "artifacts": [
+      {
+        "key": "small",
+        "path": "artifacts/MysteryBoard-klein.html",
+        "bytes": 457990,
+        "sha256": "5eee3c8230d51a6a22bc1198843102345b4fe279000d6b130889ca26dd1b94c2",
+        "mysteryId": "mysteryboard-test-small",
+        "version": "1.0.0",
+        "cards": 12,
+        "testOnly": false
+      },
+      {
+        "key": "large",
+        "path": "artifacts/MysteryBoard-umfangreich.html",
+        "bytes": 490876,
+        "sha256": "800eeaf7c086a15850980a77e0f517796d4e582dac7fb914b452a94c71bef36f",
+        "mysteryId": "mysteryboard-test-large",
+        "version": "1.0.0",
+        "cards": 60,
+        "testOnly": false
+      },
+      {
+        "key": "boden-klasse11",
+        "path": "artifacts/MysteryBoard-Boden-Klasse11.html",
+        "bytes": 459540,
+        "sha256": "4c451aec074a8cca75dd1879fce21ef5a6e0b32ce40b6af9412b9f70186540e8",
+        "mysteryId": "geo11-boden-ploen-2026",
+        "version": "2.0.0",
+        "cards": 18,
+        "testOnly": false
+      },
+      {
+        "key": "review",
+        "path": "artifacts/tests/MysteryBoard-Pruefung-220.html",
+        "bytes": 998589,
+        "sha256": "b831f294f2612f72f2ca36a286c030a5574ff536639562fed116e1fada43f66c",
+        "mysteryId": "qa-medien-large",
+        "version": "QA-1",
+        "cards": 60,
+        "testOnly": true
+      },
+      {
+        "key": "reuse-example",
+        "path": "artifacts/tests/MysteryBoard-Test-5.html",
+        "bytes": 454440,
+        "sha256": "15b92507687f576578e1c6a885065d2edb9909320556e682e990b311daef77b8",
+        "mysteryId": "mysteryboard-reuse-five",
+        "version": "1.0.0",
+        "cards": 5,
+        "testOnly": true
+      }
+    ],
+    "results": {
+      "dataPassed": 50,
+      "dataFiles": 6,
+      "browserPassed": 96,
+      "existingBrowserCases": 80,
+      "newUniBrowserCases": 16,
+      "failed": 0,
+      "flaky": 0,
+      "skipped": 0,
+      "engine": "Chromium 156.0.8078.79",
+      "playwright": "1.65.0",
+      "node": "24.22.1",
+      "exitCode": 0
+    },
+    "open": [
+      "Safari/WebKit",
+      "managed school iPads, real local file retention and restoration",
+      "actual HTTPS/Canva publication",
+      "separate magnification before media-rich Mystery use"
+    ]
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "notice": "Own synthetic data and diagrams; no school-approved content; no OCR or AI.",
+  "A": [
+    {
+      "id": 1,
+      "extension": false,
+      "title": "Karte 1: Beobachtung 1",
+      "paragraphs": [
+        "Information 1: Der Messwert beträgt 1,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 1 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A1; keine Feldmessung."
+    },
+    {
+      "id": 2,
+      "extension": false,
+      "title": "Karte 2: Beobachtung 2",
+      "paragraphs": [
+        "Information 2: Der Messwert beträgt 2,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 2 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A2; keine Feldmessung."
+    },
+    {
+      "id": 3,
+      "extension": true,
+      "title": "Vertiefungskarte 3: Beobachtung 3",
+      "paragraphs": [
+        "Information 3: Der Messwert beträgt 3,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 3 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A3; keine Feldmessung."
+    },
+    {
+      "id": 4,
+      "extension": false,
+      "title": "Karte 4: Beobachtung 4",
+      "paragraphs": [
+        "Information 4: Der Messwert beträgt 4,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 4 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A4; keine Feldmessung."
+    },
+    {
+      "id": 5,
+      "extension": false,
+      "title": "Karte 5: Beobachtung 5",
+      "paragraphs": [
+        "Information 5: Der Messwert beträgt 5,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 5 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A5; keine Feldmessung."
+    },
+    {
+      "id": 6,
+      "extension": false,
+      "title": "Karte 6: Beobachtung 6",
+      "paragraphs": [
+        "Information 6: Der Messwert beträgt 6,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 6 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A6; keine Feldmessung."
+    },
+    {
+      "id": 7,
+      "extension": false,
+      "title": "Karte 7: Beobachtung 7",
+      "paragraphs": [
+        "Information 7: Der Messwert beträgt 7,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 7 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A7; keine Feldmessung."
+    },
+    {
+      "id": 8,
+      "extension": true,
+      "title": "Vertiefungskarte 8: Beobachtung 8",
+      "paragraphs": [
+        "Information 8: Der Messwert beträgt 8,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 8 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A8; keine Feldmessung."
+    },
+    {
+      "id": 9,
+      "extension": false,
+      "title": "Karte 9: Beobachtung 9",
+      "paragraphs": [
+        "Information 9: Der Messwert beträgt 9,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 9 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A9; keine Feldmessung."
+    },
+    {
+      "id": 10,
+      "extension": false,
+      "title": "Karte 10: Beobachtung 10",
+      "paragraphs": [
+        "Information 10: Der Messwert beträgt 10,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 10 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A10; keine Feldmessung."
+    },
+    {
+      "id": 11,
+      "extension": false,
+      "title": "Karte 11: Beobachtung 11",
+      "paragraphs": [
+        "Information 11: Der Messwert beträgt 11,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 11 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A11; keine Feldmessung."
+    },
+    {
+      "id": 12,
+      "extension": true,
+      "title": "Vertiefungskarte 12: Beobachtung 12",
+      "paragraphs": [
+        "Information 12: Der Messwert beträgt 12,5 g bei 12,5 °C.",
+        "Vergleicht die Beobachtung 12 mit den anderen Karten und begründet mögliche Zusammenhänge."
+      ],
+      "source": "Eigene synthetische Prüfdaten A12; keine Feldmessung."
+    }
+  ],
+  "B": [
+    {
+      "id": 1,
+      "extension": false,
+      "title": "Karte 1: Material 1",
+      "paragraphs": [
+        "Material 1: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B1.",
+      "image": "bild-1.png"
+    },
+    {
+      "id": 2,
+      "extension": false,
+      "title": "Karte 2: Material 2",
+      "paragraphs": [
+        "Material 2: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B2.",
+      "image": "bild-2.jpeg"
+    },
+    {
+      "id": 3,
+      "extension": false,
+      "title": "Karte 3: Material 3",
+      "paragraphs": [
+        "Material 3: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B3.",
+      "table": {
+        "headers": [
+          "Zeit",
+          "Temperatur (°C)",
+          "Masse (g)"
+        ],
+        "rows": [
+          [
+            "08:00",
+            "12,5",
+            "3,50"
+          ],
+          [
+            "12:00",
+            "17,0",
+            "4,25"
+          ],
+          [
+            "16:00",
+            "18,5",
+            "4,00"
+          ]
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "extension": false,
+      "title": "Karte 4: Material 4",
+      "paragraphs": [
+        "Material 4: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B4.",
+      "bullets": [
+        "Erste Beobachtung: 0,25 L.",
+        "Zweite Beobachtung: 2,0 mg/L."
+      ]
+    },
+    {
+      "id": 5,
+      "extension": false,
+      "title": "Karte 5: Material 5",
+      "paragraphs": [
+        "Material 5: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B5."
+    },
+    {
+      "id": 6,
+      "extension": true,
+      "title": "Vertiefungskarte 6: Material 6",
+      "paragraphs": [
+        "Material 6: Vergleicht die dokumentierten Angaben. Alle Messwerte sind synthetische Prüfdaten."
+      ],
+      "source": "Eigene technische Vorlage B6."
+    }
+  ],
+  "table": {
+    "headers": [
+      "Zeit",
+      "Temperatur (°C)",
+      "Masse (g)"
+    ],
+    "rows": [
+      [
+        "08:00",
+        "12,5",
+        "3,50"
+      ],
+      [
+        "12:00",
+        "17,0",
+        "4,25"
+      ],
+      [
+        "16:00",
+        "18,5",
+        "4,00"
+      ]
+    ]
+  },
+  "expectedA": {
+    "cards": 12,
+    "required": 9,
+    "extensionIds": [
+      3,
+      8,
+      12
+    ]
+  },
+  "expectedB": {
+    "cards": 6,
+    "images": 2,
+    "tables": 1
+  },
+  "expectedC": {
+    "cards": 12
+  },
+  "expectedScan": {
+    "textCards": 0
+  }
+}

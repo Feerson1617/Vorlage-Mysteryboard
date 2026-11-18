@@ -1,0 +1,166 @@
+{
+  "status": "passed",
+  "textMode": "pdftotext -raw: preserve content-stream order rather than interleaving parallel printed columns",
+  "actualGeneratedPdfs": [
+    {
+      "file": "docx-1024x768-a3.pdf",
+      "bytes": 71652,
+      "pages": 5,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-1024x768-a4.pdf",
+      "bytes": 73326,
+      "pages": 6,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-1440x1000-a3.pdf",
+      "bytes": 71417,
+      "pages": 5,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-1440x1000-a4.pdf",
+      "bytes": 73095,
+      "pages": 6,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-320x700-a3.pdf",
+      "bytes": 71300,
+      "pages": 5,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-320x700-a4.pdf",
+      "bytes": 71027,
+      "pages": 6,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-600x800-a3.pdf",
+      "bytes": 71401,
+      "pages": 5,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-600x800-a4.pdf",
+      "bytes": 71105,
+      "pages": 6,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-768x1024-a3.pdf",
+      "bytes": 71474,
+      "pages": 5,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "docx-768x1024-a4.pdf",
+      "bytes": 71204,
+      "pages": 6,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-1024x768-a3.pdf",
+      "bytes": 80663,
+      "pages": 6,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-1024x768-a4.pdf",
+      "bytes": 78980,
+      "pages": 7,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-1440x1000-a3.pdf",
+      "bytes": 80659,
+      "pages": 6,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-1440x1000-a4.pdf",
+      "bytes": 78988,
+      "pages": 7,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-320x700-a3.pdf",
+      "bytes": 79871,
+      "pages": 6,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-320x700-a4.pdf",
+      "bytes": 77890,
+      "pages": 7,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-600x800-a3.pdf",
+      "bytes": 79840,
+      "pages": 6,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-600x800-a4.pdf",
+      "bytes": 77864,
+      "pages": 7,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-768x1024-a3.pdf",
+      "bytes": 79908,
+      "pages": 6,
+      "widthPoints": 1191.12,
+      "heightPoints": 841.92,
+      "originalFirstTextAndSingleSource": "matched"
+    },
+    {
+      "file": "pdf-768x1024-a4.pdf",
+      "bytes": 77911,
+      "pages": 7,
+      "widthPoints": 841.92,
+      "heightPoints": 594.96,
+      "originalFirstTextAndSingleSource": "matched"
+    }
+  ]
+}

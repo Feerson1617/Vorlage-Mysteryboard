@@ -1,0 +1,26 @@
+vite v8.3.6 building client environment for review...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-D36gvk-9.js
+[plugin vite:singlefile] Inlining: style-CTvFLiGW.css
+computing gzip size...
+dist/review/index.html  979.83 kB │ gzip: 525.76 kB
+
+✓ built in 282ms
+vite v8.3.6 building client environment for reuse-example...
+transforming...
+✓ 62 modules transformed.
+rendering chunks...
+[plugin vite:singlefile]
+
+[plugin vite:singlefile] Inlining: index-BI4dJtD3.js
+[plugin vite:singlefile] Inlining: style-CTvFLiGW.css
+computing gzip size...
+dist/reuse-example/index.html  435.68 kB │ gzip: 148.89 kB
+
+✓ built in 199ms
+review: 998.589 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+reuse-example: 454.440 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.

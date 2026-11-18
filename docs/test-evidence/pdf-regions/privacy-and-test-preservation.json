@@ -1,0 +1,8 @@
+{
+  "publicChangedFilesChecked": 48,
+  "originalContentFound": false,
+  "existingTestsRemoved": 0,
+  "existingTestsWeakened": 0,
+  "onlyExistingTestEdit": "new-edge direction expectation 0 -> 1 in complete R1b workflow",
+  "schemaMigration": false
+}

@@ -1,0 +1,74 @@
+{
+  "id": "template-ordered-5",
+  "version": "1.0.0",
+  "title": "Neutrales Vorlagen-Mystery – 5 Notizen",
+  "cardGroups": {
+    "extension": {
+      "label": "Vertiefung",
+      "prefix": "Z"
+    },
+    "additional": {
+      "label": "Zusatz",
+      "prefix": "V"
+    }
+  },
+  "cards": [
+    {
+      "id": 5,
+      "title": "Notiz 5",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 3,
+      "title": "Notiz 3",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 1,
+      "title": "Notiz 1",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor."
+    },
+    {
+      "id": 2,
+      "title": "Notiz 2",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "extension"
+    },
+    {
+      "id": 4,
+      "title": "Notiz 4",
+      "text": "Diese neutrale Prüfnotiz enthält eine Information. Sie kann gelesen, verschoben und mit einer anderen Notiz verbunden werden. Die Nummer gibt keine fachliche Reihenfolge vor.",
+      "group": "additional"
+    }
+  ],
+  "help": {
+    "method": "Wählt eine Notiz, zu der ihr eine Frage habt. Welche andere Notiz könnte beim Erklären helfen? Begründet eure Vermutung gemeinsam.",
+    "categories": [
+      {
+        "id": "a",
+        "label": "Rahmenbedingungen",
+        "color": "#2166ac",
+        "cardIds": [
+          1,
+          4
+        ]
+      },
+      {
+        "id": "b",
+        "label": "Vorgänge",
+        "color": "#f5a623",
+        "cardIds": [
+          2
+        ]
+      },
+      {
+        "id": "c",
+        "label": "Beobachtungen",
+        "color": "#287c43",
+        "cardIds": [
+          5
+        ]
+      }
+    ]
+  }
+}

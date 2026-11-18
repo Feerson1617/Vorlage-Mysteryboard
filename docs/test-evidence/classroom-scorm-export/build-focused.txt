@@ -1,0 +1,23 @@
+
+> mysteryboard-prototype@0.1.0 build:universal
+> node scripts/build.mjs universal
+
+vite v8.3.6 building client environment for universal...
+transforming...
+✓ 158 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-DAWsPNxy.js
+[plugin vite:singlefile] Inlining: style-DhVPOWrS.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/universal/index.html  5,379.22 kB │ gzip: 2,680.30 kB
+
+✓ built in 1.54s
+universal: 5.583.808 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

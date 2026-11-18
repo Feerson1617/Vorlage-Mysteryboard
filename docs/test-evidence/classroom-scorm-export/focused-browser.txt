@@ -1,0 +1,231 @@
+[WebServer] (node:39160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:39173) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:38:40] "GET / HTTP/1.1" 200 -
+
+Running 7 tests using 1 worker
+
+(node:39200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:38:42] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  1 tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 1024x768: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (16.2s)
+(node:39379) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:00] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  2 tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 768x1024: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (15.8s)
+(node:39604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:16] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  3 tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 600x800: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (15.8s)
+(node:39820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:34] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:37] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:37] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:37] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-learner-1/session.js HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:38] code 404, message File not found
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:38] "GET /favicon.ico HTTP/1.1" 404 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:40] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/launch.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:40] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/app.html HTTP/1.1" 200 -
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:40] "GET /test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/fresh-restore-1/session.js HTTP/1.1" 200 -
+  ✘  4 tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 320x700: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen (23.3s)
+(node:40087) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:39:58] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+
+  ✓  5 tests/browser/classroom-scorm-export.spec.ts:168:1 › Editor-Dateiimport: defekt, zu groß, Bilddecoder, Mehrfachdrop, Abbruch und bestätigter Entwurfswechsel (14.2s)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:40:13] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  6 tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher docx-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf (9.9s)
+(node:40330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 09:40:23] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✘  7 tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher pdf-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf (10.4s)
+
+
+  1) tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 1024x768: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+
+    TimeoutError: locator.tap: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Lehrkräfteeditor', exact: true })
+
+
+      21 | async function editor(page: Page) {
+      22 |   await openUniversal(page);
+    > 23 |   await button(page, "Lehrkräfteeditor").tap();
+         |                                          ^
+      24 |   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("SC");
+      25 |   await button(page, "Lehrkräftemodus öffnen").tap();
+      26 | }
+        at editor (/workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:23:42)
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:106:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Bro-4c12a-er-Start-PNG-und-Fortsetzen/error-context.md
+
+  2) tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 768x1024: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+
+    TimeoutError: locator.tap: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Lehrkräfteeditor', exact: true })
+
+
+      21 | async function editor(page: Page) {
+      22 |   await openUniversal(page);
+    > 23 |   await button(page, "Lehrkräfteeditor").tap();
+         |                                          ^
+      24 |   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("SC");
+      25 |   await button(page, "Lehrkräftemodus öffnen").tap();
+      26 | }
+        at editor (/workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:23:42)
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:106:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Bro-2ca20-er-Start-PNG-und-Fortsetzen/error-context.md
+
+  3) tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 600x800: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+
+    TimeoutError: locator.tap: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Lehrkräfteeditor', exact: true })
+
+
+      21 | async function editor(page: Page) {
+      22 |   await openUniversal(page);
+    > 23 |   await button(page, "Lehrkräfteeditor").tap();
+         |                                          ^
+      24 |   await page.getByLabel("Lehrkraftkürzel", { exact: true }).fill("SC");
+      25 |   await button(page, "Lehrkräftemodus öffnen").tap();
+      26 | }
+        at editor (/workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:23:42)
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:106:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Bro-09f0c-er-Start-PNG-und-Fortsetzen/error-context.md
+
+  4) tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 320x700: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+
+    TimeoutError: locator.tap: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Arbeit fortsetzen', exact: true })
+
+
+      152 |     expect(saved.document).toEqual(before.document);
+      153 |     const fresh = await launch(browser, info, pack.bytes, original.content.title, viewport, `restore-${index}`);
+    > 154 |     await button(fresh.ui, "Arbeit fortsetzen").tap();
+          |                                                 ^
+      155 |     await fresh.ui.getByLabel("Mystery-Datei", { exact: true }).setInputFiles({ name: "Original.png", mimeType: "image/png", buffer: saved.bytes });
+      156 |     const restored = await project(fresh.ui, info, `restored-${index}-${viewport.width}`);
+      157 |     expect(restored.document).toEqual(before.document);
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:154:49
+
+    attachment #1: unveraendert-320-1.mysteryboard (application/json) ──────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/attachments/unveraendert-320-1-mysteryboard-2cff7b041c51368ce499f05997130270559890b0.mysteryboard
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: Unterricht-1-320-SCORM-1.2.zip (application/zip) ────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/attachments/Unterricht-1-320-SCORM-1-2-zip-d8af7f93dd96de694f7213b7ea4cbe4b499c6514.zip
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: vollstand-1-320.mysteryboard (application/json) ─────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/attachments/vollstand-1-320-mysteryboard-76bb0247185d27be51d7ac401816d015e9bc5559.mysteryboard
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: original-png-1-320.png (image/png) ──────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/attachments/original-png-1-320-png-b7ecbcf0a7172cb5ec3d4a5c5249885384fc57fd.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Bro-d9c1e-er-Start-PNG-und-Fortsetzen/error-context.md
+
+  5) tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher docx-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByLabel('Mystery-Titel', { exact: true })
+    Expected: "Bleibt erhalten"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Mystery-Titel', { exact: true }) with timeout 8000ms
+      - waiting for getByLabel('Mystery-Titel', { exact: true })
+
+
+      219 |   await expect(page.getByRole("heading", { name: "2. Karten prüfen", exact: true })).toBeVisible({ timeout: 45000 });
+      220 |   await button(page, "Zurück zum Entwurf").tap();
+    > 221 |   await expect(page.getByLabel("Mystery-Titel", { exact: true })).toHaveValue("Bleibt erhalten");
+          |                                                                   ^
+      222 |   await expect(page.locator(".author-card-list > li")).toHaveCount(0);
+      223 | });
+      224 |
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:221:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Ein-4d98e--Abbruch-erhält-den-Entwurf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Ein-4d98e--Abbruch-erhält-den-Entwurf/error-context.md
+
+  6) tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher pdf-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByLabel('Mystery-Titel', { exact: true })
+    Expected: "Bleibt erhalten"
+    Timeout: 8000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('Mystery-Titel', { exact: true }) with timeout 8000ms
+      - waiting for getByLabel('Mystery-Titel', { exact: true })
+
+
+      219 |         ["LMSInitialize", ""],
+      220 |         ["LMSFinish", ""],
+    > 221 |       ]);
+          |          ^
+      222 |       await context.close();
+      223 |     },
+      224 |   };
+        at /workspace/Mysteryboard-document-import/tests/browser/classroom-scorm-export.spec.ts:221:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/classroom-scorm-export-Ein-ed862--Abbruch-erhält-den-Entwurf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/classroom-scorm-export-Ein-ed862--Abbruch-erhält-den-Entwurf/error-context.md
+
+  6 failed
+    tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 1024x768: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+    tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 768x1024: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+    tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 600x800: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+    tests/browser/classroom-scorm-export.spec.ts:103:31 › Browser-SCORM 320x700: zwei Drops, bearbeitete Aufgaben, kalter Start, PNG und Fortsetzen 
+    tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher docx-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf 
+    tests/browser/classroom-scorm-export.spec.ts:212:42 › Einheitlicher pdf-Import öffnet denselben Assistenten; Abbruch erhält den Entwurf 
+  1 passed (1.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

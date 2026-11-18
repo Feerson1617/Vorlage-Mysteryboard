@@ -1,0 +1,607 @@
+{
+  "baseCommit": "545ece1fd723b953e4b36456d37bd6210a5ac916",
+  "branch": "feat/mysteryboard-prototype",
+  "workingTree": "uncommitted R1 correction",
+  "node": "v24.22.1",
+  "playwright": "1.65.0",
+  "chromium": "156.0.8078.79",
+  "command": "npm run check",
+  "dataTests": {
+    "total": 31,
+    "passed": 31,
+    "failed": 0,
+    "source": "check.txt"
+  },
+  "browserStats": {
+    "total": 43,
+    "expected": 43,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "browserStartTime": 1794289461199,
+  "browserDurationMs": 111550.41,
+  "buildAndTypecheck": "passed in npm run check",
+  "artifacts": [
+    {
+      "file": "artifacts/MysteryBoard-klein.html",
+      "bytes": 451262,
+      "sha256": "fd07c6e8eef52de43eb443a30da5832b2c8482678b6d15b335e38557459dc7e5",
+      "under10000000": true
+    },
+    {
+      "file": "artifacts/MysteryBoard-umfangreich.html",
+      "bytes": 484148,
+      "sha256": "e2639f956d0c413b03a7fce5afad44d0555ff0c196741e7a0ba8c8d4d3dbe95c",
+      "under10000000": true
+    }
+  ],
+  "browserTests": [
+    {
+      "file": "corrections.spec.ts",
+      "title": "mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück",
+      "outcome": "expected",
+      "durationMs": 3042,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage",
+      "outcome": "expected",
+      "durationMs": 2294,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung",
+      "outcome": "expected",
+      "durationMs": 3204,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download",
+      "outcome": "expected",
+      "durationMs": 3767,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen",
+      "outcome": "expected",
+      "durationMs": 5742,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen",
+      "outcome": "expected",
+      "durationMs": 4781,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "corrections.spec.ts",
+      "title": "Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar",
+      "outcome": "expected",
+      "durationMs": 587,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "eigenständiges HTML läuft offline; keine externen Anfragen",
+      "outcome": "expected",
+      "durationMs": 1476,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig",
+      "outcome": "expected",
+      "durationMs": 1505,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten",
+      "outcome": "expected",
+      "durationMs": 5348,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import",
+      "outcome": "expected",
+      "durationMs": 3330,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "abgebrochener Import verändert den geöffneten Stand nicht",
+      "outcome": "expected",
+      "durationMs": 2366,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar",
+      "outcome": "expected",
+      "durationMs": 544,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick",
+      "outcome": "expected",
+      "durationMs": 1089,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export",
+      "outcome": "expected",
+      "durationMs": 1941,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas",
+      "outcome": "expected",
+      "durationMs": 1306,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen",
+      "outcome": "expected",
+      "durationMs": 853,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende",
+      "outcome": "expected",
+      "durationMs": 1286,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "prototype.spec.ts",
+      "title": "QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar",
+      "outcome": "expected",
+      "durationMs": 875,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal",
+      "outcome": "expected",
+      "durationMs": 1013,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal",
+      "outcome": "expected",
+      "durationMs": 1444,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten",
+      "outcome": "expected",
+      "durationMs": 1976,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten",
+      "outcome": "expected",
+      "durationMs": 3031,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+      "outcome": "expected",
+      "durationMs": 1172,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+      "outcome": "expected",
+      "durationMs": 1201,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam",
+      "outcome": "expected",
+      "durationMs": 911,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog",
+      "outcome": "expected",
+      "durationMs": 962,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte",
+      "outcome": "expected",
+      "durationMs": 916,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "r1.spec.ts",
+      "title": "R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar",
+      "outcome": "expected",
+      "durationMs": 1229,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung",
+      "outcome": "expected",
+      "durationMs": 4972,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Maus)",
+      "outcome": "expected",
+      "durationMs": 982,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Touch)",
+      "outcome": "expected",
+      "durationMs": 1132,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)",
+      "outcome": "expected",
+      "durationMs": 5627,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)",
+      "outcome": "expected",
+      "durationMs": 5576,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar",
+      "outcome": "expected",
+      "durationMs": 4506,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf",
+      "outcome": "expected",
+      "durationMs": 2487,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1258,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1417,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 2105,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+      "outcome": "expected",
+      "durationMs": 1884,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert",
+      "outcome": "expected",
+      "durationMs": 3257,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas",
+      "outcome": "expected",
+      "durationMs": 8590,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    },
+    {
+      "file": "review.spec.ts",
+      "title": "Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder",
+      "outcome": "expected",
+      "durationMs": 3681,
+      "attempts": [
+        {
+          "status": "passed",
+          "retry": 0,
+          "errors": []
+        }
+      ]
+    }
+  ],
+  "openChecks": [
+    "Original Touch-Vergleich.cjs and WebKit traces: referenced ZIP not supplied",
+    "WebKit 26.5: no matching installed engine",
+    "WebKit 27.2: official download denied (HTTP 403); browser launch unavailable",
+    "Actual Canva publication and managed school iPads"
+  ]
+}

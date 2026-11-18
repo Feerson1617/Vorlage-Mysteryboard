@@ -1,0 +1,204 @@
+name: MysteryBoard Studio 0.2.2 – macOS ARM64 Release Candidate
+on:
+  push:
+    branches: [fix/mysteryboard-studio-022-player-stability]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  native:
+    if: "!contains(github.event.head_commit.message, 'Package-verified-run:')"
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Build the Apple Silicon DMG
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/mac-board-tests artifacts/studio-tests
+          node -e "if(process.platform!=='darwin'||process.arch!=='arm64')process.exit(1)"
+          npm run studio:make -- --platform=darwin --arch=arm64 2>&1 | tee artifacts/mac-board-tests/Build.log
+      - name: Verify and install the actual DMG
+        shell: bash
+        run: |
+          set -euo pipefail
+          studio_dmg_path="$(python3 -c 'import pathlib; print(next(pathlib.Path("out/make").rglob("*.dmg")))' )"
+          hdiutil verify "$studio_dmg_path" 2>&1 | tee artifacts/mac-board-tests/DMG.log
+          studio_mount="$RUNNER_TEMP/studio-board-volume"
+          studio_install="$RUNNER_TEMP/studio-board-installed/MysteryBoard Studio.app"
+          mkdir -p "$studio_mount" "$(dirname "$studio_install")"
+          hdiutil attach -readonly -nobrowse -mountpoint "$studio_mount" "$studio_dmg_path"
+          ditto "$studio_mount/MysteryBoard Studio.app" "$studio_install"
+          hdiutil detach "$studio_mount"
+          codesign --verify --deep --strict "$studio_install"
+          codesign -dv --verbose=4 "$studio_install" > artifacts/mac-board-tests/Signatur.log 2>&1
+          echo "STUDIO_EXEC=$studio_install/Contents/MacOS/MysteryBoard Studio" >> "$GITHUB_ENV"
+          cp "$studio_dmg_path" artifacts/mac-board-tests/MysteryBoard-Studio-0.2.2-Mac-Apple-Silicon.dmg
+      - name: Board gestures and author connections in the installed application
+        shell: bash
+        run: |
+          set -euo pipefail
+          node qa/studio/mac-board-native.mjs 2>&1 | tee artifacts/mac-board-tests/Pinnwand.log
+      - name: Actual SCORM and PNG round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright install chromium webkit
+          node qa/studio/mac-board-player.mjs 2>&1 | tee artifacts/mac-board-tests/Schuelerplayer.log
+      - name: Reproduce on 0.2.1 and stress both browsers against the installed export
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence=artifacts/mac-board-tests
+          node qa/studio/student-release.mjs qa/studio/evidence/player-021/Starthilfe-SCORM.zip "$evidence/before" --expect-regression
+          node qa/studio/student-release.mjs "$evidence/Starthilfe-SCORM.zip" "$evidence/after"
+          node qa/studio/student-stability.mjs "$evidence/player-chromium" "$evidence/Starthilfe-SCORM.zip" 2>&1 | tee "$evidence/Studenten-Chromium.log"
+          MB_ENGINE=webkit node qa/studio/student-stability.mjs "$evidence/player-webkit" "$evidence/Starthilfe-SCORM.zip" 2>&1 | tee "$evidence/Studenten-WebKit.log"
+      - name: Existing macOS application regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run studio:test 2>&1 | tee artifacts/mac-board-tests/Mac-Regression.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Studio-0.2.2-native-${{ github.sha }}
+          path: |
+            artifacts/mac-board-tests/
+            artifacts/studio-tests/native-macos.json
+            !artifacts/mac-board-tests/profile/**
+            !artifacts/mac-board-tests/sco/**
+            !artifacts/mac-board-tests/legacy-sco/**
+            !artifacts/mac-board-tests/legacy-021-sco/**
+            !artifacts/mac-board-tests/*/task-*/**
+            !artifacts/mac-board-tests/*/example/**
+          compression-level: 0
+          overwrite: true
+  regression:
+    if: "!contains(github.event.head_commit.message, 'Package-verified-run:')"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OCR_EVIDENCE_DIR: ${{ github.workspace }}/artifacts/board-regression/ocr
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Install pinned Chromium 156 for the browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser_dir="$RUNNER_TEMP/mysteryboard-browser"
+          mkdir -p "$browser_dir"
+          curl -fsSL --retry 3 https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.80/linux64/chrome-linux64.zip -o "$browser_dir/chrome.zip"
+          echo "b711c720f774be355197f32edf37e0651418ba036d92446ee2da19ac017540a7  $browser_dir/chrome.zip" | sha256sum -c
+          unzip -q "$browser_dir/chrome.zip" -d "$browser_dir"
+          "$browser_dir/chrome-linux64/chrome" --version
+          echo "CHROMIUM_PATH=$browser_dir/chrome-linux64/chrome" >> "$GITHUB_ENV"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF and image test tools
+        shell: bash
+        run: |
+          if ! command -v pdftotext >/dev/null || ! command -v pdfinfo >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+          python3 -m pip install PyMuPDF==1.26.7 Pillow==12.0.0
+      - name: Type check, data tests and frozen classroom build
+        if: matrix.shard == 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          npm test 2>&1 | tee artifacts/board-regression/Daten.log
+          npm run build 2>&1 | tee artifacts/board-regression/Build.log
+          npm run studio:build 2>&1 | tee artifacts/board-regression/Studio-Build.log
+          node qa/studio/board-reproduction.mjs 2>&1 | tee artifacts/board-regression/Vorher-Nachher.log
+          npm run test:rc2 2>&1 | tee artifacts/board-regression/RC2.log
+      - name: Complete browser suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          # npm run check builds production and preview HTML before test:e2e.
+          if [ "${{ matrix.shard }}" != "1" ]; then
+            npm run build 2>&1 | tee artifacts/board-regression/HTML-Build-${{ matrix.shard }}.log
+          fi
+          npm run test:e2e -- --shard=${{ matrix.shard }}/4 2>&1 | tee artifacts/board-regression/Chromium-${{ matrix.shard }}.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Studio-0.2.2-regression-${{ matrix.shard }}-${{ github.sha }}
+          path: artifacts/board-regression/
+          overwrite: true
+  delivery:
+    runs-on: ubuntu-24.04
+    needs: [native, regression]
+    if: |
+      always() &&
+      ((needs.native.result == 'success' && needs.regression.result == 'success') ||
+       contains(github.event.head_commit.message, 'Package-verified-run:'))
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve and verify acceptance provenance
+        id: acceptance
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          set -euo pipefail
+          acceptance_run="$(printf '%s\n' "$COMMIT_MESSAGE" | sed -nE 's/^Package-verified-run: ([0-9]+)$/\1/p')"
+          acceptance_commit="$GITHUB_SHA"
+          if [ -n "$acceptance_run" ]; then
+            run_json="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$acceptance_run")"
+            acceptance_commit="$(jq -er '.head_sha' <<< "$run_json")"
+            jq -e '.status == "completed" and .head_branch == "fix/mysteryboard-studio-022-player-stability"' <<< "$run_json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/runs/$acceptance_run/jobs" --jq '.jobs | map(select(.name == "native" or (.name | startswith("regression (")))) | length == 5 and all(.conclusion == "success")' | grep -Fx true
+            git fetch --depth=1 origin "$acceptance_commit"
+            git diff --exit-code "$acceptance_commit" HEAD -- . ':!.github/workflows/studio-macos-022.yml' ':!qa/studio/package-mac-board-022.py'
+          else
+            acceptance_run="$GITHUB_RUN_ID"
+          fi
+          echo "run=$acceptance_run" >> "$GITHUB_OUTPUT"
+          echo "commit=$acceptance_commit" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Studio-0.2.2-*
+          path: board-acceptance
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.acceptance.outputs.run }}
+      - run: python3 qa/studio/package-mac-board-022.py board-acceptance board-delivery
+        env:
+          STUDIO_ACCEPTANCE_COMMIT: ${{ steps.acceptance.outputs.commit }}
+          STUDIO_ACCEPTANCE_RUN_ID: ${{ steps.acceptance.outputs.run }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.2.2-Mac-Apple-Silicon-KOMPLETTPAKET
+          path: board-delivery/MysteryBoard-Studio-0.2.2-Mac-Apple-Silicon-KOMPLETTPAKET.zip
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.2.2-Sichtpruefung
+          path: |
+            board-delivery/MysteryBoard-Studio-0.2.2-Sichtpruefung.zip
+            board-delivery/Downloads.json
+          if-no-files-found: error
+          retention-days: 30

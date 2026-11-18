@@ -1,0 +1,34 @@
+{
+  "base": "MysteryBoard-Universelle-Vorlage-Boden-2.0.0.zip/source",
+  "runtimeChanged": [
+    "src/style.css",
+    "src/App.tsx"
+  ],
+  "boardByteIdentical": true,
+  "coreAndContentAndFixturesByteIdentical": true,
+  "changedExistingFiles": [
+    "README.md",
+    "artifacts/MysteryBoard-klein.html",
+    "artifacts/MysteryBoard-Boden-Klasse11.html",
+    "artifacts/MysteryBoard-umfangreich.html",
+    "src/style.css",
+    "src/App.tsx",
+    "docs/UNTERRICHTSERPROBUNG.md",
+    "docs/FORMAT.md",
+    "docs/NEUES-MYSTERY.md",
+    "artifacts/tests/MysteryBoard-Pruefung-220.html",
+    "artifacts/tests/MysteryBoard-Test-5.html",
+    "tests/browser/universal.spec.ts",
+    "tests/browser/r1.spec.ts",
+    "tests/browser/review.spec.ts",
+    "tests/browser/corrections.spec.ts",
+    "tests/browser/r1b.spec.ts",
+    "tests/browser/prototype.spec.ts"
+  ],
+  "newImplementationAndReportFiles": [
+    "tests/browser/team-helpers.ts",
+    "tests/browser/team-requirements.spec.ts",
+    "scripts/reproduce-team-requirements.mjs",
+    "docs/UNI-01-02-ABNAHME.md"
+  ]
+}

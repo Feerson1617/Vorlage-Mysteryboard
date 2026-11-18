@@ -1,0 +1,54 @@
+{
+  "small": {
+    "content": "src/content/small.json",
+    "output": "MysteryBoard-klein.html"
+  },
+  "large": {
+    "content": "src/content/large.json",
+    "output": "MysteryBoard-umfangreich.html"
+  },
+  "boden-klasse11": {
+    "content": "src/content/boden-klasse11.json",
+    "output": "MysteryBoard-Boden-Klasse11.html",
+    "previewOnly": true
+  },
+  "review": {
+    "content": "tests/fixtures/review/stress-220.json",
+    "output": "MysteryBoard-Pruefung-220.html",
+    "testOnly": true
+  },
+  "reuse-example": {
+    "content": "tests/fixtures/reusable-five.json",
+    "output": "MysteryBoard-Test-5.html",
+    "testOnly": true
+  },
+  "ordered-5": {
+    "content": "tests/fixtures/ordered-5.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-5.html",
+    "testOnly": true
+  },
+  "ordered-12": {
+    "content": "tests/fixtures/ordered-12.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-12.html",
+    "testOnly": true
+  },
+  "ordered-18": {
+    "content": "tests/fixtures/ordered-18.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-18.html",
+    "testOnly": true
+  },
+  "ordered-60": {
+    "content": "tests/fixtures/ordered-60.json",
+    "output": "MysteryBoard-Vorlage-Geordnet-60.html",
+    "testOnly": true
+  },
+  "print-media": {
+    "content": "tests/fixtures/print-media.json",
+    "output": "MysteryBoard-Vorlage-Medien.html",
+    "testOnly": true
+  },
+  "universal": {
+    "content": "src/content/blank.json",
+    "output": "MysteryBoard-Universal.html"
+  }
+}

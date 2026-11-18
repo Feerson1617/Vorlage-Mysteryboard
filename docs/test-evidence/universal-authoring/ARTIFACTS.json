@@ -1,0 +1,122 @@
+[
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "artifacts/MysteryBoard-Universal.html",
+    "bytes": 801407,
+    "sha256": "5560645c76c618e0053f7e051f75f20dd740acc2f76d7522ca1ce333b7f491dc"
+  },
+  {
+    "file": "artifacts/MysteryBoard-klein.html",
+    "bytes": 806112,
+    "sha256": "ece10f727e18ced76ecad74f3297ddc466314d3c325e0a6252670f58d49be26a"
+  },
+  {
+    "file": "artifacts/MysteryBoard-umfangreich.html",
+    "bytes": 838998,
+    "sha256": "85007e94bb61842609c77cf83f83cb16f7f28370b2e369a2a368b5078928954e"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Editierbares-Beispiel.html",
+    "bytes": 1096378,
+    "sha256": "99280fdb927cfa01b6aca148515d33ac38607db83ec7ea16eb62d105cb329ccf"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Pruefung-220.html",
+    "bytes": 1346711,
+    "sha256": "4f91db531cc18a8a3cb15e87ccea60960a5fb15ea5ffe5353c4bc8be338a0ab1"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Test-5.html",
+    "bytes": 802562,
+    "sha256": "a203868a6f2e022c758c0188fdf418d1b7fb109f673ae51b37a9ee0ce33ebe0c"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Vorlage-Geordnet-12.html",
+    "bytes": 804206,
+    "sha256": "ce5b429f1741a4d77cd564fa1931e55a3d0514f097bb0b8214bdcb07c01906b8"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Vorlage-Geordnet-18.html",
+    "bytes": 805496,
+    "sha256": "f1362ad0edc6b8115dc942bae1e19ead982b4bea2c479f6856e72f20e8dc1e6a"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Vorlage-Geordnet-5.html",
+    "bytes": 803037,
+    "sha256": "4f74056d9a0772613cae65f632989f6c48263738d679ae1f1cc410fa1c692d2c"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Vorlage-Geordnet-60.html",
+    "bytes": 814587,
+    "sha256": "075a41a825e7895731f9c7660ce2e4e2ed6be17335abad0dc197d9793d2e17b5"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Vorlage-Medien.html",
+    "bytes": 809176,
+    "sha256": "78764d881e56f180e31bb8db9450ec7b681c56718fa3407c1c2c9acac7735c2c"
+  },
+  {
+    "file": "artifacts/MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 263234,
+    "sha256": "886ffba940196146e07fcfec3be8373785b6ff1d17da2b8c7c145fc6fd8cbd71"
+  },
+  {
+    "file": "artifacts/tests/MysteryBoard-Editierbares-Beispiel-SCORM.zip",
+    "bytes": 359556,
+    "sha256": "491ac9cf29f5e77d64bc1a1c3431f56cd7f38d2d97b520cb8463e61b370afad8"
+  },
+  {
+    "file": "examples/universal/ki-beispiel.mysteryboard",
+    "bytes": 49133,
+    "sha256": "495883aa573706dfe13e7ba187c56fc2a4c7bba566e17f98b94ee83f205fa784"
+  },
+  {
+    "file": "examples/universal/ki-erste-schuelerversion.mysteryboard",
+    "bytes": 49133,
+    "sha256": "495883aa573706dfe13e7ba187c56fc2a4c7bba566e17f98b94ee83f205fa784"
+  },
+  {
+    "file": "examples/universal/ki-neue-schuelerversion.mysteryboard",
+    "bytes": 46941,
+    "sha256": "9e43def7ee68c794532f840ff76d3265e8e89912284ba9f37b128681fbe01865"
+  },
+  {
+    "file": "examples/universal/ki-ueberarbeiteter-entwurf.mysteryboard",
+    "bytes": 47009,
+    "sha256": "50e74f2f873c6aaf1215ad24215db430880b6098294154e9595ec149af5a283b"
+  },
+  {
+    "file": "examples/universal/unterricht-aufgabe.mysteryboard",
+    "bytes": 47788,
+    "sha256": "077be7368b058ab4568f73ea916982cfcfde7af2651eae3e3420918549fe9572"
+  },
+  {
+    "file": "examples/universal/unterricht-entwurf.mysteryboard",
+    "bytes": 47856,
+    "sha256": "0b95382190392de02544f07aa81964980513fb4027ab77d0b07388ec135bd326"
+  },
+  {
+    "file": "examples/universal/ki-alte-schuelerarbeit.png",
+    "bytes": 334340,
+    "sha256": "214084aae2d151d6ec1785e5749e06679846eb9d2e5b2d64348d4928d48631b4"
+  },
+  {
+    "file": "examples/universal/ki-neue-schuelerarbeit.png",
+    "bytes": 335809,
+    "sha256": "9b562c1e7c8d30f45d2f12ba689c39e7acc9995673a1ce6c0be4ddd79264266b"
+  },
+  {
+    "file": "examples/universal/unterricht-schueler.png",
+    "bytes": 301616,
+    "sha256": "8c7791fb4010ed082d44f4bc82baa2a49460ef56a085bc61b7b2ca4716b48034"
+  }
+]

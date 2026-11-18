@@ -1,0 +1,3839 @@
+[
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        }
+      ],
+      "actions": [
+        "Menü"
+      ],
+      "opened": [
+        "Menü"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": "Menü"
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        }
+      ],
+      "actions": [
+        "Menü"
+      ],
+      "opened": [
+        "Menü"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": "Menü"
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        }
+      ],
+      "actions": [
+        "Menü"
+      ],
+      "opened": [
+        "Menü"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": "Menü"
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal",
+    "name": "id-switch-replay.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        }
+      ],
+      "actions": [
+        "Menü"
+      ],
+      "opened": [
+        "Menü"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": "Menü"
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger",
+    "name": "native-open-close.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "12",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Karte 12",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Ein kurzer Text zum Ordnen und",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Karte 12",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "1",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen"
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 12",
+        "Karte 1"
+      ],
+      "actionCount": 5,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger",
+    "name": "native-open-close.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "12",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Karte 12",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 12",
+          "afterDispatchSnapshot": "Karte 12"
+        },
+        {
+          "type": "pointerdown",
+          "target": "ähnlich größer zusätzlich",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Ein kurzer Text zum Ordnen und",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "click",
+          "target": "Karte 60",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 60",
+          "afterDispatchSnapshot": "Karte 60"
+        },
+        {
+          "type": "pointerdown",
+          "target": "1",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen"
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 12",
+        "Verbindung 1 und 2",
+        "Karte 60",
+        "Karte 1"
+      ],
+      "actionCount": 5,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Übernehmen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Übernehmen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Übernehmen",
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Übernehmen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Übernehmen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+    "name": "delayed-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "spricht dagegen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung 1 und 2",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "afterDispatchSnapshot": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": [
+        "Verbindung 1 und 2"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert",
+    "name": "invalid-button-gestures.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointermove",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 6,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 7,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointercancel",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 8,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 9,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 10,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 11,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "touchcancel",
+          "target": "Schließen",
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 12,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 13,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 13,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 13,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 13,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Grün",
+          "pointerType": "touch",
+          "pointerId": 52,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Grün",
+          "pointerType": "touch",
+          "pointerId": 52,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 14,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 14,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 14,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 14,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 15,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 15,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 15,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 15,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Grün",
+          "pointerType": "touch",
+          "pointerId": 51,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 77,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 16,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 16,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 16,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 16,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen",
+        "Schließen"
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 1",
+        "Karte 1",
+        "Karte 1",
+        "Karte 1",
+        "Karte 1",
+        "Karte 1"
+      ],
+      "actionCount": 7,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal",
+    "name": "touchcancel-no-click.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "",
+          "pointerType": "touch",
+          "pointerId": 71,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "touchcancel",
+          "target": "",
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "",
+          "pointerType": "touch",
+          "pointerId": 71,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "click",
+          "target": "",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerdown",
+          "target": "",
+          "pointerType": "touch",
+          "pointerId": 72,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "",
+          "pointerType": "touch",
+          "pointerId": 72,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": [
+        "Karte 1"
+      ],
+      "actionCount": 1,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Schutz bleibt auf die Anwendung begrenzt und erlaubt keine ersetzten Dialogbuttons",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung",
+    "name": "workflow-summary.json",
+    "content": {
+      "cards": 12,
+      "edges": 9,
+      "originalPngExact": true,
+      "restoredEditedPngExact": true,
+      "furtherEditExact": true,
+      "externalRequests": [],
+      "freshConsole": [],
+      "fieldEntry": "fill/selectOption; all dialog buttons, links and targets use native tap"
+    }
+  },
+  {
+    "test": "R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung",
+    "name": "workflow-summary.json",
+    "content": {
+      "cards": 60,
+      "edges": 90,
+      "originalPngExact": true,
+      "restoredEditedPngExact": true,
+      "furtherEditExact": true,
+      "externalRequests": [],
+      "freshConsole": [],
+      "fieldEntry": "fill/selectOption; all dialog buttons, links and targets use native tap"
+    }
+  },
+  {
+    "test": "R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b unveränderter Original-ID-Grenzstand bleibt per Finger sicherbar und vollständig lesbar",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger",
+    "name": "finger-crossings.json",
+    "content": {
+      "targets": [
+        {
+          "x": 188.5143051147461,
+          "y": 285.03079986572266,
+          "id": "1"
+        },
+        {
+          "x": 234.64032745361328,
+          "y": 233.32990264892578,
+          "id": "4"
+        },
+        {
+          "x": 392.18328857421875,
+          "y": 148.6134033203125,
+          "id": "5"
+        },
+        {
+          "x": 339.66896057128906,
+          "y": 215.89118194580078,
+          "id": "6"
+        },
+        {
+          "x": 444.6976013183594,
+          "y": 222.43070220947266,
+          "id": "8"
+        },
+        {
+          "x": 549.7262573242188,
+          "y": 213.71134185791016,
+          "id": "10"
+        },
+        {
+          "x": 654.7548828125,
+          "y": 204.99198150634766,
+          "id": "12"
+        },
+        {
+          "x": 759.7835388183594,
+          "y": 231.15006256103516,
+          "id": "14"
+        }
+      ],
+      "changedAndDeletedOnly": "1",
+      "originalIdsRestored": true
+    }
+  },
+  {
+    "test": "R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  },
+  {
+    "test": "R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp",
+    "name": "capture-with-held-finger.json",
+    "content": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 3,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 91,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 91,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Blau",
+          "pointerType": "touch",
+          "pointerId": 92,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Blau",
+          "pointerType": "touch",
+          "pointerId": 92,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Blau",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 91,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 4,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "technische Beobachtung. Prüft beim",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": null,
+          "afterDispatchSnapshot": null
+        },
+        {
+          "type": "lostpointercapture",
+          "target": "Arbeitsfläche",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 0,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Karte 1",
+          "pointerType": "touch",
+          "pointerId": 5,
+          "detail": 1,
+          "trusted": true,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 93,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointercancel",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 91,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 93,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "afterDispatchSnapshot": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen",
+        "Schließen"
+      ],
+      "opened": [
+        "Karte 1",
+        "Karte 1"
+      ],
+      "actionCount": 2,
+      "dialogAfterSequence": null
+    }
+  },
+  {
+    "test": "R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp",
+    "name": "browser-diagnostics.json",
+    "content": {
+      "engine": "chromium",
+      "version": "156.0.8078.79",
+      "messages": []
+    }
+  }
+]

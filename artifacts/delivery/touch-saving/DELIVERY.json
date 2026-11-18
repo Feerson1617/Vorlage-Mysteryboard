@@ -1,0 +1,88 @@
+{
+  "sourceCommit": "7f057f684d22cbc128edee5af7c48d340fd72940",
+  "branch": "fix/mysteryboard-touch-png-saving",
+  "baseCommit": "50c6b59e8688abea8863eb27f2753840f2391df5",
+  "dataTestsPassed": 160,
+  "chromiumBrowserTestsPassed": 253,
+  "originalPdfCasesPassed": 8,
+  "rc2TestsPassed": 4,
+  "sourceRebuildByteIdentical": true,
+  "containsPrivateOriginalPdfs": false,
+  "files": [
+    {
+      "file": "ABNAHME-START.md",
+      "bytes": 3437,
+      "sha256": "77428c5ff89623a33e510d8659b1c382e098dcd66bd49e93428587ab02fee38e"
+    },
+    {
+      "file": "ERGEBNIS.json",
+      "bytes": 4260,
+      "sha256": "47b181f933e7f5710a5c74344a44091260858629d7113a5bdd795ce84f2460dc"
+    },
+    {
+      "file": "MysteryBoard-Touch-PNG-Abnahmepaket.integrity.json",
+      "bytes": 330,
+      "sha256": "1a6d87d64e3d0860136c99793116ef20e7d9492a9b12087ec79536fc46caf0a2"
+    },
+    {
+      "file": "MysteryBoard-Touch-PNG-Abnahmepaket.zip",
+      "bytes": 28394888,
+      "sha256": "4f5bd34e21eaf8b4d1dbfe51bad84bd6bdfc2a0889c9721fefbb2b56e4da522a"
+    },
+    {
+      "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+      "bytes": 2795922,
+      "sha256": "9fde10fc96a578522a751be82b9ef403b1ff7901d7de2c509d007a4a1fbb331a"
+    },
+    {
+      "file": "MysteryBoard-Universal.html",
+      "bytes": 5608321,
+      "sha256": "3b57238afb94fd1555464a5b156996ea7eced58f92a804a7ade7d144279fdeb9"
+    },
+    {
+      "file": "MysteryBoard-Unterrichtsbeispiel-SCORM-1.2.zip",
+      "bytes": 2826547,
+      "sha256": "0d2014953e0da07794a57f3a0e33b7f6da8ce108560bc1ca1b167ec906fab2d4"
+    },
+    {
+      "file": "MysteryBoard-Unterrichtsbeispiel.mysteryboard",
+      "bytes": 51307,
+      "sha256": "24f7f9513d6fa5ed6e0b512cb0e2daf5e7575c421031e61510dfad50e77e3ef9"
+    },
+    {
+      "file": "Pfeile-iPad-1024.png",
+      "bytes": 61268,
+      "sha256": "6e366edfac0ba9f803ae485abd3d4db00be665f594fb187dbaa176ea0e8d4731"
+    },
+    {
+      "file": "Pfeile-iPad-768.png",
+      "bytes": 63820,
+      "sha256": "8e9b4f60c508fef820dd7d21eaa3f3a88c378447c9d56e218e4f4d5708ff1683"
+    },
+    {
+      "file": "TOUCH-UND-PNG-PRUEFBERICHT.md",
+      "bytes": 15414,
+      "sha256": "6b6568086c21d985ed6fcd9452eda9b6f2e151da2d656733765789a8fcfcb4f1"
+    },
+    {
+      "file": "Team Nordseeküste_Strömungen und Küsten – Übungsaufgabe.png",
+      "bytes": 913896,
+      "sha256": "2fdeca1661755bf2d035029c7c8cc5807dc61a21f9b31167c7ab7a2962037fad"
+    },
+    {
+      "file": "VERSION.json",
+      "bytes": 297,
+      "sha256": "3e1215ccbd05af3a1aac366d1d555493a4c28bee69c8a5409267fd8939c876b8"
+    },
+    {
+      "file": "paketpruefung/extracted-source-verification.json",
+      "bytes": 265,
+      "sha256": "6ec5f5c9cd24ccc99b6ab893dcfe07996cd8c75e588ff77be449c4dfda3eaf5b"
+    },
+    {
+      "file": "paketpruefung/fresh-package-verification.json",
+      "bytes": 2135,
+      "sha256": "10f355f97e9255adbaab41d2114ba0fc470367ba4cf7566a8d87ab1bb26f32ac"
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+[
+  {
+    "file": "tests/browser/acceptance-delivery.spec.ts",
+    "before": {
+      "testCalls": 2,
+      "expectCalls": 36,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 2,
+      "expectCalls": 36,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/authoring-classroom.spec.ts",
+    "before": {
+      "testCalls": 3,
+      "expectCalls": 64,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 3,
+      "expectCalls": 64,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/authoring-helpers.ts",
+    "before": {
+      "testCalls": 0,
+      "expectCalls": 2,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 0,
+      "expectCalls": 2,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/authoring-phase1.spec.ts",
+    "before": {
+      "testCalls": 2,
+      "expectCalls": 8,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 2,
+      "expectCalls": 8,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/authoring-safety.spec.ts",
+    "before": {
+      "testCalls": 6,
+      "expectCalls": 39,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 6,
+      "expectCalls": 39,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/document-import-integrity.spec.ts",
+    "before": {
+      "testCalls": 2,
+      "expectCalls": 22,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 2,
+      "expectCalls": 22,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/document-import.spec.ts",
+    "before": {
+      "testCalls": 8,
+      "expectCalls": 73,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 8,
+      "expectCalls": 73,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/help-editor.spec.ts",
+    "before": {
+      "testCalls": 5,
+      "expectCalls": 57,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 5,
+      "expectCalls": 57,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/help-runtime-helpers.ts",
+    "before": {
+      "testCalls": 1,
+      "expectCalls": 8,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 1,
+      "expectCalls": 8,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  },
+  {
+    "file": "tests/browser/release-candidate.spec.ts",
+    "before": {
+      "testCalls": 1,
+      "expectCalls": 31,
+      "skipCalls": 0
+    },
+    "after": {
+      "testCalls": 1,
+      "expectCalls": 33,
+      "skipCalls": 0
+    },
+    "uiExpectationsAdjustedToNewRequirements": true
+  }
+]

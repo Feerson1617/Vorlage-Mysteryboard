@@ -1,0 +1,2866 @@
+{
+  "metadata": {
+    "actualWorkers": 1
+  },
+  "startTime": 1794552061583,
+  "duration": 359997.11899999995,
+  "files": [
+    {
+      "fileId": "a479613f48eeef676b25",
+      "fileName": "corrections.spec.ts",
+      "tests": [
+        {
+          "testId": "a479613f48eeef676b25-238135624068249407fe",
+          "title": "mehrere Aktionen rückgängig/wiederholen, neue Bearbeitung und Import setzen Zukunft korrekt zurück",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 53,
+            "column": 1
+          },
+          "duration": 5695,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:05.032Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-835adc79550a414ce5ed",
+          "title": "erzeugtes Bild, Download und erfolgreiches oder abgebrochenes Teilen bestätigen keine dauerhafte Ablage",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 127,
+            "column": 1
+          },
+          "duration": 2613,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:11.729Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-b2d5b0c313f5ed145db3",
+          "title": "PNG-Größenüberschreitung: kleiner Rückfallweg liefert wiederherstellbare Sicherung",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 228,
+            "column": 3
+          },
+          "duration": 5992,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:14.388Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-5814e47eb8604c7d5d34",
+          "title": "PNG-Größenüberschreitung: beide Größen scheitern ohne unbrauchbaren Download",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 228,
+            "column": 3
+          },
+          "duration": 5438,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:20.438Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-cd238e1962e2aa50bf42",
+          "title": "quadratische, hochformatige und breite svg-Bilder behalten in Board und PNG identische Proportionen",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 280,
+            "column": 3
+          },
+          "duration": 8452,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:25.940Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-038db19f6315564bca0d",
+          "title": "quadratische, hochformatige und breite png-Bilder behalten in Board und PNG identische Proportionen",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 280,
+            "column": 3
+          },
+          "duration": 7590,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:34.460Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "a479613f48eeef676b25-e99bd55d730777a57d3f",
+          "title": "Werkzeugleiste bleibt mit Wiederholen bei 320 Pixeln ohne horizontales Scrollen bedienbar",
+          "projectName": "",
+          "location": {
+            "file": "corrections.spec.ts",
+            "line": 399,
+            "column": 1
+          },
+          "duration": 989,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:42.112Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 7,
+        "expected": 7,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "19b1a4b9c75f61794625",
+      "fileName": "prototype.spec.ts",
+      "tests": [
+        {
+          "testId": "19b1a4b9c75f61794625-98bd1b085cabc6abfea3",
+          "title": "eigenständiges HTML läuft offline; keine externen Anfragen",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 36,
+            "column": 1
+          },
+          "duration": 2243,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:43.201Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-a290a00404355973f1fa",
+          "title": "Lesen, Ziehen, Verschieben, Zoom, Farbe, Verbindung und Rückgängig",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 69,
+            "column": 1
+          },
+          "duration": 2128,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:45.461Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-d1b2b85c5933670dcbd9",
+          "title": "kleine Original-PNG: A3-Export, neues Fenster, Import und weiter bearbeiten",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 135,
+            "column": 1
+          },
+          "duration": 5342,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:47.617Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-37fa96b1040a10e13581",
+          "title": "60 Karten: PNG oberhalb QR-Limit, Wiederherstellung, Bearbeitung und beschädigter Import",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 192,
+            "column": 1
+          },
+          "duration": 3878,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:52.985Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-1354adb0f90c83011010",
+          "title": "abgebrochener Import verändert den geöffneten Stand nicht",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 230,
+            "column": 1
+          },
+          "duration": 3088,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:41:56.893Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-e90f39c71b05638f3d17",
+          "title": "Kamera verweigert: klare Meldung und Bildauswahl bleibt verfügbar",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 256,
+            "column": 1
+          },
+          "duration": 812,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:00.010Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-fa622d7b354da5c8b24b",
+          "title": "Zwei-Finger-Geste auf einer Karte verwirft begonnenes Ziehen und erzeugt keinen Klick",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 278,
+            "column": 1
+          },
+          "duration": 1512,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:00.872Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-b90ff570e21722681dbf",
+          "title": "gerenderte Sicherungen: zehn Zyklen, QR-Erkennung, zoomunabhängiger Export",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 339,
+            "column": 1
+          },
+          "duration": 3192,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:02.408Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-287c4759acb29bd56e46",
+          "title": "kleiner Export als Rückfallweg bei fehlgeschlagenem großem Canvas",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 393,
+            "column": 1
+          },
+          "duration": 3687,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:05.681Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-40f8a7b8b4468bcbfd3b",
+          "title": "vorhandene Linie direkt antippen, bearbeiten, löschen und rückgängig machen",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 417,
+            "column": 1
+          },
+          "duration": 4663,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:09.401Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-253cfa17eb973f08812b",
+          "title": "Kameraablauf mit künstlichem Videostream: kompletter QR-Zustand und Stream-Ende",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 436,
+            "column": 1
+          },
+          "duration": 6429,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:14.106Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "19b1a4b9c75f61794625-ff83682c0bf5c75d6b7e",
+          "title": "QR nahe der Kapazitätsgrenze ist aus dem kleineren PNG vollständig lesbar",
+          "projectName": "",
+          "location": {
+            "file": "prototype.spec.ts",
+            "line": 483,
+            "column": 1
+          },
+          "duration": 1806,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:20.585Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 12,
+        "expected": 12,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "365a327973729c17ebe5",
+      "fileName": "r1.spec.ts",
+      "tests": [
+        {
+          "testId": "365a327973729c17ebe5-8da6b780d52f3ce8d4ac",
+          "title": "R1 ohne click: fünf Referenztipps 12 Karten öffnen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 135,
+            "column": 3
+          },
+          "duration": 1894,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "no-click-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:22.466Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-db42e3c91fbe7d817fa7",
+          "title": "R1 ohne click: fünf Referenztipps 60 Karten öffnen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 135,
+            "column": 3
+          },
+          "duration": 1933,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "no-click-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:24.390Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-5738257264383b8ba90a",
+          "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 12 Karten",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 167,
+            "column": 3
+          },
+          "duration": 3093,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "native-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:26.351Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-ce6f3909b1c40688e07d",
+          "title": "R1 native Touchfolge und Offline-Sicherung: fünf Tipps 60 Karten",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 167,
+            "column": 3
+          },
+          "duration": 4620,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "native-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:29.463Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-45b9a742c8fbb8b5b6bd",
+          "title": "R1 verspäteter PointerEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 257,
+            "column": 3
+          },
+          "duration": 1615,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:34.109Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-9d3e916eec0f2b52bc30",
+          "title": "R1 verspäteter MouseEvent-Klick trifft keinen neuen Löschknopf; bewusster Tipp löscht",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 257,
+            "column": 3
+          },
+          "duration": 1744,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:35.786Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-7581e61892db3c9418ff",
+          "title": "R1 alter Klick während eines neuen Button-Tipps wird verworfen, dessen eigener Klick bleibt wirksam",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 328,
+            "column": 1
+          },
+          "duration": 1650,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:37.570Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-43f13fc5331e8c514b40",
+          "title": "R1 Negativgesten: Ziehen, Pan, Pinch, versetztes Loslassen, Cancel und Capture-Verlust öffnen nie einen Dialog",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 388,
+            "column": 1
+          },
+          "duration": 1340,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "negative-gesture-trace.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:39.238Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-63ad11e464de868e8ef5",
+          "title": "R1 Verbindungswahl: Mehrfinger, Abbruch und nachlaufende Klicks wählen keine zweite Karte",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 456,
+            "column": 1
+          },
+          "duration": 1400,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:40.606Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "365a327973729c17ebe5-d0cc84c4443aafeb82cb",
+          "title": "R1 Maus, Enter, Leertaste, Fokus und programmatische Dateiauswahl bleiben bedienbar",
+          "projectName": "",
+          "location": {
+            "file": "r1.spec.ts",
+            "line": 493,
+            "column": 1
+          },
+          "duration": 1782,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:42:42.030Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 10,
+        "expected": 10,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "5c7bdd50a141fe335d71",
+      "fileName": "r1b.spec.ts",
+      "tests": [
+        {
+          "testId": "5c7bdd50a141fe335d71-4ec0c97ebf2736205efc",
+          "title": "R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1129,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:43.882Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-ee6946a2b59bb26bd586",
+          "title": "R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1049,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:45.048Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-ba56296de368061466e3",
+          "title": "R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1111,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:46.136Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-a3e7daa385dc38205927",
+          "title": "R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1185,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:47.263Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-e6d7cd687474fef70b24",
+          "title": "R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1393,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:48.483Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-9a061c2734449ade07b9",
+          "title": "R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1011,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:49.901Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-68d729092cf80b947c0d",
+          "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1105,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:50.943Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-35f22a51e92065365a42",
+          "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1057,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:52.075Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-0ffd181bc0b13209f0cc",
+          "title": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1140,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:53.153Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-d9cf484b313d2a2ed9f5",
+          "title": "R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 995,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:54.322Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-5957291b503ba9a7c379",
+          "title": "R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1091,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:55.343Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-da19d2dd06ca93887ade",
+          "title": "R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 133,
+            "column": 5
+          },
+          "duration": 1031,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "id-switch-replay.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:56.463Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-3195565d91da57aae494",
+          "title": "R1b native Referenzfolge 12: fünf Ziele und jedes Schließen per Finger",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 198,
+            "column": 3
+          },
+          "duration": 1813,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "native-open-close.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:57.528Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-4e08dd19e0cf173443eb",
+          "title": "R1b native Referenzfolge 60: fünf Ziele und jedes Schließen per Finger",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 198,
+            "column": 3
+          },
+          "duration": 2715,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "native-open-close.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:42:59.375Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-a82f261574c9c2b924ce",
+          "title": "R1b 450ms alter PointerEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 2198,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:02.131Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-1b1ab16fa7ef914c488e",
+          "title": "R1b 450ms alter PointerEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 1692,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:04.366Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-7843635a53179a37862c",
+          "title": "R1b 450ms alter PointerEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 2577,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:06.101Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-a42ed25b344e7cd0b1e6",
+          "title": "R1b 450ms alter MouseEvent-Klick auf Schließen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 1759,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:08.708Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-e54dbea2172648e6b55c",
+          "title": "R1b 450ms alter MouseEvent-Klick auf Übernehmen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 1781,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:10.482Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-c6a603cb7731a7a21e77",
+          "title": "R1b 450ms alter MouseEvent-Klick auf Verbindung löschen ohne neue Geste bleibt wirkungslos",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 230,
+            "column": 5
+          },
+          "duration": 1670,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "delayed-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:12.292Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-676f1a989a31a9a9b685",
+          "title": "R1b ungültige Buttonfolgen hinterlassen keine Klickfreigabe; nächste bewusste Geste funktioniert",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 276,
+            "column": 1
+          },
+          "duration": 2505,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "invalid-button-gestures.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:13.995Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-115618e73d0c4d073c8d",
+          "title": "R1b touchcancel auf Board verwirft Auswahl; neuer Tipp ohne click öffnet genau einmal",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 328,
+            "column": 1
+          },
+          "duration": 1062,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "touchcancel-no-click.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:16.521Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-0494c7fa1ca50d4e6ca6",
+          "title": "R1b Schutz bleibt auf die Anwendung begrenzt und erlaubt keine ersetzten Dialogbuttons",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 361,
+            "column": 1
+          },
+          "duration": 1581,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:17.599Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-a7f0fc86ea7beeb8e039",
+          "title": "R1b durchgehender Touch-Arbeitsablauf 12/9 mit Original-PNG und neuer Sitzung",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 436,
+            "column": 3
+          },
+          "duration": 5967,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "touch-workflow.png",
+                  "contentType": "image/png",
+                  "path": "data/2ffd6f468444251effb433d4a828f411ec794029.png"
+                },
+                {
+                  "name": "workflow-summary.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:19.208Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-fc315080e7b0cae961dd",
+          "title": "R1b durchgehender Touch-Arbeitsablauf 60/90 mit Original-PNG und neuer Sitzung",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 436,
+            "column": 3
+          },
+          "duration": 8471,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "touch-workflow.png",
+                  "contentType": "image/png",
+                  "path": "data/a73403a4df3f465edcf9a3baad94ca40b25066bb.png"
+                },
+                {
+                  "name": "workflow-summary.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:25.206Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-6746ad14506d23638215",
+          "title": "R1b Original-ID-Grenzstand importiert unverändert und bleibt nach Teamnachtrag per Finger sicherbar",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 559,
+            "column": 1
+          },
+          "duration": 1811,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "read-only-high-id.png",
+                  "contentType": "image/png",
+                  "path": "data/7f82305e31a8381f123519444dc62ddc004b93a5.png"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:33.704Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-e3119c42fbad6f18c391",
+          "title": "R1b 220-Verbindungen: acht Kreuzungslabels einschließlich Schließen, Ändern und Löschen per Finger",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 581,
+            "column": 1
+          },
+          "duration": 3726,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "finger-crossings.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:35.568Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "5c7bdd50a141fe335d71-631b50caf99b8872a93b",
+          "title": "R1b Capture-Verlust beendet keinen gehaltenen Finger; verspäteter fremder Abbruch sperrt keinen neuen Tipp",
+          "projectName": "",
+          "location": {
+            "file": "r1b.spec.ts",
+            "line": 665,
+            "column": 1
+          },
+          "duration": 1494,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "capture-with-held-finger.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "browser-diagnostics.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:39.317Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 28,
+        "expected": 28,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "12f883ce49bb8436c3d7",
+      "fileName": "review.spec.ts",
+      "tests": [
+        {
+          "testId": "12f883ce49bb8436c3d7-7644fe544ac4d6faec03",
+          "title": "M2 Original-ID-Grenzstand: dreimal Anlegen/Löschen/Undo/Redo und frische Wiederherstellung",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 41,
+            "column": 1
+          },
+          "duration": 6786,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "M2-output.png",
+                  "contentType": "image/png",
+                  "path": "data/6599ecb430e470c088050439dd19c1ae4a57dde9.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:40.905Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-ef195b93363b0dc2a873",
+          "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Maus)",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 93,
+            "column": 3
+          },
+          "duration": 1552,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:43:47.722Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-e916c66616a55fb0e4fd",
+          "title": "M1 sichtbares Label statt kreuzender Trefferfläche (Touch)",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 93,
+            "column": 3
+          },
+          "duration": 1692,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:43:49.316Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-78d2c3dd0f9228ce174e",
+          "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Maus)",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 169,
+            "column": 3
+          },
+          "duration": 8570,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "stress-220-output.png",
+                  "contentType": "image/png",
+                  "path": "data/d582510af184b4d9e834da2384f7878c423001db.png"
+                },
+                {
+                  "name": "label-hits.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:51.030Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-9f8c26574bec1fa53efc",
+          "title": "M1 220 Original-Verbindungen: sichtbare Kreuzungslabels (Touch)",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 169,
+            "column": 3
+          },
+          "duration": 9531,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "stress-220-output.png",
+                  "contentType": "image/png",
+                  "path": "data/d582510af184b4d9e834da2384f7878c423001db.png"
+                },
+                {
+                  "name": "label-hits.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:43:59.618Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-c5df5dbf5bfb2b94f046",
+          "title": "Original 60/90-Gruppenstand bleibt vollständig und im frischen Kontext bearbeitbar",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 309,
+            "column": 1
+          },
+          "duration": 7675,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:09.186Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-1279580d7af5c7b04642",
+          "title": "Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchflächen, kein Überlauf",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 343,
+            "column": 1
+          },
+          "duration": 7041,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:16.890Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-0e3709e7acbad5c8f3b8",
+          "title": "Nummern 12, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 387,
+            "column": 5
+          },
+          "duration": 1614,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "number-geometry.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:23.982Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-9fc74d76aa9488709286",
+          "title": "Nummern 12, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 387,
+            "column": 5
+          },
+          "duration": 1989,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "number-geometry.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:25.636Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-421e658174e4ddd3a5e7",
+          "title": "Nummern 60, Querformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 387,
+            "column": 5
+          },
+          "duration": 3100,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "number-geometry.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:27.667Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-16f052808aab458c106e",
+          "title": "Nummern 60, Hochformat: außerhalb, lesbar, vollständig, Zoom begrenzt",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 387,
+            "column": 5
+          },
+          "duration": 2680,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "number-geometry.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:30.783Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-cded30d6a9780ea6f7cb",
+          "title": "220er-Lesefenster: Langtext und Kennung umbrechen; Medien-Lesemaße dokumentiert",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 508,
+            "column": 1
+          },
+          "duration": 5270,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "reader-media.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:33.477Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-e13e6c8092d7bc234361",
+          "title": "Abgebrochene langsame Kodierung: sofortiger neuer Auftrag wartet sichtbar, nur aktueller Stand, höchstens ein Canvas",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 559,
+            "column": 1
+          },
+          "duration": 2326,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:38.767Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "12f883ce49bb8436c3d7-5ac260968c06071572c3",
+          "title": "Export validiert den Stand und zeichnet Außen-Nummern sowie benannte Farbfelder",
+          "projectName": "",
+          "location": {
+            "file": "review.spec.ts",
+            "line": 625,
+            "column": 1
+          },
+          "duration": 1339,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:41.117Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 14,
+        "expected": 14,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "767e7983b9320f6c5f51",
+      "fileName": "team-requirements.spec.ts",
+      "tests": [
+        {
+          "testId": "767e7983b9320f6c5f51-00b67df53001529f9b98",
+          "title": "UNI-01 small: Start benötigt Namen; leere Änderung erhält den bestehenden Namen",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 171,
+            "column": 3
+          },
+          "duration": 2554,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:42.525Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-87d03615bc209ab6a942",
+          "title": "UNI-01 large: Start benötigt Namen; leere Änderung erhält den bestehenden Namen",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 171,
+            "column": 3
+          },
+          "duration": 3792,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:45.102Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-282da4e7df66d2f7c538",
+          "title": "UNI-01 boden: Start benötigt Namen; leere Änderung erhält den bestehenden Namen",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 171,
+            "column": 3
+          },
+          "duration": 2703,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:48.914Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-088293ae3fe414673d42",
+          "title": "UNI-01 neutral: Start benötigt Namen; leere Änderung erhält den bestehenden Namen",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 171,
+            "column": 3
+          },
+          "duration": 3615,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:44:51.634Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-e83c0685de9f4076f342",
+          "title": "UNI-01 Legacy und Export a3: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 212,
+            "column": 3
+          },
+          "duration": 11819,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "a3-named-restorable.png",
+                  "contentType": "image/png",
+                  "path": "data/d6858c89e7a0a6dc74032106478fabbf3053bb64.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:44:55.280Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-32ee9fb7d993dd064e10",
+          "title": "UNI-01 Legacy und Export menu: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 212,
+            "column": 3
+          },
+          "duration": 6888,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "menu-named-restorable.png",
+                  "contentType": "image/png",
+                  "path": "data/2dc0c68b4a76222d31e5ebb0747024ea2e328fa3.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:07.158Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-0772c0a2b8ff00b80e7a",
+          "title": "UNI-01 Legacy und Export preview-compact: importierbar, bearbeitbar, Name nachtragen, frischer PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 212,
+            "column": 3
+          },
+          "duration": 5599,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "preview-compact-named-restorable.png",
+                  "contentType": "image/png",
+                  "path": "data/2dc0c68b4a76222d31e5ebb0747024ea2e328fa3.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:14.116Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-b13a769299c412993b84",
+          "title": "UNI-01 Undo/Redo, Abbruch und alte Vorschau können die Namensprüfung nicht umgehen",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 286,
+            "column": 1
+          },
+          "duration": 3950,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:45:19.750Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-7c9f518843fa4e7889dd",
+          "title": "UNI-01/02: 80 Zeichen und Umlaute bleiben in Bild, PNG-Daten und frischer Wiederherstellung vollständig",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 448,
+            "column": 1
+          },
+          "duration": 3141,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "80-zeichen-export-kopfzeile.png",
+                  "contentType": "image/png",
+                  "path": "data/ea3bb761772f4359f1d06d2997ac7aa1a25f4cdc.png"
+                },
+                {
+                  "name": "80-zeichen-export-koordinaten.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "80-zeichen-original.png",
+                  "contentType": "image/png",
+                  "path": "data/0f598059b152237b14fe93c4e200ce036a8514f9.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:23.736Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-a6e9cb79a0e1d3983651",
+          "title": "UNI-02 320×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 2543,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:26.896Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-aca5c0c5ac9e2e954841",
+          "title": "UNI-02 480×800: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 3438,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:29.472Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-96cdbe5e755c2bbeb7e3",
+          "title": "UNI-02 600×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 2622,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:32.974Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-f77bb165270db1f31516",
+          "title": "UNI-02 601×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 5537,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:35.620Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-874a991dceb767952b9e",
+          "title": "UNI-02 640×900: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 6757,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:41.183Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-6b6463c1d8942f4df4a5",
+          "title": "UNI-02 768×1024: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 4091,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:48.399Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "767e7983b9320f6c5f51-56ac4dcb4a0fa45cc5f9",
+          "title": "UNI-02 1024×768: Team rechts, eine Werkzeugzeile, alle Bedienelemente zugänglich",
+          "projectName": "",
+          "location": {
+            "file": "team-requirements.spec.ts",
+            "line": 499,
+            "column": 3
+          },
+          "duration": 3765,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "layout-measurements.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:52.527Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 16,
+        "expected": 16,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    },
+    {
+      "fileId": "c20401bebae9c5b73de1",
+      "fileName": "universal.spec.ts",
+      "tests": [
+        {
+          "testId": "c20401bebae9c5b73de1-4b4a4cb1ba5a8a2bead8",
+          "title": "Universelle Vorlage small: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 240,
+            "column": 3
+          },
+          "duration": 6347,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "small-header.png",
+                  "contentType": "image/png",
+                  "path": "data/77926ead94e92ba7af1804575635af88c2d736ae.png"
+                },
+                {
+                  "name": "small-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "small-original.png",
+                  "contentType": "image/png",
+                  "path": "data/c1a0547ce296f79ae90a4356d2dc1a817139a5f6.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:45:56.339Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-52d3b1e719d018e4f683",
+          "title": "Universelle Vorlage large: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 240,
+            "column": 3
+          },
+          "duration": 8562,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "large-header.png",
+                  "contentType": "image/png",
+                  "path": "data/839276a83ee1bca2a95a293dce19ccbfcc02c8fd.png"
+                },
+                {
+                  "name": "large-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "large-original.png",
+                  "contentType": "image/png",
+                  "path": "data/d009eed146fea4433a4efbc30ff5ab9806275c2e.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:02.701Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-0e2b8502912a1715f3f1",
+          "title": "Universelle Vorlage boden: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 240,
+            "column": 3
+          },
+          "duration": 6317,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "boden-header.png",
+                  "contentType": "image/png",
+                  "path": "data/043982de829346d42067f7a4d3e7bddf2274504b.png"
+                },
+                {
+                  "name": "boden-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "boden-original.png",
+                  "contentType": "image/png",
+                  "path": "data/a77cc7732c5b4441e22bb64e1b041c4efb709af3.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:11.318Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-e6436ed64b1865cafb03",
+          "title": "Universelle Vorlage neutral: lokale Einzel-HTML, Team und vollständiger Offline-PNG-Rundlauf",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 240,
+            "column": 3
+          },
+          "duration": 4396,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "neutral-header.png",
+                  "contentType": "image/png",
+                  "path": "data/72fb7728d1a59af5e1b433131b775defc03839c6.png"
+                },
+                {
+                  "name": "neutral-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "neutral-original.png",
+                  "contentType": "image/png",
+                  "path": "data/0c744c1ba54cd4c6e7a3da40189717e84cf1c2fc.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:17.667Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-d00680f179c551e74d6a",
+          "title": "Boden 1024×768: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 399,
+            "column": 3
+          },
+          "duration": 4890,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "boden-1024-initial.png",
+                  "contentType": "image/png",
+                  "path": "data/04be66b58e6824afdb535c0f6d138bad720bd8a7.png"
+                },
+                {
+                  "name": "boden-1024-header.png",
+                  "contentType": "image/png",
+                  "path": "data/3e69df5ed7931399edfcfa64f9ddfc657c47e5cd.png"
+                },
+                {
+                  "name": "boden-1024-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "boden-1024-full.png",
+                  "contentType": "image/png",
+                  "path": "data/b482786f3092e0e035277bc604345e1fd0c9bab9.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:22.094Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-2c0c7187f6d010990e9f",
+          "title": "Boden 768×1024: Pflicht/V, Touch-Ziehen, sichtbare Verbindung und Teamexport",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 399,
+            "column": 3
+          },
+          "duration": 4382,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "boden-768-initial.png",
+                  "contentType": "image/png",
+                  "path": "data/98b5b42982d6362c955b594d6e1cda72783e7d04.png"
+                },
+                {
+                  "name": "boden-768-header.png",
+                  "contentType": "image/png",
+                  "path": "data/cbd9d8420e1a02639d5cb486e825c640a339e347.png"
+                },
+                {
+                  "name": "boden-768-header-coordinates.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "boden-768-full.png",
+                  "contentType": "image/png",
+                  "path": "data/da08db40cb2f849fb99130930bb9b936f5437b35.png"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:27.019Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-bbfa25030f6e452a76d8",
+          "title": "Alle Varianten importieren schema1 unverändert; Export verlangt Team, ungültiges Löschen erhält den Namen",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 519,
+            "column": 1
+          },
+          "duration": 23520,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "legacy-compatibility.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:31.427Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-6ea614da24563f546bb9",
+          "title": "Boden übernimmt weder fremdes Mystery noch Inhaltsversion 1.0.0 und behält den geöffneten Teamstand",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 655,
+            "column": 1
+          },
+          "duration": 3321,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [],
+              "startTime": "2026-11-13T06:46:54.977Z",
+              "workerIndex": 0
+            }
+          ]
+        },
+        {
+          "testId": "c20401bebae9c5b73de1-46437c28d31c37baeaf1",
+          "title": "Export-Kopfzeile: lange untrennbare Titel und Teamangaben passen ohne Überlagerung in beide Bildgrößen",
+          "projectName": "",
+          "location": {
+            "file": "universal.spec.ts",
+            "line": 685,
+            "column": 1
+          },
+          "duration": 2527,
+          "annotations": [],
+          "tags": [],
+          "outcome": "expected",
+          "path": [],
+          "ok": true,
+          "results": [
+            {
+              "attachments": [
+                {
+                  "name": "long-compact-header.png",
+                  "contentType": "image/png",
+                  "path": "data/9bf5761e9b900c5a1a88c29268f8d312ab1ff104.png"
+                },
+                {
+                  "name": "long-compact-header.json",
+                  "contentType": "application/json"
+                },
+                {
+                  "name": "long-a3-header.png",
+                  "contentType": "image/png",
+                  "path": "data/012523af99feb66c0cc6f233decad7e6c8579cd8.png"
+                },
+                {
+                  "name": "long-a3-header.json",
+                  "contentType": "application/json"
+                }
+              ],
+              "startTime": "2026-11-13T06:46:58.328Z",
+              "workerIndex": 0
+            }
+          ]
+        }
+      ],
+      "stats": {
+        "total": 9,
+        "expected": 9,
+        "unexpected": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "ok": true
+      }
+    }
+  ],
+  "projectNames": [
+    ""
+  ],
+  "stats": {
+    "total": 96,
+    "expected": 96,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "errors": [],
+  "options": {},
+  "machines": []
+}

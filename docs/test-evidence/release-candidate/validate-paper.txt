@@ -1,0 +1,30 @@
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate examples/ki-papierprobe/inhalt.json
+
+Gültig: task, mystery-parkteich-papierprobe, Version 1.0.0, 10 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate examples/ki-papierprobe/Parkteich-Aufgabe-v1.mysteryboard
+
+Gültig: task, mystery-parkteich-papierprobe, Version 1.0.0, 10 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate examples/ki-papierprobe/Parkteich-Lehrkraftentwurf-v1.mysteryboard
+
+Gültig: draft, mystery-parkteich-papierprobe, Version 1.0.0, 10 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

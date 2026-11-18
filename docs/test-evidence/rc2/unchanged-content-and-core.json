@@ -1,0 +1,116 @@
+{
+  "status": "passed",
+  "baseCommit": "240d5fcfcac7e5924efe169493c9f7525ba5ed74",
+  "rc1TagObject": "9f02f956c1c6853137920d79f24ba66eb5b94b66",
+  "rc1HtmlSha256": "4c451aec074a8cca75dd1879fce21ef5a6e0b32ce40b6af9412b9f70186540e8",
+  "contentId": "geo11-boden-ploen-2026",
+  "contentVersion": "2.0.0",
+  "cardsIncludingMetadataUnchanged": true,
+  "canonicalCardsSha256": "ab604283a3683807fedc61fceebd7af7271d3458a3de7b91f86337963eac327a",
+  "onlyContentChanges": [
+    "initial.cards order",
+    "initial.cards x/y coordinates"
+  ],
+  "newInitialCanonicalSha256": "30faf5affc2d0230df5ca5cf5163bbfcbec482e5db87be7b5f719e9cddb29df3",
+  "unchangedSourceFiles": [
+    {
+      "file": "src/App.tsx",
+      "sha256": "1816874fefece44302816852287d0c479d959797c9b861241a6df24da3fbcef4",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Board.tsx",
+      "sha256": "558d387344c37c972e8279f690d33e30c61ca4518cceb86335b5242e0f020675",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Camera.tsx",
+      "sha256": "2e8b83dd17e42764f1cc7cdb987b60e7d7f5c0cb8c5b305b2480f3c83534d6ea",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/CardImage.tsx",
+      "sha256": "d1474d062cd55c5ad90cf474b413f431ee540a6c25fe633f23b1fabcf616a63a",
+      "unchanged": true
+    },
+    {
+      "file": "src/components/Dialog.tsx",
+      "sha256": "da2f5058ae8edd6367b92d4c51525cb0aa5ee6a0cfce59a5adf08cdeae01bc8b",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/large.json",
+      "sha256": "cd5ed7512ad20d90861df716021ed5c53b3a45b29d7810bd76a878474f5ed5f2",
+      "unchanged": true
+    },
+    {
+      "file": "src/content/small.json",
+      "sha256": "703cf8019f87dcbbeef3bae93b786977661761f143c18df20a4177892f47ba9c",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/codec.ts",
+      "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/export.ts",
+      "sha256": "898eab8c793578a12990667e51464e710fbf702d063edd475df7620ac727d9b5",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/history.ts",
+      "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/layout.ts",
+      "sha256": "b4ce01da70b7cac8c4f3f2cb99f7da354d46d9d732b793e7f32495a7630e0490",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/model.ts",
+      "sha256": "906f3e80c2f62a875fbffd5c970cc33dd6078999a5401c79f4d334b16418b9a0",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/png.ts",
+      "sha256": "8089495fa7a5fda4be18618c7dfe80c099b081069df122aef6051426bb2a7151",
+      "unchanged": true
+    },
+    {
+      "file": "src/core/qr.ts",
+      "sha256": "73f2ccec8b81f48374a30b0fabf08917a76dbe837200d99cf12018a73734930f",
+      "unchanged": true
+    },
+    {
+      "file": "src/env.d.ts",
+      "sha256": "ea89c23df64b2354f01ddcd157870d2016f1e75505bb8139688a6a59400380c1",
+      "unchanged": true
+    },
+    {
+      "file": "src/main.tsx",
+      "sha256": "69d92ee6df3f50b076eaf5210136542d2c23bb08c25e5829638ed82901e2cfab",
+      "unchanged": true
+    },
+    {
+      "file": "src/style.css",
+      "sha256": "c64e160dec0e13d5389c46d4085410017f8023e3429b21271e9efbd47d52bf9a",
+      "unchanged": true
+    }
+  ],
+  "unchangedOtherProductionHtmls": [
+    {
+      "file": "MysteryBoard-klein.html",
+      "bytes": 457990,
+      "sha256": "5eee3c8230d51a6a22bc1198843102345b4fe279000d6b130889ca26dd1b94c2",
+      "byteIdenticalToRc1": true
+    },
+    {
+      "file": "MysteryBoard-umfangreich.html",
+      "bytes": 490876,
+      "sha256": "800eeaf7c086a15850980a77e0f517796d4e582dac7fb914b452a94c71bef36f",
+      "byteIdenticalToRc1": true
+    }
+  ]
+}

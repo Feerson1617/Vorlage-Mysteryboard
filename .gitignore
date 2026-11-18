@@ -1,0 +1,18 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+playwright-report-rc2/
+test-results-rc2/
+artifacts/previews/
+*.log
+__pycache__/
+*.pyc
+
+# Reproducible multi-file OCR build, distributed through the sealed ZIPs.
+artifacts/ocr-author/
+
+# Reproducible desktop build output (sealed deliverables tracked separately).
+out/
+studio/dist/
+studio/electron/main.cjs

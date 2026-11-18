@@ -1,0 +1,57 @@
+[
+  {
+    "key": "small",
+    "path": "artifacts/MysteryBoard-klein.html",
+    "bytes": 456776,
+    "sha256": "239ef346ca94538281835f5e38c363bda60e00b961a17880a89f78ca694aecff",
+    "mysteryId": "mysteryboard-test-small",
+    "contentVersion": "1.0.0",
+    "cards": 12,
+    "testOnly": false,
+    "foreignMysteryIdsAbsent": true
+  },
+  {
+    "key": "large",
+    "path": "artifacts/MysteryBoard-umfangreich.html",
+    "bytes": 489662,
+    "sha256": "c15b75b5143c9c39f9396e57432cf9087b8f225115dd6a08f93d1f49f1f8f5f8",
+    "mysteryId": "mysteryboard-test-large",
+    "contentVersion": "1.0.0",
+    "cards": 60,
+    "testOnly": false,
+    "foreignMysteryIdsAbsent": true
+  },
+  {
+    "key": "boden-klasse11",
+    "path": "artifacts/MysteryBoard-Boden-Klasse11.html",
+    "bytes": 458326,
+    "sha256": "2ed5f9a654089f643075cedb1a62e5a734be1d9cb4cb88b9c53b188cb7309d1c",
+    "mysteryId": "geo11-boden-ploen-2026",
+    "contentVersion": "2.0.0",
+    "cards": 18,
+    "testOnly": false,
+    "foreignMysteryIdsAbsent": true
+  },
+  {
+    "key": "review",
+    "path": "artifacts/tests/MysteryBoard-Pruefung-220.html",
+    "bytes": 997375,
+    "sha256": "3e70473f46d3f51301dbfcc79e98c0020c8575982bc647cf324a4d5adcdce7f8",
+    "mysteryId": "qa-medien-large",
+    "contentVersion": "QA-1",
+    "cards": 60,
+    "testOnly": true,
+    "foreignMysteryIdsAbsent": true
+  },
+  {
+    "key": "reuse-example",
+    "path": "artifacts/tests/MysteryBoard-Test-5.html",
+    "bytes": 453226,
+    "sha256": "656a6c5676a72ce0ff48fce9c61702505626873f4457835bbe433cb4eaf1f9ae",
+    "mysteryId": "mysteryboard-reuse-five",
+    "contentVersion": "1.0.0",
+    "cards": 5,
+    "testOnly": true,
+    "foreignMysteryIdsAbsent": true
+  }
+]

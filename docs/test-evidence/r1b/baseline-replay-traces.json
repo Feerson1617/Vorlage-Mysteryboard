@@ -1,0 +1,526 @@
+[
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Schließen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Verbindung löschen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay WebKit touch 0 → mouse 1: Menü genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 0,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "mouse",
+          "pointerId": 1,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "after": null
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Schließen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Verbindung löschen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs touch 17 → mouse 83: Menü genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "mouse",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "after": null
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Schließen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Verbindung löschen genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay andere IDs gleicher Typ touch 17 → touch 83: Menü genau einmal",
+    "status": "failed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 83,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": true,
+          "before": null,
+          "after": null
+        }
+      ],
+      "actions": [],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Schließen genau einmal",
+    "status": "passed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "pointerup",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        },
+        {
+          "type": "click",
+          "target": "Schließen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Karte 1",
+          "after": "Karte 1"
+        }
+      ],
+      "actions": [
+        "Schließen"
+      ],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Verbindung löschen genau einmal",
+    "status": "passed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "pointerup",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        },
+        {
+          "type": "click",
+          "target": "Verbindung löschen",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": "Verbindung 1 und 2",
+          "after": "Verbindung 1 und 2"
+        }
+      ],
+      "actions": [
+        "Verbindung löschen"
+      ],
+      "opened": []
+    }
+  },
+  {
+    "test": "R1b Replay gleiche IDs touch 17 → touch 17: Menü genau einmal",
+    "status": "passed",
+    "trace": {
+      "events": [
+        {
+          "type": "pointerdown",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "pointerup",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 0,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        },
+        {
+          "type": "click",
+          "target": "Menü",
+          "pointerType": "touch",
+          "pointerId": 17,
+          "detail": 1,
+          "trusted": false,
+          "defaultPrevented": false,
+          "before": null,
+          "after": null
+        }
+      ],
+      "actions": [
+        "Menü"
+      ],
+      "opened": [
+        "Menü"
+      ]
+    }
+  }
+]

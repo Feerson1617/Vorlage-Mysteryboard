@@ -1,0 +1,42 @@
+[
+  {
+    "width": 1024,
+    "height": 768,
+    "threeStartButtons": true,
+    "directTeacherImport": true,
+    "editorWidth": 1024,
+    "scormButtonReachable": true,
+    "externalRequests": [],
+    "errors": []
+  },
+  {
+    "width": 768,
+    "height": 1024,
+    "threeStartButtons": true,
+    "directTeacherImport": true,
+    "editorWidth": 768,
+    "scormButtonReachable": true,
+    "externalRequests": [],
+    "errors": []
+  },
+  {
+    "width": 600,
+    "height": 800,
+    "threeStartButtons": true,
+    "directTeacherImport": true,
+    "editorWidth": 600,
+    "scormButtonReachable": true,
+    "externalRequests": [],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "height": 700,
+    "threeStartButtons": true,
+    "directTeacherImport": true,
+    "editorWidth": 320,
+    "scormButtonReachable": true,
+    "externalRequests": [],
+    "errors": []
+  }
+]

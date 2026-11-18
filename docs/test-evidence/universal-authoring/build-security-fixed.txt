@@ -1,0 +1,22 @@
+[WebServer] (node:45499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:45512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:37:19] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:45539) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:45679) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+[WebServer] 127.0.0.1 - - [14/Nov/2026 13:37:23] "GET /test-results/authoring-build-security-S-74797-alt-ausschlie%C3%9Flich-als-Text/MysteryBoard-Textpruefung.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/authoring-build-security.spec.ts:7:1 › Spezifischer Build behandelt auch gemischte Script-Endtags im Inhalt ausschließlich als Text (3.7s)
+
+  1 passed (5.8s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

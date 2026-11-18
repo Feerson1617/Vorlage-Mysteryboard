@@ -1,0 +1,106 @@
+# MysteryBoard: Anleitung für Lehrkräfte
+
+Diese universelle Vorlage öffnet unterschiedliche Mysterys aus Dateien. Sie enthält einen Lehrkräfteeditor und dieselbe Arbeitsfläche für Lernende. Für die Bedienung brauchen Sie weder ein Terminal noch Node.js oder ein KI-Konto. Die Boden-Unterrichtsversion RC2 ist eine separate, unverändert eingefrorene Ausgabe.
+
+## Start und eigener Entwurf
+
+Öffnen Sie `MysteryBoard-Universal.html` in einem vollständigen Browser oder die universelle SCORM-Anwendung im Kurs. Ein Browser kann lokal geladene HTML-Dateien je nach Betriebssystem und Schulverwaltung einschränken; die iPad-Dateivorschau ersetzt keinen Browser. Prüfen Sie den vorgesehenen Bereitstellungsweg vor dem Unterricht.
+
+1. Wählen Sie **Lehrkräfteeditor**, geben Sie ein Lehrkraftkürzel ein und öffnen Sie den Lehrkräftemodus. Das Kürzel ist kein Schüler-Teamname.
+2. Tragen Sie Titel und optional Untertitel ein. Ein eigener methodischer Denkimpuls ist optional.
+3. Mit **Karte hinzufügen** legen Sie Karten an. Geben Sie Überschrift, Text und Kartengruppe an. **Karte übernehmen** übernimmt die Eingaben in den Entwurf.
+4. Karten können nachträglich bearbeitet oder nach einer Sicherheitsabfrage gelöscht werden. IDs und Hilfereferenzen werden gemeinsam angepasst. `V` stammt aus den Gruppenmetadaten; es gibt keine fest programmierte Grenze zwischen Pflicht- und Vertiefungskarten.
+5. **Startablage** ist standardmäßig numerisch und passt sich dem Bildschirm an. Sie können eine feste Spaltenzahl wählen. Ein importiertes ausdrückliches Startlayout bleibt verfügbar. Bewegungen in der Autorenvorschau werden nicht als Schülerlösung exportiert.
+6. **Entwurf sichern** erzeugt eine `.mysteryboard`-Datei. Nutzen Sie im folgenden Dialog **Datei herunterladen** oder die angebotene Teilen-Funktion. Legen Sie die Datei bewusst außerhalb der Anwendung ab.
+
+Ein leerer oder unfertiger Entwurf kann gesichert werden. Zum Bereitstellen einer Aufgabe sind ein Titel und mindestens eine freigegebene Karte erforderlich. Mit dem Häkchen **Für Schülerinnen und Schüler bereitstellen** können Karten vorerst nur im Entwurf verbleiben. Solche Karten gehören nicht in die Schülerversion. Vertrauliche Lösungen oder Bewertungsnotizen sollten Sie grundsätzlich außerhalb dieses ungeschützten Autorenwerkzeugs aufbewahren.
+
+## Bilder, Diagramme, Quellen und Tabellen
+
+Im Kartenformular wählen Sie eine lokale PNG-, JPEG- oder WebP-Datei. Das Bild wird vollständig eingebettet; die Datei muss anschließend nicht an ihrem ursprünglichen Ort bleiben. Dieselbe Dateiauswahl ersetzt ein bereits vorhandenes Bild. **Bild entfernen** löscht Bild und zugehörigen Alternativtext aus dieser Karte. Quellenangaben und Bildbeschreibungen sind separat bearbeitbar.
+
+Die Grenzen betragen **3.000.000 Bytes je Bild**, höchstens **4096 Pixel je Kante** und **4 Millionen Bildpunkte je Bild**. Alle Bilder eines Mysterys dürfen zusammen höchstens **12.000.000 Bytes** und **24 Millionen Bildpunkte** erreichen. Größere Kamerafotos vorher lokal verkleinern. Animierte Dateien und SVG werden im neuen portablen Format nicht angenommen. Eine abgelehnte Datei ersetzt weder das bisherige Bild noch die übrigen Formulareingaben.
+
+Bilder behalten ihr Seitenverhältnis. Im Lesefenster öffnet **Bild vergrößern** eine getrennte, verschiebbare Bildansicht mit einem Regler von 1× bis 4×. Die bewährten Gesten der Arbeitsfläche bleiben davon unabhängig. Eine unscharfe Originalgrafik erhält durch Vergrößern keine zusätzlichen Details; Legenden und Beschriftungen auf dem tatsächlichen Schülergerät prüfen.
+
+**Tabelle hinzufügen** erzeugt eine strukturierte Tabelle: bis zu sechs Spalten und zwanzig Zeilen, mit optionaler Überschrift. Überschriften und Zellen lassen sich nach dem Wiederöffnen weiter bearbeiten. Im Druck erscheinen Tabellen platzsparend als vollständig beschriftete Datenzeilen. Ein Foto einer Tabelle bleibt dagegen ein Bild. Werte in einem solchen Foto lassen sich nicht wie Tabellenzellen bearbeiten.
+
+Vorhandene Word-Dateien (.docx) und PDFs mit Textebene können Sie über **Dokument importieren** direkt lokal übernehmen. Vergleichen und korrigieren Sie die vorgeschlagenen Karten im Assistenten, bevor Sie sie ausdrücklich in Ihren Entwurf übernehmen. Bei einem gescannten PDF gibt es keine automatische Texterkennung; eine Seite oder ein Ausschnitt kann als Bildkarte dienen. [Schrittfolge und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md). Es gibt keine Cloud-Konvertierung und keine automatische Veröffentlichung.
+
+## Entwurf wieder öffnen und Aufgaben nachträglich ändern
+
+Auf dem Startbildschirm wählen Sie **Lehrkräfteeditor → Kürzel eingeben → Vorhandenes Mystery öffnen → Mystery-Datei auswählen**. Die Anwendung erkennt den Dateityp:
+
+| Dateiinhalt | Verhalten |
+| --- | --- |
+| Lehrkraft-Entwurf | Öffnet den Editor mit Kürzel, Karten, Medien und unveröffentlichten Karten. |
+| Veröffentlichte Aufgabe | Öffnet unmittelbar als bearbeitbarer Lehrkraftentwurf; Inhalt und Version bleiben beim Öffnen erhalten. |
+| Schülerarbeitsstand | Auf der Startseite über **Arbeit fortsetzen** öffnen. |
+
+Im Editor können Sie eine einzelne `.mysteryboard`-, Word- oder PDF-Datei auch auf den gekennzeichneten Dateibereich ziehen oder **Unterrichtsmaterial auswählen** verwenden. Aufgaben werden unmittelbar bearbeitbar, Word/PDF öffnen den vorhandenen Importassistenten. Ungesicherte Änderungen werden erst nach ausdrücklicher Bestätigung ersetzt. Abgebrochene oder fehlerhafte Imports lassen den Entwurf erhalten.
+
+In der universellen Anwendung und in den weiterhin bearbeitbaren CLI-Aufgabenbuilds steht zusätzlich **Lehrkräftemodus – Mystery bearbeiten** auf der Aufgabenseite und im Arbeitsmenü bereit. Die neuen Unterrichts-SCORM-Exporte blenden diesen Einstieg aus; das ist kein Zugangsschutz. Schülerpositionen und -beziehungen werden nicht zur neuen Aufgabe.
+
+Bei einer übernommenen Inhaltsänderung erhöht die Anwendung die letzte Versionszahl, beispielsweise `1.0.0 → 1.0.1`. Bei direkt eingegebenen Titeländerungen können mehrere Zwischenrevisionen entstehen. Die Mystery-ID bleibt erhalten. Eine bereits verteilte Datei wird dadurch nicht überschrieben. Ältere Schüler-PNGs bringen weiterhin ihre eigene ursprüngliche Inhaltsfassung mit; sie werden nicht mit den neuen Karten kombiniert.
+
+**Lehrkräftemodus ist eine Bedienfunktion, keine Berechtigungskontrolle.** Es gibt keine Anmeldung und keinen geheimen Lehrer-PIN. Wer eine Datei besitzt, kann eine lokale Kopie bearbeiten. Dadurch werden weder die offizielle Datei im Kurs noch andere Nutzerdateien geändert.
+
+## Aufgabe verteilen
+
+1. Erstellen oder importieren Sie Ihr Mystery im Editor und sichern Sie den Entwurf.
+2. Wählen Sie **Schülerversion erstellen**. Der Veröffentlichungsdialog bietet **Schülerversion als Datei** und **Für itslearning als SCORM herunterladen**. Zusätzlich bleibt die Aufgaben-PNG verfügbar.
+3. Für einen direkten Start im Kurs empfehlen wir **SCORM**. Laden Sie das vollständige ZIP im folgenden Dateidialog herunter und importieren Sie es **unentpackt als SCORM 1.2** in itslearning. Das Paket enthält Player und Aufgabe. Die Lernenden geben nur ihren Teamnamen ein und beginnen.
+4. Alternativ verteilen Sie die **.mysteryboard-Datei** separat. Die Klasse öffnet sie über **Aufgabe öffnen** in der Universal-HTML oder der universellen Blanko-SCORM-Ressource.
+5. Das örtliche Bearbeiten und Herunterladen ersetzt keine installierte LMS-Ressource. Für eine neue Inhaltsfassung erzeugen Sie ein neues Paket und ersetzen beziehungsweise importieren es ausdrücklich im Kurs.
+
+Die genaue Importmaske und die Schulrechte müssen im realen Kurs erprobt werden. [Schrittfolge, Grenzen und Datenschutz](docs/UNTERRICHTS-SCORM-ANLEITUNG.md).
+
+## Schülerarbeit, Hilfe und Sicherung
+
+Karten lesen und verschieben, mit beschrifteten Pfeilen verbinden, Farben und eigene Kategorien vergeben: alles bleibt im gemeinsamen Board. Zwei Finger zoomen, ein Finger verschiebt Karten oder eine freie Stelle der Arbeitsfläche. Rückgängig/Wiederholen behalten die bisherigen 40 Schritte; nach einer neuen Bearbeitung entfällt die Wiederholen-Folge.
+
+Die Hilfe beginnt mit einem methodischen Impuls. Nur wenn geprüfte Kategorien hinterlegt sind, erscheint die freiwillige zweite Nummernorientierung. Sie färbt ausschließlich die Nummern, nicht die eigenen Kartenfarben. Vorhandene Hilfemetadaten bleiben beim Bearbeiten erhalten; Hilfetext, Gruppen, Farben und Zuordnungen lassen sich jetzt unter **Hilfen bearbeiten** bearbeiten.
+
+**Sichern** erzeugt eine Original-PNG mit Inhalt, Bildern und vollständigem Schülerarbeitsstand. Bei Bedarf steht im Menü das kleinere Sicherungsbild zur Verfügung. Beide Wege erzeugen ausschließlich PNG, benannt nach **Teamname_Mysterytitel.png**, einschließlich Umlauten und Leerzeichen. Der zusätzliche Schüler-Menüpunkt **Projektdatei sichern** entfällt; ältere Schüler-Projektdateien bleiben importierbar. Lehrkraftentwürfe und Aufgaben können weiterhin als `.mysteryboard` ausgegeben werden. Ein erzeugtes Bild ist noch keine dauerhaft abgelegte Datei. Laden Sie es herunter, kontrollieren Sie den Speicherort und bewahren Sie es unverändert auf. Screenshots, Bildoptimierer und manche Messenger können den unsichtbaren Sicherungsblock entfernen.
+
+Zum Fortsetzen reicht die Original-PNG in einer frischen universellen Anwendung. Die Aufgaben-Datei wird nicht zusätzlich benötigt. Ein QR-Code ist nur bei sehr kleinen vollständigen Daten möglich; bei großen Mysterys wird keiner angeboten. Ein fehlender QR-Code beschränkt weder Texte noch Bilder.
+
+Es gibt **keine automatische Speicherung** im Browser oder LMS. Beim Verlassen kann der Browser vor Änderungen warnen; besonders mobile Browser garantieren diese Warnung nicht. Der Warnzustand wird nach bloßer Dateierzeugung nicht als „dauerhaft gespeichert“ zurückgesetzt.
+
+## Druck und PDF
+
+Im Schüler-Menü steht **Druckfassung / PDF**, im Editor **Karten drucken / PDF** zur Verfügung. Wählen Sie A4 oder A3, kontrollieren Sie die Vorschau und lösen Sie **Drucken / PDF speichern** bewusst aus. Der Browser stellt seinen eigenen Druckdialog bereit. Große Aufträge ab 30 Seiten zeigen vor dem Drucken eine Seitenzahlwarnung.
+
+Die Lehrkraftfassung verwendet das Kürzel ausdrücklich als Lehrkraftangabe; die Schülerfassung den eigenen Teamnamen. Vollständige Texte, Bilder, Quellen und strukturierte Tabellen werden mitgeführt. Eine PDF ist eine Lesefassung und keine wiederherstellbare Mystery-Datei. Der native Safari-Druckweg bleibt bis zum tatsächlichen Gerätetest offen.
+
+## Vor dem Unterricht
+
+Prüfen Sie Karten und Quellen fachlich, lesen Sie die kleinsten Diagrammlegenden, testen Sie Hoch-/Querformat, Touch, Hilfe, Druck und vor allem eine **vollständige Sicherung und Wiederherstellung nach dem Schließen**. Testen Sie mit dem verwalteten Schul-iPad innerhalb des echten itslearning-Kurses. Eine lokale Chromium-Simulation ist keine schulische Freigabe. Canva-Einbettung, Kamera-/Downloadrechte und Safari müssen gesondert geprüft werden.
+
+Weitere Details: [KI-Anleitung](AI-ANLEITUNG.md), [Dateiformat](docs/UNIVERSAL-FORMAT.md), [aktueller Prüfbericht](docs/DOKUMENTIMPORT-PRUEFBERICHT.md).
+
+## Hilfen für Lernende grafisch erstellen
+
+Öffnen Sie im Lehrkräfteeditor **Hilfen bearbeiten**. Sie sehen jetzt nur die Hilfe-Einstellungen. Andere Änderungen am Mystery sind erst nach **Hilfe übernehmen** oder **Abbrechen** wieder möglich.
+
+1. **Denkimpuls auswählen:** fünf Vorlagen stehen zur Wahl. Der Text kann danach frei verändert werden. „Allgemeiner Denkimpuls“ verwendet die bisherige Standardhilfe; „Eigener Hilfetext“ erlaubt eine eigene Formulierung.
+2. **Kartennummern als Hilfe markieren** einschalten, wenn Sie die zweite Hilfestufe anbieten möchten. Sie ist für neue Mysterys standardmäßig ausgeschaltet.
+3. **Gruppen auswählen:** „Ursachen und Wirkungen“, „Nutzungskonflikte“ oder „Eigene Kategorien“. Namen und Farben sind bearbeitbar. Eine kleine Palette bietet gut lesbare Nummernfarben; bereits importierte andere Farben bleiben erhalten.
+4. **Karten zuordnen:** Wählen Sie je Karte eine Gruppe oder „Keine Zuordnung“. Suchen Sie bei vielen Karten nach einer exakten Nummer (auch etwa „V12“) oder einem Wort im Titel. Der Zähler zeigt die sichtbare Anzahl; ausgeblendete Karten behalten ihre Zuordnungen. Bei Bedarf öffnen Sie **Mehrere Karten gemeinsam zuordnen**, wählen eine vorhandene Farbgruppe, markieren Karten und tippen **Ausgewählte Karten zuordnen**. Die Anzahl außerhalb der Suche bleibt sichtbar. Die gemeinsame Zuordnung ersetzt die bisherige Gruppe dieser Karten. **Mehrfachzuordnung schließen** kehrt zur einfachen Einzelwahl zurück. Es gibt keine automatische fachliche Zuordnung. Unterschiedliche Gruppengrößen und unmarkierte Karten sind ausdrücklich möglich.
+5. **Hilfe aus Schülersicht ansehen:** Die echte Schüleransicht zeigt zuerst den Denkimpuls. „Weitere Hilfe anzeigen“ aktiviert die farbigen Nummern und ihre Legende. Probieren Sie Karten und Verbindungen aus; diese Bewegungen werden nicht in die Aufgabe übernommen. Die Vorschau bietet keine Sicherung, Dateiimporte, Teamänderung oder Druckfunktion. Beim Schließen werden alle dort ausprobierten Bewegungen und Verbindungen verworfen. **Zurück zu den Hilfen** bringt Sie zu Ihren Eingaben.
+6. **Hilfe übernehmen** ändert zunächst nur den geöffneten Entwurf. Die Kurzangabe im Lehrkräftemodus zählt die tatsächlich übernommenen Gruppen und markierten Karten. Dann **Entwurf sichern** für die spätere Weiterarbeit; **Schülerversion erstellen** erzeugt zusätzlich die Datei für Lernende. Die erstellte Datei bewusst herunterladen.
+
+Höchstens sechs Gruppen sind möglich. Jede aktive Gruppe braucht einen eigenen Namen, eine andere Farbe und mindestens eine zugeordnete Karte. Fehler erscheinen direkt am betreffenden Feld; die Eingaben bleiben erhalten. Eine nicht benötigte Gruppe entfernen Sie mit „Gruppe … entfernen“. Sind Karten zugeordnet, fragt die Oberfläche vorher nach.
+
+Ein Vorlagenwechsel verwirft bestehende Zuordnungen nicht unbemerkt. Während der Bearbeitung können Sie zu den vorherigen Gruppen zurückkehren. Erst **Hilfe übernehmen** legt die aktuell ausgewählte Gruppierung für diese Fassung fest. Schalten Sie die farbige Hilfe aus und übernehmen, entfällt sie in dieser neuen Fassung. Vorher exportierte Dateien bleiben erhalten.
+
+Die Kategorien sind eine freiwillige Orientierung und keine Musterlösung. Wählen Sie bei mehrdeutigen Karten einen fachlich begründeten Schwerpunkt oder lassen Sie sie unmarkiert. Bei Schülerbeginn sind die Hilfen ausgeblendet. Die zweite Stufe färbt ausschließlich Nummern, ohne eigene Kartenfarben, Pfeile oder Arbeitsstände zu verändern.
+
+
+Gruppennamen müssen eindeutig sein. „Ursachen“, „ Ursachen “ und „ursachen“ zählen als derselbe Name. Bei solchen Doppelungen bleiben Ihre Eingaben erhalten; ändern Sie die betroffenen Namen vor dem Übernehmen oder Bereitstellen. Ältere Dateien werden unverändert geöffnet. Ihre Hilfegruppen lassen sich vor einer erneuten Veröffentlichung präzisieren.
+
+Kurzer Einstieg: [START-HIER.md](START-HIER.md). Fertiger externer Übertragungsauftrag: [KI-PROMPT-ZUM-KOPIEREN.md](KI-PROMPT-ZUM-KOPIEREN.md). Die kontrollierte [Papierprobe](examples/ki-papierprobe/FREMD-KI-PRUEFANLEITUNG.md) ist keine bereits bestandene Fremd-KI-Prüfung. Exportnamen nennen jetzt Entwurf, Aufgabe oder Arbeitsstand sowie den sichtbaren Titel und die Inhaltsversion; das Dateiformat bleibt unverändert.
+
+## Lokaler Word-/PDF-Import
+
+Im Lehrkräfteeditor öffnet **Dokument importieren** einen lokalen Assistenten für DOCX und PDF mit Textebene. Es wird keine KI und kein externer Dienst benötigt. Vorschläge erst am Original kontrollieren; Scan-PDFs können als Bild übernommen werden, OCR wird nicht behauptet. Der Import verwendet dieselben Karten, Tabellen, Medien, Validatoren und Inhaltsversionen wie der vorhandene Editor. [Ablauf und Grenzen](docs/DOKUMENTIMPORT-ANLEITUNG.md).

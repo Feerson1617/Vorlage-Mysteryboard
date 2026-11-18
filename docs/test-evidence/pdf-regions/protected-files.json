@@ -1,0 +1,74 @@
+[
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "artifacts/MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+    "bytes": 158755,
+    "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "src/core/documents.ts",
+    "bytes": 9604,
+    "sha256": "74f136b913f702600777dd1942283587db64c3b8e6b08726ec499a10a33053a7",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "src/core/model.ts",
+    "bytes": 13032,
+    "sha256": "595781a22da5daa388e19ccd287d7ec746d8184d50a33c93052d3b7ff3ce557b",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "src/core/png.ts",
+    "bytes": 4229,
+    "sha256": "e1a43017f811ecc30e28fc54c3bf2433dd80739874687bb826dcb4d6c3a7ed81",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "src/core/history.ts",
+    "bytes": 1960,
+    "sha256": "9c1f9ce7cf1a31810e7e67bf95903cda70cc807e6bfee0673161ab6a08a01923",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "src/core/codec.ts",
+    "bytes": 4546,
+    "sha256": "826e8cad57e2d9a9264bb43c4ca51dab222cbf8b8ef87abf6c08c0c43259f1f7",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "scorm/launch.html",
+    "bytes": 633,
+    "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "scorm/session.js",
+    "bytes": 1190,
+    "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "package.json",
+    "bytes": 2125,
+    "sha256": "3f1c85f85983456709a7876e039f0896ce239c677d2c5cd76d9ddd290ec1f9b9",
+    "unchangedFromBase": true
+  },
+  {
+    "file": "package-lock.json",
+    "bytes": 89154,
+    "sha256": "c5c26fde95b694f7982a62214224d39ce53b3fb3b67e285c2eeb11e9112b0809",
+    "unchangedFromBase": true
+  }
+]

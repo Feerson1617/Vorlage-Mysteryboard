@@ -1,0 +1,19 @@
+[WebServer] (node:163263) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:163276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 14:25:19] "GET / HTTP/1.1" 200 -
+
+Running 1 test using 1 worker
+
+(node:163304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 127.0.0.1 - - [16/Nov/2026 14:25:22] "GET /artifacts/MysteryBoard-Universal.html HTTP/1.1" 200 -
+  ✓  1 tests/browser/touch-stability.spec.ts:9:1 › Touch und Tastatur: Undo einer unbeteiligten Verbindung während eines Drags verwirft nur die Vorschau (3.2s)
+
+  1 passed (8.1s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

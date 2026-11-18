@@ -1,0 +1,99 @@
+
+added 91 packages in 2s
+
+> mysteryboard-prototype@0.1.0 validate:mystery
+> node scripts/mystery-tools.mjs validate examples/universal/content.json
+
+Gültig: task, example-universal-twelve, Version 1.0.0, 12 Karten. Schema, Referenzen, Prüfsumme und Bilddecoder geprüft.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 build:universal
+> node scripts/build.mjs universal
+
+vite v8.3.6 building client environment for universal...
+transforming...
+✓ 149 modules transformed.
+rendering chunks...
+[plugin vite:singlefile] 
+
+[plugin vite:singlefile] Inlining: index-CHbS_14h.js
+[plugin vite:singlefile] Inlining: style-5dyXiQaJ.css
+[plugin vite:singlefile] index.html: The Content-Security-Policy meta tag does not allow inline <script> code, which is now inlined in the HTML. Add 'unsafe-inline', or a 'sha256-...' hash or nonce, to script-src.
+computing gzip size...
+dist/universal/index.html  775.87 kB │ gzip: 251.27 kB
+
+✓ built in 480ms
+universal: 800.924 Bytes; eigenständiges HTML mit Lizenzhinweisen. Größenziel erfüllt.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+
+> mysteryboard-prototype@0.1.0 package:universal
+> node scripts/package-universal.mjs && python3 scripts/validate-scorm.py artifacts/MysteryBoard-Universal-SCORM-1.2.zip artifacts/MysteryBoard-Universal.html MysteryBoard-Universal-v3
+
+{
+  "manifestIdentifier": "MysteryBoard-Universal-v3",
+  "scormVersion": "1.2",
+  "html": {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 800924,
+    "sha256": "aedd842423b45a1061396d286c4afa49d562cea3c6852869872391f2f8491d53"
+  },
+  "zip": {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 263135,
+    "sha256": "37e05340f420bedeb81f108987b55529da7efa0bc739ff4a5dc13dd2a62fe9c5"
+  },
+  "applicationByteIdentical": true,
+  "entries": [
+    {
+      "file": "imsmanifest.xml",
+      "bytes": 883,
+      "sha256": "0aa1e503e3c83e449bafcacdaf477250663321658365e3e46c3f8b6e55cc1b7e"
+    },
+    {
+      "file": "launch.html",
+      "bytes": 633,
+      "sha256": "b9b2ab38d62208e79b16075a373c4814e714532fa2bfe385dc204dcd9f32f416"
+    },
+    {
+      "file": "session.js",
+      "bytes": 1190,
+      "sha256": "422f6ea61bfca70eebbd26f46b0ef527419413103e204aed1b314023a2d4a65f"
+    },
+    {
+      "file": "app.html",
+      "bytes": 800924,
+      "sha256": "aedd842423b45a1061396d286c4afa49d562cea3c6852869872391f2f8491d53"
+    }
+  ]
+}
+{
+  "status": "passed",
+  "zipCrc": "passed",
+  "xmlWellFormed": true,
+  "scorm12ManifestAndLocalReferences": "passed",
+  "applicationByteIdentical": true,
+  "htmlSha256": "aedd842423b45a1061396d286c4afa49d562cea3c6852869872391f2f8491d53",
+  "zipSha256": "37e05340f420bedeb81f108987b55529da7efa0bc739ff4a5dc13dd2a62fe9c5",
+  "entries": [
+    "imsmanifest.xml",
+    "launch.html",
+    "session.js",
+    "app.html"
+  ],
+  "note": "XML parsing and explicit SCORM 1.2 contract checks; not ADL certification or an itslearning device test."
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice
+Frische Extraktion, byteidentischer Neubuild: MysteryBoard-Universal.html 800924 aedd842423b45a1061396d286c4afa49d562cea3c6852869872391f2f8491d53
+Frische Extraktion, byteidentischer Neubuild: MysteryBoard-Universal-SCORM-1.2.zip 263135 37e05340f420bedeb81f108987b55529da7efa0bc739ff4a5dc13dd2a62fe9c5

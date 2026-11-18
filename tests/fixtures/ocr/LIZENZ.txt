@@ -1,0 +1,1 @@
+Alle Testkarten, Texte, Scan-PDFs und Bildvarianten in diesem Verzeichnis: eigene synthetische CC0-Testmaterialien. Keine Original-Unterrichtsdokumente. Schrift: DejaVu Sans, freie Bitstream-Vera-/DejaVu-Lizenz; siehe https://dejavu-fonts.github.io/License.html. Keine OCR-Ausgabe als Solltext verwendet.

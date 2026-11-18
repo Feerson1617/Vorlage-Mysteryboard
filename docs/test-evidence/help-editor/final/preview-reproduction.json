@@ -1,0 +1,10 @@
+{
+  "baseCommit": "d7b41c20a8d773248f71f858ce18f5ce1b5c51d8",
+  "browser": "156.0.8078.79",
+  "htmlSha256": "712fca95bff6501839df4085d5beda43a04a3a1485af1e6227d66e6ad8bebbe5",
+  "bugReproduced": true,
+  "realPreviewDownload": {
+    "bytes": 739342,
+    "sha256": "83421ac0b64054ecf3f381fb1c2921d4c57046428fc45c9bd20fa01dd0de7beb"
+  }
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "file": "MysteryBoard-Universal.html",
+    "bytes": 818147,
+    "sha256": "57bc035ce569fdfa84b07dd6a25c2fa47698819f5fefeb795e2d4420fccf9184"
+  },
+  {
+    "file": "MysteryBoard-Universal-SCORM-1.2.zip",
+    "bytes": 268174,
+    "sha256": "ad11f72e71aca3e020e78f57b3e5adf9d24a5b130f22538bcfddf6fe16dae303"
+  },
+  {
+    "file": "MysteryBoard-klein.html",
+    "bytes": 822814,
+    "sha256": "84bf3cdfbd43bbf5dad4d219df1f55d76d0d886af87c41ef0dde351d8956bf8a"
+  },
+  {
+    "file": "MysteryBoard-umfangreich.html",
+    "bytes": 855700,
+    "sha256": "8c830081433b220c192db42167ac2ec136fcf9d7b3c6ae71bde9d8bd5c9af6c9"
+  },
+  {
+    "file": "MysteryBoard-Boden-Klasse11.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "MysteryBoard-Boden-Klasse11-RC2.html",
+    "bytes": 459542,
+    "sha256": "21dd6ad5c813ba5bd12ca521f03602a195ccea44ee70769119280e4ca088fd5f"
+  },
+  {
+    "file": "MysteryBoard-Boden-Klasse11-RC2-SCORM-1.2.zip",
+    "bytes": 158755,
+    "sha256": "42ac3d51e2e34431efe9b0ca9b0f4e84085d9b651e4fac6747d843bf6091c3a0"
+  }
+]

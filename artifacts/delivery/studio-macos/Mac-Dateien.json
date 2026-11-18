@@ -1,0 +1,14 @@
+[
+  {
+    "file": "MysteryBoard-Studio-Apple-Silicon.dmg",
+    "bytes": 125949583,
+    "sha256": "befb973b5caa50bb22e90bd78971b5daab6320269c99ba52314c154952dcf7ec",
+    "sourceCommit": "0defd50126519ddda43a6a001a06355206844a93"
+  },
+  {
+    "file": "MysteryBoard-Studio-Apple-Silicon.zip",
+    "bytes": 127811911,
+    "sha256": "9c3a5260e169aaa3065776878f12a34b28cc740d2a8a59519c9633fe0f9460d2",
+    "sourceCommit": "0defd50126519ddda43a6a001a06355206844a93"
+  }
+]

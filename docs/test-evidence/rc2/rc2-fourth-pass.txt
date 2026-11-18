@@ -1,0 +1,20 @@
+
+> mysteryboard-prototype@0.1.0 test:rc2
+> playwright test --config playwright.rc2.config.ts --max-failures=1
+
+
+Running 4 tests using 1 worker
+
+(node:261066) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/release/rc2.spec.ts:269:5 › RC2-HTML 1024x768: vollständiger Offline-Unterrichtsablauf (31.3s)
+  ✓  2 tests/release/rc2.spec.ts:269:5 › RC2-HTML 768x1024: vollständiger Offline-Unterrichtsablauf (16.9s)
+  ✓  3 tests/release/rc2.spec.ts:269:5 › SCORM-ZIP im LMS 1024x768: vollständiger Offline-Unterrichtsablauf (17.9s)
+  ✓  4 tests/release/rc2.spec.ts:269:5 › SCORM-ZIP im LMS 768x1024: vollständiger Offline-Unterrichtsablauf (18.3s)
+
+  4 passed (1.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

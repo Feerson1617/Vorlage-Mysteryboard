@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "case": "stress-1024",
+      "continuousMoves": 200,
+      "successiveDrags": 30,
+      "measurements": 230,
+      "maxErrorCssPx": 0.017948185259633084,
+      "pointerEvents": 609,
+      "rotationContinuedWithoutCancellation": true,
+      "cancelAndCaptureLossDiscarded": true
+    },
+    {
+      "case": "stress-320",
+      "continuousMoves": 200,
+      "successiveDrags": 30,
+      "measurements": 230,
+      "maxErrorCssPx": 0.01793629467004646,
+      "pointerEvents": 609,
+      "rotationContinuedWithoutCancellation": true,
+      "cancelAndCaptureLossDiscarded": true
+    },
+    {
+      "case": "stress-600",
+      "continuousMoves": 200,
+      "successiveDrags": 30,
+      "measurements": 230,
+      "maxErrorCssPx": 0.01793930399967134,
+      "pointerEvents": 609,
+      "rotationContinuedWithoutCancellation": true,
+      "cancelAndCaptureLossDiscarded": true
+    },
+    {
+      "case": "stress-768",
+      "continuousMoves": 200,
+      "successiveDrags": 30,
+      "measurements": 230,
+      "maxErrorCssPx": 0.01793629467004646,
+      "pointerEvents": 609,
+      "rotationContinuedWithoutCancellation": true,
+      "cancelAndCaptureLossDiscarded": true
+    },
+    {
+      "case": "text-bild-rand-1024",
+      "measurements": 20,
+      "maxErrorCssPx": 0.0024404412332534784,
+      "actualHitTags": [
+        "image",
+        "tspan"
+      ]
+    },
+    {
+      "case": "text-bild-rand-320",
+      "measurements": 20,
+      "maxErrorCssPx": 0.0011064483382241322,
+      "actualHitTags": [
+        "image",
+        "tspan"
+      ]
+    },
+    {
+      "case": "text-bild-rand-600",
+      "measurements": 20,
+      "maxErrorCssPx": 0.0017746271975936571,
+      "actualHitTags": [
+        "image",
+        "tspan"
+      ]
+    },
+    {
+      "case": "text-bild-rand-768",
+      "measurements": 20,
+      "maxErrorCssPx": 0.002465237237513306,
+      "actualHitTags": [
+        "image",
+        "tspan"
+      ]
+    }
+  ],
+  "totalMeasurements": 1000,
+  "successiveDrags": 120,
+  "maxErrorCssPx": 0.017948185259633084,
+  "device": "Linux Chromium native CDP touch emulation; not real iPad/FPS measurement"
+}
