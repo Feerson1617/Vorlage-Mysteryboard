@@ -77,6 +77,9 @@ export function AuthorEditor({
   const [busy, setBusy] = useState(false),
     [print, setPrint] = useState(false),
     [publication, setPublication] = useState(false);
+  const [confirmedTaskHash, setConfirmedTaskHash] = useState<string | null>(
+    null,
+  );
   const [previewOverride, setPreviewOverride] = useState<{
       content: Content;
       work: Work;
@@ -99,6 +102,7 @@ export function AuthorEditor({
     requestAnimationFrame(() => helpButton.current?.focus());
   };
   const operation = useRef(0);
+  const digitalExportRunning = useRef(false);
   const content = draft.content;
   const initialPreview = useMemo(
     () =>
@@ -398,21 +402,38 @@ export function AuthorEditor({
       if (!integration) publishDraft(draft);
       setError("");
       setSaveNotice("");
+      setConfirmedTaskHash(null);
+      setPng(null);
       setPublication(true);
     } catch (e) {
       setError((e as Error).message);
     }
   };
-  let publicationIssue = "";
-  let publishedContent: Content | undefined;
-  if (integration && publication) {
+  const { task: publishedTask, issue: publicationIssue } = useMemo(() => {
+    if (!publication) return { task: null, issue: "" };
     try {
-      publishedContent = publishDraft(draft).content;
+      return { task: publishDraft(draft), issue: "" };
     } catch (e) {
-      publicationIssue = (e as Error).message;
+      return { task: null, issue: (e as Error).message };
     }
-  }
+  }, [draft, publication]);
+  const publishedContent = publishedTask?.content;
   const sharedEdges = publishedContent?.initial.edges ?? [];
+  const needsConfirmation = sharedEdges.length > 0;
+  const exportConfirmed =
+    !needsConfirmation || confirmedTaskHash === publishedTask?.contentHash;
+  const confirmedPublication = () => {
+    if (!publication || !publishedTask)
+      throw new Error(publicationIssue || "Öffne zuerst den Exportbereich.");
+    const snapshot = draftRef.current;
+    if (snapshot !== draft)
+      throw new Error(
+        "Die Aufgabe hat sich geändert. Prüfe die aktuelle Ausgabe erneut.",
+      );
+    if (!exportConfirmed)
+      throw new Error("Bestätige zuerst die vorgegebenen Verbindungen.");
+    return { task: publishedTask, snapshot };
+  };
   const cancelFile = () => {
     importController.current?.abort();
     setFileBusy(false);
@@ -529,17 +550,24 @@ export function AuthorEditor({
     }
   }, [initialMaterial]);
   const exportScorm = async () => {
+    if (digitalExportRunning.current) return;
+    digitalExportRunning.current = true;
     const controller = new AbortController();
     exportController.current?.abort();
     exportController.current = controller;
     setBusy(true);
     setError("");
     try {
+      const { task, snapshot } = confirmedPublication();
       const file = await (integration?.scorm ?? classroomScorm)(
-        publishDraft(draft),
+        task,
         controller.signal,
       );
       if (!controller.signal.aborted) {
+        if (draftRef.current !== snapshot)
+          throw new Error(
+            "Die Aufgabe hat sich geändert. Prüfe die aktuelle Ausgabe erneut.",
+          );
         setPublication(false);
         onDownload(file);
       }
@@ -549,15 +577,18 @@ export function AuthorEditor({
           `SCORM konnte nicht erstellt werden. ${(error as Error).message} Der Entwurf bleibt erhalten.`,
         );
     } finally {
+      digitalExportRunning.current = false;
       if (!controller.signal.aborted) setBusy(false);
     }
   };
   const taskPng = async () => {
+    if (digitalExportRunning.current) return;
+    digitalExportRunning.current = true;
     const id = ++operation.current;
     setBusy(true);
     setError("");
     try {
-      const task = publishDraft(draft),
+      const { task, snapshot } = confirmedPublication(),
         work = initialBoardWork(task.content, { width: 1024, height: 768 });
       const result = await exportBoard(
         work,
@@ -565,6 +596,10 @@ export function AuthorEditor({
         "compact",
         packDocument(task),
       );
+      if (id === operation.current && draftRef.current !== snapshot)
+        throw new Error(
+          "Die Aufgabe hat sich geändert. Prüfe die aktuelle Ausgabe erneut.",
+        );
       if (id === operation.current && integration) {
         setPublication(false);
         onDownload(
@@ -585,6 +620,7 @@ export function AuthorEditor({
           `PNG konnte nicht erzeugt werden. ${(e as Error).message} Die Projektdatei steht weiterhin zur Verfügung.`,
         );
     } finally {
+      digitalExportRunning.current = false;
       if (id === operation.current) setBusy(false);
     }
   };
@@ -1035,7 +1071,6 @@ export function AuthorEditor({
                   badgeScaleLimit={2}
                   work={preview}
                   mystery={content}
-                  authorBoard
                   selectingCards={connectingCards}
                   privateEdges={privateEdgeIds}
                   onChange={(work) =>
@@ -1259,19 +1294,7 @@ export function AuthorEditor({
             <button className="primary" onClick={preparePublication}>
               Schülerversion erstellen
             </button>
-            <button
-              onClick={() => {
-                try {
-                  publishDraft(draft);
-                  setError("");
-                  setPublication(true);
-                } catch (error) {
-                  setError((error as Error).message);
-                }
-              }}
-            >
-              Aufgabe als PNG
-            </button>
+            <button onClick={preparePublication}>Aufgabe als PNG</button>
             <button
               disabled={!content.cards.length}
               onClick={() => setPrint(true)}
@@ -1495,9 +1518,61 @@ export function AuthorEditor({
             exportController.current?.abort();
             setBusy(false);
             setPublication(false);
+            setConfirmedTaskHash(null);
             setPng(null);
           }}
         >
+          {publishedTask && needsConfirmation && (
+            <section
+              className="author-publication-edges"
+              aria-label="Starthilfen kontrollieren"
+            >
+              <p>
+                <strong>
+                  Dieses Mystery enthält bereits vorgegebene Verbindungen für
+                  Lernende.
+                </strong>
+              </p>
+              <p>Starthilfen für Lernende ({sharedEdges.length})</p>
+              <ul>
+                {sharedEdges.map((edge) => (
+                  <li key={edge.id}>
+                    {cardNumber(
+                      publishedTask.content,
+                      edge.direction === 2 ? edge.to : edge.from,
+                    )}
+                    {edge.direction ? " → " : " – "}
+                    {cardNumber(
+                      publishedTask.content,
+                      edge.direction === 2 ? edge.from : edge.to,
+                    )}
+                    {edge.direction === 0 && " (ohne Pfeil)"}
+                    {edge.label && `: ${edge.label}`}
+                  </li>
+                ))}
+              </ul>
+              <label className="author-publication-confirmation">
+                <input
+                  type="checkbox"
+                  checked={exportConfirmed}
+                  disabled={busy}
+                  onChange={(event) =>
+                    setConfirmedTaskHash(
+                      event.target.checked ? publishedTask.contentHash : null,
+                    )
+                  }
+                />
+                Ich habe die vorgegebenen Verbindungen geprüft und möchte sie an
+                die Lernenden weitergeben.
+              </label>
+            </section>
+          )}
+          {publishedTask &&
+            content.initial.edges.length > sharedEdges.length && (
+              <p className="small">
+                Starthilfen zu ausgeblendeten Karten werden ausgelassen.
+              </p>
+            )}
           {integration ? (
             <div className="studio-export-choices">
               <button
@@ -1518,34 +1593,6 @@ export function AuthorEditor({
                 Speichern unter …
               </button>
               {saveNotice && <p role="status">{saveNotice}</p>}
-              {!!content.initial.edges.length && (
-                <details className="studio-export-start-edges" open>
-                  <summary>
-                    Starthilfen für Lernende ({sharedEdges.length})
-                  </summary>
-                  <ul>
-                    {sharedEdges.map((edge) => (
-                      <li key={edge.id}>
-                        {cardNumber(
-                          publishedContent!,
-                          edge.direction === 2 ? edge.to : edge.from,
-                        )}
-                        {edge.direction ? " → " : " – "}
-                        {cardNumber(
-                          publishedContent!,
-                          edge.direction === 2 ? edge.from : edge.to,
-                        )}
-                        {edge.label && `: ${edge.label}`}
-                      </li>
-                    ))}
-                  </ul>
-                  {content.initial.edges.length > sharedEdges.length && (
-                    <p className="small">
-                      Starthilfen zu ausgeblendeten Karten werden ausgelassen.
-                    </p>
-                  )}
-                </details>
-              )}
               <button
                 className="studio-export-option"
                 aria-label="Als Druck-PDF speichern"
@@ -1566,7 +1613,7 @@ export function AuthorEditor({
               <button
                 className="studio-export-option"
                 aria-label="Für itslearning exportieren"
-                disabled={busy || !!publicationIssue}
+                disabled={busy || !publishedTask || !exportConfirmed}
                 onClick={() => void exportScorm()}
               >
                 <strong>Für itslearning exportieren</strong>
@@ -1575,13 +1622,10 @@ export function AuthorEditor({
               </button>
               <button
                 className="studio-export-secondary"
-                disabled={busy || !!publicationIssue}
+                disabled={busy || !publishedTask}
                 onClick={() => {
-                  try {
-                    integration.preview(publishDraft(draft));
-                  } catch (e) {
-                    setError((e as Error).message);
-                  }
+                  if (publishedTask && draftRef.current === draft)
+                    integration.preview(publishedTask);
                 }}
               >
                 Schüleransicht prüfen
@@ -1589,7 +1633,7 @@ export function AuthorEditor({
               <button
                 className="studio-export-option"
                 aria-label="Als Bild exportieren"
-                disabled={busy || !!publicationIssue}
+                disabled={busy || !publishedTask || !exportConfirmed}
                 onClick={() => void taskPng()}
               >
                 <strong>Als Bild exportieren</strong>
@@ -1624,10 +1668,10 @@ export function AuthorEditor({
               </p>
               <button
                 className="full"
-                disabled={busy}
+                disabled={busy || !publishedTask || !exportConfirmed}
                 onClick={() => {
                   try {
-                    const task = publishDraft(draft);
+                    const { task } = confirmedPublication();
                     setPublication(false);
                     onFile(task);
                   } catch (e) {
@@ -1639,7 +1683,7 @@ export function AuthorEditor({
               </button>
               <button
                 className="primary full"
-                disabled={busy}
+                disabled={busy || !publishedTask || !exportConfirmed}
                 onClick={() => void exportScorm()}
               >
                 {integration
@@ -1648,7 +1692,7 @@ export function AuthorEditor({
               </button>
               <button
                 className="full"
-                disabled={busy}
+                disabled={busy || !publishedTask || !exportConfirmed}
                 onClick={() => void taskPng()}
               >
                 Aufgabe als Original-PNG erzeugen

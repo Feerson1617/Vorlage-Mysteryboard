@@ -422,6 +422,10 @@ export default function App({
             work={work}
             mystery={mystery}
             onChange={commit}
+            gestureSession={history.gestureSession}
+            onMoveCard={(move, session) =>
+              dispatch({ type: "move-card", move, session })
+            }
             onCard={selectCard}
             onEdge={(id) => {
               if (connecting === null)

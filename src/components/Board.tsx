@@ -9,6 +9,7 @@ import {
 } from "react";
 import type { Mystery, Work } from "../core/model";
 import { COLORS, cardNumber } from "../core/model";
+import { moveCard, type CardMove } from "../core/history";
 import { CardImage } from "./CardImage";
 import { helpForCard, numberTextColor } from "../core/help";
 import {
@@ -37,6 +38,7 @@ type Gesture = {
   start: Point;
   view: View;
   before: Work;
+  session: object | null;
   pointer: number;
   origin: { left: number; top: number };
   cancelled?: boolean;
@@ -50,26 +52,28 @@ export function Board({
   work,
   mystery,
   onChange,
+  onMoveCard,
+  gestureSession = null,
   onCard,
   onEdge,
   fitTick,
   connecting,
   orientation = false,
   badgeScaleLimit = 7,
-  authorBoard = false,
   selectingCards = false,
   privateEdges,
 }: {
   work: Work;
   mystery: Mystery;
   onChange: (w: Work) => void;
+  onMoveCard?: (move: CardMove, session: object | null) => void;
+  gestureSession?: object | null;
   onCard: (id: number) => void;
   onEdge: (id: number) => void;
   fitTick: number;
   connecting: number | null;
   orientation?: boolean;
   badgeScaleLimit?: number;
-  authorBoard?: boolean;
   selectingCards?: boolean;
   privateEdges?: ReadonlySet<number>;
 }) {
@@ -113,9 +117,9 @@ export function Board({
     clearPreview();
   };
   const sameDragCard = (g: Gesture, next: Work) => {
+    if (g.session !== gestureSession) return false;
     if (g.before === next) return true;
     if (
-      !authorBoard ||
       g.kind !== "card" ||
       g.before.mystery !== next.mystery ||
       g.before.version !== next.version
@@ -131,16 +135,19 @@ export function Board({
       [mystery],
     );
   const liveGesture = gesture.current;
-  // An undo/load can replace work while a finger is still down. Never draw
-  // that gesture's old preview against geometry from the replacement state.
+  const previewCard = preview?.cards.find(
+    (card) => card.id === liveGesture?.id,
+  );
+  // Undo/load invalidate the session even if the card's coordinates still match.
+  // Compatible edits may replace Work while a finger is down.
   const livePreview =
     liveGesture && !liveGesture.cancelled && sameDragCard(liveGesture, work)
-      ? preview && liveGesture.before !== work
+      ? previewCard && liveGesture.before !== work
         ? {
             ...work,
             cards: work.cards.map((c) =>
               c.id === liveGesture.id
-                ? (preview.cards.find((previous) => previous.id === c.id) ?? c)
+                ? { ...c, x: previewCard.x, y: previewCard.y }
                 : c,
             ),
           }
@@ -261,7 +268,6 @@ export function Board({
       }
     };
     const blur = () => {
-      if (!authorBoard) return;
       active.clear();
       sequence = null;
       if (!gesture.current) return;
@@ -401,6 +407,7 @@ export function Board({
       start: center,
       view: v.current,
       before: current.current,
+      session: gestureSession,
       pointer: -1,
       origin: svg.current!.getBoundingClientRect(),
       moved: true,
@@ -445,27 +452,24 @@ export function Board({
       start: p,
       view: v.current,
       before: current.current,
+      session: gestureSession,
       pointer: e.pointerId,
       origin: svg.current!.getBoundingClientRect(),
       id: card ? Number(card) : undefined,
       moved: false,
     };
   };
-  const dragged = (g: Gesture, p: Point): Work => {
-    const base = authorBoard ? current.current : g.before;
-    const card = base.cards.find((c) => c.id === g.id)!;
+  const cardMove = (g: Gesture, p: Point): CardMove => {
+    const card = g.before.cards.find((c) => c.id === g.id)!;
     const clamp = (n: number) =>
       Math.max(-100000, Math.min(100000, Math.round(n * 100) / 100));
     return {
-      ...base,
-      cards: [
-        ...base.cards.filter((c) => c.id !== g.id),
-        {
-          ...card,
-          x: clamp(card.x + (p.x - g.start.x) / g.view.z),
-          y: clamp(card.y + (p.y - g.start.y) / g.view.z),
-        },
-      ],
+      id: card.id,
+      from: { x: card.x, y: card.y },
+      to: {
+        x: clamp(card.x + (p.x - g.start.x) / g.view.z),
+        y: clamp(card.y + (p.y - g.start.y) / g.view.z),
+      },
     };
   };
   const move = (e: BoardPointer) => {
@@ -473,8 +477,7 @@ export function Board({
     syncOrigin();
     points.current.set(e.pointerId, local(e));
     const g = gesture.current;
-    if (!g || g.cancelled || (authorBoard && !sameDragCard(g, current.current)))
-      return;
+    if (!g || g.cancelled || !sameDragCard(g, current.current)) return;
     if (g.kind === "pinch") {
       if (points.current.size < 2) return;
       const [a, b] = [...points.current.values()],
@@ -502,7 +505,7 @@ export function Board({
     if (g.kind === "pan")
       changeView({ ...g.view, x: g.view.x + dx, y: g.view.y + dy });
     else if (connecting === null && !selectingCards) {
-      showPreview(dragged(g, p));
+      showPreview(moveCard(current.current, cardMove(g, p)));
     }
   };
   const finish = (e: BoardPointer, cancel = false) => {
@@ -511,8 +514,7 @@ export function Board({
     const g = gesture.current;
     points.current.delete(e.pointerId);
     if (!g) return;
-    if (cancel || (authorBoard && !sameDragCard(g, current.current)))
-      g.cancelled = true;
+    if (cancel || !sameDragCard(g, current.current)) g.cancelled = true;
     // Once two fingers participated, consume all remaining fingers; never turn the last one into a drag/tap.
     if (g.kind === "pinch" || g.cancelled) {
       if (points.current.size === 0) gesture.current = null;
@@ -530,14 +532,14 @@ export function Board({
     const moved = g.moved || Math.hypot(p.x - g.start.x, p.y - g.start.y) >= 8;
     const target = document.elementFromPoint(e.clientX, e.clientY);
     if (g.kind === "card") {
-      if (
-        (g.moved || (authorBoard && moved)) &&
-        connecting === null &&
-        !selectingCards
-      ) {
-        const next = dragged(g, p);
-        current.current = next;
-        onChange(next);
+      if (moved && connecting === null && !selectingCards) {
+        const move = cardMove(g, p);
+        const next = moveCard(current.current, move);
+        if (next !== current.current) {
+          current.current = next;
+          if (onMoveCard) onMoveCard(move, g.session);
+          else onChange(next);
+        }
       } else if (
         !moved &&
         Number(target?.closest("[data-card]")?.getAttribute("data-card")) ===
@@ -550,7 +552,7 @@ export function Board({
         x: g.view.x + p.x - g.start.x,
         y: g.view.y + p.y - g.start.y,
       });
-    } else if ((!authorBoard || !moved) && g.edge !== undefined) {
+    } else if (!moved && g.edge !== undefined) {
       const hit = target?.closest("[data-edge-label], [data-edge]");
       const id = Number(
         hit?.getAttribute("data-edge-label") ?? hit?.getAttribute("data-edge"),
@@ -564,7 +566,7 @@ export function Board({
   pointerHandlers.current = { move, finish };
   useEffect(() => {
     if (gesture.current && !sameDragCard(gesture.current, work)) abortGesture();
-  }, [work]);
+  }, [work, gestureSession]);
   return (
     <svg
       ref={svg}

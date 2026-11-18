@@ -104,3 +104,76 @@ describe("Rückgängig und Wiederholen", () => {
     );
   });
 });
+
+describe("Bewegungen innerhalb einer Schülersitzung", () => {
+  const moving = () => ({
+    id: 1,
+    from: { x: initial.cards[0].x, y: initial.cards[0].y },
+    to: { x: initial.cards[0].x + 21, y: initial.cards[0].y + 12 },
+  });
+  it("übernimmt die Bewegung genau einmal und bewahrt einen dazwischen vorgenommenen Bearbeitungsschritt", () => {
+    const loaded = historyReducer(emptyHistory, {
+      type: "load",
+      work: initial,
+    });
+    const changed = structuredClone(initial);
+    changed.cards[1].color = 4;
+    const edited = historyReducer(loaded, { type: "edit", work: changed });
+    const action = {
+      type: "move-card" as const,
+      move: moving(),
+      session: loaded.gestureSession,
+    };
+    const moved = historyReducer(edited, action);
+    expect(moved.present!.cards.find((card) => card.id === 1)).toMatchObject(
+      moving().to,
+    );
+    expect(
+      moved.present!.cards.find((card) => card.id === changed.cards[1].id)!
+        .color,
+    ).toBe(4);
+    expect(historyReducer(moved, action)).toBe(moved);
+    expect(historyReducer(moved, { type: "undo" }).present).toEqual(changed);
+  });
+
+  it("ignoriert verspätete Bewegungen nach Laden, Rückgängig oder Wiederholen, auch bei gleicher Ausgangsposition", () => {
+    const loaded = historyReducer(emptyHistory, {
+      type: "load",
+      work: initial,
+    });
+    const changed = structuredClone(initial);
+    changed.cards[1].color = 4;
+    const edited = historyReducer(loaded, { type: "edit", work: changed });
+    const undone = historyReducer(edited, { type: "undo" });
+    const redone = historyReducer(undone, { type: "redo" });
+    const replaced = historyReducer(loaded, {
+      type: "load",
+      work: structuredClone(initial),
+    });
+    for (const history of [undone, redone, replaced]) {
+      const action = {
+        type: "move-card" as const,
+        move: moving(),
+        session: loaded.gestureSession,
+      };
+      expect(historyReducer(history, action)).toBe(history);
+    }
+  });
+
+  it("überschreibt keine neuere Koordinate derselben Karte", () => {
+    const loaded = historyReducer(emptyHistory, {
+      type: "load",
+      work: initial,
+    });
+    const changed = structuredClone(initial);
+    changed.cards[0].x += 9;
+    const edited = historyReducer(loaded, { type: "edit", work: changed });
+    expect(
+      historyReducer(edited, {
+        type: "move-card",
+        move: moving(),
+        session: loaded.gestureSession,
+      }),
+    ).toBe(edited);
+  });
+});

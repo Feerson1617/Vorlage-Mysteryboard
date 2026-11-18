@@ -5,6 +5,9 @@ import { unzipSync } from "fflate";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { host } from "./web-host.mjs";
+import { releaseOnly } from "./student-release.mjs";
+import { createHash } from "node:crypto";
+import { unzlibSync } from "fflate";
 
 const out = resolve(process.env.BOARD_EVIDENCE || "artifacts/mac-board-tests");
 const dir = join(out, "sco");
@@ -73,6 +76,8 @@ try {
     "aria-label",
     /Beobachtung als Starthilfe/,
   );
+  const motion = await releaseOnly(ui, 1, { dx: 33, dy: 15, type: "touch" });
+  assert.deepEqual(motion.actual, motion.target);
   await current.page.screenshot({
     path: join(out, "Schuelerplayer-Starthilfe.png"),
   });
@@ -163,6 +168,78 @@ try {
     oldState.work.team,
   );
   await old.context.close();
+  const priorDir = join(out, "legacy-021-sco");
+  await mkdir(priorDir, { recursive: true });
+  const priorSCO = unzipSync(
+    await readFile(join(out, "Altprojekt-021-SCORM.zip")),
+  );
+  for (const [name, data] of Object.entries(priorSCO)) {
+    assert(Object.hasOwn(archive, name));
+    await writeFile(join(priorDir, name), data);
+  }
+  const priorPNG = resolve(
+    "qa/studio/evidence/player-021/Schuelerarbeit-Original.png",
+  );
+  const priorJSON = join(out, "Altstand-021-extrahiert.mysteryboard");
+  execFileSync(
+    "python3",
+    ["qa/touch-saving/verify-png.py", priorPNG, priorJSON],
+    { stdio: "inherit" },
+  );
+  const priorState = JSON.parse(await readFile(priorJSON, "utf8"));
+  const prior = await learner();
+  await prior.page.goto(
+    server.origin + "/qa-evidence/legacy-021-sco/launch.html",
+  );
+  await button(prior.ui, "Fortsetzen").tap();
+  await prior.ui.getByLabel("Schüler-Sicherung").setInputFiles(priorPNG);
+  await expect(prior.ui.locator("[data-card]")).toHaveCount(5);
+  await expect(prior.ui.locator("[data-edge-label]")).toContainText(
+    priorState.work.edges[0].label,
+  );
+  await expect(prior.ui.locator(".team-summary")).toContainText(
+    priorState.work.team,
+  );
+  assert.deepEqual(
+    (await snapshot(prior.ui)).cards.map(([id, x, y]) => [
+      Number(id),
+      Number(x),
+      Number(y),
+    ]),
+    priorState.work.cards.map(({ id, x, y }) => [id, x, y]),
+  );
+  await prior.context.close();
+
+  const pngTask = await readFile(join(out, "Aufgabe-mit-Starthilfe.png"));
+  let taskPayload;
+  for (let offset = 8; offset + 12 <= pngTask.length;) {
+    const length = pngTask.readUInt32BE(offset);
+    if (pngTask.toString("ascii", offset + 4, offset + 8) === "mySt")
+      taskPayload = pngTask.subarray(offset + 8, offset + 8 + length);
+    offset += length + 12;
+  }
+  assert(taskPayload);
+  const decodedTask = Buffer.from(unzlibSync(taskPayload.subarray(40)));
+  assert.equal(decodedTask.length, taskPayload.readUInt32BE(4));
+  assert(
+    createHash("sha256")
+      .update(decodedTask)
+      .digest()
+      .equals(taskPayload.subarray(8, 40)),
+  );
+  const taskFromScorm = JSON.parse(
+    Buffer.from(
+      JSON.parse(
+        Buffer.from(archive["app.html"])
+          .toString()
+          .match(
+            /<script id="mysteryboard-launch" type="application\/json">([\s\S]*?)<\/script>/,
+          )[1],
+      ).task,
+      "base64",
+    ).toString(),
+  );
+  assert.deepEqual(JSON.parse(decodedTask), taskFromScorm);
   assert.deepEqual(requests, []);
   await writeFile(
     join(out, "Mac-Starthilfe-SCORM.json"),
@@ -174,6 +251,8 @@ try {
         originalPNG: download.suggestedFilename(),
         studentCanEditAndRemove: true,
         actualStudio020PngRestoredInNewPlayer: true,
+        actualStudio021PngRestoredInNewPlayer: true,
+        confirmedTaskPngMatchesScorm: true,
         undoRedo: true,
         externalRequests: requests,
       },

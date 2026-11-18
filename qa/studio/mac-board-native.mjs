@@ -3,7 +3,8 @@ import { _electron, expect } from "@playwright/test";
 import { cp, mkdir, readFile, writeFile, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { button, closeExports, openExports, saveProject } from "./controls.mjs";
-import { fixtures } from "./fixtures.mjs";
+import { canonical, fixtures } from "./fixtures.mjs";
+import { createHash } from "node:crypto";
 import {
   coordinates,
   displacedRelease,
@@ -72,7 +73,7 @@ async function launch() {
       BrowserWindow.getAllWindows()[0].webContents.getLastWebPreferences()
         .sandbox,
   }));
-  assert.equal(proof.electron.version, "0.2.1");
+  assert.equal(proof.electron.version, "0.2.2");
   assert(proof.electron.isPackaged && proof.electron.sandbox);
 }
 async function close() {
@@ -315,8 +316,67 @@ try {
   await expect(
     page.getByText("Starthilfen für Lernende (1)", { exact: true }),
   ).toBeVisible();
+  const confirmation = page.getByRole("checkbox", {
+    name: "Ich habe die vorgegebenen Verbindungen geprüft und möchte sie an die Lernenden weitergeben.",
+    exact: true,
+  });
+  const scormButton = buttonOnPage("Für itslearning exportieren");
+  const pngButton = buttonOnPage("Als Bild exportieren");
+  const reviewed = page.getByRole("region", {
+    name: "Starthilfen kontrollieren",
+  });
+  await expect(reviewed).toContainText(
+    "Dieses Mystery enthält bereits vorgegebene Verbindungen für Lernende.",
+  );
+  await expect(reviewed).toContainText("Beobachtung als Starthilfe");
+  await expect(reviewed).not.toContainText("Planung bleibt intern");
+  await expect(confirmation).not.toBeChecked();
+  await expect(scormButton).toBeDisabled();
+  await expect(pngButton).toBeDisabled();
+  // Even programmatic dispatch at the disabled actions produces no file.
+  await scormButton.dispatchEvent("click");
+  await pngButton.dispatchEvent("click");
+  assert.equal(
+    await stat(scorm)
+      .then(() => true)
+      .catch(() => false),
+    false,
+  );
+  const saveWithoutConfirm = join(
+    out,
+    "Projekt-ohne-Exportfreigabe.mysteryboard",
+  );
+  await fileTarget(saveWithoutConfirm);
+  await saveProject(page, true);
+  await stat(saveWithoutConfirm);
+  await openExports(page);
+  await expect(scormButton).toBeDisabled();
   await page.screenshot({ path: join(out, "Export-Starthilfen.png") });
-  await buttonOnPage("Für itslearning exportieren").click();
+  const openingPreview = app.waitForEvent("window");
+  await buttonOnPage("Schüleransicht prüfen").click();
+  const preview = await openingPreview;
+  await preview.getByLabel("Teamname oder Vornamen").fill("Vorschau");
+  await button(preview, "Beginnen").click();
+  await expect(preview.locator("[data-card]")).toHaveCount(5);
+  await expect(preview.locator("[data-edge]")).toHaveCount(1);
+  await expect(preview.locator("[data-edge]")).toHaveAttribute(
+    "aria-label",
+    /Beobachtung als Starthilfe/,
+  );
+  const previewTask = JSON.parse(
+    Buffer.from(
+      JSON.parse(await preview.locator("#mysteryboard-launch").textContent())
+        .task,
+      "base64",
+    ).toString(),
+  );
+  await preview.screenshot({ path: join(out, "Native-Schuelervorschau.png") });
+  await preview.close();
+  await confirmation.check();
+  await expect(scormButton).toBeEnabled();
+  await expect(pngButton).toBeEnabled();
+  await fileTarget(scorm);
+  await scormButton.click();
   await expect
     .poll(async () =>
       stat(scorm)
@@ -332,10 +392,49 @@ try {
     )[1],
   );
   const task = JSON.parse(Buffer.from(launchData.task, "base64").toString());
+  assert.deepEqual(previewTask, task);
   assert.deepEqual(task.content.initial.edges, project.content.initial.edges);
   assert(!JSON.stringify(task).includes("Planung bleibt intern"));
   assert(!Object.hasOwn(task, "author"));
   await closeExports(page);
+  await openExports(page);
+  await expect(confirmation).not.toBeChecked();
+  await expect(pngButton).toBeDisabled();
+  await confirmation.check();
+  const png = join(out, "Aufgabe-mit-Starthilfe.png");
+  await fileTarget(png);
+  await pngButton.click();
+  await expect
+    .poll(() =>
+      stat(png)
+        .then((f) => f.size)
+        .catch(() => 0),
+    )
+    .toBeGreaterThan(1000);
+  await closeExports(page);
+  await pinboard(page)
+    .getByRole("button", { name: /Beobachtung als Starthilfe/ })
+    .press("Enter");
+  const changeEdge = page.getByRole("dialog", {
+    name: "Verbindung bearbeiten",
+  });
+  await changeEdge
+    .getByLabel("Beschriftung (freiwillig)")
+    .fill("Erneut zu prüfende Starthilfe");
+  await changeEdge.getByRole("combobox").selectOption("2");
+  await button(changeEdge, "Übernehmen").click();
+  await openExports(page);
+  await expect(reviewed).toContainText("Erneut zu prüfende Starthilfe");
+  await expect(confirmation).not.toBeChecked();
+  await expect(scormButton).toBeDisabled();
+  await closeExports(page);
+  proof.publication = {
+    blockedWithoutConfirmation: true,
+    newConfirmationAfterEdit: true,
+    saveWithoutConfirmation: true,
+    previewMatchesScorm: true,
+    confirmedPng: png,
+  };
   proof.edges = {
     project: saved,
     scorm,
@@ -347,6 +446,8 @@ try {
   await open(resolve("qa/studio/evidence/legacy/Studio-0.2.0.mysteryboard"), 5);
   await fileTarget(join(out, "Altaufgabe-neu-exportiert.zip"));
   await openExports(page);
+  await expect(confirmation).toHaveCount(0);
+  await expect(scormButton).toBeEnabled();
   await buttonOnPage("Für itslearning exportieren").click();
   await expect
     .poll(async () =>
@@ -355,6 +456,74 @@ try {
         .catch(() => 0),
     )
     .toBeGreaterThan(1000);
+  await buttonOnPage("Zur Projektübersicht").click();
+  const legacy021 = resolve(
+    "qa/studio/evidence/player-021/Autor-mit-Pfeilen.mysteryboard",
+  );
+  const originalBytes = await readFile(legacy021);
+  await open(legacy021, 5);
+  assert.deepEqual(await readFile(legacy021), originalBytes);
+  const previous = join(out, "Altprojekt-021-SCORM.zip");
+  await fileTarget(previous);
+  await openExports(page);
+  await confirmation.check();
+  await scormButton.click();
+  await expect
+    .poll(() =>
+      stat(previous)
+        .then((f) => f.size)
+        .catch(() => 0),
+    )
+    .toBeGreaterThan(1000);
+  const hidden = JSON.parse(originalBytes);
+  hidden.author.hiddenCards = [4];
+  const visibleEdge = {
+    id: 99,
+    from: 1,
+    to: 3,
+    direction: 0,
+    label: "Sichtbar ohne Richtung",
+  };
+  hidden.content.initial.edges.push(visibleEdge);
+  hidden.contentHash = createHash("sha256")
+    .update(canonical(hidden.content))
+    .digest("hex");
+  const hiddenPath = join(out, "Verdeckte-Karte.mysteryboard");
+  await writeFile(hiddenPath, canonical(hidden));
+  await buttonOnPage("Zur Projektübersicht").click();
+  await open(hiddenPath, 5);
+  await openExports(page);
+  await expect(reviewed).toContainText("Sichtbar ohne Richtung");
+  await expect(reviewed).not.toContainText("Beobachtung als Starthilfe");
+  await expect(reviewed).not.toContainText("Planung bleibt intern");
+  await expect(
+    page.getByText("Starthilfen zu ausgeblendeten Karten werden ausgelassen."),
+  ).toBeVisible();
+  await confirmation.check();
+  const filtered = join(out, "Gefilterte-Starthilfe.zip");
+  await fileTarget(filtered);
+  await scormButton.click();
+  await expect
+    .poll(() =>
+      stat(filtered)
+        .then((f) => f.size)
+        .catch(() => 0),
+    )
+    .toBeGreaterThan(1000);
+  const filteredHtml = Buffer.from(
+    unzipSync(new Uint8Array(await readFile(filtered)))["app.html"],
+  ).toString();
+  const filteredLaunch = JSON.parse(
+    filteredHtml.match(
+      /<script id="mysteryboard-launch" type="application\/json">([\s\S]+?)<\/script>/,
+    )[1],
+  );
+  const filteredTask = JSON.parse(
+    Buffer.from(filteredLaunch.task, "base64").toString(),
+  );
+  assert.equal(filteredTask.content.cards.length, 4);
+  assert.deepEqual(filteredTask.content.initial.edges, [visibleEdge]);
+  proof.publication.hiddenCardsMatchRealExport = true;
   proof.passed = true;
 } catch (error) {
   if (page && !page.isClosed())

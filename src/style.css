@@ -989,10 +989,52 @@ dialog:has(.student-help-preview) .dialog-body {
   }
 }
 
-.ocr-preparation { margin-block: .8rem; }
-.ocr-preparation img { max-width: 100%; height: auto; }
-.ocr-raw { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.ocr-preparation {
+  margin-block: 0.8rem;
+}
+.ocr-preparation img {
+  max-width: 100%;
+  height: auto;
+}
+.ocr-raw {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+}
 
-.ocr-original-detail img { display: block; max-width: 100%; height: auto; }
+.ocr-original-detail img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 
-.player-board-hint { margin:0; padding:6px 12px; font-size:.8rem; color:#395444; flex-shrink:0; }
+.player-board-hint {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  color: #395444;
+  flex-shrink: 0;
+}
+.author-publication-edges {
+  background: #f4f6ef;
+  border: 1px solid #c6d1c2;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+.author-publication-edges p {
+  margin: 0 0 0.5rem;
+}
+.author-publication-edges ul {
+  max-height: 10rem;
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+.author-publication-confirmation {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.author-publication-confirmation input {
+  width: auto;
+  flex-shrink: 0;
+}

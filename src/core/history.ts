@@ -1,4 +1,28 @@
-import type { Work } from "./model";
+import type { CardState, Work } from "./model";
+
+export type CardMove = {
+  id: number;
+  from: Pick<CardState, "x" | "y">;
+  to: Pick<CardState, "x" | "y">;
+};
+
+export function moveCard(work: Work, move: CardMove): Work {
+  const card = work.cards.find((card) => card.id === move.id);
+  if (
+    !card ||
+    card.x !== move.from.x ||
+    card.y !== move.from.y ||
+    (card.x === move.to.x && card.y === move.to.y)
+  )
+    return work;
+  return {
+    ...work,
+    cards: [
+      ...work.cards.filter((card) => card.id !== move.id),
+      { ...card, ...move.to },
+    ],
+  };
+}
 
 export const HISTORY_LIMIT = 40;
 export type WorkHistory = {
@@ -6,10 +30,12 @@ export type WorkHistory = {
   past: Work[];
   future: Work[];
   baseline: string | null;
+  gestureSession: object | null;
 };
 export type HistoryAction =
   | { type: "load"; work: Work | null }
   | { type: "edit"; work: Work }
+  | { type: "move-card"; move: CardMove; session: object | null }
   | { type: "undo" }
   | { type: "redo" };
 export const emptyHistory: WorkHistory = {
@@ -17,6 +43,7 @@ export const emptyHistory: WorkHistory = {
   past: [],
   future: [],
   baseline: null,
+  gestureSession: null,
 };
 const append = (stack: Work[], work: Work) => [
   ...stack.slice(-(HISTORY_LIMIT - 1)),
@@ -28,12 +55,26 @@ export function historyReducer(
 ): WorkHistory {
   switch (action.type) {
     case "load":
+      if (!action.work) return emptyHistory;
       return {
         present: action.work,
         past: [],
         future: [],
-        baseline: action.work ? JSON.stringify(action.work) : null,
+        baseline: JSON.stringify(action.work),
+        gestureSession: {},
       };
+    case "move-card": {
+      if (
+        !state.present ||
+        !action.session ||
+        state.gestureSession !== action.session
+      )
+        return state;
+      const work = moveCard(state.present, action.move);
+      return work === state.present
+        ? state
+        : historyReducer(state, { type: "edit", work });
+    }
     case "edit":
       if (
         !state.present ||
@@ -50,6 +91,7 @@ export function historyReducer(
       if (!state.present || !state.past.length) return state;
       return {
         ...state,
+        gestureSession: {},
         present: state.past.at(-1)!,
         past: state.past.slice(0, -1),
         future: append(state.future, state.present),
@@ -58,6 +100,7 @@ export function historyReducer(
       if (!state.present || !state.future.length) return state;
       return {
         ...state,
+        gestureSession: {},
         present: state.future.at(-1)!,
         past: append(state.past, state.present),
         future: state.future.slice(0, -1),
