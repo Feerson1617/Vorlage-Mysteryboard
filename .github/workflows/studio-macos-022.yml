@@ -79,6 +79,7 @@ jobs:
             !artifacts/mac-board-tests/*/task-*/**
             !artifacts/mac-board-tests/*/example/**
           compression-level: 0
+          overwrite: true
   regression:
     if: "!contains(github.event.head_commit.message, 'Package-verified-run:')"
     runs-on: ubuntu-24.04
@@ -129,7 +130,7 @@ jobs:
           npm run studio:build 2>&1 | tee artifacts/board-regression/Studio-Build.log
           node qa/studio/board-reproduction.mjs 2>&1 | tee artifacts/board-regression/Vorher-Nachher.log
           npm run test:rc2 2>&1 | tee artifacts/board-regression/RC2.log
-      - name: Unmodified browser suite
+      - name: Complete browser suite
         shell: bash
         run: |
           set -euo pipefail
@@ -144,6 +145,7 @@ jobs:
         with:
           name: Studio-0.2.2-regression-${{ matrix.shard }}-${{ github.sha }}
           path: artifacts/board-regression/
+          overwrite: true
   delivery:
     runs-on: ubuntu-24.04
     needs: [native, regression]

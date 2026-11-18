@@ -450,6 +450,11 @@ for (const viewport of [
     await expect(page.locator("[data-edge]")).toHaveCount(220);
     const cdp = await context.newCDPSession(page),
       samples: unknown[] = [];
+    const overview = async () => {
+      await button(page, "Übersicht").click();
+      // The click schedules a refit in an effect. Read the grip after it is painted.
+      await frame(page);
+    };
     const touch = (
       type: "touchStart" | "touchMove" | "touchEnd" | "touchCancel",
       x?: number,
@@ -512,7 +517,7 @@ for (const viewport of [
       expect((await position(page, grip.id)).x).toBe(end.x);
       await button(page, "Rückgängig").click();
       expect((await position(page, grip.id)).x).toBe(before.x);
-      await button(page, "Übersicht").click();
+      await overview();
     }
     const initial = await cards(page);
     for (let i = 1; i <= 30; i++) {
@@ -603,7 +608,7 @@ for (const viewport of [
     await touch("touchEnd");
     expect(await cards(page)).toEqual(baseline);
     await expect(page.getByRole("dialog")).toHaveCount(0);
-    await button(page, "Übersicht").click();
+    await overview();
     const grip = await pick(page),
       before = await position(page, grip.id);
     await touch("touchStart", grip.x, grip.y);
@@ -627,6 +632,7 @@ for (const viewport of [
       await touch("touchMove", grip.x + 31, grip.y + 17);
     }
     await touch("touchEnd");
+    await frame(page);
     const after = await position(page, grip.id);
     samples.push({
       kind: "pinch-then-drag-and-viewport-rotation",

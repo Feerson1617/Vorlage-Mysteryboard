@@ -172,6 +172,13 @@ in itslearning erforderlich. Das Dateiformat und SCORM 1.2 bleiben erhalten.
 - `node qa/studio/student-release.mjs` und `node qa/studio/student-stability.mjs` lieferten die Bewegungsnachweise.
 - `npm run studio:test` ergab {checks} bestehende native Prüfpunkte für Import, OCR, Druck und weitere Studio-Funktionen.
 
+Ein früherer Lauf hat eine intermittierende Abweichung im Drehungstest gezeigt.
+Auch 0.2.1 zeigte beim gleichen Test die Abweichung von 31 CSS-Pixeln. Die
+Messung zeigte einen Griffpunkt aus der alten Pinnwandansicht. Der Test wartet
+jetzt nach „Übersicht“ auf den neu gezeichneten Stand. Die Soll-Koordinaten und
+die Toleranz bleiben identisch. Der A4-Extremtexttest wurde nach einem
+Ladeabbruch im Vite-Testserver nochmals ausgeführt.
+
 Die Eingaben auf dem macOS-ARM64-Runner waren automatisiert. Ein manueller
 Trackpad-Test, ein verwaltetes Schul-iPad und ein echter itslearning-Kursstart
 wurden nicht geprüft. Das Paket ist ad hoc signiert. Eine Apple-Notarisierung
