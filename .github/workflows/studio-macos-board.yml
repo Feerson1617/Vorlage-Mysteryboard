@@ -68,6 +68,8 @@ jobs:
   regression:
     runs-on: ubuntu-24.04
     timeout-minutes: 40
+    env:
+      OCR_EVIDENCE_DIR: ${{ github.workspace }}/artifacts/board-regression/ocr
     strategy:
       fail-fast: false
       matrix:
