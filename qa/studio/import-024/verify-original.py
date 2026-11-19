@@ -11,6 +11,8 @@ def letters(text):
     return ''.join(c for c in unicodedata.normalize('NFKC',text) if not c.isspace() and c!='\xad')
 doc=fitz.open(pdf)
 assert len(doc)==3
+region_counts=[len(cards) for cards in measured]
+assert region_counts==[9,12,11],region_counts
 proof=[]
 for p,cards in zip(doc,measured):
     for card in cards:
@@ -28,10 +30,20 @@ pm=page.get_pixmap(matrix=fitz.Matrix(4,4),clip=frame,alpha=False)
 expected=Image.frombytes('RGB',(pm.width,pm.height),pm.samples)
 actual=Image.open(next(out.glob('Uebernommene-Bildkarte.*'))).convert('RGB')
 assert abs(actual.width/actual.height-frame.width/frame.height)<.002
+pupil_pixels=json.loads((out/'Editor-Nachher.json').read_text())['pupilImagePixels']
+assert list(actual.size)==pupil_pixels
 rel=[(area.x0-frame.x0)/frame.width,(area.y0-frame.y0)/frame.height,(area.x1-frame.x0)/frame.width,(area.y1-frame.y0)/frame.height]
 def crop(im): return im.crop(tuple(round(v*im.size[i%2]) for i,v in enumerate(rel))).resize((864,1302),Image.Resampling.LANCZOS)
 diff=ImageChops.difference(crop(expected),crop(actual))
 panels=[max(ImageStat.Stat(diff.crop((x,y,x+432,y+434))).mean) for y in (0,434,868) for x in (0,432)]
 assert max(panels)<12,panels
-report={'pdfSha256':ref['sha256'],'regions':[len(c) for c in measured],'matchedText':proof,'m2Size':actual.size,'sixPanelMaxChannelMAE':panels,'passed':True}
+report={
+    'pdfSha256':ref['sha256'],
+    'regions':region_counts,
+    'matchedText':proof,
+    'm2OriginalPixels':[image['width'],image['height']],
+    'm2Size':actual.size,
+    'sixPanelMaxChannelMAE':panels,
+    'passed':True,
+}
 (out/'P01-Messwerte.json').write_text(json.dumps(report,indent=2)+'\n')

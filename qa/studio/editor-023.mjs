@@ -646,10 +646,14 @@ try {
     await expect(ui.getByRole("dialog")).toContainText("Ziel");
     await button(ui.getByRole("dialog"), "Schließen").click();
     await card(ui, m2Index - 1).press("Enter");
-    await expect(ui.getByRole("dialog").locator("img")).toHaveAttribute(
-      "src",
-      artwork,
-    );
+    const pupilGraphic = ui.getByRole("dialog").locator("img");
+    await expect(pupilGraphic).toBeVisible();
+    await expect(pupilGraphic).toHaveAttribute("src", artwork);
+    const pupilImagePixels = await pupilGraphic.evaluate(async (img) => {
+      await img.decode();
+      return [img.naturalWidth, img.naturalHeight];
+    });
+    assert.deepEqual(pupilImagePixels, rendered);
     await learner.screenshot({ path: join(out, "SCORM-Bildkarte.png") });
     await button(ui.getByRole("dialog"), "Schließen").click();
     await card(ui, 1).press("Enter");
@@ -712,6 +716,7 @@ try {
       proposals: baseCount,
       published: task.cards.length,
       rendered,
+      pupilImagePixels,
       actualPositions: state.cards,
       external,
       taskPngMatchesScorm: true,

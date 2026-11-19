@@ -12,7 +12,14 @@ def sha(p):
 def log(p):return re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',p.read_text())
 original=obj(one('P01-Messwerte.json'));workflow=obj(one('P01-Mac-SCORM.json'))
 assert original['passed'] and original['regions']==[9,12,11] and len(original['matchedText'])==31
-assert workflow['native'] and workflow['app']==dict(version='0.2.4',packaged=True) and workflow['studentPngRestored'] and workflow['sha256']==original['pdfSha256']
+reference=obj(Path(__file__).with_name('original-reference.json'))
+assert original['pdfSha256']==reference['sha256']==workflow['sha256']
+assert original['m2OriginalPixels']==reference['m2Pixels']
+assert len(original['sixPanelMaxChannelMAE'])==6 and max(original['sixPanelMaxChannelMAE'])<12
+assert workflow['passed'] and workflow['native'] and workflow['platform']=='darwin' and workflow['arch']=='arm64'
+assert workflow['app']==dict(version='0.2.4',packaged=True) and workflow['proposals']==32
+assert workflow['pupilImagePixels']==original['m2Size'] and workflow['studentPngRestored']
+assert workflow['taskPngMatchesScorm'] and workflow['external']==[]
 matrix=obj(one('Matrix.json'))['cases']
 assert set(matrix)=={f'P{i:02}' for i in range(2,19)} and all(e['state']!='fehlgeschlagen' for e in matrix.values())
 graphics=obj(one('Grafikvergleich.json'));assert len(graphics)>=7
@@ -55,5 +62,20 @@ with zipfile.ZipFile(review,'w',zipfile.ZIP_DEFLATED) as z:
     for p in sorted(set(files)):z.write(p,p.relative_to(src))
 files=[out/dname,out/'INSTALLATION.md',out/'ABNAHME.md',review]
 (out/'SHA256SUMS.txt').write_text(''.join(f'{sha(p)}  {p.name}\n' for p in files))
-with zipfile.ZipFile(out/(prefix+'-Mac-Apple-Silicon-KOMPLETTPAKET.zip'),'w') as z:
-    for p in [*files,out/'SHA256SUMS.txt']:z.write(p,p.name)
+complete=out/(prefix+'-Mac-Apple-Silicon-KOMPLETTPAKET.zip')
+members=[*files,out/'SHA256SUMS.txt']
+with zipfile.ZipFile(complete,'w') as archive:
+    for path in members:
+        archive.write(path,path.name)
+
+for path in [review,complete]:
+    with zipfile.ZipFile(path) as archive:
+        assert archive.testzip() is None, f'ZIP-Prüfung fehlgeschlagen: {path.name}'
+with zipfile.ZipFile(complete) as archive:
+    for path in members:
+        with archive.open(path.name) as embedded:
+            assert hashlib.file_digest(embedded,'sha256').hexdigest()==sha(path), path.name
+
+assert sha(out/dname)==sha(dmg), dname
+for path in [out/dname,complete,review]:
+    print(f'{sha(path)}  {path.name}')

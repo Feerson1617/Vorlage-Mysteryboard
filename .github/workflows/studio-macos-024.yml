@@ -7,11 +7,33 @@ permissions:
   contents: read
   actions: read
 jobs:
+  p01-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify that the private original PDF is available
+        env:
+          PRIVATE_PDF_URL: ${{ secrets.STUDIO_QA_PDF_URL }}
+        run: |
+          set -euo pipefail
+          work=$(mktemp -d "$RUNNER_TEMP/mystery-p01.XXXXXX")
+          trap 'rm -rf -- "$work"' EXIT
+          bash qa/studio/import-024/fetch-original.sh "$work/Mystery.pdf"
   native:
+    needs: p01-preflight
     runs-on: macos-26
     timeout-minutes: 65
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch and verify the private original on the Mac runner
+        env:
+          PRIVATE_PDF_URL: ${{ secrets.STUDIO_QA_PDF_URL }}
+        run: bash qa/studio/import-024/fetch-original.sh "$RUNNER_TEMP/Mystery-P01/Mystery.pdf"
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -45,6 +67,25 @@ jobs:
           python3 -m venv "$RUNNER_TEMP/matrix-python"
           "$RUNNER_TEMP/matrix-python/bin/pip" install PyMuPDF==1.26.7 Pillow==12.0.0 reportlab python-docx
           echo "$RUNNER_TEMP/matrix-python/bin" >> "$GITHUB_PATH"
+      - run: npx playwright install chromium
+      - name: P01 in the installed application and its exported SCORM player
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/Mystery-P01"
+          if ! EDITOR_VERSION=0.2.4 EDITOR_IMPORT_AUDIT=1 EDITOR_EVIDENCE="$work/results" EDITOR_ORIGINAL="$work/Mystery.pdf" node qa/studio/editor-023.mjs > "$work/workflow.log" 2>&1; then
+            echo '::error::P01 gesperrt: Import, Projekt oder Schülerexport ist im installierten Studio fehlgeschlagen.'
+            exit 1
+          fi
+          if ! python3 qa/studio/import-024/verify-original.py "$work/Mystery.pdf" "$work/results" > "$work/comparison.log" 2>&1; then
+            echo '::error::P01 gesperrt: Der unabhängige Text- oder Bildvergleich mit dem Original ist fehlgeschlagen.'
+            exit 1
+          fi
+          mkdir -p artifacts/import-024
+          cp "$work/results/P01-Messwerte.json" artifacts/import-024/
+          cp "$work/results/Editor-Nachher.json" artifacts/import-024/P01-Mac-SCORM.json
+      - name: Remove private originals and derived files
+        if: always()
+        run: rm -rf -- "${RUNNER_TEMP:?}/Mystery-P01"
       - name: Board gestures and author connections in the installed application
         shell: bash
         run: |
@@ -54,7 +95,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          npx playwright install chromium webkit
+          npx playwright install webkit
           node qa/studio/mac-board-player.mjs 2>&1 | tee artifacts/mac-board-tests/Schuelerplayer.log
       - name: Reproduce on 0.2.1 and stress both browsers against the installed export
         shell: bash
@@ -120,23 +161,6 @@ jobs:
           for label in P04 P05; do
             EDITOR_VERSION=0.2.4 EDITOR_IMPORT_AUDIT=1 EDITOR_EVIDENCE=artifacts/import-024/"$label" EDITOR_NEUTRAL="$fixtures/$label.pdf" node qa/studio/editor-023.mjs
           done
-      - name: Original PDF only in the installed application on this runner
-        env:
-          PRIVATE_PDF_URL: ${{ secrets.STUDIO_QA_PDF_URL }}
-        run: |
-          set -euo pipefail
-          if [[ -z "$PRIVATE_PDF_URL" ]]; then
-            echo 'P01 nicht nativ geprüft. Privater Eingang STUDIO_QA_PDF_URL fehlt.' > artifacts/import-024/P01-Status.txt
-            exit 0
-          fi
-          work="$RUNNER_TEMP/Mystery-P01"
-          mkdir -p "$work"
-          curl --silent --fail --location --proto '=https' --proto-redir '=https' --max-time 90 --max-filesize 2000000 --output "$work/Mystery.pdf" "$PRIVATE_PDF_URL"
-          printf '%s  %s\n' '07efd68057712f082819456c099a971f335c035f70b70076cda79c35bf914693' "$work/Mystery.pdf" | shasum -a 256 -c
-          EDITOR_VERSION=0.2.4 EDITOR_IMPORT_AUDIT=1 EDITOR_EVIDENCE="$work/results" EDITOR_ORIGINAL="$work/Mystery.pdf" node qa/studio/editor-023.mjs > "$work/workflow.log" 2>&1
-          python3 qa/studio/import-024/verify-original.py "$work/Mystery.pdf" "$work/results"
-          cp "$work/results/P01-Messwerte.json" artifacts/import-024/
-          cp "$work/results/Editor-Nachher.json" artifacts/import-024/P01-Mac-SCORM.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -151,8 +175,10 @@ jobs:
             artifacts/import-024/P0?/Editor-Nachher.json
             artifacts/import-024/P0?/Vollstaendigkeitskontrolle.png
             artifacts/import-024/P0?/SCORM-Bildkarte.png
-            artifacts/import-024/P01-*
+            artifacts/import-024/P01-Messwerte.json
+            artifacts/import-024/P01-Mac-SCORM.json
           if-no-files-found: warn
+          overwrite: true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -175,6 +201,7 @@ jobs:
           compression-level: 0
           overwrite: true
   regression:
+    needs: p01-preflight
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     env:
@@ -248,7 +275,7 @@ jobs:
         with:
           pattern: Studio-0.2.4-*
           path: board-acceptance
-      - name: Verify all evidence including the private native test before packaging
+      - name: Verify all evidence, both ZIP archives and SHA-256 checksums
         run: python3 qa/studio/import-024/package.py board-acceptance board-delivery
       - uses: actions/upload-artifact@v4
         with:
