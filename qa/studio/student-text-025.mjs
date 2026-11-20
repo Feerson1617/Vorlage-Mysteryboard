@@ -5,12 +5,22 @@ import { basename, join, resolve } from "node:path";
 import { _electron, chromium, webkit, expect } from "@playwright/test";
 import { unzlibSync, unzipSync } from "fflate";
 import { button, closeExports, openExports, saveProject } from "./controls.mjs";
-import { releaseOnly } from "./student-release.mjs";
+import { cardPosition, releaseOnly } from "./student-release.mjs";
+import {
+  compareReadability,
+  layoutObservation,
+  detailedText,
+  checkPreview,
+  capturePrint,
+} from "./student-readability-026.mjs";
 import { host } from "./web-host.mjs";
 
 const out = resolve(process.argv[2] || "artifacts/student-text-025");
 const native = Boolean(process.env.STUDIO_EXEC);
 const webkitOnly = process.env.MB_ENGINE === "webkit";
+const version = process.env.STUDIO_VERSION || "0.2.5";
+const compactCards = version === "0.2.6";
+const sizes = compactCards ? [12, 20, 30, 60, 100] : [12, 20, 60, 100];
 const permission =
   "Lernende dürfen Überschrift und Text dieser Karte bearbeiten.";
 const editedTitle = "Eigene Erklärung: Wärme & CO₂";
@@ -114,7 +124,7 @@ async function author() {
       });
       return { version: app.getVersion(), packaged: app.isPackaged };
     });
-    assert.deepEqual(evidence.app, { version: "0.2.5", packaged: true });
+    assert.deepEqual(evidence.app, { version, packaged: true });
   } else {
     teacher = await browser.newPage({ viewport: { width: 1280, height: 820 } });
     await teacher.exposeFunction("qaOpen", async () => ({
@@ -250,7 +260,7 @@ async function exportScorm(count) {
   return task;
 }
 
-async function learner(count, viewport, backup) {
+async function learner(count, viewport, backup, resource = `launch-${count}`) {
   const page = await browser.newPage({ viewport, hasTouch: true });
   const external = [];
   await page.route("**/*", (route) => {
@@ -264,7 +274,7 @@ async function learner(count, viewport, backup) {
     external.push(url);
     return route.abort();
   });
-  await page.goto(`${server.origin}/qa-evidence/launch-${count}/launch.html`);
+  await page.goto(`${server.origin}/qa-evidence/${resource}/launch.html`);
   const ui = page.frameLocator("iframe");
   if (backup) {
     await button(ui, "Fortsetzen").click();
@@ -287,6 +297,11 @@ async function changeText(ui, id, title, text, useTap = false) {
   await reading.getByLabel("Kartentext", { exact: true }).fill(text);
   await button(reading, "Änderungen übernehmen").click();
   await expect(reading.locator(".reading h3")).toHaveText(title);
+  if (compactCards)
+    assert.equal(
+      await reading.locator(".reading > p:not(.small)").first().textContent(),
+      text,
+    );
   return reading;
 }
 
@@ -304,6 +319,10 @@ async function backupFile(page, ui, count) {
   await expect(ui.getByAltText("Vorschau des Sicherungsbildes")).toBeVisible({
     timeout: 45000,
   });
+  if (compactCards)
+    await expect(
+      dialog(ui).getByText(/Beim Öffnen der Original-PNG/),
+    ).toBeVisible();
   const download = page.waitForEvent("download");
   await ui.getByRole("link", { name: "Sicherungsbild herunterladen" }).click();
   const downloaded = await download;
@@ -358,6 +377,8 @@ async function classroom(task, viewport) {
   await expect(
     dialog(ui).getByLabel("Kartentext", { exact: true }),
   ).toHaveValue("");
+  if (compactCards)
+    await expect(card(ui, 2).locator("[data-card-text] tspan")).toHaveCount(0);
   await dialog(ui)
     .getByLabel("Kartentext", { exact: true })
     .fill("Verworfener Text");
@@ -389,11 +410,26 @@ async function classroom(task, viewport) {
   });
   await button(reading, "Schließen").click();
   assert.equal(await card(ui, 1).getAttribute("data-x"), firstLocation);
-  await expect(card(ui, 1)).toContainText("Absatz 20");
+  if (compactCards) await checkPreview(card(ui, 1), longText);
+  else await expect(card(ui, 1)).toContainText("Absatz 20");
   await button(ui, "Rückgängig").click();
   await expect(card(ui, 1)).toContainText(original.title);
   await button(ui, "Wiederholen").click();
-  await expect(card(ui, 1)).toContainText("Absatz 20");
+  if (compactCards) {
+    await checkPreview(card(ui, 1), longText);
+    await expect(button(ui, "Überlagerte Karten anzeigen")).toHaveCount(0);
+    const [x1, y1] = await cardPosition(ui, 1);
+    const [x3, y3] = await cardPosition(ui, 3);
+    const zoom = Number(
+      await ui.locator("svg.board").getAttribute("data-zoom"),
+    );
+    const overlap = await releaseOnly(ui, 3, {
+      dx: (x1 + 10 - x3) * zoom,
+      dy: (y1 + 35 - y3) * zoom,
+      type: "touch",
+    });
+    assert.deepEqual(overlap.actual, overlap.target);
+  } else await expect(card(ui, 1)).toContainText("Absatz 20");
   await button(ui, "Überlagerte Karten anzeigen").click();
   await expect(button(dialog(ui), "Karte 3")).toBeVisible();
   await button(dialog(ui), "Karte 1").click();
@@ -472,6 +508,7 @@ async function classroom(task, viewport) {
 }
 
 async function large(project, count) {
+  const comparison = compactCards && count === 30;
   const content = {
     ...project.content,
     id: `textkarten-${count}`,
@@ -480,14 +517,24 @@ async function large(project, count) {
       title: "Karte " + (i + 1),
       text: "Beobachtung",
       group: "required",
+      ...(comparison && i < 2
+        ? {
+            image: project.content.cards[0].image,
+            imageAlt: "Messdiagramm",
+            imageCaption: "Messreihe und Legende",
+            imagePosition: i === 0 ? "after-text" : "before-text",
+            source: project.content.cards[0].source,
+          }
+        : {}),
       ...(i % 5 === 4 ? {} : { studentEditable: true }),
     })),
+    ...(comparison ? { startLayout: { mode: "explicit" } } : {}),
     initial: {
       cards: Array.from({ length: count }, (_, i) => ({
         id: i + 1,
         color: 0,
-        x: (i % 10) * 340,
-        y: Math.floor(i / 10) * 220,
+        x: comparison ? (i % 5) * 370 : (i % 10) * 340,
+        y: comparison ? Math.floor(i / 5) * 390 : Math.floor(i / 10) * 220,
       })),
       edges: [],
       categories: Array(6).fill(""),
@@ -509,14 +556,54 @@ async function large(project, count) {
   const task = await exportScorm(count);
   const session = await learner(count, { width: 1024, height: 768 });
   const { page, ui, external } = session;
+  const beforeText = comparison ? await layoutObservation(ui) : null;
+  if (comparison) {
+    for (const to of [6, 11, 12]) {
+      await card(ui, 1).press("Enter");
+      await button(dialog(ui), "Mit einer Karte verbinden").click();
+      await card(ui, to).press("Enter");
+      await dialog(ui)
+        .getByLabel(/Beschriftung/)
+        .fill("Beziehung " + to);
+      await button(dialog(ui), "Übernehmen").click();
+    }
+  }
+  const beforeArrows = comparison ? await layoutObservation(ui) : null;
+  const expectedEdits = [];
   for (const c of task.content.cards.filter((c) => c.studentEditable)) {
-    const text =
-      `Teamtext für Karte ${c.id}. Äß Ω₂\n` +
-      (count >= 60
-        ? "Aussage mit Sonderzeichen. π µ − \n".repeat(20)
-        : "Absatz 2.");
-    await changeText(ui, c.id, "Ergänzung " + c.id, text);
+    const text = comparison
+      ? detailedText(c.id)
+      : `Teamtext für Karte ${c.id}. Äß Ω₂\n` +
+        (count >= 60
+          ? "Aussage mit Sonderzeichen. π µ − \n".repeat(20)
+          : "Absatz 2.");
+    const title =
+      comparison && c.id === 6
+        ? "Beobachtungen zur Versickerung und zum Hochwasser nach dem Starkregen im dicht bebauten Viertel"
+        : "Ergänzung " + c.id;
+    expectedEdits.push({ id: c.id, title, text });
+    await changeText(ui, c.id, title, text);
     await button(dialog(ui), "Schließen").click();
+    if (comparison) {
+      await checkPreview(card(ui, c.id), text);
+      const headingLines = await card(ui, c.id)
+        .locator(":scope > text:first-of-type > tspan")
+        .allTextContents();
+      assert.equal(headingLines.join(" "), title);
+    }
+  }
+  const afterText = comparison ? await layoutObservation(ui) : null;
+  if (comparison) {
+    assert.deepEqual(afterText.positions, beforeText.positions);
+    assert.equal(afterText.connectors.length, 3);
+    assert.notDeepEqual(afterText.connectors, beforeArrows.connectors);
+    const bottom = afterText.cards[0].y + afterText.cards[0].height;
+    const top = afterText.cards[5].y;
+    const gap = top - bottom > 14 ? 7 : 0.5;
+    assert.equal(afterText.connectors[0].startY, bottom + gap);
+    assert.equal(afterText.connectors[0].endY, top - gap);
+    assert(afterText.connectors[0].endY > afterText.connectors[0].startY);
+    await expect(button(ui, "Überlagerte Karten anzeigen")).toHaveCount(0);
   }
   const before = await snapshot(ui);
   const png = await backupFile(page, ui, count);
@@ -526,11 +613,28 @@ async function large(project, count) {
     checked.document.work.textEdits.length,
     count - Math.floor(count / 5),
   );
+  if (compactCards)
+    assert.deepEqual(checked.document.work.textEdits, expectedEdits);
   assert.deepEqual(external, []);
   await page.context().close();
   const restored = await learner(count, { width: 768, height: 1024 }, png);
   assert.deepEqual(await snapshot(restored.ui), before);
   assert.deepEqual(restored.external, []);
+  if (comparison) {
+    await capturePrint(
+      browser,
+      restored.ui,
+      join(out, "Vollstaendige-Kartentexte-A4.pdf"),
+      expectedEdits,
+    );
+    evidence.comparison = await compareReadability(
+      out,
+      learner,
+      png,
+      viewportFor(chromium),
+      "Chromium",
+    );
+  }
   await restored.page.context().close();
   return {
     count,
@@ -539,6 +643,11 @@ async function large(project, count) {
     edits: checked.document.work.textEdits.length,
   };
 }
+
+const viewportFor = (engine) =>
+  engine === chromium
+    ? { width: 1024, height: 768 }
+    : { width: 768, height: 1024 };
 
 try {
   if (webkitOnly) {
@@ -553,13 +662,54 @@ try {
         { width: 1024, height: 768 },
       ),
     );
+    if (compactCards) {
+      for (const count of sizes) {
+        const path = join(out, `Arbeitsstand-${count}.png`);
+        const result = await contents(path);
+        const restored = await learner(count, viewportFor(webkit), path);
+        const { page, ui, external } = restored;
+        await expect(ui.locator("[data-card]")).toHaveCount(count);
+        for (const edit of result.document.work.textEdits.slice(
+          0,
+          count === 30 ? 3 : 1,
+        )) {
+          await card(ui, edit.id).press("Enter");
+          await expect(dialog(ui).locator(".reading h3")).toHaveText(
+            edit.title,
+          );
+          assert.equal(
+            await dialog(ui)
+              .locator(".reading > p:not(.small)")
+              .first()
+              .textContent(),
+            edit.text,
+          );
+          await button(dialog(ui), "Schließen").click();
+          if (count === 30) await checkPreview(card(ui, edit.id), edit.text);
+        }
+        assert.deepEqual(external, []);
+        await page.context().close();
+        evidence.cases.push({
+          count,
+          edits: result.document.work.textEdits.length,
+          bytes: result.bytes,
+          sha256: result.sha256,
+        });
+      }
+      evidence.comparison = await compareReadability(
+        out,
+        learner,
+        join(out, "Arbeitsstand-30.png"),
+        viewportFor(webkit),
+        "WebKit",
+      );
+    }
   } else {
     const project = await author();
     const task = await exportScorm(5);
     assert.deepEqual(task.content.cards, project.content.cards);
     evidence.cases.push(await classroom(task, { width: 768, height: 1024 }));
-    for (const count of [12, 20, 60, 100])
-      evidence.cases.push(await large(project, count));
+    for (const count of sizes) evidence.cases.push(await large(project, count));
   }
   await writeFile(
     join(out, webkitOnly ? "WebKit.json" : "Chromium.json"),

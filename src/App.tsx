@@ -29,6 +29,7 @@ import { emptyHistory, hasChanges, historyReducer } from "./core/history";
 import {
   CARD_WIDTH,
   initialBoardWork,
+  makeLayouts,
   overlappingTextCards,
 } from "./core/layout";
 import { withStudentCards, withStudentText } from "./core/student-text";
@@ -87,9 +88,13 @@ export default function App({
     () => withStudentCards(mystery, edits),
     [mystery, edits],
   );
+  const cardLayouts = useMemo(
+    () => makeLayouts(displayed, "preview"),
+    [displayed],
+  );
   const overlaps = useMemo(
-    () => (work ? overlappingTextCards(displayed, work) : []),
-    [displayed, work],
+    () => (work ? overlappingTextCards(work, cardLayouts) : []),
+    [cardLayouts, work],
   );
   const [modal, setModal] = useState<Modal>(null);
   const [helpOpen, setHelpOpen] = useState(initialHelpOpen),
@@ -275,6 +280,7 @@ export default function App({
           mystery,
           mode,
           backupPayload?.(snapshot),
+          "preview",
         );
       } catch (e) {
         if (id !== operation.current) return;
@@ -284,6 +290,7 @@ export default function App({
           mystery,
           "compact",
           backupPayload?.(snapshot),
+          "preview",
         );
       }
       if (id !== operation.current) return;
@@ -470,6 +477,7 @@ export default function App({
           <Board
             work={work}
             mystery={displayed}
+            cardLayouts={cardLayouts}
             onChange={commit}
             gestureSession={__PLAYER_BUILD__ ? history.gestureSession : null}
             onMoveCard={
@@ -569,10 +577,15 @@ export default function App({
             <button
               className="primary"
               onClick={() => {
-                const initial = initialBoardWork(mystery, {
-                  width: window.innerWidth,
-                  height: Math.max(1, window.innerHeight - 74),
-                });
+                const initial = initialBoardWork(
+                  mystery,
+                  {
+                    width: window.innerWidth,
+                    height: Math.max(1, window.innerHeight - 74),
+                  },
+                  undefined,
+                  "preview",
+                );
                 try {
                   const named = requireTeam(initial, startTeam);
                   accept(initial);
@@ -1117,6 +1130,10 @@ export default function App({
                 lasse sie unverändert. Die Anwendung kann nicht prüfen, ob die
                 Datei dort tatsächlich abgelegt wurde. Ein Bildschirmfoto genügt
                 nicht.
+              </p>
+              <p className="small">
+                Das Bild zeigt von langen Karten einen Textauszug. Beim Öffnen
+                der Original-PNG sind eure Texte wieder vollständig verfügbar.
               </p>
               <a
                 className="button primary full"

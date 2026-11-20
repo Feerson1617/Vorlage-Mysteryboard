@@ -20,6 +20,7 @@ import {
   edgeArrow,
   arrowSize,
   makeLayouts,
+  type Layout,
 } from "../core/layout";
 type View = { x: number; y: number; z: number };
 type Point = { x: number; y: number };
@@ -64,6 +65,7 @@ export function Board({
   authorBoard = false,
   selectingCards = false,
   privateEdges,
+  cardLayouts,
 }: {
   work: Work;
   mystery: Mystery;
@@ -80,6 +82,7 @@ export function Board({
   authorBoard?: boolean;
   selectingCards?: boolean;
   privateEdges?: ReadonlySet<number>;
+  cardLayouts?: Map<number, Layout>;
 }) {
   const design = designOf(mystery);
   const trackedDrag = authorBoard || onMoveCard !== undefined;
@@ -155,7 +158,10 @@ export function Board({
     const after = next.cards.find((card) => card.id === g.id);
     return !!before && !!after && before.x === after.x && before.y === after.y;
   };
-  const layouts = useMemo(() => makeLayouts(mystery), [mystery]),
+  const layouts = useMemo(
+      () => cardLayouts ?? makeLayouts(mystery),
+      [mystery, cardLayouts],
+    ),
     content = useMemo(
       () => new Map(mystery.cards.map((c) => [c.id, c])),
       [mystery],
@@ -757,6 +763,7 @@ export function Board({
               data-card={c.id}
               data-group={card.group}
               data-student-editable={card.studentEditable}
+              data-card-excerpt={l.excerpt || undefined}
               data-x={c.x}
               data-y={c.y}
               className="card"
@@ -767,6 +774,7 @@ export function Board({
                 [
                   hint && `Orientierung: ${hint.label}`,
                   card.studentEditable && "Text bearbeitbar",
+                  l.excerpt && "Vollständigen Text öffnen",
                 ]
                   .filter(Boolean)
                   .join(". ") || undefined
@@ -808,6 +816,7 @@ export function Board({
                 fontSize={l.fontSize}
                 fontFamily={l.fontFamily}
                 fill={appearance.text}
+                data-card-text=""
               >
                 {l.text.map((s, i) => (
                   <tspan x="18" y={l.textY + i * l.textLine} key={i}>
@@ -835,6 +844,18 @@ export function Board({
                   {text}
                 </text>
               ))}
+              {l.excerpt && (
+                <text
+                  x="18"
+                  y={l.height - (card.studentEditable ? 22 : 10)}
+                  fontSize={13}
+                  fontFamily={l.fontFamily}
+                  fontWeight="600"
+                  fill={appearance.text}
+                >
+                  Vollständigen Text öffnen
+                </text>
+              )}
               {card.studentEditable && (
                 <text
                   x={CARD_WIDTH - 14}

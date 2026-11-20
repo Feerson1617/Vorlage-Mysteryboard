@@ -8,9 +8,11 @@ import shutil
 import sys
 from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 
-evidence, out = (Path(arg) for arg in sys.argv[1:])
+evidence, out = (Path(arg) for arg in sys.argv[1:3])
 out.mkdir(parents=True, exist_ok=True)
-prefix = "MysteryBoard-Studio-0.2.5"
+version = sys.argv[3] if len(sys.argv) > 3 else "0.2.5"
+compact_cards = version == "0.2.6"
+prefix = f"MysteryBoard-Studio-{version}"
 commit = os.environ["GITHUB_SHA"]
 
 
@@ -45,12 +47,48 @@ native = read("native-macos.json")
 assert native["passed"] and native["arch"] == "arm64" and native["sourceCommit"] == commit
 chromium = read("Chromium.json")
 webkit = read("WebKit.json")
-assert chromium["passed"] and chromium["app"] == {"version": "0.2.5", "packaged": True}
+assert chromium["passed"] and chromium["app"] == {"version": version, "packaged": True}
 assert chromium["native"] and chromium["platform"] == "darwin"
-assert [row["count"] for row in chromium["cases"]] == [5, 12, 20, 60, 100]
-assert [row["edits"] for row in chromium["cases"]] == [2, 10, 16, 48, 80]
+counts = [5, 12, 20, 30, 60, 100] if compact_cards else [5, 12, 20, 60, 100]
+edits = [2, 10, 16, 24, 48, 80] if compact_cards else [2, 10, 16, 48, 80]
+assert [row["count"] for row in chromium["cases"]] == counts
+assert [row["edits"] for row in chromium["cases"]] == edits
 assert webkit["passed"] and webkit["cases"][0]["edits"] == 2
 assert chromium["overlapResolved"] or webkit["overlapResolved"]
+compact_report = ""
+compact_assets = []
+if compact_cards:
+    assert webkit["native"] and webkit["platform"] == "darwin"
+    assert [row["count"] for row in webkit["cases"]] == counts
+    assert [row["edits"] for row in webkit["cases"]] == edits
+    assert chromium["overlapResolved"] and webkit["overlapResolved"]
+    png_hash = sha(find("Arbeitsstand-30.png"))
+    comparison_reports = []
+    for name, proof in [("Chromium", chromium), ("WebKit", webkit)]:
+        comparison = proof["comparison"]
+        assert comparison["cardsWithExcerpt"] == 23
+        assert comparison["overlappingPairs"][0] > comparison["overlappingPairs"][1] == 0
+        assert comparison["tallest"][0] > comparison["tallest"][1]
+        metrics = f"Vergleich-30-{name}.json"
+        record = read(metrics)
+        assert record["backupSha256"] == png_hash
+        assert record["after"]["positions"] == record["before"]["positions"]
+        count = comparison["overlappingPairs"][0]
+        comparison_reports.append(f"{name} {count} → 0")
+        compact_assets.extend([metrics, *comparison["screenshots"]])
+    pdf = "Vollstaendige-Kartentexte-A4.pdf"
+    pdf_proof = read("PDF-Pruefung.json")
+    assert pdf_proof["sha256"] == sha(find(pdf))
+    assert pdf_proof["pages"] > 1 and len(pdf_proof["endMarkers"]) == 23
+    compact_assets.extend([pdf, "PDF-Pruefung.json"])
+    compact_report = (
+        "Die Vorher-Nachher-Screenshots zeigen 30 Karten mit identischen Positionen und "
+        "derselben Original-PNG in 0.2.5 und 0.2.6. Überlappende Kartenpaare "
+        f"gingen von {', '.join(comparison_reports)} zurück. "
+        "Die volle Textlänge und Absatzfolge wurde für alle 24 bearbeiteten Karten in der "
+        f"Druckvorschau abgeglichen. Die Endmarken der 23 langen Texte sind im A4-PDF "
+        f"mit {pdf_proof['pages']} Seiten nachgewiesen.\n\n"
+    )
 browser_count = sum(
     int(re.findall(r"(\d+) passed", find(f"Chromium-{i}.log").read_text())[-1])
     for i in range(1, 5)
@@ -58,7 +96,7 @@ browser_count = sum(
 assert browser_count >= 272
 data = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", find("Daten.log").read_text())
 unit_count = int(re.search(r"Tests\s+(\d+) passed", data)[1])
-assert unit_count >= 200 and "4 passed" in find("RC2.log").read_text()
+assert unit_count >= (204 if compact_cards else 200) and "4 passed" in find("RC2.log").read_text()
 assert read("Mac-Pinnwand-Tests.json")["passed"] and read("Mac-Starthilfe-SCORM.json")["passed"]
 matrix = read("Matrix.json")["cases"]
 assert len(matrix) == 17 and all(row["state"] != "fehlgeschlagen" for row in matrix.values())
@@ -70,13 +108,16 @@ shutil.copyfile(source_dmg, dmg)
 assert sha(dmg) == sha(source_dmg)
 docs = out / "Kurzbericht.md"
 docs.write_text(
-    f"# MysteryBoard Studio 0.2.5 · Testkandidat für Apple Silicon\n\n"
+    f"# MysteryBoard Studio {version} · Testkandidat für Apple Silicon\n\n"
     f"Commit `{commit}`. GitHub-Actions-Lauf {os.environ['GITHUB_RUN_ID']}.\n\n"
     f"{unit_count} Daten- und {browser_count} Chromium-Regressionsprüfungen bestanden. "
     "Vier Prüfungen der eingefrorenen Boden-RC2 und 17 neutrale Importfälle bestanden. "
     "Die DMG wurde verifiziert, kopiert und die installierte ARM64-App gestartet. "
     "Die Schüleraufgaben aus dieser App bestanden die Text- und Original-PNG-Rundreise in Chromium "
-    "bei 5, 12, 20, 60 und 100 Karten. WebKit prüfte die exportierte Aufgabe im Querformat.\n\n"
+    f"für die Kartenzahlen {', '.join(map(str, counts))}. "
+    + ("WebKit prüfte dieselben exportierten Aufgabengrößen und die PNG-Wiederherstellung.\n\n"
+       if compact_cards else "WebKit prüfte die exportierte Aufgabe im Querformat.\n\n")
+    + compact_report +
     "Die tatsächlichen und angeforderten Fenstermaße stehen in der Sichtprüfung. "
     "Jede nicht exakt erreichte Größe bleibt ungeprüft. Die App ist ad hoc signiert. "
     "Apple-Notarisierung und der Einsatz auf verwalteten Geräten sind offen.\n\n"
@@ -85,7 +126,7 @@ docs.write_text(
 )
 installation = out / "Installation.txt"
 installation.write_text(
-    "MysteryBoard Studio 0.2.5, Apple Silicon, Testkandidat\n\n"
+    f"MysteryBoard Studio {version}, Apple Silicon, Testkandidat\n\n"
     "DMG öffnen und MysteryBoard Studio in den Programme-Ordner kopieren. "
     "Auf verwalteten Macs die Freigabe mit der Administration klären.\n"
 )
@@ -108,11 +149,12 @@ members = {docs.name: docs}
 for name in (
     "Chromium.json", "WebKit.json", "Freigabe.png", "Schuelerkarte-768.png",
     "Schuelerkarte-1024.png", "native-macos.json", "Mac-Pinnwand-Tests.json",
-    "Mac-Starthilfe-SCORM.json", "Fenster-0.2.5.json", "Matrix.json", "Daten.log", "RC2.log",
+    "Mac-Starthilfe-SCORM.json", f"Fenster-{version}.json", "Matrix.json", "Daten.log", "RC2.log",
+    *compact_assets,
     *(f"Chromium-{i}.log" for i in range(1, 5)),
 ):
     members[name] = find(name)
-for screenshot in evidence.rglob("0.2.5-Fenster-*.png"):
+for screenshot in evidence.rglob(f"{version}-Fenster-*.png"):
     members[screenshot.name] = screenshot
 archive(review, members, ZIP_DEFLATED)
 manifest = out / "SHA256SUMS.txt"

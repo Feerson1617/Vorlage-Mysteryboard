@@ -17,6 +17,7 @@ import {
   fitImage,
   numberBadge,
   wrap,
+  type CardLayoutMode,
 } from "./layout";
 import { packWork, toQr } from "./codec";
 import { embedWork, embedPayload } from "./png";
@@ -113,6 +114,7 @@ export async function exportBoard(
   m: Mystery,
   mode: ExportMode = "a3",
   backupPayload?: Uint8Array,
+  cardLayout: CardLayoutMode = "full",
 ) {
   // Never offer a backup that fails our own state validator.
   work = validateWork(work, m);
@@ -125,7 +127,7 @@ export async function exportBoard(
   try {
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Zu wenig Platz zum Erzeugen des Bildes.");
-    const layouts = makeLayouts(m),
+    const layouts = makeLayouts(m, cardLayout),
       bounds = boardBounds(work, layouts);
     const qr = backupPayload ? documentQr(backupPayload) : toQr(packWork(work));
     const margin = width * 0.024,
@@ -255,6 +257,10 @@ export async function exportBoard(
       l.caption.forEach((t, i) =>
         ctx.fillText(t, c.x + 18, c.y + l.imageY + l.imageHeight + 16 + i * 16),
       );
+      if (l.excerpt) {
+        ctx.font = `bold 12px ${l.fontFamily}`;
+        ctx.fillText("Textauszug", c.x + 18, c.y + l.height - 10);
+      }
       ctx.fillStyle = "#334f40";
       ctx.beginPath();
       const badge = numberBadge(1, l.numberLabel);

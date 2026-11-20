@@ -3,9 +3,12 @@ import type { CardContent, CardState, Edge, Work, Mystery } from "./model";
 import { cardNumber, initialWork } from "./model";
 import { orderedPositions } from "./start-layout";
 export const CARD_WIDTH = 300;
+export const CARD_TEXT_PREVIEW_LINES = 6;
+export type CardLayoutMode = "full" | "preview";
 export type Layout = {
   title: string[];
   text: string[];
+  excerpt: boolean;
   height: number;
   imageY: number;
   numberLabel: string;
@@ -31,6 +34,7 @@ export function wrap(
   text: string,
   width: number,
   font = "16px Arial",
+  maxLines = Infinity,
 ): string[] {
   const lines: string[] = [];
   for (const paragraph of text.split("\n")) {
@@ -43,17 +47,20 @@ export function wrap(
       }
       if (line) {
         lines.push(line);
+        if (lines.length >= maxLines) return lines;
         line = "";
       }
       for (const ch of word) {
         if (measure(line + ch, font) > width && line) {
           lines.push(line);
+          if (lines.length >= maxLines) return lines;
           line = "";
         }
         line += ch;
       }
     }
     lines.push(line);
+    if (lines.length >= maxLines) return lines;
   }
   return lines;
 }
@@ -61,23 +68,33 @@ export function layoutCard(
   card: CardContent,
   numberLabel = String(card.id),
   design?: Design,
+  mode: CardLayoutMode = "full",
 ): Layout {
   const fontSize = design?.fontSize ?? 16,
     fontFamily = designFont(design),
     titleLine = fontSize + 8,
     textLine = fontSize + 6;
   const title = wrap(card.title, 264, `bold ${fontSize + 2}px ${fontFamily}`);
-  const text = wrap(
+  const body =
     card.text +
-      (card.table
-        ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
-        : "") +
-      (card.extraImages?.length
-        ? `\n${card.extraImages.length} zusätzliche Bilder · Zum Lesen öffnen.`
-        : ""),
+    (card.table
+      ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
+      : "") +
+    (card.extraImages?.length
+      ? `\n${card.extraImages.length} zusätzliche Bilder · Zum Lesen öffnen.`
+      : "");
+  const lines = wrap(
+    mode === "preview" ? body.trim().replace(/\n[ \t\r\n]*\n/g, "\n\n") : body,
     264,
     `${fontSize}px ${fontFamily}`,
+    mode === "preview" ? CARD_TEXT_PREVIEW_LINES + 1 : Infinity,
   );
+  const excerpt = mode === "preview" && lines.length > CARD_TEXT_PREVIEW_LINES;
+  const text = excerpt
+    ? lines.slice(0, CARD_TEXT_PREVIEW_LINES)
+    : mode === "preview" && !body.trim()
+      ? []
+      : lines;
   const hasImage = !!card.image || !!card.extraImages?.length,
     scale = (card.imageScale ?? 100) / 100,
     imageHeight = 98 * scale,
@@ -101,7 +118,8 @@ export function layoutCard(
   return {
     title,
     text,
-    height: height + (card.studentEditable ? 12 : 0),
+    excerpt,
+    height: height + (card.studentEditable ? 12 : 0) + (excerpt ? 20 : 0),
     imageY,
     numberLabel,
     fontSize,
@@ -179,15 +197,20 @@ export function overview(
     z: low,
   };
 }
-export function makeLayouts(m: Mystery) {
+export function makeLayouts(m: Mystery, mode: CardLayoutMode = "full") {
   return new Map(
-    m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id), m.design)]),
+    m.cards.map((c) => [
+      c.id,
+      layoutCard(c, cardNumber(m, c.id), m.design, mode),
+    ]),
   );
 }
 
-export function overlappingTextCards(m: Mystery, work: Work): number[] {
+export function overlappingTextCards(
+  work: Work,
+  layouts: Map<number, Layout>,
+): number[] {
   if (!work.textEdits?.length) return [];
-  const layouts = makeLayouts(m);
   const overlapping = new Set<number>();
   for (const edit of work.textEdits) {
     const card = work.cards.find((state) => state.id === edit.id)!;
@@ -210,10 +233,11 @@ export function initialBoardWork(
   m: Mystery,
   viewport: { width: number; height: number },
   badgeScaleLimit = 7,
+  mode: CardLayoutMode = "full",
 ): Work {
   const work = initialWork(m);
   if (m.startLayout?.mode !== "ordered") return work;
-  const layouts = makeLayouts(m);
+  const layouts = makeLayouts(m, mode);
   // Reserve the largest capped number badge as well as a free connection gap.
   // This protects both multi-digit IDs and configurable prefixes at overview.
   const gap =
