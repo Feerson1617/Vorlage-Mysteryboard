@@ -255,7 +255,12 @@ async function learner(count, viewport, backup) {
   const external = [];
   await page.route("**/*", (route) => {
     const url = route.request().url();
-    if (url.startsWith(server.origin + "/")) return route.continue();
+    if (
+      url.startsWith(server.origin + "/") ||
+      url.startsWith("blob:" + server.origin + "/") ||
+      url.startsWith("data:")
+    )
+      return route.continue();
     external.push(url);
     return route.abort();
   });
