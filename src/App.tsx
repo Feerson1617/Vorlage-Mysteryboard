@@ -1,8 +1,10 @@
 import { CardReading } from "./components/CardReading";
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import {
   COLOR_NAMES,
   COLORS,
+  MAX_CARD_TEXT,
+  MAX_CARD_TITLE,
   MAX_EDGES,
   MAX_LABEL,
   MAX_TEAM_NAME,
@@ -10,6 +12,8 @@ import {
   nextEdgeId,
   teamName,
   withTeam,
+  validCardText,
+  type CardText,
   type Edge,
   type Work,
   type Mystery,
@@ -22,7 +26,12 @@ import { Board } from "./components/Board";
 import { Dialog } from "./components/Dialog";
 import { Camera } from "./components/Camera";
 import { emptyHistory, hasChanges, historyReducer } from "./core/history";
-import { initialBoardWork } from "./core/layout";
+import {
+  CARD_WIDTH,
+  initialBoardWork,
+  overlappingTextCards,
+} from "./core/layout";
+import { withStudentCards, withStudentText } from "./core/student-text";
 import { LearningHelp } from "./components/LearningHelp";
 import { PrintPreview } from "./components/PrintPreview";
 import { MediaView } from "./components/MediaView";
@@ -36,6 +45,7 @@ type Modal =
   | "team"
   | "print"
   | "instructions"
+  | "overlap"
   | null;
 type Saved = { url: string; file: File; qr: boolean; mode: ExportMode };
 const requireTeam = (work: Work, name: string): Work => {
@@ -72,6 +82,15 @@ export default function App({
   );
   const work = history.present,
     dirty = hasChanges(history);
+  const edits = work?.textEdits;
+  const displayed = useMemo(
+    () => withStudentCards(mystery, edits),
+    [mystery, edits],
+  );
+  const overlaps = useMemo(
+    () => (work ? overlappingTextCards(displayed, work) : []),
+    [displayed, work],
+  );
   const [modal, setModal] = useState<Modal>(null);
   const [helpOpen, setHelpOpen] = useState(initialHelpOpen),
     [orientation, setOrientation] = useState(false),
@@ -84,6 +103,14 @@ export default function App({
   const [card, setCard] = useState<number | null>(null),
     [edge, setEdge] = useState<Edge | null>(null),
     [connecting, setConnecting] = useState<number | null>(null);
+  const [textDraft, setTextDraft] = useState<CardText | null>(null);
+  const [draftWarning, setDraftWarning] = useState(false);
+  const selected = displayed.cards.find((c) => c.id === card);
+  const published = mystery.cards.find((c) => c.id === card);
+  const pendingText =
+    !!textDraft &&
+    selected &&
+    (textDraft.title !== selected.title || textDraft.text !== selected.text);
   const [fitTick, setFitTick] = useState(0),
     [message, setMessage] = useState(""),
     [busy, setBusy] = useState(false),
@@ -100,12 +127,21 @@ export default function App({
     pendingExport.current = null;
     setModal(null);
     setCard(null);
+    setTextDraft(null);
+    setDraftWarning(false);
     setEdge(null);
     setMessage("");
     setTeamError("");
     setSaved(null);
     setBusy(false);
     setHelpOpen(false);
+  };
+  const closeCard = () => {
+    if (pendingText) {
+      setDraftWarning(true);
+      return;
+    }
+    close();
   };
   const openHelp = () => {
     close();
@@ -126,14 +162,14 @@ export default function App({
   }, [modal]);
   useEffect(() => {
     const f = (e: BeforeUnloadEvent) => {
-      if (dirty && !previewMode) {
+      if ((dirty || pendingText) && !previewMode) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", f);
     return () => window.removeEventListener("beforeunload", f);
-  }, [dirty, previewMode]);
+  }, [dirty, pendingText, previewMode]);
   useEffect(
     () => () => {
       if (saved) URL.revokeObjectURL(saved.url);
@@ -326,7 +362,7 @@ export default function App({
     setMessage("");
     setModal("print");
   };
-  const cardContent = mystery.cards.find((c) => c.id === card),
+  const cardContent = selected,
     cardState = work?.cards.find((c) => c.id === card);
   return (
     <main className={work ? "workspace" : undefined}>
@@ -433,7 +469,7 @@ export default function App({
           )}
           <Board
             work={work}
-            mystery={mystery}
+            mystery={displayed}
             onChange={commit}
             gestureSession={__PLAYER_BUILD__ ? history.gestureSession : null}
             onMoveCard={
@@ -451,6 +487,18 @@ export default function App({
             connecting={connecting}
             orientation={orientation}
           />
+          {!!overlaps.length &&
+            !modal &&
+            card === null &&
+            !edge &&
+            connecting === null &&
+            !message && (
+              <div className="student-overlap">
+                <button onClick={() => setModal("overlap")}>
+                  Überlagerte Karten anzeigen
+                </button>
+              </div>
+            )}
           {helpOpen && (
             <LearningHelp
               mystery={mystery}
@@ -569,70 +617,217 @@ export default function App({
           <p className="student-instructions-text">{mystery.instructions}</p>
         </Dialog>
       )}
+      {modal === "overlap" && (
+        <Dialog title="Überlagerte Karten" onClose={close}>
+          <p>
+            Längere Karten können andere Karten verdecken. Öffnet sie hier oder
+            verschiebt sie auf der Pinnwand.
+          </p>
+          <div className="menu-list">
+            {overlaps.map((id) => (
+              <button
+                key={id}
+                onClick={() => {
+                  setModal(null);
+                  setCard(id);
+                }}
+              >
+                Karte {cardNumber(mystery, id)}
+              </button>
+            ))}
+          </div>
+        </Dialog>
+      )}
       {cardContent && cardState && work && (
-        <Dialog title={`Karte ${cardNumber(mystery, card!)}`} onClose={close}>
-          {cardContent.group && (
-            <p className="small card-group">
-              {mystery.cardGroups![cardContent.group].label}
-            </p>
-          )}
-          <CardReading
-            card={cardContent}
-            design={mystery.design}
-            mark={cardState.color ? COLORS[cardState.color] : undefined}
-          />
-          <fieldset>
-            <legend>Farbe</legend>
-            <div className="colors">
-              {COLORS.map((color, i) => (
-                <button
-                  key={color}
-                  className={cardState.color === i ? "chosen" : ""}
-                  style={{ background: color }}
-                  aria-label={COLOR_NAMES[i]}
-                  aria-pressed={cardState.color === i}
-                  onClick={() =>
-                    commit({
-                      ...work,
-                      cards: work.cards.map((c) =>
-                        c.id === card ? { ...c, color: i } : c,
-                      ),
-                    })
+        <Dialog
+          title={`Karte ${cardNumber(mystery, card!)}`}
+          onClose={closeCard}
+        >
+          {published?.studentEditable && textDraft ? (
+            <form
+              className="student-text-edit"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!validCardText(textDraft)) return;
+                commit(withStudentText(work, published, textDraft));
+                setTextDraft(null);
+                setDraftWarning(false);
+              }}
+            >
+              {draftWarning && (
+                <p role="alert">
+                  Eure Eingaben sind noch offen. Übernehmt die Änderungen oder
+                  brecht die Bearbeitung ab.
+                </p>
+              )}
+              <div className="student-text-field">
+                <label htmlFor="student-card-title">Kartenüberschrift</label>
+                <input
+                  id="student-card-title"
+                  maxLength={MAX_CARD_TITLE}
+                  placeholder="Eine kurze Überschrift"
+                  value={textDraft.title}
+                  onChange={(e) =>
+                    setTextDraft({ ...textDraft, title: e.target.value })
                   }
-                >
-                  {cardState.color === i ? "✓" : ""}
+                />
+              </div>
+              <div className="student-text-field">
+                <label htmlFor="student-card-text">Kartentext</label>
+                <textarea
+                  id="student-card-text"
+                  rows={6}
+                  maxLength={MAX_CARD_TEXT}
+                  placeholder="Schreibt hier eure Beobachtungen oder Erklärung."
+                  value={textDraft.text}
+                  onChange={(e) =>
+                    setTextDraft({ ...textDraft, text: e.target.value })
+                  }
+                />
+              </div>
+              <p className="small">
+                Übernehmt die Eingaben und sichert euren Arbeitsstand
+                anschließend als Original-PNG.
+              </p>
+              <div className="actions">
+                <button type="submit" className="primary">
+                  Änderungen übernehmen
                 </button>
-              ))}
-            </div>
-          </fieldset>
-          {cardState.color !== 0 && (
-            <label className="category-name">
-              Name für diese Farbe <span>(freiwillig)</span>
-              <input
-                key={cardState.color}
-                maxLength={40}
-                defaultValue={work.categories[cardState.color]}
-                placeholder="Eigener Name"
-                onBlur={(e) =>
-                  commit({
-                    ...work,
-                    categories: work.categories.map((c, i) =>
-                      i === cardState.color ? e.target.value : c,
-                    ),
-                  })
-                }
+                <button
+                  type="button"
+                  onClick={() => {
+                    setTextDraft(null);
+                    setDraftWarning(false);
+                  }}
+                >
+                  Bearbeitung abbrechen
+                </button>
+              </div>
+            </form>
+          ) : (
+            <>
+              {cardContent.group && (
+                <p className="small card-group">
+                  {mystery.cardGroups![cardContent.group].label}
+                </p>
+              )}
+              {published?.studentEditable && (
+                <div className="student-text-actions actions">
+                  <button
+                    onClick={() =>
+                      setTextDraft({
+                        title: cardContent.title,
+                        text: cardContent.text,
+                      })
+                    }
+                  >
+                    Text bearbeiten
+                  </button>
+                  {edits?.some((edit) => edit.id === published.id) && (
+                    <button
+                      onClick={() =>
+                        commit(withStudentText(work, published, published))
+                      }
+                    >
+                      Ursprünglichen Text wiederherstellen
+                    </button>
+                  )}
+                </div>
+              )}
+              {overlaps.includes(cardState.id) &&
+                edits?.some((edit) => edit.id === cardState.id) &&
+                (() => {
+                  const right =
+                    Math.ceil(Math.max(...work.cards.map((c) => c.x))) +
+                    CARD_WIDTH +
+                    24;
+                  const left =
+                    Math.floor(Math.min(...work.cards.map((c) => c.x))) -
+                    CARD_WIDTH -
+                    24;
+                  const x = right <= 100000 ? right : left;
+                  return (
+                    <div className="student-text-overlap">
+                      <p className="small">
+                        Diese Karte überschneidet sich mit anderen Karten.
+                      </p>
+                      {x >= -100000 && (
+                        <button
+                          onClick={() => {
+                            commit({
+                              ...work,
+                              cards: work.cards.map((c) =>
+                                c.id === cardState.id ? { ...c, x } : c,
+                              ),
+                            });
+                            setFitTick((tick) => tick + 1);
+                          }}
+                        >
+                          Diese Karte neben die anderen setzen
+                        </button>
+                      )}
+                    </div>
+                  );
+                })()}
+              <CardReading
+                card={cardContent}
+                design={mystery.design}
+                mark={cardState.color ? COLORS[cardState.color] : undefined}
               />
-            </label>
+              <fieldset>
+                <legend>Farbe</legend>
+                <div className="colors">
+                  {COLORS.map((color, i) => (
+                    <button
+                      key={color}
+                      className={cardState.color === i ? "chosen" : ""}
+                      style={{ background: color }}
+                      aria-label={COLOR_NAMES[i]}
+                      aria-pressed={cardState.color === i}
+                      onClick={() =>
+                        commit({
+                          ...work,
+                          cards: work.cards.map((c) =>
+                            c.id === card ? { ...c, color: i } : c,
+                          ),
+                        })
+                      }
+                    >
+                      {cardState.color === i ? "✓" : ""}
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
+              {cardState.color !== 0 && (
+                <label className="category-name">
+                  Name für diese Farbe <span>(freiwillig)</span>
+                  <input
+                    key={cardState.color}
+                    maxLength={40}
+                    defaultValue={work.categories[cardState.color]}
+                    placeholder="Eigener Name"
+                    onBlur={(e) =>
+                      commit({
+                        ...work,
+                        categories: work.categories.map((c, i) =>
+                          i === cardState.color ? e.target.value : c,
+                        ),
+                      })
+                    }
+                  />
+                </label>
+              )}
+              <button
+                className="primary full"
+                onClick={() => {
+                  setConnecting(card);
+                  setCard(null);
+                }}
+              >
+                Mit einer Karte verbinden
+              </button>
+            </>
           )}
-          <button
-            className="primary full"
-            onClick={() => {
-              setConnecting(card);
-              setCard(null);
-            }}
-          >
-            Mit einer Karte verbinden
-          </button>
         </Dialog>
       )}
       {edge && work && (

@@ -13,6 +13,7 @@ import {
   type Mystery,
   type Work,
 } from "./model";
+import { withStudentCards } from "./student-text";
 import {
   boardBounds,
   CARD_WIDTH,
@@ -96,8 +97,9 @@ export async function preparePrintFrame(
 ): Promise<{ pageCount: number }> {
   if (paper !== "a4" && paper !== "a3")
     throw new Error("Wähle A4 oder A3 für die Druckfassung.");
-  const mystery = validateMystery(structuredClone(inputMystery)),
-    work = validateWork(inputWork, mystery);
+  const original = validateMystery(structuredClone(inputMystery));
+  const work = validateWork(inputWork, original);
+  const mystery = withStudentCards(original, work.textEdits);
   if (!validTeamName(teamName(work)))
     throw new Error(
       "Bitte tragt vor der Druckfassung einen Teamnamen oder Vornamen ein.",

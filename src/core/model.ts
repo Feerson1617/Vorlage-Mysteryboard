@@ -8,6 +8,7 @@ export type CardContent = {
   id: number;
   title: string;
   text: string;
+  studentEditable?: true;
   backgroundColor?: string;
   image?: string;
   imageAlt?: string;
@@ -25,6 +26,8 @@ export type CardContent = {
   }[];
 };
 export type CardState = { id: number; x: number; y: number; color: number };
+export type CardText = Pick<CardContent, "title" | "text">;
+export type CardTextEdit = CardText & { id: number };
 export type Edge = {
   id: number;
   from: number;
@@ -33,13 +36,14 @@ export type Edge = {
   label: string;
 };
 export type Work = {
-  schema: 1 | 2;
+  schema: 1 | 2 | 3;
   mystery: string;
   version: string;
   cards: CardState[];
   edges: Edge[];
   categories: string[];
   team?: string;
+  textEdits?: CardTextEdit[];
 };
 export type HelpCategory = {
   id: string;
@@ -82,6 +86,8 @@ export const COLOR_NAMES = [
 export const MAX_EDGES = 300;
 export const MAX_LABEL = 500;
 export const MAX_TEAM_NAME = 80;
+export const MAX_CARD_TITLE = 100;
+export const MAX_CARD_TEXT = 4000;
 // Display metadata belongs to the content; numeric IDs remain stable in saves.
 export function cardNumber(m: Mystery, id: number): string {
   const group = m.cards.find((card) => card.id === id)?.group;
@@ -109,6 +115,7 @@ export function withTeam(work: Work, name: string): Work {
       `Der Teamname darf höchstens ${MAX_TEAM_NAME} Zeichen und keine Steuerzeichen enthalten.`,
     );
   const { team: _oldTeam, ...rest } = work;
+  if (work.schema === 3) return team ? { ...rest, team } : rest;
   // Clearing the name returns the unchanged legacy representation and QR size.
   return team ? { ...rest, schema: 2, team } : { ...rest, schema: 1 };
 }
@@ -132,16 +139,29 @@ const integer = (v: unknown, min: number, max: number): v is number =>
   typeof v === "number" && Number.isInteger(v) && v >= min && v <= max;
 const string = (v: unknown, max: number): v is string =>
   typeof v === "string" && v.length <= max;
+export function validCardText(value: unknown): value is CardText {
+  return (
+    object(value) &&
+    string(value.title, MAX_CARD_TITLE) &&
+    string(value.text, MAX_CARD_TEXT)
+  );
+}
 export const validTeamName = (value: unknown): value is string =>
   string(value, MAX_TEAM_NAME) &&
   value.trim().length > 0 &&
   !/[\u0000-\u001f\u007f-\u009f]/.test(value);
 export function validateWork(value: unknown, m: Mystery): Work {
-  if (!object(value) || (value.schema !== 1 && value.schema !== 2))
+  if (
+    !object(value) ||
+    (value.schema !== 1 && value.schema !== 2 && value.schema !== 3)
+  )
     throw new Error("Dieses Speicherformat wird nicht unterstützt.");
   if (
     (value.schema === 1 && value.team !== undefined) ||
-    (value.schema === 2 && !validTeamName(value.team))
+    (value.schema === 2 && !validTeamName(value.team)) ||
+    (value.schema === 3 &&
+      value.team !== undefined &&
+      !validTeamName(value.team))
   )
     throw new Error(
       "Der Arbeitsstand enthält einen ungültigen Teamnamen oder ein unpassendes Speicherformat.",
@@ -152,7 +172,7 @@ export function validateWork(value: unknown, m: Mystery): Work {
     throw new Error(
       "Dieses Sicherungsbild gehört zu einer anderen Mystery-Version.",
     );
-  const { cards, edges, categories } = value;
+  const { cards, edges, categories, textEdits } = value;
   const fail = () => {
     throw new Error(
       "Der Arbeitsstand ist unvollständig oder enthält ungültige Daten.",
@@ -208,6 +228,35 @@ export function validateWork(value: unknown, m: Mystery): Work {
     pairs.add(pair);
     edgeIds.add(e.id);
   }
+  const acceptedEdits: CardTextEdit[] = [];
+  if (value.schema === 3) {
+    if (
+      !Array.isArray(textEdits) ||
+      !textEdits.length ||
+      textEdits.length > m.cards.length
+    )
+      return fail();
+    const editable = new Set(
+      m.cards.filter((card) => card.studentEditable).map((card) => card.id),
+    );
+    for (const edit of textEdits) {
+      const id = object(edit) ? edit.id : undefined;
+      if (
+        !object(edit) ||
+        Object.keys(edit).some(
+          (key) => !["id", "title", "text"].includes(key),
+        ) ||
+        !integer(id, 1, 1000) ||
+        !editable.delete(id) ||
+        !validCardText(edit)
+      )
+        throw new Error(
+          "Der Arbeitsstand enthält ungültige Textänderungen oder Änderungen an einer gesperrten Karte.",
+        );
+      acceptedEdits.push({ id, title: edit.title, text: edit.text });
+    }
+    acceptedEdits.sort((a, b) => a.id - b.id);
+  } else if (textEdits !== undefined) return fail();
   // Only known fields are admitted; imported objects never become app configuration.
   return {
     schema: value.schema,
@@ -222,7 +271,8 @@ export function validateWork(value: unknown, m: Mystery): Work {
       label: e.label,
     })),
     categories: [...categories],
-    ...(value.schema === 2 ? { team: value.team as string } : {}),
+    ...(typeof value.team === "string" ? { team: value.team } : {}),
+    ...(value.schema === 3 ? { textEdits: acceptedEdits } : {}),
   };
 }
 export function validateMystery(value: unknown): Mystery {
@@ -266,11 +316,12 @@ export function validateMystery(value: unknown): Mystery {
       !object(c) ||
       !integer(c.id, 1, value.cards.length) ||
       ids.has(c.id) ||
-      !string(c.title, 100) ||
+      !string(c.title, MAX_CARD_TITLE) ||
+      (c.studentEditable !== undefined && c.studentEditable !== true) ||
       (c.backgroundColor !== undefined &&
         (typeof c.backgroundColor !== "string" ||
           !/^#[0-9a-fA-F]{6}$/.test(c.backgroundColor))) ||
-      !string(c.text, 4000) ||
+      !string(c.text, MAX_CARD_TEXT) ||
       (c.image !== undefined &&
         (typeof c.image !== "string" ||
           !/^data:image\/(svg\+xml|png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/.test(

@@ -756,6 +756,7 @@ export function Board({
               transform={`translate(${c.x} ${c.y})`}
               data-card={c.id}
               data-group={card.group}
+              data-student-editable={card.studentEditable}
               data-x={c.x}
               data-y={c.y}
               className="card"
@@ -763,7 +764,12 @@ export function Board({
               tabIndex={0}
               aria-label={`Karte ${l.numberLabel} öffnen`}
               aria-description={
-                hint ? `Orientierung: ${hint.label}` : undefined
+                [
+                  hint && `Orientierung: ${hint.label}`,
+                  card.studentEditable && "Text bearbeitbar",
+                ]
+                  .filter(Boolean)
+                  .join(". ") || undefined
               }
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -829,6 +835,17 @@ export function Board({
                   {text}
                 </text>
               ))}
+              {card.studentEditable && (
+                <text
+                  x={CARD_WIDTH - 14}
+                  y={l.height - 9}
+                  textAnchor="end"
+                  fontSize={11}
+                  fill={appearance.text}
+                >
+                  Text bearbeitbar
+                </text>
+              )}
               <g
                 data-number={c.id}
                 transform={`translate(${badge.offset} ${badge.offset}) scale(${badge.scale})`}

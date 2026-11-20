@@ -1521,6 +1521,21 @@ export function AuthorEditor({
                 />
               </label>
               {integration && (
+                <label className="author-student-editable">
+                  <input
+                    type="checkbox"
+                    checked={!!card.studentEditable}
+                    onChange={(e) =>
+                      setCard({
+                        ...card,
+                        studentEditable: e.target.checked ? true : undefined,
+                      })
+                    }
+                  />
+                  Lernende dürfen Überschrift und Text dieser Karte bearbeiten.
+                </label>
+              )}
+              {integration && (
                 <fieldset className="studio-card-colors">
                   <legend>Kartenfarbe</legend>
                   <div className="studio-color-controls">

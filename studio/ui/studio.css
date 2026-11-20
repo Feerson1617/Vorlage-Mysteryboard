@@ -528,3 +528,12 @@
     max-width: 55%;
   }
 }
+.author-student-editable {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.author-student-editable input {
+  flex: none;
+  margin: 0;
+}

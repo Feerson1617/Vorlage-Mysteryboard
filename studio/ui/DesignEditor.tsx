@@ -14,10 +14,22 @@ export function DesignEditor({
   onHelp: () => void;
   onClose: () => void;
 }) {
-  const [tab, setTab] = useState<"display" | "edges" | "media" | "start">(
-    "display",
-  );
+  const [tab, setTab] = useState<
+    "display" | "edges" | "media" | "start" | "editing"
+  >("display");
   const d = designOf(content);
+  const editableCount = content.cards.filter(
+    (card) => card.studentEditable,
+  ).length;
+  const lockedCount = content.cards.length - editableCount;
+  const setCardPermissions = (allowed: boolean) =>
+    onChange({
+      ...content,
+      cards: content.cards.map((card) => ({
+        ...card,
+        studentEditable: allowed ? true : undefined,
+      })),
+    });
   const change = (update: Design) =>
     onChange({ ...content, design: { ...d, ...update } });
   const color = (key: keyof Design, label: string) => (
@@ -64,6 +76,7 @@ export function DesignEditor({
             ["edges", "Verbindungen"],
             ["media", "Karten und Medien"],
             ["start", "Startanordnung"],
+            ["editing", "Bearbeitungsfreigabe"],
           ] as const
         ).map(([id, label]) => (
           <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>
@@ -71,7 +84,33 @@ export function DesignEditor({
           </button>
         ))}
       </nav>
-      {tab === "display" ? (
+      {tab === "editing" ? (
+        <section>
+          <h3>Überschriften und Texte</h3>
+          <p>
+            {editableCount} bearbeitbar · {lockedCount} gesperrt
+          </p>
+          <div className="menu-list">
+            <button
+              disabled={!lockedCount}
+              onClick={() => setCardPermissions(true)}
+            >
+              Alle Karten für Lernende bearbeitbar machen ({lockedCount}{" "}
+              Änderungen)
+            </button>
+            <button
+              disabled={!editableCount}
+              onClick={() => setCardPermissions(false)}
+            >
+              Alle Karten für Lernende sperren ({editableCount} Änderungen)
+            </button>
+          </div>
+          <p className="small">
+            Neue Karten starten gesperrt. Einzelne Freigaben ändert ihr im
+            Kartenformular.
+          </p>
+        </section>
+      ) : tab === "display" ? (
         <>
           <label>
             Gestaltungsvorlage

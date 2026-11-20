@@ -21,6 +21,7 @@ import {
 import { packWork, toQr } from "./codec";
 import { embedWork, embedPayload } from "./png";
 import { documentQr } from "./document-qr";
+import { withStudentCards } from "./student-text";
 export const EXPORT_MODES = {
   a3: { width: 4961, height: 3508 },
   compact: { width: 2480, height: 1754 },
@@ -115,6 +116,7 @@ export async function exportBoard(
 ) {
   // Never offer a backup that fails our own state validator.
   work = validateWork(work, m);
+  m = withStudentCards(m, work.textEdits);
   const design = designOf(m);
   const { width, height } = EXPORT_MODES[mode],
     canvas = document.createElement("canvas");

@@ -3,14 +3,19 @@ import { sha256 } from "@noble/hashes/sha2.js";
 import { validateWork, validTeamName, type Mystery, type Work } from "./model";
 export const QR_LIMIT = 500; // ASCII bytes including prefix; EC M, at most version 17.
 const MAX_RAW = 1_000_000,
-  MAX_PACKED = 500_000;
+  MAX_PACKED = 500_000,
+  MAX_WITH_TEXT = 4_000_000;
 const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf-8", { fatal: true });
 export function packWork(work: Work): Uint8Array {
   if (
-    (work.schema !== 1 && work.schema !== 2) ||
+    (work.schema !== 1 && work.schema !== 2 && work.schema !== 3) ||
     (work.schema === 1 && work.team !== undefined) ||
-    (work.schema === 2 && !validTeamName(work.team))
+    (work.schema === 2 && !validTeamName(work.team)) ||
+    (work.schema === 3
+      ? !work.textEdits?.length ||
+        (work.team !== undefined && !validTeamName(work.team))
+      : work.textEdits !== undefined)
   )
     throw new Error(
       "Der Arbeitsstand enthält einen ungültigen Teamnamen oder ein unpassendes Speicherformat.",
@@ -22,10 +27,12 @@ export function packWork(work: Work): Uint8Array {
     work.cards.map((c) => [c.id, c.x, c.y, c.color]),
     work.edges.map((e) => [e.id, e.from, e.to, e.direction, e.label]),
     work.categories,
-    ...(work.schema === 2 ? [work.team] : []),
+    ...(work.schema === 1 ? [] : [work.team ?? null]),
+    ...(work.schema === 3 ? [work.textEdits] : []),
   ];
   const raw = encoder.encode(JSON.stringify(compact));
-  if (raw.length > MAX_RAW) throw new Error("Dieser Arbeitsstand ist zu groß.");
+  if (raw.length > (work.schema === 3 ? MAX_WITH_TEXT : MAX_RAW))
+    throw new Error("Dieser Arbeitsstand ist zu groß.");
   const compressed = zlibSync(raw, { level: 9 });
   const result = new Uint8Array(40 + compressed.length);
   // Format 1 remains byte-identical for unnamed legacy work. Older readers
@@ -38,13 +45,14 @@ export function packWork(work: Work): Uint8Array {
 }
 export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
   try {
+    const schema = bytes[3];
     if (
       bytes.length < 41 ||
-      bytes.length > MAX_PACKED ||
+      bytes.length > (schema === 3 ? MAX_WITH_TEXT : MAX_PACKED) ||
       bytes[0] !== 77 ||
       bytes[1] !== 66 ||
       bytes[2] !== 83 ||
-      (bytes[3] !== 1 && bytes[3] !== 2)
+      (schema !== 1 && schema !== 2 && schema !== 3)
     )
       throw new Error();
     const size = new DataView(
@@ -52,7 +60,8 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
       bytes.byteOffset,
       bytes.byteLength,
     ).getUint32(4);
-    if (size < 1 || size > MAX_RAW) throw new Error();
+    if (size < 1 || size > (schema === 3 ? MAX_WITH_TEXT : MAX_RAW))
+      throw new Error();
     // Fixed output buffer bounds decompression memory, even for malicious compressed data.
     const raw = unzlibSync(bytes.subarray(40), { out: new Uint8Array(size) });
     const hash = sha256(raw);
@@ -61,8 +70,8 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
     const c: unknown = JSON.parse(decoder.decode(raw));
     if (
       !Array.isArray(c) ||
-      c[0] !== bytes[3] ||
-      c.length !== (bytes[3] === 2 ? 7 : 6) ||
+      c[0] !== schema ||
+      c.length !== 5 + schema ||
       !Array.isArray(c[3]) ||
       !Array.isArray(c[4]) ||
       !c[3].every((x: unknown) => Array.isArray(x) && x.length === 4) ||
@@ -88,7 +97,8 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
           label: x[4],
         })),
         categories: c[5],
-        ...(bytes[3] === 2 ? { team: c[6] } : {}),
+        ...(schema > 1 && c[6] !== null ? { team: c[6] } : {}),
+        ...(schema === 3 ? { textEdits: c[7] } : {}),
       },
       mystery,
     );
@@ -102,6 +112,8 @@ export function unpackWork(bytes: Uint8Array, mystery: Mystery): Work {
   }
 }
 export function toQr(bytes: Uint8Array): string | null {
+  // MB3: belongs to the self-contained document codec. MBS3 is PNG-only.
+  if (bytes[3] === 3) return null;
   if (bytes[3] !== 1 && bytes[3] !== 2)
     throw new Error("Dieses Speicherformat wird nicht unterstützt.");
   let binary = "";

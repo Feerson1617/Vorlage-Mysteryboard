@@ -101,7 +101,7 @@ export function layoutCard(
   return {
     title,
     text,
-    height,
+    height: height + (card.studentEditable ? 12 : 0),
     imageY,
     numberLabel,
     fontSize,
@@ -183,6 +183,28 @@ export function makeLayouts(m: Mystery) {
   return new Map(
     m.cards.map((c) => [c.id, layoutCard(c, cardNumber(m, c.id), m.design)]),
   );
+}
+
+export function overlappingTextCards(m: Mystery, work: Work): number[] {
+  if (!work.textEdits?.length) return [];
+  const layouts = makeLayouts(m);
+  const overlapping = new Set<number>();
+  for (const edit of work.textEdits) {
+    const card = work.cards.find((state) => state.id === edit.id)!;
+    const bottom = card.y + layouts.get(card.id)!.height;
+    for (const other of work.cards) {
+      if (
+        other.id !== card.id &&
+        Math.abs(other.x - card.x) < CARD_WIDTH &&
+        other.y < bottom &&
+        other.y + layouts.get(other.id)!.height > card.y
+      ) {
+        overlapping.add(card.id);
+        overlapping.add(other.id);
+      }
+    }
+  }
+  return [...overlapping].sort((a, b) => a - b);
 }
 export function initialBoardWork(
   m: Mystery,

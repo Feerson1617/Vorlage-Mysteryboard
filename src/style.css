@@ -380,6 +380,29 @@ h2 {
 .reading {
   overflow-wrap: anywhere;
 }
+.student-text-edit textarea {
+  max-height: 35dvh;
+}
+.student-text-field {
+  margin-bottom: 14px;
+}
+.student-text-field label {
+  margin: 0;
+}
+.student-text-actions {
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+.student-text-overlap {
+  margin-bottom: 14px;
+}
+.student-overlap {
+  position: fixed;
+  z-index: 3;
+  bottom: 16px;
+  right: 16px;
+  max-width: calc(100% - 32px);
+}
 .reading-colored .small {
   color: inherit;
 }
