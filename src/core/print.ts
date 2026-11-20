@@ -74,8 +74,8 @@ body { font-size: 11pt; line-height: 1.38; }
 .print-categories { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 2mm 4mm; font-size: 10pt; line-height: 1.25; }
 .print-category { display: flex; gap: 2mm; min-width: 0; overflow-wrap: anywhere; }
 .print-swatch { display: inline-block; width: 4mm; height: 4mm; border: .25mm solid #68766e; flex: none; }
-.print-overview-svg { display: block; width: 100%; flex: 1; min-height: 0; border: .25mm solid #c8d0ca; }
-.print-overview-svg a { text-decoration: none; }
+:is(.print-overview-svg, .print-tile-svg) { display: block; width: 100%; flex: 1; min-height: 0; border: .25mm solid #c8d0ca; }
+:is(.print-overview-svg, .print-tile-svg) a { text-decoration: none; }
 .print-image-body { display: flex; flex-direction: column; align-items: center; gap: 3mm; }
 .print-image-caption { width: 100%; margin: 0; font-size: 11pt; line-height: 1.38; overflow-wrap: anywhere; }
 .print-card-image { display: block; object-fit: contain; flex: none; }
@@ -529,7 +529,7 @@ export async function preparePrintFrame(
         ),
       );
       const detail = svgNode("svg", {
-        class: "print-overview-svg",
+        class: "print-tile-svg",
         "data-print-tile": index + 1,
         "data-tile-cards": tile.cards.join(","),
         viewBox: viewBox(tile),
