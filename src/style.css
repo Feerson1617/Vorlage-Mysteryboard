@@ -407,6 +407,7 @@ h2 {
   color: inherit;
 }
 .reading h3 {
+  white-space: pre-wrap;
   font-size: 22px;
   margin: 0 0 14px;
 }

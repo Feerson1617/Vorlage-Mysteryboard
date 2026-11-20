@@ -14,12 +14,18 @@ import {
   capturePrint,
 } from "./student-readability-026.mjs";
 import { host } from "./web-host.mjs";
+import {
+  actualPrint,
+  comparePrints,
+  verifyPrintStructure,
+} from "./print-quality-027.mjs";
 
 const out = resolve(process.argv[2] || "artifacts/student-text-025");
 const native = Boolean(process.env.STUDIO_EXEC);
 const webkitOnly = process.env.MB_ENGINE === "webkit";
 const version = process.env.STUDIO_VERSION || "0.2.5";
-const compactCards = version === "0.2.6";
+const printQuality = version === "0.2.7";
+const compactCards = version === "0.2.6" || printQuality;
 const sizes = compactCards ? [12, 20, 30, 60, 100] : [12, 20, 60, 100];
 const permission =
   "Lernende dürfen Überschrift und Text dieser Karte bearbeiten.";
@@ -470,6 +476,12 @@ async function classroom(task, viewport) {
     timeout: 45000,
   });
   await expect(print.locator("body")).toContainText("Absatz 20");
+  if (printQuality) {
+    const cards = await print.locator("[data-overview-card-id]").all();
+    assert.equal(cards.length, 5);
+    for (const c of cards)
+      assert((await c.locator("[data-overview-text-line]").count()) <= 6);
+  }
   await button(dialog(ui), "Schließen").click();
   const before = await snapshot(ui);
   const path = await backupFile(page, ui, 5);
@@ -514,7 +526,10 @@ async function large(project, count) {
     id: `textkarten-${count}`,
     cards: Array.from({ length: count }, (_, i) => ({
       id: i + 1,
-      title: "Karte " + (i + 1),
+      title:
+        printQuality && comparison && i === 4
+          ? "Pegelstand\nBoden und Wasser\nΔP → Fluss"
+          : "Karte " + (i + 1),
       text: "Beobachtung",
       group: "required",
       ...(comparison && i < 2
@@ -524,6 +539,26 @@ async function large(project, count) {
             imageCaption: "Messreihe und Legende",
             imagePosition: i === 0 ? "after-text" : "before-text",
             source: project.content.cards[0].source,
+            ...(printQuality && i === 0
+              ? {
+                  extraImages: [
+                    {
+                      src: project.content.cards[0].image,
+                      alt: "Weitere Messgrafik",
+                      caption: "Weitere Messgrafik",
+                      source: "Lokales Messprotokoll",
+                    },
+                  ],
+                  table: {
+                    caption: "Pegelstand nach Starkregen",
+                    headers: ["Messgröße", "Einheit"],
+                    rows: [
+                      ["Pegelstand", "cm"],
+                      ["Abfluss", "m³/s"],
+                    ],
+                  },
+                }
+              : {}),
           }
         : {}),
       ...(i % 5 === 4 ? {} : { studentEditable: true }),
@@ -534,7 +569,9 @@ async function large(project, count) {
         id: i + 1,
         color: 0,
         x: comparison ? (i % 5) * 370 : (i % 10) * 340,
-        y: comparison ? Math.floor(i / 5) * 390 : Math.floor(i / 10) * 220,
+        y: comparison
+          ? Math.floor(i / 5) * (printQuality ? 430 : 390)
+          : Math.floor(i / 10) * 220,
       })),
       edges: [],
       categories: Array(6).fill(""),
@@ -579,8 +616,12 @@ async function large(project, count) {
           : "Absatz 2.");
     const title =
       comparison && c.id === 6
-        ? "Beobachtungen zur Versickerung und zum Hochwasser nach dem Starkregen im dicht bebauten Viertel"
-        : "Ergänzung " + c.id;
+        ? printQuality
+          ? "W".repeat(96) + "ΔΩÄß"
+          : "Beobachtungen zur Versickerung und zum Hochwasser nach dem Starkregen im dicht bebauten Viertel"
+        : comparison && printQuality && c.id === 7
+          ? "Åbfluss · ΔP → 12,5 µg/m³"
+          : "Ergänzung " + c.id;
     expectedEdits.push({ id: c.id, title, text });
     await changeText(ui, c.id, title, text);
     await button(dialog(ui), "Schließen").click();
@@ -589,7 +630,14 @@ async function large(project, count) {
       const headingLines = await card(ui, c.id)
         .locator(":scope > text:first-of-type > tspan")
         .allTextContents();
-      assert.equal(headingLines.join(" "), title);
+      if (printQuality && c.id === 6) {
+        assert.equal(headingLines.length, 3);
+        assert.match(headingLines.at(-1), /…$/);
+        await expect(card(ui, c.id)).toHaveAttribute(
+          "data-title-excerpt",
+          "true",
+        );
+      } else assert.equal(headingLines.join(" "), title);
     }
   }
   const afterText = comparison ? await layoutObservation(ui) : null;
@@ -604,6 +652,20 @@ async function large(project, count) {
     assert.equal(afterText.connectors[0].endY, top - gap);
     assert(afterText.connectors[0].endY > afterText.connectors[0].startY);
     await expect(button(ui, "Überlagerte Karten anzeigen")).toHaveCount(0);
+    if (printQuality) {
+      await expect(card(ui, 1).locator("[data-card-media]")).toHaveText(
+        "Tabelle · Bild · Weitere Bilder",
+      );
+      await expect(card(ui, 1)).toHaveAccessibleDescription(
+        /Tabelle\. Bild\. Weitere Bilder/,
+      );
+      await card(ui, 5).press("Enter");
+      assert.equal(
+        await dialog(ui).locator(".reading h3").textContent(),
+        content.cards[4].title,
+      );
+      await button(dialog(ui), "Schließen").click();
+    }
   }
   const before = await snapshot(ui);
   const png = await backupFile(page, ui, count);
@@ -620,7 +682,22 @@ async function large(project, count) {
   const restored = await learner(count, { width: 768, height: 1024 }, png);
   assert.deepEqual(await snapshot(restored.ui), before);
   assert.deepEqual(restored.external, []);
-  if (comparison) {
+  if (printQuality && comparison) {
+    evidence.printComparison = await comparePrints(
+      out,
+      learner,
+      browser,
+      restored.ui,
+      png,
+      checked.document,
+    );
+  } else if (printQuality) {
+    verifyPrintStructure(
+      await actualPrint(null, restored.ui, "a4"),
+      checked.document,
+    );
+  }
+  if (comparison && !printQuality) {
     await capturePrint(
       browser,
       restored.ui,
@@ -687,6 +764,17 @@ try {
           await button(dialog(ui), "Schließen").click();
           if (count === 30) await checkPreview(card(ui, edit.id), edit.text);
         }
+        if (printQuality) {
+          verifyPrintStructure(
+            await actualPrint(null, ui, "a4"),
+            result.document,
+          );
+          if (count === 30)
+            verifyPrintStructure(
+              await actualPrint(null, ui, "a3"),
+              result.document,
+            );
+        }
         assert.deepEqual(external, []);
         await page.context().close();
         evidence.cases.push({
@@ -696,13 +784,14 @@ try {
           sha256: result.sha256,
         });
       }
-      evidence.comparison = await compareReadability(
-        out,
-        learner,
-        join(out, "Arbeitsstand-30.png"),
-        viewportFor(webkit),
-        "WebKit",
-      );
+      if (!printQuality)
+        evidence.comparison = await compareReadability(
+          out,
+          learner,
+          join(out, "Arbeitsstand-30.png"),
+          viewportFor(webkit),
+          "WebKit",
+        );
     }
   } else {
     const project = await author();

@@ -4,11 +4,16 @@ import { cardNumber, initialWork } from "./model";
 import { orderedPositions } from "./start-layout";
 export const CARD_WIDTH = 300;
 export const CARD_TEXT_PREVIEW_LINES = 6;
+export const CARD_TITLE_PREVIEW_LINES = 3;
 export type CardLayoutMode = "full" | "preview";
 export type Layout = {
   title: string[];
   text: string[];
   excerpt: boolean;
+  titleExcerpt: boolean;
+  media: string[];
+  mediaY: number;
+  excerptY: number;
   height: number;
   imageY: number;
   numberLabel: string;
@@ -74,23 +79,49 @@ export function layoutCard(
     fontFamily = designFont(design),
     titleLine = fontSize + 8,
     textLine = fontSize + 6;
-  const title = wrap(card.title, 264, `bold ${fontSize + 2}px ${fontFamily}`);
-  const body =
-    card.text +
-    (card.table
-      ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
-      : "") +
-    (card.extraImages?.length
-      ? `\n${card.extraImages.length} zusätzliche Bilder · Zum Lesen öffnen.`
-      : "");
+  const compact = mode === "preview";
+  const titleFont = `bold ${fontSize + 2}px ${fontFamily}`;
+  const title = wrap(
+    card.title,
+    264,
+    titleFont,
+    compact ? CARD_TITLE_PREVIEW_LINES + 1 : Infinity,
+  );
+  const titleExcerpt = compact && title.length > CARD_TITLE_PREVIEW_LINES;
+  if (titleExcerpt) {
+    title.length = CARD_TITLE_PREVIEW_LINES;
+    const last = Array.from(title[title.length - 1].trimEnd());
+    while (last.length && measure(last.join("") + "…", titleFont) > 264)
+      last.pop();
+    title[title.length - 1] = last.join("") + "…";
+  }
+  const media = compact
+    ? [
+        ...(card.table ? ["Tabelle"] : []),
+        ...(card.image || card.extraImages?.length ? ["Bild"] : []),
+        ...((card.extraImages?.length ?? 0) > (card.image ? 0 : 1)
+          ? ["Weitere Bilder"]
+          : []),
+      ]
+    : [];
+  const body = compact
+    ? card.text
+    : card.text +
+      (card.table
+        ? `\nTabelle: ${card.table.caption || `${card.table.rows.length} Datenzeilen`} · Zum Lesen öffnen.`
+        : "") +
+      (card.extraImages?.length
+        ? `\n${card.extraImages.length} zusätzliche Bilder · Zum Lesen öffnen.`
+        : "");
   const lines = wrap(
     mode === "preview" ? body.trim().replace(/\n[ \t\r\n]*\n/g, "\n\n") : body,
     264,
     `${fontSize}px ${fontFamily}`,
     mode === "preview" ? CARD_TEXT_PREVIEW_LINES + 1 : Infinity,
   );
-  const excerpt = mode === "preview" && lines.length > CARD_TEXT_PREVIEW_LINES;
-  const text = excerpt
+  const textExcerpt = compact && lines.length > CARD_TEXT_PREVIEW_LINES;
+  const excerpt = textExcerpt || titleExcerpt;
+  const text = textExcerpt
     ? lines.slice(0, CARD_TEXT_PREVIEW_LINES)
     : mode === "preview" && !body.trim()
       ? []
@@ -115,10 +146,17 @@ export function layoutCard(
     textY = imageY + imageHeight + caption.length * 16 + 28;
     height = Math.max(130, textY + text.length * textLine + 18);
   }
+  const mediaY = height + 4;
+  if (media.length) height += 15;
+  const excerptY = height + 10;
   return {
     title,
     text,
     excerpt,
+    titleExcerpt,
+    media,
+    mediaY,
+    excerptY,
     height: height + (card.studentEditable ? 12 : 0) + (excerpt ? 20 : 0),
     imageY,
     numberLabel,

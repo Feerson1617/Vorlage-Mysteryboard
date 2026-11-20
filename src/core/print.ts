@@ -14,6 +14,8 @@ import {
   type Work,
 } from "./model";
 import { withStudentCards } from "./student-text";
+import { graphemeBreaks, printTextBreaks } from "./print-text";
+import { overviewTiles } from "./print-tiles";
 import {
   boardBounds,
   CARD_WIDTH,
@@ -63,7 +65,7 @@ body { font-size: 11pt; line-height: 1.38; }
 .print-card-meta { font-size: 10pt; line-height: 1.3; margin: 0 0 2mm; }
 .print-card-text, .print-edge-label { font-size: 11pt; line-height: 1.38; white-space: pre-wrap; overflow-wrap: anywhere; margin: 0; }
 .print-reference-row, .print-empty-label { font-size: 11pt; line-height: 1.38; margin: 2mm 0 0; overflow-wrap: anywhere; }
-a { color: #23332a; text-decoration: underline; text-underline-offset: .5mm; }
+.card-reference, .edge-reference, .image-reference { color: #23332a; text-decoration: underline; text-underline-offset: .5mm; }
 .page-ref { display: inline-block; min-width: 18mm; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .print-footer { display: flex; justify-content: space-between; gap: 6mm; margin-top: 3mm; font-size: 9pt; line-height: 1.2; flex: none; }
 .print-page-number { white-space: nowrap; }
@@ -81,7 +83,8 @@ a { color: #23332a; text-decoration: underline; text-underline-offset: .5mm; }
 `;
 }
 
-type Section = "overview" | "cards" | "images" | "relations";
+type Section =
+  "overview" | "overview-detail" | "cards" | "images" | "relations";
 type PrintPage = {
   node: HTMLElement;
   body: HTMLElement;
@@ -150,6 +153,7 @@ export async function preparePrintFrame(
   const pages: PrintPage[] = [];
   const pageTitles: Record<Section, string> = {
     overview: "Gesamtübersicht",
+    "overview-detail": "Vergrößerter Kartenausschnitt",
     cards: "Vollständige Karten",
     images: "Bilddetails",
     relations: "Vollständige Beziehungen",
@@ -171,7 +175,7 @@ export async function preparePrintFrame(
     const heading = el("h2", "print-section-title", pageTitles[section]);
     const body = el(
       "div",
-      `print-body${section === "cards" || section === "relations" ? " print-columns" : section === "overview" ? " print-overview" : " print-image-body"}`,
+      `print-body${section === "cards" || section === "relations" ? " print-columns" : section === "overview" || section === "overview-detail" ? " print-overview" : " print-image-body"}`,
     );
     const footer = el("footer", "print-footer");
     footer.append(
@@ -236,7 +240,7 @@ export async function preparePrintFrame(
     el(
       "p",
       "print-overview-note",
-      "Die Übersicht dient der Orientierung. Bei dichten Gefügen können Nummern und Linien überlagern. Vollständige Kartentexte, große Bilder und alle Beziehungen folgen mit Seitenverweisen.",
+      "Auszüge sind gekennzeichnet. Vollständige Texte, große Bilder und alle Beziehungen folgen mit Seitenverweisen.",
     ),
   );
   const svgNode = <K extends keyof SVGElementTagNameMap>(
@@ -252,17 +256,35 @@ export async function preparePrintFrame(
   };
   // Existing layout measurement uses only its small text-measuring context.
   // The overview itself is vector SVG, never a large raster canvas.
-  const layouts = makeLayouts(mystery),
-    bounds = boardBounds(work, layouts);
+  const layouts = makeLayouts(mystery, "preview");
+  const numberedLabels =
+    work.edges.length > 24 || work.edges.some((edge) => edge.label.length > 42);
+  const overview = {
+    ...work,
+    edges: work.edges.map((edge) => ({
+      ...edge,
+      label: edge.label && numberedLabels ? `V${edge.id}` : edge.label,
+    })),
+  };
+  const bounds = boardBounds(overview, layouts);
+  const viewBox = (box: typeof bounds) =>
+    `${box.x} ${box.y} ${box.width} ${box.height}`;
   const svg = svgNode("svg", {
     class: "print-overview-svg",
     "data-print-overview": "true",
-    viewBox: `${bounds.x} ${bounds.y} ${bounds.width} ${bounds.height}`,
+    viewBox: viewBox(bounds),
     role: "img",
     "aria-label": "Gespeicherte Kartenpositionen und Verbindungen",
   });
-  const arrowScale = (paper === "a3" ? 1000 : 700) / bounds.width,
-    head = arrowSize(arrowScale);
+  summary.body.append(svg);
+  const svgBox = svg.getBoundingClientRect();
+  const overviewScale = Math.min(
+    svgBox.width / bounds.width,
+    svgBox.height / bounds.height,
+  );
+  const minimumScale = 0.76;
+  const arrowScale = Math.max(overviewScale, minimumScale);
+  const head = arrowSize(arrowScale);
   const defs = svgNode("defs"),
     marker = svgNode("marker", {
       id: "print-arrow",
@@ -276,7 +298,8 @@ export async function preparePrintFrame(
     });
   marker.append(svgNode("path", { d: "M0 0 L14 6 L0 12 z", fill: "#526558" }));
   defs.append(marker);
-  svg.append(defs);
+  const scene = svgNode("g", { id: "print-board-map" });
+  svg.append(defs, scene);
   for (const edge of work.edges) {
     const g = edgeGeometry(edge, work.cards, layouts),
       group = svgNode("g", { "data-overview-edge-id": edge.id });
@@ -298,12 +321,12 @@ export async function preparePrintFrame(
       svgNode("title", {}, `${printDirection(edge, mystery)}: ${edge.label}`),
       line,
     );
-    svg.append(group);
+    scene.append(group);
   }
-  for (const edge of work.edges)
+  for (const edge of overview.edges)
     if (edge.label) {
-      const g = edgeGeometry(edge, work.cards, layouts),
-        group = svgNode("g");
+      const g = edgeGeometry(edge, work.cards, layouts);
+      const group = svgNode("a", { href: `#edge-${edge.id}` });
       group.append(
         svgNode("rect", {
           x: g.labelCenter.x - g.labelWidth / 2,
@@ -319,15 +342,20 @@ export async function preparePrintFrame(
             "text",
             {
               x: g.labelCenter.x,
-              y: g.labelCenter.y - g.labelLines.length * 9 + 14 + index * 18,
-              "font-size": 14,
+              y:
+                g.labelCenter.y -
+                (g.labelLines.length * (design.labelSize + 4)) / 2 +
+                design.labelSize +
+                index * (design.labelSize + 4),
+              "font-size": design.labelSize,
+              "font-family": designFont(mystery.design),
               "text-anchor": "middle",
             },
             line,
           ),
         ),
       );
-      svg.append(group);
+      scene.append(group);
     }
   for (const state of work.cards) {
     const card = mystery.cards.find((c) => c.id === state.id)!,
@@ -366,7 +394,7 @@ export async function preparePrintFrame(
             "font-size": layout.fontSize + 2,
             "font-family": layout.fontFamily,
             "font-weight": "bold",
-            ...(card.backgroundColor && { fill: appearance.text }),
+            fill: appearance.text,
           },
           line,
         ),
@@ -379,9 +407,10 @@ export async function preparePrintFrame(
           {
             x: state.x + 18,
             y: state.y + layout.textY + i * layout.textLine,
+            "data-overview-text-line": i + 1,
             "font-size": layout.fontSize,
             "font-family": layout.fontFamily,
-            ...(card.backgroundColor && { fill: appearance.text }),
+            fill: appearance.text,
           },
           line,
         ),
@@ -397,6 +426,35 @@ export async function preparePrintFrame(
           height: layout.imageHeight,
           preserveAspectRatio: "xMidYMid meet",
         }),
+      );
+    const footerLabel = (y: number, text: string, size = 13, weight = 600) =>
+      svgNode(
+        "text",
+        {
+          x: state.x + 18,
+          y: state.y + y,
+          "font-family": layout.fontFamily,
+          "font-size": size,
+          "font-weight": weight,
+          fill: appearance.text,
+        },
+        text,
+      );
+    layout.caption.forEach((line, i) =>
+      group.append(
+        footerLabel(
+          layout.imageY + layout.imageHeight + 16 + i * 16,
+          line,
+          12,
+          400,
+        ),
+      ),
+    );
+    if (layout.media.length)
+      group.append(footerLabel(layout.mediaY, layout.media.join(" · ")));
+    if (layout.excerpt)
+      group.append(
+        footerLabel(layout.excerptY, "Auszug · Volltext auf den Kartenseiten"),
       );
     group.append(
       svgNode("circle", {
@@ -421,7 +479,7 @@ export async function preparePrintFrame(
         layout.numberLabel,
       ),
     );
-    svg.append(group);
+    scene.append(group);
   }
   const heads = svgNode("g", { "data-print-arrowheads": "true" });
   for (const edge of work.edges) {
@@ -440,8 +498,48 @@ export async function preparePrintFrame(
         }),
       );
   }
-  svg.append(heads);
-  summary.body.append(svg);
+  scene.append(heads);
+  if (overviewScale < minimumScale) {
+    const cards = work.cards.map((card) => {
+      const layout = layouts.get(card.id)!;
+      const extent = numberBadge(1, layout.numberLabel).extent;
+      return {
+        id: card.id,
+        x: card.x - extent,
+        y: card.y - extent,
+        width: CARD_WIDTH + extent + 12,
+        height: layout.height + extent + 12,
+      };
+    });
+    const tiles = overviewTiles(
+      cards,
+      bounds,
+      svgBox.width / minimumScale,
+      svgBox.height / minimumScale,
+    );
+    for (const [index, tile] of tiles.entries()) {
+      const page = createPage("overview-detail");
+      const heading = page.node.querySelector(".print-section-title")!;
+      heading.textContent += ` ${index + 1} von ${tiles.length}`;
+      page.body.append(
+        el(
+          "p",
+          "print-overview-note",
+          `Karten ${tile.cards.map((id) => cardNumber(mystery, id)).join(", ")}. Randlinien setzen sich auf der Gesamtübersicht und in den Beziehungen fort.`,
+        ),
+      );
+      const detail = svgNode("svg", {
+        class: "print-overview-svg",
+        "data-print-tile": index + 1,
+        "data-tile-cards": tile.cards.join(","),
+        viewBox: viewBox(tile),
+        role: "img",
+        "aria-label": `Vergrößerter Kartenausschnitt ${index + 1}`,
+      });
+      detail.append(svgNode("use", { href: "#print-board-map" }));
+      page.body.append(detail);
+    }
+  }
   await pause();
 
   let currentPage: PrintPage = summary,
@@ -474,49 +572,97 @@ export async function preparePrintFrame(
     attribute: string,
     id: number,
   ) => {
-    const characters = Array.from(text);
-    let offset = 0,
-      first = true,
-      last: HTMLElement | null = null;
+    const { words, paragraphs } = printTextBreaks(text);
+    let offset = 0;
+    let word = 0;
+    let first = true;
+    let continuingToken = false;
+    let last: HTMLElement | null = null;
     do {
       ensureActive();
-      const article = create(first),
-        paragraph = el(
-          "p",
-          attribute === "cardText" ? "print-card-text" : "print-edge-label",
+      const article = create(first);
+      if (continuingToken) {
+        article.dataset.continuedToken = "";
+        article.append(
+          el(
+            "p",
+            "print-card-meta",
+            "Fortsetzung einer ungetrennten Zeichenfolge",
+          ),
         );
+      }
+      const paragraph = el(
+        "p",
+        attribute === "cardText" ? "print-card-text" : "print-edge-label",
+      );
       paragraph.dataset[attribute] = String(id);
       article.append(paragraph);
       column.append(article);
-      const remaining = characters.length - offset;
-      paragraph.textContent = characters
-        .slice(offset, offset + Math.min(120, remaining))
-        .join("");
-      if (!fits(article)) {
-        article.remove();
-        if (!column.children.length)
+      const setChunk = (end: number) => {
+        const chunk = text.slice(offset, end);
+        const visible = chunk.trim();
+        // Whitespace at a page boundary remains in the DOM text but takes no
+        // vertical space. A run of blank lines cannot create an empty page.
+        const start = visible ? chunk.indexOf(visible) : chunk.length;
+        const leading = el("span", undefined, chunk.slice(0, start));
+        const trailing = el(
+          "span",
+          undefined,
+          chunk.slice(start + visible.length),
+        );
+        leading.hidden = trailing.hidden = true;
+        paragraph.replaceChildren(leading, visible, trailing);
+      };
+      const furthestFit = (ends: number[], from: number) => {
+        let low = from;
+        let high = ends.length;
+        while (low < high) {
+          const middle = Math.floor((low + high) / 2);
+          setChunk(ends[middle]);
+          if (fits(article)) low = middle + 1;
+          else high = middle;
+        }
+        return low > from ? ends[low - 1] : undefined;
+      };
+      let end = furthestFit(words, word);
+      continuingToken = false;
+      if (end === undefined) {
+        if (article.previousElementSibling) {
+          article.remove();
+          await advance();
+          continue;
+        }
+        // First try the whole word in a fresh column. Only an unbroken token
+        // longer than a fresh column is split, at a Unicode grapheme boundary.
+        end = furthestFit(graphemeBreaks(text, offset, words[word]), 0);
+        if (end === undefined)
           throw new Error(
-            "Eine Kartenüberschrift passt nicht lesbar auf die gewählte Seite. Bitte verwendet A3.",
+            "Ein Textabschnitt passt nicht lesbar auf die gewählte Seite. Bitte verwendet A3.",
           );
-        await advance();
-        continue;
+        continuingToken = end < words[word];
+        if (continuingToken) article.dataset.tokenSplit = "";
+      } else if (end < text.length) {
+        const paragraphEnd = [...paragraphs]
+          .reverse()
+          .find((stop) => stop > offset && stop < end!);
+        if (paragraphEnd !== undefined) {
+          setChunk(end);
+          const lowest = article.getBoundingClientRect().bottom;
+          const lineHeight = parseFloat(
+            doc.defaultView!.getComputedStyle(paragraph).lineHeight,
+          );
+          setChunk(paragraphEnd);
+          if (lowest - article.getBoundingClientRect().bottom <= 2 * lineHeight)
+            end = paragraphEnd;
+        }
       }
-      let low = Math.min(120, remaining),
-        high = remaining;
-      while (low < high) {
-        const middle = Math.ceil((low + high) / 2);
-        paragraph.textContent = characters
-          .slice(offset, offset + middle)
-          .join("");
-        if (fits(article)) low = middle;
-        else high = middle - 1;
-      }
-      paragraph.textContent = characters.slice(offset, offset + low).join("");
-      offset += low;
+      setChunk(end);
+      offset = end;
+      while (word < words.length - 1 && words[word] <= offset) word++;
       first = false;
       last = article;
-      if (offset < characters.length) await advance();
-    } while (offset < characters.length);
+      if (offset < text.length) await advance();
+    } while (offset < text.length);
     return last!;
   };
   const appendRow = async (
@@ -739,7 +885,7 @@ export async function preparePrintFrame(
           el(
             "h3",
             "print-edge-title",
-            `Verbindung ${printDirection(edge, mystery)}${first ? "" : " (Fortsetzung)"}`,
+            `Verbindung ${printDirection(edge, mystery)}${numberedLabels && edge.label ? ` · V${edge.id}` : ""}${first ? "" : " (Fortsetzung)"}`,
           ),
         );
         const endpoints = el("p", "print-reference-row");

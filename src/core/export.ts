@@ -257,9 +257,13 @@ export async function exportBoard(
       l.caption.forEach((t, i) =>
         ctx.fillText(t, c.x + 18, c.y + l.imageY + l.imageHeight + 16 + i * 16),
       );
+      if (l.media.length) {
+        ctx.font = `bold 12px ${l.fontFamily}`;
+        ctx.fillText(l.media.join(" · "), c.x + 18, c.y + l.mediaY);
+      }
       if (l.excerpt) {
         ctx.font = `bold 12px ${l.fontFamily}`;
-        ctx.fillText("Textauszug", c.x + 18, c.y + l.height - 10);
+        ctx.fillText("Auszug", c.x + 18, c.y + l.excerptY);
       }
       ctx.fillStyle = "#334f40";
       ctx.beginPath();

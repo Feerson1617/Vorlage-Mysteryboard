@@ -764,6 +764,7 @@ export function Board({
               data-group={card.group}
               data-student-editable={card.studentEditable}
               data-card-excerpt={l.excerpt || undefined}
+              data-title-excerpt={l.titleExcerpt || undefined}
               data-x={c.x}
               data-y={c.y}
               className="card"
@@ -774,6 +775,7 @@ export function Board({
                 [
                   hint && `Orientierung: ${hint.label}`,
                   card.studentEditable && "Text bearbeitbar",
+                  ...l.media,
                   l.excerpt && "Vollständigen Text öffnen",
                 ]
                   .filter(Boolean)
@@ -844,10 +846,23 @@ export function Board({
                   {text}
                 </text>
               ))}
+              {!!l.media.length && (
+                <text
+                  data-card-media=""
+                  x="18"
+                  y={l.mediaY}
+                  fontSize={12}
+                  fontFamily={l.fontFamily}
+                  fontWeight="600"
+                  fill={appearance.text}
+                >
+                  {l.media.join(" · ")}
+                </text>
+              )}
               {l.excerpt && (
                 <text
                   x="18"
-                  y={l.height - (card.studentEditable ? 22 : 10)}
+                  y={l.excerptY}
                   fontSize={13}
                   fontFamily={l.fontFamily}
                   fontWeight="600"
