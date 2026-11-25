@@ -100,9 +100,11 @@ export default function App({
   const previewMode = mode === "preview";
   const [history, dispatch] = useReducer(
     historyReducer,
-    loadedWork
-      ? historyReducer(emptyHistory, { type: "load", work: loadedWork })
-      : emptyHistory,
+    loadedWork,
+    (initial) =>
+      initial
+        ? historyReducer(emptyHistory, { type: "load", work: initial })
+        : emptyHistory,
   );
   const work = history.present,
     dirty = hasChanges(history);

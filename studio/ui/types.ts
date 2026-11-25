@@ -34,6 +34,7 @@ export interface EditorIntegration {
   modal?: boolean;
   unsaved?: boolean;
   levelName?: string;
+  bindLevel?: (draft: Draft) => Draft;
   levels?: (draft: Draft) => void;
   exportLevels?: (draft: Draft) => Promise<void>;
   matchesSaved?: (d: Draft, saved: Uint8Array) => boolean;

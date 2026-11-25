@@ -124,15 +124,16 @@ async function pick(path) {
 }
 async function nativePick(path) {
   await app.evaluate(({ clipboard, BrowserWindow }, path) => {
-    BrowserWindow.getAllWindows()[0].focus();
+    const win = BrowserWindow.getAllWindows()[0];
+    win.focus();
+    globalThis.importSheet = false;
+    win.once("sheet-begin", () => { globalThis.importSheet = true; });
+    win.once("sheet-end", () => { globalThis.importSheet = false; });
     if (path) clipboard.writeText(path);
     globalThis.openNativePanel = true;
   }, path);
   await button(teacher, "Importieren").click();
-  const attached = () =>
-    app.evaluate(({ BrowserWindow }) =>
-      BrowserWindow.getAllWindows()[0].isSheetAttached(),
-    );
+  const attached = () => app.evaluate(() => globalThis.importSheet);
   await expect.poll(attached, { timeout: 10000 }).toBe(true);
   if (path)
     execFileSync("screencapture", ["-x", join(out, "Dateiauswahl-macOS.png")]);
@@ -402,7 +403,10 @@ async function learner(engine, name, saved) {
         dy: 1,
         type: "touch",
       });
-      assert.deepEqual(move.actual, move.target);
+      assert.deepEqual(
+        move.actual,
+        move.target.map((v) => (v === 0 ? 0 : v)),
+      );
       results.moves++;
     }
     const pos = await cardPosition(ui, 1);

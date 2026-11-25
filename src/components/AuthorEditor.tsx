@@ -532,8 +532,8 @@ export function AuthorEditor({
         return;
       controller.signal.throwIfAborted();
       integration?.detach();
-      setDraft(next);
-      setDirty(false);
+      setDraft(integration?.bindLevel?.(next) ?? next);
+      setDirty(!!integration?.bindLevel);
       setPreviewOverride(null);
       setPng(null);
       setHelpNotice(false);
@@ -1033,7 +1033,7 @@ export function AuthorEditor({
                 recovery: draft.content.recovery,
               });
             if (next.content.id !== draft.content.id) integration?.detach();
-            setDraft(next);
+            setDraft(integration?.bindLevel?.(next) ?? next);
             setDirty(true);
             setDocumentImport(false);
             setImportFile(undefined);

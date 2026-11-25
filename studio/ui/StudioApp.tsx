@@ -1,6 +1,7 @@
 import { LevelsDialog } from "./LevelsDialog";
 import { collectionScorm } from "./collection-scorm";
 import {
+  bindLevel,
   collectionFrom,
   readProject,
   withLevel,
@@ -104,6 +105,7 @@ export function StudioApp() {
   const integration: EditorIntegration = {
     name,
     unsaved: modified,
+    bindLevel: collection ? (d) => bindLevel(collection, d) : undefined,
     levelName: collection?.levels.find((l) => l.id === collection.active)?.name,
     levels: (d) =>
       setEditing(collection ? withLevel(collection, d) : collectionFrom(d)),

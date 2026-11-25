@@ -1,5 +1,6 @@
 import {
   canonical,
+  contentHash,
   encodeDocument,
   readDocument,
   validateDocument,
@@ -27,9 +28,10 @@ export interface Collection {
 }
 const uuid =
   /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
-export function newStudioDraft(initials: string) {
+export function newStudioDraft(initials: string): Draft {
   const draft = newDraft(initials);
-  return reviseDraft(draft, { ...draft.content, recovery: "session" });
+  const content = { ...draft.content, recovery: "session" as const };
+  return { ...draft, content, contentHash: contentHash(content) };
 }
 export function levelFrom(
   draft: Draft,
@@ -117,10 +119,14 @@ export function readProject(bytes: Uint8Array): Collection | MysteryDocument {
   }
   return readDocument(bytes);
 }
-export function withLevel(c: Collection, draft: Draft): Collection {
+export function bindLevel(c: Collection, draft: Draft): Draft {
   const identity = c.id + "." + c.active;
-  if (draft.content.id !== identity)
-    draft = reviseDraft(draft, { ...draft.content, id: identity });
+  return draft.content.id === identity
+    ? draft
+    : reviseDraft(draft, { ...draft.content, id: identity });
+}
+export function withLevel(c: Collection, draft: Draft): Collection {
+  draft = bindLevel(c, draft);
   return {
     ...c,
     levels: c.levels.map((level) =>

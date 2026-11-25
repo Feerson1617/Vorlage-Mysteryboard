@@ -93,7 +93,12 @@ function Player() {
   const [starting, setStarting] = useState(true);
   const [notice, setNotice] = useState("");
   const request = useRef<AbortController | null>(null);
-  async function choose(level: LevelInfo, seed?: Snapshot, manual?: Work) {
+  async function choose(
+    level: LevelInfo,
+    seed?: Snapshot,
+    manual?: Work,
+    chosen = false,
+  ) {
     request.current?.abort();
     const ctl = new AbortController();
     request.current = ctl;
@@ -127,7 +132,7 @@ function Player() {
         let sid = seed?.session ?? crypto.randomUUID();
         if (!(await claim(sid, ctl.signal))) {
           // A tab cloned from another active tab starts its own work.
-          if (navigator.locks) seed = undefined;
+          if (!chosen && (navigator.locks || window.opener)) seed = undefined;
           sid = crypto.randomUUID();
           await claim(sid, ctl.signal);
         }
@@ -148,6 +153,7 @@ function Player() {
     (async () => {
       const l = lastLevel(c);
       if (l) {
+        void candidates(c).catch(() => {});
         await choose(l, sessionSeed(c.id, l));
         return;
       }
@@ -207,6 +213,8 @@ function Player() {
                     void choose(
                       c.levels.find((l) => l.id === r.level)!,
                       r,
+                      undefined,
+                      true,
                     )
                   }
                 >
