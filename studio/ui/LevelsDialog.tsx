@@ -107,9 +107,24 @@ export function LevelsDialog({
             </button>
           ))}
         </div>
-        <button aria-expanded={edit} onClick={() => setEdit(!edit)}>
-          Niveauoptionen
-        </button>
+        {error && <p role="alert">{error}</p>}
+        <div className="level-selection-actions">
+          <button
+            className="primary"
+            onClick={() => {
+              try {
+                onApply(validateCollection(c));
+              } catch (e) {
+                fail((e as Error).message);
+              }
+            }}
+          >
+            Niveau bearbeiten
+          </button>
+          <button aria-expanded={edit} onClick={() => setEdit(!edit)}>
+            Niveauoptionen
+          </button>
+        </div>
         {edit && (
           <>
             <label>
@@ -309,19 +324,6 @@ export function LevelsDialog({
             PNG-Dateinamen.
           </p>
         )}
-        {error && <p role="alert">{error}</p>}
-        <button
-          className="primary"
-          onClick={() => {
-            try {
-              onApply(validateCollection(c));
-            } catch (e) {
-              fail((e as Error).message);
-            }
-          }}
-        >
-          Niveau bearbeiten
-        </button>
       </fieldset>
     </Dialog>
   );

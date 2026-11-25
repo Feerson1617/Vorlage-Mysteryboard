@@ -246,11 +246,14 @@ if version in ("0.2.8", "0.2.9"):
         lines.extend(["", "Der direkte Niveauwechsel benötigt vier → eine Bedienhandlung. Ein einfaches Mystery benötigt keine manuelle Speicher- oder Gestaltungseinstellung. Die individuelle Gestaltung erfordert das Öffnen der optionalen Gestaltungsgruppe.", "",
             "| Ziel-Inhaltsgröße | Erreichte Größe nachher | Pinnwand vorher (Pixel) | Pinnwand nachher (Pixel) |",
             "|---|---|---|---|"])
+        contrast=min(s["exportDetail"]["contrast"] for s in new["screens"] if s["scene"]=="Einzelexport")
+        assert contrast>=4.5
         previous=[v for v in old["screens"] if v["scene"]=="Pinnwand"]
         for a,b in zip(previous,[v for v in new["screens"] if v["scene"]=="Pinnwand"],strict=True):
             dim=lambda v: " × ".join(map(str,v))
             size=lambda v: dim([round(v["board"]["width"]),round(v["board"]["height"])])
             lines.append(f"| {dim(b['requested'])} | {dim(b['actual'])} {'(exakt)' if b['exact'] else '(Ziel nativ offen)'} | {size(a)} | {size(b)} |")
+        lines.append(f"Bei der Sichtprüfung des ersten Entwurfs fiel die zu dunkle Formatangabe im primären SCORM-Button auf. Sie verwendet jetzt die helle Schriftfarbe des Buttons (gemessener Kontrast {contrast:.1f}:1). Die Hauptaktion der Niveauverwaltung steht unmittelbar bei der Auswahl und war in jedem geprüften Fenster ohne Scrollen erreichbar.")
         for folder,phase in [("Browser-vorher","before"),("Browser-nachher","after")]:
             display=json.loads((ux/folder/f"Autoren-{phase}.json").read_text())
             assert len(display["screens"])==16 and all(s["exact"] and not s["horizontalOverflow"] for s in display["screens"])

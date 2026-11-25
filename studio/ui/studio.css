@@ -109,6 +109,9 @@
   width: 100%;
 }
 .studio-back,
+.studio-export-option.primary small {
+  color: inherit;
+}
 .studio-export-secondary {
   background: transparent;
   font-size: 0.9rem;
@@ -546,7 +549,8 @@
 .level-tabs { display:none; }
 .studio-main-toolbar .studio-title { width:10rem; min-width:6rem; flex:1 1 8rem; }
 .studio-main-toolbar .studio-project-status { max-width:8rem; font-size:.76rem; }
-.level-list { display:grid; gap:4px; padding:6px 0; }
+.level-selection-actions { display:flex; flex-wrap:wrap; gap:.5rem; }
+.level-list { max-height:36vh; overflow-y:auto; display:grid; gap:4px; padding:6px 0; }
 .level-list button { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.4rem; text-align:left; overflow-wrap:anywhere; }
 .level-list small { grid-column:1/-1; }
 .level-list [aria-pressed=true],.level-tabs [aria-pressed=true] { background:#e3ede4; border-color:#52775b; }

@@ -99,7 +99,21 @@ async function inspect(name) {
           !e.closest("details:not([open])"),
       );
       const toolbar = document.querySelector(".studio-main-toolbar nav");
+      const small = document.querySelector(
+        ".studio-export-option.primary small",
+      );
+      const selection = document.querySelector(
+        ".level-selection-actions .primary",
+      );
       return {
+        exportDetail: small
+          ? {
+              foreground: getComputedStyle(small).color,
+              background: getComputedStyle(small.closest("button"))
+                .backgroundColor,
+            }
+          : null,
+        selectedAction: box(selection),
         actual: [innerWidth, innerHeight],
         board: box(document.querySelector(".studio-board svg.board")),
         horizontalOverflow: document.documentElement.scrollWidth > innerWidth,
@@ -115,6 +129,33 @@ async function inspect(name) {
       };
     });
     assert.equal(metric.horizontalOverflow, false);
+    if (!before && name === "Einzelexport") {
+      const luminance = (color) =>
+        color
+          .match(/[\d.]+/g)
+          .slice(0, 3)
+          .map(Number)
+          .reduce((sum, n, i) => {
+            const v = n / 255;
+            return (
+              sum +
+              [0.2126, 0.7152, 0.0722][i] *
+                (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)
+            );
+          }, 0);
+      const [a, b] = [
+        metric.exportDetail.foreground,
+        metric.exportDetail.background,
+      ]
+        .map(luminance)
+        .sort((x, y) => y - x);
+      metric.exportDetail.contrast = (a + 0.05) / (b + 0.05);
+      assert(metric.exportDetail.contrast >= 4.5);
+    }
+    if (!before && name === "Niveaus") {
+      const action = metric.selectedAction;
+      assert(action.y >= 0 && action.y + action.height <= metric.actual[1]);
+    }
     const file =
       name + "-" + w + "x" + h + "-" + metric.actual.join("x") + ".png";
     await page.screenshot({ path: join(out, file) });
