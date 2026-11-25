@@ -193,13 +193,44 @@ if version == "0.2.8":
     for engine in ("Chromium", "WebKit"):
         results=json.loads((proof / (engine+"-028.json")).read_text())
         assert results["passed"] and len(results["levels"])==4 and results["moves"]>=100
-    assert json.loads((proof / "Studio-028.json").read_text())["installed"]
+    teacher = json.loads((proof / "Studio-028.json").read_text())
+    assert teacher["installed"] and teacher["populatedLevelImport"]["afterDrop"] == 62
     for engine in ("Chromium", "WebKit"):
         limits = json.loads((proof / f"{engine}-Speichergrenzen.json").read_text())
         assert len(limits["scenarios"]) >= 10
     assert json.loads((proof / "Chromium-Prozessabbruch.json").read_text())["restored"]
     memory = json.loads((proof / "Speichermessung-028.json").read_text())
     assert memory["cases"][0]["taskDecodes"] > memory["cases"][1]["taskDecodes"] == 1
+    report = out / "Pruefbericht-0.2.8.md"
+    before, after = memory["cases"]
+    lines = [
+        "# MysteryBoard Studio 0.2.8 · Technische Abnahme", "",
+        f"Code `{commit}` · Actions-Lauf {os.environ['GITHUB_RUN_ID']} · Apple Silicon.", "",
+        "## Autorenablauf und Dateiauswahl", "",
+        "In der gebauten Oberfläche von 0.2.7 ließ sich der Fehler nach dem Abbruch des anfänglichen Importdialogs reproduzieren. Zwei Dateifelder teilten eine React-Referenz. Beim Entfernen eines Feldes verlor die Schaltfläche ihr Ziel. Studio verwendet nun einen auf Unterrichtsmaterial begrenzten nativen Dateidialog. Das Testprotokoll erfasst den Klick, die sichtbare macOS-Dateiauswahl, Abbruch, erneute Auswahl und Import einer DOCX. Ein beschädigtes PNG löste einen sichtbaren Fehler aus. In einem bereits belegten Niveau wurden 60 Karten per Drag-and-drop um zwei erweitert. Die drei anderen Entwürfe blieben beim Dateivergleich identisch.", "",
+        "Die Beispielsammlung vereint Fördern, ESA, MSA und AHR mit zwei, drei, vier und fünf Karten. Die Lehrkraft kann jedes Niveau gestalten, Hilfen und Bearbeitungsfreigaben ändern und einzelne Niveaus exportieren. Beim gemeinsamen Export durchläuft jedes Niveau die Veröffentlichungsprüfung. Im Player wird genau eine Aufgabendatei abgerufen. Die automatisierten Modellprüfungen decken Sammlungen mit 1, 2, 4 und 12 Niveaus sowie ausgeblendete Inhalte ab.", "",
+        "## Schülerarbeit und Wiederherstellung", "",
+        "| Engine | Beendete Kartenbewegungen | Wiederherstellung bis zur sichtbaren Pinnwand (Millisekunden pro Niveau) | Externe Anfragen |",
+        "|---|---:|---|---:|",
+    ]
+    for engine in ("Chromium", "WebKit"):
+        r = json.loads((proof / f"{engine}-028.json").read_text())
+        lines.append(f"| {engine} {r['engine']} | {r['moves']} | {', '.join(map(str,r['recoveryMs']))} | {len(r['external'])} |")
+    lines.extend([
+        "", "Jede Zeile umfasst den Schülerablauf in allen vier Niveaus. Der Vergleich erfolgte nach Reload der äußeren Seite und des inneren Frames, neben der letzten Kartenbewegung auch mit einem übernommenen Text, einem offenen Entwurf und Undo/Redo. Die ursprüngliche Gruppe und das Niveau erschienen ohne erneute Eingabe. Nach explizitem PNG-Export wurde jede Datei in einer neuen Sitzung geöffnet, erneut exportiert und ihr vollständiges Dokument unabhängig per Python dekodiert und verglichen. Die herunterladbaren vier Beispiel-PNGs stammen aus Chromium.", "",
+        "Bei frischem Kontext zeigt die erweiterte Speicherung nur Gruppe, Niveau und Uhrzeit bis zur bewussten Auswahl. Zwei parallele gleichnamige Gruppen, Versions- und Aufgabenwechsel, abgelaufene und beschädigte Daten sowie gesperrte Speicherstufen sind in den Speichergrenzen-Protokollen erfasst. Weitere Reload-Prüfungen umfassten 30, 60 und 100 Karten. Chromium konnte nach einem erzwungenen Renderer-Abbruch und Neustart desselben Browserprofils den letzten bestätigten Positionsstand wieder öffnen. Der Sitzungsspeicher endet unter Umständen mit dem ursprünglichen Tab. Die freiwillig aktivierte lokale Datenbank ist auf drei Stunden seit der letzten Speicherung begrenzt, die Löschung erfolgt beim nächsten Zugriff. Ein Geräte-, Origin- oder Partitionswechsel kann eine PNG erfordern. SCORM nutzt nur LMSInitialize/LMSFinish.", "",
+        "## Speicher und Ressourcen", "",
+        f"Dieselbe Aufgabe mit {memory['taskBytes']} Bytes wurde bei fünf Öffnungs-/Schließzyklen des Fortsetzen-Dialogs in 0.2.7 {before['taskDecodes']} Mal und in 0.2.8 {after['taskDecodes']} Mal vollständig dekodiert. Chromium meldete nach expliziter Garbage Collection am Ende {before['heapAfter']} bzw. {after['heapAfter']} Bytes belegten JavaScript-Heap. Eine Messreihe belegt den vermiedenen Dekodieraufwand, die Heap-Werte variieren zwischen Läufen. Der Player lädt nur das gewählte Niveau. Er schreibt Arbeitsdaten ohne Kopien der Medien. Canvas-Flächen werden nach PNG-Export freigegeben, Objekt-URLs beim Schließen oder Ersetzen widerrufen. Die bestehende begrenzte Undo-Historie bleibt im Arbeitsspeicher.", "",
+        "GPU-Speicher, Bilddecoder und Prozessspeicher auf Schul-iPads wurden nicht gemessen. Die Ursache der beobachteten itslearning-Neuladungen bleibt offen.", "",
+        "## Reproduktion und Regression", "",
+        f"{unit_count} Datentests, {browser_count} Chromium-Browsertests, vier RC2-Prüfungen und die native Importmatrix mit 17 Fällen. Die vollständigen Befehle einschließlich Referenz-Downloads, Build, Installation und Prüfung stehen in `.github/workflows/studio-macos-028.yml`. Die neuen Prüfungen verwenden die entpackte, aus der installierten App exportierte SCORM-Datei.", "",
+        "```sh", "npm ci", "npm test", "npm run build", "npm run test:rc2", "npm run test:e2e", "npm run studio:make -- --platform=darwin --arch=arm64", "# Nach separater Installation STUDIO_EXEC auf das installierte Programm setzen", "node qa/studio/levels-028.mjs artifacts/levels-028", "node qa/studio/recovery-limits-028.mjs artifacts/levels-028", "node qa/studio/memory-028.mjs artifacts/levels-028 /pfad/zur/0.2.7/SCORM-30.zip", "npm run studio:test", "```", "",
+        "## Einsatzgrenzen", "",
+        "Maximal zwölf Niveaus, 20 MB je bearbeitbarem Einzelprojekt, 60 MB je Sammlung und unter 10 MB für die Player-HTML. Der native Mac-Lauf prüft die tatsächlich erreichten Fenstergrößen. Die private Originalprüfung P01 der M2-Grafik, die Apple-Notarisierung und die praktische Prüfung auf einem verwalteten iPad in itslearning sind offen. Die separate Praxistest-Anleitung begleitet das Beispiel.",
+    ])
+    report.write_text("\n".join(lines)+"\n")
+    members[report.name] = report
+    examples[report.name] = report
     for name in ("Wasser.mysteryboard", "Wasser-SCORM.zip", "SCHUL-IPAD-028.md"):
         examples[name] = proof / name
     for png in proof.glob("Gruppe*.png"):

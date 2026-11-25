@@ -7,6 +7,7 @@ import { _electron, chromium, webkit, expect } from "@playwright/test";
 import { unzipSync } from "fflate";
 import { button, openExports, closeExports, saveProject } from "./controls.mjs";
 import { host } from "./web-host.mjs";
+import { fixtures } from "./fixtures.mjs";
 import { releaseOnly, cardPosition } from "./student-release.mjs";
 const out = resolve(process.argv[2]),
   native = !!process.env.STUDIO_EXEC;
@@ -342,6 +343,47 @@ async function teacherWorkflow() {
     assert(!name.includes("/"));
     await writeFile(join(out, "sco", name), value);
   }
+  // Exercise the shared import path inside one populated level, leaving
+  // the already exported classroom example intact.
+  const [large] = await fixtures(join(out, "material"), [60]);
+  await closeExports(teacher);
+  await teacher
+    .getByLabel("Mystery-Titel", { exact: true })
+    .fill("Ungesicherte Teständerung");
+  await pick(large.path);
+  await expect(board()).toHaveCount(60);
+  await expect(teacher.locator(".studio-unsaved")).toBeVisible();
+  await pick(join(out, "Wasser.docx"));
+  await expect(button(teacher, "Weiter zur Übernahme")).toBeVisible();
+  await button(teacher, "Zur Pinnwand").click();
+  await expect(board()).toHaveCount(60);
+  const data = [...(await readFile(join(out, "Wasser.docx")))];
+  await teacher.locator("main.author-editor").evaluate((el, bytes) => {
+    const transfer = new DataTransfer();
+    transfer.items.add(new File([Uint8Array.from(bytes)], "Wasser.docx"));
+    el.dispatchEvent(
+      new DragEvent("drop", {
+        bubbles: true,
+        cancelable: true,
+        dataTransfer: transfer,
+      }),
+    );
+  }, data);
+  await expect(button(teacher, "Weiter zur Übernahme")).toBeVisible();
+  await button(teacher, "Weiter zur Übernahme").click();
+  await teacher.getByLabel("Karten zu diesem Mystery hinzufügen").check();
+  await teacher.getByLabel(/Ich habe Texte/).check();
+  await button(teacher, "Karten übernehmen").click();
+  await expect(board()).toHaveCount(62);
+  const checkPath = join(out, "material", "Kontrollsammlung.mysteryboard");
+  await target(checkPath);
+  await saveProject(teacher, true);
+  const checked = JSON.parse(await readFile(checkPath));
+  assert.deepEqual(checked.levels.slice(0, 3), saved.levels.slice(0, 3));
+  assert.equal(
+    checked.levels[3].draft.content.id,
+    saved.levels[3].draft.content.id,
+  );
   const chooserCalls = app ? undefined : calls;
   await saveJSON("Studio-028.json", {
     installed: native,
@@ -349,6 +391,11 @@ async function teacherWorkflow() {
     levels: names,
     chooserCalls,
     teacherWorkflow: true,
+    populatedLevelImport: {
+      before: 60,
+      afterDrop: 62,
+      otherLevelsUnchanged: true,
+    },
     selector: native
       ? "NSOpenPanel, Quartz, Abbruch und Dateiauswahl"
       : "Browser-Testbrücke",

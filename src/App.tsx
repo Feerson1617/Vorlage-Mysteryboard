@@ -1178,10 +1178,14 @@ export default function App({
             Reihenfolge vor.
           </p>
           <p>
-            Es wird nichts automatisch gespeichert. Bewahre das unveränderte
-            Sicherungsbild in „Dateien“ auf. Ein Bildschirmfoto, ein Fotoalbum
-            oder das Versenden als verkleinertes Bild kann die Sicherung
-            verlieren.
+            {writer
+              ? writer.level.mode === "extended"
+                ? "Die lokale Zwischensicherung gilt bis zu drei Stunden nach der letzten Bearbeitung."
+                : "Die Zwischensicherung gilt für diese Browsersitzung."
+              : "Es wird nichts automatisch gespeichert."}{" "}
+            Bewahre das unveränderte Sicherungsbild in „Dateien“ auf. Ein
+            Bildschirmfoto, ein Fotoalbum oder das Versenden als verkleinertes
+            Bild kann die Sicherung verlieren.
           </p>
         </Dialog>
       )}

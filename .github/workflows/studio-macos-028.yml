@@ -238,6 +238,7 @@ jobs:
             artifacts/levels-028/Wasser-SCORM.zip
             artifacts/levels-028/Gruppe*.png
             artifacts/levels-028/SCHUL-IPAD-028.md
+            candidate-files/Pruefbericht-0.2.8.md
             candidate-files/SHA256SUMS.txt
             candidate-files/Textkarten.mysteryboard
             candidate-files/Textkarten-SCORM.zip
