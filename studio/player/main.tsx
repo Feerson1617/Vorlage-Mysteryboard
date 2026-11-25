@@ -83,6 +83,7 @@ function Player() {
   const source = useMemo(bootstrap, []);
   const c = source.catalogue;
   const [active, setActive] = useState<{
+    generation: number;
     task: Task;
     level: LevelInfo;
     seed?: Snapshot;
@@ -93,6 +94,7 @@ function Player() {
   const [starting, setStarting] = useState(true);
   const [notice, setNotice] = useState("");
   const request = useRef<AbortController | null>(null);
+  const generation = useRef(0);
   async function choose(
     level: LevelInfo,
     seed?: Snapshot,
@@ -139,7 +141,14 @@ function Player() {
         writer = new Writer(c.id, level, sid, seed?.revision);
       }
       ctl.signal.throwIfAborted();
-      setActive({ task, level, seed, writer, work: manual ?? seed?.work });
+      setActive({
+        generation: ++generation.current,
+        task,
+        level,
+        seed,
+        writer,
+        work: manual ?? seed?.work,
+      });
     } catch (e) {
       if (!ctl.signal.aborted) setNotice((e as Error).message);
     } finally {
@@ -185,12 +194,19 @@ function Player() {
   if (active)
     return (
       <LevelPlayer
-        key={active.writer?.session ?? active.task.contentHash}
+        key={active.generation}
         task={active.task}
         seed={active.seed}
         writer={active.writer}
         initial={active.work}
-        onRestore={(work) => void choose(active.level, undefined, work)}
+        onRestore={(work, hash = active.task.contentHash) => {
+          const level = c.levels.find((l) => l.hash === hash);
+          if (!level)
+            throw Error(
+              "Diese Sicherung gehört zu einer anderen Aufgabe oder Inhaltsversion.",
+            );
+          void choose(level, undefined, work);
+        }}
         onSwitch={c.levels.length > 1 ? back : undefined}
         onHome={back}
       />
@@ -282,7 +298,7 @@ function LevelPlayer({
   onHome,
   onRestore,
 }: {
-  onRestore: (w: Work) => void;
+  onRestore: (w: Work, hash?: string) => void;
   task: Task;
   seed?: Snapshot;
   writer?: Writer;
@@ -311,13 +327,15 @@ function LevelPlayer({
     setError("");
     try {
       let restored: Work;
+      let hash = task.contentHash;
       try {
         const doc = await readDocumentFile(file, controller.signal);
-        if (doc.kind !== "student" || doc.contentHash !== task.contentHash)
+        if (doc.kind !== "student")
           throw Error(
             "Diese Sicherung gehört nicht zu dieser Aufgabe oder Inhaltsversion.",
           );
         restored = doc.work;
+        hash = doc.contentHash;
       } catch (e) {
         controller.signal.throwIfAborted();
         try {
@@ -330,8 +348,8 @@ function LevelPlayer({
         }
       }
       controller.signal.throwIfAborted();
+      onRestore(restored, hash);
       close();
-      onRestore(restored);
     } catch (e) {
       if (!controller.signal.aborted) setError((e as Error).message);
     } finally {

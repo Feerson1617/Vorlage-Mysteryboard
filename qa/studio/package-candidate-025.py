@@ -194,9 +194,21 @@ if version == "0.2.8":
         results=json.loads((proof / (engine+"-028.json")).read_text())
         assert results["passed"] and len(results["levels"])==4 and results["moves"]>=100
     assert json.loads((proof / "Studio-028.json").read_text())["installed"]
-    for f in proof.glob("*"):
-        if f.suffix in {".png",".md",".json"}:
-            members["028-"+f.name]=f
+    for engine in ("Chromium", "WebKit"):
+        limits = json.loads((proof / f"{engine}-Speichergrenzen.json").read_text())
+        assert len(limits["scenarios"]) >= 10
+    assert json.loads((proof / "Chromium-Prozessabbruch.json").read_text())["restored"]
+    memory = json.loads((proof / "Speichermessung-028.json").read_text())
+    assert memory["cases"][0]["taskDecodes"] > memory["cases"][1]["taskDecodes"] == 1
+    for name in ("Wasser.mysteryboard", "Wasser-SCORM.zip", "SCHUL-IPAD-028.md"):
+        examples[name] = proof / name
+    for png in proof.glob("Gruppe*.png"):
+        examples[png.name] = png
+    assert len(list(proof.glob("Gruppe*.png"))) == 4
+    for pattern in ("*-028.json", "*-Speichergrenzen.json", "*-Prozessabbruch.json", "*-Niveauauswahl.png",
+                    "*-Export.png", "*-Wiederhergestellt.png", "*-028.png", "Dateiauswahl-macOS.png", "SCHUL-IPAD-028.md"):
+        for f in proof.glob(pattern):
+            members["028-"+f.name] = f
 archive(review, members, ZIP_DEFLATED)
 manifest = out / "SHA256SUMS.txt"
 manifest.write_text("".join(f"{sha(p)}  {p.name}\n" for p in (dmg, install, review, *examples.values())))

@@ -113,8 +113,14 @@ jobs:
           echo "$RUNNER_TEMP/matrix-python/bin" >> "$GITHUB_PATH"
       - run: npx playwright install chromium webkit
       - name: Installed teacher application and recovery in both engines
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           node qa/studio/levels-028.mjs artifacts/levels-028
+          node qa/studio/recovery-limits-028.mjs artifacts/levels-028
+          reference="$RUNNER_TEMP/studio-027-reference"
+          gh run download 44766704705 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.7-Arbeitsstand-und-Pruefsummen --dir "$reference"
+          node qa/studio/memory-028.mjs artifacts/levels-028 "$(find "$reference" -name SCORM-30.zip -print -quit)"
           cp qa/studio/SCHUL-IPAD-028.md artifacts/levels-028/
       - name: Board gestures and author connections in the installed application
         shell: bash

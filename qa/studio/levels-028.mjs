@@ -127,8 +127,12 @@ async function nativePick(path) {
     const win = BrowserWindow.getAllWindows()[0];
     win.focus();
     globalThis.importSheet = false;
-    win.once("sheet-begin", () => { globalThis.importSheet = true; });
-    win.once("sheet-end", () => { globalThis.importSheet = false; });
+    win.once("sheet-begin", () => {
+      globalThis.importSheet = true;
+    });
+    win.once("sheet-end", () => {
+      globalThis.importSheet = false;
+    });
     if (path) clipboard.writeText(path);
     globalThis.openNativePanel = true;
   }, path);
