@@ -87,11 +87,13 @@ function intact(row: Snapshot | undefined, c: string, l: LevelInfo) {
 export function sessionSeed(c: string, l: LevelInfo) {
   if (l.mode === "off") return;
   try {
-    const row = JSON.parse(sessionStorage.getItem(scope(c, l.id)) || "null");
-    return intact(row, c, l) &&
-      (l.mode !== "extended" || row.time + ttl > Date.now())
-      ? (row as Snapshot)
-      : undefined;
+    const key = scope(c, l.id);
+    const row = JSON.parse(sessionStorage.getItem(key) || "null");
+    if (row && l.mode === "extended" && row.time + ttl <= Date.now()) {
+      sessionStorage.removeItem(key);
+      return;
+    }
+    return intact(row, c, l) ? (row as Snapshot) : undefined;
   } catch {
     return;
   }
@@ -167,17 +169,23 @@ export async function candidates(c: Catalogue) {
 // A copied tab can inherit sessionStorage. Claim the writer for this document
 // before reusing its session, so concurrent tabs never overwrite each other.
 export async function claim(session: string, signal: AbortSignal) {
-  if (!navigator.locks) return false;
-  return new Promise<boolean>((resolve) => {
-    navigator.locks
+  let locks: LockManager;
+  try {
+    locks = navigator.locks;
+    if (!locks) return "unavailable";
+  } catch {
+    return "unavailable";
+  }
+  return new Promise<"acquired" | "occupied" | "unavailable">((resolve) => {
+    locks
       .request(prefix + session, { ifAvailable: true }, async (lock) => {
-        resolve(!!lock && !signal.aborted);
+        resolve(lock && !signal.aborted ? "acquired" : "occupied");
         if (lock && !signal.aborted)
           await new Promise<void>((done) =>
             signal.addEventListener("abort", () => done(), { once: true }),
           );
       })
-      .catch(() => resolve(false));
+      .catch(() => resolve("unavailable"));
   });
 }
 export class Writer {

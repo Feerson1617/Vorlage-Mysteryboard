@@ -262,7 +262,7 @@ async function teacherWorkflow() {
   advanced.content.help = {
     method: "Prüft Gegenhypothesen und begründet Kausalbeziehungen.",
   };
-  advanced.content.recovery = "extended";
+  advanced.content.recovery = "session";
   advanced.content.cards.forEach((card, i) => {
     card.title = [
       "Messstation",
@@ -287,10 +287,19 @@ async function teacherWorkflow() {
   const chooser = teacher.waitForEvent("filechooser");
   await button(teacher, "Mystery als Niveau importieren").click();
   await (await chooser).setFiles(path);
+  await expect(teacher.getByLabel("Niveaubezeichnung")).toHaveValue(
+    advanced.content.title,
+  );
   await teacher.getByLabel("Niveaubezeichnung").fill(names[3]);
   await teacher.screenshot({ path: join(out, "Niveauverwaltung-028.png") });
   await apply();
   await expect(board()).toHaveCount(5);
+  await openDesign();
+  await teacher
+    .getByLabel("Zwischensicherung für dieses Niveau")
+    .selectOption("extended");
+  await expect(teacher.getByText(/Nur mit schulischer Freigabe/)).toBeVisible();
+  await button(teacher, "Zur Pinnwand").click();
   await openExports(teacher);
   await target(project);
   await saveProject(teacher);

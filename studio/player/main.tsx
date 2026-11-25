@@ -132,9 +132,11 @@ function Player() {
       let writer;
       if (level.mode !== "off") {
         let sid = seed?.session ?? crypto.randomUUID();
-        if (!(await claim(sid, ctl.signal))) {
+        const lock = await claim(sid, ctl.signal);
+        if (lock !== "acquired") {
           // A tab cloned from another active tab starts its own work.
-          if (!chosen && (navigator.locks || window.opener)) seed = undefined;
+          if (!chosen && (lock === "occupied" || window.opener))
+            seed = undefined;
           sid = crypto.randomUUID();
           await claim(sid, ctl.signal);
         }
@@ -159,7 +161,7 @@ function Player() {
     let live = true;
     const release = () => request.current?.abort();
     window.addEventListener("pagehide", release);
-    (async () => {
+    const resume = async () => {
       const l = lastLevel(c);
       if (l) {
         void candidates(c).catch(() => {});
@@ -176,8 +178,14 @@ function Player() {
       setChoices(rows);
       if (c.levels.length === 1 && !rows.length) await choose(c.levels[0]);
       else setStarting(false);
-    })();
+    };
+    const restoredPage = (event: PageTransitionEvent) => {
+      if (event.persisted) void resume();
+    };
+    void resume();
+    window.addEventListener("pageshow", restoredPage);
     return () => {
+      window.removeEventListener("pageshow", restoredPage);
       window.removeEventListener("pagehide", release);
       live = false;
       request.current?.abort();
