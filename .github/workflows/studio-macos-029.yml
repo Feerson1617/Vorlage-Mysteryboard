@@ -148,6 +148,7 @@ jobs:
           STUDIO_EXEC= node qa/studio/ux-author-029.mjs after "$ux/Browser-nachher" "$project" artifacts/levels-028/Wasser.docx
           node qa/studio/reload-029.mjs "$board" "$ux/Player-vorher" before
           node qa/studio/reload-029.mjs artifacts/levels-028/Wasser-SCORM.zip "$ux/Player-nachher" after
+          node qa/studio/classroom-029.mjs artifacts/levels-028/Wasser-SCORM.zip "$ux/Player-nachher/Unabhaengige-SCORM-Pruefung.json"
       - name: Board gestures and author connections in the installed application
         shell: bash
         run: |
@@ -296,6 +297,7 @@ jobs:
         with:
           name: Studio-0.2.9-Mac-Testprotokolle-${{ github.sha }}
           path: |
+            artifacts/ux-029/**/Fehler.png
             artifacts/ux-029/**/*.json
             artifacts/levels-028/*.json
             artifacts/levels-028/*.png

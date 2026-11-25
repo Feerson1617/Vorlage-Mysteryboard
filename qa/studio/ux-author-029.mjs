@@ -26,6 +26,7 @@ const measurements = {
 let actions = [],
   scenario;
 function begin(key) {
+  console.log(phase, measurements.environment, "Szenario", key);
   scenario = measurements.scenarios[key] = {
     actions: [],
     dialogs: 0,
@@ -39,6 +40,7 @@ async function action(
   operation,
   { dialog = false, setting = false, depth = 0 } = {},
 ) {
+  console.log(phase, label);
   await operation();
   actions.push(label);
   scenario.dialogs += Number(dialog);
@@ -133,6 +135,14 @@ try {
     });
     const info = await app.evaluate(
       ({ app, dialog }, paths) => {
+        // The functional close/cancel tests run separately. Only the synthetic UX
+        // projects are discarded when the measurement window closes or is replaced.
+        dialog.showMessageBox = async (_win, opts) => {
+          const discard = opts.buttons?.indexOf("Änderungen verwerfen") ?? -1;
+          if (discard < 0)
+            throw Error("Unerwarteter nativer Dialog: " + opts.message);
+          return { response: discard, checkboxChecked: false };
+        };
         dialog.showOpenDialog = async (_w, o) => ({
           canceled: false,
           filePaths: [
@@ -356,6 +366,21 @@ try {
     join(out, "Autoren-" + phase + ".json"),
     JSON.stringify(measurements, null, 2),
   );
+} catch (error) {
+  if (page && !page.isClosed()) {
+    console.error(
+      (
+        await page
+          .locator("body")
+          .innerText({ timeout: 3000 })
+          .catch(() => "")
+      ).slice(-3000),
+    );
+    await page
+      .screenshot({ path: join(out, "Fehler.png"), timeout: 5000 })
+      .catch(() => {});
+  }
+  throw error;
 } finally {
   await app?.close();
   await browser?.close();
