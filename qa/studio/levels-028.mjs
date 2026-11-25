@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { resolve, join, basename } from "node:path";
+import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { resolve, join, basename, dirname } from "node:path";
 import { createHash } from "node:crypto";
 import { _electron, chromium, webkit, expect } from "@playwright/test";
 import { unzipSync } from "fflate";
@@ -53,7 +53,10 @@ async function start() {
       dialog.showOpenDialog = async (_win, opts) => {
         if (opts.title === "Unterrichtsmaterial auswählen") {
           if (globalThis.openNativePanel)
-            return globalThis.nativeChooser(_win, opts);
+            return globalThis.nativeChooser(_win, {
+              ...opts,
+              defaultPath: globalThis.chooserDirectory,
+            });
           globalThis.materialCalls = (globalThis.materialCalls || 0) + 1;
           return {
             canceled: !globalThis.material,
@@ -124,27 +127,30 @@ async function pick(path) {
   await button(teacher, "Importieren").click();
 }
 async function nativePick(path) {
-  await app.evaluate(({ clipboard, BrowserWindow }, path) => {
-    const win = BrowserWindow.getAllWindows()[0];
-    win.focus();
-    globalThis.importSheet = false;
-    win.once("sheet-begin", () => {
-      globalThis.importSheet = true;
-    });
-    win.once("sheet-end", () => {
+  await app.evaluate(
+    ({ BrowserWindow }, directory) => {
+      const win = BrowserWindow.getAllWindows()[0];
+      win.focus();
       globalThis.importSheet = false;
-    });
-    if (path) clipboard.writeText(path);
-    globalThis.openNativePanel = true;
-  }, path);
+      win.once("sheet-begin", () => {
+        globalThis.importSheet = true;
+      });
+      win.once("sheet-end", () => {
+        globalThis.importSheet = false;
+      });
+      globalThis.chooserDirectory = directory;
+      globalThis.openNativePanel = true;
+    },
+    path ? dirname(path) : undefined,
+  );
   await button(teacher, "Importieren").click();
   const attached = () => app.evaluate(() => globalThis.importSheet);
   await expect.poll(attached, { timeout: 10000 }).toBe(true);
-  if (path)
-    execFileSync("screencapture", ["-x", join(out, "Dateiauswahl-macOS.png")]);
+
   execFileSync("swift", [
     "qa/studio/picker-028.swift",
     path ? "choose" : "cancel",
+    join(out, "Dateiauswahl-macOS.png"),
   ]);
   await expect.poll(attached, { timeout: 15000 }).toBe(false);
   await app.evaluate(() => {
@@ -192,8 +198,13 @@ async function teacherWorkflow() {
   await writeFile(join(out, "Defekt.png"), "Fehler");
   await pick(join(out, "Defekt.png"));
   await expect(teacher.getByRole("alert")).toBeVisible();
-  if (native) await nativePick(join(out, "Wasser.docx"));
-  else await pick(join(out, "Wasser.docx"));
+  if (native) {
+    const dir = join(out, "Dateiauswahl");
+    await mkdir(dir, { recursive: true });
+    const selected = join(dir, "Wasser.docx");
+    await copyFile(join(out, "Wasser.docx"), selected);
+    await nativePick(selected);
+  } else await pick(join(out, "Wasser.docx"));
   await expect(button(teacher, "Weiter zur Übernahme")).toBeVisible({
     timeout: 60000,
   });
