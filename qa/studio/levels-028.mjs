@@ -296,7 +296,11 @@ async function teacherWorkflow() {
     if (i < 2) card.studentEditable = true;
   });
   advanced.contentHash = hash(advanced.content);
-  const path = join(out, "Fachniveau.mysteryboard");
+  // Keep screencapture output outside the displayed directory. NSOpenPanel may
+  // reorder its rows by date added between recognition and the actual click.
+  const selectionDirectory = join(out, "Niveauimport");
+  await mkdir(selectionDirectory, { recursive: true });
+  const path = join(selectionDirectory, "Fachniveau.mysteryboard");
   await writeFile(path, JSON.stringify(advanced));
   await levels();
   if(native){
