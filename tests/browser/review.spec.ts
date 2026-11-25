@@ -350,6 +350,8 @@ test("Werkzeugleiste 320–1024 px: alle fünf Werkzeuge sichtbar, 48-px-Touchfl
     320, 375, 480, 481, 550, 600, 601, 610, 620, 640, 704, 705, 768, 1024,
   ]) {
     await page.setViewportSize({ width, height: 820 });
+    // The media-query change is delivered after the viewport has been resized.
+    await expect(page.locator(".toolbar button")).toHaveCount(5);
     const geometry = await page.locator(".toolbar button").evaluateAll((els) =>
       els.map((el) => {
         const b = el.getBoundingClientRect();
