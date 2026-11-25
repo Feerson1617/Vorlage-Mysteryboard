@@ -34,7 +34,7 @@ export function templateText() {
         kind: "template",
         studioVersion: version,
         verwendung:
-          "Diese Datei im selben KI-Chat wie das entwickelte Material öffnen. Erzeuge eine neue UTF-8-Datei mit kind project gemäß ausgabeSchema. Als .mysteryboard oder .txt ausgeben. Alternativ genau den gültigen JSON-Text zum Kopieren liefern. Studio berechnet Identitäten und Prüfsummen.",
+          "Diese Datei im selben KI-Chat wie das entwickelte Material öffnen. Erzeuge eine neue UTF-8-Datei mit kind project gemäß ausgabeSchema. Als .mysteryboard oder .txt ausgeben. Alternativ genau den gültigen JSON-Text zum Kopieren liefern. Beim Einfügen ist auch ein einzelner JSON-Codeblock ohne Begleittext möglich. Studio berechnet Identitäten und Prüfsummen. Technische Gültigkeit ersetzt keine fachliche Prüfung.",
         beratung: [
           "Sichte zuerst vorhandene Unterrichtsmaterialien, Zielgruppe, Leitfrage und Entscheidungen. Bewahre Quellen und fachliche Aussagen. Erfinde keine Messwerte, Medien oder Quellen. Weise auf offene fachliche Fragen hin.",
           "Biete an: Konfiguriere das Mystery eigenständig didaktisch sinnvoll und frage nur bei wesentlichen offenen Entscheidungen nach. Bündle Vorschläge samt kurzer Begründung. Respektiere den Verzicht auf einzelne Funktionen.",
@@ -95,12 +95,60 @@ export function templateText() {
                   name: "Basis",
                   content: {
                     ...specimen.content,
-                    help: { method: "Vergleicht zuerst beide Orte." },
+                    cards: [
+                      ...specimen.content.cards,
+                      {
+                        id: 3,
+                        title: "Vergleich auf dem Schulhof",
+                        text: "Wertet die Beispieldaten aus.",
+                        group: "extension",
+                        source: "Fiktive Beobachtung zur Orientierung",
+                        table: {
+                          headers: ["Ort", "Wasser nach dem Regen"],
+                          rows: [
+                            ["Senke", "Pfütze"],
+                            ["Hügel", "keine Pfütze"],
+                          ],
+                        },
+                      },
+                    ],
+                    help: {
+                      method: "Vergleicht zuerst beide Orte.",
+                      categories: [
+                        {
+                          id: "beobachtung",
+                          label: "Beobachtungen",
+                          color: "#157846",
+                          cardIds: [1, 3],
+                        },
+                      ],
+                    },
+                  },
+                  studentHints: [
+                    {
+                      id: 1,
+                      from: 1,
+                      to: 3,
+                      direction: 1,
+                      label: "Beobachtungen vergleichen",
+                    },
+                  ],
+                  author: {
+                    edges: [
+                      {
+                        id: 2,
+                        from: 3,
+                        to: 2,
+                        direction: 1,
+                        label: "liefert einen Anhaltspunkt",
+                      },
+                    ],
                   },
                 },
                 {
                   name: "Vertiefung",
                   content: {
+                    recovery: "off",
                     title: "Wasser im Einzugsgebiet",
                     instructions:
                       "Entwickelt und begründet eine prüfbare Hypothese.",

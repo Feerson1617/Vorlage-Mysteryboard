@@ -11,7 +11,7 @@ import App from "../../src/App";
 import { readLaunch } from "../../src/core/launch-document";
 import { packDocument, studentDocument } from "../../src/core/documents";
 import "virtual:player-style.css";
-import { canonical, readDocument, type Task } from "../../src/core/documents";
+import { canonical, type Task } from "../../src/core/documents";
 import {
   Writer,
   claim,
@@ -24,20 +24,11 @@ import {
   type LevelInfo,
   type Snapshot,
 } from "./recovery";
+import { readCatalogue, readResource, resourceName } from "./resources";
 function bootstrap() {
   const index = document.getElementById("mysteryboard-levels");
   if (index) {
-    const c = JSON.parse(index.textContent!) as Catalogue;
-    if (
-      !Array.isArray(c.levels) ||
-      !c.levels.length ||
-      c.levels.length > 12 ||
-      c.levels.some(
-        (l) => !/^[a-f0-9-]{36}$/.test(l.id) || !/^[a-f0-9]{64}$/.test(l.hash),
-      )
-    )
-      throw Error("Ungültiges Niveauverzeichnis.");
-    return { catalogue: c };
+    return { catalogue: readCatalogue(index.textContent!) };
   }
   const launch = readLaunch();
   if (!launch) throw Error("Die eingebettete Aufgabe fehlt.");
@@ -107,16 +98,13 @@ function Player() {
   async function loadTask(level: LevelInfo, signal: AbortSignal) {
     let task = source.task;
     if (!task) {
-      const response = await fetch("./level-" + level.id + ".json", {
+      const response = await fetch("./" + resourceName(c, level), {
         signal,
         credentials: "same-origin",
         redirect: "error",
       });
       if (!response.ok) throw Error("Die Aufgabendatei fehlt.");
-      const doc = readDocument(new Uint8Array(await response.arrayBuffer()));
-      if (doc.kind !== "task" || doc.content.id !== c.id + "." + level.id)
-        throw Error("Falsche Aufgabendatei.");
-      task = doc;
+      task = readResource(new Uint8Array(await response.arrayBuffer()), c, level);
     }
     if (
       task.contentHash !== level.hash ||

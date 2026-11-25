@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld(
   "mysteryStudio",
   Object.freeze({
+    copyIssues: (message) => ipcRenderer.invoke("exchange:copy-issues",message),
     saveTemplate: (ext) => ipcRenderer.invoke("template:save", ext),
     chooseMaterial: (scope) => ipcRenderer.invoke("material:choose",scope),
     previewTask: (bytes) => ipcRenderer.invoke("preview:open", bytes),
@@ -12,6 +13,7 @@ contextBridge.exposeInMainWorld(
     saveProject: (bytes, saveAs = false) =>
       ipcRenderer.invoke("project:save", { bytes, saveAs }),
     projectState: (state) => ipcRenderer.invoke("project:state", state),
+    replaceWithExchange: () => ipcRenderer.invoke("project:replace-exchange"),
     detachProject: () => ipcRenderer.invoke("project:detach"),
     modalState: (active) => ipcRenderer.invoke("app:modal", active),
     saveExport: (bytes, name, kind) =>

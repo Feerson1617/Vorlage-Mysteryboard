@@ -8,6 +8,7 @@ import { embedTask } from "../../scripts/embed-task.mjs";
 import {
   app,
   BrowserWindow,
+  clipboard,
   dialog,
   ipcMain,
   protocol,
@@ -33,7 +34,7 @@ import {
   MAX_DOCUMENT_BYTES,
   type Draft,
 } from "../../src/core/documents";
-import { unzipSync } from "fflate";
+import { checkStudioArchive } from "../exchange/archive";
 import { parsePng } from "../../src/core/png";
 const SCHEME = "mysteryboard",
   ORIGIN = SCHEME + "://app",
@@ -135,8 +136,8 @@ async function save(data: Uint8Array, saveAs = false) {
   }
   return { name: basename(path) };
 }
-async function allowReplace() {
-  const forms = !!state?.forms || uiBlocked;
+async function allowReplace(reviewingExchange = false) {
+  const forms = !!state?.forms || (uiBlocked && !reviewingExchange);
   if (!state?.dirty && !forms) return true;
   const buttons = forms
     ? ["Abbrechen", "Änderungen verwerfen"]
@@ -430,6 +431,10 @@ async function setup() {
     );
     return true;
   });
+  handle("exchange:copy-issues", (message) => {
+    if (typeof message !== "string" || message.length > 64_000) throw Error("Fehlerhinweis zu lang.");
+    clipboard.writeText(message);
+  });
   handle("project:open", () => open());
   handle("app:modal", (active) => {
     if (typeof active !== "boolean") throw Error("Ungültiger Dialogzustand.");
@@ -445,11 +450,17 @@ async function setup() {
     if (!entry) throw Error("Projekt nicht in der Liste.");
     return open(entry.path);
   });
-  handle("project:detach", () => {
+  function detachProject() {
     currentPath = null;
     state = null;
     window.setDocumentEdited(false);
     updateFileMenu();
+  }
+  handle("project:detach",detachProject);
+  handle("project:replace-exchange",async () => {
+    if (!(await allowReplace(true))) return false;
+    detachProject();
+    return true;
   });
   handle("project:state", (s) => {
     if (!s || typeof s.dirty !== "boolean" || typeof s.forms !== "boolean")
@@ -487,45 +498,7 @@ async function setup() {
       if (d.kind === "student")
         throw Error("Studio exportiert keine Schülerarbeitsstände.");
     } else if (s.kind === "png") parsePng(data);
-    else {
-      let sum = 0;
-      const entries = unzipSync(data, {
-        filter: (f) => {
-          sum += f.originalSize;
-          if (
-            sum > 70_000_000 ||
-            f.originalSize >
-              (/^level-[a-f0-9-]{36}\.json$/.test(f.name)
-                ? MAX_DOCUMENT_BYTES
-                : 10_000_000)
-          )
-            throw Error("SCORM-Inhalte sind zu groß.");
-          return true;
-        },
-      });
-      const levels = Object.keys(entries).filter((name) =>
-        /^level-[a-f0-9-]{36}\.json$/.test(name),
-      );
-      if (levels.length > 12) throw Error("Zu viele Niveaus.");
-      for (const name of levels) {
-        const task = readDocument(entries[name]);
-        if (
-          task.kind !== "task" ||
-          !task.content.id.endsWith("." + name.slice(6, -5)) ||
-          !new TextDecoder()
-            .decode(entries["imsmanifest.xml"])
-            .includes('<file href="' + name + '"/>')
-        )
-          throw Error("Ungültige Niveauressource.");
-      }
-      if (
-        Object.keys(entries)
-          .filter((n) => !levels.includes(n))
-          .sort()
-          .join("|") !== "app.html|imsmanifest.xml|launch.html|session.js"
-      )
-        throw Error("Ungültiges Schüler-SCORM.");
-    }
+    else checkStudioArchive(data);
     const r = await dialog.showSaveDialog(window, {
       title: "Export speichern",
       defaultPath: s.name,

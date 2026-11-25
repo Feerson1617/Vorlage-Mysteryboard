@@ -122,7 +122,9 @@ export function inspectDataImage(data: string) {
   if (!match || match[2].length % 4) return fail();
   let bytes: Uint8Array;
   try {
-    bytes = Uint8Array.from(atob(match[2]), (c) => c.charCodeAt(0));
+    const binary = atob(match[2]);
+    bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
   } catch {
     return fail();
   }

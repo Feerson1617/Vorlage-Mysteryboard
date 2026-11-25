@@ -191,20 +191,20 @@ export function AuthorEditor({
   );
   const draftRef = useRef(draft);
   draftRef.current = draft;
-  const blocked =
+  const editingForm =
     !!card ||
     !!edgeForm ||
     helpEditing ||
     documentImport ||
     fileBusy ||
-    busy ||
-    !!integration?.modal;
+    busy;
+  const blocked = editingForm || !!integration?.modal;
   const blockedRef = useRef(blocked);
   blockedRef.current = blocked;
   const saving = useRef(false);
   useEffect(() => {
-    integration?.state(draft, dirty, blocked);
-  }, [draft, dirty, blocked]);
+    integration?.state(draft, dirty, editingForm);
+  }, [draft, dirty, editingForm]);
   useEffect(
     () =>
       integration?.onSaved((saved) => {

@@ -11,6 +11,7 @@ export interface LevelInfo {
   mode: "off" | "session" | "extended";
 }
 export interface Catalogue {
+  resource?: "task.json";
   id: string;
   title: string;
   levels: LevelInfo[];

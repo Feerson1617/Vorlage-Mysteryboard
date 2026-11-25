@@ -2,6 +2,7 @@ import type { Draft, Task } from "../../src/core/documents";
 export type ProjectCommand = "open" | "save" | "save-as";
 export type SavedProject = { bytes: Uint8Array; name: string };
 export interface StudioBridge {
+  copyIssues?: (message: string) => Promise<void>;
   saveTemplate: (extension: "mysteryboard" | "txt") => Promise<boolean>;
   chooseMaterial?: (
     scope?: "level",
@@ -21,6 +22,7 @@ export interface StudioBridge {
     dirty: boolean;
     forms: boolean;
   }) => Promise<void>;
+  replaceWithExchange: () => Promise<boolean>;
   detachProject: () => Promise<void>;
   modalState: (active: boolean) => Promise<void>;
   saveExport: (

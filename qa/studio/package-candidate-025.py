@@ -11,8 +11,8 @@ from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 evidence, out = (Path(arg) for arg in sys.argv[1:3])
 out.mkdir(parents=True, exist_ok=True)
 version = sys.argv[3] if len(sys.argv) > 3 else "0.2.5"
-print_quality = version in ("0.2.7", "0.2.8", "0.2.9", "0.3.0")
-compact_cards = version in ("0.2.6", "0.2.7", "0.2.8", "0.2.9", "0.3.0")
+print_quality = version in ("0.2.7", "0.2.8", "0.2.9", "0.3.0", "0.3.1")
+compact_cards = version in ("0.2.6", "0.2.7", "0.2.8", "0.2.9", "0.3.0", "0.3.1")
 prefix = f"MysteryBoard-Studio-{version}"
 commit = os.environ["GITHUB_SHA"]
 
@@ -188,7 +188,7 @@ for name in (
     members[name] = find(name)
 for screenshot in evidence.rglob(f"{version}-Fenster-*.png"):
     members[screenshot.name] = screenshot
-if version in ("0.2.8", "0.2.9", "0.3.0"):
+if version in ("0.2.8", "0.2.9", "0.3.0", "0.3.1"):
     proof = evidence / "levels-028"
     for engine in ("Chromium", "WebKit"):
         results=json.loads((proof / (engine+"-028.json")).read_text())
@@ -228,7 +228,7 @@ if version in ("0.2.8", "0.2.9", "0.3.0"):
         "## Einsatzgrenzen", "",
         "Maximal zwölf Niveaus, 20 MB je bearbeitbarem Einzelprojekt, 60 MB je Sammlung und unter 10 MB für die Player-HTML. Der native Mac-Lauf prüft die tatsächlich erreichten Fenstergrößen. Die private Originalprüfung P01 der M2-Grafik, die Apple-Notarisierung und die praktische Prüfung auf einem verwalteten iPad in itslearning sind offen. Die separate Praxistest-Anleitung begleitet das Beispiel.",
     ])
-    if version in ("0.2.9", "0.3.0"):
+    if version in ("0.2.9", "0.3.0", "0.3.1"):
         ux = evidence / "ux-029"
         old = json.loads((ux/"Mac-vorher/Autoren-before.json").read_text())
         new = json.loads((ux/"Mac-nachher/Autoren-after.json").read_text())
@@ -271,7 +271,7 @@ if version in ("0.2.8", "0.2.9", "0.3.0"):
         for f in ux.glob("*/*"):
             if f.is_file() and f.suffix in (".png",".json"):
                 members["UX/"+str(f.relative_to(ux))]=f
-    if version == "0.3.0":
+    if version in ("0.3.0","0.3.1"):
         exchange = evidence / "exchange-030"
         audit = json.loads((exchange / "Austausch-Pruefung.json").read_text())
         assert audit["installedAppleSilicon"] and len(audit["players"]) == 4 and not audit["external"]
@@ -298,6 +298,23 @@ if version in ("0.2.8", "0.2.9", "0.3.0"):
             "In Chromium und WebKit ersetzte 0.2.9 den neueren Stand sofort. In der neuen Version wurden Verwerfen, Bestätigen, eine identische PNG und anschließendes Neuladen mit den gespeicherten Daten abgeglichen. Die Einzelprotokolle liegen unter KI.","",
             f"Bei gleichem Ausgangsmaterial ergaben sich für vier inhaltlich identische Niveau-Ausgaben {len(audit['comparison']['manual'])} Bedienhandlungen bei manueller Konfiguration und {len(audit['comparison']['exchange'])} beim Import der vorkonfigurierten Datei. Gemessen wurden Klicks auf Schaltflächen und übernommene Feldwerte bis einschließlich Schließen des Exportdialogs. Beide Durchläufe verwenden vorgegebene native Dateipfade. Der Vergleich prüfte alle publizierten Inhaltsfelder, ausgenommen intern erzeugte Identitäten und Revisionsnummern. Die Erstellung im externen Chat und eine fachliche Inhaltsprüfung haben keine gemessene Dauer.","",
             "Es wurde kein externer KI-Anbieter getestet. Die fachliche Kontrolle verbleibt bei der Lehrkraft."])
+    if version == "0.3.1":
+        readiness = evidence/"readiness-031"
+        measured = json.loads((readiness/"Exportbereitschaft.json").read_text())
+        assert measured["installedMac"] and not measured["outside"]
+        assert [row["pixels"] for row in measured["players"]] == [[1000,800]]*3
+        assert (measured["projectBytes"],measured["taskBytes"],measured["base64Bytes"]) == (9618026,9617958,12823944)
+        assert [q["response"] for q in measured["choices"]] == [0,2,2,1]
+        assert len(measured["windows"]) == 2 and all(w["consent"] and w["action"] for w in measured["windows"])
+        for name in ["KI-Gross-SCORM.zip","Exportbereitschaft.json","Team Schichten_Farbige Schichtmodelle.png"]:
+            examples[name]=readiness/name
+        assert sha(examples["KI-Gross-SCORM.zip"]) == measured["archiveSha256"]
+        assert sha(examples["Team Schichten_Farbige Schichtmodelle.png"]) == measured["pngSha256"]
+        for name in ["Importpruefung-820.png","Importpruefung-1200.png","Schueler-Bildmaterial.png","Exportbereitschaft.json"]:
+            members["Exportbereitschaft/"+name]=readiness/name
+        lines.extend(["","## Exportbereitschaft in 0.3.1","",
+            f"Das installierte Studio übernahm drei unabhängige RGB-Bilder von 1000 × 800 Pixeln. Der gespeicherte Entwurf maß 9.618.026 Bytes, die veröffentlichte Aufgabe 9.617.958 Bytes. Der Player umfasste {measured['playerBytes']:,} Bytes. Alle drei Originalbilder wurden im geöffneten Lesedialog anhand ihrer Pixelmaße und vollständigen Bilddaten verglichen. Die erzeugte Schüler-PNG enthielt alle Aufgabendaten. Eine neue Browsersitzung stellte die verschobene Karte wieder her.","",
+            "Beim Projektwechsel prüfte die installierte App Abbrechen, Abbruch des Speicherdialogs, erfolgreiches Speichern und bewusstes Verwerfen. Die Fenstermaße und unveränderten Sicherheitsabfragen sind im Messprotokoll enthalten. Die gezielten Datentests erzeugten außerdem eine veröffentlichte Aufgabe mit 19.980.000 Bytes und Sammlungen mit bis zu zwölf Niveaus zu je 100 Karten."])
     report.write_text("\n".join(lines)+"\n")
     members[report.name] = report
     examples[report.name] = report

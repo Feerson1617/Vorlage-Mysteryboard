@@ -574,3 +574,15 @@
 .studio-main-toolbar .studio-title:not(:focus) {text-overflow:ellipsis}
 .studio-full-title {display:none}
 .studio-title-field:is(:focus-within,:hover) .studio-full-title {display:block;position:absolute;top:100%;left:0;width:max-content;max-width:min(50vw,38rem);padding:.35rem .5rem;background:white;color:#203226;border:1px solid #a9bbae;border-radius:4px;overflow-wrap:anywhere;z-index:3;pointer-events:none}
+
+dialog[open]:has(.exchange-review) { display: flex; flex-direction: column; }
+dialog:has(.exchange-review) .dialog-body { min-height: 0; display: flex; padding: 0; }
+.exchange-review { display: flex; flex-direction: column; width:100%; min-height:0; overflow-wrap:anywhere; }
+.exchange-review .exchange-summary, .exchange-review footer { padding: 12px 22px; }
+.exchange-summary h3, .exchange-summary p, .exchange-review footer p { margin: 0 0 .3rem; }
+.exchange-scroll { min-height:0; overflow:auto; padding:0 22px; }
+.exchange-levels { list-style:none; padding:0; }
+.exchange-levels summary { cursor:pointer; padding:.35rem 0; }
+.exchange-review footer { border-top:1px solid #d7dfd9; }
+.exchange-review footer .actions { margin-top:.5rem; }
+@media(max-height:460px) { .exchange-review .exchange-summary,.exchange-review footer { padding:5px 12px; } }

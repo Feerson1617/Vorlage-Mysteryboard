@@ -1,9 +1,12 @@
 import { encodeDocument, readDocument, type Task } from "./documents";
 
 export const LAUNCH_ID = "mysteryboard-launch";
-export function launchJSON(task: Task, classroom: boolean) {
+export function launchJSON(
+  task: Task,
+  classroom: boolean,
+  bytes = encodeDocument(task),
+) {
   let binary = "";
-  const bytes = encodeDocument(task);
   for (let i = 0; i < bytes.length; i += 8192)
     binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
   return JSON.stringify({ classroom, task: btoa(binary) });

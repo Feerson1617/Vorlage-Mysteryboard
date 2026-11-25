@@ -42,7 +42,7 @@ async function start() {
       });
       return [app.isPackaged, process.arch, app.getVersion()];
     });
-    assert.deepEqual(info, [true, "arm64", "0.3.0"]);
+    assert.deepEqual(info, [true, "arm64", process.env.STUDIO_VERSION ?? "0.3.0"]);
     page = await app.firstWindow();
   } else {
     page = await browser.newPage();
@@ -70,6 +70,7 @@ async function start() {
         recentProjects: async () => [],
         projectState: async () => {},
         detachProject: async () => {},
+        replaceWithExchange: async () => true,
         onSaved: () => {},
       };
     });

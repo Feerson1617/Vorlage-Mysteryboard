@@ -49,12 +49,30 @@ export function isExchange(
     v.format === "MysteryBoardAI"
   );
 }
-export function parseExchangeText(text: string): unknown {
+function checkTextSize(text: string) {
   if (
     text.length > COLLECTION_BYTES ||
     new TextEncoder().encode(text).length > COLLECTION_BYTES
   )
     throw Error("Die Austauschdatei überschreitet 60 MB.");
+}
+export function parsePastedExchange(text: string) {
+  checkTextSize(text);
+  const body = text.trim();
+  if (!body.startsWith("```")) return parseExchangeText(body);
+  const lines = body.split(/\r?\n/);
+  if (
+    lines.shift()?.toLowerCase() !== "```json" ||
+    lines.pop() !== "```" ||
+    lines.some((l) => l.trimStart().startsWith("```"))
+  )
+    throw Error(
+      "Bitte nur einen vollständigen JSON-Codeblock ohne Begleittext einfügen.",
+    );
+  return parseExchangeText(lines.join("\n"));
+}
+export function parseExchangeText(text: string): unknown {
+  checkTextSize(text);
   try {
     return JSON.parse(text);
   } catch {
@@ -295,7 +313,17 @@ export async function decodeExchangeMedia(p: ImportedProject) {
         ...(card.extraImages ?? []).map((i) => i.src),
       ])
         if (src && !seen.has(src)) {
-          await verifyImageDecode(src);
+          try {
+            await verifyImageDecode(src);
+          } catch (e) {
+            throw Error(
+              draft.content.title +
+                " / Karte " +
+                card.id +
+                " / Bild – " +
+                (e as Error).message,
+            );
+          }
           seen.add(src);
         }
 }

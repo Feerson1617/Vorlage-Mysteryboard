@@ -1,13 +1,19 @@
 import {
   isExchange,
   parseExchangeText,
+  parsePastedExchange,
   importExchange,
   decodeExchangeMedia,
   type ImportedProject,
 } from "../exchange/import";
+import { CopyIssues } from "./CopyIssues";
 import { ExchangeReview } from "./ExchangeReview";
 import { LevelsDialog } from "./LevelsDialog";
-import { collectionScorm } from "./collection-scorm";
+import {
+  collectionScorm,
+  singleEntries,
+  exportIssues,
+} from "./collection-scorm";
 import {
   bindLevel,
   collectionFrom,
@@ -31,8 +37,7 @@ import {
   type Task,
   type MysteryDocument,
 } from "../../src/core/documents";
-import { launchJSON } from "../../src/core/launch-document";
-import { scormEntries, zipScorm } from "../../src/core/scorm-package";
+import { zipScorm } from "../../src/core/scorm-package";
 import template from "virtual:studio-player";
 import launch from "../../scorm/launch.html?raw";
 import session from "../../scorm/session.js?raw";
@@ -63,6 +68,7 @@ export function StudioApp() {
     [pasted, setPasted] = useState(""),
     [exchangeError, setExchangeError] = useState(""),
     [working, setWorking] = useState(false);
+  const [issues, setIssues] = useState<string[]>([]);
   const attempt = useRef(0);
   const leaveExchange = () => {
     attempt.current++;
@@ -83,6 +89,7 @@ export function StudioApp() {
       setTools(null);
       setPasted("");
       setExchangeError("");
+      setIssues(exportIssues(project, template, launch, session));
       setExchange(project);
     }
   };
@@ -152,9 +159,9 @@ export function StudioApp() {
   );
   useEffect(() => {
     void bridge
-      ?.modalState?.(!!pdf || !!create || !!error || aiModal)
+      ?.modalState?.(!!editing || !!pdf || !!create || !!error || aiModal)
       .catch((e) => setError(e.message));
-  }, [bridge, pdf, create, error, aiModal]);
+  }, [bridge, editing, pdf, create, error, aiModal]);
   const integration: EditorIntegration = {
     name,
     unsaved: modified,
@@ -237,24 +244,7 @@ export function StudioApp() {
     onCommand: (fn) => bridge!.onCommand?.(fn) ?? (() => {}),
     scorm: async (task, signal) => {
       signal.throwIfAborted();
-      const placeholder =
-        /<script\s+id="mysteryboard-launch"\s+type="application\/json">\s*null\s*<\/script>/g;
-      if ([...template.matchAll(placeholder)].length !== 1)
-        throw Error("Der geprüfte Schülerplayer fehlt.");
-      const html = template.replace(
-        placeholder,
-        () =>
-          `<script id="mysteryboard-launch" type="application/json">${launchJSON(task, true)}</script>`,
-      );
-      const zip = zipScorm(
-        scormEntries(
-          new TextEncoder().encode(html),
-          launch,
-          session,
-          `MysteryBoard-${task.content.id}-${task.content.version}`,
-          task.content.title,
-        ),
-      );
+      const zip = zipScorm(singleEntries(task, template, launch, session));
       signal.throwIfAborted();
       return new File(
         [zip as BlobPart],
@@ -428,9 +418,12 @@ export function StudioApp() {
             />
           </label>
           {exchangeError && (
-            <p role="alert" className="exchange-errors">
-              {exchangeError}
-            </p>
+            <>
+              <p role="alert" className="exchange-errors">
+                {exchangeError}
+              </p>
+              <CopyIssues message={exchangeError} />
+            </>
           )}
           <button
             className="primary"
@@ -439,7 +432,7 @@ export function StudioApp() {
               const token = ++attempt.current;
               setWorking(true);
               try {
-                await stage(parseExchangeText(pasted), token);
+                await stage(parsePastedExchange(pasted), token);
               } catch (e) {
                 if (token === attempt.current)
                   setExchangeError((e as Error).message);
@@ -455,10 +448,14 @@ export function StudioApp() {
       {exchange && (
         <ExchangeReview
           project={exchange}
+          issues={issues}
           replacing={!!draft}
           onClose={leaveExchange}
           onApply={async () => {
-            await bridge.detachProject();
+            if (!(await bridge.replaceWithExchange())) {
+              leaveExchange();
+              return;
+            }
             const c =
               exchange.format === "MysteryBoardCollection" ? exchange : null;
             setCollection(c);
@@ -499,6 +496,7 @@ export function StudioApp() {
           <p role="alert" className="exchange-errors">
             {error}
           </p>
+          <CopyIssues message={error} />
         </Dialog>
       )}
       {create && (
