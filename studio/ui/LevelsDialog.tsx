@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Dialog } from "../../src/components/Dialog";
 import { draftFromContent, reviseDraft } from "../../src/core/authoring";
 import {
@@ -25,7 +25,6 @@ export function LevelsDialog({
     [error, fail] = useState("");
   const [loading, setLoading] = useState(false);
   const [edit, setEdit] = useState(false);
-  const file = useRef<HTMLInputElement>(null);
   const index = c.levels.findIndex((l) => l.id === c.active),
     level = c.levels[index];
   const modified =
@@ -215,53 +214,44 @@ export function LevelsDialog({
           </button>
           <button
             disabled={c.levels.length >= MAX_LEVELS}
-            onClick={() => file.current?.click()}
+            onClick={async () => {
+              setLoading(true);
+              try {
+                const f = await window.mysteryStudio!.chooseMaterial!("level");
+                if (!f) return;
+                if (f.bytes.length > 30_000_000)
+                  throw Error("Die Datei überschreitet 30 MB.");
+                const doc = readProject(new Uint8Array(f.bytes));
+                if (
+                  doc.format === "MysteryBoardCollection" ||
+                  doc.kind === "student"
+                )
+                  throw Error(
+                    "Bitte einen einzelnen Entwurf oder eine veröffentlichte Aufgabe wählen.",
+                  );
+                add(
+                  levelFrom(
+                    doc.kind === "draft"
+                      ? doc
+                      : draftFromContent(
+                          doc.content,
+                          level.draft.author.initials,
+                        ),
+                    c.id,
+                    doc.content.title.slice(0, 60) || "Import",
+                  ),
+                );
+                fail("");
+              } catch (e) {
+                fail((e as Error).message);
+              } finally {
+                setLoading(false);
+              }
+            }}
           >
             Mystery als Niveau importieren
           </button>
         </div>
-        <input
-          ref={file}
-          hidden
-          type="file"
-          accept=".mysteryboard,.png"
-          aria-label="Mystery als Niveau"
-          onChange={async (e) => {
-            const f = e.target.files?.[0];
-            e.target.value = "";
-            if (!f) return;
-            setLoading(true);
-            try {
-              if (f.size > 30_000_000)
-                throw Error("Die Datei überschreitet 30 MB.");
-              const doc = readProject(new Uint8Array(await f.arrayBuffer()));
-              if (
-                doc.format === "MysteryBoardCollection" ||
-                doc.kind === "student"
-              )
-                throw Error(
-                  "Bitte einen einzelnen Entwurf oder eine veröffentlichte Aufgabe wählen.",
-                );
-              add(
-                levelFrom(
-                  doc.kind === "draft"
-                    ? doc
-                    : draftFromContent(
-                        doc.content,
-                        level.draft.author.initials,
-                      ),
-                  c.id,
-                  doc.content.title.slice(0, 60) || "Import",
-                ),
-              );
-              fail("");
-            } catch (e) {
-              fail((e as Error).message);
-            } finally {
-              setLoading(false);
-            }
-          }}
-        />
         <details className="level-defaults">
           <summary>Speicherung im Projekt</summary>
           <label>
@@ -317,7 +307,16 @@ export function LevelsDialog({
             Auf alle Niveaus anwenden
           </button>
         </details>
-        {new Set(c.levels.map(l=>l.name.trim().normalize("NFKC").toLocaleLowerCase("de"))).size<c.levels.length && <p role="alert">Mehrere Niveaus heißen gleich. Wähle unter „Niveauoptionen“ unterscheidbare Namen, etwa „Basis“ und „Vertiefung“.</p>}
+        {new Set(
+          c.levels.map((l) =>
+            l.name.trim().normalize("NFKC").toLocaleLowerCase("de"),
+          ),
+        ).size < c.levels.length && (
+          <p role="alert">
+            Mehrere Niveaus heißen gleich. Wähle unter „Niveauoptionen“
+            unterscheidbare Namen, etwa „Basis“ und „Vertiefung“.
+          </p>
+        )}
         {new Set(c.levels.map((l) => l.draft.content.title)).size !==
           c.levels.length && (
           <p>

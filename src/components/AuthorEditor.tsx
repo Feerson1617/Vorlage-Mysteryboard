@@ -897,7 +897,7 @@ export function AuthorEditor({
             Zur Projektübersicht
           </button>
           {!documentImport && !helpEditing && !designOpen && (
-            <input
+            <div className="studio-title-field"><input
               aria-label="Mystery-Titel"
               className="studio-title"
               title={content.title}
@@ -905,7 +905,7 @@ export function AuthorEditor({
               value={content.title}
               placeholder="Mystery-Titel"
               onChange={(e) => change({ ...content, title: e.target.value })}
-            />
+            />{content.title && <span className="studio-full-title" aria-hidden="true">{content.title}</span>}</div>
           )}
           <nav
             aria-label="Mystery bearbeiten"

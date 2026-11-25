@@ -51,7 +51,7 @@ async function start() {
     const info = await app.evaluate(({ app, dialog }) => {
       globalThis.nativeChooser = dialog.showOpenDialog.bind(dialog);
       dialog.showOpenDialog = async (_win, opts) => {
-        if (opts.title === "Unterrichtsmaterial auswählen") {
+        if (["Unterrichtsmaterial auswählen","Mystery als Niveau importieren"].includes(opts.title)) {
           if (globalThis.openNativePanel)
             return globalThis.nativeChooser(_win, {
               ...opts,
@@ -126,7 +126,7 @@ async function pick(path) {
     }, path);
   await button(teacher, "Importieren").click();
 }
-async function nativePick(path) {
+async function nativePick(path,level=false) {
   await app.evaluate(
     ({ BrowserWindow }, directory) => {
       const win = BrowserWindow.getAllWindows()[0];
@@ -143,14 +143,15 @@ async function nativePick(path) {
     },
     path ? dirname(path) : undefined,
   );
-  await button(teacher, "Importieren").click();
+  await button(teacher, level?"Mystery als Niveau importieren":"Importieren").click();
   const attached = () => app.evaluate(() => globalThis.importSheet);
   await expect.poll(attached, { timeout: 10000 }).toBe(true);
 
   execFileSync("swift", [
     "qa/studio/picker-028.swift",
     path ? "choose" : "cancel",
-    join(out, "Dateiauswahl-macOS.png"),
+    join(out, level?"Niveaudatei-macOS.png":"Dateiauswahl-macOS.png"),
+    level?"Fachniveau":"Wasser",
   ]);
   await expect.poll(attached, { timeout: 15000 }).toBe(false);
   await app.evaluate(() => {
@@ -298,9 +299,13 @@ async function teacherWorkflow() {
   const path = join(out, "Fachniveau.mysteryboard");
   await writeFile(path, JSON.stringify(advanced));
   await levels();
-  const chooser = teacher.waitForEvent("filechooser");
-  await button(teacher, "Mystery als Niveau importieren").click();
-  await (await chooser).setFiles(path);
+  if(native){
+    await nativePick(null,true);
+    await nativePick(path,true);
+  } else {
+    material=path;
+    await button(teacher,"Mystery als Niveau importieren").click();
+  }
   await expect(teacher.getByLabel("Niveaubezeichnung")).toHaveValue(
     advanced.content.title,
   );

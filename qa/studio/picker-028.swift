@@ -3,6 +3,7 @@ import AppKit
 import CoreGraphics
 import Vision
 
+let filename = CommandLine.arguments.count > 3 ? CommandLine.arguments[3] : "Wasser"
 let eventSource = CGEventSource(stateID: .combinedSessionState)
 func key(_ code: CGKeyCode, _ flags: CGEventFlags = []) {
     for down in [true, false] {
@@ -48,7 +49,7 @@ if CommandLine.arguments[1] == "cancel" {
         for item in request.results ?? [] {
             let label = item.topCandidates(1).first?.string ?? ""
             labels.append(label)
-            if label.range(of: #"\bWasser(?:\.docx)?\b"#, options: [.regularExpression, .caseInsensitive]) != nil {
+            if label.range(of: #"\b"# + NSRegularExpression.escapedPattern(for:filename) + #"(?:\.(?:docx|mysteryboard))?\b"#, options: [.regularExpression, .caseInsensitive]) != nil {
                 let box = item.boundingBox
                 doubleClick(CGPoint(x: screen.minX + box.midX * screen.width,
                                     y: screen.minY + (1-box.midY) * screen.height))
@@ -57,6 +58,6 @@ if CommandLine.arguments[1] == "cancel" {
         }
         Thread.sleep(forTimeInterval: 0.4)
     }
-    FileHandle.standardError.write(Data(("Wasser.docx im Dateidialog nicht sichtbar: " + labels.joined(separator: " / ") + "\n").utf8))
+    FileHandle.standardError.write(Data((filename + " im Dateidialog nicht sichtbar: " + labels.joined(separator: " / ") + "\n").utf8))
     exit(1)
 }

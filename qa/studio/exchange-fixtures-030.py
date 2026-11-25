@@ -32,8 +32,8 @@ def generate(folder):
             content["cards"][0].update(image=image,imageAlt="Neutrales Prüfbild",imageCaption="Bildbeispiel für die Materialansicht")
         if index==3: content["recovery"]="extended"
         if index>=2:
-            level["author"]=dict(initials="QA",edges=[dict(id=2,**{"from":2},to=3,direction=1,label="Privatbefund-QA")])
-            level["studentHints"]=[dict(id=1,**{"from":1},to=2,direction=1,label="Messung zuordnen")]
+            level["author"]=dict(initials="QA",edges=[{"id":2,"from":2,"to":3,"direction":1,"label":"Privatbefund-QA"}])
+            level["studentHints"]=[{"id":1,"from":1,"to":2,"direction":1,"label":"Messung zuordnen"}]
         levels.append(level)
     emit("KI-Niveaus-Austausch.mysteryboard",dict(kind="collection",title="Messwerte untersuchen",defaultRecovery="session",levels=levels))
 

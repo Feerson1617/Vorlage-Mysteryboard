@@ -97,73 +97,145 @@ function Player() {
   const [notice, setNotice] = useState("");
   const request = useRef<AbortController | null>(null);
   const generation = useRef(0);
-  const [conflict,setConflict]=useState<{task:Task;level:LevelInfo;work:Work;previous:string[];}>();
-  const [applying,setApplying]=useState(false);
-  async function loadTask(level:LevelInfo, signal:AbortSignal) {
-      let task = source.task;
-      if (!task) {
-        const response = await fetch("./level-" + level.id + ".json", {
-          signal,
-          credentials: "same-origin",
-          redirect: "error",
-        });
-        if (!response.ok) throw Error("Die Aufgabendatei fehlt.");
-        const doc = readDocument(new Uint8Array(await response.arrayBuffer()));
-        if (doc.kind !== "task" || doc.content.id !== c.id + "." + level.id)
-          throw Error("Falsche Aufgabendatei.");
-        task = doc;
-      }
-      if (
-        task.contentHash !== level.hash ||
-        task.content.version !== level.version ||
-        (task.content.recovery ?? "off") !== level.mode
-      )
-        throw Error("Die Niveauprüfung ist fehlgeschlagen.");
+  const [conflict, setConflict] = useState<{
+    task: Task;
+    level: LevelInfo;
+    work: Work;
+    previous: string[];
+  }>();
+  const [applying, setApplying] = useState(false);
+  async function loadTask(level: LevelInfo, signal: AbortSignal) {
+    let task = source.task;
+    if (!task) {
+      const response = await fetch("./level-" + level.id + ".json", {
+        signal,
+        credentials: "same-origin",
+        redirect: "error",
+      });
+      if (!response.ok) throw Error("Die Aufgabendatei fehlt.");
+      const doc = readDocument(new Uint8Array(await response.arrayBuffer()));
+      if (doc.kind !== "task" || doc.content.id !== c.id + "." + level.id)
+        throw Error("Falsche Aufgabendatei.");
+      task = doc;
+    }
+    if (
+      task.contentHash !== level.hash ||
+      task.content.version !== level.version ||
+      (task.content.recovery ?? "off") !== level.mode
+    )
+      throw Error("Die Niveauprüfung ist fehlgeschlagen.");
     return task;
   }
-  async function applyImport(task:Task,level:LevelInfo,work:Work,signal:AbortSignal) {
+  async function applyImport(
+    task: Task,
+    level: LevelInfo,
+    work: Work,
+    signal: AbortSignal,
+  ) {
     signal.throwIfAborted();
-    let writer = active?.level.id===level.id ? active.writer : undefined;
-    if (!active || active.level.id!==level.id){
-      const next=new AbortController();
+    let writer = active?.level.id === level.id ? active.writer : undefined;
+    if (!active || active.level.id !== level.id) {
+      const next = new AbortController();
       try {
-        if(level.mode!=="off"){
-          const sid=crypto.randomUUID();
-          await claim(sid,next.signal);
-          writer=new Writer(c.id,level,sid);
+        if (level.mode !== "off") {
+          const sid = crypto.randomUUID();
+          await claim(sid, next.signal);
+          writer = new Writer(c.id, level, sid);
         }
         signal.throwIfAborted();
-      } catch(error){next.abort();throw error;}
+      } catch (error) {
+        next.abort();
+        throw error;
+      }
       request.current?.abort();
-      request.current=next;
+      request.current = next;
     }
-    if(level.mode==="off")clearSelection(c,false);
-    setNotice("");setConflict(undefined);
-    setActive({generation:++generation.current,task,level,work,writer});
+    if (level.mode === "off") clearSelection(c, false);
+    setNotice("");
+    setConflict(undefined);
+    setActive({ generation: ++generation.current, task, level, work, writer });
   }
-  async function prepareImport(work:Work,hash:string,current:Work|null,signal:AbortSignal){
-    const level=c.levels.find(l=>l.hash===hash);
-    if(!level)throw Error("Diese Sicherung gehört zu einer anderen Aufgabe oder Inhaltsversion.");
-    const task=active?.level.id===level.id?active.task:await loadTask(level,signal);
+  async function prepareImport(
+    work: Work,
+    hash: string,
+    current: Work | null,
+    signal: AbortSignal,
+  ) {
+    const level = c.levels.find((l) => l.hash === hash);
+    if (!level)
+      throw Error(
+        "Diese Sicherung gehört zu einer anderen Aufgabe oder Inhaltsversion.",
+      );
+    const task =
+      active?.level.id === level.id
+        ? active.task
+        : await loadTask(level, signal);
     signal.throwIfAborted();
-    work=validateWork(work,task.content);
-    const data=canonical(work);
-    if(current && active?.level.id===level.id && canonical(current)===data)return;
-    const previous=[];
-    const describe=(w:Work,l:LevelInfo)=> (w.team||"Gruppe ohne Namen")+(c.levels.length>1 ? " · "+l.name : "");
-    if(current && active)previous.push(describe(current,active.level));
-    const target=sessionSeed(c.id,level);
-    if(target && (canonical(target.work)!==data || target.pending) && (!current || active?.level.id!==level.id))
-      previous.push(describe(target.work,level));
-    if(previous.length) setConflict({task,level,work,previous});
-    else await applyImport(task,level,work,signal);
+    work = validateWork(work, task.content);
+    const data = canonical(work);
+    if (current && active?.level.id === level.id && canonical(current) === data)
+      return;
+    const previous = [];
+    const describe = (w: Work, l: LevelInfo) =>
+      (w.team || "Gruppe ohne Namen") +
+      (c.levels.length > 1 ? " · " + l.name : "");
+    if (current && active) previous.push(describe(current, active.level));
+    const target = sessionSeed(c.id, level);
+    if (
+      target &&
+      (canonical(target.work) !== data || target.pending) &&
+      (!current || active?.level.id !== level.id)
+    )
+      previous.push(describe(target.work, level));
+    if (previous.length) setConflict({ task, level, work, previous });
+    else await applyImport(task, level, work, signal);
   }
-  const confirmImport=conflict && <Dialog title="Arbeitsstand ersetzen?" onClose={()=>{if(!applying)setConflict(undefined);}}>
-    <p>Bisherige Arbeit: {conflict.previous.join(" / ")}<br/>Ausgewählte PNG: {conflict.work.team||"Gruppe ohne Namen"}{c.levels.length>1 && " · "+conflict.level.name}</p>
-    <p>Beim Öffnen kann die bisherige Arbeit verloren gehen.</p>
-    <div className="actions"><button className="primary" disabled={applying} onClick={()=>setConflict(undefined)}>Bisherige Arbeit behalten</button>
-    <button disabled={applying} onClick={async()=>{setApplying(true);try{await applyImport(conflict.task,conflict.level,conflict.work,new AbortController().signal);}catch(e){setNotice((e as Error).message);setConflict(undefined);}finally{setApplying(false);}}}>Ausgewählte PNG öffnen</button></div>
-  </Dialog>;
+  const confirmImport = conflict && (
+    <Dialog
+      title="Arbeitsstand ersetzen?"
+      onClose={() => {
+        if (!applying) setConflict(undefined);
+      }}
+    >
+      <p>
+        Bisherige Arbeit: {conflict.previous.join(" / ")}
+        <br />
+        Ausgewählte PNG: {conflict.work.team || "Gruppe ohne Namen"}
+        {c.levels.length > 1 && " · " + conflict.level.name}
+      </p>
+      <p>Beim Öffnen kann die bisherige Arbeit verloren gehen.</p>
+      <div className="actions">
+        <button
+          className="primary"
+          disabled={applying}
+          onClick={() => setConflict(undefined)}
+        >
+          Bisherige Arbeit behalten
+        </button>
+        <button
+          disabled={applying}
+          onClick={async () => {
+            setApplying(true);
+            try {
+              await applyImport(
+                conflict.task,
+                conflict.level,
+                conflict.work,
+                new AbortController().signal,
+              );
+            } catch (e) {
+              setNotice((e as Error).message);
+              setConflict(undefined);
+            } finally {
+              setApplying(false);
+            }
+          }}
+        >
+          Ausgewählte PNG öffnen
+        </button>
+      </div>
+    </Dialog>
+  );
   async function choose(
     level: LevelInfo,
     seed?: Snapshot,
@@ -268,23 +340,27 @@ function Player() {
   };
   if (active)
     return (
-      <><LevelPlayer
-        key={active.generation}
-        task={active.task}
-        seed={active.seed}
-        writer={active.writer}
-        initial={active.work}
-        onRestore={prepareImport}
-        levelName={c.levels.length > 1 ? active.level.name : undefined}
-        notice={notice}
-        onSwitch={c.levels.length > 1 ? () => void back(false) : undefined}
-        onHome={() => void back(true)}
-        onDeleted={() => void back(false)}
-      />{confirmImport}</>
+      <>
+        <LevelPlayer
+          key={active.generation}
+          task={active.task}
+          seed={active.seed}
+          writer={active.writer}
+          initial={active.work}
+          onRestore={prepareImport}
+          levelName={c.levels.length > 1 ? active.level.name : undefined}
+          notice={notice}
+          onSwitch={c.levels.length > 1 ? () => void back(false) : undefined}
+          onHome={() => void back(true)}
+          onDeleted={() => void back(false)}
+        />
+        {confirmImport}
+      </>
     );
   return (
     <main className="welcome level-start">
-      {confirmImport}<h1>{c.title}</h1>
+      {confirmImport}
+      <h1>{c.title}</h1>
       {notice && <p role="alert">{notice}</p>}
       {starting ? (
         <p role="status">Aufgabe wird geöffnet …</p>
@@ -344,15 +420,25 @@ function Player() {
                 e.target.value = "";
                 if (!file) return;
                 request.current?.abort();
-                const ctl=new AbortController();request.current=ctl;setStarting(true);setNotice("");
+                const ctl = new AbortController();
+                request.current = ctl;
+                setStarting(true);
+                setNotice("");
                 try {
-                  const doc=await readDocumentFile(file,ctl.signal);
+                  const doc = await readDocumentFile(file, ctl.signal);
                   if (doc.kind !== "student")
                     throw Error("Bitte eine Schüler-PNG auswählen.");
-                  await prepareImport(doc.work,doc.contentHash,null,ctl.signal);
+                  await prepareImport(
+                    doc.work,
+                    doc.contentHash,
+                    null,
+                    ctl.signal,
+                  );
                 } catch (err) {
-                  if(!ctl.signal.aborted)setNotice((err as Error).message);
-                } finally {setStarting(false);}
+                  if (!ctl.signal.aborted) setNotice((err as Error).message);
+                } finally {
+                  setStarting(false);
+                }
               }}
             />
           </label>
@@ -375,7 +461,12 @@ function LevelPlayer({
 }: {
   levelName?: string;
   notice: string;
-  onRestore: (w: Work, hash:string,current:Work|null,signal:AbortSignal) => Promise<void>;
+  onRestore: (
+    w: Work,
+    hash: string,
+    current: Work | null,
+    signal: AbortSignal,
+  ) => Promise<void>;
   task: Task;
   seed?: Snapshot;
   writer?: Writer;
@@ -384,7 +475,7 @@ function LevelPlayer({
   onHome: () => void;
   onDeleted: () => void;
 }) {
-  const current=useRef<Work|null>(null);
+  const current = useRef<Work | null>(null);
   const [camera, setCamera] = useState(false);
   const [resume, setResume] = useState(false),
     [error, setError] = useState(""),
@@ -405,7 +496,8 @@ function LevelPlayer({
     setBusy(true);
     setError("");
     try {
-      if(file.size>30_000_000)throw Error("Die Sicherungsdatei überschreitet 30 MB.");
+      if (file.size > 30_000_000)
+        throw Error("Die Sicherungsdatei überschreitet 30 MB.");
       let restored: Work;
       let hash = task.contentHash;
       try {
@@ -428,7 +520,7 @@ function LevelPlayer({
         }
       }
       controller.signal.throwIfAborted();
-      await onRestore(restored, hash,current.current,controller.signal);
+      await onRestore(restored, hash, current.current, controller.signal);
       close();
     } catch (e) {
       if (!controller.signal.aborted) setError((e as Error).message);
@@ -456,7 +548,10 @@ function LevelPlayer({
         studentExport
         mystery={task.content}
         loadedWork={initial}
-        onImport={work => {current.current=work;setResume(true)}}
+        onImport={(work) => {
+          current.current = work;
+          setResume(true);
+        }}
         backupPayload={(work) =>
           packDocument(studentDocument(task.content, work))
         }
@@ -478,7 +573,15 @@ function LevelPlayer({
                   restored = doc.work;
                 } else restored = fromQr(text, task.content);
                 close();
-                void onRestore(restored,task.contentHash,current.current,new AbortController().signal).catch(e=>{setResume(true);setError(e.message);});
+                void onRestore(
+                  restored,
+                  task.contentHash,
+                  current.current,
+                  new AbortController().signal,
+                ).catch((e) => {
+                  setResume(true);
+                  setError(e.message);
+                });
                 return true;
               } catch (e) {
                 setError((e as Error).message);

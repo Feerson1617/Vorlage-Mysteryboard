@@ -132,7 +132,7 @@ jobs:
           ref="$RUNNER_TEMP/studio-029-png"
           gh run download 45578787443 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.9-Arbeitsstand-und-Pruefsummen --dir "$ref"
           node qa/studio/png-conflicts-030.mjs "$(dirname "$(find "$ref" -name Wasser-SCORM.zip -print -quit)")" "$proof/Vorher" before
-          node qa/studio/png-conflicts-030.mjs artifacts/levels-028 "$proof/Nachher" after
+          node qa/studio/png-conflicts-030.mjs artifacts/levels-028 "$proof/Nachher" after "$(find "$ref" -name 'Gruppe 3_Wasser Wege.png' -print -quit)"
           node qa/studio/exchange-030.mjs "$proof"
           cp qa/studio/KI-Vorlage-Kurzanleitung.md "$proof/"
       - name: Vergleich mit installierter 0.2.8 und deren tatsächlichem SCORM
@@ -315,6 +315,8 @@ jobs:
         with:
           name: Studio-0.3.0-Mac-Testprotokolle-${{ github.sha }}
           path: |
+            artifacts/exchange-030/*.json
+            artifacts/exchange-030/KI-*.png
             artifacts/ux-029/**/Fehler.png
             artifacts/ux-029/**/*.json
             artifacts/levels-028/*.json

@@ -280,6 +280,10 @@ if version in ("0.2.8", "0.2.9", "0.3.0"):
             records = json.loads((exchange / folder / (phase+".json")).read_text())
             assert len(records)==4 and all(r["confirmation"]==(phase=="after") for r in records)
             members["KI/"+phase+".json"] = exchange/folder/(phase+".json")
+            if phase=="after":
+                assert all("Abweichende Inhaltsversion" in r["additional"] and "Fremde Aufgabe" in r["additional"] for r in records)
+        assert len(audit["comparison"]["manual"]) > len(audit["comparison"]["exchange"])
+        members["KI/Niveau-Dateiauswahl.png"] = proof/"Niveaudatei-macOS.png"
         for path in exchange.iterdir():
             if path.is_file() and (path.name.startswith(("KI-", "MysteryBoard-KI-", "Team Ufer")) or path.name=="Austausch-Pruefung.json"):
                 if path.suffix==".zip":
@@ -292,6 +296,7 @@ if version in ("0.2.8", "0.2.9", "0.3.0"):
         lines.extend(["","## KI-Austausch und Schutz der Schülerarbeit","",
             "Die aus der DMG installierte ARM64-App exportierte beide bytegleichen Blankovorlagen. Die unabhängig in Python geschriebenen Beispiele wurden als JSON-Text und Datei übernommen, gespeichert und nach einem Neustart wieder geöffnet. Die vier ausgelieferten Niveaus und ihre Original-PNGs wurden im Schülerplayer geprüft. Die privaten Beispielverbindungen fehlen in allen entpackten SCORM-Einträgen.","",
             "In Chromium und WebKit ersetzte 0.2.9 den neueren Stand sofort. In der neuen Version wurden Verwerfen, Bestätigen, eine identische PNG und anschließendes Neuladen mit den gespeicherten Daten abgeglichen. Die Einzelprotokolle liegen unter KI.","",
+            f"Bei gleichem Ausgangsmaterial ergaben sich für vier inhaltlich identische Niveau-Ausgaben {len(audit['comparison']['manual'])} Bedienhandlungen bei manueller Konfiguration und {len(audit['comparison']['exchange'])} beim Import der vorkonfigurierten Datei. Gemessen wurden Klicks auf Schaltflächen und übernommene Feldwerte bis einschließlich Schließen des Exportdialogs. Beide Durchläufe verwenden vorgegebene native Dateipfade. Der Vergleich prüfte alle publizierten Inhaltsfelder, ausgenommen intern erzeugte Identitäten und Revisionsnummern. Die Erstellung im externen Chat und eine fachliche Inhaltsprüfung haben keine gemessene Dauer.","",
             "Es wurde kein externer KI-Anbieter getestet. Die fachliche Kontrolle verbleibt bei der Lehrkraft."])
     report.write_text("\n".join(lines)+"\n")
     members[report.name] = report

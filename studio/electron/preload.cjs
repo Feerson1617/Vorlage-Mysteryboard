@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld(
   "mysteryStudio",
   Object.freeze({
     saveTemplate: (ext) => ipcRenderer.invoke("template:save", ext),
-    chooseMaterial: () => ipcRenderer.invoke("material:choose"),
+    chooseMaterial: (scope) => ipcRenderer.invoke("material:choose",scope),
     previewTask: (bytes) => ipcRenderer.invoke("preview:open", bytes),
     openProject: () => ipcRenderer.invoke("project:open"),
     openRecent: (id) => ipcRenderer.invoke("project:recent", id),
