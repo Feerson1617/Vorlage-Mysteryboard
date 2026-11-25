@@ -301,6 +301,13 @@ if version in ("0.2.8", "0.2.9", "0.3.0", "0.3.1"):
     if version == "0.3.1":
         readiness = evidence/"readiness-031"
         measured = json.loads((readiness/"Exportbereitschaft.json").read_text())
+        extremes = readiness/"Unabhaengige-Zusatzpruefung"/"Grenzen-und-Medien.json"
+        players = json.loads(extremes.read_text())
+        assert {(t["sample"],t["level"],t["engine"],t["cards"]) for t in players} == {
+            (sample,level,engine,cards) for sample,level,cards in [("Grenze",1,100),("Gemischt",1,3),("Gemischt",2,1)] for engine in ("chromium","webkit")
+        } and all(not t["outside"] for t in players)
+        members["Exportbereitschaft/"+extremes.name]=extremes
+        examples[extremes.name]=extremes
         assert measured["installedMac"] and not measured["outside"]
         assert [row["pixels"] for row in measured["players"]] == [[1000,800]]*3
         assert (measured["projectBytes"],measured["taskBytes"],measured["base64Bytes"]) == (9618026,9617958,12823944)

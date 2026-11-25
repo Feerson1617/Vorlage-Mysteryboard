@@ -115,7 +115,9 @@ jobs:
       - run: npx playwright install chromium webkit
       - name: Exportbereitschaft, Projektwechsel und große Einzelaufgabe aus installierter DMG
         timeout-minutes: 12
-        run: node qa/studio/readiness-031.mjs artifacts/readiness-031
+        run: |
+          node qa/studio/readiness-031.mjs artifacts/readiness-031
+          node qa/studio/media-limits-031.mjs artifacts/readiness-031
       - name: Installed teacher application and recovery in both engines
         timeout-minutes: 15
         env:
@@ -306,6 +308,7 @@ jobs:
             artifacts/exchange-030/KI-Vorlage-Kurzanleitung.md
             artifacts/exchange-030/Team Ufer*.png
             artifacts/exchange-030/Austausch-Pruefung.json
+            artifacts/readiness-031/Unabhaengige-Zusatzpruefung/Grenzen-und-Medien.json
             artifacts/readiness-031/KI-Gross-SCORM.zip
             artifacts/readiness-031/Exportbereitschaft.json
             artifacts/readiness-031/Team Schichten_Farbige Schichtmodelle.png

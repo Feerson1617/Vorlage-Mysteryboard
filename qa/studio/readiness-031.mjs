@@ -108,6 +108,7 @@ try {
     await page.goto(server.origin + "/studio/dist/studio/index.html");
   }
   page.setDefaultTimeout(90000);
+  await wait(button(page, "Mystery öffnen")).toBeVisible();
   page.on("dialog", (d) => d.accept().catch(() => {}));
   const click = (n) => button(page, n).click();
   const review = page.getByRole("dialog", { name: "KI-Material prüfen" });
@@ -120,6 +121,7 @@ try {
       }, target);
   }
   async function open(name) {
+    console.log("Prüfe Datei", name);
     source = name;
     if (native)
       await app.evaluate(
@@ -130,11 +132,19 @@ try {
       );
     if (await button(page, "Mystery öffnen").isVisible())
       await click("Mystery öffnen");
-    else if (native)
+    else if (native) {
+      await wait
+        .poll(() =>
+          app.evaluate(
+            ({ Menu }) =>
+              Menu.getApplicationMenu().getMenuItemById("project-open").enabled,
+          ),
+        )
+        .toBe(true);
       await app.evaluate(({ Menu }) =>
         Menu.getApplicationMenu().getMenuItemById("project-open").click(),
       );
-    else
+    } else
       await page.evaluate(() => window.listeners.forEach((fn) => fn("open")));
   }
   const take = () => click("Als Projekt übernehmen");
