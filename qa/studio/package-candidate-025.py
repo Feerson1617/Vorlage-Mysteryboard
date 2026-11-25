@@ -11,8 +11,8 @@ from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 evidence, out = (Path(arg) for arg in sys.argv[1:3])
 out.mkdir(parents=True, exist_ok=True)
 version = sys.argv[3] if len(sys.argv) > 3 else "0.2.5"
-print_quality = version == "0.2.7"
-compact_cards = version in ("0.2.6", "0.2.7")
+print_quality = version in ("0.2.7", "0.2.8")
+compact_cards = version in ("0.2.6", "0.2.7", "0.2.8")
 prefix = f"MysteryBoard-Studio-{version}"
 commit = os.environ["GITHUB_SHA"]
 
@@ -188,6 +188,15 @@ for name in (
     members[name] = find(name)
 for screenshot in evidence.rglob(f"{version}-Fenster-*.png"):
     members[screenshot.name] = screenshot
+if version == "0.2.8":
+    proof = evidence / "levels-028"
+    for engine in ("Chromium", "WebKit"):
+        results=json.loads((proof / (engine+"-028.json")).read_text())
+        assert results["passed"] and len(results["levels"])==4 and results["moves"]>=100
+    assert json.loads((proof / "Studio-028.json").read_text())["installed"]
+    for f in proof.glob("*"):
+        if f.suffix in {".png",".md",".json"}:
+            members["028-"+f.name]=f
 archive(review, members, ZIP_DEFLATED)
 manifest = out / "SHA256SUMS.txt"
 manifest.write_text("".join(f"{sha(p)}  {p.name}\n" for p in (dmg, install, review, *examples.values())))

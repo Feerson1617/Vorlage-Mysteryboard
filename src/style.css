@@ -1070,3 +1070,5 @@ dialog:has(.student-help-preview) .dialog-body {
   width: auto;
   flex-shrink: 0;
 }
+
+.recovery-status {position:absolute;bottom:.4rem;right:.5rem;padding:.15rem .4rem;background:white;color:#304c3d;pointer-events:none;font-size:.78rem;max-width:75%}

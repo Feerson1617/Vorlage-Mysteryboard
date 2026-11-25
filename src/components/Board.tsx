@@ -59,6 +59,8 @@ export function Board({
   onEdge,
   fitTick,
   zoomCommand,
+  initialView,
+  onView,
   connecting,
   orientation = false,
   badgeScaleLimit = 7,
@@ -75,6 +77,8 @@ export function Board({
   onCard: (id: number) => void;
   onEdge: (id: number) => void;
   fitTick: number;
+  initialView?: View & { width: number; height: number };
+  onView?: (v: View & { width: number; height: number }) => void;
   zoomCommand?: { factor: number };
   connecting: number | null;
   orientation?: boolean;
@@ -106,9 +110,11 @@ export function Board({
     renderedWork.current = work;
     current.current = work;
   }
+  const firstView = useRef(initialView);
   const changeView = (next: View) => {
     v.current = next;
     setView(next);
+    if (measured.current) onView?.({ ...next, ...measured.current });
   };
   useEffect(() => {
     if (previousZoom.current === zoomCommand) return;
@@ -391,7 +397,20 @@ export function Board({
   };
   useEffect(() => {
     if (points.current.size) abortGesture();
-    fit();
+    const saved = firstView.current;
+    firstView.current = undefined;
+    const box = svg.current?.getBoundingClientRect();
+    if (
+      saved &&
+      box &&
+      Math.abs(box.width - saved.width) < 2 &&
+      Math.abs(box.height - saved.height) < 2 &&
+      saved.z > 0 &&
+      saved.z <= 3
+    ) {
+      measured.current = { width: box.width, height: box.height };
+      changeView(saved);
+    } else fit();
   }, [fitTick]); // Refit only on explicit overview, start/import or resize.
   useEffect(() => {
     const r = new ResizeObserver(() => {

@@ -65,6 +65,7 @@ export type Mystery = {
   startLayout?: StartLayout;
   help?: HelpConfig;
   initial: { cards: CardState[]; edges: Edge[]; categories: string[] };
+  recovery?: "off" | "session" | "extended";
   startEdgesAsHints?: true;
 };
 export const COLORS = [

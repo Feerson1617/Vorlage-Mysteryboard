@@ -1,3 +1,8 @@
+import {
+  readProject,
+  encodeCollection,
+  COLLECTION_BYTES,
+} from "../../src/core/levels";
 import { embedTask } from "../../scripts/embed-task.mjs";
 import {
   app,
@@ -76,8 +81,10 @@ const bytes = (value: unknown, max = MAX_DOCUMENT_BYTES) => {
   return new Uint8Array(value);
 };
 const project = (value: unknown) => {
-  const data = bytes(value),
-    doc = readDocument(data);
+  const data = bytes(value, COLLECTION_BYTES),
+    doc = readProject(data);
+  if (doc.format === "MysteryBoardCollection")
+    return { bytes: encodeCollection(doc), doc };
   if (doc.kind !== "draft")
     throw Error("Projektdateien müssen bearbeitbare Lehrkraftentwürfe sein.");
   return { bytes: encodeDocument(doc), doc: doc as Draft };
@@ -164,12 +171,15 @@ async function open(path?: string) {
   if (!path || !path.toLowerCase().endsWith(".mysteryboard"))
     throw Error("Bitte eine .mysteryboard-Datei wählen.");
   const size = (await stat(path)).size;
-  if (size > MAX_DOCUMENT_BYTES) throw Error("Die Datei ist größer als 20 MB.");
+  if (size > COLLECTION_BYTES) throw Error("Die Datei ist größer als 60 MB.");
   const data = new Uint8Array(await readFile(path));
-  const doc = readDocument(data);
-  if (doc.kind === "student")
+  const doc = readProject(data);
+  if (doc.format !== "MysteryBoardCollection" && doc.kind === "student")
     throw Error("Schülerarbeitsstände bitte im Schülerplayer öffnen.");
-  currentPath = doc.kind === "draft" ? path : null;
+  currentPath =
+    doc.format === "MysteryBoardCollection" || doc.kind === "draft"
+      ? path
+      : null;
   state = null;
   await remember(path);
   return { bytes: data, name: basename(path) };
@@ -357,6 +367,33 @@ async function setup() {
     });
     await preview.loadURL("mysteryboard://preview/index.html");
   });
+  handle("material:choose", async () => {
+    const extensions = [
+      "pdf",
+      "docx",
+      "png",
+      "jpg",
+      "jpeg",
+      "webp",
+      "mysteryboard",
+    ];
+    const result = await dialog.showOpenDialog(window, {
+      title: "Unterrichtsmaterial auswählen",
+      properties: ["openFile"],
+      filters: [{ name: "Unterrichtsmaterial", extensions }],
+    });
+    if (result.canceled) return null;
+    const path = result.filePaths[0];
+    if (!extensions.includes(path?.split(".").pop()?.toLowerCase() ?? ""))
+      throw Error("Dieses Dateiformat wird nicht unterstützt.");
+    const info = await stat(path);
+    if (!info.isFile() || info.size > 30_000_000)
+      throw Error("Bitte eine Datei bis 30 MB auswählen.");
+    return {
+      name: basename(path),
+      bytes: bytes(await readFile(path), 30_000_000),
+    };
+  });
   handle("project:open", () => open());
   handle("app:modal", (active) => {
     if (typeof active !== "boolean") throw Error("Ungültiger Dialogzustand.");
@@ -388,7 +425,7 @@ async function setup() {
   handle("project:save", (s) => {
     if (!s || typeof s.saveAs !== "boolean")
       throw Error("Ungültiger Speicherauftrag.");
-    return save(bytes(s.bytes), s.saveAs);
+    return save(bytes(s.bytes, COLLECTION_BYTES), s.saveAs);
   });
   handle("export:save", async (s) => {
     if (
@@ -399,7 +436,14 @@ async function setup() {
       !["scorm", "document", "png"].includes(s.kind)
     )
       throw Error("Ungültiger Export.");
-    const data = bytes(s.bytes, s.kind === "png" ? 30_000_000 : 20_000_000);
+    const data = bytes(
+      s.bytes,
+      s.kind === "scorm"
+        ? 70_000_000
+        : s.kind === "png"
+          ? 30_000_000
+          : 20_000_000,
+    );
     const extension =
       s.kind === "scorm" ? "zip" : s.kind === "png" ? "png" : "mysteryboard";
     if (s.kind === "document") {
@@ -412,14 +456,37 @@ async function setup() {
       const entries = unzipSync(data, {
         filter: (f) => {
           sum += f.originalSize;
-          if (sum > 20_000_000 || f.originalSize > 10_000_000)
+          if (
+            sum > 70_000_000 ||
+            f.originalSize >
+              (/^level-[a-f0-9-]{36}\.json$/.test(f.name)
+                ? MAX_DOCUMENT_BYTES
+                : 10_000_000)
+          )
             throw Error("SCORM-Inhalte sind zu groß.");
           return true;
         },
       });
+      const levels = Object.keys(entries).filter((name) =>
+        /^level-[a-f0-9-]{36}\.json$/.test(name),
+      );
+      if (levels.length > 12) throw Error("Zu viele Niveaus.");
+      for (const name of levels) {
+        const task = readDocument(entries[name]);
+        if (
+          task.kind !== "task" ||
+          !task.content.id.endsWith("." + name.slice(6, -5)) ||
+          !new TextDecoder()
+            .decode(entries["imsmanifest.xml"])
+            .includes('<file href="' + name + '"/>')
+        )
+          throw Error("Ungültige Niveauressource.");
+      }
       if (
-        Object.keys(entries).sort().join("|") !==
-        "app.html|imsmanifest.xml|launch.html|session.js"
+        Object.keys(entries)
+          .filter((n) => !levels.includes(n))
+          .sort()
+          .join("|") !== "app.html|imsmanifest.xml|launch.html|session.js"
       )
         throw Error("Ungültiges Schüler-SCORM.");
     }

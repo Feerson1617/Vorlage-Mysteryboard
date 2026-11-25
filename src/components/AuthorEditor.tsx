@@ -71,7 +71,7 @@ export function AuthorEditor({
     [boardHelp, setBoardHelp] = useState(false),
     [zoomCommand, setZoomCommand] = useState<{ factor: number }>();
   const [draft, setDraft] = useState(initial),
-    [dirty, setDirty] = useState(false);
+    [dirty, setDirty] = useState(!!integration?.unsaved);
   const [connectingCards, setConnectingCards] = useState(false);
   const [connectionFrom, setConnectionFrom] = useState<number | null>(null);
   const [edgeForm, setEdgeForm] = useState<{
@@ -209,8 +209,9 @@ export function AuthorEditor({
     () =>
       integration?.onSaved((saved) => {
         if (
+          integration?.matchesSaved?.(draftRef.current, saved.bytes) ||
           canonical(validateDocument(draftRef.current)) ===
-          new TextDecoder().decode(saved.bytes)
+            new TextDecoder().decode(saved.bytes)
         )
           setDirty(false);
       }),
@@ -521,7 +522,7 @@ export function AuthorEditor({
           ? document
           : draftFromContent(document.content, draft.author.initials);
       if (
-        dirty &&
+        (dirty || (!!integration && draft.content.cards.length > 0)) &&
         !confirm(
           integration
             ? "Geöffnetes Mystery ersetzen? Ungesicherte Änderungen gehen verloren. Sichere es bei Bedarf zuerst über „Exportieren → Bearbeitbares Mystery sichern“."
@@ -543,6 +544,22 @@ export function AuthorEditor({
       if (!controller.signal.aborted) setFileError((error as Error).message);
     } finally {
       if (!controller.signal.aborted) setFileBusy(false);
+    }
+  };
+  const chooseMaterial = async () => {
+    const choose = integration && window.mysteryStudio?.chooseMaterial;
+    if (!choose) {
+      fileInput.current?.click();
+      return;
+    }
+    try {
+      const selected = await choose();
+      if (selected)
+        await openMaterial([
+          new File([new Uint8Array(selected.bytes)], selected.name),
+        ]);
+    } catch (e) {
+      setFileError((e as Error).message);
     }
   };
   const materialInput = (
@@ -900,10 +917,7 @@ export function AuthorEditor({
             >
               Karte hinzufügen
             </button>
-            <button
-              disabled={blocked}
-              onClick={() => fileInput.current?.click()}
-            >
+            <button disabled={blocked} onClick={() => void chooseMaterial()}>
               Importieren
             </button>
             <button
@@ -917,6 +931,9 @@ export function AuthorEditor({
               Exportieren
             </button>
           </nav>
+          {integration.levelName && (
+            <small>Niveau · {integration.levelName}</small>
+          )}
           <span
             className="studio-project-status"
             role="status"
@@ -928,12 +945,13 @@ export function AuthorEditor({
               "Gespeichert"
             )}
           </span>
-          {materialInput}
+          {!fileDialog && materialInput}
         </header>
       )}
-      {integration && fileError && (documentImport || helpEditing) && (
-        <p role="alert">{fileError}</p>
-      )}
+      {integration &&
+        fileError &&
+        (documentImport || helpEditing || designOpen) &&
+        !fileDialog && <p role="alert">{fileError}</p>}
       {!integration && (
         <>
           <header className="author-toolbar">
@@ -1009,6 +1027,11 @@ export function AuthorEditor({
             setFileError("");
           }}
           onApply={(next, count) => {
+            if (integration && draft.content.recovery && !next.content.recovery)
+              next = reviseDraft(next, {
+                ...next.content,
+                recovery: draft.content.recovery,
+              });
             if (next.content.id !== draft.content.id) integration?.detach();
             setDraft(next);
             setDirty(true);
@@ -1024,17 +1047,54 @@ export function AuthorEditor({
         />
       ) : integration ? (
         designOpen ? (
-          <DesignEditor
-            content={content}
-            onChange={(next) => change(next)}
-            onStartLayout={(layout) =>
-              applyDraft((current) =>
-                setStudentStart(current, layout, preview?.cards ?? []),
-              )
-            }
-            onClose={() => setDesignOpen(false)}
-            onHelp={() => setHelpEditing(true)}
-          />
+          <>
+            <section className="studio-levels">
+              <button onClick={() => integration.levels?.(draft)}>
+                Niveaus verwalten
+              </button>
+              <label>
+                Zwischensicherung für dieses Niveau
+                <select
+                  value={content.recovery ?? "off"}
+                  onChange={(e) =>
+                    change({
+                      ...content,
+                      recovery: e.target.value as Content["recovery"],
+                    })
+                  }
+                >
+                  <option value="off">
+                    Keine automatische Zwischensicherung
+                  </option>
+                  <option value="session">
+                    Während der Browsersitzung (empfohlen)
+                  </option>
+                  <option value="extended">
+                    Erweiterte lokale Wiederherstellung
+                  </option>
+                </select>
+              </label>
+              {content.recovery === "extended" && (
+                <p>
+                  Andere Gruppen am Gerät können einen lokalen Stand auswählen.
+                  Nur mit schulischer Freigabe nutzen. Gültig für drei Stunden
+                  ab der letzten Speicherung. Abgelaufene Stände werden beim
+                  nächsten Zugriff entfernt.
+                </p>
+              )}
+            </section>
+            <DesignEditor
+              content={content}
+              onChange={(next) => change(next)}
+              onStartLayout={(layout) =>
+                applyDraft((current) =>
+                  setStudentStart(current, layout, preview?.cards ?? []),
+                )
+              }
+              onClose={() => setDesignOpen(false)}
+              onHelp={() => setHelpEditing(true)}
+            />
+          </>
         ) : (
           <section className="studio-pinboard" aria-label="Autorenpinnwand">
             {error && <p role="alert">{error}</p>}
@@ -1162,10 +1222,7 @@ export function AuthorEditor({
               Datei hier ablegen oder auswählen: .mysteryboard, Word (.docx),
               PDF oder Foto (PNG/JPEG/WebP).
             </p>
-            <button
-              disabled={fileBusy}
-              onClick={() => fileInput.current?.click()}
-            >
+            <button disabled={fileBusy} onClick={() => void chooseMaterial()}>
               Unterrichtsmaterial auswählen
             </button>
             {!fileDialog && materialInput}
@@ -1747,6 +1804,23 @@ export function AuthorEditor({
                 <span>Später weiterarbeiten</span>
                 <small>.mysteryboard · ⌘S</small>
               </button>
+              {integration.exportLevels && (
+                <button
+                  disabled={busy}
+                  onClick={async () => {
+                    setBusy(true);
+                    try {
+                      await integration.exportLevels!(draft);
+                    } catch (e) {
+                      setError((e as Error).message);
+                    } finally {
+                      setBusy(false);
+                    }
+                  }}
+                >
+                  Alle Niveaus für itslearning exportieren
+                </button>
+              )}
               <button
                 className="studio-export-secondary"
                 disabled={busy}
@@ -1884,7 +1958,7 @@ export function AuthorEditor({
           <button
             className="primary full"
             disabled={fileBusy}
-            onClick={() => fileInput.current?.click()}
+            onClick={() => void chooseMaterial()}
           >
             Mystery-Datei auswählen
           </button>

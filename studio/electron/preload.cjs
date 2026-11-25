@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require("electron");
 contextBridge.exposeInMainWorld(
   "mysteryStudio",
   Object.freeze({
+    chooseMaterial: () => ipcRenderer.invoke("material:choose"),
     previewTask: (bytes) => ipcRenderer.invoke("preview:open", bytes),
     openProject: () => ipcRenderer.invoke("project:open"),
     openRecent: (id) => ipcRenderer.invoke("project:recent", id),

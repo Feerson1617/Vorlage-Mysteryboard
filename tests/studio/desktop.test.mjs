@@ -404,12 +404,8 @@ test(
         "Scan-B-16.pdf",
         "Scan-A-20.pdf",
       ]) {
-        await page
-          .getByRole("button", { name: "Importieren", exact: true })
-          .click();
-        await page
-          .getByLabel("Mystery-Datei", { exact: true })
-          .setInputFiles(resolve("tests/fixtures/ocr", name));
+        await app.evaluate(({dialog}, path) => { dialog.showOpenDialog = async () => ({ canceled:false, filePaths:[path] }); }, resolve("tests/fixtures/ocr", name));
+        await page.getByRole("button", {name:"Importieren",exact:true}).click();
         await expect(
           page.getByRole("heading", {
             name: "Karten kontrollieren",
@@ -544,12 +540,8 @@ test(
       // Save must leave the previously saved project bytes completely unchanged.
       const oldProject = join(out, "Studio-60-gespeichert.mysteryboard"),
         oldBytes = await readFile(oldProject);
-      await page
-        .getByRole("button", { name: "Importieren", exact: true })
-        .click();
-      await page
-        .getByLabel("Mystery-Datei", { exact: true })
-        .setInputFiles(resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
+      await app.evaluate(({dialog}, path) => { dialog.showOpenDialog = async () => ({ canceled:false, filePaths:[path] }); }, resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
+      await page.getByRole("button", {name:"Importieren",exact:true}).click();
       await expect(
         page.getByRole("heading", {
           name: "Karten kontrollieren",

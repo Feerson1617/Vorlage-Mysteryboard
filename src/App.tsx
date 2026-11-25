@@ -1,5 +1,18 @@
+import type {
+  PendingText,
+  Snapshot,
+  Writer,
+  CameraView,
+} from "../studio/player/recovery";
 import { CardReading } from "./components/CardReading";
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import {
   COLOR_NAMES,
   COLORS,
@@ -58,6 +71,11 @@ const requireTeam = (work: Work, name: string): Work => {
 export default function App({
   mystery,
   loadedWork,
+  studentExport = false,
+  writer,
+  restored,
+  onSwitch,
+  onForget,
   backupPayload,
   onImport,
   onHome,
@@ -67,6 +85,11 @@ export default function App({
 }: {
   mystery: Mystery & { subtitle?: string; instructions?: string };
   loadedWork?: Work;
+  studentExport?: boolean;
+  writer?: Writer;
+  restored?: Snapshot;
+  onSwitch?: () => void;
+  onForget?: () => Promise<void>;
   backupPayload?: (work: Work) => Uint8Array;
   onImport?: () => void;
   onHome?: () => void;
@@ -105,10 +128,14 @@ export default function App({
   const [startTeam, setStartTeam] = useState(""),
     [teamDraft, setTeamDraft] = useState(""),
     [teamError, setTeamError] = useState("");
-  const [card, setCard] = useState<number | null>(null),
+  const [card, setCard] = useState<number | null>(
+      restored?.pending?.id ?? null,
+    ),
     [edge, setEdge] = useState<Edge | null>(null),
     [connecting, setConnecting] = useState<number | null>(null);
-  const [textDraft, setTextDraft] = useState<CardText | null>(null);
+  const [textDraft, setTextDraft] = useState<CardText | null>(
+    restored?.pending ?? null,
+  );
   const [draftWarning, setDraftWarning] = useState(false);
   const selected = displayed.cards.find((c) => c.id === card);
   const published = mystery.cards.find((c) => c.id === card);
@@ -126,6 +153,37 @@ export default function App({
     pendingExport = useRef<ExportMode | "print" | null>(null),
     operation = useRef(0),
     exportRunning = useRef<Promise<void> | null>(null);
+  const [storageStatus, setStorageStatus] = useState("");
+  const [recoveryNotice, setRecoveryNotice] = useState(!!restored);
+  const view = useRef<CameraView | undefined>(restored?.view);
+  useLayoutEffect(() => {
+    if (!writer || !work) return;
+    let active = true;
+    const pending: PendingText | undefined =
+      textDraft && card !== null
+        ? { id: card, title: textDraft.title, text: textDraft.text }
+        : undefined;
+    setStorageStatus("Wird gespeichert …");
+    writer.write(work, pending, view.current).then(
+      (status) => {
+        if (active) setStorageStatus(status);
+      },
+      () => {
+        if (active)
+          setStorageStatus(
+            "Automatische Speicherung nicht verfügbar. Bitte eine PNG exportieren.",
+          );
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [writer, work, card, textDraft]);
+  useEffect(() => {
+    if (!recoveryNotice) return;
+    const timer = setTimeout(() => setRecoveryNotice(false), 5000);
+    return () => clearTimeout(timer);
+  }, [recoveryNotice]);
   const commit = (next: Work) => dispatch({ type: "edit", work: next });
   const close = () => {
     operation.current++;
@@ -421,7 +479,7 @@ export default function App({
               </button>
               {!previewMode && (
                 <button className="primary" onClick={() => void save()}>
-                  Sichern
+                  {studentExport ? "Export" : "Sichern"}
                 </button>
               )}
               {(wideToolbar || previewMode) && (
@@ -478,6 +536,14 @@ export default function App({
             work={work}
             mystery={displayed}
             cardLayouts={cardLayouts}
+            initialView={restored?.view}
+            onView={
+              writer
+                ? (next) => {
+                    view.current = next;
+                  }
+                : undefined
+            }
             onChange={commit}
             gestureSession={__PLAYER_BUILD__ ? history.gestureSession : null}
             onMoveCard={
@@ -521,6 +587,14 @@ export default function App({
               Karte an.
               <button onClick={() => setConnecting(null)}>Abbrechen</button>
             </div>
+          )}
+          {writer && (
+            <small className="recovery-status" role="status">
+              {recoveryNotice
+                ? "Euer Arbeitsstand wurde wiederhergestellt. "
+                : ""}
+              {storageStatus}
+            </small>
           )}
           {message && !modal && !card && !edge && (
             <div className="notice" role="status">
@@ -699,6 +773,8 @@ export default function App({
                 />
               </div>
               <p className="small">
+                {restored?.pending?.id === card &&
+                  "Wiederhergestellter Entwurf. "}
                 Übernehmt die Eingaben und sichert euren Arbeitsstand
                 anschließend als Original-PNG.
               </p>
@@ -978,6 +1054,39 @@ export default function App({
                 Lehrkräftemodus – Mystery bearbeiten
               </button>
             )}
+            {onSwitch && (
+              <button
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Zum anderen Niveau wechseln? Exportiert bei Bedarf zuerst eure PNG.",
+                    )
+                  )
+                    onSwitch();
+                }}
+              >
+                Niveau wechseln
+              </button>
+            )}
+            {onForget && writer && (
+              <button
+                onClick={() => {
+                  if (
+                    confirm(
+                      "Diesen lokalen Arbeitsstand löschen und zur Startansicht gehen?",
+                    )
+                  )
+                    void onForget().catch(() => {
+                      close();
+                      setMessage(
+                        "Löschen fehlgeschlagen. Bitte erneut versuchen.",
+                      );
+                    });
+                }}
+              >
+                Lokalen Arbeitsstand löschen
+              </button>
+            )}
             <button onClick={() => setModal("help")}>Hinweise</button>
             <button
               onClick={() => {
@@ -1135,6 +1244,7 @@ export default function App({
                 Das Bild zeigt von langen Karten einen Textauszug. Beim Öffnen
                 der Original-PNG sind eure Texte wieder vollständig verfügbar.
               </p>
+              {studentExport && <p className="small">{saved.file.name}</p>}
               <a
                 className="button primary full"
                 href={saved.url}

@@ -1,3 +1,14 @@
+import { LevelsDialog } from "./LevelsDialog";
+import { collectionScorm } from "./collection-scorm";
+import {
+  collectionFrom,
+  readProject,
+  withLevel,
+  projectBytes,
+  newStudioDraft,
+  type Collection,
+} from "../../src/core/levels";
+import { publishDraft } from "../../src/core/authoring";
 import { useEffect, useRef, useState } from "react";
 import { AuthorEditor } from "../../src/components/AuthorEditor";
 import { Dialog } from "../../src/components/Dialog";
@@ -24,6 +35,9 @@ const filename = (s: string) =>
     .replace(/[^\p{L}\p{N}-]+/gu, "-")
     .slice(0, 80) || "Mystery";
 export function StudioApp() {
+  const [collection, setCollection] = useState<Collection | null>(null);
+  const [editing, setEditing] = useState<Collection | null>(null);
+  const [modified, setModified] = useState(false);
   const bridge = window.mysteryStudio;
   const [draft, setDraft] = useState<Draft | null>(null),
     [generation, setGeneration] = useState(0),
@@ -42,11 +56,18 @@ export function StudioApp() {
       setError("");
       const opened = await promise;
       if (!opened) return;
-      const doc = readDocument(new Uint8Array(opened.bytes));
+      const loaded = readProject(new Uint8Array(opened.bytes));
+      const c = loaded.format === "MysteryBoardCollection" ? loaded : null;
+      const doc =
+        loaded.format === "MysteryBoardCollection"
+          ? loaded.levels.find((l) => l.id === loaded.active)!.draft
+          : loaded;
       if (doc.kind === "student")
         throw Error(
           "Schülerarbeitsstände werden im Schülerplayer fortgesetzt.",
         );
+      setCollection(c);
+      setModified(false);
       setDraft(
         doc.kind === "draft" ? doc : draftFromContent(doc.content, "LK"),
       );
@@ -82,19 +103,49 @@ export function StudioApp() {
   }, [bridge, pdf, create, error]);
   const integration: EditorIntegration = {
     name,
-    modal: !!pdf || !!create || !!error,
+    unsaved: modified,
+    levelName: collection?.levels.find((l) => l.id === collection.active)?.name,
+    levels: (d) =>
+      setEditing(collection ? withLevel(collection, d) : collectionFrom(d)),
+    exportLevels: collection
+      ? async (d) => {
+          const c = withLevel(collection, d);
+          const hints = c.levels.flatMap((l) =>
+            publishDraft(l.draft).content.initial.edges.map(
+              (e) => l.name + " · " + e.from + " / " + e.to + " " + e.label,
+            ),
+          );
+          if (
+            hints.length &&
+            !confirm(
+              "Diese freigegebenen Starthilfen an Lernende weitergeben?\n" +
+                hints.join("\n"),
+            )
+          )
+            return;
+          await saveExport(collectionScorm(c, template, launch, session));
+        }
+      : undefined,
+    matchesSaved: (d, data) =>
+      !!collection &&
+      new TextDecoder().decode(projectBytes(collection, d)) ===
+        new TextDecoder().decode(data),
+    modal: !!editing || !!pdf || !!create || !!error,
     state: (d, dirty, forms) => {
       void bridge
-        ?.projectState({ bytes: encodeDocument(d), dirty, forms })
+        ?.projectState({ bytes: projectBytes(collection, d), dirty, forms })
         .catch((e) => setError(e.message));
     },
     save: async (d, saveAs) => {
       try {
         const result = await bridge!.saveProject(
-          encodeDocument(validateDocument(d)),
+          projectBytes(collection, d),
           saveAs,
         );
-        if (result) setName(result.name);
+        if (result) {
+          setModified(false);
+          setName(result.name);
+        }
         return !!result;
       } catch (e) {
         throw e;
@@ -102,6 +153,7 @@ export function StudioApp() {
     },
     open: () => void read(bridge!.openProject()),
     detach: () => {
+      if (collection) return;
       setName("");
       void bridge!.detachProject();
     },
@@ -193,6 +245,8 @@ export function StudioApp() {
             onHome={() => {
               void bridge.detachProject();
               setDraft(null);
+              setCollection(null);
+              setModified(false);
               setName("");
             }}
           />
@@ -210,7 +264,7 @@ export function StudioApp() {
               setError("Bitte eine Datei auswählen oder ablegen.");
               return;
             }
-            const d = newDraft("LK");
+            const d = newStudioDraft("LK");
             d.content.numbering = "by-group";
             d.contentHash = contentHash(d.content);
             setDraft(d);
@@ -252,6 +306,24 @@ export function StudioApp() {
           </section>
         </main>
       )}
+      {editing && (
+        <LevelsDialog
+          initial={editing}
+          onClose={() => setEditing(null)}
+          onApply={(c) => {
+            if (!collection && name) {
+              void bridge.detachProject();
+              setName("");
+            }
+            setCollection(c);
+            setModified(true);
+            setDraft(c.levels.find((l) => l.id === c.active)!.draft);
+            setGeneration((g) => g + 1);
+            setInitialImport(false);
+            setEditing(null);
+          }}
+        />
+      )}
       {error && (
         <Dialog title="Aktion nicht möglich" onClose={() => setError("")}>
           <p role="alert">{error}</p>
@@ -275,7 +347,7 @@ export function StudioApp() {
               try {
                 setDraft(
                   (() => {
-                    const d = newDraft(initials);
+                    const d = newStudioDraft(initials);
                     return {
                       ...d,
                       content: { ...d.content, numbering: "by-group" as const },

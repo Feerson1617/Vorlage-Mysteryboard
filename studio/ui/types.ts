@@ -2,6 +2,7 @@ import type { Draft, Task } from "../../src/core/documents";
 export type ProjectCommand = "open" | "save" | "save-as";
 export type SavedProject = { bytes: Uint8Array; name: string };
 export interface StudioBridge {
+  chooseMaterial?: () => Promise<{ name: string; bytes: Uint8Array } | null>;
   previewTask: (bytes: Uint8Array) => Promise<void>;
   openProject: () => Promise<{ bytes: Uint8Array; name: string } | null>;
   openRecent: (
@@ -31,6 +32,11 @@ export interface StudioBridge {
 export interface EditorIntegration {
   name: string;
   modal?: boolean;
+  unsaved?: boolean;
+  levelName?: string;
+  levels?: (draft: Draft) => void;
+  exportLevels?: (draft: Draft) => Promise<void>;
+  matchesSaved?: (d: Draft, saved: Uint8Array) => boolean;
   state: (draft: Draft, dirty: boolean, forms: boolean) => void;
   save: (draft: Draft, saveAs: boolean) => Promise<boolean>;
   open: () => void;

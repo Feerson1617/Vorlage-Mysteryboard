@@ -476,6 +476,7 @@
                 }
               }
             },
+            "recovery": { "enum": ["off", "session", "extended"] },
             "startEdgesAsHints": {
               "const": true
             }
