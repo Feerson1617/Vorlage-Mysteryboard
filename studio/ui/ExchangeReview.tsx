@@ -1,6 +1,13 @@
 import { useState } from "react";
 import { Dialog } from "../../src/components/Dialog";
 import { importLevels, type ImportedProject } from "../exchange/import";
+const storageLabels = {
+  off: "ausgeschaltet",
+  session: "während der Sitzung",
+  extended: "erweitert lokal",
+};
+const count = (n: number, one: string, many: string) =>
+  n + " " + (n === 1 ? one : many);
 export function ExchangeReview({
   project,
   replacing,
@@ -35,6 +42,12 @@ export function ExchangeReview({
       <p>
         Bitte überprüfe die fachlichen Aussagen und Quellen vor dem Unterricht.
       </p>
+      {project.format === "MysteryBoardCollection" && (
+        <p>
+          Voreinstellung für neue Niveaus:{" "}
+          {storageLabels[project.defaultRecovery ?? "session"]}.
+        </p>
+      )}
       <ul className="exchange-levels">
         {levels.map(({ name, draft }, i) => {
           const c = draft.content;
@@ -42,28 +55,51 @@ export function ExchangeReview({
             (n, k) => n + Number(!!k.image) + (k.extraImages?.length ?? 0),
             0,
           );
+          const tables = c.cards.filter((k) => k.table).length;
+          const materials = [
+            count(c.cards.length, "Karte", "Karten"),
+            media && count(media, "Bild", "Bilder"),
+            tables && count(tables, "Tabelle", "Tabellen"),
+          ].filter(Boolean);
+          const hints = c.initial.edges.length,
+            privateEdges = draft.author.edges?.length ?? 0;
+          const help = [
+            c.help?.method ? "Eigener Denkimpuls" : "Allgemeiner Denkimpuls",
+            c.help?.categories?.length
+              ? count(
+                  c.help.categories.length,
+                  "Hilfekategorie",
+                  "Hilfekategorien",
+                )
+              : "ohne Nummernhilfe",
+          ];
+          const connections = [
+            hints &&
+              count(hints, "öffentliche Starthilfe", "öffentliche Starthilfen"),
+            privateEdges &&
+              count(privateEdges, "private Verbindung", "private Verbindungen"),
+            draft.author.hiddenCards.length &&
+              count(
+                draft.author.hiddenCards.length,
+                "ausgeblendete Karte",
+                "ausgeblendete Karten",
+              ),
+          ].filter(Boolean);
           return (
             <li key={i}>
-              <strong>{name}</strong> · {c.cards.length} Karten · {media} Bilder
-              · {c.cards.filter((k) => !!k.table).length} Tabellen
+              <strong>{name}</strong> · {materials.join(" · ")}
               <br />
-              {c.help?.method
-                ? "Eigener Denkimpuls"
-                : "Allgemeiner Denkimpuls"}{" "}
-              · {c.help?.categories?.length ?? 0} Hilfekategorien ·{" "}
-              {c.cards.filter((k) => k.studentEditable).length} bearbeitbare
-              Karten
+              {help.join(" · ")} ·{" "}
+              {count(
+                c.cards.filter((k) => k.studentEditable).length,
+                "bearbeitbare Karte",
+                "bearbeitbare Karten",
+              )}
               <br />
-              {c.initial.edges.length} veröffentlichte Starthilfen ·{" "}
-              {draft.author.edges?.length ?? 0} private Verbindungen ·{" "}
-              {draft.author.hiddenCards.length} ausgeblendete Karten
-              <br />
-              Speicherung:{" "}
-              {c.recovery === "extended"
-                ? "Erweitert lokal"
-                : c.recovery === "off"
-                  ? "Ausgeschaltet"
-                  : "Während der Sitzung"}
+              {connections.length
+                ? connections.join(" · ")
+                : "Keine vorgegebenen Verbindungen"}{" "}
+              · Speicherung {storageLabels[c.recovery ?? "session"]}
             </li>
           );
         })}
@@ -75,8 +111,8 @@ export function ExchangeReview({
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
           />
-          Erweiterte lokale Speicherung für die angegebenen Niveaus zulassen
-          (bis zu drei Stunden auf diesem Gerät).
+          Erweiterte lokale Speicherung wie angegeben zulassen (bis zu drei
+          Stunden auf diesem Gerät).
         </label>
       )}
       {replacing && <p>Mit der Übernahme ersetzt du das geöffnete Projekt.</p>}

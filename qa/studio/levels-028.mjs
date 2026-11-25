@@ -627,17 +627,19 @@ try {
     await wk.close();
   }
 } catch (e) {
+  console.error(e);
   if (teacher && !teacher.isClosed()) {
-    await teacher.screenshot({ path: join(out, "Fehler.png") }).catch(() => {});
+    await teacher.screenshot({ path: join(out, "Fehler.png"), timeout:5000 }).catch(() => {});
     console.error(
       (
         await teacher
           .locator("body")
-          .innerText()
+          .innerText({timeout:3000})
           .catch(() => "")
       ).slice(-2300),
     );
   }
+  if(app){app.process().kill("SIGKILL");app=null;}
   throw e;
 } finally {
   await app?.close().catch(() => {});

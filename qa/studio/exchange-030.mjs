@@ -515,6 +515,14 @@ async function run() {
 }
 try {
   await run();
+} catch(error) {
+  console.error(error);
+  if(page && !page.isClosed()){
+   console.error((await page.locator("body").innerText({timeout:3000}).catch(()=>"")).slice(-1800));
+   await page.screenshot({path:file("KI-Fehler.png"),timeout:5000}).catch(()=>{});
+  }
+  if(app){app.process().kill("SIGKILL");app=null;}
+  throw error;
 } finally {
   if (app) await app.close();
   await browser.close();

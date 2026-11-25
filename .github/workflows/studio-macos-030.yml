@@ -114,6 +114,7 @@ jobs:
           echo "$RUNNER_TEMP/matrix-python/bin" >> "$GITHUB_PATH"
       - run: npx playwright install chromium webkit
       - name: Installed teacher application and recovery in both engines
+        timeout-minutes: 15
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -124,6 +125,7 @@ jobs:
           node qa/studio/memory-028.mjs artifacts/levels-028 "$(find "$reference" -name SCORM-30.zip -print -quit)"
           cp qa/studio/SCHUL-IPAD-028.md artifacts/levels-028/
       - name: Austauschdateien und PNG-Konflikte aus installierter App
+        timeout-minutes: 15
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
