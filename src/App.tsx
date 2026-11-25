@@ -72,6 +72,7 @@ export default function App({
   mystery,
   loadedWork,
   studentExport = false,
+  levelName,
   writer,
   restored,
   onSwitch,
@@ -86,6 +87,7 @@ export default function App({
   mystery: Mystery & { subtitle?: string; instructions?: string };
   loadedWork?: Work;
   studentExport?: boolean;
+  levelName?: string;
   writer?: Writer;
   restored?: Snapshot;
   onSwitch?: () => void;
@@ -131,7 +133,7 @@ export default function App({
     [teamDraft, setTeamDraft] = useState(""),
     [teamError, setTeamError] = useState("");
   const [card, setCard] = useState<number | null>(
-      restored?.pending?.id ?? null,
+      restored?.pending?.id ?? restored?.openCard ?? null,
     ),
     [edge, setEdge] = useState<Edge | null>(null),
     [connecting, setConnecting] = useState<number | null>(null);
@@ -158,27 +160,55 @@ export default function App({
   const [storageStatus, setStorageStatus] = useState("");
   const [recoveryNotice, setRecoveryNotice] = useState(!!restored);
   const view = useRef<CameraView | undefined>(restored?.view);
+  const saveViewTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+  const persist = useRef<(() => void) | undefined>(undefined);
+  const flushView = () => {
+    if (saveViewTimer.current === undefined) return;
+    clearTimeout(saveViewTimer.current);
+    saveViewTimer.current = undefined;
+    persist.current?.();
+  };
   useLayoutEffect(() => {
     if (!writer || !work) return;
-    let active = true;
-    const pending: PendingText | undefined =
+    let live = true;
+    const pending =
       textDraft && card !== null
         ? { id: card, title: textDraft.title, text: textDraft.text }
         : undefined;
-    setStorageStatus("Wird gespeichert …");
-    writer.write(work, pending, view.current).then(
-      (status) => {
-        if (active) setStorageStatus(status);
-      },
-      () => {
-        if (active)
-          setStorageStatus(
-            "Automatische Speicherung nicht verfügbar. Bitte eine PNG exportieren.",
-          );
-      },
-    );
+    const save = () => {
+      clearTimeout(saveViewTimer.current);
+      saveViewTimer.current = undefined;
+      setStorageStatus("Wird gespeichert …");
+      const promise = writer.write(
+        work,
+        pending,
+        view.current,
+        card ?? undefined,
+      );
+      const revision = writer.revision;
+      promise.then(
+        (status) => {
+          if (live && revision === writer.revision) setStorageStatus(status);
+        },
+        () => {
+          if (live && revision === writer.revision)
+            setStorageStatus(
+              "Automatische Speicherung nicht verfügbar. Bitte eine PNG exportieren.",
+            );
+        },
+      );
+    };
+    persist.current = save;
+    save();
+    window.addEventListener("pagehide", flushView);
     return () => {
-      active = false;
+      live = false;
+      clearTimeout(saveViewTimer.current);
+      saveViewTimer.current = undefined;
+      persist.current = undefined;
+      window.removeEventListener("pagehide", flushView);
     };
   }, [writer, work, card, textDraft]);
   useEffect(() => {
@@ -227,14 +257,28 @@ export default function App({
   }, [modal]);
   useEffect(() => {
     const f = (e: BeforeUnloadEvent) => {
-      if ((dirty || pendingText) && !previewMode) {
+      flushView();
+      const unfinished =
+        (modal === "team" && teamDraft !== teamName(work!)) ||
+        (edge &&
+          !work?.edges.some(
+            (e) =>
+              e.id === edge.id &&
+              e.label === edge.label &&
+              e.direction === edge.direction,
+          ));
+      if (
+        !previewMode &&
+        (unfinished ||
+          ((dirty || pendingText || (work && writer)) && !writer?.isSaved))
+      ) {
         e.preventDefault();
         e.returnValue = "";
       }
     };
     window.addEventListener("beforeunload", f);
     return () => window.removeEventListener("beforeunload", f);
-  }, [dirty, pendingText, previewMode]);
+  }, [dirty, pendingText, previewMode, writer, modal, teamDraft, edge, work]);
   useEffect(
     () => () => {
       if (saved) URL.revokeObjectURL(saved.url);
@@ -484,7 +528,7 @@ export default function App({
                   {studentExport ? "Export" : "Sichern"}
                 </button>
               )}
-              {(wideToolbar || previewMode) && (
+              {(studentExport || wideToolbar || previewMode) && (
                 <button
                   className="icon-button"
                   aria-label="Hilfe"
@@ -519,6 +563,9 @@ export default function App({
                 className="team-summary"
                 aria-label={`Team: ${teamName(work)}`}
               >
+                {levelName && (
+                  <span className="active-level">{levelName} · </span>
+                )}
                 {teamName(work)}
               </span>
             )}
@@ -543,6 +590,8 @@ export default function App({
               writer
                 ? (next) => {
                     view.current = next;
+                    clearTimeout(saveViewTimer.current);
+                    saveViewTimer.current = setTimeout(flushView, 120);
                   }
                 : undefined
             }
@@ -607,10 +656,13 @@ export default function App({
         </>
       ) : (
         <section className="welcome">
-          <div className="wordmark">
-            <span aria-hidden="true">▦</span> MysteryBoard
-          </div>
+          {!studentExport && (
+            <div className="wordmark">
+              <span aria-hidden="true">▦</span> MysteryBoard
+            </div>
+          )}
           <h1>{mystery.title}</h1>
+          {levelName && <p>{levelName}</p>}
           {mystery.subtitle && <p>{mystery.subtitle}</p>}
           {mystery.instructions && (
             <details className="student-instructions">
@@ -618,17 +670,21 @@ export default function App({
               <p>{mystery.instructions}</p>
             </details>
           )}
-          <p>
-            Verschiebt die Karten, verbindet eure Gedanken
-            <br className="wide-only" /> und haltet euren gemeinsamen Stand
-            fest.
-          </p>
-          <p className="number-guidance">
-            Die Kartennummern helfen euch beim Wiederfinden. Sie geben keine
-            richtige Reihenfolge vor.
-          </p>
+          {!studentExport && (
+            <>
+              <p>
+                Verschiebt die Karten, verbindet eure Gedanken
+                <br className="wide-only" /> und haltet euren gemeinsamen Stand
+                fest.
+              </p>
+              <p className="number-guidance">
+                Die Kartennummern helfen euch beim Wiederfinden. Sie geben keine
+                richtige Reihenfolge vor.
+              </p>
+            </>
+          )}
           <label className="team-input">
-            Teamname oder Vornamen
+            {studentExport ? "Gruppenname" : "Teamname oder Vornamen"}
             <input
               ref={startTeamInput}
               value={startTeam}
@@ -678,7 +734,7 @@ export default function App({
             <button
               onClick={() => (onImport ? onImport() : setModal("resume"))}
             >
-              Fortsetzen
+              {studentExport ? "Original-PNG öffnen" : "Fortsetzen"}
             </button>
             {!__PLAYER_BUILD__ && onHome && (
               <button onClick={onHome}>Zur universellen Startseite</button>
@@ -1034,7 +1090,7 @@ export default function App({
                 setModal("resume");
               }}
             >
-              Fortsetzen
+              {studentExport ? "Original-PNG öffnen" : "Fortsetzen"}
             </button>
             <button onClick={() => void save("compact")}>
               Kleineres Sicherungsbild
@@ -1060,6 +1116,7 @@ export default function App({
               <button
                 onClick={() => {
                   if (
+                    writer?.isSaved ||
                     confirm(
                       "Zum anderen Niveau wechseln? Exportiert bei Bedarf zuerst eure PNG.",
                     )
@@ -1094,7 +1151,9 @@ export default function App({
               onClick={() => {
                 if (
                   window.confirm(
-                    "Zur Startansicht gehen? Nicht gesicherte Änderungen gehen verloren.",
+                    studentExport
+                      ? "Neue Gruppenarbeit beginnen? Exportiert zuerst eine PNG, wenn ihr die bisherige Arbeit behalten möchtet."
+                      : "Zur Startansicht gehen? Nicht gesicherte Änderungen gehen verloren.",
                   )
                 ) {
                   if (onHome) {
@@ -1109,7 +1168,9 @@ export default function App({
                 }
               }}
             >
-              Zur Startansicht
+              {studentExport
+                ? "Neue Gruppenarbeit beginnen"
+                : "Zur Startansicht"}
             </button>
           </div>
         </Dialog>
@@ -1234,29 +1295,47 @@ export default function App({
         </Dialog>
       )}
       {!previewMode && modal === "save" && (
-        <Dialog title="Arbeitsstand sichern" onClose={close}>
-          <p role="status" aria-live="polite">
+        <Dialog
+          title={
+            studentExport ? "Original-PNG exportieren" : "Arbeitsstand sichern"
+          }
+          onClose={close}
+        >
+          <p hidden={studentExport && !!saved} role="status" aria-live="polite">
             {message}
           </p>
           {saved && (
             <>
-              <p>
-                Speichere die <strong>Originaldatei in „Dateien“</strong> und
-                lasse sie unverändert. Die Anwendung kann nicht prüfen, ob die
-                Datei dort tatsächlich abgelegt wurde. Ein Bildschirmfoto genügt
-                nicht.
-              </p>
-              <p className="small">
-                Das Bild zeigt von langen Karten einen Textauszug. Beim Öffnen
-                der Original-PNG sind eure Texte wieder vollständig verfügbar.
-              </p>
-              {studentExport && <p className="small">{saved.file.name}</p>}
+              {studentExport ? (
+                <p>
+                  Bewahrt die Original-PNG auf, um eure Arbeit später zu öffnen.
+                </p>
+              ) : (
+                <>
+                  <p>
+                    Speichere die <strong>Originaldatei in „Dateien“</strong>{" "}
+                    und lasse sie unverändert. Die Anwendung kann nicht prüfen,
+                    ob die Datei dort tatsächlich abgelegt wurde. Ein
+                    Bildschirmfoto genügt nicht.
+                  </p>
+                  <p className="small">
+                    Das Bild zeigt von langen Karten einen Textauszug. Beim
+                    Öffnen der Original-PNG sind eure Texte wieder vollständig
+                    verfügbar.
+                  </p>
+                </>
+              )}
+              {studentExport && (
+                <p className="export-filename">{saved.file.name}</p>
+              )}
               <a
                 className="button primary full"
                 href={saved.url}
                 download={saved.file.name}
               >
-                Sicherungsbild herunterladen
+                {studentExport
+                  ? "PNG herunterladen"
+                  : "Sicherungsbild herunterladen"}
               </a>
               {navigator.canShare?.({ files: [saved.file] }) && (
                 <button
@@ -1267,19 +1346,23 @@ export default function App({
                     } catch (e) {
                       if ((e as Error).name !== "AbortError")
                         setMessage(
-                          "Das Teilen ist hier nicht möglich. Nutze „Sicherungsbild herunterladen“.",
+                          "Das Teilen ist hier nicht möglich. Nutze den Download.",
                         );
                     }
                   }}
                 >
-                  Datei teilen oder ablegen
+                  {studentExport
+                    ? "In Dateien ablegen / Teilen"
+                    : "Datei teilen oder ablegen"}
                 </button>
               )}
-              <p className="small">
-                {saved.mode === "a3"
-                  ? "Großes Bild · 4961 × 3508 Bildpunkte"
-                  : "Kleineres Bild · 2480 × 1754 Bildpunkte"}
-              </p>
+              {!studentExport && (
+                <p className="small">
+                  {saved.mode === "a3"
+                    ? "Großes Bild · 4961 × 3508 Bildpunkte"
+                    : "Kleineres Bild · 2480 × 1754 Bildpunkte"}
+                </p>
+              )}
               <img
                 className="export-preview"
                 src={saved.url}
@@ -1287,7 +1370,27 @@ export default function App({
               />
             </>
           )}
-          {!busy && (!saved || saved.mode === "a3") && (
+          {studentExport && saved && (
+            <details className="export-details">
+              <summary>Weitere Exportoptionen</summary>
+              <p>
+                Das Bild zeigt von langen Karten einen Textauszug. Beim Öffnen
+                der Original-PNG sind eure Texte wieder vollständig verfügbar.
+              </p>
+              <p>
+                {saved.mode === "a3" ? "4961 × 3508" : "2480 × 1754"} Pixel ·{" "}
+                {saved.qr
+                  ? "mit Wiederherstellungscode"
+                  : "Wiederherstellung über die Originaldatei"}
+              </p>
+              {saved.mode === "a3" && (
+                <button onClick={() => void save("compact")}>
+                  Kleineres Bild erzeugen
+                </button>
+              )}
+            </details>
+          )}
+          {!busy && (!saved || (!studentExport && saved.mode === "a3")) && (
             <button className="full" onClick={() => void save("compact")}>
               Kleineres Bild erzeugen
             </button>

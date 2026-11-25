@@ -1074,3 +1074,13 @@ dialog:has(.student-help-preview) .dialog-body {
 .recovery-status {position:absolute;bottom:.4rem;right:.5rem;padding:.15rem .4rem;background:white;color:#304c3d;pointer-events:none;font-size:.78rem;max-width:75%}
 
 .level-fields { border: 0; padding: 0; margin: 0; min-inline-size: 0; }
+
+.level-start { width: min(100%, 38rem); margin: auto; padding: clamp(20px, 4vw, 48px); }
+.level-choices { width:100%; display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); }
+.level-choices button { flex-direction:column; padding:16px; min-height:64px; overflow-wrap:anywhere; }
+.level-choices small { font-weight:400; }
+.file-choice { position:relative; cursor:pointer; }
+.file-choice:focus-within { outline:3px solid #6e9880; outline-offset:3px; }
+.export-filename { overflow-wrap:anywhere; font-weight:600; }
+.export-details summary { padding:12px 0; cursor:pointer; }
+.active-level { font-weight:400; }

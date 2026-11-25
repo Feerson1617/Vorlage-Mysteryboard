@@ -69,7 +69,7 @@ const snapshot = (ui) =>
 try {
   const current = await learner();
   const { ui } = current;
-  await ui.getByLabel("Teamname oder Vornamen").fill("Team Wirkung");
+  await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Team Wirkung");
   await button(ui, "Beginnen").tap();
   await expect(ui.locator("[data-edge]")).toHaveCount(1);
   await expect(ui.locator("[data-edge]")).toHaveAttribute(
@@ -103,14 +103,14 @@ try {
   await button(ui, "Menü").tap();
   await button(ui, "Kleineres Sicherungsbild").tap();
   const pending = current.page.waitForEvent("download");
-  await ui.getByRole("link", { name: "Sicherungsbild herunterladen" }).tap();
+  await ui.getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ }).tap();
   const download = await pending;
   assert.match(download.suggestedFilename(), /^Team Wirkung_.*\.png$/);
   const png = join(out, "Schuelerarbeit-Original.png");
   await download.saveAs(png);
   await current.context.close();
   const fresh = await learner();
-  await button(fresh.ui, "Fortsetzen").tap();
+  await button(fresh.ui, /^(Fortsetzen|Original-PNG öffnen)$/).tap();
   await fresh.ui.getByLabel("Schüler-Sicherung").setInputFiles(png);
   await expect(fresh.ui.locator("[data-card]")).toHaveCount(5);
   assert.deepEqual(await snapshot(fresh.ui), expected);
@@ -147,7 +147,7 @@ try {
   const oldState = JSON.parse(await readFile(oldDecoded, "utf8"));
   const old = await learner();
   await old.page.goto(server.origin + "/qa-evidence/legacy-sco/launch.html");
-  await button(old.ui, "Fortsetzen").tap();
+  await button(old.ui, /^(Fortsetzen|Original-PNG öffnen)$/).tap();
   await old.ui.getByLabel("Schüler-Sicherung").setInputFiles(oldPng);
   await expect(old.ui.locator("[data-card]")).toHaveCount(
     oldState.work.cards.length,
@@ -191,7 +191,7 @@ try {
   await prior.page.goto(
     server.origin + "/qa-evidence/legacy-021-sco/launch.html",
   );
-  await button(prior.ui, "Fortsetzen").tap();
+  await button(prior.ui, /^(Fortsetzen|Original-PNG öffnen)$/).tap();
   await prior.ui.getByLabel("Schüler-Sicherung").setInputFiles(priorPNG);
   await expect(prior.ui.locator("[data-card]")).toHaveCount(5);
   await expect(prior.ui.locator("[data-edge-label]")).toContainText(

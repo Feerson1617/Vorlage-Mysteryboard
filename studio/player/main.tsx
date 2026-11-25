@@ -17,6 +17,7 @@ import {
   claim,
   candidates,
   lastLevel,
+  clearSelection,
   sessionSeed,
   validated,
   type Catalogue,
@@ -91,6 +92,7 @@ function Player() {
     work?: Work;
   }>();
   const [choices, setChoices] = useState<Snapshot[]>([]);
+  const [resumeLevels, setResumeLevels] = useState(false);
   const [starting, setStarting] = useState(true);
   const [notice, setNotice] = useState("");
   const request = useRef<AbortController | null>(null);
@@ -104,7 +106,6 @@ function Player() {
     request.current?.abort();
     const ctl = new AbortController();
     request.current = ctl;
-    setChoices([]);
     setStarting(true);
     setNotice("");
     setActive(undefined);
@@ -128,7 +129,16 @@ function Player() {
         (task.content.recovery ?? "off") !== level.mode
       )
         throw Error("Die Niveauprüfung ist fehlgeschlagen.");
-      if (seed) seed = validated(seed, task);
+      if (seed) {
+        try {
+          seed = validated(seed, task);
+        } catch {
+          seed = undefined;
+          setNotice(
+            "Der lokale Stand konnte nicht gelesen werden. Öffnet eure Original-PNG oder beginnt neu.",
+          );
+        }
+      }
       let writer;
       if (level.mode !== "off") {
         let sid = seed?.session ?? crypto.randomUUID();
@@ -191,13 +201,21 @@ function Player() {
       request.current?.abort();
     };
   }, [c]);
-  const back = () => {
+  const back = async (fresh: boolean) => {
     request.current?.abort();
+    clearSelection(c, fresh);
+    setResumeLevels(!fresh);
     setActive(undefined);
     setChoices([]);
-    setStarting(false);
+    setStarting(true);
     setNotice("");
-    if (c.levels.length === 1) void choose(c.levels[0]);
+    const ctl = new AbortController();
+    request.current = ctl;
+    const rows = await candidates(c).catch(() => []);
+    if (ctl.signal.aborted) return;
+    setChoices(rows);
+    if (c.levels.length === 1 && !rows.length) await choose(c.levels[0]);
+    else setStarting(false);
   };
   if (active)
     return (
@@ -215,12 +233,15 @@ function Player() {
             );
           void choose(level, undefined, work);
         }}
-        onSwitch={c.levels.length > 1 ? back : undefined}
-        onHome={back}
+        levelName={c.levels.length > 1 ? active.level.name : undefined}
+        notice={notice}
+        onSwitch={c.levels.length > 1 ? () => void back(false) : undefined}
+        onHome={() => void back(true)}
+        onDeleted={() => void back(false)}
       />
     );
   return (
-    <main className="welcome">
+    <main className="welcome level-start">
       <h1>{c.title}</h1>
       {notice && <p role="alert">{notice}</p>}
       {starting ? (
@@ -242,8 +263,9 @@ function Player() {
                     )
                   }
                 >
-                  {r.work.team} · {c.levels.find((l) => l.id === r.level)?.name}{" "}
-                  · {new Date(r.time).toLocaleString("de-DE")}
+                  {r.work.team || "Gruppe ohne Namen"} ·{" "}
+                  {c.levels.find((l) => l.id === r.level)?.name} ·{" "}
+                  {new Date(r.time).toLocaleString("de-DE")}
                 </button>
               ))}
             </section>
@@ -253,18 +275,26 @@ function Player() {
               ? "Wählt das euch zugewiesene Niveau."
               : "Neue Gruppenarbeit beginnen."}
           </p>
-          {c.levels.map((l) => (
-            <button
-              key={l.id}
-              onClick={() => void choose(l, sessionSeed(c.id, l))}
-            >
-              {l.name}
-              {l.description && <small> · {l.description}</small>}
-            </button>
-          ))}
-          <label>
+          <div className="level-choices">
+            {c.levels.map((l) => (
+              <button
+                key={l.id}
+                onClick={() =>
+                  void choose(
+                    l,
+                    resumeLevels ? sessionSeed(c.id, l) : undefined,
+                  )
+                }
+              >
+                {l.name}
+                {l.description && <small>{l.description}</small>}
+              </button>
+            ))}
+          </div>
+          <label className="button file-choice">
             Original-PNG öffnen
             <input
+              className="sr-only"
               type="file"
               accept=".png"
               onChange={async (e) => {
@@ -298,14 +328,19 @@ function Player() {
   );
 }
 function LevelPlayer({
+  levelName,
+  notice,
   task,
   seed,
   writer,
   initial,
   onSwitch,
   onHome,
+  onDeleted,
   onRestore,
 }: {
+  levelName?: string;
+  notice: string;
   onRestore: (w: Work, hash?: string) => void;
   task: Task;
   seed?: Snapshot;
@@ -313,6 +348,7 @@ function LevelPlayer({
   initial?: Work;
   onSwitch?: () => void;
   onHome: () => void;
+  onDeleted: () => void;
 }) {
   const [camera, setCamera] = useState(false);
   const [resume, setResume] = useState(false),
@@ -366,7 +402,9 @@ function LevelPlayer({
   };
   return (
     <>
+      {notice && <p role="alert">{notice}</p>}
       <App
+        levelName={levelName}
         writer={writer}
         restored={seed}
         onSwitch={onSwitch}
@@ -375,7 +413,7 @@ function LevelPlayer({
           writer
             ? async () => {
                 await writer.remove();
-                onHome();
+                onDeleted();
               }
             : undefined
         }
@@ -421,16 +459,20 @@ function LevelPlayer({
             Wählt eure unveränderte Original-PNG. Sie muss zu dieser Aufgabe und
             Inhaltsversion gehören.
           </p>
-          <input
-            type="file"
-            accept=".png,.mysteryboard,image/png"
-            aria-label="Schüler-Sicherung"
-            disabled={busy}
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) void read(file);
-            }}
-          />
+          <label className="button file-choice">
+            Original-PNG auswählen
+            <input
+              className="sr-only"
+              type="file"
+              accept=".png,.mysteryboard,image/png"
+              aria-label="Schüler-Sicherung"
+              disabled={busy}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void read(file);
+              }}
+            />
+          </label>
           <button onClick={() => setCamera(true)}>
             Code mit Kamera scannen
           </button>

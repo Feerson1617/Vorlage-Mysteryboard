@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import { Dialog } from "../../src/components/Dialog";
-import { draftFromContent } from "../../src/core/authoring";
+import { draftFromContent, reviseDraft } from "../../src/core/authoring";
 import {
   levelFrom,
+  setCollectionRecovery,
+  type RecoveryMode,
   MAX_LEVELS,
   newStudioDraft,
   readProject,
@@ -22,6 +24,7 @@ export function LevelsDialog({
   const [c, set] = useState(initial),
     [error, fail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [edit, setEdit] = useState(false);
   const file = useRef<HTMLInputElement>(null);
   const index = c.levels.findIndex((l) => l.id === c.active),
     level = c.levels[index];
@@ -32,6 +35,7 @@ export function LevelsDialog({
     });
   }
   function add(l: Level) {
+    setEdit(true);
     if (c.levels.length < MAX_LEVELS)
       set({ ...c, active: l.id, levels: [...c.levels, l] });
   }
@@ -42,7 +46,16 @@ export function LevelsDialog({
     set({ ...c, levels: items });
   }
   return (
-    <Dialog title="Niveaus verwalten" onClose={onClose}>
+    <Dialog
+      title="Niveaus verwalten"
+      onClose={() => {
+        if (
+          !loading &&
+          (c === initial || confirm("Änderungen an den Niveaus verwerfen?"))
+        )
+          onClose();
+      }}
+    >
       {loading && <p role="status">Niveau wird eingelesen …</p>}
       <fieldset
         disabled={loading}
@@ -57,84 +70,117 @@ export function LevelsDialog({
             onChange={(e) => set({ ...c, title: e.target.value })}
           />
         </label>
-        <label>
-          Niveau auswählen
-          <select
-            value={c.active}
-            onChange={(e) => set({ ...c, active: e.target.value })}
-          >
-            {c.levels.map((l) => (
-              <option key={l.id} value={l.id}>
-                {l.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Niveaubezeichnung
-          <input
-            maxLength={60}
-            value={level.name}
-            onChange={(e) => update({ name: e.target.value })}
-          />
-        </label>
-        <label>
-          Kurzbeschreibung
-          <input
-            maxLength={300}
-            value={level.description}
-            onChange={(e) => update({ description: e.target.value })}
-          />
-        </label>
-        <div className="actions">
-          <button disabled={index === 0} onClick={() => reorder(-1)}>
-            Nach oben
-          </button>
-          <button
-            disabled={index === c.levels.length - 1}
-            onClick={() => reorder(1)}
-          >
-            Nach unten
-          </button>
-          <button
-            disabled={c.levels.length === 1}
-            onClick={() => {
-              if (confirm("Dieses Niveau mit allen Karten löschen?")) {
-                const levels = c.levels.filter((l) => l !== level);
-                set({ ...c, levels, active: levels[0].id });
-              }
-            }}
-          >
-            Niveau löschen
-          </button>
+        <div
+          className="level-list"
+          role="group"
+          aria-label="Vorhandene Niveaus"
+        >
+          {c.levels.map((l) => (
+            <button
+              key={l.id}
+              aria-pressed={l.id === c.active}
+              onClick={() => {
+                set({ ...c, active: l.id });
+                setEdit(false);
+              }}
+            >
+              <strong>{l.name}</strong>
+              <span>
+                {l.draft.content.cards.length} Karten
+                {l.id === c.active ? " · ausgewählt" : ""}
+              </span>
+              {l.description && <small>{l.description}</small>}
+            </button>
+          ))}
         </div>
+        <button aria-expanded={edit} onClick={() => setEdit(!edit)}>
+          Niveauoptionen
+        </button>
+        {edit && (
+          <>
+            <label>
+              Niveaubezeichnung
+              <input
+                maxLength={60}
+                value={level.name}
+                onChange={(e) => update({ name: e.target.value })}
+              />
+            </label>
+            <label>
+              Kurzbeschreibung
+              <input
+                maxLength={300}
+                value={level.description}
+                onChange={(e) => update({ description: e.target.value })}
+              />
+            </label>
+            <div className="actions">
+              <button disabled={index === 0} onClick={() => reorder(-1)}>
+                Nach oben
+              </button>
+              <button
+                disabled={index === c.levels.length - 1}
+                onClick={() => reorder(1)}
+              >
+                Nach unten
+              </button>
+              <button
+                disabled={c.levels.length === 1}
+                onClick={() => {
+                  if (confirm("Dieses Niveau mit allen Karten löschen?")) {
+                    const levels = c.levels.filter((l) => l !== level);
+                    set({ ...c, levels, active: levels[0].id });
+                  }
+                }}
+              >
+                Niveau löschen
+              </button>
+            </div>
+          </>
+        )}
         <div className="actions">
           <button
             disabled={c.levels.length >= MAX_LEVELS}
-            onClick={() =>
-              add(
-                levelFrom(
-                  newStudioDraft(level.draft.author.initials),
-                  c.id,
-                  "Neues Niveau",
-                ),
-              )
-            }
+            onClick={() => {
+              const mode = c.defaultRecovery ?? "off",
+                base = newStudioDraft(level.draft.author.initials);
+              const next = levelFrom(
+                base,
+                c.id,
+                "Niveau " + (c.levels.length + 1),
+              );
+              next.draft = reviseDraft(next.draft, {
+                ...next.draft.content,
+                title: (c.title + " – " + next.name).slice(0, 100),
+                recovery: mode,
+                design: level.draft.content.design,
+              });
+              add({ ...next, usesDefault: true });
+            }}
           >
             Niveau hinzufügen
           </button>
           <button
             disabled={c.levels.length >= MAX_LEVELS}
-            onClick={() =>
+            onClick={() => {
+              const next = levelFrom(
+                level.draft,
+                c.id,
+                level.name.slice(0, 51) + " – Kopie",
+              );
+              next.draft = reviseDraft(next.draft, {
+                ...next.draft.content,
+                title:
+                  (level.draft.content.title || c.title).slice(0, 86) +
+                  " – Kopie " +
+                  (c.levels.length + 1),
+              });
               add({
-                ...levelFrom(
-                  level.draft,
-                  c.id,
-                  level.name.slice(0, 51) + " – Kopie",
-                ),
+                ...next,
                 description: level.description,
-              })
-            }
+                usesDefault: level.usesDefault,
+              });
+            }}
           >
             Niveau duplizieren
           </button>
@@ -187,6 +233,61 @@ export function LevelsDialog({
             }
           }}
         />
+        <details className="level-defaults">
+          <summary>Speicherung im Projekt</summary>
+          <label>
+            Voreinstellung für Niveaus
+            <select
+              value={c.defaultRecovery ?? ""}
+              onChange={(e) =>
+                set(
+                  setCollectionRecovery(
+                    c,
+                    e.target.value as RecoveryMode,
+                    false,
+                  ),
+                )
+              }
+            >
+              {c.defaultRecovery === undefined && (
+                <option value="" disabled>
+                  Bisherige Einzelwerte
+                </option>
+              )}
+              <option value="off">Ausgeschaltet</option>
+              <option value="session">Während der Browsersitzung</option>
+              <option value="extended">
+                Erweitert · drei Stunden auf diesem Gerät
+              </option>
+            </select>
+          </label>
+          <p>
+            Die Voreinstellung gilt für neue und verknüpfte Niveaus.
+            Individuelle Einstellungen bleiben erhalten.
+          </p>
+          {c.defaultRecovery === "extended" && (
+            <p>
+              Nur mit schulischer Freigabe. Weitere Gruppen am Gerät können
+              einen Stand auswählen.
+            </p>
+          )}
+          <button
+            disabled={
+              !c.defaultRecovery || c.levels.every((l) => l.usesDefault)
+            }
+            onClick={() => {
+              if (
+                c.defaultRecovery &&
+                confirm(
+                  "Die Speicheroption für alle Niveaus übernehmen und individuelle Einstellungen ersetzen?",
+                )
+              )
+                set(setCollectionRecovery(c, c.defaultRecovery, true));
+            }}
+          >
+            Auf alle Niveaus anwenden
+          </button>
+        </details>
         {new Set(c.levels.map((l) => l.draft.content.title)).size !==
           c.levels.length && (
           <p>

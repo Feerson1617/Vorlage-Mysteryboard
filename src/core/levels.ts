@@ -16,6 +16,7 @@ export interface Level {
   id: string;
   name: string;
   description: string;
+  usesDefault?: boolean;
   draft: Draft;
 }
 export interface Collection {
@@ -24,6 +25,7 @@ export interface Collection {
   id: string;
   title: string;
   active: string;
+  defaultRecovery?: RecoveryMode;
   levels: Level[];
 }
 const uuid =
@@ -58,7 +60,11 @@ export function collectionFrom(draft: Draft): Collection {
     id,
     title: draft.content.title || "Mein Mystery",
     active: first.id,
-    levels: [first],
+    defaultRecovery:
+      draft.content.recovery === "extended"
+        ? "session"
+        : (draft.content.recovery ?? "off"),
+    levels: [{ ...first, usesDefault: draft.content.recovery !== "extended" }],
   };
 }
 export function validateCollection(c: Collection): Collection {
@@ -67,6 +73,8 @@ export function validateCollection(c: Collection): Collection {
     c.format !== "MysteryBoardCollection" ||
     c.formatVersion !== 1 ||
     !uuid.test(c.id) ||
+    (c.defaultRecovery !== undefined &&
+      !["off", "session", "extended"].includes(c.defaultRecovery)) ||
     typeof c.title !== "string" ||
     !c.title.trim() ||
     c.title.length > 100 ||
@@ -83,6 +91,8 @@ export function validateCollection(c: Collection): Collection {
       !level ||
       !uuid.test(level.id) ||
       ids.has(level.id) ||
+      (level.usesDefault !== undefined &&
+        typeof level.usesDefault !== "boolean") ||
       typeof level.name !== "string" ||
       !level.name.trim() ||
       level.name.length > 60 ||
@@ -130,10 +140,41 @@ export function withLevel(c: Collection, draft: Draft): Collection {
   return {
     ...c,
     levels: c.levels.map((level) =>
-      level.id === c.active ? { ...level, draft } : level,
+      level.id === c.active
+        ? {
+            ...level,
+            draft,
+            ...(level.usesDefault &&
+            (draft.content.recovery ?? "off") !== c.defaultRecovery
+              ? { usesDefault: false }
+              : {}),
+          }
+        : level,
     ),
   };
 }
 export function projectBytes(c: Collection | null, draft: Draft) {
   return c ? encodeCollection(withLevel(c, draft)) : encodeDocument(draft);
+}
+
+export function setCollectionRecovery(
+  c: Collection,
+  mode: RecoveryMode,
+  all: boolean,
+): Collection {
+  return {
+    ...c,
+    defaultRecovery: mode,
+    levels: c.levels.map((l) => {
+      if (!all && !l.usesDefault) return l;
+      return {
+        ...l,
+        usesDefault: true,
+        draft:
+          (l.draft.content.recovery ?? "off") === mode
+            ? l.draft
+            : reviseDraft(l.draft, { ...l.draft.content, recovery: mode }),
+      };
+    }),
+  };
 }

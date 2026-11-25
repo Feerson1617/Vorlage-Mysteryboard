@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   collectionFrom,
+  setCollectionRecovery,
   levelFrom,
   withLevel,
   encodeCollection,
@@ -80,4 +81,42 @@ describe("Niveaus und historische Einzelprojekte", () => {
         ).toThrow();
       },
     );
+});
+
+describe("Projektweite Voreinstellung", () => {
+  it("erhält historische Speicherentscheidungen bis zur ausdrücklichen gemeinsamen Übernahme", () => {
+    const first = collectionFrom(newDraft("LK"));
+    expect(first.defaultRecovery).toBe("off");
+    const imported = levelFrom(newDraft("QA"), first.id, "Frei");
+    const c = { ...first, levels: [...first.levels, imported] };
+    const changed = setCollectionRecovery(c, "session", false);
+    expect(changed.levels[0].draft.content.recovery).toBe("session");
+    expect(changed.levels[1]).toBe(imported);
+    const all = setCollectionRecovery(changed, "extended", true);
+    expect(
+      all.levels.every(
+        (l) => l.usesDefault && l.draft.content.recovery === "extended",
+      ),
+    ).toBe(true);
+    expect(readProject(encodeCollection(all))).toEqual(all);
+    expect(c.levels[0].draft.content.recovery).toBeUndefined();
+    const draft = all.levels[0].draft;
+    const individual = withLevel(
+      all,
+      reviseDraft(draft, { ...draft.content, recovery: "off" }),
+    );
+    expect(
+      setCollectionRecovery(individual, "session", false).levels[0].draft
+        .content.recovery,
+    ).toBe("off");
+  });
+  it("übernimmt eine bestehende erweiterte Freigabe nur für das ursprünglich freigegebene Niveau", () => {
+    const d = newStudioDraft("LK");
+    const c = collectionFrom(
+      reviseDraft(d, { ...d.content, recovery: "extended" }),
+    );
+    expect(c.defaultRecovery).toBe("session");
+    expect(c.levels[0].draft.content.recovery).toBe("extended");
+    expect(c.levels[0].usesDefault).toBe(false);
+  });
 });

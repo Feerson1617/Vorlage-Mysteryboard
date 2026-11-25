@@ -71,7 +71,7 @@ async function start() {
       });
       return [app.isPackaged, app.getVersion(), process.arch];
     });
-    assert.deepEqual(info, [true, "0.2.8", "arm64"]);
+    assert.deepEqual(info, [true, (process.env.STUDIO_VERSION || "0.2.9"), "arm64"]);
     teacher = await app.firstWindow();
   } else {
     teacher = await b.newPage({ viewport: { width: 1280, height: 800 } });
@@ -225,6 +225,7 @@ async function teacherWorkflow() {
   await button(teacher, "Zur Pinnwand").click();
   await levels();
   await teacher.getByLabel("Projekttitel").fill("Wohin fließt der Regen?");
+  await button(teacher,"Niveauoptionen").click();
   await teacher.getByLabel("Niveaubezeichnung").fill(names[0]);
   await apply();
   await levels();
@@ -260,6 +261,8 @@ async function teacherWorkflow() {
       i === 1,
     );
   await openDesign();
+  await teacher.getByText("Gestaltung",{exact:true}).click();
+  await button(teacher,"Darstellung").click();
   await teacher.getByLabel("Gestaltungsvorlage").selectOption("contrast");
   await teacher.screenshot({ path: join(out, "Gestaltung-028.png") });
   await button(teacher, "Zur Pinnwand").click();
@@ -306,6 +309,7 @@ async function teacherWorkflow() {
   await apply();
   await expect(board()).toHaveCount(5);
   await openDesign();
+  await teacher.getByText("Speicheroptionen",{exact:true}).click();
   await teacher
     .getByLabel("Zwischensicherung für dieses Niveau")
     .selectOption("extended");
@@ -407,7 +411,7 @@ async function teacherWorkflow() {
   const chooserCalls = app ? undefined : calls;
   await saveJSON("Studio-028.json", {
     installed: native,
-    version: "0.2.8",
+    version: (process.env.STUDIO_VERSION || "0.2.9"),
     levels: names,
     chooserCalls,
     teacherWorkflow: true,
@@ -462,7 +466,7 @@ async function learner(engine, name, saved) {
     if (index === 0)
       await page.screenshot({ path: join(out, name + "-Niveauauswahl.png") });
     await button(ui, l.name).click();
-    await ui.getByLabel("Teamname oder Vornamen").fill("Gruppe 3");
+    await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Gruppe 3");
     await button(ui, "Beginnen").click();
     await expect(ui.locator("[data-card]")).toHaveCount(
       l.draft.content.cards.length,
@@ -506,7 +510,7 @@ async function learner(engine, name, saved) {
     const frame = page.frames().find((f) => f.url().endsWith("/app.html"));
     await frame.evaluate(() => location.reload()).catch(() => {});
     await expect(card(1)).toContainText("Unsere Begründung");
-    await card(1).press("Enter");
+    await expect(ui.getByRole("dialog")).toBeVisible();
     await button(ui, "Text bearbeiten").click();
     await ui
       .getByLabel("Kartentext", { exact: true })
@@ -529,7 +533,7 @@ async function learner(engine, name, saved) {
       });
     await button(ui, "Export").click();
     const download = ui.getByRole("link", {
-      name: "Sicherungsbild herunterladen",
+      name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/,
     });
     await expect(download).toBeVisible({ timeout: 60000 });
     const filename = "Gruppe 3_" + l.draft.content.title + ".png";
@@ -569,7 +573,7 @@ async function learner(engine, name, saved) {
     assert.deepEqual(await cardPosition(freshUI, 1), pos);
     await button(freshUI, "Export").click();
     const reexport = freshUI.getByRole("link", {
-      name: "Sicherungsbild herunterladen",
+      name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/,
     });
     await expect(reexport).toBeVisible({ timeout: 60000 });
     const w = fresh.waitForEvent("download");

@@ -24,7 +24,7 @@ const out = resolve(process.argv[2] || "artifacts/student-text-025");
 const native = Boolean(process.env.STUDIO_EXEC);
 const webkitOnly = process.env.MB_ENGINE === "webkit";
 const version = process.env.STUDIO_VERSION || "0.2.5";
-const printQuality = ["0.2.7","0.2.8"].includes(version);
+const printQuality = ["0.2.7","0.2.8","0.2.9"].includes(version);
 const compactCards = version === "0.2.6" || printQuality;
 const sizes = compactCards ? [12, 20, 30, 60, 100] : [12, 20, 60, 100];
 const permission =
@@ -283,10 +283,10 @@ async function learner(count, viewport, backup, resource = `launch-${count}`) {
   await page.goto(`${server.origin}/qa-evidence/${resource}/launch.html`);
   const ui = page.frameLocator("iframe");
   if (backup) {
-    await button(ui, "Fortsetzen").click();
+    await button(ui, /^(Fortsetzen|Original-PNG öffnen)$/).click();
     await ui.getByLabel("Schüler-Sicherung").setInputFiles(backup);
   } else {
-    await ui.getByLabel("Teamname oder Vornamen").fill("Team Text");
+    await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Team Text");
     await button(ui, "Beginnen").click();
   }
   await expect(ui.locator("[data-card]")).toHaveCount(count);
@@ -325,12 +325,13 @@ async function backupFile(page, ui, count) {
   await expect(ui.getByAltText("Vorschau des Sicherungsbildes")).toBeVisible({
     timeout: 45000,
   });
+  if (version === "0.2.9") await ui.getByText("Weitere Exportoptionen",{exact:true}).click();
   if (compactCards)
     await expect(
       dialog(ui).getByText(/Beim Öffnen der Original-PNG/),
     ).toBeVisible();
   const download = page.waitForEvent("download");
-  await ui.getByRole("link", { name: "Sicherungsbild herunterladen" }).click();
+  await ui.getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ }).click();
   const downloaded = await download;
   assert.match(downloaded.suggestedFilename(), /^Team[ _]Text_.+\.png$/);
   await downloaded.saveAs(path);
@@ -578,7 +579,7 @@ async function large(project, count) {
     },
   };
   // Both releases must accept exactly the same 30-card comparison material.
-  if(version==="0.2.8" && comparison)delete content.recovery;
+  if(["0.2.8","0.2.9"].includes(version) && comparison)delete content.recovery;
   const path = join(out, `Projekt-${count}.mysteryboard`);
   await writeFile(
     path,

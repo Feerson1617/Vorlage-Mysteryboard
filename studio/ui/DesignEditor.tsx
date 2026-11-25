@@ -1,22 +1,26 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import type { Content } from "../../src/core/documents";
 import { designOf, DEFAULT_DESIGN, type Design } from "../../src/core/design";
 export function DesignEditor({
   content,
+  levels,
+  storage,
   onChange,
   onStartLayout,
   onHelp,
   onClose,
 }: {
   content: Content;
+  levels: ReactNode;
+  storage: ReactNode;
   onChange: (c: Content) => void;
   onStartLayout: (layout: NonNullable<Content["startLayout"]>) => void;
   onHelp: () => void;
   onClose: () => void;
 }) {
   const [tab, setTab] = useState<
-    "display" | "edges" | "media" | "start" | "editing"
-  >("display");
+    "overview" | "display" | "edges" | "media" | "start" | "editing"
+  >("overview");
   const d = designOf(content);
   const editableCount = content.cards.filter(
     (card) => card.studentEditable,
@@ -69,22 +73,62 @@ export function DesignEditor({
         <h2>Mystery gestalten</h2>
         <button onClick={onClose}>Zur Pinnwand</button>
       </header>
-      <nav aria-label="Gestaltungsbereiche">
-        {(
-          [
-            ["display", "Darstellung"],
-            ["edges", "Verbindungen"],
-            ["media", "Karten und Medien"],
-            ["start", "Startanordnung"],
-            ["editing", "Bearbeitungsfreigabe"],
-          ] as const
-        ).map(([id, label]) => (
-          <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>
-            {label}
+      <nav className="settings-groups" aria-label="Unterrichtseinstellungen">
+        <section>
+          <h3>Unterricht</h3>
+          <button
+            aria-pressed={tab === "start"}
+            onClick={() => setTab("start")}
+          >
+            Startanordnung
           </button>
-        ))}
+          <button
+            aria-pressed={tab === "editing"}
+            onClick={() => setTab("editing")}
+          >
+            Bearbeitungsfreigabe
+          </button>
+        </section>
+        <section>
+          <h3>Hilfen und Differenzierung</h3>
+          <button onClick={onHelp}>Hilfen konfigurieren</button>
+          {levels}
+        </section>
+        <details
+          onToggle={(e) => {
+            if (
+              !e.currentTarget.open &&
+              ["display", "edges", "media"].includes(tab)
+            )
+              setTab("overview");
+          }}
+        >
+          <summary>Gestaltung</summary>
+          <button
+            aria-pressed={tab === "display"}
+            onClick={() => setTab("display")}
+          >
+            Darstellung
+          </button>
+          <button
+            aria-pressed={tab === "edges"}
+            onClick={() => setTab("edges")}
+          >
+            Verbindungen
+          </button>
+          <button
+            aria-pressed={tab === "media"}
+            onClick={() => setTab("media")}
+          >
+            Karten und Medien
+          </button>
+        </details>
+        <details>
+          <summary>Speicheroptionen</summary>
+          {storage}
+        </details>
       </nav>
-      {tab === "editing" ? (
+      {tab === "overview" ? null : tab === "editing" ? (
         <section>
           <h3>Überschriften und Texte</h3>
           <p>
@@ -226,7 +270,6 @@ export function DesignEditor({
             durch vermutete Datentabellen ersetzt.
           </p>
           <button onClick={onClose}>Karte auf der Pinnwand auswählen</button>
-          <button onClick={onHelp}>Hilfen konfigurieren</button>
         </>
       ) : (
         <>

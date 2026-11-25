@@ -64,10 +64,10 @@ export async function playerWorkflow(
   await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
   let ui = page.frames().find((f) => f.url().endsWith("/app.html"));
   await expect(
-    ui.getByLabel("Teamname oder Vornamen", { exact: true }),
+    ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/, { exact: true }),
   ).toBeVisible();
   await ui
-    .getByLabel("Teamname oder Vornamen", { exact: true })
+    .getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/, { exact: true })
     .fill("Team Studio");
   await ui.getByRole("button", { name: "Beginnen", exact: true }).tap();
   await expect(ui.locator("[data-card]")).toHaveCount(expected);
@@ -154,11 +154,11 @@ export async function playerWorkflow(
     .getByRole("button", { name: "Kleineres Sicherungsbild", exact: true })
     .tap();
   await expect(
-    ui.getByRole("link", { name: "Sicherungsbild herunterladen", exact: true }),
+    ui.getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/, exact: true }),
   ).toBeVisible({ timeout: 60000 });
   const pending = page.waitForEvent("download");
   await ui
-    .getByRole("link", { name: "Sicherungsbild herunterladen", exact: true })
+    .getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/, exact: true })
     .tap();
   const download = await pending,
     png = join(out, name + "-Original.png");
@@ -176,7 +176,7 @@ export async function playerWorkflow(
   page = await fresh.newPage();
   await page.goto(`${origin}/qa-evidence/${name}/launch.html`);
   ui = page.frames().find((f) => f.url().endsWith("/app.html"));
-  await ui.getByRole("button", { name: "Fortsetzen", exact: true }).tap();
+  await ui.getByRole("button", { name: /^(Fortsetzen|Original-PNG öffnen)$/, exact: true }).tap();
   await ui.getByLabel("Schüler-Sicherung", { exact: true }).setInputFiles(png);
   await expect(ui.locator("[data-card]")).toHaveCount(expected, {
     timeout: 30000,
@@ -204,7 +204,7 @@ export async function playerWorkflow(
   const legacyPage = await legacy.newPage();
   await legacyPage.goto(`${origin}/qa-evidence/${name}/launch.html`);
   const legacyUI = legacyPage.frames().find((f)=>f.url().endsWith("/app.html"));
-  await legacyUI.getByRole("button",{name:"Fortsetzen",exact:true}).tap();
+  await legacyUI.getByRole("button",{name:/^(Fortsetzen|Original-PNG öffnen)$/,exact:true}).tap();
   await legacyUI.getByLabel("Schüler-Sicherung",{exact:true}).setInputFiles(legacyPath);
   await expect(legacyUI.locator("[data-card]")).toHaveCount(expected,{timeout:30000});
   expect(await snap(legacyUI)).toEqual(edited);

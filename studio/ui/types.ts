@@ -34,6 +34,9 @@ export interface EditorIntegration {
   modal?: boolean;
   unsaved?: boolean;
   levelName?: string;
+  activeLevel?: string;
+  levelList?: { id: string; name: string }[];
+  switchLevel?: (d: Draft, id: string) => void;
   bindLevel?: (draft: Draft) => Draft;
   levels?: (draft: Draft) => void;
   exportLevels?: (draft: Draft) => Promise<void>;

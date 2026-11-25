@@ -931,9 +931,49 @@ export function AuthorEditor({
               Exportieren
             </button>
           </nav>
-          {integration.levelName && (
-            <small>Niveau · {integration.levelName}</small>
-          )}
+          {!!integration.levelList &&
+            integration.levelList.length > 1 &&
+            !designOpen &&
+            !helpEditing &&
+            !documentImport && (
+              <div
+                className={
+                  "level-switch" +
+                  (integration.levelList.length <= 4 ? " few-levels" : "")
+                }
+              >
+                <div
+                  className="level-tabs"
+                  role="group"
+                  aria-label="Niveau wechseln"
+                >
+                  {integration.levelList.map((l) => (
+                    <button
+                      key={l.id}
+                      disabled={blocked || publication}
+                      aria-pressed={l.id === integration.activeLevel}
+                      onClick={() => integration.switchLevel?.(draft, l.id)}
+                    >
+                      {l.name}
+                    </button>
+                  ))}
+                </div>
+                <select
+                  aria-label="Aktuelles Niveau"
+                  disabled={blocked || publication}
+                  value={integration.activeLevel}
+                  onChange={(e) =>
+                    integration.switchLevel?.(draft, e.target.value)
+                  }
+                >
+                  {integration.levelList.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           <span
             className="studio-project-status"
             role="status"
@@ -1048,42 +1088,46 @@ export function AuthorEditor({
       ) : integration ? (
         designOpen ? (
           <>
-            <section className="studio-levels">
-              <button onClick={() => integration.levels?.(draft)}>
-                Niveaus verwalten
-              </button>
-              <label>
-                Zwischensicherung für dieses Niveau
-                <select
-                  value={content.recovery ?? "off"}
-                  onChange={(e) =>
-                    change({
-                      ...content,
-                      recovery: e.target.value as Content["recovery"],
-                    })
-                  }
-                >
-                  <option value="off">
-                    Keine automatische Zwischensicherung
-                  </option>
-                  <option value="session">
-                    Während der Browsersitzung (empfohlen)
-                  </option>
-                  <option value="extended">
-                    Erweiterte lokale Wiederherstellung
-                  </option>
-                </select>
-              </label>
-              {content.recovery === "extended" && (
-                <p>
-                  Andere Gruppen am Gerät können einen lokalen Stand auswählen.
-                  Nur mit schulischer Freigabe nutzen. Gültig für drei Stunden
-                  ab der letzten Speicherung. Abgelaufene Stände werden beim
-                  nächsten Zugriff entfernt.
-                </p>
-              )}
-            </section>
             <DesignEditor
+              levels={
+                <button onClick={() => integration.levels?.(draft)}>
+                  Niveaus verwalten
+                </button>
+              }
+              storage={
+                <>
+                  <label>
+                    Zwischensicherung für dieses Niveau
+                    <select
+                      value={content.recovery ?? "off"}
+                      onChange={(e) =>
+                        change({
+                          ...content,
+                          recovery: e.target.value as Content["recovery"],
+                        })
+                      }
+                    >
+                      <option value="off">
+                        Keine automatische Zwischensicherung
+                      </option>
+                      <option value="session">
+                        Während der Browsersitzung (empfohlen)
+                      </option>
+                      <option value="extended">
+                        Erweiterte lokale Wiederherstellung
+                      </option>
+                    </select>
+                  </label>
+                  {content.recovery === "extended" && (
+                    <p>
+                      Andere Gruppen am Gerät können einen lokalen Stand
+                      auswählen. Nur mit schulischer Freigabe nutzen. Gültig für
+                      drei Stunden ab der letzten Speicherung. Abgelaufene
+                      Stände werden beim nächsten Zugriff entfernt.
+                    </p>
+                  )}
+                </>
+              }
               content={content}
               onChange={(next) => change(next)}
               onStartLayout={(layout) =>
@@ -1794,18 +1838,9 @@ export function AuthorEditor({
             )}
           {integration ? (
             <div className="studio-export-choices">
-              <button
-                className="studio-export-option"
-                aria-label="Bearbeitbares Mystery sichern"
-                disabled={busy}
-                onClick={() => void saveDesktop()}
-              >
-                <strong>Bearbeitbares Mystery sichern</strong>
-                <span>Später weiterarbeiten</span>
-                <small>.mysteryboard · ⌘S</small>
-              </button>
               {integration.exportLevels && (
                 <button
+                  className="primary full"
                   disabled={busy}
                   onClick={async () => {
                     setBusy(true);
@@ -1821,6 +1856,31 @@ export function AuthorEditor({
                   Alle Niveaus für itslearning exportieren
                 </button>
               )}
+              <button
+                className={
+                  integration.exportLevels
+                    ? "studio-export-option"
+                    : "studio-export-option primary"
+                }
+                aria-label="Für itslearning exportieren"
+                disabled={busy || !publishedTask || !exportConfirmed}
+                onClick={() => void exportScorm()}
+              >
+                <strong>Für itslearning exportieren</strong>
+                <span>Digitale Schüleraufgabe</span>
+                <small>SCORM 1.2 · ZIP</small>
+              </button>
+
+              <button
+                className="studio-export-option"
+                aria-label="Bearbeitbares Mystery sichern"
+                disabled={busy}
+                onClick={() => void saveDesktop()}
+              >
+                <strong>Bearbeitbares Mystery sichern</strong>
+                <span>Später weiterarbeiten</span>
+                <small>.mysteryboard · ⌘S</small>
+              </button>
               <button
                 className="studio-export-secondary"
                 disabled={busy}
@@ -1845,16 +1905,6 @@ export function AuthorEditor({
                 <strong>Als Druck-PDF speichern</strong>
                 <span>Karten zum Ausschneiden</span>
                 <small>PDF · A4 oder A3</small>
-              </button>
-              <button
-                className="studio-export-option"
-                aria-label="Für itslearning exportieren"
-                disabled={busy || !publishedTask || !exportConfirmed}
-                onClick={() => void exportScorm()}
-              >
-                <strong>Für itslearning exportieren</strong>
-                <span>Digitale Schüleraufgabe</span>
-                <small>SCORM 1.2 · ZIP</small>
               </button>
               <button
                 className="studio-export-secondary"

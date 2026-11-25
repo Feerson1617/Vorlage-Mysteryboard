@@ -540,3 +540,23 @@
 .studio-levels {display:flex;align-items:center;gap:1rem;flex-wrap:wrap;padding:.6rem 1rem;background:white}
 .studio-levels label {display:flex;align-items:center;gap:.5rem}
 .studio-levels p {margin:0;max-width:68ch}
+
+.level-switch { min-width:0; max-width:25%; }
+.level-switch select { max-width:100%; width:auto; min-height:34px; padding:3px 6px; }
+.level-tabs { display:none; }
+.studio-main-toolbar .studio-title { width:10rem; min-width:6rem; flex:1 1 8rem; }
+.studio-main-toolbar .studio-project-status { max-width:8rem; font-size:.76rem; }
+.level-list { display:grid; gap:4px; padding:6px 0; }
+.level-list button { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.4rem; text-align:left; overflow-wrap:anywhere; }
+.level-list small { grid-column:1/-1; }
+.level-list [aria-pressed=true],.level-tabs [aria-pressed=true] { background:#e3ede4; border-color:#52775b; }
+.level-fields summary,.settings-groups summary { cursor:pointer; font-weight:600; padding:.65rem 0; }
+.level-defaults { margin:.5rem 0; }
+.studio-design .settings-groups { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:.8rem 1.2rem; margin-bottom:1.25rem; align-items:start; }
+.settings-groups h3 { margin:0 0 .35rem; font-size:1rem; }
+.settings-groups button { margin:2px; }
+@media(min-width:1300px) {
+ .few-levels select { display:none; }
+ .few-levels .level-tabs { display:flex; gap:3px; }
+ .level-tabs button { min-width:0; max-width:8rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+}

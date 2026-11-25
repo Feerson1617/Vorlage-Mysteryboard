@@ -171,6 +171,8 @@ try {
   await expect(
     page.getByRole("region", { name: "Mystery gestalten", exact: true }),
   ).toBeVisible();
+  await page.getByText("Gestaltung", {exact:true}).click();
+  await button("Darstellung").click();
   await page.getByLabel("Schrift", { exact: true }).selectOption("serif");
   await page.getByLabel("Kartenfarbe", { exact: true }).evaluate((e, v) => {
     Object.getOwnPropertyDescriptor(

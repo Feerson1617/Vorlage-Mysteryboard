@@ -38,6 +38,7 @@ export interface Snapshot {
   time: number;
   work: Work;
   pending?: PendingText;
+  openCard?: number;
   view?: CameraView;
   checksum: string;
 }
@@ -61,6 +62,15 @@ export function lastLevel(c: Catalogue) {
     return undefined;
   }
 }
+export function clearSelection(c: Catalogue, fresh: boolean) {
+  try {
+    sessionStorage.removeItem(active(c.id));
+    if (fresh)
+      for (const l of c.levels) sessionStorage.removeItem(scope(c.id, l.id));
+  } catch {
+    /* A denied store has no accessible selection. */
+  }
+}
 function digest(row: Omit<Snapshot, "checksum">) {
   return Array.from(
     sha256(new TextEncoder().encode(JSON.stringify(row))),
@@ -70,6 +80,10 @@ function digest(row: Omit<Snapshot, "checksum">) {
 function intact(row: Snapshot | undefined, c: string, l: LevelInfo) {
   if (
     !row ||
+    typeof row.session !== "string" ||
+    !row.work ||
+    (row.work.team !== undefined && typeof row.work.team !== "string") ||
+    !Array.isArray(row.work.cards) ||
     row.collection !== c ||
     row.level !== l.id ||
     row.hash !== l.hash ||
@@ -113,7 +127,19 @@ export function validated(row: Snapshot, task: Task) {
       row.pending.title.length > 100)
   )
     throw Error("Der gespeicherte Textentwurf ist ungültig.");
-  return { ...row, work };
+  const v = row.view;
+  const view =
+    v &&
+    [v.x, v.y, v.z, v.width, v.height].every(Number.isFinite) &&
+    v.z > 0 &&
+    v.width > 0 &&
+    v.height > 0
+      ? v
+      : undefined;
+  const openCard = work.cards.some((card) => card.id === row.openCard)
+    ? row.openCard
+    : undefined;
+  return { ...row, work, view, openCard };
 }
 let database: Promise<IDBDatabase> | undefined;
 function db() {
@@ -190,6 +216,15 @@ export async function claim(session: string, signal: AbortSignal) {
 }
 export class Writer {
   revision: number;
+  confirmedRevision = 0;
+  private removing = false;
+  get isSaved() {
+    return (
+      !this.removing &&
+      this.revision > 0 &&
+      this.confirmedRevision === this.revision
+    );
+  }
   constructor(
     readonly collection: string,
     readonly level: LevelInfo,
@@ -198,7 +233,13 @@ export class Writer {
   ) {
     this.revision = revision;
   }
-  async write(work: Work, pending?: PendingText, view?: CameraView) {
+  async write(
+    work: Work,
+    pending?: PendingText,
+    view?: CameraView,
+    openCard?: number,
+  ) {
+    if (this.removing) return "";
     const { collection, level, session } = this;
     const body = {
       key: keyFor(collection, level.id, level.hash, session),
@@ -211,6 +252,7 @@ export class Writer {
       time: Date.now(),
       work,
       ...(pending ? { pending } : {}),
+      ...(openCard !== undefined ? { openCard } : {}),
       ...(view ? { view } : {}),
     };
     const row = { ...body, checksum: digest(body) };
@@ -226,12 +268,21 @@ export class Writer {
     if (level.mode === "extended") {
       try {
         await transaction((store) => {
+          if (this.removing) return;
           const existing = store.get(row.key);
           existing.onsuccess = () => {
-            if (!existing.result || existing.result.revision < row.revision)
+            if (
+              !this.removing &&
+              (!existing.result || existing.result.revision < row.revision)
+            )
               store.put(row);
           };
         });
+        if (short && !this.removing)
+          this.confirmedRevision = Math.max(
+            this.confirmedRevision,
+            row.revision,
+          );
         return short
           ? "Automatisch gespeichert"
           : "Lokal gespeichert. Nach Neuladen bitte Gruppe wählen.";
@@ -240,18 +291,39 @@ export class Writer {
           return "Nur während der Sitzung gespeichert. Zur Sicherheit über Export eine PNG ablegen.";
       }
     }
+    if (short && level.mode === "session")
+      this.confirmedRevision = row.revision;
     return short
       ? "Automatisch gespeichert"
       : "Automatische Speicherung nicht verfügbar. Bitte über Export eine PNG ablegen.";
   }
   async remove() {
-    if (this.level.mode === "extended")
-      await transaction((store) =>
-        store.delete(
-          keyFor(this.collection, this.level.id, this.level.hash, this.session),
-        ),
-      );
-    sessionStorage.removeItem(scope(this.collection, this.level.id));
-    sessionStorage.removeItem(active(this.collection));
+    this.removing = true;
+    try {
+      if (this.level.mode === "extended")
+        await transaction((store) =>
+          store.delete(
+            keyFor(
+              this.collection,
+              this.level.id,
+              this.level.hash,
+              this.session,
+            ),
+          ),
+        );
+      const key = scope(this.collection, this.level.id);
+      const row = JSON.parse(sessionStorage.getItem(key) || "null");
+      if (row?.session === this.session) {
+        sessionStorage.removeItem(key);
+        const selected = JSON.parse(
+          sessionStorage.getItem(active(this.collection)) || "null",
+        );
+        if (selected?.id === this.level.id)
+          sessionStorage.removeItem(active(this.collection));
+      }
+    } catch (error) {
+      this.removing = false;
+      throw error;
+    }
   }
 }

@@ -32,7 +32,9 @@ async function open(c) {
 }
 async function start(page, l) {
   await button(view(page), l.name).click();
-  await view(page).getByLabel("Teamname oder Vornamen").fill(label);
+  await view(page)
+    .getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/)
+    .fill(label);
   await button(view(page), "Beginnen").click();
   await expect(board(page).first()).toBeVisible();
 }
@@ -82,6 +84,8 @@ async function variant(page, recovery, version, other, count) {
   const id = other || catalogue.id;
   Object.assign(doc.content, { recovery, version, id: id + "." + l.id });
   if (count) {
+    doc.content.instructions =
+      "Vergleicht die Messpunkte und begründet die Verbindung.";
     doc.content.cards = Array.from({ length: count }, (_, i) => ({
       ...doc.content.cards[0],
       id: i + 1,
@@ -234,6 +238,13 @@ async function test(engine, name) {
     await variant(p, "off", "7.0.1");
     await p.reload();
     await start(p, mainLevel);
+    await releaseOnly(view(p), 1, { dx: 21, dy: 9 });
+    assert.equal(
+      await frame(p).evaluate(
+        () => !dispatchEvent(new Event("beforeunload", { cancelable: true })),
+      ),
+      true,
+    );
     assert.equal(await frame(p).evaluate(() => sessionStorage.length), 0);
     await expect(status(p)).toHaveCount(0);
     await p.reload();
@@ -265,12 +276,163 @@ async function test(engine, name) {
             ? "Lokal gespeichert"
             : "Nur während der Sitzung gespeichert";
       await expect(status(p)).toContainText(expected);
+      await releaseOnly(view(p), 1, { dx: 30, dy: 8 });
+      assert.equal(
+        await frame(p).evaluate(
+          () => !dispatchEvent(new Event("beforeunload", { cancelable: true })),
+        ),
+        true,
+      );
       await button(view(p), "Export").click();
       await expect(
-        view(p).getByRole("link", { name: "Sicherungsbild herunterladen" }),
+        view(p).getByRole("link", {
+          name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/,
+        }),
       ).toBeVisible({ timeout: 60000 });
     });
-  for (const count of [30, 60, 100])
+  await run(
+    "Neue Gruppenarbeit und Ladefehler mit erneutem Versuch",
+    async (c) => {
+      const p = await open(c),
+        ui = view(p);
+      await p.route(
+        "**/level-" + mainLevel.id + ".json",
+        (r) => r.fulfill({ status: 404 }),
+        { times: 1 },
+      );
+      await button(ui, mainLevel.name).click();
+      await expect(ui.getByRole("alert")).toContainText("Aufgabendatei fehlt");
+      await start(p, mainLevel);
+      await releaseOnly(ui, 1, { dx: 34, dy: 12 });
+      await button(ui, "Menü").click();
+      await button(ui, "Neue Gruppenarbeit beginnen").click();
+      await expect(button(ui, mainLevel.name)).toBeVisible();
+      await p.reload();
+      await button(ui, mainLevel.name).click();
+      await expect(ui.getByLabel("Gruppenname")).toHaveValue("");
+      await expect(board(p)).toHaveCount(0);
+    },
+  );
+  await run(
+    "Formal intakter Stand mit ungültigen Karten und Ansichtsbereich",
+    async (c) => {
+      const p = await open(c);
+      await start(p, mainLevel);
+      await expect(status(p)).toContainText("Automatisch gespeichert");
+      for (const defect of ["view", "cards"]) {
+        await frame(p).evaluate(async (defect) => {
+          const key = Object.keys(sessionStorage).find((k) =>
+            k.startsWith("mysteryboard.028.["),
+          );
+          const { checksum, ...row } = JSON.parse(sessionStorage.getItem(key));
+          if (defect === "view")
+            row.view = { x: 100000, y: 100000, z: 1, width: 768, height: 1024 };
+          else row.work.cards[0].id = 999999;
+          const bytes = await crypto.subtle.digest(
+            "SHA-256",
+            new TextEncoder().encode(JSON.stringify(row)),
+          );
+          sessionStorage.setItem(
+            key,
+            JSON.stringify({
+              ...row,
+              checksum: Array.from(new Uint8Array(bytes), (v) =>
+                v.toString(16).padStart(2, "0"),
+              ).join(""),
+            }),
+          );
+        }, defect);
+        await p.reload();
+        if (defect === "view") {
+          const visible = () =>
+            board(p).evaluateAll((cards) =>
+              cards.some((e) => {
+                const b = e.getBoundingClientRect();
+                return (
+                  b.right > 0 &&
+                  b.left < innerWidth &&
+                  b.bottom > 100 &&
+                  b.top < innerHeight
+                );
+              }),
+            );
+          await expect.poll(visible).toBe(true);
+          await p.setViewportSize({ width: 1024, height: 768 });
+          await expect.poll(visible).toBe(true);
+          await expect(status(p)).toContainText("Automatisch gespeichert");
+          await p.waitForTimeout(200);
+        } else {
+          await expect(view(p).getByRole("alert")).toContainText(
+            "konnte nicht gelesen werden",
+          );
+          await expect(view(p).getByLabel("Gruppenname")).toBeVisible();
+        }
+      }
+    },
+  );
+  await run(
+    "Ausstehender Datenbankabschluss und gleichzeitige Löschung",
+    async (c) => {
+      await c.addInitScript(() => {
+        const prop = Object.getOwnPropertyDescriptor(
+          IDBTransaction.prototype,
+          "oncomplete",
+        );
+        Object.defineProperty(IDBTransaction.prototype, "oncomplete", {
+          ...prop,
+          set(callback) {
+            prop.set.call(this, function (event) {
+              if (window.deferWrites && this.mode === "readwrite") {
+                window.delayedCompletions.push(() =>
+                  callback.call(this, event),
+                );
+              } else callback.call(this, event);
+            });
+          },
+        });
+        window.delayedCompletions = [];
+      });
+      const p = await open(c),
+        ui = view(p);
+      await start(p, extended);
+      await expect(status(p)).toContainText("Automatisch gespeichert");
+      const warns = () =>
+        frame(p).evaluate(
+          () => !dispatchEvent(new Event("beforeunload", { cancelable: true })),
+        );
+      assert.equal(await warns(), false);
+      await frame(p).evaluate(() => {
+        window.deferWrites = true;
+      });
+      await releaseOnly(ui, 1, { dx: 37, dy: 11 });
+      await expect
+        .poll(() => frame(p).evaluate(() => window.delayedCompletions.length))
+        .toBeGreaterThan(0);
+      assert.equal(await warns(), true);
+      await button(ui, "Menü").click();
+      await button(ui, "Lokalen Arbeitsstand löschen").click();
+      await releaseOnly(ui, 1, { dx: 24, dy: 7 });
+      await frame(p).evaluate(() => {
+        window.deferWrites = false;
+        for (const finish of window.delayedCompletions.splice(0)) finish();
+      });
+      await expect(button(ui, extended.name)).toBeVisible();
+      assert.deepEqual(await stored(p), []);
+      await p.reload();
+      await expect(
+        ui.getByRole("button", { name: /Doppelgruppe · AHR/ }),
+      ).toHaveCount(0);
+      assert.equal(
+        await frame(p).evaluate(() =>
+          Object.keys(sessionStorage).some((k) =>
+            k.startsWith("mysteryboard.028.["),
+          ),
+        ),
+        false,
+      );
+    },
+  );
+  for (const count of [5, 20, 30, 60, 100])
     await run(
       "Sitzungswiederherstellung mit " + count + " Karten",
       async (c) => {
@@ -280,10 +442,39 @@ async function test(engine, name) {
         await start(p, mainLevel);
         await expect(board(p)).toHaveCount(count);
         await releaseOnly(view(p), 1, { dx: 15, dy: 10 });
-        const pos = await cardPosition(view(p), 1);
+        const pos = await cardPosition(view(p), 1),
+          ui = view(p);
+        await button(ui, "Aufgabe").click();
+        await expect(ui.getByRole("dialog")).toContainText(
+          "Vergleicht die Messpunkte",
+        );
+        await button(ui, "Schließen").click();
+        await button(ui, "Hilfe").click();
+        await expect(ui.getByRole("dialog", { name: "Hilfe" })).toContainText(
+          "Denkimpuls",
+        );
+        await button(ui, "Hilfe schließen").click();
+        const card = (i) => ui.locator('[data-card="' + i + '"]');
+        await card(1).press("Enter");
+        await button(ui, "Mit einer Karte verbinden").click();
+        await card(2).press("Enter");
+        await ui.getByLabel(/Beschriftung/).fill("Beobachtung");
+        await button(ui, "Übernehmen").click();
+        await card(1).press("Enter");
+        await button(ui, "Text bearbeiten").click();
+        await ui
+          .getByLabel("Kartentext", { exact: true })
+          .fill("Begründung " + count);
+        await button(ui, "Änderungen übernehmen").click();
+        await button(ui, "Schließen").click();
         await p.reload();
         await expect(board(p)).toHaveCount(count);
         assert.deepEqual(await cardPosition(view(p), 1), pos);
+        await expect(card(1)).toContainText("Begründung " + count);
+        await button(ui, "Export").click();
+        await expect(
+          ui.getByRole("link", { name: "PNG herunterladen" }),
+        ).toHaveAttribute("download", /\.png$/, { timeout: 60000 });
       },
     );
   await writeFile(

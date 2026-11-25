@@ -167,7 +167,7 @@ try {
     player.getByRole("heading", { name: "Studio Küsten-Mystery", exact: true }),
   ).toBeVisible();
   await player
-    .getByLabel("Teamname oder Vornamen", { exact: true })
+    .getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/, { exact: true })
     .fill("Team Studio");
   await player.getByRole("button", { name: "Beginnen", exact: true }).click();
   await expect(player.locator(".board")).toBeVisible();

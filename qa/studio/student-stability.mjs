@@ -124,7 +124,7 @@ async function learner(count, viewport) {
   return flow;
 }
 async function begin(ui, count) {
-  await ui.getByLabel("Teamname oder Vornamen").fill("Prüfteam");
+  await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Prüfteam");
   await button(ui, "Beginnen").tap();
   await expect(studentBoard(ui).locator("[data-card]")).toHaveCount(count);
   await frames(ui);
@@ -410,7 +410,7 @@ try {
       await button(ui, "Kleineres Sicherungsbild").tap();
       const downloadPromise = page.waitForEvent("download");
       await ui
-        .getByRole("link", { name: "Sicherungsbild herunterladen" })
+        .getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ })
         .tap();
       const download = await downloadPromise,
         png = join(out, "Schuelerbewegung-" + engine.name() + ".png");
@@ -418,7 +418,7 @@ try {
       await download.saveAs(original);
       await flow.context.close();
       const fresh = await learner(5, { width, height });
-      await button(fresh.ui, "Fortsetzen").tap();
+      await button(fresh.ui, /^(Fortsetzen|Original-PNG öffnen)$/).tap();
       await fresh.ui.getByLabel("Schüler-Sicherung").setInputFiles(original);
       await expect(studentBoard(fresh.ui).locator("[data-card]")).toHaveCount(
         5,

@@ -11,8 +11,8 @@ from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 evidence, out = (Path(arg) for arg in sys.argv[1:3])
 out.mkdir(parents=True, exist_ok=True)
 version = sys.argv[3] if len(sys.argv) > 3 else "0.2.5"
-print_quality = version in ("0.2.7", "0.2.8")
-compact_cards = version in ("0.2.6", "0.2.7", "0.2.8")
+print_quality = version in ("0.2.7", "0.2.8", "0.2.9")
+compact_cards = version in ("0.2.6", "0.2.7", "0.2.8", "0.2.9")
 prefix = f"MysteryBoard-Studio-{version}"
 commit = os.environ["GITHUB_SHA"]
 
@@ -188,7 +188,7 @@ for name in (
     members[name] = find(name)
 for screenshot in evidence.rglob(f"{version}-Fenster-*.png"):
     members[screenshot.name] = screenshot
-if version == "0.2.8":
+if version in ("0.2.8", "0.2.9"):
     proof = evidence / "levels-028"
     for engine in ("Chromium", "WebKit"):
         results=json.loads((proof / (engine+"-028.json")).read_text())
@@ -201,10 +201,10 @@ if version == "0.2.8":
     assert json.loads((proof / "Chromium-Prozessabbruch.json").read_text())["restored"]
     memory = json.loads((proof / "Speichermessung-028.json").read_text())
     assert memory["cases"][0]["taskDecodes"] > memory["cases"][1]["taskDecodes"] == 1
-    report = out / "Pruefbericht-0.2.8.md"
+    report = out / f"Pruefbericht-{version}.md"
     before, after = memory["cases"]
     lines = [
-        "# MysteryBoard Studio 0.2.8 · Technische Abnahme", "",
+        f"# MysteryBoard Studio {version} · Technische Abnahme", "",
         f"Code `{commit}` · Actions-Lauf {os.environ['GITHUB_RUN_ID']} · Apple Silicon.", "",
         "## Autorenablauf und Dateiauswahl", "",
         "In der gebauten Oberfläche von 0.2.7 ließ sich der Fehler nach dem Abbruch des anfänglichen Importdialogs reproduzieren. Zwei Dateifelder teilten eine React-Referenz. Beim Entfernen eines Feldes verlor die Schaltfläche ihr Ziel. Studio verwendet nun einen auf Unterrichtsmaterial begrenzten nativen Dateidialog. Das Testprotokoll erfasst den Klick, die sichtbare macOS-Dateiauswahl, Abbruch, erneute Auswahl und Import einer DOCX. Ein beschädigtes PNG löste einen sichtbaren Fehler aus. In einem bereits belegten Niveau wurden 60 Karten per Drag-and-drop um zwei erweitert. Die drei anderen Entwürfe blieben beim Dateivergleich identisch.", "",
@@ -220,14 +220,45 @@ if version == "0.2.8":
         "", "Jede Zeile umfasst den Schülerablauf in allen vier Niveaus. Der Vergleich erfolgte nach Reload der äußeren Seite und des inneren Frames, neben der letzten Kartenbewegung auch mit einem übernommenen Text, einem offenen Entwurf und Undo/Redo. Die ursprüngliche Gruppe und das Niveau erschienen ohne erneute Eingabe. Nach explizitem PNG-Export wurde jede Datei in einer neuen Sitzung geöffnet, erneut exportiert und ihr vollständiges Dokument unabhängig per Python dekodiert und verglichen. Die herunterladbaren vier Beispiel-PNGs stammen aus Chromium.", "",
         "Bei frischem Kontext zeigt die erweiterte Speicherung nur Gruppe, Niveau und Uhrzeit bis zur bewussten Auswahl. Zwei parallele gleichnamige Gruppen, Versions- und Aufgabenwechsel, abgelaufene und beschädigte Daten sowie gesperrte Speicherstufen sind in den Speichergrenzen-Protokollen erfasst. Weitere Reload-Prüfungen umfassten 30, 60 und 100 Karten. Chromium konnte nach einem erzwungenen Renderer-Abbruch und Neustart desselben Browserprofils den letzten bestätigten Positionsstand wieder öffnen. Der Sitzungsspeicher endet unter Umständen mit dem ursprünglichen Tab. Die freiwillig aktivierte lokale Datenbank ist auf drei Stunden seit der letzten Speicherung begrenzt, die Löschung erfolgt beim nächsten Zugriff. Ein Geräte-, Origin- oder Partitionswechsel kann eine PNG erfordern. SCORM nutzt nur LMSInitialize/LMSFinish.", "",
         "## Speicher und Ressourcen", "",
-        f"Dieselbe Aufgabe mit {memory['taskBytes']} Bytes wurde bei fünf Öffnungs-/Schließzyklen des Fortsetzen-Dialogs in 0.2.7 {before['taskDecodes']} Mal und in 0.2.8 {after['taskDecodes']} Mal vollständig dekodiert. Chromium meldete nach expliziter Garbage Collection am Ende {before['heapAfter']} bzw. {after['heapAfter']} Bytes belegten JavaScript-Heap. Eine Messreihe belegt den vermiedenen Dekodieraufwand, die Heap-Werte variieren zwischen Läufen. Der Player lädt nur das gewählte Niveau. Er schreibt Arbeitsdaten ohne Kopien der Medien. Canvas-Flächen werden nach PNG-Export freigegeben, Objekt-URLs beim Schließen oder Ersetzen widerrufen. Die bestehende begrenzte Undo-Historie bleibt im Arbeitsspeicher.", "",
+        f"Dieselbe Aufgabe mit {memory['taskBytes']} Bytes wurde bei fünf Öffnungs-/Schließzyklen des Fortsetzen-Dialogs in 0.2.7 {before['taskDecodes']} Mal und in {version} {after['taskDecodes']} Mal vollständig dekodiert. Chromium meldete nach expliziter Garbage Collection am Ende {before['heapAfter']} bzw. {after['heapAfter']} Bytes belegten JavaScript-Heap. Eine Messreihe belegt den vermiedenen Dekodieraufwand, die Heap-Werte variieren zwischen Läufen. Der Player lädt nur das gewählte Niveau. Er schreibt Arbeitsdaten ohne Kopien der Medien. Canvas-Flächen werden nach PNG-Export freigegeben, Objekt-URLs beim Schließen oder Ersetzen widerrufen. Die bestehende begrenzte Undo-Historie bleibt im Arbeitsspeicher.", "",
         "GPU-Speicher, Bilddecoder und Prozessspeicher auf Schul-iPads wurden nicht gemessen. Die Ursache der beobachteten itslearning-Neuladungen bleibt offen.", "",
         "## Reproduktion und Regression", "",
-        f"{unit_count} Datentests, {browser_count} Chromium-Browsertests, vier RC2-Prüfungen und die native Importmatrix mit 17 Fällen. Die vollständigen Befehle einschließlich Referenz-Downloads, Build, Installation und Prüfung stehen in `.github/workflows/studio-macos-028.yml`. Die neuen Prüfungen verwenden die entpackte, aus der installierten App exportierte SCORM-Datei.", "",
+        f"{unit_count} Datentests, {browser_count} Chromium-Browsertests, vier RC2-Prüfungen und die native Importmatrix mit 17 Fällen. Die vollständigen Befehle einschließlich Referenz-Downloads, Build, Installation und Prüfung stehen in `.github/workflows/studio-macos-{version.replace('.', '')}.yml`. Die neuen Prüfungen verwenden die entpackte, aus der installierten App exportierte SCORM-Datei.", "",
         "```sh", "npm ci", "npm test", "npm run build", "npm run test:rc2", "npm run test:e2e", "npm run studio:make -- --platform=darwin --arch=arm64", "# Nach separater Installation STUDIO_EXEC auf das installierte Programm setzen", "node qa/studio/levels-028.mjs artifacts/levels-028", "node qa/studio/recovery-limits-028.mjs artifacts/levels-028", "node qa/studio/memory-028.mjs artifacts/levels-028 /pfad/zur/0.2.7/SCORM-30.zip", "npm run studio:test", "```", "",
         "## Einsatzgrenzen", "",
         "Maximal zwölf Niveaus, 20 MB je bearbeitbarem Einzelprojekt, 60 MB je Sammlung und unter 10 MB für die Player-HTML. Der native Mac-Lauf prüft die tatsächlich erreichten Fenstergrößen. Die private Originalprüfung P01 der M2-Grafik, die Apple-Notarisierung und die praktische Prüfung auf einem verwalteten iPad in itslearning sind offen. Die separate Praxistest-Anleitung begleitet das Beispiel.",
     ])
+    if version == "0.2.9":
+        ux = evidence / "ux-029"
+        old = read("Autoren-before.json")
+        new = read("Autoren-after.json")
+        assert all(row["environment"] == "installierte Apple-Silicon-App" for row in (old,new))
+        assert new["scenarios"]["B"]["levelSwitchActions"] == 1
+        assert new["scenarios"]["A"]["settings"] == 0
+        assert new["scenarios"]["B"]["count"] < old["scenarios"]["B"]["count"]
+        lines.extend(["", "## Gemessene Lehrkräfteabläufe in den installierten Apps", "",
+            "Gleiche DOCX und dieselbe ältere Beispielsammlung. Jede Eingabe, Auswahl und Bestätigung steht einzeln im JSON. Die Dialogzahl umfasst Dateiauswahl und Speicherdialog des Betriebssystems. Die Navigationstiefe zählt die Ebenen unterhalb der Pinnwand. Automatisierte Bedienung liefert keine Beobachtung einer unerfahrenen Person.", "",
+            "| Ablauf | Bedienhandlungen vorher → nachher | Dialoge | Einstellungen | Maximale Tiefe |",
+            "|---|---:|---:|---:|---:|"])
+        for key, label in [("A","Neues Mystery und Import"),("B","Differenzierung und gemeinsame Voreinstellung"),("C","Hilfen, Bearbeitung, Starthilfe und Gestaltung")]:
+            a,b=old["scenarios"][key],new["scenarios"][key]
+            lines.append("| "+label+" | "+" | ".join(f"{a[k]} → {b[k]}" for k in ("count","dialogs","settings","maximumDepth"))+" |")
+        lines.extend(["", "Der direkte Niveauwechsel benötigt vier → eine Bedienhandlung. Ein einfaches Mystery benötigt keine manuelle Speicher- oder Gestaltungseinstellung. Die individuelle Gestaltung erfordert das Öffnen der optionalen Gestaltungsgruppe.", "",
+            "| Ziel-Inhaltsgröße | Erreichte Größe nachher | Pinnwand vorher (Pixel) | Pinnwand nachher (Pixel) |",
+            "|---|---|---|---|"])
+        previous=[v for v in old["screens"] if v["scene"]=="Pinnwand"]
+        for a,b in zip(previous,[v for v in new["screens"] if v["scene"]=="Pinnwand"],strict=True):
+            dim=lambda v: " × ".join(map(str,v))
+            size=lambda v: dim([round(v["board"]["width"]),round(v["board"]["height"])])
+            lines.append(f"| {dim(b['requested'])} | {dim(b['actual'])} {'(exakt)' if b['exact'] else '(Ziel nativ offen)'} | {size(a)} | {size(b)} |")
+        for phase,expected in [("before",True),("after",False)]:
+            rows=read(f"Messwerte-{phase}.json")
+            assert len(rows)==6 and all(r["warnedAfterSave"]==expected and ((r["zoom"]!=r["restored"])==expected) for r in rows)
+        lines.extend(["", "Chromium und WebKit prüften den gespeicherten Stand, eine reine Zoomänderung und einen offenen Textentwurf bei 768 × 1024, 1024 × 768 und 768 × 620. 0.2.8 warnte in allen sechs Fällen und stellte die vorherige Zoomstufe her. 0.2.9 stellte jeweils den letzten Zoom samt unveränderten Kartenpositionen wieder her. Die Warnung richtet sich nach der letzten bestätigten Revision. Bei temporärer Speicherung kann ein geschlossenes Browserfenster oder eine beendete Sitzung weiterhin eine Original-PNG erforderlich machen.", "",
+            "Die vollständigen Quelldaten und Screenshots liegen im Verzeichnis UX. Der Vergleich prüft automatisierbare Bedienwege. Eine Beobachtung mit Lehrkräften und Lernenden sowie P01 und das verwaltete Schul-iPad bleiben offen."])
+        for f in ux.glob("*/*"):
+            if f.is_file() and f.suffix in (".png",".json"):
+                members["UX/"+str(f.relative_to(ux))]=f
     report.write_text("\n".join(lines)+"\n")
     members[report.name] = report
     examples[report.name] = report

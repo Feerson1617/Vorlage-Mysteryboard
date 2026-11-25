@@ -403,14 +403,33 @@ export function Board({
     if (
       saved &&
       box &&
-      Math.abs(box.width - saved.width) < 2 &&
-      Math.abs(box.height - saved.height) < 2 &&
-      saved.z > 0 &&
-      saved.z <= 3
+      saved.z >= 0.001 &&
+      saved.z <= 3 &&
+      saved.width > 0 &&
+      saved.height > 0
     ) {
-      measured.current = { width: box.width, height: box.height };
-      changeView(saved);
-    } else fit();
+      const next = {
+        z: saved.z,
+        x: saved.x + (box.width - saved.width) / 2,
+        y: saved.y + (box.height - saved.height) / 2,
+      };
+      const visible = current.current.cards.some((c) => {
+        const x = next.x + c.x * next.z,
+          y = next.y + c.y * next.z;
+        return (
+          x < box.width - 8 &&
+          y < box.height - 8 &&
+          x + CARD_WIDTH * next.z > 8 &&
+          y + (layouts.get(c.id)?.height ?? 0) * next.z > 8
+        );
+      });
+      if (visible) {
+        measured.current = { width: box.width, height: box.height };
+        changeView(next);
+        return;
+      }
+    }
+    fit();
   }, [fitTick]); // Refit only on explicit overview, start/import or resize.
   useEffect(() => {
     const r = new ResizeObserver(() => {

@@ -124,7 +124,7 @@ async function reproduce() {
       viewport: { width: 1024, height: 768 },
       hasTouch: true,
     });
-    await ui.getByLabel("Teamname oder Vornamen").fill("Testgruppe");
+    await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Testgruppe");
     await ui.getByRole("button", { name: "Beginnen", exact: true }).click();
     await expect(studentBoard(ui)).toBeVisible();
     const results = [];

@@ -355,7 +355,7 @@ try {
   const openingPreview = app.waitForEvent("window");
   await buttonOnPage("Schüleransicht prüfen").click();
   const preview = await openingPreview;
-  await preview.getByLabel("Teamname oder Vornamen").fill("Vorschau");
+  await preview.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Vorschau");
   await button(preview, "Beginnen").click();
   await expect(preview.locator("[data-card]")).toHaveCount(5);
   await expect(preview.locator("[data-edge]")).toHaveCount(1);

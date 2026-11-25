@@ -223,7 +223,7 @@ async function previousProject() {
   try {
     await restored.goto(server.origin + "/qa-evidence/legacy-022/launch.html");
     const ui = restored.frameLocator("iframe");
-    await button(ui, "Fortsetzen").click();
+    await button(ui, /^(Fortsetzen|Original-PNG öffnen)$/).click();
     await ui
       .getByLabel("Schüler-Sicherung")
       .setInputFiles(join(legacy, "Schuelerarbeit-Original.png"));
@@ -571,7 +571,7 @@ try {
     let previewSnapshot;
     if (previewOpened) {
       const preview = await previewOpened;
-      await preview.getByLabel("Teamname oder Vornamen").fill("Vorschau");
+      await preview.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Vorschau");
       await button(preview, "Beginnen").click();
       await expect(preview.locator("[data-card]")).toHaveCount(baseCount - 2);
       previewSnapshot = await snapshot(preview);
@@ -628,7 +628,7 @@ try {
     });
     await learner.goto(server.origin + "/qa-evidence/launch/launch.html");
     const ui = learner.frameLocator("iframe");
-    await ui.getByLabel("Teamname oder Vornamen").fill("Team QA");
+    await ui.getByLabel(/^(Teamname oder Vornamen|Gruppenname)$/).fill("Team QA");
     await button(ui, "Beginnen").click();
     await expect(ui.locator("[data-card]")).toHaveCount(baseCount - 2);
     const state = await snapshot(ui);
@@ -684,7 +684,7 @@ try {
       await button(ui, "Kleineres Sicherungsbild").click();
       const pending = learner.waitForEvent("download");
       await ui
-        .getByRole("link", { name: "Sicherungsbild herunterladen" })
+        .getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ })
         .click();
       const file = await pending;
       assert.match(file.suggestedFilename(), /^Team[ _]QA_.+\.png$/);
@@ -694,7 +694,7 @@ try {
       const fresh = await browser.newPage();
       await fresh.goto(server.origin + "/qa-evidence/launch/launch.html");
       const restored = fresh.frameLocator("iframe");
-      await button(restored, "Fortsetzen").click();
+      await button(restored, /^(Fortsetzen|Original-PNG öffnen)$/).click();
       await restored.getByLabel("Schüler-Sicherung").setInputFiles(png);
       await expect(restored.locator("[data-card]")).toHaveCount(
         task.cards.length,

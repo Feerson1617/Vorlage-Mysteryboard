@@ -31,7 +31,7 @@ const results = {
 try {
   for (const [label, html] of [
     ["0.2.7", before],
-    ["0.2.8", after],
+    [process.env.STUDIO_VERSION || "0.2.9", after],
   ]) {
     const page = await b.newPage();
     await page.addInitScript((size) => {
@@ -57,7 +57,7 @@ try {
     };
     const heapBefore = await heap();
     for (let i = 0; i < 5; i++) {
-      await button(page, "Fortsetzen").click();
+      await button(page, /^(Fortsetzen|Original-PNG öffnen)$/).click();
       await button(page, "Schließen").click();
     }
     results.cases.push({

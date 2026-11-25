@@ -106,28 +106,43 @@ export function StudioApp() {
     name,
     unsaved: modified,
     bindLevel: collection ? (d) => bindLevel(collection, d) : undefined,
+    activeLevel: collection?.active,
+    levelList: collection?.levels.map(({ id, name }) => ({ id, name })),
+    switchLevel: collection
+      ? (d, id) => {
+          const next = { ...withLevel(collection, d), active: id };
+          const target = next.levels.find((l) => l.id === id);
+          if (!target || id === collection.active) return;
+          setCollection(next);
+          setModified(true);
+          setDraft(target.draft);
+          setGeneration((g) => g + 1);
+          setInitialImport(false);
+        }
+      : undefined,
     levelName: collection?.levels.find((l) => l.id === collection.active)?.name,
     levels: (d) =>
       setEditing(collection ? withLevel(collection, d) : collectionFrom(d)),
-    exportLevels: collection
-      ? async (d) => {
-          const c = withLevel(collection, d);
-          const hints = c.levels.flatMap((l) =>
-            publishDraft(l.draft).content.initial.edges.map(
-              (e) => l.name + " · " + e.from + " / " + e.to + " " + e.label,
-            ),
-          );
-          if (
-            hints.length &&
-            !confirm(
-              "Diese freigegebenen Starthilfen an Lernende weitergeben?\n" +
-                hints.join("\n"),
+    exportLevels:
+      collection && collection.levels.length > 1
+        ? async (d) => {
+            const c = withLevel(collection, d);
+            const hints = c.levels.flatMap((l) =>
+              publishDraft(l.draft).content.initial.edges.map(
+                (e) => l.name + " · " + e.from + " / " + e.to + " " + e.label,
+              ),
+            );
+            if (
+              hints.length &&
+              !confirm(
+                "Diese freigegebenen Starthilfen an Lernende weitergeben?\n" +
+                  hints.join("\n"),
+              )
             )
-          )
-            return;
-          await saveExport(collectionScorm(c, template, launch, session));
-        }
-      : undefined,
+              return;
+            await saveExport(collectionScorm(c, template, launch, session));
+          }
+        : undefined,
     matchesSaved: (d, data) =>
       !!collection &&
       new TextDecoder().decode(projectBytes(collection, d)) ===
