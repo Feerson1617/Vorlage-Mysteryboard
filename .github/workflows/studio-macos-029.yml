@@ -143,6 +143,9 @@ jobs:
           ux=artifacts/ux-029
           STUDIO_EXEC="$ref/install/MysteryBoard Studio.app/Contents/MacOS/MysteryBoard Studio" node qa/studio/ux-author-029.mjs before "$ux/Mac-vorher" "$project" artifacts/levels-028/Wasser.docx
           node qa/studio/ux-author-029.mjs after "$ux/Mac-nachher" "$project" artifacts/levels-028/Wasser.docx
+          node_modules/.bin/asar extract "$ref/install/MysteryBoard Studio.app/Contents/Resources/app.asar" "$ref/web"
+          (cd "$ref/web" && STUDIO_EXEC= node "$GITHUB_WORKSPACE/qa/studio/ux-author-029.mjs" before "$GITHUB_WORKSPACE/$ux/Browser-vorher" "$project" "$GITHUB_WORKSPACE/artifacts/levels-028/Wasser.docx")
+          STUDIO_EXEC= node qa/studio/ux-author-029.mjs after "$ux/Browser-nachher" "$project" artifacts/levels-028/Wasser.docx
           node qa/studio/reload-029.mjs "$board" "$ux/Player-vorher" before
           node qa/studio/reload-029.mjs artifacts/levels-028/Wasser-SCORM.zip "$ux/Player-nachher" after
       - name: Board gestures and author connections in the installed application

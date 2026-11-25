@@ -123,7 +123,21 @@ try {
         await p.screenshot({
           path: join(out, name + "-" + w + "x" + h + "-Export.png"),
         });
+        await button("Schließen").click();
+        await button("Menü").click();
+        await button(
+          old ? "Zur Startansicht" : "Neue Gruppenarbeit beginnen",
+        ).click();
+        await expect(button("ESA")).toBeVisible();
+        await p.reload();
+        if (old) await expect(board).toBeVisible();
+        else {
+          await expect(button("ESA")).toBeVisible();
+          await button("ESA").click();
+          await expect(ui.getByLabel("Gruppenname")).toHaveValue("");
+        }
         result.push({
+          previousGroupReopenedAfterHome: old,
           engine: name,
           version: b.version(),
           viewport: [w, h],

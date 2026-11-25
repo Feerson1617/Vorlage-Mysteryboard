@@ -410,9 +410,11 @@ export default function App({
         mode: result.mode,
       });
       setMessage(
-        result.qr
-          ? "Das Bild enthält euren vollständigen Arbeitsstand und einen Code zum Fortsetzen."
-          : "Der Arbeitsstand ist zu groß für einen Code. Zum Fortsetzen benötigt ihr die unveränderte Originaldatei.",
+        studentExport
+          ? ""
+          : result.qr
+            ? "Das Bild enthält euren vollständigen Arbeitsstand und einen Code zum Fortsetzen."
+            : "Der Arbeitsstand ist zu groß für einen Code. Zum Fortsetzen benötigt ihr die unveränderte Originaldatei.",
       );
     } catch (e) {
       if (id === operation.current)
@@ -1077,7 +1079,7 @@ export default function App({
                 setModal("team");
               }}
             >
-              Teamname ändern
+              {studentExport ? "Gruppenname ändern" : "Teamname ändern"}
             </button>
             <button
               onClick={() => {
@@ -1176,7 +1178,10 @@ export default function App({
         </Dialog>
       )}
       {!previewMode && modal === "team" && work && (
-        <Dialog title="Teamname ändern" onClose={close}>
+        <Dialog
+          title={studentExport ? "Gruppenname ändern" : "Teamname ändern"}
+          onClose={close}
+        >
           {message && <p>{message}</p>}
           <form
             onSubmit={(e) => {
@@ -1196,7 +1201,7 @@ export default function App({
             }}
           >
             <label>
-              Teamname oder Vornamen
+              {studentExport ? "Gruppenname" : "Teamname oder Vornamen"}
               <input
                 ref={teamInput}
                 value={teamDraft}
@@ -1301,7 +1306,7 @@ export default function App({
           }
           onClose={close}
         >
-          <p hidden={studentExport && !!saved} role="status" aria-live="polite">
+          <p hidden={!message} role="status" aria-live="polite">
             {message}
           </p>
           {saved && (

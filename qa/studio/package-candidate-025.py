@@ -230,14 +230,14 @@ if version in ("0.2.8", "0.2.9"):
     ])
     if version == "0.2.9":
         ux = evidence / "ux-029"
-        old = read("Autoren-before.json")
-        new = read("Autoren-after.json")
+        old = json.loads((ux/"Mac-vorher/Autoren-before.json").read_text())
+        new = json.loads((ux/"Mac-nachher/Autoren-after.json").read_text())
         assert all(row["environment"] == "installierte Apple-Silicon-App" for row in (old,new))
         assert new["scenarios"]["B"]["levelSwitchActions"] == 1
         assert new["scenarios"]["A"]["settings"] == 0
         assert new["scenarios"]["B"]["count"] < old["scenarios"]["B"]["count"]
         lines.extend(["", "## Gemessene Lehrkräfteabläufe in den installierten Apps", "",
-            "Gleiche DOCX und dieselbe ältere Beispielsammlung. Jede Eingabe, Auswahl und Bestätigung steht einzeln im JSON. Die Dialogzahl umfasst Dateiauswahl und Speicherdialog des Betriebssystems. Die Navigationstiefe zählt die Ebenen unterhalb der Pinnwand. Automatisierte Bedienung liefert keine Beobachtung einer unerfahrenen Person.", "",
+            "Gleiche DOCX und dieselbe ältere Beispielsammlung. Jede Eingabe, Auswahl und Bestätigung steht einzeln im JSON. Die Dialogzahl umfasst auch die Aufrufe der Dateiauswahl und des Speicherziels. Der Vergleich gibt diesen Dialogen reproduzierbare Dateipfade vor. Die echte macOS-Materialauswahl wurde zusätzlich separat geöffnet und bedient. Die Navigationstiefe zählt die Ebenen unterhalb der Pinnwand. Automatisierte Bedienung liefert keine Beobachtung einer unerfahrenen Person.", "",
             "| Ablauf | Bedienhandlungen vorher → nachher | Dialoge | Einstellungen | Maximale Tiefe |",
             "|---|---:|---:|---:|---:|"])
         for key, label in [("A","Neues Mystery und Import"),("B","Differenzierung und gemeinsame Voreinstellung"),("C","Hilfen, Bearbeitung, Starthilfe und Gestaltung")]:
@@ -251,11 +251,16 @@ if version in ("0.2.8", "0.2.9"):
             dim=lambda v: " × ".join(map(str,v))
             size=lambda v: dim([round(v["board"]["width"]),round(v["board"]["height"])])
             lines.append(f"| {dim(b['requested'])} | {dim(b['actual'])} {'(exakt)' if b['exact'] else '(Ziel nativ offen)'} | {size(a)} | {size(b)} |")
+        for folder,phase in [("Browser-vorher","before"),("Browser-nachher","after")]:
+            display=json.loads((ux/folder/f"Autoren-{phase}.json").read_text())
+            assert len(display["screens"])==16 and all(s["exact"] and not s["horizontalOverflow"] for s in display["screens"])
+        lines.append("Zusätzlich wurde die gebaute Autorenoberfläche in Chromium bei allen vier exakten Inhaltsgrößen geprüft. Die Dateien unter Browser-vorher und Browser-nachher kennzeichnen diese Vergleichsprüfung.")
         for phase,expected in [("before",True),("after",False)]:
             rows=read(f"Messwerte-{phase}.json")
             assert len(rows)==6 and all(r["warnedAfterSave"]==expected and ((r["zoom"]!=r["restored"])==expected) for r in rows)
         lines.extend(["", "Chromium und WebKit prüften den gespeicherten Stand, eine reine Zoomänderung und einen offenen Textentwurf bei 768 × 1024, 1024 × 768 und 768 × 620. 0.2.8 warnte in allen sechs Fällen und stellte die vorherige Zoomstufe her. 0.2.9 stellte jeweils den letzten Zoom samt unveränderten Kartenpositionen wieder her. Die Warnung richtet sich nach der letzten bestätigten Revision. Bei temporärer Speicherung kann ein geschlossenes Browserfenster oder eine beendete Sitzung weiterhin eine Original-PNG erforderlich machen.", "",
             "Die vollständigen Quelldaten und Screenshots liegen im Verzeichnis UX. Der Vergleich prüft automatisierbare Bedienwege. Eine Beobachtung mit Lehrkräften und Lernenden sowie P01 und das verwaltete Schul-iPad bleiben offen."])
+        lines.extend(["", "Die Vergleichsprüfung reproduzierte zusätzlich die Rückkehr der vorigen Gruppe nach dem Wechsel zur Startauswahl und den Verlust unbestätigter Änderungen beim Schließen der Niveauverwaltung. Die neue Version trennt den Gruppenstart vom Niveauwechsel und fragt bei ungesicherten Verwaltungsänderungen nach. Ergänzende Belastungsprüfungen halten den Datenbankabschluss gezielt zurück, löschen während des Schreibens und prüfen eingebettete Aufgaben mit 5, 20, 30, 60 und 100 Karten. Ein frei gewählter Denkimpuls, die Original-PNG und die bewusst freigegebene Starthilfe bleiben erreichbar. Die Auslieferung enthält keine persönlichen Dokumente.", ""])
         for f in ux.glob("*/*"):
             if f.is_file() and f.suffix in (".png",".json"):
                 members["UX/"+str(f.relative_to(ux))]=f

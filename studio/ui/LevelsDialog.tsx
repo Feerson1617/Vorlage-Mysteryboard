@@ -28,6 +28,20 @@ export function LevelsDialog({
   const file = useRef<HTMLInputElement>(null);
   const index = c.levels.findIndex((l) => l.id === c.active),
     level = c.levels[index];
+  const modified =
+    c.title !== initial.title ||
+    c.defaultRecovery !== initial.defaultRecovery ||
+    c.levels.length !== initial.levels.length ||
+    c.levels.some((l, i) => {
+      const old = initial.levels[i];
+      return (
+        l.id !== old.id ||
+        l.name !== old.name ||
+        l.description !== old.description ||
+        l.usesDefault !== old.usesDefault ||
+        l.draft !== old.draft
+      );
+    });
   function update(data: Partial<Level>) {
     set({
       ...c,
@@ -51,7 +65,7 @@ export function LevelsDialog({
       onClose={() => {
         if (
           !loading &&
-          (c === initial || confirm("Änderungen an den Niveaus verwerfen?"))
+          (!modified || confirm("Änderungen an den Niveaus verwerfen?"))
         )
           onClose();
       }}

@@ -179,7 +179,8 @@ async function test(engine, name) {
     const p = await open(c);
     await start(p, mainLevel);
     await expect(status(p)).toContainText("Automatisch gespeichert");
-    await frame(p).evaluate(() => {
+    await p.addInitScript(() => {
+      if (!location.pathname.endsWith("/app.html")) return;
       const key = Object.keys(sessionStorage).find((k) =>
         k.startsWith("mysteryboard.028.["),
       );
@@ -321,6 +322,7 @@ async function test(engine, name) {
       await expect(status(p)).toContainText("Automatisch gespeichert");
       for (const defect of ["view", "cards"]) {
         await frame(p).evaluate(async (defect) => {
+          dispatchEvent(new Event("beforeunload",{cancelable:true}));
           const key = Object.keys(sessionStorage).find((k) =>
             k.startsWith("mysteryboard.028.["),
           );
@@ -400,7 +402,7 @@ async function test(engine, name) {
         frame(p).evaluate(
           () => !dispatchEvent(new Event("beforeunload", { cancelable: true })),
         );
-      assert.equal(await warns(), false);
+      await expect.poll(warns).toBe(false);
       await frame(p).evaluate(() => {
         window.deferWrites = true;
       });

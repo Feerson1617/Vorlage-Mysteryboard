@@ -335,6 +335,23 @@ try {
     .toBe(true);
   for (const s of Object.values(measurements.scenarios))
     s.count = s.actions.length;
+  // Separate risk probe. Exclude these deliberate discarded edits from the measured workflows.
+  scenario = { dialogs: 0, settings: 0, maximumDepth: 0 };
+  actions = [];
+  if (await button(page, "Schließen").isVisible())
+    await button(page, "Schließen").click();
+  await manage();
+  const title = page.getByLabel("Projekttitel", { exact: true }),
+    original = await title.inputValue();
+  await title.fill("Entwurf zum Verwerfen");
+  await button(page, "Schließen").click();
+  const confirmed = actions.some((a) => a.includes("verwerfen"));
+  assert.equal(confirmed, !before);
+  if (!(await button(page, "Niveaus verwalten").isVisible()))
+    await button(page, "Mystery gestalten").click();
+  await button(page, "Niveaus verwalten").click();
+  await expect(title).toHaveValue(original);
+  measurements.discardConfirmation = confirmed;
   await writeFile(
     join(out, "Autoren-" + phase + ".json"),
     JSON.stringify(measurements, null, 2),
