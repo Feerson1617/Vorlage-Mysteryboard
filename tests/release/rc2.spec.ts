@@ -152,7 +152,8 @@ async function positions(app: App) {
 }
 async function assertVisible(app: App, state: Work) {
   await expect(app.locator("[data-card]")).toHaveCount(state.cards.length);
-  expect(await positions(app)).toEqual(
+  // A touch can resolve before the associated React paint on the embedded board.
+  await expect.poll(() => positions(app)).toEqual(
     state.cards.map(({ id, x, y }) => ({ id, x, y })),
   );
   await expect(app.locator("[data-edge]")).toHaveCount(state.edges.length);
