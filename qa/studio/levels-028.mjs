@@ -199,10 +199,10 @@ async function teacherWorkflow() {
   await pick(join(out, "Defekt.png"));
   await expect(teacher.getByRole("alert")).toBeVisible();
   if (native) {
-    const dir = join(out, "Dateiauswahl");
+    const dir = await app.evaluate(({app}) => app.getPath("downloads"));
     await mkdir(dir, { recursive: true });
     const selected = join(dir, "Wasser.docx");
-    await copyFile(join(out, "Wasser.docx"), selected);
+    await copyFile(join(out, "Wasser.docx"), selected, 1); // COPYFILE_EXCL on the ephemeral runner
     await nativePick(selected);
   } else await pick(join(out, "Wasser.docx"));
   await expect(button(teacher, "Weiter zur Übernahme")).toBeVisible({

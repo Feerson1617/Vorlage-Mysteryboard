@@ -30,6 +30,10 @@ if CommandLine.arguments[1] == "cancel" {
 } else {
     let screenshot = URL(fileURLWithPath: CommandLine.arguments[2])
     let screen = CGDisplayBounds(CGMainDisplayID())
+    // List view displays the contents even on the runner's narrow screen.
+    key(19, .maskCommand)
+    Thread.sleep(forTimeInterval: 0.7)
+    var labels = [String]()
     for _ in 0..<6 {
         let capture = Process()
         capture.executableURL = URL(fileURLWithPath: "/usr/sbin/screencapture")
@@ -40,9 +44,11 @@ if CommandLine.arguments[1] == "cancel" {
         request.recognitionLevel = .accurate
         request.usesLanguageCorrection = false
         try VNImageRequestHandler(url: screenshot).perform([request])
+        labels = []
         for item in request.results ?? [] {
             let label = item.topCandidates(1).first?.string ?? ""
-            if label == "Wasser" || label == "Wasser.docx" {
+            labels.append(label)
+            if label.range(of: #"\bWasser(?:\.docx)?\b"#, options: [.regularExpression, .caseInsensitive]) != nil {
                 let box = item.boundingBox
                 doubleClick(CGPoint(x: screen.minX + box.midX * screen.width,
                                     y: screen.minY + (1-box.midY) * screen.height))
@@ -51,5 +57,6 @@ if CommandLine.arguments[1] == "cancel" {
         }
         Thread.sleep(forTimeInterval: 0.4)
     }
-    throw NSError(domain: "Studio-Abnahme: Wasser.docx im Dateidialog nicht sichtbar", code: 1)
+    FileHandle.standardError.write(Data(("Wasser.docx im Dateidialog nicht sichtbar: " + labels.joined(separator: " / ") + "\n").utf8))
+    exit(1)
 }

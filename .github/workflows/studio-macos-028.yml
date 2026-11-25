@@ -73,7 +73,6 @@ jobs:
           path: artifacts/board-regression/
           overwrite: true
   native:
-    needs: regression
     runs-on: macos-26
     timeout-minutes: 80
     steps:
@@ -210,6 +209,24 @@ jobs:
           node qa/studio/student-text-025.mjs "$results"
           MB_ENGINE=webkit node qa/studio/student-text-025.mjs "$results"
           python3 qa/studio/verify-print-quality-027.py "$results"
+      - name: Require all four browser regression shards before assembling this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYTHON'
+          import json, os, subprocess, time
+          endpoint = f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}/jobs?per_page=100"
+          for attempt in range(80):
+              jobs = json.loads(subprocess.check_output(["gh", "api", endpoint]))["jobs"]
+              results = [j for j in jobs if j["name"] in {f"regression ({i})" for i in range(1,5)}]
+              if any(j["status"] == "completed" and j["conclusion"] != "success" for j in results):
+                  raise SystemExit("Mindestens eine Browserregression ist fehlgeschlagen.")
+              if len(results) == 4 and all(j["conclusion"] == "success" for j in results):
+                  break
+              time.sleep(15)
+          else:
+              raise SystemExit("Die vollständigen Regressionsergebnisse liegen noch nicht vor.")
+          PYTHON
       - uses: actions/download-artifact@v4
         with:
           pattern: Studio-0.2.8-regression-*
