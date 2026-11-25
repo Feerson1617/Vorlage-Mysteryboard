@@ -277,7 +277,6 @@ async function run() {
   ).toContainText("3 Karten");
   await click("Als Projekt übernehmen");
   await save("KI-Einzel.mysteryboard");
-  await exportZip("KI-Einzel-SCORM.zip", "Für itslearning exportieren");
   // The regular save target and prior project must survive a cancelled import.
   if (native) {
     const bounds=await app.evaluate(({BrowserWindow})=>{const w=BrowserWindow.getAllWindows()[0];const dimensions=w.getBounds();w.setContentSize(800,600);return dimensions;});
@@ -308,6 +307,16 @@ async function run() {
       "Gefäße im Schatten",
     );
   }
+  // The cancelled-import probe made real author edits and advanced the content
+  // revision, even after restoring the original title. Export the saved revision.
+  await exportZip("KI-Einzel-SCORM.zip","Für itslearning exportieren");
+  const studentHTML=Buffer.from(unzipSync(await readFile(file("KI-Einzel-SCORM.zip")))["app.html"]).toString();
+  const embedded=studentHTML.match(/<script id="mysteryboard-launch" type="application\/json">([^<]+)<\/script>/);
+  assert(embedded);
+  const published=JSON.parse(Buffer.from(JSON.parse(embedded[1]).task,"base64"));
+  const savedSingle=await json("KI-Einzel.mysteryboard");
+  assert.deepEqual(published.content,savedSingle.content);
+  assert.equal(published.contentHash,savedSingle.contentHash);
   await click("Zur Projektübersicht");
   activeLog = actions;
   await source(multi);
