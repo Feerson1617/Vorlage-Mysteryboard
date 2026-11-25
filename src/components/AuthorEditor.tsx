@@ -900,6 +900,7 @@ export function AuthorEditor({
             <input
               aria-label="Mystery-Titel"
               className="studio-title"
+              title={content.title}
               maxLength={100}
               value={content.title}
               placeholder="Mystery-Titel"

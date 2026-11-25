@@ -1,3 +1,4 @@
+import {compactBackup} from "./controls.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -406,8 +407,7 @@ try {
         path: join(out, "Schuelerbewegung-" + engine.name() + ".png"),
       });
       const baseline = await boardSnapshot(ui);
-      await button(ui, "Menü").tap();
-      await button(ui, "Kleineres Sicherungsbild").tap();
+      await compactBackup(ui);
       const downloadPromise = page.waitForEvent("download");
       await ui
         .getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ })

@@ -2,6 +2,7 @@ import type { Draft, Task } from "../../src/core/documents";
 export type ProjectCommand = "open" | "save" | "save-as";
 export type SavedProject = { bytes: Uint8Array; name: string };
 export interface StudioBridge {
+  saveTemplate:(extension:"mysteryboard"|"txt")=>Promise<boolean>;
   chooseMaterial?: () => Promise<{ name: string; bytes: Uint8Array } | null>;
   previewTask: (bytes: Uint8Array) => Promise<void>;
   openProject: () => Promise<{ bytes: Uint8Array; name: string } | null>;

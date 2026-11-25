@@ -1,3 +1,4 @@
+import {compactBackup} from "./controls.mjs";
 import { inspectOriginal } from "./import-024/inspect-original.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
@@ -680,8 +681,7 @@ try {
       const moved = await releaseOnly(ui, 1, { dx: 21, dy: 17, type: "touch" });
       assert.deepEqual(moved.actual, moved.target);
       const work = await snapshot(ui);
-      await button(ui, "Menü").click();
-      await button(ui, "Kleineres Sicherungsbild").click();
+      await compactBackup(ui);
       const pending = learner.waitForEvent("download");
       await ui
         .getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ })

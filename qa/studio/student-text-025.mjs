@@ -1,3 +1,4 @@
+import {compactBackup} from "./controls.mjs";
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -24,7 +25,7 @@ const out = resolve(process.argv[2] || "artifacts/student-text-025");
 const native = Boolean(process.env.STUDIO_EXEC);
 const webkitOnly = process.env.MB_ENGINE === "webkit";
 const version = process.env.STUDIO_VERSION || "0.2.5";
-const printQuality = ["0.2.7","0.2.8","0.2.9"].includes(version);
+const printQuality = ["0.2.7","0.2.8","0.2.9","0.3.0"].includes(version);
 const compactCards = version === "0.2.6" || printQuality;
 const sizes = compactCards ? [12, 20, 30, 60, 100] : [12, 20, 60, 100];
 const permission =
@@ -320,12 +321,10 @@ async function backupFile(page, ui, count) {
         : "Team Text_Erklärungen zur Messreihe.png"
       : `Arbeitsstand-${count}.png`,
   );
-  await button(ui, "Menü").click();
-  await button(ui, "Kleineres Sicherungsbild").click();
+  await compactBackup(ui);
   await expect(ui.getByAltText("Vorschau des Sicherungsbildes")).toBeVisible({
     timeout: 45000,
   });
-  if (version === "0.2.9") await ui.getByText("Weitere Exportoptionen",{exact:true}).click();
   if (compactCards)
     await expect(
       dialog(ui).getByText(/Beim Öffnen der Original-PNG/),
@@ -579,7 +578,7 @@ async function large(project, count) {
     },
   };
   // Both releases must accept exactly the same 30-card comparison material.
-  if(["0.2.8","0.2.9"].includes(version) && comparison)delete content.recovery;
+  if(["0.2.8","0.2.9","0.3.0"].includes(version) && comparison)delete content.recovery;
   const path = join(out, `Projekt-${count}.mysteryboard`);
   await writeFile(
     path,

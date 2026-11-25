@@ -1,3 +1,4 @@
+import {compactBackup} from "./controls.mjs";
 import { expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
@@ -149,10 +150,7 @@ export async function playerWorkflow(
     expect(await snap(ui)).toEqual(edited);
     await expect(ui.getByRole("dialog")).toHaveCount(0);
   }
-  await ui.getByRole("button", { name: "Menü", exact: true }).tap();
-  await ui
-    .getByRole("button", { name: "Kleineres Sicherungsbild", exact: true })
-    .tap();
+  await compactBackup(ui);
   await expect(
     ui.getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/, exact: true }),
   ).toBeVisible({ timeout: 60000 });

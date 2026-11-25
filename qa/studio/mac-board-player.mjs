@@ -1,3 +1,4 @@
+import {compactBackup} from "./controls.mjs";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { chromium, expect } from "@playwright/test";
@@ -100,8 +101,7 @@ try {
   await button(ui, "Wiederholen").tap();
   await expect(ui.locator("[data-edge]")).toHaveCount(0);
   await button(ui, "Rückgängig").tap();
-  await button(ui, "Menü").tap();
-  await button(ui, "Kleineres Sicherungsbild").tap();
+  await compactBackup(ui);
   const pending = current.page.waitForEvent("download");
   await ui.getByRole("link", { name: /^(Sicherungsbild herunterladen|PNG herunterladen)$/ }).tap();
   const download = await pending;

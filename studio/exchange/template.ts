@@ -1,0 +1,35 @@
+import {exchangeSchema} from "./schema.ts";
+import pkg from "../../package.json" with {type:"json"};
+const {version}=pkg;
+export const templateName="MysteryBoard-KI-Vorlage";
+const specimen={kind:"single",content:{title:"Wasser nach dem Regen",subtitle:"Wohin verschwindet das Wasser?",instructions:"Vergleicht die Beobachtungen und begründet eure Erklärung.",cards:[{id:1,title:"Schulhof",text:"In der Senke steht Wasser.",group:"required"},{id:2,title:"Unsere Erklärung",text:"",group:"required",studentEditable:true}]}};
+export function templateText(){
+  return JSON.stringify({
+    format:"MysteryBoardAI",formatVersion:1,kind:"template",studioVersion:version,
+    verwendung:"Diese Datei im selben KI-Chat wie das entwickelte Material öffnen. Erzeuge eine neue UTF-8-Datei mit kind project gemäß ausgabeSchema. Als .mysteryboard oder .txt ausgeben. Alternativ genau den gültigen JSON-Text zum Kopieren liefern. Studio berechnet Identitäten und Prüfsummen.",
+    beratung:[
+      "Sichte zuerst vorhandene Unterrichtsmaterialien, Zielgruppe, Leitfrage und Entscheidungen. Bewahre Quellen und fachliche Aussagen. Erfinde keine Messwerte, Medien oder Quellen. Weise auf offene fachliche Fragen hin.",
+      "Biete an: Konfiguriere das Mystery eigenständig didaktisch sinnvoll und frage nur bei wesentlichen offenen Entscheidungen nach. Bündle Vorschläge samt kurzer Begründung. Respektiere den Verzicht auf einzelne Funktionen.",
+      "Entscheide mit der Lehrkraft zwischen einem Einzelprojekt, vorhandenen getrennten Aufgaben und neuer Differenzierung. Übernimm freie Bezeichnungen. Differenziere Sprache, Materialauswertung, Eigenständigkeit, Stützung und Lernprodukt. Weise keine Personen einem Niveau zu.",
+      "Stelle Quellen-, Mess- und Informationskarten grundsätzlich gesperrt bereit. studentEditable erlaubt nur Überschrift und Text. Lasse Arbeits- und Reflexionskarten bei Bedarf bearbeitbar und leere Antworten offen.",
+      "Schlage konkrete Denkimpulse und bei Bedarf farbige Nummerngruppen mit Begründung vor. Nur sinnvoll passende Karten zuordnen. Hilfen können je Niveau entfallen. Prüfe, ob Starthilfen zu viel über die Lösung verraten.",
+      "Biete ein privates fachliches Wirkungsgefüge an. Speichere es ausschließlich in author.edges. Nur ausdrücklich gewünschte öffentliche Verbindungen als studentHints eintragen. Eine komplette Lösung bleibt standardmäßig privat.",
+      "Wähle gut lesbare Standardgestaltung und geordnete Startablage, sofern nichts anderes vereinbart wurde. session ist der Standard. Nutze extended ausschließlich auf ausdrücklichen Wunsch der Lehrkraft. Studio verlangt dafür zusätzlich ihre bewusste Bestätigung.",
+      "Fasse zuletzt je Niveau Kartenanzahl, Hilfen, Bearbeitungsfreigaben, private und öffentliche Verbindungen und Speicherung zusammen. Erzeuge anschließend nur das ausgefüllte Austauschdokument. Übernimm keine Beispieldaten oder Vorlagenanweisungen in die Unterrichtsaufgabe."
+    ],
+    feldhilfe:{
+      project:"single verwendet content direkt; collection benötigt einen Projekttitel und 1–12 Niveaus mit eindeutigen frei gewählten Namen. description erläutert ein Niveau auf dem Schülerstartbildschirm. Einzeltitel unter content.title; Leitfrage unter subtitle; Arbeitsauftrag unter instructions.",
+      cards:"1–100 Karten je Niveau; fortlaufende IDs 1 bis n in Kartenreihenfolge. Jede Karte hat id, title und text. group standardmäßig required, alternativ extension. Eigene Gruppen mit label und sichtbarem prefix unter cardGroups. numbering by-group zählt innerhalb der sichtbaren Präfixe. Ohne eigene Gruppen gelten Pflichtkarte und V-Vertiefungskarte.",
+      material:"source für die Quellenangabe, table mit Überschriften und gleich langen Datenzeilen. Bildangaben image, imageAlt, imageCaption sowie extraImages für zusätzliche beschriftete Quellen. Nur vollständig eingebettete PNG-, JPEG- oder WebP-Daten. Keine Pfade, HTML, SVG, Platzhalter-URLs oder entfernten Dateien. Fehlt eine Abbildung, melde sie der Lehrkraft und vereinbare das spätere lokale Hinzufügen im Karteneditor. Keine automatische Verkleinerung.",
+      hilfen:"help.method ist ein individueller Denkimpuls. Ohne ihn bleibt der allgemeine methodische Hinweis. Ohne help.categories gibt es keine zusätzliche farbige Nummernorientierung. Optional 1–6 Kategorien mit eigenen eindeutigen IDs, Bezeichnungen und Farben. Jede Kategorie benötigt Karten; jede Karte höchstens einer Kategorie zuordnen. Bedienungshilfe bleibt verfügbar.",
+      verbindungen:"studentHints sind bewusst an Schüler veröffentlichte Starthilfen. author.edges sind private Lehrkräfteverbindungen. Positive eindeutige IDs und höchstens eine Verbindung pro Kartenpaar über beide Listen hinweg. from und to sind verschiedene gültige Karten. direction 1 von from nach to, 2 umgekehrt, 0 ohne Pfeil. label ist die Beschriftung.",
+      anordnung:"startLayout ordered mit optionaler Spaltenzahl oder explicit mit vollständigen startPositions. Positionen mit id,x,y,color:0. author.board legt getrennt die Autorenansicht fest. Kartenfarbe unter cards[].backgroundColor, nicht als vorab vergebene Schülerkategorie. design steuert Schrift, Kontrast, Rahmen, Abstände, Karten- und Linienfarben, Pfeile und Beschriftungen gemäß Schema.",
+      privat:"author.initials optional, sonst LK. author.hiddenCards blendet Karten bei der Veröffentlichung aus. Gib nie eine Musterlösung oder Lehrkraftnotiz im öffentlichen Kartentext, in Bildern oder in help.method aus. Die fachliche Kontrolle übernimmt die Lehrkraft vor dem Export.",
+      speicherung:"defaultRecovery ist die projektweite Voreinstellung einer Sammlung; content.recovery legt eine individuelle Abweichung fest. off deaktiviert, session speichert temporär in der Browsersitzung, extended maximal drei Stunden lokal. Keine Schülerdaten an das LMS. Original-PNG zur bewussten vollständigen Sicherung.",
+      grenzen:"Ein Bild bis 3 MB, 4096 Pixel Kantenlänge und 4 Millionen Pixel. Insgesamt pro Mystery bis 12 MB und 24 Millionen Pixel Bildmaterial. Reguläres Einzelprojekt bis 20 MB, Sammlung bis 60 MB. Der Export prüft zusätzlich das fertige SCORM. Das folgende JSON-Schema beschreibt Typen, erlaubte Felder und weitere Einzelgrenzen."
+    },
+    ausgabeSchema:exchangeSchema,
+    ausfuellgeruest:{format:"MysteryBoardAI",formatVersion:1,kind:"project",project:{kind:"single",content:{title:"",instructions:"",cards:[]}}},
+    beispieleNurZurOrientierung:[{format:"MysteryBoardAI",formatVersion:1,kind:"project",project:specimen},{format:"MysteryBoardAI",formatVersion:1,kind:"project",project:{kind:"collection",title:"Wasser erkunden",defaultRecovery:"session",levels:[{name:"Basis",content:{...specimen.content,help:{method:"Vergleicht zuerst beide Orte."}}},{name:"Vertiefung",content:{title:"Wasser im Einzugsgebiet",instructions:"Entwickelt und begründet eine prüfbare Hypothese.",cards:[{id:1,title:"Messung",text:"Der Wasserstand stieg nach dem Regen."},{id:2,title:"Hypothese",text:"",studentEditable:true}]},author:{edges:[{id:1,from:1,to:2,direction:1,label:"liefert einen Beleg"}]}}]}}]
+  },null,2)+"\n";
+}

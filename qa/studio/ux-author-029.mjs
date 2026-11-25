@@ -198,7 +198,7 @@ try {
       },
       [resolve(reference), resolve(material), target],
     );
-    assert.deepEqual(info, [true, before ? "0.2.8" : "0.2.9", "arm64"]);
+    assert.deepEqual(info, [true, before ? "0.2.8" : (process.env.STUDIO_VERSION || "0.3.0"), "arm64"]);
     page = await app.firstWindow();
   } else {
     browser = await chromium.launch({

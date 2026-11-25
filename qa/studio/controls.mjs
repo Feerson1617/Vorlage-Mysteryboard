@@ -47,3 +47,26 @@ export async function chooseImportCard(page, index) {
     .selectOption(String(index));
   await simpleImport(page);
 }
+
+export async function compactBackup(ui) {
+  if (!(await button(ui, "Export").count())) {
+    // Historical reference player.
+    await button(ui, "Menü").click();
+    await button(ui, "Kleineres Sicherungsbild").click();
+    return;
+  }
+  await button(ui, "Export").click();
+  const details = ui.locator("details.export-details");
+  await expect(ui.getByAltText("Vorschau des Sicherungsbildes")).toBeVisible({timeout:60000});
+  if (await details.count()) {
+    await details.locator("summary").click();
+    if (await button(details, "Kleineres Bild erzeugen").count()) {
+      await button(details, "Kleineres Bild erzeugen").click();
+      await expect(details).toContainText("2480 × 1754",{timeout:60000});
+      if (!(await details.evaluate(el => el.open))) await details.locator("summary").click();
+    }
+    await expect(details).toContainText("2480 × 1754");
+  } else {
+    await button(ui, "Kleineres Bild erzeugen").click();
+  }
+}

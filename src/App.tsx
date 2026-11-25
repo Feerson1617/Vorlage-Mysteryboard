@@ -93,7 +93,7 @@ export default function App({
   onSwitch?: () => void;
   onForget?: () => Promise<void>;
   backupPayload?: (work: Work) => Uint8Array;
-  onImport?: () => void;
+  onImport?: (current: Work | null) => void;
   onHome?: () => void;
   onAuthor?: () => void;
   initialHelpOpen?: boolean;
@@ -734,7 +734,7 @@ export default function App({
               Beginnen
             </button>
             <button
-              onClick={() => (onImport ? onImport() : setModal("resume"))}
+              onClick={() => (onImport ? onImport(work) : setModal("resume"))}
             >
               {studentExport ? "Original-PNG öffnen" : "Fortsetzen"}
             </button>
@@ -1085,7 +1085,7 @@ export default function App({
               onClick={() => {
                 if (onImport) {
                   close();
-                  onImport();
+                  onImport(work);
                   return;
                 }
                 setMessage("");
@@ -1094,9 +1094,7 @@ export default function App({
             >
               {studentExport ? "Original-PNG öffnen" : "Fortsetzen"}
             </button>
-            <button onClick={() => void save("compact")}>
-              Kleineres Sicherungsbild
-            </button>
+            {!studentExport && <button onClick={() => void save("compact")}>Kleineres Sicherungsbild</button>}
             <button onClick={openPrint}>Druckfassung / PDF</button>
             {!__PLAYER_BUILD__ && onAuthor && (
               <button
@@ -1148,7 +1146,7 @@ export default function App({
                 Lokalen Arbeitsstand löschen
               </button>
             )}
-            <button onClick={() => setModal("help")}>Hinweise</button>
+            <button onClick={() => setModal("help")}>{studentExport ? "Bedienung und Sicherung" : "Hinweise"}</button>
             <button
               onClick={() => {
                 if (
@@ -1228,7 +1226,7 @@ export default function App({
         </Dialog>
       )}
       {modal === "help" && (
-        <Dialog title="Hinweise" onClose={close}>
+        <Dialog title={studentExport ? "Bedienung und Sicherung" : "Hinweise"} onClose={close}>
           <p>
             Tippe eine Karte an, um sie zu lesen, einzufärben oder zu verbinden.
             Ziehe sie mit einem Finger an eine andere Stelle.

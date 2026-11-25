@@ -1,3 +1,5 @@
+import {isExchange,parseExchangeText,importExchange,decodeExchangeMedia,type ImportedProject} from "../exchange/import";
+import {ExchangeReview} from "./ExchangeReview";
 import { LevelsDialog } from "./LevelsDialog";
 import { collectionScorm } from "./collection-scorm";
 import {
@@ -50,6 +52,17 @@ export function StudioApp() {
     [initialMaterial, setInitialMaterial] = useState<File | undefined>(),
     [recent, setRecent] = useState<{ id: string; name: string }[]>([]),
     [pdf, setPdf] = useState<Task | null>(null);
+  const [exchange,setExchange]=useState<ImportedProject|null>(null);
+  const [tools,setTools]=useState<"template"|"paste"|null>(null),[pasted,setPasted]=useState(""),[exchangeError,setExchangeError]=useState(""),[working,setWorking]=useState(false);
+  const attempt=useRef(0);
+  const leaveExchange=()=>{attempt.current++;setExchange(null);setTools(null);setPasted("");setExchangeError("");setWorking(false);};
+  const openTools=(mode:"template"|"paste")=>{leaveExchange();setTools(mode);};
+  const stage=async(input:unknown,token:number)=>{
+    const project=importExchange(input);
+    await decodeExchangeMedia(project);
+    if(token===attempt.current){setTools(null);setPasted("");setExchangeError("");setExchange(project);}
+  };
+  const aiModal=!!exchange || !!tools || working;
   const read = async (
     promise: ReturnType<NonNullable<typeof bridge>["openProject"]>,
   ) => {
@@ -57,7 +70,16 @@ export function StudioApp() {
       setError("");
       const opened = await promise;
       if (!opened) return;
-      const loaded = readProject(new Uint8Array(opened.bytes));
+      const bytes=new Uint8Array(opened.bytes);
+      if(bytes[0]!==137){
+        const value=parseExchangeText(new TextDecoder("utf-8",{fatal:true}).decode(bytes));
+        if(isExchange(value)){
+          const token=++attempt.current;setWorking(true);
+          try{await stage(value,token);}finally{if(attempt.current===token)setWorking(false);}
+          return;
+        }
+      }
+      const loaded = readProject(bytes);
       const c = loaded.format === "MysteryBoardCollection" ? loaded : null;
       const doc =
         loaded.format === "MysteryBoardCollection"
@@ -92,16 +114,16 @@ export function StudioApp() {
   useEffect(
     () =>
       bridge?.onCommand?.((command) => {
-        if (command === "open" && !pdf && !create && !error)
+        if (command === "open" && !pdf && !create && !error && !aiModal)
           void read(bridge.openProject());
       }),
-    [bridge, pdf, create, error],
+    [bridge, pdf, create, error,aiModal],
   );
   useEffect(() => {
     void bridge
-      ?.modalState?.(!!pdf || !!create || !!error)
+      ?.modalState?.(!!pdf || !!create || !!error || aiModal)
       .catch((e) => setError(e.message));
-  }, [bridge, pdf, create, error]);
+  }, [bridge, pdf, create, error,aiModal]);
   const integration: EditorIntegration = {
     name,
     unsaved: modified,
@@ -147,7 +169,7 @@ export function StudioApp() {
       !!collection &&
       new TextDecoder().decode(projectBytes(collection, d)) ===
         new TextDecoder().decode(data),
-    modal: !!editing || !!pdf || !!create || !!error,
+    modal: !!editing || !!pdf || !!create || !!error || aiModal,
     state: (d, dirty, forms) => {
       void bridge
         ?.projectState({ bytes: projectBytes(collection, d), dirty, forms })
@@ -305,6 +327,7 @@ export function StudioApp() {
               Unterrichtsmaterial importieren
             </button>
           </div>
+          <div className="exchange-entry"><button onClick={()=>openTools("template")}>KI-Blankovorlage exportieren</button><button onClick={()=>openTools("paste")}>KI-Text einfügen</button></div>
           <section aria-label="Zuletzt bearbeitete Projekte">
             <h2>Zuletzt bearbeitete Projekte</h2>
             {recent.length ? (
@@ -323,6 +346,19 @@ export function StudioApp() {
           </section>
         </main>
       )}
+      {tools==="template" && <Dialog title="KI-Blankovorlage exportieren" onClose={leaveExchange}>
+        <p>Lade die Vorlage in den KI-Chat mit deinem Unterrichtsmaterial. Die ausgefüllte Datei kannst du über „Mystery öffnen“ prüfen.</p>
+        <div className="menu-list">{(["mysteryboard","txt"] as const).map(ext=><button key={ext} disabled={working} className={ext==="mysteryboard"?"primary":""} onClick={async()=>{setWorking(true);try{if(await bridge.saveTemplate(ext))leaveExchange();}catch(e){setExchangeError((e as Error).message);}finally{setWorking(false);}}}>{ext==="txt"?"TXT-Alternative speichern":"Blankovorlage speichern"}</button>)}</div>
+        {exchangeError && <p role="alert">{exchangeError}</p>}</Dialog>}
+      {tools==="paste" && <Dialog title="KI-Text einfügen" onClose={leaveExchange}><label>JSON aus dem KI-Chat<textarea rows={8} value={pasted} onChange={e=>{setPasted(e.target.value);setExchangeError("");}} /></label>
+        {exchangeError && <p role="alert" className="exchange-errors">{exchangeError}</p>}
+        <button className="primary" disabled={!pasted.trim()||working} onClick={async()=>{const token=++attempt.current;setWorking(true);try{await stage(parseExchangeText(pasted),token);}catch(e){if(token===attempt.current)setExchangeError((e as Error).message);}finally{if(token===attempt.current)setWorking(false);}}}>Material prüfen</button></Dialog>}
+      {exchange && <ExchangeReview project={exchange} replacing={!!draft} onClose={leaveExchange} onApply={async()=>{
+        await bridge.detachProject();
+        const c=exchange.format==="MysteryBoardCollection"?exchange:null;
+        setCollection(c);setDraft(exchange.format==="MysteryBoardCollection"?exchange.levels[0].draft:exchange);
+        setModified(true);setInitialImport(false);setInitialMaterial(undefined);setGeneration(g=>g+1);setName("");leaveExchange();
+      }}/>}
       {editing && (
         <LevelsDialog
           initial={editing}
@@ -343,7 +379,7 @@ export function StudioApp() {
       )}
       {error && (
         <Dialog title="Aktion nicht möglich" onClose={() => setError("")}>
-          <p role="alert">{error}</p>
+          <p role="alert" className="exchange-errors">{error}</p>
         </Dialog>
       )}
       {create && (

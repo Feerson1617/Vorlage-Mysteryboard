@@ -11,8 +11,8 @@ from zipfile import ZipFile, ZIP_DEFLATED, ZIP_STORED
 evidence, out = (Path(arg) for arg in sys.argv[1:3])
 out.mkdir(parents=True, exist_ok=True)
 version = sys.argv[3] if len(sys.argv) > 3 else "0.2.5"
-print_quality = version in ("0.2.7", "0.2.8", "0.2.9")
-compact_cards = version in ("0.2.6", "0.2.7", "0.2.8", "0.2.9")
+print_quality = version in ("0.2.7", "0.2.8", "0.2.9", "0.3.0")
+compact_cards = version in ("0.2.6", "0.2.7", "0.2.8", "0.2.9", "0.3.0")
 prefix = f"MysteryBoard-Studio-{version}"
 commit = os.environ["GITHUB_SHA"]
 
@@ -188,7 +188,7 @@ for name in (
     members[name] = find(name)
 for screenshot in evidence.rglob(f"{version}-Fenster-*.png"):
     members[screenshot.name] = screenshot
-if version in ("0.2.8", "0.2.9"):
+if version in ("0.2.8", "0.2.9", "0.3.0"):
     proof = evidence / "levels-028"
     for engine in ("Chromium", "WebKit"):
         results=json.loads((proof / (engine+"-028.json")).read_text())
@@ -228,7 +228,7 @@ if version in ("0.2.8", "0.2.9"):
         "## Einsatzgrenzen", "",
         "Maximal zwölf Niveaus, 20 MB je bearbeitbarem Einzelprojekt, 60 MB je Sammlung und unter 10 MB für die Player-HTML. Der native Mac-Lauf prüft die tatsächlich erreichten Fenstergrößen. Die private Originalprüfung P01 der M2-Grafik, die Apple-Notarisierung und die praktische Prüfung auf einem verwalteten iPad in itslearning sind offen. Die separate Praxistest-Anleitung begleitet das Beispiel.",
     ])
-    if version == "0.2.9":
+    if version in ("0.2.9", "0.3.0"):
         ux = evidence / "ux-029"
         old = json.loads((ux/"Mac-vorher/Autoren-before.json").read_text())
         new = json.loads((ux/"Mac-nachher/Autoren-after.json").read_text())
@@ -271,6 +271,28 @@ if version in ("0.2.8", "0.2.9"):
         for f in ux.glob("*/*"):
             if f.is_file() and f.suffix in (".png",".json"):
                 members["UX/"+str(f.relative_to(ux))]=f
+    if version == "0.3.0":
+        exchange = evidence / "exchange-030"
+        audit = json.loads((exchange / "Austausch-Pruefung.json").read_text())
+        assert audit["installedAppleSilicon"] and len(audit["players"]) == 4 and not audit["external"]
+        assert sha(exchange / "MysteryBoard-KI-Vorlage.mysteryboard") == sha(exchange / "MysteryBoard-KI-Vorlage.txt")
+        for folder, phase in [("Vorher","before"),("Nachher","after")]:
+            records = json.loads((exchange / folder / (phase+".json")).read_text())
+            assert len(records)==4 and all(r["confirmation"]==(phase=="after") for r in records)
+            members["KI/"+phase+".json"] = exchange/folder/(phase+".json")
+        for path in exchange.iterdir():
+            if path.is_file() and (path.name.startswith(("KI-", "MysteryBoard-KI-", "Team Ufer")) or path.name=="Austausch-Pruefung.json"):
+                if path.suffix==".zip":
+                    with ZipFile(path) as z:
+                        assert z.testzip() is None and "imsmanifest.xml" in z.namelist()
+                if path.name.startswith("KI-") and path.suffix==".png" or path.name=="Austausch-Pruefung.json":
+                    members["KI/"+path.name]=path
+                else:
+                    examples[path.name]=path
+        lines.extend(["","## KI-Austausch und Schutz der Schülerarbeit","",
+            "Die aus der DMG installierte ARM64-App exportierte beide bytegleichen Blankovorlagen. Die unabhängig in Python geschriebenen Beispiele wurden als JSON-Text und Datei übernommen, gespeichert und nach einem Neustart wieder geöffnet. Die vier ausgelieferten Niveaus und ihre Original-PNGs wurden im Schülerplayer geprüft. Die privaten Beispielverbindungen fehlen in allen entpackten SCORM-Einträgen.","",
+            "In Chromium und WebKit ersetzte 0.2.9 den neueren Stand sofort. In der neuen Version wurden Verwerfen, Bestätigen, eine identische PNG und anschließendes Neuladen mit den gespeicherten Daten abgeglichen. Die Einzelprotokolle liegen unter KI.","",
+            "Es wurde kein externer KI-Anbieter getestet. Die fachliche Kontrolle verbleibt bei der Lehrkraft."])
     report.write_text("\n".join(lines)+"\n")
     members[report.name] = report
     examples[report.name] = report

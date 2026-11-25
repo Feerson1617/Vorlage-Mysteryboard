@@ -564,3 +564,11 @@
  .few-levels .level-tabs { display:flex; gap:3px; }
  .level-tabs button { min-width:0; max-width:8rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 }
+
+.exchange-entry {display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:.75rem 0}
+.exchange-entry button {font-size:.9rem}
+.exchange-errors {white-space:pre-wrap;overflow-wrap:anywhere}
+.exchange-levels {padding-left:1.25rem}
+.exchange-levels li {margin-bottom:.7rem}
+.studio-main-toolbar .studio-title:not(:focus) {text-overflow:ellipsis}
+@media(max-width:1100px){.studio-main-toolbar:focus-within .studio-title:focus {position:absolute;left:1rem;right:1rem;width:calc(100% - 2rem);z-index:2}}

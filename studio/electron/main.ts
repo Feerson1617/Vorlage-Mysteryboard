@@ -1,3 +1,4 @@
+import {templateText,templateName} from "../exchange/template";
 import {
   readProject,
   encodeCollection,
@@ -162,17 +163,24 @@ async function open(path?: string) {
   if (!path) {
     const r = await dialog.showOpenDialog(window, {
       title: "Mystery öffnen",
-      filters: [{ name: "MysteryBoard", extensions: ["mysteryboard"] }],
+      filters: [{ name: "MysteryBoard", extensions: ["mysteryboard","txt"] }],
       properties: ["openFile"],
     });
     if (r.canceled) return null;
     path = r.filePaths[0];
   }
-  if (!path || !path.toLowerCase().endsWith(".mysteryboard"))
+  if (!path || !/\.(mysteryboard|txt)$/i.test(path))
     throw Error("Bitte eine .mysteryboard-Datei wählen.");
   const size = (await stat(path)).size;
   if (size > COLLECTION_BYTES) throw Error("Die Datei ist größer als 60 MB.");
   const data = new Uint8Array(await readFile(path));
+  if(data[0]!==137){
+    let input;
+    try {input=JSON.parse(new TextDecoder("utf-8",{fatal:true}).decode(data));} catch {throw Error("Die Projektdatei enthält kein gültiges JSON.");}
+    // Keep the current save path and dirty state until the teacher accepts the preview.
+    if(input?.format==="MysteryBoardAI")return {bytes:data,name:basename(path)};
+    if(path.toLowerCase().endsWith(".txt"))throw Error("Bitte eine ausgefüllte KI-Austauschdatei wählen.");
+  }
   const doc = readProject(data);
   if (doc.format !== "MysteryBoardCollection" && doc.kind === "student")
     throw Error("Schülerarbeitsstände bitte im Schülerplayer öffnen.");
@@ -393,6 +401,12 @@ async function setup() {
       name: basename(path),
       bytes: bytes(await readFile(path), 30_000_000),
     };
+  });
+  handle("template:save",async (ext:unknown)=>{
+    if(ext!=="mysteryboard" && ext!=="txt")throw Error("Unbekanntes Vorlagenformat.");
+    const result=await dialog.showSaveDialog(window,{title:"KI-Blankovorlage speichern",defaultPath:templateName+"."+ext,filters:[{name:"KI-Blankovorlage",extensions:[ext]}],properties:["createDirectory","showOverwriteConfirmation"]});
+    if(result.canceled || !result.filePath)return false;
+    await atomic(result.filePath.toLowerCase().endsWith("."+ext)?result.filePath:result.filePath+"."+ext,Buffer.from(templateText(),"utf8"));return true;
   });
   handle("project:open", () => open());
   handle("app:modal", (active) => {

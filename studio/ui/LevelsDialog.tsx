@@ -317,6 +317,7 @@ export function LevelsDialog({
             Auf alle Niveaus anwenden
           </button>
         </details>
+        {new Set(c.levels.map(l=>l.name.trim().normalize("NFKC").toLocaleLowerCase("de"))).size<c.levels.length && <p role="alert">Mehrere Niveaus heißen gleich. Wähle unter „Niveauoptionen“ unterscheidbare Namen, etwa „Basis“ und „Vertiefung“.</p>}
         {new Set(c.levels.map((l) => l.draft.content.title)).size !==
           c.levels.length && (
           <p>

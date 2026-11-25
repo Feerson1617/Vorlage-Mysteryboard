@@ -1,0 +1,326 @@
+name: MysteryBoard Studio 0.3.0 – macOS ARM64 Testkandidat
+on:
+  push:
+    branches: [feat/mysteryboard-studio-030-ai-authoring-template]
+  workflow_dispatch:
+env:
+  STUDIO_VERSION: 0.3.0
+permissions:
+  contents: read
+  actions: read
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      OCR_EVIDENCE_DIR: ${{ github.workspace }}/artifacts/board-regression/ocr
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Install pinned Chromium 156 for the browser regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          browser_dir="$RUNNER_TEMP/mysteryboard-browser"
+          mkdir -p "$browser_dir"
+          curl -fsSL --retry 3 https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.80/linux64/chrome-linux64.zip -o "$browser_dir/chrome.zip"
+          echo "b711c720f774be355197f32edf37e0651418ba036d92446ee2da19ac017540a7  $browser_dir/chrome.zip" | sha256sum -c
+          unzip -q "$browser_dir/chrome.zip" -d "$browser_dir"
+          "$browser_dir/chrome-linux64/chrome" --version
+          echo "CHROMIUM_PATH=$browser_dir/chrome-linux64/chrome" >> "$GITHUB_ENV"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install independent PDF and image test tools
+        shell: bash
+        run: |
+          if ! command -v pdftotext >/dev/null || ! command -v pdfinfo >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends poppler-utils
+          fi
+          python3 -m pip install PyMuPDF==1.26.7 Pillow==12.0.0
+      - name: Type check, data tests and frozen classroom build
+        if: matrix.shard == 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          npm test 2>&1 | tee artifacts/board-regression/Daten.log
+          npm run build 2>&1 | tee artifacts/board-regression/Build.log
+          npm run studio:build 2>&1 | tee artifacts/board-regression/Studio-Build.log
+          node qa/studio/board-reproduction.mjs 2>&1 | tee artifacts/board-regression/Vorher-Nachher.log
+          npm run test:rc2 2>&1 | tee artifacts/board-regression/RC2.log
+      - name: Complete browser suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/board-regression
+          # npm run check builds production and preview HTML before test:e2e.
+          if [ "${{ matrix.shard }}" != "1" ]; then
+            npm run build 2>&1 | tee artifacts/board-regression/HTML-Build-${{ matrix.shard }}.log
+          fi
+          npm run test:e2e -- --shard=${{ matrix.shard }}/4 2>&1 | tee artifacts/board-regression/Chromium-${{ matrix.shard }}.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Studio-0.3.0-regression-${{ matrix.shard }}-${{ github.sha }}
+          path: artifacts/board-regression/
+          overwrite: true
+  native:
+    runs-on: macos-26
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Build the Apple Silicon DMG
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/mac-board-tests artifacts/studio-tests
+          node -e "if(process.platform!=='darwin'||process.arch!=='arm64')process.exit(1)"
+          npm run studio:make -- --platform=darwin --arch=arm64 2>&1 | tee artifacts/mac-board-tests/Build.log
+      - name: Verify and install the actual DMG
+        shell: bash
+        run: |
+          set -euo pipefail
+          studio_dmg_path="$(python3 -c 'import pathlib; print(next(pathlib.Path("out/make").rglob("*.dmg")))' )"
+          hdiutil verify "$studio_dmg_path" 2>&1 | tee artifacts/mac-board-tests/DMG.log
+          studio_mount="$RUNNER_TEMP/studio-board-volume"
+          studio_install="$RUNNER_TEMP/studio-board-installed/MysteryBoard Studio.app"
+          mkdir -p "$studio_mount" "$(dirname "$studio_install")"
+          hdiutil attach -readonly -nobrowse -mountpoint "$studio_mount" "$studio_dmg_path"
+          ditto "$studio_mount/MysteryBoard Studio.app" "$studio_install"
+          hdiutil detach "$studio_mount"
+          codesign --verify --deep --strict "$studio_install"
+          codesign -dv --verbose=4 "$studio_install" > artifacts/mac-board-tests/Signatur.log 2>&1
+          echo "STUDIO_EXEC=$studio_install/Contents/MacOS/MysteryBoard Studio" >> "$GITHUB_ENV"
+          cp "$studio_dmg_path" artifacts/mac-board-tests/MysteryBoard-Studio-0.3.0-Mac-Apple-Silicon.dmg
+      - name: Select an available native display mode and install independent test tools
+        run: |
+          swift qa/studio/import-024/display.swift > artifacts/mac-board-tests/Quartz.log
+          python3 -m venv "$RUNNER_TEMP/matrix-python"
+          "$RUNNER_TEMP/matrix-python/bin/pip" install PyMuPDF==1.26.7 Pillow==12.0.0 reportlab python-docx
+          echo "$RUNNER_TEMP/matrix-python/bin" >> "$GITHUB_PATH"
+      - run: npx playwright install chromium webkit
+      - name: Installed teacher application and recovery in both engines
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          node qa/studio/levels-028.mjs artifacts/levels-028
+          node qa/studio/recovery-limits-028.mjs artifacts/levels-028
+          reference="$RUNNER_TEMP/studio-027-reference"
+          gh run download 44766704705 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.7-Arbeitsstand-und-Pruefsummen --dir "$reference"
+          node qa/studio/memory-028.mjs artifacts/levels-028 "$(find "$reference" -name SCORM-30.zip -print -quit)"
+          cp qa/studio/SCHUL-IPAD-028.md artifacts/levels-028/
+      - name: Austauschdateien und PNG-Konflikte aus installierter App
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          proof=artifacts/exchange-030
+          ref="$RUNNER_TEMP/studio-029-png"
+          gh run download 45578787443 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.9-Arbeitsstand-und-Pruefsummen --dir "$ref"
+          node qa/studio/png-conflicts-030.mjs "$(dirname "$(find "$ref" -name Wasser-SCORM.zip -print -quit)")" "$proof/Vorher" before
+          node qa/studio/png-conflicts-030.mjs artifacts/levels-028 "$proof/Nachher" after
+          node qa/studio/exchange-030.mjs "$proof"
+          cp qa/studio/KI-Vorlage-Kurzanleitung.md "$proof/"
+      - name: Vergleich mit installierter 0.2.8 und deren tatsächlichem SCORM
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ref="$RUNNER_TEMP/ux-reference"
+          mkdir -p "$ref/mount" "$ref/install"
+          gh run download 45565891136 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.8-Apple-Silicon-Testkandidat-Installations-ZIP --dir "$ref/disk"
+          gh run download 45565891136 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.8-Arbeitsstand-und-Pruefsummen --dir "$ref/example"
+          unzip -j "$(find "$ref/disk" -name '*.zip' -print -quit)" '*.dmg' -d "$ref"
+          disk="$(find "$ref" -maxdepth 1 -name '*.dmg' -print -quit)"
+          printf '%s  %s\n' ff4285836c8078a9c2f23ff5521d9a16617fba5ee2084782e61283db527c3c19 "$disk" | shasum -a 256 -c
+          hdiutil attach -readonly -nobrowse -mountpoint "$ref/mount" "$disk"
+          ditto "$ref/mount/MysteryBoard Studio.app" "$ref/install/MysteryBoard Studio.app"
+          hdiutil detach "$ref/mount"
+          project="$(find "$ref/example" -name Wasser.mysteryboard -print -quit)"
+          board="$(find "$ref/example" -name Wasser-SCORM.zip -print -quit)"
+          ux=artifacts/ux-029
+          STUDIO_EXEC="$ref/install/MysteryBoard Studio.app/Contents/MacOS/MysteryBoard Studio" node qa/studio/ux-author-029.mjs before "$ux/Mac-vorher" "$project" artifacts/levels-028/Wasser.docx
+          node qa/studio/ux-author-029.mjs after "$ux/Mac-nachher" "$project" artifacts/levels-028/Wasser.docx
+          node_modules/.bin/asar extract "$ref/install/MysteryBoard Studio.app/Contents/Resources/app.asar" "$ref/web"
+          (cd "$ref/web" && STUDIO_EXEC= node "$GITHUB_WORKSPACE/qa/studio/ux-author-029.mjs" before "$GITHUB_WORKSPACE/$ux/Browser-vorher" "$project" "$GITHUB_WORKSPACE/artifacts/levels-028/Wasser.docx")
+          STUDIO_EXEC= node qa/studio/ux-author-029.mjs after "$ux/Browser-nachher" "$project" artifacts/levels-028/Wasser.docx
+          node qa/studio/reload-029.mjs "$board" "$ux/Player-vorher" before
+          node qa/studio/reload-029.mjs artifacts/levels-028/Wasser-SCORM.zip "$ux/Player-nachher" after
+          node qa/studio/classroom-029.mjs artifacts/levels-028/Wasser-SCORM.zip "$ux/Player-nachher/Unabhaengige-SCORM-Pruefung.json"
+      - name: Board gestures and author connections in the installed application
+        shell: bash
+        run: |
+          set -euo pipefail
+          STUDIO_VERSION=0.3.0 node qa/studio/mac-board-native.mjs 2>&1 | tee artifacts/mac-board-tests/Pinnwand.log
+      - name: Actual SCORM and PNG round trip
+        shell: bash
+        run: |
+          set -euo pipefail
+          node qa/studio/mac-board-player.mjs 2>&1 | tee artifacts/mac-board-tests/Schuelerplayer.log
+      - name: Reproduce on 0.2.1 and stress both browsers against the installed export
+        shell: bash
+        run: |
+          set -euo pipefail
+          evidence=artifacts/mac-board-tests
+          node qa/studio/student-release.mjs qa/studio/evidence/player-021/Starthilfe-SCORM.zip "$evidence/before" --expect-regression
+          node qa/studio/student-release.mjs "$evidence/Starthilfe-SCORM.zip" "$evidence/after"
+          node qa/studio/student-stability.mjs "$evidence/player-chromium" "$evidence/Starthilfe-SCORM.zip" 2>&1 | tee "$evidence/Studenten-Chromium.log"
+          MB_ENGINE=webkit node qa/studio/student-stability.mjs "$evidence/player-webkit" "$evidence/Starthilfe-SCORM.zip" 2>&1 | tee "$evidence/Studenten-WebKit.log"
+      - name: Same projects in the installed Studio 0.2.2 reference
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          before="$RUNNER_TEMP/studio-022-reference"
+          mkdir -p "$before/mount" "$before/install"
+          gh run download 44298801016 --repo "$GITHUB_REPOSITORY" --name 'Studio-0.2.2-native-e5cfa0dce1e96524955921ea130a6777a7c8136f' --dir "$before/download"
+          dmg="$(find "$before/download" -name '*.dmg' -print -quit)"
+          test -n "$dmg"
+          printf '%s  %s\n' '734a2b40b1f32dd401e6b31ae461c862471a932cf30fc0d15f5ce73baa3942e6' "$dmg" | shasum -a 256 -c
+          hdiutil attach -readonly -nobrowse -mountpoint "$before/mount" "$dmg"
+          ditto "$before/mount/MysteryBoard Studio.app" "$before/install/MysteryBoard Studio.app"
+          hdiutil detach "$before/mount"
+          STUDIO_EXEC="$before/install/MysteryBoard Studio.app/Contents/MacOS/MysteryBoard Studio" node qa/studio/import-024/windows.mjs artifacts/import-024/Fenster-022 0.2.2
+          STUDIO_EXEC="$before/install/MysteryBoard Studio.app/Contents/MacOS/MysteryBoard Studio" EDITOR_BASELINE=1 EDITOR_EVIDENCE=artifacts/studio-023-before node qa/studio/editor-023.mjs 2>&1 | tee artifacts/mac-board-tests/Editor-Vorher.log
+          echo "EDITOR_LEGACY_DIR=$(dirname "$dmg")" >> "$GITHUB_ENV"
+      - name: Editor, three PDFs, and the real exported learner application
+        shell: bash
+        run: |
+          set -euo pipefail
+          EDITOR_VERSION=0.3.0 EDITOR_EVIDENCE=artifacts/studio-023 node qa/studio/editor-023.mjs 2>&1 | tee artifacts/mac-board-tests/Editor.log
+      - name: Existing macOS application regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run studio:test 2>&1 | tee artifacts/mac-board-tests/Mac-Regression.log
+      - name: Compare installed 0.2.3 and 0.3.0 window and screenshot sizes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          before="$RUNNER_TEMP/studio-023-reference"
+          mkdir -p "$before/mount" "$before/install"
+          gh run download 44323785799 --repo "$GITHUB_REPOSITORY" --name Studio-0.2.3-native-03e7d6ddb85313634e32f5194b35fc116628e913 --dir "$before/download"
+          dmg="$(find "$before/download" -name '*.dmg' -print -quit)"
+          printf '%s  %s\n' 'f9840bc2d0c20fa631520c52736f6614e1d4b87e741be444c8ea6156cc747a36' "$dmg" | shasum -a 256 -c
+          hdiutil attach -readonly -nobrowse -mountpoint "$before/mount" "$dmg"
+          ditto "$before/mount/MysteryBoard Studio.app" "$before/install/MysteryBoard Studio.app"
+          hdiutil detach "$before/mount"
+          STUDIO_EXEC="$before/install/MysteryBoard Studio.app/Contents/MacOS/MysteryBoard Studio" node qa/studio/import-024/windows.mjs artifacts/import-024/Fenster-023 0.2.3
+          node qa/studio/import-024/windows.mjs artifacts/import-024/Fenster-027 0.3.0
+      - name: Independent neutral matrix, two installed author and SCORM workflows
+        run: |
+          set -euo pipefail
+          fixtures="$RUNNER_TEMP/neutral"
+          python3 qa/studio/import-024/fixtures.py "$fixtures"
+          node qa/studio/import-024/matrix.mjs "$fixtures" artifacts/import-024/Matrix
+          node qa/studio/import-024/limits.mjs "$fixtures" artifacts/import-024/Matrix
+          cp "$fixtures/Neutrale-Pruefdokumente.zip" artifacts/import-024/Matrix/
+          python3 qa/studio/import-024/compare-neutral.py "$fixtures" artifacts/import-024/Matrix
+          for label in P04 P05; do
+            EDITOR_VERSION=0.3.0 EDITOR_IMPORT_AUDIT=1 EDITOR_EVIDENCE=artifacts/import-024/"$label" EDITOR_NEUTRAL="$fixtures/$label.pdf" node qa/studio/editor-023.mjs
+          done
+      - name: Printed cards, A4 and A3 PDFs and media in the installed Mac app
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STUDIO_VERSION: 0.3.0
+        run: |
+          set -euo pipefail
+          reference="$RUNNER_TEMP/studio-026-reference"
+          gh run download 44754542372 --repo "$GITHUB_REPOSITORY" --name MysteryBoard-Studio-0.2.6-Arbeitsstand-und-Pruefsummen --dir "$reference"
+          export STUDIO_026_SCORM="$(find "$reference" -name 'SCORM-30.zip' -print -quit)"
+          test -f "$STUDIO_026_SCORM"
+          results=artifacts/print-quality-027
+          node qa/studio/student-text-025.mjs "$results"
+          MB_ENGINE=webkit node qa/studio/student-text-025.mjs "$results"
+          python3 qa/studio/verify-print-quality-027.py "$results"
+      - name: Require all four browser regression shards before assembling this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYTHON'
+          import json, os, subprocess, time
+          endpoint = f"repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}/jobs?per_page=100"
+          for attempt in range(80):
+              jobs = json.loads(subprocess.check_output(["gh", "api", endpoint]))["jobs"]
+              results = [j for j in jobs if j["name"] in {f"regression ({i})" for i in range(1,5)}]
+              if any(j["status"] == "completed" and j["conclusion"] != "success" for j in results):
+                  raise SystemExit("Mindestens eine Browserregression ist fehlgeschlagen.")
+              if len(results) == 4 and all(j["conclusion"] == "success" for j in results):
+                  break
+              time.sleep(15)
+          else:
+              raise SystemExit("Die vollständigen Regressionsergebnisse liegen noch nicht vor.")
+          PYTHON
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Studio-0.3.0-regression-*
+          path: artifacts/verified-regression
+      - name: Assemble and verify the test candidate
+        run: python3 qa/studio/package-candidate-025.py artifacts candidate-files 0.3.0
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.3.0-Apple-Silicon-Testkandidat-Installations-ZIP
+          path: candidate-files/*-Installationspaket.zip
+          compression-level: 0
+          if-no-files-found: error
+          overwrite: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.3.0-Testkandidat-Sichtpruefung
+          path: candidate-files/*-Sichtpruefung.zip
+          compression-level: 0
+          if-no-files-found: error
+          overwrite: true
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MysteryBoard-Studio-0.3.0-Arbeitsstand-und-Pruefsummen
+          path: |
+            artifacts/levels-028/Wasser.mysteryboard
+            artifacts/levels-028/Wasser-SCORM.zip
+            artifacts/levels-028/Gruppe*.png
+            artifacts/levels-028/SCHUL-IPAD-028.md
+            artifacts/exchange-030/KI-*.mysteryboard
+            artifacts/exchange-030/KI-*-SCORM.zip
+            artifacts/exchange-030/MysteryBoard-KI-Vorlage.*
+            artifacts/exchange-030/KI-Vorlage-Kurzanleitung.md
+            artifacts/exchange-030/Team Ufer*.png
+            artifacts/exchange-030/Austausch-Pruefung.json
+            candidate-files/Pruefbericht-0.3.0.md
+            candidate-files/SHA256SUMS.txt
+            candidate-files/Textkarten.mysteryboard
+            candidate-files/Textkarten-SCORM.zip
+            candidate-files/Team Text_Erklärungen zur Messreihe.png
+            artifacts/print-quality-027/SCORM-30.zip
+            artifacts/print-quality-027/Arbeitsstand-30.png
+          if-no-files-found: error
+          overwrite: true
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: Studio-0.3.0-Mac-Testprotokolle-${{ github.sha }}
+          path: |
+            artifacts/ux-029/**/Fehler.png
+            artifacts/ux-029/**/*.json
+            artifacts/levels-028/*.json
+            artifacts/levels-028/*.png
+            artifacts/mac-board-tests/*.log
+            artifacts/import-024/Matrix/*.json
+            artifacts/print-quality-027/*.json
+          if-no-files-found: warn
+          overwrite: true
