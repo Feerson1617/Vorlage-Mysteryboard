@@ -8,11 +8,13 @@ import {
   chooseImportCard,
   saveProject,
 } from "./controls.mjs";
-export async function scanWorkflow(page, out) {
-  await button(page, "Importieren").click();
-  await page
-    .getByLabel("Mystery-Datei", { exact: true })
-    .setInputFiles(resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
+export async function scanWorkflow(page, out, pickMaterial) {
+  const photo = resolve("tests/fixtures/ocr/Gerades-Foto.jpg");
+  if (pickMaterial) await pickMaterial(photo);
+  else {
+    await button(page, "Importieren").click();
+    await page.getByLabel("Mystery-Datei", { exact: true }).setInputFiles(photo);
+  }
   const picker = page.getByLabel("Importkarte auswählen", { exact: true });
   await expect(picker.locator("option")).toHaveCount(4, { timeout: 240000 });
   await expect(page.locator(".import-step-body")).not.toHaveAttribute(

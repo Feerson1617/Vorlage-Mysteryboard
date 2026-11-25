@@ -51,8 +51,7 @@ test(
       page.setDefaultTimeout(30000);
       const rendererConfirmations = [];
       let rendererFileChoosers = 0;
-      // Intercept the toolbar's real input.click() before setInputFiles. Without
-      // this listener Electron keeps an OS NSOpenPanel open behind the CDP run.
+      // Count any remaining renderer pickers separately from material:choose.
       page.on("filechooser", () => {
         rendererFileChoosers++;
       });
@@ -398,14 +397,23 @@ test(
         join(out, "native-macos-progress.json"),
         JSON.stringify({ prefs, checks, complete: false }, null, 2),
       );
+      async function pickMaterial(path) {
+        await app.evaluate(({ dialog }, filePath) => {
+          dialog.showOpenDialog = async (_owner, options) => {
+            if (options.title !== "Unterrichtsmaterial auswählen") throw Error("Unerwarteter Dateidialog.");
+            (globalThis.__materialPicks ??= []).push(filePath);
+            return { canceled: false, filePaths: [filePath] };
+          };
+        }, path);
+        await page.getByRole("button", {name:"Importieren",exact:true}).click();
+      }
       // Actual custom-protocol OCR, with strict security and packaged local files.
       for (const name of [
         "Gerades-Foto.jpg",
         "Scan-B-16.pdf",
         "Scan-A-20.pdf",
       ]) {
-        await app.evaluate(({dialog}, path) => { dialog.showOpenDialog = async () => ({ canceled:false, filePaths:[path] }); }, resolve("tests/fixtures/ocr", name));
-        await page.getByRole("button", {name:"Importieren",exact:true}).click();
+        await pickMaterial(resolve("tests/fixtures/ocr", name));
         await expect(
           page.getByRole("heading", {
             name: "Karten kontrollieren",
@@ -540,8 +548,7 @@ test(
       // Save must leave the previously saved project bytes completely unchanged.
       const oldProject = join(out, "Studio-60-gespeichert.mysteryboard"),
         oldBytes = await readFile(oldProject);
-      await app.evaluate(({dialog}, path) => { dialog.showOpenDialog = async () => ({ canceled:false, filePaths:[path] }); }, resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
-      await page.getByRole("button", {name:"Importieren",exact:true}).click();
+      await pickMaterial(resolve("tests/fixtures/ocr/Gerades-Foto.jpg"));
       await expect(
         page.getByRole("heading", {
           name: "Karten kontrollieren",
@@ -735,7 +742,7 @@ test(
       await app.evaluate(({ dialog }, filePath) => {
         dialog.showSaveDialog = async () => ({ canceled: false, filePath });
       }, scanPath);
-      const corrected = await scanWorkflow(page, out);
+      const corrected = await scanWorkflow(page, out, pickMaterial);
       assert.equal(
         JSON.parse(await readFile(scanPath, "utf8")).content.cards[0].text,
         corrected,
@@ -743,7 +750,11 @@ test(
       checks.push(
         "native scan card and boundary correction retain unrelated data and require individual review",
       );
-      assert(rendererFileChoosers >= 5);
+      const materialPicks = await app.evaluate(() => globalThis.__materialPicks);
+      assert.deepEqual(materialPicks, [
+        "Gerades-Foto.jpg", "Scan-B-16.pdf", "Scan-A-20.pdf",
+        "Gerades-Foto.jpg", "Gerades-Foto.jpg",
+      ].map(name => resolve("tests/fixtures/ocr", name)));
       const nativeDialogRecords = await app.evaluate(
         () => globalThis.__nativeDialogRecords,
       );
@@ -780,6 +791,7 @@ test(
             rendererConfirmations,
             nativeDialogRecords,
             rendererFileChoosers,
+            materialPicks,
             platform:
               "real hosted macOS ARM64 runner; not a physical classroom Mac",
             nativeDialogs:
