@@ -384,6 +384,12 @@ async function teacherWorkflow() {
     .getByLabel("Mystery-Titel", { exact: true })
     .fill("Ungesicherte Teständerung");
   await pick(large.path);
+  await expect(teacher.getByRole("dialog", {name: "Mystery übernehmen"})).toBeVisible();
+  await button(teacher,"Abbrechen").click();
+  await expect(board()).toHaveCount(5);
+  await expect(teacher.getByLabel("Mystery-Titel",{exact:true})).toHaveValue("Ungesicherte Teständerung");
+  await pick(large.path);
+  await button(teacher,"Inhalt des aktuellen Niveaus ersetzen").click();
   await expect(board()).toHaveCount(60);
   await expect(teacher.locator(".studio-unsaved")).toBeVisible();
   await pick(join(out, "Wasser.docx"));

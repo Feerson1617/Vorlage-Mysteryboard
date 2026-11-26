@@ -207,7 +207,10 @@ export function StudioApp() {
             ? doc
             : draftFromContent(doc.content, current.author.initials);
       await decodeExchangeMedia(copy);
-      if (copy.format === "MysteryBoard" && current.content.cards.length)
+      if (
+        copy.format === "MysteryBoard" &&
+        (collection || current.content.cards.length)
+      )
         setIncoming({ project: copy, current });
       else if (await bridge!.replaceWithExchange()) adoptCopy(copy);
       return null;
@@ -576,6 +579,26 @@ export function StudioApp() {
           >
             Als weiteres Niveau hinzufügen
           </button>
+          {collection && (
+            <button
+              onClick={() => {
+                try {
+                  const next = withLevel(collection, incoming.project);
+                  const level = next.levels.find((l) => l.id === next.active)!;
+                  projectBytes(next, level.draft);
+                  setCollection(next);
+                  setDraft(level.draft);
+                  setModified(true);
+                  setGeneration((g) => g + 1);
+                  setIncoming(null);
+                } catch (e) {
+                  setError((e as Error).message);
+                }
+              }}
+            >
+              Inhalt des aktuellen Niveaus ersetzen
+            </button>
+          )}
           <button onClick={() => setIncoming(null)}>Abbrechen</button>
         </Dialog>
       )}

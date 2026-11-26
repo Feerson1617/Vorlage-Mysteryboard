@@ -163,7 +163,6 @@ try {
       .filter((c) => c.id !== 1)
       .map((c) => [c.x, c.y]);
   assert.deepEqual(await coordinates(board, 1), expected[0]);
-  await page.screenshot({ path: path("Schülerstart.png") });
   const privateButton = page.getByRole("button", {
     name: /^Musterlösung \(privat\)/,
   });
@@ -177,6 +176,21 @@ try {
     priv.levels[0].draft.content,
     student.levels[0].draft.content,
   );
+  await openExports(page);
+  const checkHints = page.getByRole("dialog").getByRole("checkbox");
+  if (await checkHints.count()) await checkHints.check();
+  const openingPreview = app.waitForEvent("window");
+  await click("Schüleransicht prüfen");
+  const preview = await openingPreview;
+  await preview.getByLabel("Gruppenname", { exact: true }).fill("Vorschau");
+  await button(preview, "Beginnen").click();
+  await expect(preview.locator("[data-card]")).toHaveCount(3);
+  await expect(preview.locator("[data-edge]")).toHaveCount(2);
+  for (const [index, pos] of expected.entries())
+    assert.deepEqual(await coordinates(preview, index + 1), pos);
+  await expect(preview.locator("svg.board")).not.toContainText("PRIVATE-");
+  await preview.close();
+  await closeExports(page);
   const boardAction = async (name) => {
     const d = page.locator(".studio-board-actions");
     if (!(await d.evaluate((d) => d.open))) await d.locator("summary").click();
@@ -214,6 +228,10 @@ try {
     priv.levels[0].draft.content.initial.edges,
   );
   assert.deepEqual(sorted.levels[1], initial.levels[1]);
+  const details = page.locator(".studio-board-actions");
+  if (await details.evaluate((el) => el.open))
+    await details.locator("summary").click();
+  await page.screenshot({ path: path("Schülerstart.png") });
   await privateButton.click();
   const writeZip = async (label, name, rename) => {
     await openExports(page);
@@ -250,6 +268,9 @@ try {
   );
   await click("Speichern");
   await expect(button(page, "Speichern")).toBeDisabled();
+  const finalProject = await json("Küsten-Projekt.mysteryboard");
+  assert.deepEqual(finalProject.levels, sorted.levels);
+  assert.equal(finalProject.active, finalProject.levels[1].id);
   await click("Zur Startseite");
   await file("Küsten-Projekt.mysteryboard");
   await click("Mystery öffnen");
@@ -289,6 +310,24 @@ try {
     published.content.initial.cards.map((c) => [c.x, c.y]),
     positions,
   );
+  assert.deepEqual(
+    published.content.initial.edges.map(({ from, to, label, direction }) => [
+      from,
+      to,
+      label,
+      direction,
+    ]),
+    [
+      [1, 2, "Wirkung prüfen", 1],
+      [2, 3, "Sediment bleibt liegen", 1],
+    ],
+  );
+  assert.deepEqual(
+    published.content.cards.map((c) => c.title),
+    ["Sturmflut", "Salzwiese", "Erklärung"],
+  );
+  assert.equal(published.content.cards[0].image, image);
+  assert.equal(published.content.cards[2].studentEditable, true);
   for (const engine of [chromium, webkit]) {
     const browser = await engine.launch();
     try {

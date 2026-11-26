@@ -73,6 +73,7 @@ async function drop(page: Page, files: { name: string; bytes: Buffer }[]) {
   await transfer.dispose();
 }
 async function downloadScorm(page: Page, info: TestInfo, name: string) {
+  const title = await page.getByLabel("Mystery-Titel", {exact: true}).inputValue();
   await button(page, "Schülerversion erstellen").tap();
   const dialog = page.getByRole("dialog", {
     name: "Mystery bereitstellen",
@@ -84,11 +85,14 @@ async function downloadScorm(page: Page, info: TestInfo, name: string) {
   await page
     .getByRole("link", { name: "Datei herunterladen", exact: true })
     .click();
-  const download = await pending,
-    path = info.outputPath(name);
-  expect(download.suggestedFilename()).toMatch(
-    /MysteryBoard-.+-v\d+\.\d+\.\d+-SCORM-1\.2\.zip$/,
-  );
+  const download = await pending;
+  const expectedName = title === "Zwölf Beobachtungen – SCORM-Test"
+    ? "Zwölf_Beobachtungen_SCORM-Test_SCORM.zip"
+    : "Fünf_andere_Spuren_SCORM-Test_SCORM.zip";
+  expect(download.suggestedFilename()).toBe(expectedName);
+  const directory = info.outputPath(name + "-download");
+  await mkdir(directory, {recursive:true});
+  const path = join(directory, expectedName);
   await download.saveAs(path);
   const bytes = await readFile(path),
     entries = unzipSync(bytes);
