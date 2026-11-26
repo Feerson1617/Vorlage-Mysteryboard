@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld(
     saveProject: (bytes, saveAs = false) =>
       ipcRenderer.invoke("project:save", { bytes, saveAs }),
     projectState: (state) => ipcRenderer.invoke("project:state", state),
+    leaveHome: () => ipcRenderer.invoke("project:leave-home"),
     replaceWithExchange: () => ipcRenderer.invoke("project:replace-exchange"),
     detachProject: () => ipcRenderer.invoke("project:detach"),
     modalState: (active) => ipcRenderer.invoke("app:modal", active),

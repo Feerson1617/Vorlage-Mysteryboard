@@ -1,3 +1,4 @@
+import { scormName } from "./scorm-name";
 import type { Task } from "./documents";
 import { launchJSON, LAUNCH_ID } from "./launch-document";
 import ScormWorker from "./classroom-scorm.worker?worker&inline";
@@ -81,15 +82,9 @@ export async function classroomScorm(task: Task, signal: AbortSignal) {
     });
   });
   signal.throwIfAborted();
-  const title =
-    task.content.title
-      .normalize("NFC")
-      .replace(/[^\p{L}\p{N}-]+/gu, "-")
-      .replace(/^-+|-+$/g, "")
-      .slice(0, 72) || "Mystery";
   return new File(
     [zip as BlobPart],
-    `MysteryBoard-${title}-v${task.content.version}-SCORM-1.2.zip`,
+    scormName(task.content.title),
     { type: "application/zip" },
   );
 }

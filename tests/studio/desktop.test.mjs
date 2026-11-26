@@ -176,13 +176,13 @@ test(
           });
           const overview =
             options?.message ===
-            "Zur Startseite? Ungesicherte Änderungen gehen verloren.";
+            "Zur Startseite wechseln?";
           return {
             response:
               overview && globalThis.__overviewDecisions.length
                 ? globalThis.__overviewDecisions.shift()
-                  ? 0
-                  : 1
+                  ? 1
+                  : 0
                 : options?.message === "Ungesicherte Änderungen"
                   ? 1
                   : 0,
@@ -629,8 +629,8 @@ test(
           overviewPromptStart,
         ),
         [
-          "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
-          "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
+          "Zur Startseite wechseln?",
+          "Zur Startseite wechseln?",
         ],
       );
       checks.push(

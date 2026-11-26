@@ -23,6 +23,7 @@ export interface StudioBridge {
     forms: boolean;
   }) => Promise<void>;
   replaceWithExchange: () => Promise<boolean>;
+  leaveHome?: () => Promise<boolean>;
   detachProject: () => Promise<void>;
   modalState: (active: boolean) => Promise<void>;
   saveExport: (
@@ -50,6 +51,7 @@ export interface EditorIntegration {
   state: (draft: Draft, dirty: boolean, forms: boolean) => void;
   save: (draft: Draft, saveAs: boolean) => Promise<boolean>;
   open: () => void;
+  leaveHome?: () => Promise<boolean>;
   detach: () => void;
   print: (task: Task) => void;
   preview: (task: Task) => void;

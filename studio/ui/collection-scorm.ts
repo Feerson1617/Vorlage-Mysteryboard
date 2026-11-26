@@ -1,4 +1,4 @@
-import {scormName} from "./scorm-name";
+import {scormName} from "../../src/core/scorm-name";
 import { publishDraft } from "../../src/core/authoring";
 import { encodeDocument, type Task } from "../../src/core/documents";
 import { launchJSON } from "../../src/core/launch-document";

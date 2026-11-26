@@ -95,15 +95,24 @@ try {
             ? globalThis.output + "/" + o.defaultPath
             : globalThis.saveName,
       });
-      dialog.showMessageBox = async () => ({
-        response: globalThis.decisions.shift() ?? 1,
+      const answer = (...args) => {
+        const options = args.at(-1);
+        if (options.message === "Ungesicherte Änderungen")
+          return globalThis.decisions.shift() ?? 1;
+        return globalThis.cancelBoardAction ? 1 : 0;
+      };
+      dialog.showMessageBox = async (...args) => ({
+        response: answer(...args),
       });
-      dialog.showMessageBoxSync = () => 0;
+      dialog.showMessageBoxSync = (...args) => answer(...args);
       return [process.arch, app.isPackaged, app.getVersion()];
     }, out),
     ["arm64", true, "0.3.2"],
   );
-  page.on("dialog", (d) => d.accept().catch(() => {}));
+  let cancelBoard = false;
+  page.on("dialog", (d) =>
+    (cancelBoard ? d.dismiss() : d.accept()).catch(() => {}),
+  );
   await file(input);
   await click("Mystery öffnen");
   await expect(review).toBeVisible();
@@ -173,6 +182,20 @@ try {
     if (!(await d.evaluate((d) => d.open))) await d.locator("summary").click();
     await button(d, name).click();
   };
+  cancelBoard = true;
+  await app.evaluate(() => {
+    globalThis.cancelBoardAction = true;
+  });
+  const beforeCancel = await coordinates(board, 2);
+  await boardAction("Kartenanordnung nach Nummern");
+  await boardAction("Sämtliche Verbindungen löschen");
+  await expect(board.locator("[data-edge]")).toHaveCount(4);
+  assert.deepEqual(await coordinates(board, 2), beforeCancel);
+  await expect(button(page, "Speichern")).toBeDisabled();
+  cancelBoard = false;
+  await app.evaluate(() => {
+    globalThis.cancelBoardAction = false;
+  });
   await boardAction("Sämtliche Verbindungen löschen");
   await expect(board.locator("[data-edge]")).toHaveCount(2);
   await boardAction("Löschen rückgängig");
@@ -181,7 +204,10 @@ try {
   await expect(board.locator("[data-edge]")).toHaveCount(0);
   await boardAction("Löschen rückgängig");
   await boardAction("Kartenanordnung nach Nummern");
-  let sorted = await save();
+  const reset = await save();
+  assert.equal(reset.levels[0].draft.content.startLayout.mode, "ordered");
+  await moveWithMouse(page, 1, { dx: 30, dy: 16, steps: 4 });
+  const sorted = await save();
   assert.deepEqual(sorted.levels[0].draft.author, priv.levels[0].draft.author);
   assert.deepEqual(
     sorted.levels[0].draft.content.initial.edges,
@@ -285,6 +311,10 @@ try {
     }
   }
   await writeFile(path("Abnahme-032.json"), JSON.stringify(metrics, null, 2));
+} catch (error) {
+  await page.screenshot({ path: path("Fehler-032.png") }).catch(() => {});
+  console.error((await page.locator("body").innerText()).slice(0, 2500));
+  throw error;
 } finally {
   server.close();
   await app.close();

@@ -244,7 +244,10 @@ export function AuthorEditor({
     () =>
       integration?.onSaved((saved) => {
         if (
-          integration?.matchesSaved?.(draftRef.current, saved.bytes) ||
+          integrationRef.current?.matchesSaved?.(
+            draftRef.current,
+            saved.bytes,
+          ) ||
           canonical(validateDocument(draftRef.current)) ===
             new TextDecoder().decode(saved.bytes)
         )
@@ -288,6 +291,7 @@ export function AuthorEditor({
       draftRef.current = next;
       setDraft(next);
       setDirty(true);
+      setSaveNotice("");
       setError("");
       return true;
     } catch (e) {
@@ -297,7 +301,11 @@ export function AuthorEditor({
   };
   const change = (next: Content, author = draft.author) =>
     applyDraft((current) => reviseDraft(current, next, author));
-  function moveBoard(current: Draft, cards: Work["cards"]) {
+  function moveBoard(
+    current: Draft,
+    cards: Work["cards"],
+    mode: "ordered" | "explicit" = "explicit",
+  ) {
     if (!studentView) return moveAuthorCards(current, cards);
     // Freeze the previous private layout before changing a shared fallback.
     const prior = current.author.board ?? initialPreview?.cards;
@@ -306,7 +314,7 @@ export function AuthorEditor({
       : current;
     return setStudentStart(
       prepared,
-      { mode: "explicit" },
+      { mode },
       cards.map((c) => ({ ...c, id: internalId(c.id) })),
     );
   }
@@ -344,7 +352,7 @@ export function AuthorEditor({
         studentView ? 7 : 2,
         studentView ? "preview" : "full",
       );
-      applyDraft((current) => moveBoard(current, ordered.cards));
+      applyDraft((current) => moveBoard(current, ordered.cards, "ordered"));
       setFitTick((t) => t + 1);
     }
   }
@@ -565,6 +573,19 @@ export function AuthorEditor({
       );
       return;
     }
+    if (
+      fileBusy ||
+      card ||
+      helpEditing ||
+      documentImport ||
+      publication ||
+      print
+    ) {
+      setFileError(
+        "Bitte zuerst den geöffneten Bearbeitungsschritt abschließen oder abbrechen.",
+      );
+      return;
+    }
     let file = files[0];
     if (integration?.importFile) {
       try {
@@ -581,19 +602,6 @@ export function AuthorEditor({
     if (!/\.(mysteryboard|png|docx|pdf|jpg|jpeg|webp)$/i.test(file.name)) {
       setFileError(
         "Bitte eine .mysteryboard-, Original-PNG-, Word-, PDF- oder Foto-Datei (PNG/JPEG/WebP) auswählen.",
-      );
-      return;
-    }
-    if (
-      fileBusy ||
-      card ||
-      helpEditing ||
-      documentImport ||
-      publication ||
-      print
-    ) {
-      setFileError(
-        "Bitte zuerst den geöffneten Bearbeitungsschritt abschließen oder abbrechen.",
       );
       return;
     }
@@ -996,8 +1004,14 @@ export function AuthorEditor({
             className="studio-back"
             hidden={documentImport || helpEditing}
             disabled={blocked}
-            onClick={() => {
-              if (
+            onClick={async () => {
+              if (integration.leaveHome) {
+                try {
+                  if (await integration.leaveHome()) onHome();
+                } catch (e) {
+                  setError((e as Error).message);
+                }
+              } else if (
                 !dirty ||
                 confirm(
                   "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
@@ -1047,7 +1061,11 @@ export function AuthorEditor({
             >
               Mystery gestalten
             </button>
-            <button disabled={blocked} onClick={preparePublication}>
+            <button
+              title="Unterrichtsmaterial exportieren"
+              disabled={blocked}
+              onClick={preparePublication}
+            >
               Exportieren
             </button>
           </nav>
@@ -1094,25 +1112,29 @@ export function AuthorEditor({
                 </select>
               </div>
             )}
-          <span
-            className="studio-project-status"
-            role="status"
-            title={integration.name}
-          >
-            {dirty || !integration.name ? (
-              <span className="studio-unsaved">Ungesicherte Änderungen</span>
-            ) : (
-              "Alle Änderungen gespeichert"
-            )}
-          </span>
-          <button
-            className="studio-save"
-            title="Bearbeitbares Lehrkräfteprojekt speichern (⌘S)"
-            disabled={blocked || (!dirty && !!integration.name)}
-            onClick={() => void saveDesktop()}
-          >
-            Speichern
-          </button>
+          <div className="studio-save-group">
+            <span
+              className="studio-project-status"
+              role="status"
+              title={integration.name}
+            >
+              {dirty ? (
+                <span className="studio-unsaved">Ungesicherte Änderungen</span>
+              ) : integration.name ? (
+                "Alle Änderungen gespeichert"
+              ) : (
+                "Noch nicht gespeichert"
+              )}
+            </span>
+            <button
+              className="studio-save"
+              title="Bearbeitbares Lehrkräfteprojekt speichern (⌘S)"
+              disabled={blocked || !dirty}
+              onClick={() => void saveDesktop()}
+            >
+              Speichern
+            </button>
+          </div>
           {!fileDialog && materialInput}
         </header>
       )}

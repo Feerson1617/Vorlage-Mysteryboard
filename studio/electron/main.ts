@@ -137,7 +137,7 @@ async function save(data: Uint8Array, saveAs = false) {
   }
   return { name: basename(path) };
 }
-async function allowReplace(reviewingExchange = false) {
+async function allowReplace(reviewingExchange = false, message = "Ungesicherte Änderungen") {
   const forms = !!state?.forms || (uiBlocked && !reviewingExchange);
   if (!state?.dirty && !forms) return true;
   const buttons = forms
@@ -145,7 +145,7 @@ async function allowReplace(reviewingExchange = false) {
     : ["Abbrechen", "Änderungen verwerfen", "Projekt speichern"];
   const response = await dialog.showMessageBox(window, {
     type: "warning",
-    message: "Ungesicherte Änderungen",
+    message,
     detail: forms
       ? "Es ist ein Bearbeitungsschritt geöffnet. Bitte diesen zuerst übernehmen oder abbrechen. Beim Verwerfen gehen auch noch nicht übernommene Eingaben verloren."
       : "Das geöffnete Projekt enthält noch nicht gespeicherte Änderungen.",
@@ -439,6 +439,7 @@ async function setup() {
     updateFileMenu();
   }
   handle("project:detach",detachProject);
+  handle("project:leave-home", () => allowReplace(false, "Zur Startseite wechseln?"));
   handle("project:replace-exchange",async () => {
     if (!(await allowReplace(true))) return false;
     detachProject();

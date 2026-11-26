@@ -1,4 +1,4 @@
-import { scormName } from "./scorm-name";
+import { scormName } from "../../src/core/scorm-name";
 import { identifyFile } from "../import-file";
 import {
   isExchange,
@@ -96,7 +96,11 @@ export function StudioApp() {
       setExchange(project);
     }
   };
-  const aiModal = !!exchange || !!tools || working;
+  const [incoming, setIncoming] = useState<{
+    project: Draft;
+    current: Draft;
+  } | null>(null);
+  const aiModal = !!incoming || !!exchange || !!tools || working;
   const read = async (
     promise: ReturnType<NonNullable<typeof bridge>["openProject"]>,
   ) => {
@@ -168,10 +172,6 @@ export function StudioApp() {
       ?.modalState?.(!!editing || !!pdf || !!create || !!error || aiModal)
       .catch((e) => setError(e.message));
   }, [bridge, editing, pdf, create, error, aiModal]);
-  const [incoming, setIncoming] = useState<{
-    project: Draft;
-    current: Draft;
-  } | null>(null);
   function adoptCopy(project: ImportedProject) {
     const group = project.format === "MysteryBoardCollection" ? project : null;
     setCollection(group);
@@ -206,6 +206,7 @@ export function StudioApp() {
           : doc.kind === "draft"
             ? doc
             : draftFromContent(doc.content, current.author.initials);
+      await decodeExchangeMedia(copy);
       if (copy.format === "MysteryBoard" && current.content.cards.length)
         setIncoming({ project: copy, current });
       else if (await bridge!.replaceWithExchange()) adoptCopy(copy);
@@ -276,6 +277,7 @@ export function StudioApp() {
         throw e;
       }
     },
+    leaveHome: bridge?.leaveHome,
     open: () => void read(bridge!.openProject()),
     detach: () => {
       if (collection) return;
@@ -543,7 +545,7 @@ export function StudioApp() {
           </button>
           <button
             disabled={(collection?.levels.length ?? 1) >= 12}
-            onClick={() => {
+            onClick={async () => {
               try {
                 const c = collection
                   ? withLevel(collection, incoming.current)
@@ -558,6 +560,10 @@ export function StudioApp() {
                 );
                 const next = { ...c, levels: [...c.levels, l], active: l.id };
                 projectBytes(next, l.draft);
+                if (!collection && name) {
+                  await bridge.detachProject();
+                  setName("");
+                }
                 setCollection(next);
                 setModified(true);
                 setDraft(l.draft);
