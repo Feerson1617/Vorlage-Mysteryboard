@@ -94,7 +94,7 @@ export async function roundtrip(page, id, spec, fixtures, out) {
       "Ziel: Vergleicht die Messwerte.",
     );
   }
-  await button(page, "Zur Projektübersicht").click();
+  await button(page, "Zur Startseite").click();
   await button(page, "Mystery öffnen").click();
   await expect(page.locator(".studio-board [data-card]")).toHaveCount(count);
   await openExports(page);

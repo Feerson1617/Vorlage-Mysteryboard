@@ -14,7 +14,7 @@ import {
 } from "../core/authoring";
 import { parsePng } from "../core/png";
 import { imageFromFile } from "../core/media";
-import { initialBoardWork } from "../core/layout";
+import { initialBoardWork, makeLayouts } from "../core/layout";
 import {
   cardNumber,
   COLORS,
@@ -110,7 +110,39 @@ export function AuthorEditor({
   };
   const operation = useRef(0);
   const digitalExportRunning = useRef(false);
+  const [privateView, setPrivateView] = useState(false);
+  const [undoClear, setUndoClear] = useState<{ before: Draft; after: Draft }>();
   const content = draft.content;
+  const studentView = !!integration && !privateView;
+  const visibleIds = useMemo(
+    () =>
+      content.cards
+        .filter((c) => !draft.author.hiddenCards.includes(c.id))
+        .map((c) => c.id),
+    [content, draft.author.hiddenCards],
+  );
+  const boardContent = useMemo(
+    () => (studentView ? retainCards(content, visibleIds) : content),
+    [studentView, content, visibleIds],
+  );
+  const internalId = (id: number) => (studentView ? visibleIds[id - 1] : id);
+  const displayId = (id: number) =>
+    studentView ? visibleIds.indexOf(id) + 1 : id;
+  const viewport = {
+    width: Math.max(300, window.innerWidth - 48),
+    height: Math.max(360, window.innerHeight - 150),
+  };
+  const learnerWork = useMemo(
+    () =>
+      studentView && boardContent.cards.length
+        ? initialBoardWork(boardContent, viewport, 7, "preview")
+        : null,
+    [studentView, boardContent],
+  );
+  const cardLayouts = useMemo(
+    () => (studentView ? makeLayouts(boardContent, "preview") : undefined),
+    [studentView, boardContent],
+  );
   const initialPreview = useMemo(
     () =>
       content.cards.length
@@ -134,6 +166,7 @@ export function AuthorEditor({
   const studioBoard = !!integration;
   const { board: authorBoard, edges: privateEdges } = draft.author;
   const preview = useMemo(() => {
+    if (studentView) return learnerWork;
     if (!previewSeed || !studioBoard) return previewSeed;
     const positions = new Map(authorBoard?.map((c) => [c.id, c]));
     return {
@@ -141,7 +174,14 @@ export function AuthorEditor({
       cards: previewSeed.cards.map((c) => positions.get(c.id) ?? c),
       edges: [...previewSeed.edges, ...(privateEdges ?? [])],
     };
-  }, [previewSeed, studioBoard, authorBoard, privateEdges]);
+  }, [
+    previewSeed,
+    studioBoard,
+    authorBoard,
+    privateEdges,
+    studentView,
+    learnerWork,
+  ]);
   const privateEdgeIds = useMemo(
     () => new Set(privateEdges?.map((edge) => edge.id)),
     [privateEdges],
@@ -192,12 +232,7 @@ export function AuthorEditor({
   const draftRef = useRef(draft);
   draftRef.current = draft;
   const editingForm =
-    !!card ||
-    !!edgeForm ||
-    helpEditing ||
-    documentImport ||
-    fileBusy ||
-    busy;
+    !!card || !!edgeForm || helpEditing || documentImport || fileBusy || busy;
   const blocked = editingForm || !!integration?.modal;
   const blockedRef = useRef(blocked);
   blockedRef.current = blocked;
@@ -225,6 +260,8 @@ export function AuthorEditor({
       }),
     [],
   );
+  const integrationRef = useRef(integration);
+  integrationRef.current = integration;
   const saveDesktop = async (saveAs = false) => {
     if (saving.current) return;
     saving.current = true;
@@ -232,7 +269,7 @@ export function AuthorEditor({
     setSaveNotice("");
     setError("");
     try {
-      if (await integration!.save(snapshot, saveAs)) {
+      if (await integrationRef.current!.save(snapshot, saveAs)) {
         if (draftRef.current === snapshot) setDirty(false);
         setSaveNotice("Projekt gespeichert.");
       }
@@ -260,6 +297,57 @@ export function AuthorEditor({
   };
   const change = (next: Content, author = draft.author) =>
     applyDraft((current) => reviseDraft(current, next, author));
+  function moveBoard(current: Draft, cards: Work["cards"]) {
+    if (!studentView) return moveAuthorCards(current, cards);
+    // Freeze the previous private layout before changing a shared fallback.
+    const prior = current.author.board ?? initialPreview?.cards;
+    const prepared = prior
+      ? { ...current, author: { ...current.author, board: prior } }
+      : current;
+    return setStudentStart(
+      prepared,
+      { mode: "explicit" },
+      cards.map((c) => ({ ...c, id: internalId(c.id) })),
+    );
+  }
+  function boardAction(clear: boolean) {
+    const scope = privateView ? "Musterlösung (privat)" : "Schülerstart";
+    const other = privateView ? "Schülerstart" : "private Musterlösung";
+    if (
+      !confirm(
+        clear
+          ? "Sämtliche Verbindungen in „" +
+              scope +
+              "“ in diesem Niveau löschen? Karten, Texte, Bilder, Einstellungen und die Ansicht „" +
+              other +
+              "“ bleiben erhalten."
+          : "Karten in „" +
+              scope +
+              "“ nach Nummern anordnen? Verbindungen, Inhalte und andere Niveaus bleiben erhalten.",
+      )
+    )
+      return;
+    const before = draftRef.current;
+    if (clear) {
+      const { startEdgesAsHints, ...rest } = before.content;
+      const after = privateView
+        ? { ...before, author: { ...before.author, edges: [] } }
+        : reviseDraft(before, {
+            ...rest,
+            initial: { ...rest.initial, edges: [] },
+          });
+      if (applyDraft(() => after)) setUndoClear({ before, after });
+    } else {
+      const ordered = initialBoardWork(
+        { ...boardContent, startLayout: { mode: "ordered" } },
+        viewport,
+        studentView ? 7 : 2,
+        studentView ? "preview" : "full",
+      );
+      applyDraft((current) => moveBoard(current, ordered.cards));
+      setFitTick((t) => t + 1);
+    }
+  }
   const stopConnecting = () => {
     setConnectingCards(false);
     setConnectionFrom(null);
@@ -280,7 +368,19 @@ export function AuthorEditor({
         (edge.from === connectionFrom && edge.to === id) ||
         (edge.from === id && edge.to === connectionFrom),
     );
-    if (existing) return openEdge(existing);
+    if (existing) {
+      if (studentView && privateEdgeIds.has(existing.id)) {
+        if (
+          confirm(
+            "Dieses Kartenpaar ist privat verbunden. Diese Verbindung zur Bearbeitung als öffentliche Starthilfe öffnen? Erst Übernehmen veröffentlicht sie.",
+          )
+        )
+          setEdgeForm({ edge: { ...existing }, shared: true });
+        setConnectionFrom(null);
+        return;
+      }
+      return openEdge(existing);
+    }
     if (edges.length >= MAX_EDGES) {
       setError(
         `Die Pinnwand kann höchstens ${MAX_EDGES} Verbindungen enthalten.`,
@@ -288,7 +388,7 @@ export function AuthorEditor({
       return;
     }
     setEdgeForm({
-      shared: false,
+      shared: studentView,
       edge: {
         id: nextEdgeId(edges),
         from: connectionFrom,
@@ -465,7 +565,19 @@ export function AuthorEditor({
       );
       return;
     }
-    const file = files[0];
+    let file = files[0];
+    if (integration?.importFile) {
+      try {
+        const material = await integration.importFile(file, draftRef.current);
+        setFileDialog(false);
+        setFileError("");
+        if (!material) return;
+        file = material;
+      } catch (e) {
+        setFileError((e as Error).message);
+        return;
+      }
+    }
     if (!/\.(mysteryboard|png|docx|pdf|jpg|jpeg|webp)$/i.test(file.name)) {
       setFileError(
         "Bitte eine .mysteryboard-, Original-PNG-, Word-, PDF- oder Foto-Datei (PNG/JPEG/WebP) auswählen.",
@@ -567,7 +679,7 @@ export function AuthorEditor({
       hidden
       ref={fileInput}
       type="file"
-      accept=".mysteryboard,.png,.docx,.pdf,.jpg,.jpeg,.webp"
+      accept=".mysteryboard,.txt,.png,.docx,.pdf,.jpg,.jpeg,.webp"
       aria-label="Mystery-Datei"
       disabled={fileBusy}
       onChange={(e) => {
@@ -888,24 +1000,31 @@ export function AuthorEditor({
               if (
                 !dirty ||
                 confirm(
-                  "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+                  "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
                 )
               )
                 onHome();
             }}
           >
-            Zur Projektübersicht
+            Zur Startseite
           </button>
           {!documentImport && !helpEditing && !designOpen && (
-            <div className="studio-title-field"><input
-              aria-label="Mystery-Titel"
-              className="studio-title"
-              title={content.title}
-              maxLength={100}
-              value={content.title}
-              placeholder="Mystery-Titel"
-              onChange={(e) => change({ ...content, title: e.target.value })}
-            />{content.title && <span className="studio-full-title" aria-hidden="true">{content.title}</span>}</div>
+            <div className="studio-title-field">
+              <input
+                aria-label="Mystery-Titel"
+                className="studio-title"
+                title={content.title}
+                maxLength={100}
+                value={content.title}
+                placeholder="Mystery-Titel"
+                onChange={(e) => change({ ...content, title: e.target.value })}
+              />
+              {content.title && (
+                <span className="studio-full-title" aria-hidden="true">
+                  {content.title}
+                </span>
+              )}
+            </div>
           )}
           <nav
             aria-label="Mystery bearbeiten"
@@ -980,12 +1099,20 @@ export function AuthorEditor({
             role="status"
             title={integration.name}
           >
-            {dirty || blocked || !integration.name ? (
+            {dirty || !integration.name ? (
               <span className="studio-unsaved">Ungesicherte Änderungen</span>
             ) : (
-              "Gespeichert"
+              "Alle Änderungen gespeichert"
             )}
           </span>
+          <button
+            className="studio-save"
+            title="Bearbeitbares Lehrkräfteprojekt speichern (⌘S)"
+            disabled={blocked || (!dirty && !!integration.name)}
+            onClick={() => void saveDesktop()}
+          >
+            Speichern
+          </button>
           {!fileDialog && materialInput}
         </header>
       )}
@@ -1133,7 +1260,15 @@ export function AuthorEditor({
               onChange={(next) => change(next)}
               onStartLayout={(layout) =>
                 applyDraft((current) =>
-                  setStudentStart(current, layout, preview?.cards ?? []),
+                  layout.mode === "explicit" && studentView
+                    ? moveBoard(current, preview?.cards ?? [])
+                    : setStudentStart(
+                        current,
+                        layout,
+                        privateView
+                          ? (preview?.cards ?? [])
+                          : (initialPreview?.cards ?? []),
+                      ),
                 )
               }
               onClose={() => setDesignOpen(false)}
@@ -1160,6 +1295,28 @@ export function AuthorEditor({
               role="group"
               aria-label="Pinnwand-Werkzeuge"
             >
+              <div
+                role="group"
+                aria-label="Pinnwandansicht"
+                className="studio-view-switch"
+              >
+                {[false, true].map((priv) => (
+                  <button
+                    key={String(priv)}
+                    aria-pressed={privateView === priv}
+                    onClick={() => {
+                      setPrivateView(priv);
+                      stopConnecting();
+                      setFitTick((t) => t + 1);
+                    }}
+                  >
+                    {priv ? "Musterlösung (privat)" : "Schülerstart"}
+                    {priv && !!privateEdges?.length && (
+                      <small> · {privateEdges.length}</small>
+                    )}
+                  </button>
+                ))}
+              </div>
               {preview && (
                 <>
                   <button onClick={() => setFitTick((t) => t + 1)}>
@@ -1212,39 +1369,74 @@ export function AuthorEditor({
               >
                 Pinnwand-Hilfe
               </button>
+              <details className="studio-board-actions">
+                <summary>Pinnwandaktionen</summary>
+                <div>
+                  <button
+                    disabled={
+                      !(privateView
+                        ? privateEdges?.length
+                        : content.initial.edges.length)
+                    }
+                    onClick={() => boardAction(true)}
+                  >
+                    Sämtliche Verbindungen löschen
+                  </button>
+                  <button
+                    disabled={!preview?.cards.length}
+                    onClick={() => boardAction(false)}
+                  >
+                    Kartenanordnung nach Nummern
+                  </button>
+                  {undoClear?.after === draft && (
+                    <button
+                      onClick={() => {
+                        applyDraft(() => undoClear.before);
+                        setUndoClear(undefined);
+                      }}
+                    >
+                      Löschen rückgängig
+                    </button>
+                  )}
+                </div>
+              </details>
               <span className="small studio-card-count">
-                {content.cards.length} Karten
+                {boardContent.cards.length} Karten
               </span>
             </div>
             {connectingCards && (
               <p role="status" className="studio-edge-hint">
                 {connectionFrom === null
                   ? "Erste Karte oder vorhandene Verbindung auswählen."
-                  : `Karte ${cardNumber(content, connectionFrom)} gewählt. Jetzt die zweite Karte auswählen.`}
+                  : `Karte ${cardNumber(boardContent, displayId(connectionFrom))} gewählt. Jetzt die zweite Karte auswählen.`}
               </p>
             )}
             {preview ? (
               <div className="studio-board">
                 <Board
-                  badgeScaleLimit={2}
+                  key={privateView ? "private" : "public"}
+                  cardLayouts={cardLayouts}
+                  badgeScaleLimit={studentView ? 7 : 2}
                   work={preview}
-                  mystery={content}
+                  mystery={boardContent}
                   authorBoard
                   selectingCards={connectingCards}
                   privateEdges={privateEdgeIds}
                   onChange={(work) =>
-                    applyDraft((current) =>
-                      moveAuthorCards(current, work.cards),
-                    )
+                    applyDraft((current) => moveBoard(current, work.cards))
                   }
-                  onCard={selectBoardCard}
+                  onCard={(id) => selectBoardCard(internalId(id))}
                   onEdge={(id) => {
-                    const edge = preview.edges.find((item) => item.id === id);
+                    const edge = authorEdges(draft).find(
+                      (item) => item.id === id,
+                    );
                     if (edge) openEdge(edge);
                   }}
                   fitTick={fitTick}
                   zoomCommand={zoomCommand}
-                  connecting={connectionFrom}
+                  connecting={
+                    connectionFrom === null ? null : displayId(connectionFrom)
+                  }
                 />
               </div>
             ) : (
@@ -1496,12 +1688,12 @@ export function AuthorEditor({
                 }
               >
                 <option value="1">
-                  {cardNumber(content, edgeForm.edge.from)} →{" "}
-                  {cardNumber(content, edgeForm.edge.to)}
+                  {cardNumber(boardContent, displayId(edgeForm.edge.from))} →{" "}
+                  {cardNumber(boardContent, displayId(edgeForm.edge.to))}
                 </option>
                 <option value="2">
-                  {cardNumber(content, edgeForm.edge.to)} →{" "}
-                  {cardNumber(content, edgeForm.edge.from)}
+                  {cardNumber(boardContent, displayId(edgeForm.edge.to))} →{" "}
+                  {cardNumber(boardContent, displayId(edgeForm.edge.from))}
                 </option>
                 <option value="0">Ohne Pfeil</option>
               </select>
@@ -1574,8 +1766,9 @@ export function AuthorEditor({
           </p>
           <p>
             Gestrichelte braune Verbindungen sind intern. Freigegebene
-            Verbindungen erscheinen als Starthilfen. Die Schüler-Startanordnung
-            legst du unter „Mystery gestalten“ fest.
+            Verbindungen erscheinen als Starthilfen. Im Schülerstart bearbeitest
+            du die sichtbaren Startpositionen direkt. In der Musterlösung
+            ordnest du Karten privat an.
           </p>
         </Dialog>
       )}

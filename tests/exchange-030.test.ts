@@ -69,7 +69,7 @@ it("validates external content and recalculates stable IDs and regular hashes", 
 });
 it("gives external assistants usable examples and refuses the blank", () => {
   const blank = JSON.parse(templateText());
-  expect(blank.studioVersion).toBe("0.3.1");
+  expect(blank.studioVersion).toBe("0.3.2");
   expect(() => importExchange(blank)).toThrow(/leere KI/);
   for (const sample of blank.beispieleNurZurOrientierung)
     expect(() => importExchange(sample)).not.toThrow();

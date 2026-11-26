@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 export const button = (page, name) =>
   page.getByRole("button", { name, exact: true });
 export async function overview(page) {
-  const back = button(page, "Zur Projektübersicht");
+  const back = button(page, "Zur Startseite");
   if (await back.count()) await back.click();
 }
 export async function openExports(page) {

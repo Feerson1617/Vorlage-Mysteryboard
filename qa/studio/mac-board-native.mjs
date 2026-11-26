@@ -85,6 +85,7 @@ async function close() {
 async function open(path, n) {
   await app.evaluate((_, path) => (globalThis.qaOpen = path), path);
   await buttonOnPage("Mystery öffnen").click();
+  await page.getByRole("button",{name:/^Musterlösung \(privat\)/}).click();
   await expect(pinboard(page).locator("[data-card]")).toHaveCount(n);
   await buttonOnPage("Alle Karten anzeigen").click();
 }
@@ -251,7 +252,7 @@ try {
     project.afterProcessRestart = await currentCoordinates();
     project.contentHash = document.contentHash;
     proof.projects.push(project);
-    await buttonOnPage("Zur Projektübersicht").click();
+    await buttonOnPage("Zur Startseite").click();
   }
   await open(join(out, "Bewegungen-5.mysteryboard"), 5);
   await buttonOnPage("Verbindungen bearbeiten").click();
@@ -446,7 +447,7 @@ try {
   // The project overview correctly refuses an unconfirmed discard.
   await fileTarget(join(out, "Starthilfe-nach-Bearbeitung.mysteryboard"));
   await saveProject(page, true);
-  await buttonOnPage("Zur Projektübersicht").click();
+  await buttonOnPage("Zur Startseite").click();
   await open(resolve("qa/studio/evidence/legacy/Studio-0.2.0.mysteryboard"), 5);
   await fileTarget(join(out, "Altaufgabe-neu-exportiert.zip"));
   await openExports(page);
@@ -460,7 +461,7 @@ try {
         .catch(() => 0),
     )
     .toBeGreaterThan(1000);
-  await buttonOnPage("Zur Projektübersicht").click();
+  await buttonOnPage("Zur Startseite").click();
   const legacy021 = resolve(
     "qa/studio/evidence/player-021/Autor-mit-Pfeilen.mysteryboard",
   );
@@ -494,7 +495,7 @@ try {
     .digest("hex");
   const hiddenPath = join(out, "Verdeckte-Karte.mysteryboard");
   await writeFile(hiddenPath, canonical(hidden));
-  await buttonOnPage("Zur Projektübersicht").click();
+  await buttonOnPage("Zur Startseite").click();
   await open(hiddenPath, 5);
   await openExports(page);
   await expect(reviewed).toContainText("Sichtbar ohne Richtung");

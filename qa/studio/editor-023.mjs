@@ -205,7 +205,7 @@ async function target(file) {
 }
 async function back() {
   await closeExports(page);
-  await button(page, "Zur Projektübersicht").click();
+  await button(page, (await button(page,"Zur Startseite").count())?"Zur Startseite":"Zur Projektübersicht").click();
   await expect(button(page, "Mystery öffnen")).toBeVisible();
 }
 async function previousProject() {
@@ -541,13 +541,12 @@ try {
     const positions = (await snapshot(page)).cards;
     await button(page, "Verbindungen bearbeiten").click();
     await connect(1, 2, "Freigegebene Starthilfe", true);
+    if(await page.getByRole("button",{name:/^Musterlösung/}).count()){await page.getByRole("button",{name:/^Musterlösung/}).click();await button(page,"Verbindungen bearbeiten").click();}
     await connect(2, 3, "Interne Lehrkraftverbindung", false);
     await button(page, "Verbindungsmodus beenden").click();
     await button(page, "Mystery gestalten").click();
     await button(page, "Startanordnung").click();
-    await page
-      .getByLabel("Meine aktuelle Kartenanordnung als Startansicht übernehmen")
-      .check();
+    if (!(await page.getByLabel("Meine aktuelle Kartenanordnung als Startansicht übernehmen").isChecked())) await page.getByLabel("Meine aktuelle Kartenanordnung als Startansicht übernehmen").check();
     await button(page, "Mystery gestalten").click();
     const projectPath = await target("Gestaltetes-Projekt.mysteryboard");
     await saveProject(page);

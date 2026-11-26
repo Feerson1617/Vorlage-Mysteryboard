@@ -1,3 +1,4 @@
+import {identifyFile} from "../import-file";
 import { templateText, templateName } from "../exchange/template";
 import {
   readProject,
@@ -163,40 +164,22 @@ async function open(path?: string) {
   if (!path) {
     const r = await dialog.showOpenDialog(window, {
       title: "Mystery öffnen",
-      filters: [{ name: "MysteryBoard", extensions: ["mysteryboard", "txt"] }],
+      filters: [{ name: "MysteryBoard", extensions: ["mysteryboard", "txt","png","jpg","jpeg","webp","pdf","docx"] }],
       properties: ["openFile"],
     });
     if (r.canceled) return null;
     path = r.filePaths[0];
   }
-  if (!path || !/\.(mysteryboard|txt)$/i.test(path))
-    throw Error(
-      "Bitte eine MysteryBoard-Datei oder eine KI-Austauschdatei im TXT-Format wählen.",
-    );
-  const size = (await stat(path)).size;
-  if (size > COLLECTION_BYTES) throw Error("Die Datei ist größer als 60 MB.");
-  const data = new Uint8Array(await readFile(path));
-  if (data[0] !== 137) {
-    let input;
-    try {
-      input = JSON.parse(
-        new TextDecoder("utf-8", { fatal: true }).decode(data),
-      );
-    } catch {
-      throw Error("Die Projektdatei enthält kein gültiges JSON.");
-    }
-    // Keep the current save path and dirty state until the teacher accepts the preview.
-    if (input?.format === "MysteryBoardAI")
-      return { bytes: data, name: basename(path) };
-    if (path.toLowerCase().endsWith(".txt"))
-      throw Error("Bitte eine ausgefüllte KI-Austauschdatei wählen.");
-  }
-  const doc = readProject(data);
-  if (doc.format !== "MysteryBoardCollection" && doc.kind === "student")
-    throw Error("Schülerarbeitsstände bitte im Schülerplayer öffnen.");
+  if(!path)return null;
+  const size=(await stat(path)).size;
+  if(size>COLLECTION_BYTES)throw Error("Die Datei ist größer als 60 MB.");
+  const data=new Uint8Array(await readFile(path));
+  const identified=identifyFile(data);
+  if(identified.type!=="project") return {bytes:data,name:basename(path)};
+  const doc=identified.project;
   if (!(await allowReplace())) return null;
   currentPath =
-    doc.format === "MysteryBoardCollection" || doc.kind === "draft"
+    (doc.format === "MysteryBoardCollection" || doc.kind === "draft") && /\.mysteryboard$/i.test(path)
       ? path
       : null;
   state = null;
@@ -392,7 +375,7 @@ async function setup() {
     const extensions =
       scope === "level"
         ? ["mysteryboard", "png"]
-        : ["pdf", "docx", "png", "jpg", "jpeg", "webp", "mysteryboard"];
+        : ["pdf", "docx", "png", "jpg", "jpeg", "webp", "mysteryboard","txt"];
     const result = await dialog.showOpenDialog(window, {
       title:
         scope === "level"
@@ -403,14 +386,13 @@ async function setup() {
     });
     if (result.canceled) return null;
     const path = result.filePaths[0];
-    if (!extensions.includes(path?.split(".").pop()?.toLowerCase() ?? ""))
-      throw Error("Dieses Dateiformat wird nicht unterstützt.");
+    if(!path)return null;
     const info = await stat(path);
-    if (!info.isFile() || info.size > 30_000_000)
-      throw Error("Bitte eine Datei bis 30 MB auswählen.");
+    if (!info.isFile() || info.size > COLLECTION_BYTES)
+      throw Error("Bitte eine Datei bis 60 MB auswählen.");
     return {
       name: basename(path),
-      bytes: bytes(await readFile(path), 30_000_000),
+      bytes: bytes(await readFile(path), COLLECTION_BYTES),
     };
   });
   handle("template:save", async (ext: unknown) => {

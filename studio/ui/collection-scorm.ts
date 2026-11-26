@@ -1,3 +1,4 @@
+import {scormName} from "./scorm-name";
 import { publishDraft } from "../../src/core/authoring";
 import { encodeDocument, type Task } from "../../src/core/documents";
 import { launchJSON } from "../../src/core/launch-document";
@@ -113,7 +114,7 @@ export function collectionEntries(c: Collection, ...player: Player): Entries {
 export function collectionScorm(c: Collection, ...player: Player) {
   return new File(
     [new Uint8Array(zipScorm(collectionEntries(c, ...player)))],
-    "MysteryBoard-Niveaus-SCORM-1.2.zip",
+    scormName(c.title,undefined,true),
     { type: "application/zip" },
   );
 }

@@ -66,7 +66,7 @@ try {
           process.platform,
         ];
       }),
-      ["0.3.1", true, "arm64", "darwin"],
+      [process.env.STUDIO_VERSION || "0.3.2", true, "arm64", "darwin"],
     );
     report.installedMac = true;
     page = await app.firstWindow();

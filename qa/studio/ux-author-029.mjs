@@ -302,7 +302,7 @@ try {
   );
   await click("Übernehmen");
   await click("Verbindungsmodus beenden");
-  await button(page, "Zur Projektübersicht").click();
+  await button(page, before ? "Zur Projektübersicht" : "Zur Startseite").click();
   begin("B");
   await click("Mystery öffnen", dialog);
   await expect(page.locator(".studio-board [data-card]")).toHaveCount(5);

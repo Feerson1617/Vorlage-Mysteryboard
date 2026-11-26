@@ -209,7 +209,7 @@ async function compareConfiguration() {
   );
   activeLog = null;
   await save("Vergleich-Manuell.mysteryboard");
-  await click("Zur Projektübersicht");
+  await click("Zur Startseite");
   activeLog = logs.exchange;
   await source("Vergleich-Austausch.mysteryboard");
   await click("Mystery öffnen");
@@ -318,7 +318,7 @@ async function run() {
   const savedSingle=await json("KI-Einzel.mysteryboard");
   assert.deepEqual(published.content,savedSingle.content);
   assert.equal(published.contentHash,savedSingle.contentHash);
-  await click("Zur Projektübersicht");
+  await click("Zur Startseite");
   activeLog = actions;
   await source(multi);
   await click("Mystery öffnen");

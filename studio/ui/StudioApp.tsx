@@ -1,3 +1,5 @@
+import { scormName } from "./scorm-name";
+import { identifyFile } from "../import-file";
 import {
   isExchange,
   parseExchangeText,
@@ -16,6 +18,7 @@ import {
 } from "./collection-scorm";
 import {
   bindLevel,
+  levelFrom,
   collectionFrom,
   readProject,
   withLevel,
@@ -102,33 +105,36 @@ export function StudioApp() {
       const opened = await promise;
       if (!opened) return;
       const bytes = new Uint8Array(opened.bytes);
-      if (bytes[0] !== 137) {
-        const value = parseExchangeText(
-          new TextDecoder("utf-8", { fatal: true }).decode(bytes),
-        );
-        if (isExchange(value)) {
-          const token = ++attempt.current;
-          setWorking(true);
-          try {
-            await stage(value, token);
-          } finally {
-            if (attempt.current === token) setWorking(false);
-          }
-          return;
+      const identified = identifyFile(bytes);
+      if (identified.type === "exchange") {
+        const token = ++attempt.current;
+        setWorking(true);
+        try {
+          await stage(identified.value, token);
+        } finally {
+          if (token === attempt.current) setWorking(false);
         }
+        return;
       }
-      const loaded = readProject(bytes);
+      if (identified.type === "material") {
+        if (!draft) {
+          setDraft(newStudioDraft("LK"));
+          setName("");
+          setGeneration((g) => g + 1);
+        }
+        setInitialMaterial(
+          new File([bytes], opened.name + "." + identified.extension),
+        );
+        return;
+      }
+      const loaded = identified.project;
       const c = loaded.format === "MysteryBoardCollection" ? loaded : null;
       const doc =
         loaded.format === "MysteryBoardCollection"
           ? loaded.levels.find((l) => l.id === loaded.active)!.draft
           : loaded;
-      if (doc.kind === "student")
-        throw Error(
-          "Schülerarbeitsstände werden im Schülerplayer fortgesetzt.",
-        );
       setCollection(c);
-      setModified(false);
+      setModified(doc.kind === "task" || !/\.mysteryboard$/i.test(opened.name));
       setDraft(
         doc.kind === "draft" ? doc : draftFromContent(doc.content, "LK"),
       );
@@ -162,7 +168,49 @@ export function StudioApp() {
       ?.modalState?.(!!editing || !!pdf || !!create || !!error || aiModal)
       .catch((e) => setError(e.message));
   }, [bridge, editing, pdf, create, error, aiModal]);
+  const [incoming, setIncoming] = useState<{
+    project: Draft;
+    current: Draft;
+  } | null>(null);
+  function adoptCopy(project: ImportedProject) {
+    const group = project.format === "MysteryBoardCollection" ? project : null;
+    setCollection(group);
+    setDraft(
+      project.format === "MysteryBoardCollection"
+        ? project.levels.find((l) => l.id === project.active)!.draft
+        : project,
+    );
+    setModified(true);
+    setInitialImport(false);
+    setInitialMaterial(undefined);
+    setName("");
+    setGeneration((g) => g + 1);
+  }
   const integration: EditorIntegration = {
+    importFile: async (file, current) => {
+      if (file.size > 60_000_000)
+        throw Error("Die Datei ist größer als 60 MB.");
+      const info = identifyFile(new Uint8Array(await file.arrayBuffer()));
+      if (info.type === "material")
+        return file.name.toLowerCase().endsWith("." + info.extension)
+          ? file
+          : new File([file], file.name + "." + info.extension);
+      if (info.type === "exchange") {
+        await stage(info.value, ++attempt.current);
+        return null;
+      }
+      const doc = info.project;
+      const copy =
+        doc.format === "MysteryBoardCollection"
+          ? doc
+          : doc.kind === "draft"
+            ? doc
+            : draftFromContent(doc.content, current.author.initials);
+      if (copy.format === "MysteryBoard" && current.content.cards.length)
+        setIncoming({ project: copy, current });
+      else if (await bridge!.replaceWithExchange()) adoptCopy(copy);
+      return null;
+    },
     name,
     unsaved: modified,
     bindLevel: collection ? (d) => bindLevel(collection, d) : undefined,
@@ -248,7 +296,12 @@ export function StudioApp() {
       signal.throwIfAborted();
       return new File(
         [zip as BlobPart],
-        `MysteryBoard-${filename(task.content.title)}-SCORM-1.2.zip`,
+        collection
+          ? scormName(
+              collection.title,
+              collection.levels.find((l) => l.id === collection.active)!.name,
+            )
+          : scormName(task.content.title),
         { type: "application/zip" },
       );
     },
@@ -473,6 +526,53 @@ export function StudioApp() {
           }}
         />
       )}
+      {incoming && (
+        <Dialog title="Mystery übernehmen" onClose={() => setIncoming(null)}>
+          <button
+            onClick={async () => {
+              try {
+                if (await bridge.replaceWithExchange())
+                  adoptCopy(incoming.project);
+                setIncoming(null);
+              } catch (e) {
+                setError((e as Error).message);
+              }
+            }}
+          >
+            Als Projekt öffnen
+          </button>
+          <button
+            disabled={(collection?.levels.length ?? 1) >= 12}
+            onClick={() => {
+              try {
+                const c = collection
+                  ? withLevel(collection, incoming.current)
+                  : collectionFrom(incoming.current);
+                const l = levelFrom(
+                  incoming.project,
+                  c.id,
+                  (incoming.project.content.title || "Weiteres Niveau").slice(
+                    0,
+                    60,
+                  ),
+                );
+                const next = { ...c, levels: [...c.levels, l], active: l.id };
+                projectBytes(next, l.draft);
+                setCollection(next);
+                setModified(true);
+                setDraft(l.draft);
+                setGeneration((g) => g + 1);
+                setIncoming(null);
+              } catch (e) {
+                setError((e as Error).message);
+              }
+            }}
+          >
+            Als weiteres Niveau hinzufügen
+          </button>
+          <button onClick={() => setIncoming(null)}>Abbrechen</button>
+        </Dialog>
+      )}
       {editing && (
         <LevelsDialog
           initial={editing}
@@ -529,6 +629,7 @@ export function StudioApp() {
                   })(),
                 );
                 setGeneration((g) => g + 1);
+                setModified(true);
                 setInitialImport(create === "import");
                 setName("");
                 void bridge.detachProject();

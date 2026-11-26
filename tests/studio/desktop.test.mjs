@@ -176,7 +176,7 @@ test(
           });
           const overview =
             options?.message ===
-            "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.";
+            "Zur Startseite? Ungesicherte Änderungen gehen verloren.";
           return {
             response:
               overview && globalThis.__overviewDecisions.length
@@ -613,12 +613,12 @@ test(
         return globalThis.__nativeDialogRecords.length;
       });
       await page
-        .getByRole("button", { name: "Zur Projektübersicht", exact: true })
+        .getByRole("button", { name: "Zur Startseite", exact: true })
         .click();
       await expect(page.locator(".studio-board [data-card]")).toHaveCount(4);
       await expect(page.locator(".studio-unsaved")).toBeVisible();
       await page
-        .getByRole("button", { name: "Zur Projektübersicht", exact: true })
+        .getByRole("button", { name: "Zur Startseite", exact: true })
         .click();
       assert.deepEqual(
         await app.evaluate(
@@ -629,8 +629,8 @@ test(
           overviewPromptStart,
         ),
         [
-          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
-          "Zur Projektübersicht? Ungesicherte Änderungen gehen verloren.",
+          "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
+          "Zur Startseite? Ungesicherte Änderungen gehen verloren.",
         ],
       );
       checks.push(

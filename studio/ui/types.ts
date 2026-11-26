@@ -35,6 +35,7 @@ export interface StudioBridge {
   onCommand: (listener: (command: ProjectCommand) => void) => () => void;
 }
 export interface EditorIntegration {
+  importFile?: (file: File, current:Draft)=>Promise<File|null>;
   name: string;
   modal?: boolean;
   unsaved?: boolean;

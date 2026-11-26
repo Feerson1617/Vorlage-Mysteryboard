@@ -586,3 +586,10 @@ dialog:has(.exchange-review) .dialog-body { min-height: 0; display: flex; paddin
 .exchange-review footer { border-top:1px solid #d7dfd9; }
 .exchange-review footer .actions { margin-top:.5rem; }
 @media(max-height:460px) { .exchange-review .exchange-summary,.exchange-review footer { padding:5px 12px; } }
+.studio-view-switch { display:inline-flex; gap:2px; }
+.studio-view-switch button[aria-pressed=true] {background:#22533d;color:white}
+.studio-board-actions {position:relative;}
+.studio-board-actions summary {cursor:pointer;font-size:.85rem}
+.studio-board-actions[open] > div {position:absolute;right:0;z-index:8;min-width:190px;display:grid;background:white;padding:6px;border:1px solid #bbc9be;border-radius:8px}
+.studio-main-toolbar .studio-save {font-weight:600;color:#174d32}
+.studio-board-tools {flex-wrap:wrap}
