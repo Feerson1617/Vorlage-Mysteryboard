@@ -1,8 +1,6 @@
 import { scormName } from "../../src/core/scorm-name";
 import { identifyFile } from "../import-file";
 import {
-  isExchange,
-  parseExchangeText,
   parsePastedExchange,
   importExchange,
   decodeExchangeMedia,
@@ -20,7 +18,6 @@ import {
   bindLevel,
   levelFrom,
   collectionFrom,
-  readProject,
   withLevel,
   projectBytes,
   newStudioDraft,
@@ -30,9 +27,8 @@ import { publishDraft } from "../../src/core/authoring";
 import { useEffect, useRef, useState } from "react";
 import { AuthorEditor } from "../../src/components/AuthorEditor";
 import { Dialog } from "../../src/components/Dialog";
-import { newDraft, draftFromContent } from "../../src/core/authoring";
+import { draftFromContent } from "../../src/core/authoring";
 import {
-  readDocument,
   encodeDocument,
   validateDocument,
   contentHash,
@@ -127,7 +123,12 @@ export function StudioApp() {
           setGeneration((g) => g + 1);
         }
         setInitialMaterial(
-          new File([bytes], opened.name + "." + identified.extension),
+          new File(
+            [bytes],
+            opened.name.toLowerCase().endsWith("." + identified.extension)
+              ? opened.name
+              : opened.name + "." + identified.extension,
+          ),
         );
         return;
       }
@@ -137,11 +138,14 @@ export function StudioApp() {
         loaded.format === "MysteryBoardCollection"
           ? loaded.levels.find((l) => l.id === loaded.active)!.draft
           : loaded;
+      const editableDraft =
+        doc.kind === "draft" ? doc : draftFromContent(doc.content, "LK");
+      await decodeExchangeMedia(c ?? editableDraft);
+      if (opened.selection && !(await bridge!.acceptOpen!(opened.selection)))
+        return;
       setCollection(c);
       setModified(doc.kind === "task" || !/\.mysteryboard$/i.test(opened.name));
-      setDraft(
-        doc.kind === "draft" ? doc : draftFromContent(doc.content, "LK"),
-      );
+      setDraft(editableDraft);
       setCreate(null);
       setPdf(null);
       setName(opened.name);
@@ -165,7 +169,7 @@ export function StudioApp() {
         if (command === "open" && !pdf && !create && !error && !aiModal)
           void read(bridge.openProject());
       }),
-    [bridge, pdf, create, error, aiModal],
+    [bridge, draft, pdf, create, error, aiModal],
   );
   useEffect(() => {
     void bridge

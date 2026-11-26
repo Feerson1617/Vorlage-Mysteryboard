@@ -383,6 +383,17 @@ async function teacherWorkflow() {
   await teacher
     .getByLabel("Mystery-Titel", { exact: true })
     .fill("Ungesicherte Teständerung");
+  if (native) {
+    // Opening ordinary teaching material via Ablage must use the current project.
+    await app.evaluate(({Menu}, v) => {
+      globalThis.project = v;
+      Menu.getApplicationMenu().getMenuItemById("project-open").click();
+    }, join(out, "Wasser.docx"));
+    await expect(button(teacher, "Weiter zur Übernahme")).toBeVisible();
+    await button(teacher, "Zur Pinnwand").click();
+    await expect(teacher.getByLabel("Mystery-Titel",{exact:true})).toHaveValue("Ungesicherte Teständerung");
+    await expect(board()).toHaveCount(5);
+  }
   await pick(large.path);
   await expect(teacher.getByRole("dialog", {name: "Mystery übernehmen"})).toBeVisible();
   await button(teacher,"Abbrechen").click();

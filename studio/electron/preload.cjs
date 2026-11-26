@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld(
     saveTemplate: (ext) => ipcRenderer.invoke("template:save", ext),
     chooseMaterial: (scope) => ipcRenderer.invoke("material:choose",scope),
     previewTask: (bytes) => ipcRenderer.invoke("preview:open", bytes),
+    acceptOpen: (selection) => ipcRenderer.invoke("project:accept-open", selection),
     openProject: () => ipcRenderer.invoke("project:open"),
     openRecent: (id) => ipcRenderer.invoke("project:recent", id),
     recentProjects: () => ipcRenderer.invoke("project:list"),

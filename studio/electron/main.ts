@@ -55,6 +55,7 @@ protocol.registerSchemesAsPrivileged([
 app.enableSandbox();
 let window: BrowserWindow;
 let currentPath: string | null = null;
+let pendingOpen: {id: string; path: string; editable: boolean} | null = null;
 let state: { bytes: Uint8Array; dirty: boolean; forms: boolean } | null = null;
 let closing = false,
   asking = false,
@@ -161,6 +162,7 @@ async function allowReplace(reviewingExchange = false, message = "Ungesicherte �
   return response.response === 1;
 }
 async function open(path?: string) {
+  pendingOpen = null;
   if (!path) {
     const r = await dialog.showOpenDialog(window, {
       title: "Mystery öffnen",
@@ -177,14 +179,10 @@ async function open(path?: string) {
   const identified=identifyFile(data);
   if(identified.type!=="project") return {bytes:data,name:basename(path)};
   const doc=identified.project;
-  if (!(await allowReplace())) return null;
-  currentPath =
-    (doc.format === "MysteryBoardCollection" || doc.kind === "draft") && /\.mysteryboard$/i.test(path)
-      ? path
-      : null;
-  state = null;
-  await remember(path);
-  return { bytes: data, name: basename(path) };
+  const editable = (doc.format === "MysteryBoardCollection" || doc.kind === "draft") &&
+    /\.mysteryboard$/i.test(path);
+  pendingOpen = {id: randomUUID(), path, editable};
+  return {bytes: data, name: basename(path), selection: pendingOpen.id};
 }
 const trusted = (event: Electron.IpcMainInvokeEvent) => {
   if (
@@ -418,6 +416,16 @@ async function setup() {
     clipboard.writeText(message);
   });
   handle("project:open", () => open());
+  handle("project:accept-open", async (id) => {
+    const selected = pendingOpen;
+    if (!selected || id !== selected.id) return false;
+    pendingOpen = null;
+    if (!(await allowReplace())) return false;
+    await remember(selected.path);
+    currentPath = selected.editable ? selected.path : null;
+    state = null;
+    return true;
+  });
   handle("app:modal", (active) => {
     if (typeof active !== "boolean") throw Error("Ungültiger Dialogzustand.");
     uiBlocked = active;
@@ -433,6 +441,7 @@ async function setup() {
     return open(entry.path);
   });
   function detachProject() {
+    pendingOpen = null;
     currentPath = null;
     state = null;
     window.setDocumentEdited(false);

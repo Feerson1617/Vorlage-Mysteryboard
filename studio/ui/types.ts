@@ -8,7 +8,8 @@ export interface StudioBridge {
     scope?: "level",
   ) => Promise<{ name: string; bytes: Uint8Array } | null>;
   previewTask: (bytes: Uint8Array) => Promise<void>;
-  openProject: () => Promise<{ bytes: Uint8Array; name: string } | null>;
+  acceptOpen?: (selection: string) => Promise<boolean>;
+  openProject: () => Promise<{ bytes: Uint8Array; name: string; selection?: string } | null>;
   openRecent: (
     id: string,
   ) => Promise<{ bytes: Uint8Array; name: string } | null>;
