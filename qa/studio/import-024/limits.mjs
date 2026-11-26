@@ -61,7 +61,14 @@ try {
     const alert = page.getByRole("alert");
     await expect(alert).toBeVisible({ timeout: 60000 });
     cases[name] = await alert.innerText();
-    await button(page, "Zur Pinnwand").click();
+    if (name === "Beschaedigt") {
+      // This file contains plain prose and no DOCX structure. The common
+      // classifier now rejects it before opening a document-import session.
+      await expect(page.locator(".studio-pinboard [role=alert]")).toContainText("Dateiformat");
+      await expect(button(page, "Zur Pinnwand")).toHaveCount(0);
+    } else {
+      await button(page, "Zur Pinnwand").click();
+    }
     await expect(page.locator(".studio-board [data-card]")).toHaveCount(1);
     await page.locator(".studio-board [data-card]").press("Enter");
     await expect(

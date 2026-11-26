@@ -32,9 +32,19 @@ export function identifyFile(bytes: Uint8Array) {
       if (signature.startsWith("RIFF") && signature.endsWith("WEBP"))
         return { type: "material", extension: "webp" } as const;
     }
-    const value = parseExchangeText(
-      new TextDecoder("utf-8", { fatal: true }).decode(bytes),
-    );
+    let text: string;
+    try {
+      text = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+    } catch {
+      throw Error(
+        "Das Dateiformat wurde nicht erkannt. Bitte die Originaldatei auswählen.",
+      );
+    }
+    if (!text.trimStart().startsWith("{"))
+      throw Error(
+        "Das Dateiformat wurde nicht erkannt. Bitte ein Originaldokument, ein Bild oder eine MysteryBoard-Datei mit gültigem JSON auswählen.",
+      );
+    const value = parseExchangeText(text);
     if (isExchange(value)) return { type: "exchange", value } as const;
   }
   const project = readProject(bytes);
