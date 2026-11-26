@@ -168,7 +168,18 @@ try {
   });
   await privateButton.click();
   await expect(cards).toHaveCount(4);
-  await moveWithMouse(page, 2, { dx: 33, dy: 21, steps: 4 });
+  // Switching views mounts a new SVG. Measure the drag only after the
+  // automatic fit has painted, with the pointer over the intended card.
+  await board.locator('[data-card="2"]').hover({ trial: true });
+  await board.evaluate(el => {
+    el.addEventListener("pointerdown", e => {
+      el.dataset.testDragCard = e.target.closest("[data-card]")?.dataset.card ?? "";
+    }, {once:true, capture:true});
+  });
+  await moveWithMouse(page, 2, {
+    dx: 33, dy: 21, steps: 4,
+    during: () => expect(board).toHaveAttribute("data-test-drag-card","2"),
+  });
   await connect(1, 4, "PRIVATE-ERGÄNZUNG");
   await page.screenshot({ path: path("Musterlösung.png") });
   const priv = await save();

@@ -1,6 +1,7 @@
 import { cardAppearance, designOf, designFont } from "../core/design";
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   useMemo,
@@ -395,7 +396,8 @@ export function Board({
       g.origin = { left: rect.left, top: rect.top };
     }
   };
-  useEffect(() => {
+  // Fit the newly mounted board before its cards become visible or hittable.
+  useLayoutEffect(() => {
     if (points.current.size) abortGesture();
     const saved = firstView.current;
     firstView.current = undefined;
